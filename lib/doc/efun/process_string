@@ -7,7 +7,8 @@ string process_string(string)
 .SP 5 5
 Checks a string for the below occurences and replaces:
 Fixes a call to a named function if the value is of the
-form: '@@function[:filename][|arg|arg]@@' Filename is optional.
+form: '**function[:filename][|arg|arg]**', where filename and
+arguments are optional and * should be @.
 Note that process_string does not recurse over returned
 replacement values. If a function returns another function
 description, that description will not be replaced.

@@ -1,0 +1,126 @@
+.DT
+mail
+Discworld player help
+mail
+
+Name
+.SI 5
+mail - mailing other players.
+.EI
+
+Syntax
+.SI 5
+mail [name] [name] ...
+.EI
+
+Description
+.SP 5 5
+The mailer enables players to send and recieve mail to and from other
+players.  The Post Office is located two south, five east, one northeast,
+one east, one southeast and four south from the bar area of the Mended
+Drum.  In this room you may "mail player" to send mail to a person, or simply
+type "mail" to look at mail sent to you.
+.EP
+
+Sending mail
+.SP 5 5
+Once you have typed "mail person", you are prompted for a subject. 
+Note that you can mail
+more than one person in one go, by simply mentioning more names.
+The subject is a one line summary of what the mail is about. 
+If you leave it blank, you
+leave the sending mail process. After this you are asked for Cc's, or
+Carbon-Copy recipents. Enter anyone else who should recieve the mail, one
+per line. Enter a blank line to stop. Then you can enter the body of the mail
+itself. Entering "**" on a line by itself finishes mailing and gives you
+a number of options. The four I most often use are S, Q, E and L. S saves
+and posts the message. Q abandons it altogether, E invokes ed, the lovely
+little editor everyone loves to hate, and L will display the mail message.
+The rest you can play with sometime.
+
+If you have an alias for ".signature", then, in a similar format to that
+of .plan (see finger), it will be appended to your mail.
+.EP
+
+Reading mail
+.SP 5 5
+Typing "mail" by itself can have two effects. It will either inform you
+that you have "No mail.", or it will list the headers of upto twenty of
+your messages. It will display the headers of the twenty last messages,
+unless you have more than twenty new ones, when it will display twenty
+from the first new one. Next to one of the headers there will be a ">"
+displayed. This is the pointer. To read a mail message, you may either
+enter its' number, or pressing enter will display the one the pointer is
+pointing too.
+
+You get a number of other options at this point:
+.EP
+     h [range] - show headers.
+     m <name>  - mails to the given person
+     r [num]   - replys to the message number or the current message 
+		 if none given
+     R [num]   - as above but only sends to the sender, not the Cc's 
+		 as well
+     d [range] - deletes a range of messages
+     f [num] <name> - forwards the message (current or given) to the 
+		 person
+     + [num]   - goes on num messages (1 default)
+     - [num]   - goes back num messages (q default)
+     l         - List the currently avaiable mailing lists.
+     l <list>  - List the members of the mailing list <list>.
+     q         - quit and delete all the messages selected for deletion
+     x         - quit but do not delete all the messages
+     ?         - display some info like this
+     <num>     - reads messages num
+
+Nicknames
+.SP 5 5
+The mailer can use nicknames, and as just more than nickname-to-name
+replacement. The mailer will recognise nicknames when you "mail person",
+"mail person1 person2", enter Cc's, forward mail, or "m person" at the
+status prompt thingy.
+
+With the "mail person person" format, it will expand the entire line as
+a nickname first. You could use this for your own form of mailing lists.
+Nicknames within these lists are also expanded.
+
+Examples :
+.SI 5
+> mail signe
+Subject : Hiya sis!
+Enter your Cc's now.  Terminate with a blank line.
+Cc: 
+Ok, enter your text.  ** on a line by itself to exit.
+1 ] Hiya sis! Love you lots.
+2 ]
+3 ] *hugs*
+4 ] 
+5 ] Chrisy.
+6 ] **
+5 lines - Choose from IDLMCESQ H for help. s
+Quiting and saving.
+Ok.
+Sending to : signe
+
+> mail
+[big list of mail messages ;)]
+
+> nickname oo
+Setting for nickname oo is ooeeoo.
+> mail oo
+Subject : Burble
+Enter your Cc's now.  Terminate with a blank 
+Cc:
+Ok, enter your text.  ** on a line by itself 
+1 ] Chrisy
+2 ] **
+1 lines - Choose from IDLMCESQ H for help. 
+Quiting and saving
+Ok
+Sending to : ooeeoo
+.EI
+
+See also
+.SI 5
+finger, mailinfo, nickname
+.EI

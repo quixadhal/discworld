@@ -1,0 +1,84 @@
+.DT
+move_player
+Discworld creator help
+move_player
+
+Name
+.SI 5
+move_player - Moves a npc or player from one location to another.
+.EI
+
+Syntax
+.SI 5
+varargs mixed move_player( string dir, string dest, mixed message, object
+    followee, mixed enter )
+.EI 5
+
+Description
+.SP 5 5
+This function is the general player and monster moveing command.  It
+handles updating of follow chains, fight control, printing of
+exit and enter messages and doing a look upon entering the
+new room.
+.EP 5 5
+
+Arguments
+.SO 5 10 -20
+	dir	This is the direction command that was typed to go through the exit.  eg: North or enter gate.
+	dest	The destination object of the move.  Where the player or npc should end up.
+	message	The exit message printed when leaving the current room.   If this is not specified the default player enter and exit messages are used.
+	folowee This is an internal object variable.  Should not be set to anything when called.
+	enter	The enter messages.
+.EO
+
+Argument descriptions in more depth.
+
+dir
+.SP 5 5
+If this arguement is set the value of "X" then it is assumed that the move
+is a teleport move and the standard teleport enter and exit messages will
+be used if not specified.
+.EP
+
+dest
+.SP 5 5
+Not much to say about this one.  No tricky double arguments or blue coloured
+glass stuck onto this argument.  It is just the destination object to
+go to.
+.EP
+
+message
+.SP 5 5
+The message argument is a tricky one.  If the message is set to "none"
+then no message will be printed when the person leaves the room.  If
+the message argument is a string, then a replacement will be run on the
+string replacing all of the strings in the following table with their
+equivilant meanings.
+
+The message parameter can be an array of one element or a string.
+.EP
+
+.SO 5 10 -20
+	$N	Players name
+	$T	Direction leaving to.
+	$F	Direction they came from.
+	$s	The s is placed in when there is only one person in the move.  If more than one person is involved in the move, the s is not printed.
+.EO
+
+enter
+.SP 5 5
+The enter arguement is the hard one.  It is the same as the enter
+modification type on exits as specified in the room documentation.  It
+consists of a two element array, with the first element being an integer
+specifing the type of modifications to apply to the string.
+
+If the number is set to 0 then the second argument is the same as a message
+parameter.  It is run through a replacement scheme which puts the direction
+they came through in for all occurances of $F.  If it is set to 1, then
+the direction replacement command is not run.
+.EP
+
+See also
+.SP 5 5
+move, modify_exit
+.EP

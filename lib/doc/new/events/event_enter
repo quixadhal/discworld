@@ -1,0 +1,44 @@
+.DT
+event_enter
+Discworld events help
+event_enter
+
+Name
+.SI 5
+event_enter - Called when objects enter the room.
+.EI
+
+Syntax
+.SI 5
+void event_enter(object ob, string message, object from);
+.EI
+
+Description
+.SP 5 5
+This is the function called on things when something enters
+their environment or themselves.  The from argument is where the object
+came before it got to where it currently is.  The message is the
+entrance message printed to the player when the thing enters.  This
+message can be 0 and nothing will be printed.  Also note, this message
+is processed using add_message, so it will not look very interesting if
+you just print it.
+.EP
+
+Examples:
+.SI 5
+void event_enter(object ob, string mess, object from) {
+  if (!ob->query_creator()) {
+    tell_object(ob, "And what do you think you are doing here????\n");
+    call_out("do_move", 0, ob);
+  }
+} /* event_enter() */
+
+void do_move(object ob) {
+  ob->move_player("X", "/d/am/am/mendeddrum");
+} /* do_move() */
+.EI
+
+See also
+.SP 5 5
+move, event_exit
+.EP

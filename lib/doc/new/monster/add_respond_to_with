@@ -1,0 +1,32 @@
+.DT
+add_respond_to_with
+Discworld monster help
+add_respond_to_with
+
+Name
+.SI 5
+add_respond_to_with
+.EI
+
+Syntax
+.SI 5
+void add_respond_to_with(mixed *respond, mixed *with);
+.EI
+
+Description
+.SP 5 5
+The respond array conmtains the strings to match and the with array contains
+the actions to do if it succeeds.  These bits act the same as described
+in the set_respond_to_with document.
+.EP
+
+Examples:
+.SI 5
+add_respond_to_with(({ "@bing", "sailor" }), "bounce $hname$");
+add_respond_to_with(({ "good", "day", "sailor", }), "#do_good_day");
+.EI
+
+See also
+.SP 5 5
+set_respond_to_with
+.EP

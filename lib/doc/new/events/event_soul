@@ -1,0 +1,29 @@
+.DT
+event_soul
+Discworld events help
+event_soul
+
+Name
+.SI 5
+event_soul - Soul command called on the object or in the environment.
+.EI
+
+Syntax
+.SI 5
+void event_soul(object per, string mess, object *avoid, string verb,
+                string last, mixed at);
+.EI
+
+Description
+.SP 5 5
+This is the event used to print soul command at people and also by monsters
+to respond cleverly to them.  The mess is the message to be printed.  The
+avoid are the object the message should not be printed to, last is the
+argument which is bveing used, ie brightly, slowly etc.  At the person(s)
+at who the soul command is directed.
+.EP
+
+See also
+.SP 5 5
+set_respond_to_with, add_respond_to_with
+.EP

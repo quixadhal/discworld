@@ -4,7 +4,7 @@ Discworld player help
 cost
 
 Name
-.SI
+.SI 5
 cost - Skill costings in guilds.
 .EI
 
@@ -17,18 +17,38 @@ Describe
 .SP 5 5
 This command gives you the amount of exeperience used to increase your level
 by a given amount.  The syntax is the same as the advance command.  The
-only difference is you can use all as the skill name.  This will give
-you costs on all the skills you can currently raise.  This will give the
-costs for advanceing yourself.  If you wish to see the costs for
-advanceing in the guild you are in, try info.
+only difference is you can use "all" or "primaries" as the skill name.  This
+will give you costs on all the skills you can currently raise in that
+place.
 .EP
 
 Examples
 .SI 5
-> Wait till I get on an xterm for examples.  Manual copying (yuck).
+> glance
+Training Arena [n,e,s,w,se].
+Three thugs are here.
+> whoami
+Flubert the Keen Swordsman (neutral)
+> cost fighting.combat.melee.sharp
+It would cost you 1650 xp to raise fighting.combat.melee.sharp from level
+65 to 66.
+> cost primaries
+======SKILLS=======Cur/Max==For Next======================================
+fighting..........  40/ 50  21000 xp  | | | thrown......  40/300   1050 xp
+| combat..........  41/ 50  19250 xp  | | | fired.......  40/300   1050 xp
+| | melee.........  48/ 50   6375 xp  | | dodging.......  40/ 50   3500 xp
+| | | sharp.......  65/300   1650 xp  | | | melee.......  40/300   1050 xp
+| | | blunt.......  40/300   1050 xp  | | | range.......  40/300   1050 xp
+| | | unarmed.....  40/300   1050 xp  | | special.......  40/300   1050 xp
+| | range.........  40/ 50   3500 xp  | points..........  40/300   1050 xp
+| | | thrown......  40/300   1050 xp  other.............  10/ 25  21000 xp
+| | | fired.......  40/300   1050 xp  | evaluating......  10/ 25   2000 xp
+| | parry.........  40/ 50   5250 xp  | | weapons.......  10/300    300 xp
+| | | held........  40/300   1050 xp  | | armour........  10/300    300 xp
+======================> You have 1037 points to spend <===================
 .EI
 
 See also
 .SI 5
-advance, skills.
+advance, info, skills
 .EI

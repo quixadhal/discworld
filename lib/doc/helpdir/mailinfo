@@ -1,0 +1,36 @@
+.DT
+mailinfo
+Discworld player help
+mailinfo
+
+Name
+.SI 5
+mailinfo - mail status of a player.
+.EI
+
+Syntax
+.SI 5
+mailinfo [name]
+.EI
+
+Description
+.SP 5 5
+Mailinfo returns the mail status of a player, without having to type finger
+and find it in there. Will return total number of mail messages and the number
+that are unread. If [name] is ommited, then it returns your own mail status.
+.EP
+
+Examples :
+.SI 5
+> mailinfo chrisy
+Player Chrisy: 75 mail messages.
+> mailinfo
+Player Chrisy: 75 mail messages.
+> mailinfo pinkfish
+Player Pinkfish: 122 mail messages, 3 of them unread.
+.EI
+
+See also
+.SI 5
+finger, mailer
+.EI

@@ -1,0 +1,31 @@
+.DT
+set_unhold
+Discworld living help
+set_unhold
+
+Name
+.SI 5
+set_unhold - Unholds an object in the given limb.
+.EI
+
+Syntax
+.SI 5
+int *set_unhold(object ob);
+.EI
+
+Description
+.SP 5 5
+The set_unhold function will unhold the object from the person.  This is
+called when you want to put something down.  It returns an array containing
+the limbs in which it was unheld.
+.EP
+
+Examples:
+.SI 5
+set_unhold(this_object());
+.EI
+
+See also
+.SP 5 5
+set_hold, set_holding, query_weapons, query_no_limbs
+.EP

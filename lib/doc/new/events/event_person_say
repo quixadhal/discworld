@@ -1,0 +1,28 @@
+.DT
+event_person_say
+Discworld events help
+event_person_say
+
+Name
+.SI 5
+event_person_say - Players speach.
+.EI
+
+Syntax
+.SI 5
+void event_person_say(object ob, string start, string mess, string lang);
+.EI
+
+Description
+.SP 5 5
+This is the function which is called when people say things.  The start
+part of the message is the bit which is something like "Pinkfish says",
+or "Pinkfish asks".  It is the bit put before the column and used for
+formating so the output looks neat.  The mess is the string which they
+actually said and the lang argument is the language in which they spoke.
+.EP
+
+See also
+.SP 5 5
+say, lsay
+.EP

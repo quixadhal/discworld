@@ -1,0 +1,175 @@
+[Amber, Deutha]
+
+1) Spells:
+
+   What name should be given to the witches' spell type things? (They'll
+be listed under "spells", no avoiding that, I'm afraid, but a division
+of the listing into "wizards' spells", "priests' rituals" and "witches'
+whatevers" is possible.) Putting a curse on someone will fall under this
+category, although staring would probably be better as a command.
+
+2) Commands:
+
+   Mix - to activate herb mixtures
+   Brew - to activate a brew in a cauldron 
+   Stare [diamonds|daggers] - to stare offensively at someone
+
+3) Food:
+
+   It's fine to use Esme's kitchen for them to make their own food. In
+fact, I'd like to get more cooking going on (there's the bakers' guild,
+for instance) which would in fact be very much analogous to casting
+spells in that the cook takes ingredients, performs actions and obtains
+a result (the quality of the product would have to depend on a skill, so
+a cooking category can be introduced to "other"). Each item of food
+keeps a list of "eat effects" - effects it will add to the eater (and
+strengths per weight eatern) - so maybe a "dip" command can be added
+to food to get it to absorb an eat effect from a liquid.
+
+4) Potions:
+
+   From the point of view of the player, some potions will be magical
+(e.g. ones that boost or lower a stat for some period of time), while
+others use natural materials (e.g. willowfine is aspirin, mouldy bread
+is penicillin) and some are merely placebos. For simplicity (at first),
+they should all be coded the same way, with the witch making a mixture
+of ingredients and activating it with a command, leaving interpretation
+to whatever they want.
+
+5) Ingredients:
+
+   Esme's herb garden
+   Forests and fields in the Ramtops and Sto Plains
+   Apothecaries' Gardens in Ankh
+   Other more out-of-the-way sites
+
+   Pick command in plants should take account of time of day/year.
+
+6) Identifying potions:
+
+   When a brew goes wrong, for whatever reason, or if an unlabelled
+potion is left in a shop or other place, identification by some means
+should be possible - magical, alchemical, apothecarial testing, etc. The
+effects that can be used by potions (more generally, by food) should
+have some well defined scheme for returning information about
+themselves. One possibility is to have functions in them like:
+
+      string query_apothecarial_effect() {
+         return "will lessen inflammation of the ears";
+      } /* query_mundane_effect() */
+
+for one of the effects in the woolly fellwort and treacle wormseed
+herb potion, and:
+
+      string query_alchemical_effect() {
+         return "causes temporary blindness";
+      } /* query_alchemical_effect() */
+
+in a blindness effect (surprise!) and:
+
+      string query_magical_effect() {
+         return "gives a temporary increase in dexterity";
+      } /* query_magical_effect() */
+
+in a dexterity enhancing effect. There are then three areas that have to
+be checked (either by the player, or by someone else) for an unknown
+potion before they should be willing to risk drinking it.
+
+7) Level criteria:
+
+   Generally when assigning levels (or difficulties) to spells
+(similarly for potions) the more powerful or effective the spell, the
+higher the level should be - for instance, we don't want witches being
+able to rattle off a dozen strength potions in ten minutes and then quaff
+the lot; there are other ways to limit this, of course, such as rare
+ingredients and weird conditions, but the simplest to arrange is level.
+Similarly potions that can be annoying probably shouldn't be too low a
+level, or people will sign up as witches, gain a few levels and then
+just go around annoying the hell out of everyone. The best approach is
+probably to draw up a list of the various processes, assign rough-guess
+levels and then we can fine tune it. I've had some experience with this,
+not only from coding spells but also from the magical artifacts (mostly
+wands) that I've been making lately, but I have no well formulated
+system for this, usually going on my personal feelings.
+
+8) Mini-quests:
+
+   The plan that the witch must complete the mini-quests is good,
+and they may as well be coded in that order - could there be any
+others or will there just be the three of them? Remind you to explain to
+you how to use the fungus object; there are three at the moment, a
+simple mushroom (the default), a mushroom that has spots on it that
+begin the glow when it reaches maturity, and a toadstool that blasts off
+into space (obviously a Ramtops variety - it also has a minor gp restoring
+eat effect so could be used as the basis of a stronger gp restoring
+potion).
+
+9) Curses:
+
+   All curses should be written as effects, not using the /std/curses/
+ones since they use and old system which isn't very good (they don't
+save either). A lot of the priest effects are still on the old effects
+system too, and need to be rewritten and moved to a more general
+directory (priests will not be the only ones to make people blind).
+
+10) Skills:
+
+   The magic skills category still needs rearranging, with the occult
+category being absorbed into it. As a proposed preliminary breakdown,
+I'd suggest something like:
+
+magic
+| spells
+| | offensive
+| | defensive
+| | misc
+| | special
+| methods
+| | elemental
+| | | air
+| | | earth
+| | | fire
+| | | water
+| | mental
+| | | animating     [give a mind to something inanimate]
+| | | channeling    [convey mental energy]
+| | | charming      [convince someone to do your bidding]
+| | | convoking     [draw together other minds]
+| | | cursing       [affect the beliefs and other things of someone]
+| | physical
+| | | binding       [attach a magical effect to an object]
+| | | brewing       [perform a magical reaction on substances]
+| | | chanting      [use the vocal aspects of magic]
+| | | dancing       [use the body-motion aspects of magic]
+| | | enchanting    [change the magic field of an object]
+| | | evoking       [draw forth the magical properties of an object]
+| | | healing       [boost the life force of a living object]
+| | | scrying       [send your senses to another place]
+| | spiritual
+| | | abjuring      [force a spirit to abstain from some action]
+| | | banishing     [return a spirit to its normal dwelling]
+| | | conjuring     [request a spirit to perform some action]
+| | | divining      [extract information from a spirit]
+| | | summoning     [bring a spirit into your presence]
+| items
+| | held
+| | | wand
+| | | rod
+| | | staff
+| | | broom
+| | worn
+| | | amulet
+| | | ring
+| | scroll
+| points
+
+I know that this is a huge list of skills, so if there are any here that
+ou think really won't be used (although I can think of uses for almost
+all of them) please say so. Similarly if you can think of anything else
+that ought to be in there. As with the other guilds, wizards and witches
+won't have to learn _all_ of the skills in magic, but will get a select
+12 to 14 which will determine their guild level and in which they can
+advance to level 300 (a different set of 14 for each guild, with some
+overlaps and some of the skills in neither - this is okay since I'm
+planning a system of departments for the wizards so that the necessary
+skills will change according to department).

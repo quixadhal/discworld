@@ -1,0 +1,57 @@
+.DT
+locate
+Discworld player help
+locate
+
+Name
+.SI 5
+locate - find all objects matching a description
+.EI
+
+Syntax
+.SI 5
+locate <word(s)>
+.EI
+
+Description
+.SP 5 5
+Locate will find everything in your environment (i.e. everything in the
+same places as you) and in your inventory (i.e. everything you're
+carrying that is not inside something else) that matches the words you
+provide.  It will list these objects with the number you'd need to use
+to refer to this specific object, together with whether each object is
+currently worn or wielded.  If only one object is found, it gives its
+location and whether it is being worn or wielded.
+.EP
+
+Examples:
+.SI 5
+> locate wands
+The pine wand (1) is in your environment.
+The black fluted wand (2) is in your inventory.
+The oak wand (3) is in your inventory.
+The yellow wand (4) is in your environment.
+The yellow wand (5) is in your inventory.
+The green wand (6) is in your inventory.
+The oak wand (7) is in your environment.
+The balsa wand (8) is in your environment.
+The oak wand (9 - wielded) is in your inventory.
+The long white wand (10) is in your inventory.
+The oak wand (11) is in your environment.
+The short wand (12) is in your environment.
+The oak wand (13) is in your inventory.
+> locate wand 4
+The yellow wand is in your environment.
+The oak wand (1) is in your environment.
+The oak wand (2) is in your inventory.
+The oak wand (3 - wielded) is in your inventory.
+The oak wand (4) is in your environment.
+The oak wand (5) is in your inventory.
+> locate oak wand 3
+The oak wand (wielded) is in your inventory.
+.EI
+
+See also
+.SI 5
+-
+.EI

@@ -1,0 +1,51 @@
+.DT
+command_control
+Discworld object help
+command_control
+
+Name
+.SI 5
+command_control - Function to handle different commands.
+.EI
+
+Syntax
+.SI 5
+command_control(string verb, object *in_dir, string direct, string indirect, 
+            mixed *args, string format)
+.EI
+
+Description
+.SP 5 5
+This function will be called by several command, in the future :).  Right
+now it will be called, by the throw, and get commands.  The verb
+will be the name of the command that called it, while the other arguments
+are similar to the arguments in add_command  For better information about
+them, look at the docs in do_throw_at, do_get and add_command.
+.EP
+
+See also
+.SP 5 5
+do_throw_at, do_get
+.EP
+
+Example
+.SI 5
+inherit "/std/object";
+
+void setup() {
+  set_name("rock");
+  set_short("radioactive rock");
+  set_adjective("radioactive");
+  set_long("It's a small radioactive rock.\n");
+} /* setup */
+
+command_control(string verb, object *in_dir, string direct, string indirect, 
+            mixed *args, string format) {
+  if(verb == "throw") {
+    /* do whatever you want when someone wants to throw the object */
+  }
+  if(verb == "get") {
+    /* do whatever you want when someone wants to get the object */
+  }
+}
+.EI

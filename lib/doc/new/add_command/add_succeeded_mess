@@ -1,0 +1,69 @@
+.DT
+add_succeeded_mess
+Discworld tmp help
+add_succeeded_mess
+
+Name
+.SI 5
+add_succeeded_mess - For use with add_command
+.EI
+
+Syntax
+.SI 5
+void add_succeeded_mess(object dir, string mess, object *in_dir);
+.EI
+
+Description
+.SP 5 5
+This allows you to change the succeeded message displayed when the
+person succeededs with somewthing and you are using add_command.
+
+It does several transformations on the message passed to it to
+get nice useful messages out of it.  Each of the transformation
+things start with a $ and have one letter after them.  A list of
+them follows.
+.EP
+.SO 5 5 -15
+	$N	Name of the person.  Changes to you when printing to the player.
+	$V	The verb.  Puts an s on the end when it is displaying it to everyone.
+	$D	Direct object(s).  Makes a query_multiple_short list of the direct objects and stuffs it in here.
+	$I	Indirect object(s).  Same as above, but the indirect ones.  These map to the ones got with %I in the original add_command.
+	$p	Possessive string.
+	$o	Objective string.
+	$r	Pronoun string.
+		
+.EO
+.SP 5 5
+If no succeeded message is set for a given thingy.  To parseing the incoming
+pattern to figure out the message to print.  It does this fairly well...
+.EP
+
+Examples:
+.SP 5 5
+A good example of an object that uses add_command and this feature is
+/obj/misc/torch.c
+.EP
+.SI 5
+
+/* Light up the torch */
+int do_light() {
+/* Check to see if we are already lit */
+  if (lit) {
+    this_player()->add_failed_mess(this_object(), "$D is already lit.\n",
+                                   ({ }));
+    return 0;
+  }
+/* Set ourselves as lit. */
+  lit = 1;
+/* Tell the player about it. */
+  this_player()->add_succeeded_mess(this_object(), "$N $V $D, and "+
+                                    "the room glows with a soft light.\n",
+                                    ({ }));
+  return 1;
+} /* do_light() */
+.EI
+
+See also
+.SP 5 5
+add_command, add_failed_mess, add_succeeded
+.EP

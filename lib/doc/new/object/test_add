@@ -1,0 +1,41 @@
+.DT
+test_add
+Discworld object help
+test_add
+
+Name
+.SI 5
+test_add - Checks to see if the object is allowed to be added.
+.EI
+
+Syntax
+.SI 5
+int test_add(object ob, int flag);
+.EI
+
+Description
+.SP 5 5
+This is used by the move command to see if the object is allowed to
+be added or not.  The flag passed on the is the value of the move flag
+as set with set_get and reset_get.  If it is 1 then the object is not allowed
+to be got.  This check is generaly only made on living objects.  You
+can make it elsewhere if you like though :)
+
+If the function returns 1, the object is allowed in.  If it returns 0,
+the object is not allowed in.
+.EP
+
+Examples:
+.SI 5
+int test_add(object bing, int flag) {
+/* Only allow rabbits to be added to this container. */
+  if (bing->query_name() != "rabbit")
+    return 0;
+  return 1;
+} /* test_add() */
+.EI
+
+See also
+.SP 5 5
+test_remove, move, set_get, reset_get
+.EP

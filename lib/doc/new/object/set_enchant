@@ -1,0 +1,21 @@
+ 
+set_enchant             Discworld object help                   set_enchant
+
+Name
+     set_enchant - defines the 'quantity' of enchantment on an object.
+
+Syntax
+     int set_enchant(int amt);
+
+Description
+     An object can have a certain amount of enchantment added to it by using
+     set_enchant. Values between 0 and 50 can be specified, and will improve
+     the objects performance if it is a weapon or an armour. It also increases 
+     the value of the object. Assigning an enchantment value to an object 
+     automatically assigns a default octarine description for it as well.
+
+     If a different description is required, the octarine_mess property should
+     be used.
+
+See also
+     query_see_octarine, octarine_mess

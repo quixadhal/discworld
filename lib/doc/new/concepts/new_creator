@@ -1,0 +1,108 @@
+Hi!  Welcome to the creation side of discworld!
+
+This document is just a list of tips and handy bits of information for 
+new discworld creators.
+
+Bulletin Boards
+
+As a player you probably noticed some bulletin boards in various rooms.
+As well as the half a dozen player accessible boards there are some
+20 or so creator boards.  Some of these are general announcements of new
+mudlib features, project developments, domain developments etc etc.
+You are expected to keep up to date with all of the administrative/coding
+boards because it is the main method of communicating important information
+to creators!  
+
+This is not such a difficult task with the aid of the board master object.
+This is your own private bulletin board which transmutes into any board
+at your command.  To get one type: clone /obj/misc/board_mas.  This should
+tell you that one was cloned and put in you.  Unless something unusual 
+happens you should never have to do this again.  This board is much like
+other bulletin boards with a few extra commands.  The main one is 'new'
+which searches for a bulletin board with unread messages on it and turns
+into that board.  This means that a sequence of 'new' and 'r' repeatedly
+will let you read ALL the new messages quite easily ... although it can
+still be very time consuming!
+
+Mailer
+
+Along with your own private bulletin board, another quite handy tool is
+the mailer object.  This prevents you having to 'physically' go to the 
+post office to read/post mail.  To get this clone /obj/misc/mailer_ob.
+
+Inform
+
+Players get informed of log on events.  Similarly creators get a whole
+string of events to choose from.  The easiest way to play with these is
+to go 'inform all' and then turn off the ones you don't want as you 
+like.
+
+Communication
+
+As well as the usual player commands for communicating creators get a few more.
+"cre" is for the creator channel.  This prints to all creators and lords on 
+(well, those who haven't earmuffed it) in this form ...
+
+Ember: look at /doc/new/concepts/newbie
+
+Pinkfish: and don't foregt to pat your wobmle too!!!
+
+"cre@" is the creator emote thingy.  Prints like ...
+
+(cre) Ember blinks nervously.
+
+intercre or interwiz are the inter-mud creator channel.  This is broadcast to
+random assorted muds that are connected to discworld ... you can get a list
+using the "mudlist" command.
+
+Don't flood the creator channels with random conversations, because we might
+lose valuable question/answer sessions then.  If you start having a 
+conversation you might consider moving it to the communication sticks 
+(/d/am/market/talker/talker).
+
+Errors
+
+In the course of programming you will invariably end up with errors.
+These will _sometimes_ be printed out for you at the time they occur,
+but frequently are not, or are only partially printed out.  The full dump
+of the error is put in /log/debug.log ... so the usual command to look
+at what went wrong is "tail /log/debug.log" although sometimes the error
+trace may be a bit too long for this in which case you run screaming.
+Some people alias the above tail command for ease of use.  
+
+Arrays
+
+Arrays are handy little things, but they have their tricky aspects.  The
+main one to look out for is that arrays are passed as pointers whenever
+possible.  What this means is that if you return an array or assign to an
+array, you aren't making a copy of the contents, so modifying the new
+array modifies the original.  This is a subtle thing, and won't cause
+problems often, but beware!  If you are in any doubt, add a null array
+onto your array ... this guarantees that you are working with a copy.
+(something like: return sensitive_array + ({ }); )
+
+Liquids
+
+Plug for my own stuff ;)  If you want to make something with liquid in
+it, this is handled by /obj/container.  Have a look at the doc "potions"
+which is around somewhere in /doc (/doc/create/potions or some such).
+
+The '!' escape command thingy
+
+This is available to any player, but particularly useful for creators.
+From the editor, or any place accepting input, you can escape the command
+back to the standard command line by prefixing it with a '!'.  This means
+that if someone asks you a question while you're half way through writing
+a message, you can (at the beginning of a new line) type 
+   !tell pinkfish ahhh, that's clever
+And then continue on with the rest of your message.
+Note that starting a command which will use input (like more, or the editor)
+like this leads to great confusion.
+
+This file will probably be updated as new hints and tips are thought up.
+
+Bingle on,
+Ember
+
+
+

@@ -1,0 +1,117 @@
+.DT
+Reaction File Format
+Discworld Creator Help
+Reaction File Format
+
+Name
+.SP 5 5
+reaction file format - File format for the reaction handler database
+.EP
+
+Description
+.SP 5 5
+The reaction handler loads its database from a collection of files,
+specifically, all files that match /obj/reactions/*.rct.  The format
+required by these files is shown below.
+.EP
+
+Reaction File Format
+.SP 5 5
+When the reaction handler is loaded, it attempts to restore the
+reaction database from all files in /obj/reactions that end with
+'.rct'.  Each file can contain multiple reactions; this was felt to be
+a good trade-off between having one massive file (which would be
+unwieldy), and requiring a separate file for each reaction (which
+would waste disk space).  The files are read alphabetically, so
+reactions can be overridden (say, for testing) by adding the
+replacement in a file further down the list.
+.EP
+
+.SP 5 5
+A reaction is specified with a series of lines of the form
+.EP
+
+.SI 10
+<field>:<space><value>
+.EI
+
+.SP 5 5
+Note that <space> represents one space character.  If the value is a
+string, all spaces other than the first will be taken literally.
+Below are the fields and their meanings.  Any unspecified fields will
+default to 0 (for numbers) and "" (for strings);
+
+.EP
+
+.SO 5 20 -30
+	reagent_a
+	reagent_b	These are the medium aliases of the two reagents.  To prevent it being used as an actual alias (i.e., in a player command), it should be mixed case.  By convention, the first letter of each "word" should be capitalized (e.g., PowderedRedRiverRock).
+	amount_a
+	amount_b	These are the required amounts of the reagents, relatively speaking (e.g., 2 parts 'a' to 1 part 'b').  Any remainder is left in the container.
+.EO
+
+.SP 5 5
+The following fields refer to transient objects created by the
+reaction.  If the reaction creates a static object directly, these can
+be ignored.
+.EP
+
+.SO 5 20 -30
+	path_transient	The path to the transient object created.
+	amount_transient	The amount of transient created, per amounts of the reagents specified above.
+	hp_base	This is a special value used by transients that cause damage.  See the help file on the particular transient for more information.
+	duration	The amount of time the transient exists, in seconds.
+	final_function	The function to be called when the transient expires.  This depends on the transient used.
+.EO
+
+.SP 5 5
+The following specify the static object created directly by the
+reaction (if there is no transient), or the object created when the
+transient expires.  Note that in the latter case, this may be another
+transient.  In either case, this need not be a continuous object.
+.EP
+
+.SO 5 20 -30
+	path_result	The path of the resulting object.
+	amount_result	The amount of the resulting object, if it is continuous.  Otherwise, it is the weight.  In either case, it is per the specified reagent amounts.
+	medium_alias_result	The medium alias of the result.  This is only required if the result is continuous.
+	first_message	This is a message printed when the reaction occurs.
+	function_string	This is a process_string type of string (i.e., those "@@" things) that can be used to customize the result further.  This field may be repeated as many times as necessary.  The functions will be executed in the order given.  NOTE: don't put "@@" around the string.  The handler will add them.
+	end	This must be the last field in the reaction specification.  It should have nothing after it on the line other than spaces.
+.EO
+
+.SP 5 5
+In addition to the function_string parameters, the first_message may
+have "@@"-style function calls in it - the string is passed to
+process_string() before being printed out.  In either case, the
+following pseudo-objects may be used to represent the objects involved
+in the reaction.
+.EP
+
+.SO 5 20 -30
+	#env#	This represents the environment of the reagents (i.e., the container).
+	#env2#	This represents the environment of the container.
+	#obj_a#	This represents the first reagent (the one just added to the container).
+	#obj_b#	This represents the second reagent.
+	#obj_x#	This represents the object created by the reaction.
+.EO
+
+.SP 5 5
+For example,
+.EP
+
+.SI 10
+first_message: @@#obj_x#:short@@ appears in @@#env#:the_short@@.\n
+.EI
+
+.SP 5 5
+would print something like, "Some brown liquid appears in the blue
+bottle."
+.EP
+
+See also
+.SI 5 5
+obj.handlers.reaction_handler
+obj.reagents.reaction
+/obj/reactions/*.rct
+.EI

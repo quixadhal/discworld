@@ -1,0 +1,63 @@
+.DT
+do_throw_at
+Discworld object help
+do_throw_at
+
+Name
+.SI 5
+do_throw_at - Function to calculate damage done when object is thrown.
+.EI
+
+Syntax
+.SI 5
+do_throw_at(object *in_dir, string direct, string indirect, mixed *args,
+            string format)
+.EI
+
+Description
+.SP 5 5
+If this function exists in an object, then when that object is thrown at
+someone, it will be called.  It should calculate wether or not the object
+hit the target, and how much damage it did.  It should return 0 if it failed
+to hit, or the damage done.  You must NOT do the damage, it will be done be
+the command throw.  The arguments are exactly the same as those passed from 
+add_command, so look at the docs on add_command for a complete explaination
+of them, however they are not going to be that difficult.  I'll give an 
+example.  Say the player type 'throw daggers at dwarf' then the function 
+do_throw_at() is going to get called in each dagger with the arguments
+being as follows:
+.EP
+.SI 6
+in_dir = ({ dwarf });
+direct = "daggers";
+indirect = "dwarf";
+args = ({ "daggers", "dwarf" });
+format = "%D 'at' %I";
+.EI
+
+See also
+.SP 5 5
+do_throw_to command_control
+.EP
+
+Example
+.SI 5
+inherit "/std/object";
+
+void setup() {
+  set_name("rock");
+  set_short("radioactive rock");
+  set_adjective("radioactive");
+  set_long("It's a small radioactive rock.\n");
+} /* setup */
+
+do_throw_at(object *in_dir, string direct, string indirect, mixed *args,
+            string format) {
+  int skill;
+
+  skill = this_player()->query_skill_bonus("fighting.throw");
+  if(skill < 40)
+    return 0;      /* throw failed, no damage done */
+  return skill/5   /* throw succed, skill/5 damage done */
+}
+.EI

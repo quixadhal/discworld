@@ -1,0 +1,36 @@
+.DT
+find_match
+Discworld simul_efun help
+find_match
+
+Name
+.SI 5
+find_match - Object matching.
+.EI
+
+Syntax
+.SI 5
+object *find_match(string str, object in);
+object *find_match(string str, object *in);
+.EI
+
+Description
+.SP 5 5
+This function matches all of the object which respond to str, by looking
+in the inventorys of the in paramater.  This handles nickname lookups,
+the stuff like 1/2 of apples, second rabbit, three pinkys and it/them/her/him
+processing.  It will always return an array, and the objects in the array
+should be unique.  It also handles ,'s and 'and's.
+.EP
+
+Examples:
+.SI 5
+obs = find_match("frog", this_player());
+obs = find_match("bing and green and red", this_player());
+obs = find_match("bing, green, red", ({ this_player(), environment() }));
+.EI
+
+See also
+.SP 5 5
+add_command
+.EP

@@ -1,0 +1,41 @@
+.DT
+set_hold
+Discworld living help
+set_hold
+
+Name
+.SI 5
+set_hold - Allows people to set what they are holding.
+.EI
+
+Syntax
+.SI 5
+int *set_hold(object ob, int start_limb);
+.EI
+
+Description
+.SP 5 5
+This function sets the object to be held in the start_limb and any
+other limbs around it depending on how many it needs.  It returns an
+array containing the ids of each of the limbs which it has set itself
+into.  These can be used as indexes into the limbs array to get the names.
+
+If -1 is specified as the limb, then it will try and find the first
+limb that does not have anything in it and hold itself in that.
+
+The function query_no_limbs is called on the object being held to find
+out how many limbs it uses up.
+.EP
+
+Examples:
+.SI 5
+Look at /obj/misc/torch.c
+And /obj/armour.c
+
+set_hold(this_object(), -1);
+.EI
+
+See also
+.SP 5 5
+set_unhold, query_limbs, query_weapons, query_no_limbs, query_holding
+.EP

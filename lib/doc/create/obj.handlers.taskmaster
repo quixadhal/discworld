@@ -1,0 +1,43 @@
+.DT
+Taskmaster
+Discworld Creator Help
+Taskmaster
+
+Name
+.SI 5
+/obj/handlers/taskmaster.c - Utility to perform a task calculation
+.EI
+
+Description
+.SP 5 5
+The taskmaster is a utility that can be called to perform a task
+calculation.  It is called with the function:
+.EP
+
+.SI 10
+
+int attempt_task( int difficulty, int bonus, int upper,
+      mixed extra );
+.EI
+
+.SP 5 5
+and returns values defined in the include file tasks.h according to the
+outcome.
+.EP
+
+Parameters
+.SI 5
+difficulty - the difficulty of the task
+bonus - the bonus of the player attempting the task
+upper - the maximum percentage chance of gaining a level
+extra - optional parameter that can be:
+        undefined - default margin is 3 * sqrt( difficulty )
+        integer - the margin is this number
+        integer array - the margin is the first number plus the
+                the second number times sqrt( difficulty )
+.EI
+
+See also
+.SP 5 5
+tasks
+.EP

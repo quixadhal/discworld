@@ -1,0 +1,31 @@
+.DT
+query_weapons
+Discworld combat help
+query_weapons
+
+Name
+.SI 5
+query_weapons - The currrently wielded weapons.
+.EI
+
+Syntax
+.SI 5
+object *query_weapons();
+.EI
+
+Description
+.SP 5 5
+Returns the weapons being currently wielded (and held).  This can be 1
+or more weapons.
+.EP
+
+Examples:
+.SI 5
+write("You are wielding "+query_multiple_short(this_player()->query_weapons())+
+      ".\n");
+.EI
+
+See also
+.SP 5 5
+set_hold, set_unhold, query_limbs, query_holding, query_no_limbs
+.EP

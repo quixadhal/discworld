@@ -1,0 +1,100 @@
+
+Weapons
+-------
+
+This is a really basic guide to weapons, and keeping them within the bounds
+of reality on the Disc.
+
+Firstly lets have a quick definition of the weapon, and things that have to be
+done with it. Here is an example weapon file:
+
+inherit "obj/weapon";
+ 
+void setup(){
+
+/* DESCRIPTIONS */
+
+   set_name("flail");
+   set_short("flail");
+   set_main_plural("flails");
+   set_long("This flail looks quite nasty, having two large lumps of iron on "+
+            "it. The whole thing looks quite dangerous.\n");
+
+/* STATISTICS */
+
+   new_weapon(600);
+   set_damage_chance(10);
+   add_attack("ball one", ({0}), 80, ({50,5,5}), ({0}), ({15}), "sharp" );
+   add_attack("ball two", ({0}), 10, ({50,10,5}), ({100}), ({200}), "magic" );
+   set_weap_skill( "fighting.combat.melee.blunt" );
+   set_weight(200);
+}
+
+OK now lets run down what all these numbers in the STATISTICS section mean.
+
+firstly the new_weapon() call. This sets up all it's initial statistics. The 
+paramater represents the condition of the weapon.
+
+the set_damage_chance() call sets the chance that the weapon will be damaged
+when used in combat. This affects the condition. The amount of damage done is
+based on how much the armour reacts.
+
+the add_attack() call is the most complicated, and sets up the statistics of the attacks for the weapon. It is possible to have multiple attacks from one weapon,
+so this can be used to simulate all sorts of intersting things.
+
+taking the paramaters to add_attack one at a time:
+"ball one"   - 	This is just the name of the attack. It's nothing special, but 
+		it's helpful if it's named to something appropriate.
+0            - 	This is for more advanced things. It allows you to set follow
+		on attacks, so that if the ball hit them, then the spikes on
+		the ball could rip them to shreds. The values that can be used 
+		here are as follows :
+		   0 	- no follow on attack.
+		   "name"   - the name of the attack to follow on after this
+ 			      one. If you supply this, then you must also
+			      add another paramater, being :
+				0-100 - chance of this follow on attack.
+				200+  - the amount of damage over hit that must
+					be done to achieve a follow on.
+80  	     -  This is the percentage chance that the attack will occur when
+		a round of combat occurs.
+({50,5,5})   -	This is the basic stat of the weapon attack. It affects both
+		the "to hit" chance and the damage of the attack. It translates
+          	to 50+5d5 ie. 55-75. If defined with one argument (eg. ({75}))
+		then it will translate to random(75) ie. 1-75.
+({0})	     - 	This represents the "to hit" bonus of the attack. The bigger, 
+		the more likely it is to hit above and beyond the basic amount.
+		It's form is the same as attack 
+		damage above.
+({15})	     - 	This represents the "damage" bonus of the attack. The bigger, 
+		the more damage it does above and beyond the basic amount.
+                It's form is the same as attack damage above.
+"sharp"	     - 	This is the type of attack the weapon is delivering. Different
+ 		armours protect different amounts for different attacks. Valid
+		attack types are SHARP, PIERCE, BLUNT, MAGIC, FIRE, COLD
+
+The set_weap_skill() call defines which skill the weapon uses to calculate the
+success of the attack.
+
+For more information about how the actual combat is handled, 
+see /doc/new/living/combat.
+
+------------------------------------------------------------------------------
+
+The following are some guidelines for how much damage different weapons do:
+
+weapon           pierce       slash        blunt      val    weight
+ 
+knife            0+2D10      0+2D10                   50      10
+dagger           0+3D10      0+3D10                   200     40
+club                                       60+5D8     600     400
+hammer                                    100+4D5    1200     300
+axe                         50+D100                  1500     350
+mace              0+D20       0+D10       30+4D10     900     100
+morning star    40+4D10       0+D20         0+D20    1400     100
+rapier          20+3D40                              1500     80
+foil            20+2D40                              1000     70
+short sword       0+5D5     25+5D10                   800     100
+long sword                   0+6D20                  1200     200
+bastard sword               30+3D30         0+5D6    2000     400
+ 

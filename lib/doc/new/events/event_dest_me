@@ -1,0 +1,32 @@
+.DT
+event_dest_me
+Discworld events help
+event_dest_me
+
+Name
+.SI 5
+event_dest_me - Called when an object is dested.
+.EI
+
+Syntax
+.SI 5
+void event_dest_me(object ob);
+.EI
+
+Description
+.SP 5 5
+This function is called on any objects in the environment of the object
+being dested.
+.EP
+
+Examples:
+.SI 5
+void event_dest_me(object ob) {
+  printf("The object %O was just dested.\n", ob);
+} /* event_dest_me() */
+.EI
+
+See also
+.SP 5 5
+dest_me, dwep
+.EP

@@ -1,0 +1,32 @@
+.DT
+query_num
+Discworld simul_efun help
+query_num
+
+Name
+.SI 5
+query_num
+.EI
+
+Syntax
+.SI 5
+string query_num(int i, int max);
+.EI
+
+Description
+.SP 5 5
+This function turns an integer number into a string.  If the number is
+greator than max then the number is set to many.  If max is 0 then some
+incredibly huge default is assumed.
+.EP
+
+Examples:
+.SI 5
+write("You look like "+query_num(num, 10)+" blue chickens mashed "+
+      "into one.\n");
+.EI
+
+See also
+.SP 5 5
+query_multiple_short
+.EP

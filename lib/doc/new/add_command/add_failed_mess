@@ -1,0 +1,51 @@
+.DT
+add_failed_mess
+Discworld tmp help
+add_failed_mess
+
+Name
+.SI 5
+add_failed_mess - Failure message for use with add_command.
+.EI
+
+Syntax
+.SI 5
+void add_failed_mess(object dir, string mess, object *in_dir);
+.EI
+
+Description
+.SP 5 5
+This is used to set up a failure message for the objects when useing
+add_command.  This gets all of the multiple short stuff correct and
+that sort of useful thing.
+
+The message goes through a series of transformations.  They are
+similar to the ones for add_succeeded_mess, the ones supported by
+add_failed_mess are as follows:
+.EP
+.SO 5 5 -15
+		
+	$D	Direct object.  Does a query_multiple_short on all the ones that return with the same message.
+	$I	The indirect objects.  This is created from the indirect objects passed as the last parameter to add_failed_mess().
+	$V	The verb used.
+.EO
+
+Examples:
+.SI 5
+For an example of how to use add_failed_mess look at /obj/misc/torch.c
+
+int do_light() {
+  if (lit) {
+    this_player()->add_failed_mess(this_object(), "$D is already lit.\n",
+                                   ({ }));
+    return 0;
+  }
+  lit = 1;
+  return 1;
+} /* do_light() */
+.EI
+
+See also
+.SP 5 5
+add_succeeded_mess, add_command, add_succeeded
+.EP

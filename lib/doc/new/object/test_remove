@@ -1,0 +1,35 @@
+.DT
+test_remove
+Discworld object help
+test_remove
+
+Name
+.SI 5
+test_remove - Is this object allowed out?
+.EI
+
+Syntax
+.SI 5
+int test_remove(object ob, int flag);
+.EI
+
+Description
+.SP 5 5
+This function tests to see whether the object is allowed to be removed
+from the container it is in.  If it returns 1, then leaving is possible
+else it is blocked.  The flag is the value of the move flag as set by
+set_get and reset_get.  This is 1 if reset_drop is called.
+.EP
+
+Examples:
+.SI 5
+/* This is basicly the test from the living object */
+int test_remove(object ob, int flag) {
+  return !flag;
+} /* test_remove() */
+.EI
+
+See also
+.SP 5 5
+test_add, move, set_drop, reset_drop
+.EP

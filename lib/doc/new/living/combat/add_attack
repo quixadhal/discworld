@@ -1,0 +1,50 @@
+.DT 
+add_attack 
+Discworld living help 
+add_attack 
+
+Name
+.SI 5
+add_attack - Add a specific attack to an object.
+.EI
+
+Syntax
+.SI 5
+add_attack( [see below] );
+.EI
+
+Description
+.SP 5 5
+add_attack can be used to add a specific attack to a weapon, monster or
+any other object that ever gets into a fight.
+
+Ok, add_attack has quite a few arguments in it, so instead of putting it in
+syntax i'll detail them below with examples.. 
+
+.EP
+.SO 5 5 -15
+	1.	This argument must be a string and defines the name of the attack, as  it will be called in write_message. i.e. "slash", or "cripple".
+	2.	This is very confusing and should remain at 0, preferably.
+	3.	The percentage chance of happening. This does NOT mean that if you have three add_attacks they need be set at say 20,40,40 as they could all be at 100,100,100 and still work, it is their own percentage chance.
+	4.	This is the inital damage in hit points and, using an array, you can do a funky AD&D dice thing. For example to do 100 hps + 5-10 sided dice it would be ({ 100 , 5 , 10 }). giving anything between 105 and 150 hps damage.
+	5.	This is the percent chance of doing additional damage on a successful strike. I.e. 100 to always do additional damage.
+	6.	this is the amount of damage done by the additional attack, the same array rule applies as above.
+	7.	this is the type of damage done. I.e. "slash", "blunt", "heat", etc..
+
+.EO
+
+Example
+.SI 5
+add_attack("whack", 0 , 40 , ({ 30 , 5 , 20 }) , 10 , 50 , "blunt")
+
+.EI
+.SP 5 5
+This will add an attack "whack", with 40% chance of happening, doing 30hps
+plus 5D20 extra and a 10% chance of doing an extra 50hps. The attack will be 
+of blunt type. Simple no? No, I didn't think so..
+.EP
+
+See also
+.SP 5 5
+remove_attack, write_message
+.EP

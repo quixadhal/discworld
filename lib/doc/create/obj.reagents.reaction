@@ -1,0 +1,171 @@
+.DT
+Reaction
+Discworld Creator Help
+Reaction
+
+Name
+.SP 5 5
+reaction - Base transient object for the reaction handler
+.EP
+
+Description
+.SP 5 5
+In order to make reactions more flexible, customizable, and just
+downright interesting, a class of objects - "transients" - was
+created.  Transients exist for a specific period of time, printing
+messages to the player(s) and calling functions at regular intervals.
+When they expire, they perform some specific action, such as exploding
+or changing into another object.  The base transient is
+/obj/reagents/reaction.c.  It can be used as the basis for more
+complex transients through inheritance, or used as-is in a virtual
+object.  Note that most of the attributes correspond to fields in the
+reaction handler database; these can be set directly by the reaction
+handler at creation.
+.EP
+
+.SI 5
+Functions
+.EI
+
+.SI 10
+void set_progress_msg( mixed *msg )
+.EI
+.SI 10
+void add_progress_msg( mixed *msg )
+.EI
+.SI 10
+void query_progress_msg( )
+.EI
+.SP 15 5
+These functions manipulate the set of progress messages.  Each
+"message" is printed at equal intervals over the duration of the
+object.  That is, if there are n messages, the duration is divided
+into n intervals. query_progress_msg() simply prints the progress
+message array to the screen for debugging.
+.EP
+
+.SP 15 5
+The term "message" is something of a misnomer.  Each "message" is
+actually a printed message and an array of process_string-type strings
+(but without the "@@" around them - they're added automatically).
+This allows things such as the description of the object to be changed
+as the reaction progresses (see "Pseudo-objects" below).
+.EP
+
+.SI 10
+void set_duration( int time )
+.EI
+.SP 15 5
+This sets the total duration of the object.  Note that the interval
+time is calculated here also, so this should be called after
+set_progress_msg() (although add_progress_msg() recalculates the
+interval, so messages may be added afterwards).
+.EP
+
+.SI 10
+void set_final( string s )
+.EI
+.SP 15 5
+This sets the function that should be called when the object expires.
+The final function either creates a new object in the transient's
+place, or causes some interesting effect to occur.  Two functions are
+defined: "boom" and "morph" (see below).
+.EP
+
+.SI 10
+void set_result( string s )
+.EI
+.SP 15 5
+This sets the path of the object that is created when the transient
+expires.  If the final function doesn't create a result object, this
+need not be called.
+.EP
+
+.SI 10
+void set_result_alias( string s )
+.EI
+.SP 15 5
+This specifies the medium alias for the result.  If there is no
+result, or if the result is not continuous, this need not be called.
+.EP
+
+.SI 10
+void set_result_amt( int amt )
+.EI
+.SP 15 5
+This specifies the amount of the result to be created.  If the result
+is continuous, this is the continuous amount.  Otherwise, it is
+divided by AMT_PER_WGT (currently 200) and used as the weight of the
+result.  Note a slight inconsistency here: if the reaction handler
+creates a non-continuous object directly, it uses the "result_amount"
+field as the weight directly.  There was a reason for that, but for
+the life of me I can't think what it was.
+.EP
+
+.SI 10
+void set_hp_base( int hp )
+.EI
+.SP 15 5
+This specifies a base hp value (per amount) for reactions that cause
+damage.  See the "boom" final function for an example.
+.EP
+
+.SI 10
+void start_reaction( )
+.EI
+.SP 15 5
+This is the function that gets the transient going.  It is usually
+called by the reaction handler.
+.EP
+
+.SI 10
+void boom( )
+.EI
+.SP 15 5
+This is a final function.  The purpose is to cause damage (such as
+when a potion is mixed improperly and explodes).  The damage done
+depends on where the transient is.  If it's being held by a player,
+the player gets full damage.  If it's in a container held by a player,
+the container is dested, all contents are moved up to the next viable
+container, and the player receives 1/2 damage.  If the transient is
+sitting in a room, everyone gets 1/2 damage.  If it's in a container
+in a room, everyone gets 1/5 damage and the container is dested as
+above.  The function will also produce a result object if one has been
+specified, placing it in the environment of the (now destroyed)
+container.
+.EP
+
+.SI 10
+void morph( )
+.EI
+.SP 15 5
+This final function can be used for generic object creation.  It
+creates the result object and, if the container can handle it, puts it
+in place of the transient.  Otherwise, it destroys the container and
+its contents.  This function is great for adding a little pizazz to a
+reaction, rather than just quietly creating the new object.  It's also
+good for adding delays, introducing temporary state changes, etc.
+.EP
+
+.SI 5
+Pseudo-objects
+.EI
+.SP 10 5
+To make customization easier, certain strings can be used in the
+function call part of the progress messages to represent various
+objects.
+.EP
+.SO 15 15 -35
+	#obj#	represents the transient itself.
+	#env#	represents the environment of the transient.
+	#env2#	represents the environment of the environment of the transient.
+	#result#	represents the result object (obviously, this can only be used in the final progress message).
+.EO
+
+See also
+.SI 5
+obj.handlers.reaction_handler
+obj.reactions
+obj.reagents.monster_morph
+/obj/reagents/*.ob
+.EI

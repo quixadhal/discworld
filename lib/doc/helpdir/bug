@@ -10,23 +10,86 @@ bug - report bugs to the creators
 
 Syntax
 .SI 5
-bug <text>
+bug [command/spell/object/room] [name]
 .EI
 
 Description
 .SP 5 5
-This command informs the creators of an object that a bug is present on it.
-The error message is recorded in one central log file and a log file specific
-to the room you are standing in.  For this reason, if you have a bug on an
-object try to do a bug report near the place you got it as that is most likely
-going to be owned by the same people as wrote the object.
+This command informs the creators of bugs in commands, spells, objects, and 
+rooms.  The first argument is used to specify what type of bug is it, while 
+the second is the name of the command, spell, or object.  The second argument 
+is not used for rooms.  The default setting is for rooms, so if you ommit 
+the arguments it will send the report to the room you are standing.
+.EP
+.SP 5 5
+The error message is recorded in one central log file and a log file specific 
+to the whatever you are using the command for.  
+.EP
+.SP 5 5
+To report errors in rooms just stand in them and use the command.
+.EP 
+.SP 5 5
+To report errors in objects be VERY SPECIFIC.  For example if you got three
+swords, don't use 'bug object sword' because the error report will go to the 
+first sword even if it's not the one with the error.  Instead, make sure 
+which one is giving you the error and use something like 'bug object sword 2' 
+or you can put it's full name, ie 'bug object sword of doom'.
+.EP
+.SP 5 5
+To report errors in commands and spells, just put the name of the command, or
+spell as the second argument.
 .EP
 
-Example
+Examples:
+  
+  1
 .SI 5
-bug The sword of slaying prints 0 every now and then during combat.
+bug object sword
+Ok, enter your text.  ** on a line by itself to exit.
+1 ] The sword of slaying prints 0 every now and then during combat.
+2 ] **
+1 lines - Choose from IDLMCESQ H for help. s
+Quiting and saving.
 
-bug The dwarf says I must give him a torch, I did and he didn't do anything.
+bug object dwarf
+Ok, enter your text.  ** on a line by itself to exit.
+1 ] The dwarf says I must give him a torch, I did and he didn't do 
+2 ] anything.
+3 ] **
+2 lines - Choose from IDLMCESQ H for help. s
+Quiting and saving.
 
-bug I have given another torch to the dwarf and this time it printed a Your sensitive mind ... at me.
+bug object dwarf
+Ok, enter your text.  ** on a line by itself to exit.
+1 ] I have given another torch to the dwarf and this time it printed a 
+2 ] Your sensitive mind ... at me.
+3 ] **
+2 lines - Choose from IDLMCESQ H for help. s
+Quiting and saving.
+.EI
+
+  2
+.SI 5
+> drop pickaxe
+what?
+bug command get
+
+> cast stat shout
+incorect number of arguments to find_match
+bug spell stat shout
+
+> look at pickaxe
+Illegal LHS
+bug object pickaxe
+
+if in the above case you got 2 pickaxes and the error is only in the 
+second one then use
+bug object pickaxe 2
+
+> north
+Error loading /d/ram/mines/shaft12/part3
+bug room
+
+or just
+bug 
 .EI

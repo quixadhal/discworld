@@ -11,6 +11,7 @@ call - The base calling function.
 Syntax
 .SI 5
 call function(args) object
+call obvar=function(args) object
 ;object->function(args)
 .EI
 
@@ -19,7 +20,9 @@ Description
 The call command allows you to call functions on objects.  This is a very
 powerful command and one of the most useful debug commands.  The
 function name is fairly explanitory, it is something like "short" or
-"long".  The args are very flexible and I will now give you a description
+"long".  If the obvar assignment is used and the result of the call
+is an object pointer, then the obvar specified will now point to that
+object.  The args are very flexible and I will now give you a description
 of all the forms that the arguments to the functions can take.  Of course
 all object references are done through wiz_present.
 
@@ -67,5 +70,5 @@ Examples
 
 See also
 .SI 5
-wiz_present.
+wiz_present, object.
 .EI

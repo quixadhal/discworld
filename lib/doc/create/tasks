@@ -1,0 +1,71 @@
+.DT
+Tasks
+Discworld Creator Help
+Tasks
+
+Name
+.SI 5
+Tasks - Processes used to develop skills by using those skills
+.EI
+
+Description
+.SP 5 5
+A task is an action that can be attempted by a player, the success 
+or failure of the attempt being determined by the difficulty of the
+task compared with the player's bonuses for some relevant set of
+skills.  If the attempt succeeds but could have failed, there is a
+chance that the player is rewarded with a level in one or more of
+the skills used in attempting the task.
+.EP
+
+Implementation
+.SP 5 5
+The difficulty of the task is the skill bonus at which the player first
+stands a chance of succeeding - below this bonus the attempt will always
+fail.  There is then some margin above this difficulty where failure is
+still possible, but with the chance of failure falling off as the
+player's bonus increases.  Above this margin, the player has mastered
+this particular task and any attempt will always succeed.  A graph of
+the probability of succeeding at an attempt of the task versus the
+player's bonus would look like:
+.EP
+
+.SI 10
+Chance of      /|
+success         |
+         100% __|            ______..
+                |           /
+                |          /
+                |         /
+           0% __| .._____/
+                |______________________      
+                         |   |        /   Player's bonus
+                         |   |
+                difficulty   difficulty + margin
+.EI
+
+.SP 5 5
+The possibility of gaining a level from performing the task comes
+in the margin where the attempt could succeed or fail.  A graph
+of the chance of gaining a level versus the player's bonus would
+look like:
+.EP
+
+.SI 10
+Chance of      /|
+gaining         |
+        upper __|        .
+                |        |\
+                |        | \
+                |        |  \
+           0% __| .._____|   \_____..
+                |______________________
+                         |   |        /   Player's bonus
+                         |   |
+                difficulty   difficulty + margin
+.EI
+
+See also
+.SP 5 5
+artifacts, skills, obj.handlers.taskmaster
+.EP

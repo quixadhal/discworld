@@ -21,6 +21,15 @@ dest on quit - If this is set to a non zero value, the object will be
 smithy       - Set this to 1 in rooms which are smithys.
  
  
+watertight  - Set on all the containers which can hold liquids.
+complete weight - If this property is set on an object the function
+                  query_complete_weight() is used instead of query_weight()
+                  when doing add_weight...  Used to stop people putting
+                  sacks in sacks and getting even more they can carry.
+boyant      - If this is set then the object is assumed to be boyant and
+              will rise to the surface instead of falling to the bottom.
+fragile     - Sets the weight at which the object has a chance of breaking
+             in a container.
 String - return their value of type string if they exist, 0 otherwise.
  
  

@@ -1,0 +1,206 @@
+Name
+.SI 5
+/obj/wand.c - Inheritable basic wand object
+.EI
+
+Syntax
+.SI 5
+zap <wand> at <object>
+zap <object> with <wand>
+.EI
+
+Description
+.SP 5 5
+/std/wand.c is a basic wand object that may be inherited by another
+object or cloned and then set up with calls.  In either case, it
+should be set up as any object (with name, short and long descriptions,
+adjectives and so on) and then the number of charges, the level and
+the zapper must be set for it.  The number of charges is the number of
+times remaining that the wand may be used.  The level of the wand
+is the minimum level in the wands skill which a player must have in
+order to stand a chance of using the wand - see the general
+documentation on artifacts for more information on this.  The zapper is
+the file name of the object where the details of the events following
+the triggering of the wand are stored - this object may be the wand
+itself or it may be another object (examples of each are given below).
+The zapper object must contain the following functions:
+.EP
+
+.SI 10
+
+string query_wand_name();
+void zap( object thing, object person, object wand );
+.EI
+
+.SP 5 5
+The function query_wand_name() marks the zapper object as a valid
+zapper.  Players who know this type of wand will see the long
+description of the wand prepended by "You recognise the <wand> to be a
+<wand name>." and it is also used by identification spells.  The
+function zap() is called on the zapper object when the wand is
+successfully used and the variables passed to it are:
+.EP
+
+.SI 10
+
+thing  - the object on which the wand is being zapped
+person - the person zapping the wand
+wand   - the wand being zapped
+.EI
+
+.SP 5 5
+It is recommended that the function zap() either simply make a call_out
+to another function, passing on the three variables, so that the wand's
+effects take place after the player has received the success message or
+that the function call add_succeeded_mess() on the player to replace the
+default "You zap <wand> at <object>." message.  The zapper object may
+also have the following function:
+.EP
+
+.SI 10
+
+int failed_zap( object thing, object person, object wand );
+.EI
+
+.SP 5 5
+which is called in the event that the wand backfires.  If it returns 0,
+a default message "You zap <wand> at <object> but nothing happens!" is
+generated; returning a non-zero value therefore requires that the
+function call add_succeeded_mess() on the player.
+.EP
+
+Example 1: Wand of striking
+         - zapper object is the wand itself.
+.SI 5
+
+inherit "/obj/wand";
+
+void setup() {
+  set_name( "wand" );
+  set_short( "pine wand" );
+  add_adjective( "pine" );
+  set_long( "The wand is a smooth piece of pine, about two feet "+
+      "long, which tapers slightly from one end to the other.\n" );
+  set_weight( 1 );
+  set_charges( 10 );
+  set_level( 20 );
+  set_zapper( file_name( this_object() ) );
+} /* setup() */
+
+string query_wand_name() { return "wand of striking"; }
+
+void strike( object thing, object person, object wand ) {
+  int damage;
+  if ( !thing || !person )
+    return;
+  if ( !living( thing ) ) {
+    tell_object( person, "The "+ (string)wand->short() +" trembles "+
+        "violently.\n" );
+    return;
+  }
+  damage = 50 + 4 * random( 50 );
+  damage -= (int)thing->query_ac( "blunt", damage );
+/* For testing purposes only! PKer check needed here */
+  thing->adjust_hp( -damage );
+  thing->attack_by( person );
+  tell_object( person, "The "+ (string)wand->short() +" hits "+
+      (string)thing->short() +".\n" );
+  tell_object( thing, capitalize( (string)person->short() ) +"'s "+
+      (string)wand->short() +" hits you!\n" );
+  tell_room( environment( person ),
+      capitalize( (string)person->short() ) +"'s "+
+      (string)wand->short() +" hits "+ (string)thing->short() +
+      ".\n", ({ person, thing }) );
+} /* strike() */
+
+void zap( object thing, object person, object wand ) {
+  call_out( "strike", 0, thing, person, wand );
+} /* zap() */
+.EI
+
+Example 2: Wand of artifact probing
+         - wand is clone, zapper object is separate.
+.SI 5
+
+In code for, say, a shop:
+
+  object wand;
+  ...
+  wand = clone_object( "/obj/wand" );
+  wand->set_name( "stick" );
+  wand->set_short( "slim stick" );
+  wand->add_adjective( "slim" );
+  wand->set_long( "The stick is a slender, foot-long piece of wood, "+
+      "crudely shaved and with the bark remaining in places.\n" );
+  wand->set_weight( 1 );
+  wand->set_charges( 6 );
+  wand->set_level( 10 );
+  wand->set_zapper( "/obj/handlers/artifact_handler" );
+  ...
+
+In /obj/handlers/artifact_handler:
+
+string query_wand_name() { return "wand of artifact probing"; }
+
+void diagnose_artifact( object thing, object person, object wand ) {
+  if ( !thing || !person )
+    return;
+  if ( thing->query_magic_wand() ) {
+    tell_object( person, capitalize( thing->short() ) +" is a level "+
+        (int)thing->query_level() +" magic wand.  It has "+
+        (int)thing->query_charges() +" charge"+
+        ( (int)thing->query_charges() == 1 ? "" : "s" ) +
+        " remaining.\n" );
+    return;
+  }
+  tell_object( person, "There doesn't seem to be anything special "+
+      "about "+ (string)thing->short() +".\n" );
+} /* diagnose_artifact() */
+
+void zap( object thing, object person, object wand ) {
+  call_out( "diagnose_artifact", 0, thing, person, wand );
+} /* zap() */
+.EI
+
+Example 3: Wand of light
+         - zapper object is the wand itself.
+.SI 5
+
+inherit "/obj/wand";
+
+void setup() {
+  set_name( "wand" );
+  set_short( "balsa wand" );
+  add_adjective( "balsa" );
+  set_long( "The wand is a soft piece of balsa, about a foot long "+
+      "and an inch in diameter.  A thin groove spirals around it from "+
+      "one end to the other.\n" );
+  set_weight( 1 );
+  set_charges( 3 );
+  set_level( 75 );
+  set_zapper( file_name( this_object() ) );
+} /* setup() */
+
+string query_wand_name() { return "wand of light"; }
+
+void zap( object thing, object person, object wand ) {
+  thing->adjust_light( 5 );
+  person->add_succeeded( thing );
+  person->add_succeeded_mess( wand, "$N $V $D at $I.\nA pulse of "+
+      "light leaves $D and envelopes $I.\n", ({ thing }) );
+} /* zap() */
+
+int failed_zap( object thing, object person, object wand ) {
+  thing->adjust_light( -5 );
+  person->add_succeeded( thing );
+  person->add_succeeded_mess( wand, "$N $V $D at $I.\nA pulse of "+
+      "darkness leaves $D and envelopes $I.\n", ({ thing }) );
+  return 1;
+} /* failed_zap() */
+.EI
+
+See also
+.SP 5 5
+add_succeeded, add_succeeded_mess (explains the meaning of $N, $V,
+etc.), artifacts
+.EP

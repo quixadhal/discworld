@@ -1,0 +1,65 @@
+.DT
+set_respond_to_with
+Discworld monster help
+set_respond_to_with
+
+Name
+.SI 5
+set_respond_to_with - Responsive monster code.
+.EI
+
+Syntax
+.SI 5
+void set_respond_to_with(mapping bing);
+.EI
+
+Description
+.SP 5 5
+This function allows you to fairly easily set up monsters that respond
+to things people say.  It works fairly simply, you give it a array
+containing words on which to respond and a command to do when it succeeds.
+The command to do when it succeeds can also be an array, if this is the
+case then it will randomly choose one of the members and do that.  If
+it is just a string, it does it as a command.  If it starts with a #
+it calls that function on the monster.  The function is called with the
+object doing the action as the paramter.
+
+The responses also pick up soul commands.  The verb of the soul command
+is preceded by an @.  This is to distinguish it from normal text.
+The argument to the soul command.  Like brightly or happily or whatever
+is then passed to the array as well.  It is preceeded by a #.
+
+Says have the special sequence @say at the start and tells have @tell
+at the start.
+
+The matched strings go in order.  So the earlier ones need to matched first
+in the string and ones after it must follow it.  This will make more sense
+later I am sure :)
+
+If one of the elements to match is an array, then it will try and match
+and of the elements of the array.
+
+The way the thing to match and what to do once something is matched is
+passed to the function is like this, ([thing_to_match:thing_to do,...])
+
+In the output strings, the sequences $hname$ and $hcname$ replaced with
+the object doing the actions name and capitalised name respecively.
+.EP
+
+Examples:
+.SI 5
+set_respond_to_with(
+([
+({ "hello", "sailor" }) : "smile $hname$",
+({ ({ "@kick", "@punch", "@jump" }), "sailor" }) : ({ "kick $hname$",
+                                                      "glare $hname",
+                                                      "punch $hname",
+                                                      "jump $hname",
+                                                      "slap $hname", }),
+ ]));
+.EI
+
+See also
+.SP 5 5
+add_respond_to_with
+.EP

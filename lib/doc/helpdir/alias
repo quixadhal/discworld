@@ -22,7 +22,7 @@ Description
        The alias comand has three different formats.  The first format,
 alias on a line by itself, will show all your currently defined aliases
 in a nice formated output.  The second format alias with a name after it
-wwill show you what you have defined name kto be be.  The third format,
+will show you what you have defined name to be be.  The third format,
 alias <name> <definition> will set name to the definition you have
 passed to it.
 .EP
@@ -50,9 +50,9 @@ $1*$	will be replaced with the all the command line from the first agument inclu
 $*2$	will be replaced with all the command line up to and includeing the second argument.
 $arg:frog$	will be replaced with the argument to the alias or if none is defined will be replaced with frog
 $arg1:frog$	will be replaced with the 1st comand line argument (if it exists) or if none is give is replaced with frog.
-$ifarg:c1$else$c2~$	pretty obvious i suppose
+$ifarg:c1$else$c2~$    pretty obvious.
 $ifarg2:c1$else$c2~$	as above.
-;	are expanded out to being equivilant to pressing return.
+;       will insert a carriage return into the line.
 \;	will insert a ; into the line.
 .EO
 

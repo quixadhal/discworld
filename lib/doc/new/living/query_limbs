@@ -1,0 +1,31 @@
+.DT
+query_limbs
+Discworld living help
+query_limbs
+
+Name
+.SI 5
+query_limbs - Returns the names of the limbs;
+.EI
+
+Syntax
+.SI 5
+string *query_limbs();
+.EI
+
+Description
+.SP 5 5
+Returns the name of the limbs which the current player is useing.  Indexs
+into this are used by the set_hold and set_unhold functions.
+.EP
+
+Examples:
+.SI 5
+write("You have "+query_multiple_short(this_player()->query_limbs())+
+      " limbs.\n");
+.EI
+
+See also
+.SP 5 5
+set_hold, set_unhold, query_holding, query_weapons, query_no_limbs
+.EP

@@ -1,0 +1,52 @@
+.DT
+query_multiple_short
+Discworld simul_efun help
+query_multiple_short
+
+Name
+.SI 5
+query_multiple_short - Produces nice messages.
+.EI
+
+Syntax
+.SI 5
+string query_multiple_short(mixed *obs);
+.EI
+
+Description
+.SP 5 5
+This function takes an array of objects/strings and other things, processes
+them to create a nice output string along the lines of "bing, blue and green".
+Each element of the array is processed seperately.  If the element is
+an object then the function pretty_short is called on the object.  If
+this returns a string then this is used as the objects short.  If it
+returns an array, then all of the return values are used as the objects
+short.  The array addition was done to handle money.  If the element is
+a string, then the string itself is used as the short.  If the element
+is an array, then the first element is used as the short description
+and the second element is used as the object.
+
+When a plural is tryed, it first checks to see if there is an object
+associated with the short, if not, it uses the efun pluralize to
+pluralise it.  Other wise it calls the function pretty_plural to
+get the plural.
+
+If the return value of the do_verb function is non intergral in add_command
+then this value is substituted in the multiple short array instead of
+the object in question.
+.EP
+
+Examples:
+.SI 5
+obs = all_inventory(this_object());
+write("You bingle wop "+query_multiple_short(obs)+".\n");
+say("You bingle wop "+query_multiple_short(obs)+".\n");
+
+bing = ({ "red", "green", "blue", "yellow", "red" });
+write(query_multiple_short(bing));
+.EI
+
+See also
+.SP 5 5
+add_command, query_num
+.EP

@@ -1,0 +1,45 @@
+.DT
+add_succeeded
+Discworld tmp help
+add_succeeded
+
+Name
+.SI 5
+add_succeeded - Adds a succeeded object.
+.EI
+
+Syntax
+.SI 5
+void add_succeeded(object ob);
+void add_succeeded(object *ob);
+.EI
+
+Description
+.SP 5 5
+Adds an object into the succeeded array on the player object.  If an object
+is set as succeeded then it is used to fill in the blanks when the
+default success message is generated, and removed when the default fail
+message is generated.  Please note that if you are using custom messages
+ie: add_succeeded_mess and add_failed_mess, the indirect objects need
+to be passed as a seperate parameter, and the default ones used from
+here will be of little use.
+.EP
+
+Examples:
+.SI 5
+int do_throw(object *in_dir) {
+  int i;
+
+  for (i=0;i<sizeof(in_dir);i++)
+    if (living(in_dir[i])) {
+      this_player()->add_succeeded(in_dir[i]);
+      return 1;
+    }
+  return 0;
+} /* do_dip() */
+.EI
+
+See also
+.SP 5 5
+add_command, add_failed_mess, add_succeeded_mess
+.EP

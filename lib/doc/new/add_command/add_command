@@ -1,0 +1,125 @@
+.DT
+add_command
+Discworld creator help
+add_command
+
+Name
+.SI 5
+add_command - More general interface to object referenceing.
+.EI
+
+Syntax
+.SI 5
+void add_command(string verb, object ob, string pattern)
+void add_command(string verb, object ob, string *patterns)
+.EI
+
+Description
+.SP 5 5
+Add command!!!  My favourite command.  How to use it.  This is
+what is used to drive all the 'read sign' things and so on.  This
+coupled with the tempory_items in rooms makes things very cute.  Ok, how
+to call add_command and a quick description of what it does.
+
+Add_command is sort of like add_action in that it defines something you
+can do.  The difference with add_command is that you need to have an
+object to reference.  So you could not do the command 'say' using
+add_command because there are no object references involved.  However
+you can do read, etc because you have to read something.  The object
+passed is the object upon which the verb will be defined, which object
+you wish to be called when the verb succeeds.  In most cases this will
+be this_object, but you can do cute things....  The pattern varible is
+string something like the form "%D %p %I", or "%I %p %D".  WHat does all
+this gobbledy gook mean?  Well, %D means direct object.  This is the
+object that is directly referenced, eg 'read book' book is the direct
+object.  In 'pour water into frog' water is the direct object and frog
+the indirect object.  The %p is a preposition, this is from
+parse_command and in fact the things are passed almost directly to
+parse_command so look at the docs on parse_commad for a more complete
+explination of the other options.  When a verb is matched and the object
+matched it calls a function do_verb(object *in_dir, Params...) on the
+object.  ie do_read().  In cases where you only have a direct object
+you do not need to check anything in the routine.  If this fucntion
+returns 0, the action is considered to have failed.  If it returns 1 or
+a string the action has suceeded.  If it returns a string it uses this
+for the name in the mulitple short.  For example a flower with a note
+attached as one object, you get the do_read proceedure to return "note";
+
+For a more complete list of things you can do with add_command look
+at the documentation on parse_command.  Some common useful things to
+know.  If you wish to have text in your add_command statement, for
+instance 'open book to page 10', you need to put ''s around the
+words in the pattern. ie
+.EP
+.SI 5
+this_player()->add_command("open", "$D 'to' 'page' %d", this_object());
+.EI
+.SP 5 5
+If instead of putting ''s around the words you put ['s around the words
+you can make the words optional.
+
+If the function do_verb does not exist on the object in question, the
+function command_control is called on the object instead with the
+same paramaters as do_verb but, the first paramter is the verb and
+all the other parameters are shuffled down one.
+
+A though description of the paramaters passed to the function calls.
+The do_verb command is call with these paramaters:
+.EP
+.SI 5
+int do_verb(object *in_dir, string direct, string indirect, mixed *args,
+            string format);
+
+A description of each argument follows:
+.EI
+.SO 10 10 -25
+	in_dir	The indirect objects.  These are the objects matched with the %I parameter in the format.
+	direct	The string which the direct objects matched on.
+	indirect	The string which the indirect objects matched on.
+	args	The args as returned from parse_command.  This is useful if you have imbeded some information in the format string.
+	format	The format string which is currently being passed.  YOu can use this to haver several different format strings for the same object that do slightly different things.
+.EO
+
+Other notes:
+.SI 5
+If no pattern is give "%D" is assumed.
+.EI
+
+Example of usage.
+.SI 5
+inherit "/std/object";
+
+void setup() {
+  set_name("rose");
+  set_short("nice red rose");
+  add_adjective( ({ "red", "nice" }) );
+  set_long("A lovely full stemed red rose.  It is slim and slender "+
+           "reminding you of a beatiful a women.\nIt has a small note "+
+           "attached.\n");
+} /* setup() */
+
+void init() {
+  this_player()->add_command("read", this_object());
+  this_player()->add_command("present", this_object(), "%D to %I");
+} /* init() */
+
+string do_read() {
+  write("The note says: To Khaos with love fro Pinkfish.\n");
+  return "note";
+} /* do_read() */
+
+int do_present(object *obs) {
+  int i;
+
+  for (i=0;i < sizeof(obs) && !living(obs[i]);i++);
+  if (i == sizeof(obs))
+    return 0;
+  if (this_object()->move(obs[i]))
+    return 0;
+  this_player()->add_succeeded(obs[i]);
+  return 1;
+} /* do_present() */
+.EI
+
+See also:
+  add_action

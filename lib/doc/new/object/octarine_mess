@@ -1,0 +1,36 @@
+ 
+octarine_mess             Discworld object help                octarine_mess
+
+Name
+     octarine_mess - defines the octarine description of things.
+
+Syntax
+     add_property("octarine_mess", < description string >);
+
+Description
+     Octarine descriptions can only be seen by creatures with enough octagons
+     in their eyes. In functional terms this means creatures that return 1 
+     from query_see_octarine will get the description string specified above
+     appended to the normal description of the object. No CR needs to be 
+     specified, but a "." should be if required.
+
+     The octarine_mess property can be set on rooms or objects.
+
+Example
+
+     set_short("crystal ball");
+     set_long("The ball is made of finest crystal, and refracts the light in "+
+              "strange ways.\n");
+     add_property("octarine_mess", "Octarine light seeps around the "+
+              "ball as if it were a magnet.");
+
+  (with query_see_octarine)
+
+     look at crystal ball
+
+     The ball is made of finest crystal, and refracts the light in strange ways.
+     Octarine light seeps around the ball as if it were a magnet.
+
+
+See also
+     query_see_octarine, set_enchant

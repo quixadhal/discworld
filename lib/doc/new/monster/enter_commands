@@ -1,0 +1,20 @@
+When NPCs enter a room, they process a list of commands, defined
+through the function:
+
+   int add_enter_commands( string command|string *commands )
+
+with the support functions:
+
+   string *query_enter_commands()
+   int reset_enter_commands()
+
+These commands will be submitted beginning 1 second after entering
+the new room, with a gap of 2 seconds between each one. If a "command"
+begins with #, the function with that name (minus the #) is called
+on the NPC instead.
+
+For example:
+
+   thing->add_enter_commands( ({ "get all", "drop corpses", "hide" }) );
+
+   add_enter_commands( "#check_for_rats" );
