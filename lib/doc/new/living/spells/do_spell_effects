@@ -1,0 +1,26 @@
+.DT
+do_spell_effects
+Discworld spells help
+do_spell_effects
+
+Name
+.SI 5
+do_spell_effects - Does the spell effects.
+.EI
+
+Syntax
+.SI 5
+int do_spell_effects(object ob);
+.EI
+
+Description
+.SP 5 5
+This is the function called from the heart_beat of the creature with
+the spell effects.  It updates the number of heart beats of the effect
+and deletes it if nessessary as well as calling the required functions.
+.EP
+
+See also
+.SP 5 5
+query_effect, add_spell_effect, remove_spell_effect
+.EP

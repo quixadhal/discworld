@@ -1,0 +1,158 @@
+Inheritance map for /std/room
+ 
+/std/room +
+          |
+          +--- /std/basic/desc
+          |
+          +--- /std/basic/print_object
+          |
+          +--- /std/basic/extra_look
+          |
+          +--- /std/basic/property
+          |
+          +--- /std/basic/cute_look
+ 
+/std/basic/desc         (see /std/object)
+/std/basic/print_object (see /std/object)
+/std/basic/extra_look   (see /std/container)
+/std/basic/property     (see /std/object)
+/std/basic/cute_look    (see /std/container)
+ 
+/std/room
+string expand_alias(string)
+                Expands the string given the internal room aliases.  If nothing
+                can be done it returns the string.
+string query_dirs_string()
+                Figures out the string used to print the directions.  This will
+                always return a string.  If however it does not set the string
+                internaly to the room it will regenerate this every time.  The
+                reason it is regenerated every time is that you can set up
+                exits so that it calls a function to see if they are obvious
+                or not for each player that enters the room.
+void calc_co_ord()
+                This trys to calculate the co-ordinate of the room based on
+                the co-ordinatyes of the rooms sourounding it.  Use this
+                if you wish to try and force the room to actually have a
+                co-ordinate.
+string *query_direc()
+                Returns the chopped direc array.  This conatins just the
+                first words of the directions.  Cause all directions can
+                be set as more than one word (ie enter town) this is
+                used in init so that we dont calculate it every time.
+mixed *query_dest_dir()
+                And old function that is taken from the original 2.4.5
+                room.c.  This returns an array of the format
+                ({ direc, dest, direc2, dest2 }).  Is very useful for
+                some things.
+int add_exit(string direc, mixed dest, string type)
+                Adds an exit to the room with the direction of direc and
+                a destination of dest of type type ;).  ie
+                add_exit("north", "/d/am/am/mendeddrum", "door");
+                The standard types are taken from /std/room_handler.  See that
+                file for more details on the standard exit types.  Default
+                types inculde door, road, path, corridor, stair
+                The function returns a 0 if it failed to add the exit.
+int modify_exit(string direc, mixed params)
+                This modifies the exit in the direction direc.  This allows
+                you to do horribly clever things with the exits on rooms.
+                The params array is and array of the format
+                ({ type1, data1, type2, data2 ... })
+                the type paramaters are strings, they can be "function",
+                "message", "obvious", "size".  These can be set to the
+                values as outlined below. Example array is
+                ({ "message", "dissapears into the wall",
+                   "obvious", 0 })
+                That will make the exit give a message of
+                Pinkfish dissapears into the wall.
+                when the player goes that way. (NB a special message is
+                none) The obvious means that the exit doesnt show up in
+                the exit list. Paramaters and what they can be set to
+                Obvious - Sets weather or not the exit shows up in the
+                          exit list.  Can be set to 0 (doesnt show up) or
+                          1 (does show up).  If it is set to a string
+                          the function of that name is called on the room
+                          to determine if it is obvious or not.  If it is
+                          set to an array ({ ob, func }) the function func
+                          is called on the object ob to determine if it is
+                          or isnt obvious.
+                Function - This sets a function to be called when the
+                          person leaves in a certain direction.  If the
+                          function returns 0 they cant go that way.
+                          It can be set to a string or and array (as outlined
+                          above in Obvious)
+                Message - Can be set to a string.  This is passed to
+                          move_playe to be printed.
+                Enter   - The message printed when you enter the room
+                          Through this exit.
+                Size    - Sets the size of the exit.  This is used by horses
+                          and other things to see if they can fit through the
+                          door.  This can be set to a number or a string
+                          (function on the room) or an array (function on
+                          another object, see Obvious for more details).
+                Ok, the function returns a 1 if successful or a 0 on
+                failure.
+                For doors a few more parameters have been added to the
+                modify_exit call.
+                Undoor  - Zaps the door altogether.  Removes all of the
+                          door propertys.
+                Locked  - Sets the locked or unlocked status of the door.
+                Open    - Sets the open or closed status of the door.
+                Key     - The property set on the key used to open the
+                          door.  This defaults to "generic key".
+                Other   - Set the id of the door that we talk to on
+                          the other side for the opening and closing
+                          events.
+                Difficulty - How hard it is to lock pick this lock.
+                Open desc - The long of the door when it is open.
+                Close desc - The long of the door when it is closed.
+                Open long - The long of the door when it is open.
+                Close long - The long of the door when it is open.
+
+int remove_exit(string direc)
+                Trys to remove the exit direc from the room.  returns a
+                1 if it succeded, or a 0 on failure.
+int query_exit(string direc)
+                Returns 1 if the exit exists and 0 if it doesnt.
+int query_size(string direc)
+                Returns the size of the specified exit.
+int do_exit_command(string str)
+                This is the function that handles all the directions for
+                the room.  This is called every time someone goes south/north
+                or whatever.
+int add_item(mixed str, string desc, int no_plural)
+                The no_plural is optional.  If you set this to one it
+                does not auto-maticly add on the plural of the items
+                name as well.
+                Adds an item to the room. Eg
+                add_item("small hairy frog", "A small hairy frog.\n");
+                add_item( ({ "Yellow life saver", "lifesaver" }),
+                         "A yellow and happy life saver.\n");
+                > look at frog
+                A small hairy frog.
+                > look at life saver
+                A yellow and happy life saver.
+                > look at lifesaver
+                A yellow and happy life saver.
+                Returns a 1 on success and 0 on failure.
+                PS word of advice, put lots of these in your room.  If
+                you can see it in the long, make an item for it.  If
+                you describe another thingy in an item, also make an
+                item for that too.
+int remove_item(string str)
+	        Is currently too hard to implement.  Being ignored.
+int modify_item(string str, string desc)
+                Modifys the description of the item.
+int add_alias(string str, mixed name)
+                You can alias exit directions.
+                ie
+                add_alias("north", ({ "womble", "bongle" }));
+                now by typing womble or bongle from the room you will go
+                in the same direction as north.
+int remove_alias(string str)
+                removes the alias from the list of aliases.
+                returns 1 on success and 0 on failure.
+int modify_alias(string str, string name)
+                Modifies the alias.
+
+See also
+    std.object

@@ -1,0 +1,27 @@
+.DT 
+init_command 
+Discworld monster help 
+init_command 
+
+Name
+.SI 5
+init_command - Delayed command.
+.EI
+
+Syntax
+.SI 5
+varargs void init_command(string com, int tim);
+.EI
+
+Description
+.SP 5 5
+Does the specified command after a delay of tim seconds.  ie does
+a call_out of that many seconds.  This is used both to stop over
+evaluation at the creation of a monster and to delay commands.
+.EP
+
+See also
+.SP 5 5
+do_command
+.EP
+

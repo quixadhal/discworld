@@ -1,0 +1,36 @@
+.DT
+add_hidden_object
+Discworld room help
+add_hidden_object
+
+Name
+.SI 5
+add_hidden_object - Hidden objects in rooms.
+.EI
+
+Syntax
+.SI 5
+void add_hidden_object(object ob);
+.EI
+
+Description
+.SP 5 5
+This puts a hidden object into a room.  A hidden object is an object
+that exists in the room as far as all the find_match calls go.  So,
+for look at's and so on, but does not actually exist in the room so
+it does not show up in the inventory when the player does a look.
+This is the method used for putting signs and doors into rooms, that
+actually have shorts and you can do things to, but do not show up
+in the inventory.  The function init is also called on these objects
+when init is called in the room.  The only thing you cannot put in
+your init function is an add_action.  You can however define up bunches
+of add_commands...
+
+If this sounds complicated.  Think of it as an object that IS in the room,
+but you cannot see it.
+.EP
+
+See also
+.SP 5 5
+remove_hidden_object, query_hidden_objects
+.EP

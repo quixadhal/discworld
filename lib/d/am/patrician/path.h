@@ -1,0 +1,6 @@
+#define ROOM "/d/am/patrician/"
+#define CITYROOM "d/am/am/cityroom"
+#define CHAR ROOM+"chars/"
+#define FGUILD "/d/am/fighters/"
+#define POST_OFFICE "/d/am/am/post"
+#define ITEM "/d/am/am/items/"

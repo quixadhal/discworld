@@ -1,0 +1,28 @@
+.\"append a message to a log file
+
+.DT
+log_file
+Discworld driver help
+log_file
+
+Name
+.SI 5
+log_file() - append a message to a log file
+
+.EI
+Synopsis
+.SI 5
+void log_file(string file, string message);
+
+.EI
+Description
+.SP 5 5
+Append a message to a log file.  The log directory is to be specified
+in the runtime configuration file.  The log directory is automatically
+prepended to the filename.
+
+.EP
+See also
+.SI 5
+write_file(3), write_bytes(3).
+.EI

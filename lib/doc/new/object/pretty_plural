@@ -1,0 +1,29 @@
+.DT
+pretty_plural
+Discworld object help
+pretty_plural
+
+Name
+.SI 5
+pretty_plural - Return a mangled plural.
+.EI
+
+Syntax
+.SI 5
+string pretty_plural();
+string *pretty_plural();
+.EI
+
+Description
+.SP 5 5
+This is used by the inventory printing routines of containers and rooms.  It
+was specifical written to handle money that needed to be displayed over
+several lines but only be one object.  The way this was achived was if
+pretty_plural returns an array then each of the elements of the array is
+considered to be a seperate object and displayed accordingly.
+.EP
+
+See also
+.SP 5 5
+pretty_short, set_short, set_main_plural
+.EP

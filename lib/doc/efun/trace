@@ -1,0 +1,24 @@
+.DT
+trace
+Discworld efun help
+trace
+
+int trace(int traceflags)
+.SP 5
+Sets the trace flags and returns the old trace flags.
+When tracing is on a lot of information is printed during execution.
+
+The trace bits are
+.EP
+
+The trace bits are
+.SC 3 5 -8
+	1	Trace all function calls to lfuns.
+	2	Trace all calls to call_other().
+	4	Trace all function returns.
+	8	Print arguments at function calls and return values.
+	16	Print all executed stack machine instructions (produces a lot of output!).
+	32	Enable trace in heart beat functions.
+	64	Trace calls to apply.
+	128	Show object name in tracing.
+.EI

@@ -1,0 +1,27 @@
+.DT
+adjust_max_hp
+Discworld living help
+adjust_max_hp
+
+Name
+.SI 5
+adjust_max_hp - adjusts the maximun hps.
+.EI
+
+Syntax
+.SI 5
+void adjust_max_hp(int mhp);
+.EI
+
+Description
+.SP 5 5
+This adjusts the maximun hps for the object.  The current hit points
+are scaled.  This means if you set the max hps to say 100 from 50
+the current hps were 25, when this function had finished the current
+hps would be 25.
+.EP
+
+See also
+.SP 5 5
+query_max_hp, adjust_max_hp, query_hp
+.EP

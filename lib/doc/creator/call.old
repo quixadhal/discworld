@@ -1,0 +1,22 @@
+Usage : ca*ll function(param,param,...,param) <object>
+
+call is an interface to calling functions on objects.  It is very flexible.
+The function is the name of the function you wish to call.  The parameters
+to the function can be integers, strings, or objects.  The strings do not
+need quotes around them unless there is an object in the room that responds
+to id(string) and you want to pass the string, not the object.  Integers are
+passed as integers.  Objects are specified by using a string with no quotes,
+and are found by using wiz_present().  For more information on wiz_present see
+/doc/creator/wiz_present().  Wiz_present is used for specifying objects in a
+manner that is useful for wizards.  The <object> parameter is also specified
+using wiz_present type syntax.
+
+Examples:
+
+call long() (pinkfish)
+
+call add_alias(big frog) /w/shadow/frog#423
+
+call move("/w/wibble/workroom") pinkfish
+
+call add_exit(out,/w/furball/workroom,plain) here

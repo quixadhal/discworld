@@ -1,0 +1,32 @@
+.DT 
+set_race 
+Discworld monster help 
+set_race 
+
+Name
+.SI 5
+set_race - Sets the name of the race.
+.EI
+
+Syntax
+.SI 5
+void set_race(string race);
+.EI
+
+Description
+.SP 5 5
+Sets the name of the race.  The name is used to look up the race
+object on the /std/race.c object when set_level is called.  The race
+name does not have to exist on this object however, it can be anything
+and will default to the standard race object in this case.  If you want
+specialised bits or things for your race.  Create a race object modeled
+off the ones in /std/races and ask one of the nice friendly high lords
+to install it for you.  There will (should) be a document on races
+and how to create them.  Real soon now.
+.EP
+
+See also
+.SP 5 5
+set_guild, set_level
+.EP
+

@@ -1,0 +1,95 @@
+The file system used by the mud is based on a unix file system and uses many
+of its features.
+
+The system is a hierarchy with the root being at the top.  The root is
+specified using the character '/'.
+
+The file system then has the concept of directories and files.  The files
+contain information and the directories can contain more files and directories.
+
+You have the concept of your current directory.  The root is a directory and to
+set your current directory to it, you would type 'cd /'.  After doing this,
+doing an ls would get you something like :
+
+ 371 LP_SWAP.3.bilbo.resmel.bhp.com.au
+  45 bilbo.resmel.bhp.com.au.debug.log
+   2 ACCESS.ALLOW            5 Makefile                1 NEWS
+   1 WELCOME                 1 WIZNEWS                 1 access.allow
+   8 doc/                   20 failsafe/              15 global/
+  13 include/               11 log/                   43 lpmud.log7
+  18 obj/                    2 open/                  26 players/
+  13 room/                   5 save/                  11 secure/
+  33 std/                    0 tmp/                   14 w/
+
+All of the names followed by '/' are directories.  To set your current directory
+to one of these directories, you would type cd <name> without the '/'.  As an
+example, we will take the room directory.  To cd into it, you would type
+
+cd room
+
+when you type ls now, you would get something like:-
+
+Dir of: /room/
+  16 DETAILS                 1 README                 85 am/
+  13 armours/               37 death/                  1 discworld.map
+  32 for/                    6 goa/                    6 ram/
+  19 treasures/             47 uu/                     1 void.c
+  12 weapons/
+
+Now you might want to get back to the root directory again.  There are two
+ways you can do this.  There exist two special directories.  These directories
+are '.' and '..'.  The '.' directory refers to the directory you are in.  The
+'..' directory refers to the one above you in the hierarchy.  To get back to the
+root directory, you could either type 'cd /' or 'cd ..'.  The reason that 'cd /'
+works is that you are specifying a global path.  Because you prepend the '/',
+the filename is taken as being specified from the root.  The reason the '..'
+works is that the root directory is one level above you in the hierarchy.
+If you wanted to get to the players directory from the /room/ directory, there
+are a number of ways you could do it.  Here are some:-
+
+cd ..
+cd players
+
+cd /
+cd players
+
+cd /players
+
+cd ../players
+
+All of these commands would work.  This is because you have two ways of
+specifying paths.  The first is relative.  This means you specify a path to
+get to where you want to go from where you currently are.  This is the done
+using the '..' characters.  You tell the mud to go out one directory and then
+in to the players directory.   You can do this in one step by putting a '/'
+between the two directories.  The other way to specify a path is to specify the
+absolute path.  This is done by putting a '/' at the start of the name.  After
+the '/' you specify each of the directories to take, seperating each of them
+with a '/'.  In this manner, you can specify any file in the file system, but
+if you have many directories, the name might get very long.  If your current
+directory was /w/furball/guild/code/test and you wanted to specify the file
+/w/furball/guild/code/test/test.c, you could do it by specifying test.c as the
+mud will always prepend your current path to file names.  If you wanted to
+specify the absolute filename, you would have to type
+/w/furball/guild/code/test/test.c which would get very annoying very quickly.
+
+Several commands exist to enable the manipulation of directories and files.
+
+First there is the mkdir and rmdir commands.  These are used to make new
+directories and remove them when no longer needed.  The rmdir command will let
+remove an empty directory.  The mkdir command will create a directory with the
+specified name.
+
+The cd command is used to negotiate your way around the directory structure.
+
+The cp and mv command allow you to copy and move files around in your
+directory.  You can move files or directories, but you can only copy files.
+The process of copying just makes an identical duplicate of the original file
+specified in a new file that you also specify.  The process of moving a file
+has much the same result except that rather than a new file being made, the
+old one is just moved to the new position.
+
+The rm command is similar to rmdir except that it is designed to be used on
+files, not directories.  It will remove unwanted files from the file system.
+Warning: Using this command destroys the file.  Any file that you rm is
+unrecoverable and gone forever.  Be careful using rm.

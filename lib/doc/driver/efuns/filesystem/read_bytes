@@ -1,0 +1,29 @@
+.\"reads a contiguous series of bytes from a file into a string
+
+.DT
+read_bytes
+Discworld driver help
+read_bytes
+
+Name
+.SI 5
+read_bytes() - reads a contiguous series of bytes from a file into a string
+
+.EI
+Synopsis
+.SI 5
+string read_bytes(string path, int start, int length);
+
+.EI
+Description
+.SP 5 5
+This function reads 'length' bytes beginning at byte # 'start' in the
+file named 'path'.  The bytes are returned as a string.  Note that
+(start + length) must not be past the end of the file or else read_bytes
+will fail.
+
+.EP
+See also
+.SI 5
+read_file(3), write_bytes(3)
+.EI

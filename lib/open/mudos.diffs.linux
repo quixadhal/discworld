@@ -1,0 +1,554 @@
+From:	ACS::BDE2161      30-JAN-1993 21:56:39.19
+To:	bde2161
+CC:	
+Subj:	diffs...mudOS
+
+Nntp-Posting-Host: gyda.ifi.uio.no
+Newsgroups: comp.os.linux,rec.games.mud.lp
+Path: tamsun.tamu.edu!cs.utexas.edu!qt.cs.utexas.edu!yale.edu!ira.uka.de!math.fu-berlin.de!news.netmbx.de!Germany.EU.net!mcsun!sunic!ugle.unit.no!aun.uninett.no!nuug!ifi.uio.no!okolbu
+From: okolbu@ifi.uio.no (Olav Kolbu)
+Subject: Re: MudOS and Linux (Diffs included!)
+Message-ID: <1993Jan24.175335.12724@ifi.uio.no>
+Keywords: mud, lpmud
+Sender: okolbu@ifi.uio.no (Olav Kolbu)
+Organization: Dept. of Informatics, University of Oslo, Norway
+References: <C12oBy.1J0@undergrad.math.waterloo.edu> <1993Jan19.014627.15983@wam.umd.edu> <1jfnc3INN61m@darkstar.UCSC.EDU> <1993Jan19.023131.18399@wam.umd.edu> <1993Jan21.171559.27470@ifi.uio.no>
+Date: Sun, 24 Jan 1993 17:53:35 GMT
+Lines: 534
+Originator: okolbu@gyda.ifi.uio.no
+Xref: tamsun.tamu.edu comp.os.linux:25320 rec.games.mud.lp:4960
+ 
+ 
+Hello there.
+ 
+The following are context diffs against the 0.9.14.14 version of MudOS
+to allow it to compile under Linux. I use kernel 0.99.3 and GCC
+2.2.2d7. Most combinations should work. When you have untarred the 
+source for mudos, put the file containing the diffs below in the 
+directory above the MudOS source and just type
+   patch < diffs.file
+If everything goes according to plan, you should just have to edit
+the options.h file to fit your local system and type make.
+You will get masses of warnings when compiling, mostly about GCC
+not managing to inline functions. Disregard these or fix it in
+config.h (add  '&& !defined(LINUX)' to line 74)
+ 
+Share and enjoy as PF would have said...
+ 
+				Olav Kolbu
+ 
+PS. Any good MudOS LPC coders looking for a place to code mail me.. ;-)
+ 
+---------> Snip here with something sharp <-------------------
+diff -rc 0.9.15/GNUmakefile mudos_linux/GNUmakefile
+*** 0.9.15/GNUmakefile	Wed Dec 16 08:10:33 1992
+--- mudos_linux/GNUmakefile	Wed Jan 20 20:47:26 1993
+***************
+*** 46,52 ****
+  #STRFUNCS=strfuncs.c
+  
+  # uncomment UALARM if your machine is missing ualarm()
+! #UALARM=ualarm.c
+  
+  # RS/6000 AIX: use this OSFLAGS line (required).
+  #OSFLAGS=-D_BSD
+--- 46,52 ----
+  #STRFUNCS=strfuncs.c
+  
+  # uncomment UALARM if your machine is missing ualarm()
+! UALARM=ualarm.c
+  
+  # RS/6000 AIX: use this OSFLAGS line (required).
+  #OSFLAGS=-D_BSD
+***************
+*** 65,71 ****
+  # it off.
+  #PROFILE_OFF=-DPROFILE_ON
+  # Uncomment this if you want to enable profiling of the driver
+! PROFIL=-pg -DPROFILING $(PROFILE_ON)
+  
+  # define this if you want (compiler) optimization enabled.
+  # *WARNING* using high levels of optimization (e.g. -O3) can cause some
+--- 65,71 ----
+  # it off.
+  #PROFILE_OFF=-DPROFILE_ON
+  # Uncomment this if you want to enable profiling of the driver
+! #PROFIL=-pg -DPROFILING $(PROFILE_ON)
+  
+  # define this if you want (compiler) optimization enabled.
+  # *WARNING* using high levels of optimization (e.g. -O3) can cause some
+***************
+*** 75,81 ****
+  # first is the safer, the second is the one likely to produce more
+  # improvement in driver speed (it uses GCC flags).
+  #
+! #OPTIMIZE=-O
+  #OPTIMIZE=-O2 -fomit-frame-pointer -fstrength-reduce
+  
+  # MIRE stuff
+--- 75,81 ----
+  # first is the safer, the second is the one likely to produce more
+  # improvement in driver speed (it uses GCC flags).
+  #
+! OPTIMIZE=-O
+  #OPTIMIZE=-O2 -fomit-frame-pointer -fstrength-reduce
+  
+  # MIRE stuff
+***************
+*** 96,113 ****
+  #PIPE=-pipe
+  
+  DEFINES=$(DEBUG) $(DEBUG_MACRO) $(DEBUG_NON_FATAL) $(OSFLAGS) $(MIRE)
+! CFLAGS= $(WARN) $(OPTIMIZE) $(PROFIL) $(STR) $(PIPE) $(DEFINES)
+  
+  # set CC=cc on a NeXT (or gcc if you have a newer version than the NeXT
+  # comes with) and to gcc on other machines (if possible)
+  # Note: at this time gcc (2.2.2) for HP doesn't implement varargs properly;
+  # if you have problems compiling on an HP, try using cc instead of gcc.
+! CC=cc
+  
+! CPP=cc -E
+  
+  # define this to be bison if you have it, and yacc otherwise
+! YACC=yacc
+  YFLAGS = -d
+  
+  # Add extra libraries here.
+--- 96,113 ----
+  #PIPE=-pipe
+  
+  DEFINES=$(DEBUG) $(DEBUG_MACRO) $(DEBUG_NON_FATAL) $(OSFLAGS) $(MIRE)
+! CFLAGS= $(WARN) $(OPTIMIZE) $(PROFIL) $(STR) $(PIPE) $(DEFINES) -DLINUX 
+  
+  # set CC=cc on a NeXT (or gcc if you have a newer version than the NeXT
+  # comes with) and to gcc on other machines (if possible)
+  # Note: at this time gcc (2.2.2) for HP doesn't implement varargs properly;
+  # if you have problems compiling on an HP, try using cc instead of gcc.
+! CC=gcc
+  
+! CPP=gcc -E
+  
+  # define this to be bison if you have it, and yacc otherwise
+! YACC=bison
+  YFLAGS = -d
+  
+  # Add extra libraries here.
+***************
+*** 185,191 ****
+  	@$(CPP) $(DEFINES) func_spec.c
+  
+  make_func: make_func.tab.c
+! 	$(CC) $< -DFUNC_SPEC=\"$(MAKE)\ list_funcs\" -o make_func
+  
+  make_malloc: $(OBJDIR)/make_malloc.o
+  	$(CC) -Iobj $(OBJDIR)/make_malloc.o -o make_malloc
+--- 185,191 ----
+  	@$(CPP) $(DEFINES) func_spec.c
+  
+  make_func: make_func.tab.c
+! 	$(CC) $< -DFUNC_SPEC=\"$(MAKE)\ list_funcs\" -DLINUX -o make_func
+  
+  make_malloc: $(OBJDIR)/make_malloc.o
+  	$(CC) -Iobj $(OBJDIR)/make_malloc.o -o make_malloc
+diff -rc 0.9.15/addr_server.c mudos_linux/addr_server.c
+*** 0.9.15/addr_server.c	Sat Dec 19 02:43:03 1992
+--- mudos_linux/addr_server.c	Wed Jan 20 20:48:22 1993
+***************
+*** 15,22 ****
+--- 15,24 ----
+  #include <sys/time.h>
+  #include <sys/socket.h>
+  #ifndef apollo
++ #ifndef LINUX
+  #include <sys/socketvar.h>
+  #endif
++ #endif
+  #ifdef _AIX
+  #include <sys/select.h>
+  #endif /* _AIX */
+***************
+*** 147,152 ****
+--- 149,157 ----
+    /*
+     * listen on socket for connections.
+     */
++ #ifdef LINUX
++ #define SOMAXCONN 5
++ #endif
+    if(listen(conn_fd,SOMAXCONN) == -1){
+      perror("init_conn_sock: listen");
+      exit(10);
+diff -rc 0.9.15/comm.c mudos_linux/comm.c
+*** 0.9.15/comm.c	Sat Dec 19 02:49:39 1992
+--- mudos_linux/comm.c	Wed Jan 20 20:50:32 1993
+***************
+*** 181,186 ****
+--- 181,189 ----
+    /*
+     * listen on socket for connections.
+     */
++ #ifdef LINUX
++ #define SOMAXCONN 5
++ #endif
+    if(listen(new_user_fd,SOMAXCONN) == -1){
+      perror("init_user_conn: listen");
+      exit(10);
+diff -rc 0.9.15/comm.h mudos_linux/comm.h
+*** 0.9.15/comm.h	Sat Dec 19 02:59:49 1992
+--- mudos_linux/comm.h	Wed Jan 20 20:49:22 1993
+***************
+*** 8,14 ****
+--- 8,16 ----
+  
+  #include <sys/socket.h>
+  #ifndef apollo
++ #ifndef LINUX
+  #include <sys/socketvar.h>
++ #endif
+  #endif
+  #ifdef _AIX
+  #include <sys/select.h>
+diff -rc 0.9.15/efunctions.c mudos_linux/efunctions.c
+*** 0.9.15/efunctions.c	Sat Dec 19 21:37:38 1992
+--- mudos_linux/efunctions.c	Wed Jan 20 20:51:25 1993
+***************
+*** 1264,1275 ****
+  	vec->item[LT_ZONE].u.number = 0;
+  #else /* BSD42 */
+  #if (defined(hpux) || defined(_SEQUENT_) || defined(_AIX) \
+! 	|| defined(SVR4) || defined(sgi))
+      if (!tm->tm_isdst) {
+          vec->item[LT_GMTOFF].u.number = timezone;
+          vec->item[LT_ZONE].u.string = string_copy(tzname[0]);
+      } else {
+! #if (defined(_AIX) || defined(hpux))
+          vec->item[LT_GMTOFF].u.number = timezone;
+  #else
+          vec->item[LT_GMTOFF].u.number = altzone;
+--- 1264,1275 ----
+  	vec->item[LT_ZONE].u.number = 0;
+  #else /* BSD42 */
+  #if (defined(hpux) || defined(_SEQUENT_) || defined(_AIX) \
+! 	|| defined(SVR4) || defined(sgi) || defined(LINUX))
+      if (!tm->tm_isdst) {
+          vec->item[LT_GMTOFF].u.number = timezone;
+          vec->item[LT_ZONE].u.string = string_copy(tzname[0]);
+      } else {
+! #if (defined(_AIX) || defined(hpux) || defined(LINUX))
+          vec->item[LT_GMTOFF].u.number = timezone;
+  #else
+          vec->item[LT_GMTOFF].u.number = altzone;
+diff -rc 0.9.15/file.c mudos_linux/file.c
+*** 0.9.15/file.c	Sat Dec 19 21:48:54 1992
+--- mudos_linux/file.c	Wed Jan 20 20:53:39 1993
+***************
+*** 4,10 ****
+   */
+  
+  #include <sys/types.h>
+! #if (defined(_SEQUENT_) || defined(hpux) || defined(sgi))
+  #include <sys/sysmacros.h>
+  #endif
+  #include <sys/stat.h>
+--- 4,10 ----
+   */
+  
+  #include <sys/types.h>
+! #if (defined(_SEQUENT_) || defined(hpux) || defined(sgi) || defined(LINUX))
+  #include <sys/sysmacros.h>
+  #endif
+  #include <sys/stat.h>
+***************
+*** 50,56 ****
+  #ifdef MSDOS
+  #define lstat stat
+  #else
+! #if !defined(hpux) && !defined(SVR4)
+  extern int lstat PROT((char *, struct stat *));
+  #endif
+  #endif
+--- 50,56 ----
+  #ifdef MSDOS
+  #define lstat stat
+  #else
+! #if !defined(hpux) && !defined(SVR4) && !defined(LINUX)
+  extern int lstat PROT((char *, struct stat *));
+  #endif
+  #endif
+***************
+*** 201,207 ****
+       *  Count files
+       */
+      for (de = readdir(dirp); de; de = readdir(dirp)) {
+! #if defined(M_UNIX) || defined(_SEQUENT_) || defined(SVR4)
+  	namelen = strlen(de->d_name);
+  #else
+  	namelen = de->d_namlen;
+--- 201,207 ----
+       *  Count files
+       */
+      for (de = readdir(dirp); de; de = readdir(dirp)) {
+! #if defined(M_UNIX) || defined(_SEQUENT_) || defined(SVR4) || defined(LINUX)
+  	namelen = strlen(de->d_name);
+  #else
+  	namelen = de->d_namlen;
+***************
+*** 228,234 ****
+      endtemp = temppath + strlen(temppath);
+      strcat(endtemp++, "/");
+      for(i = 0, de = readdir(dirp); i < count; de = readdir(dirp)) {
+! #if defined(M_UNIX) || defined(_SEQUENT_) || defined(SVR4)
+          namelen = strlen(de->d_name);
+  #else
+  	namelen = de->d_namlen;
+--- 228,234 ----
+      endtemp = temppath + strlen(temppath);
+      strcat(endtemp++, "/");
+      for(i = 0, de = readdir(dirp); i < count; de = readdir(dirp)) {
+! #if defined(M_UNIX) || defined(_SEQUENT_) || defined(SVR4) || defined(LINUX)
+          namelen = strlen(de->d_name);
+  #else
+  	namelen = de->d_namlen;
+***************
+*** 1103,1108 ****
+--- 1103,1111 ----
+      add_message("Fd  Device Number  Inode   Mode    Uid    Gid      Size\n");
+      add_message("--  -------------  -----  ------  -----  -----  ----------\n");
+  
++ #ifdef LINUX
++ #define FD_SETSIZE 256
++ #endif
+      for (i = 0; i < FD_SETSIZE; i++) {
+  	/* bug in NeXT OS 2.1, st_mode == 0 for sockets */
+  	if (fstat(i, &stbuf) == -1)
+diff -rc 0.9.15/func_spec.c mudos_linux/func_spec.c
+*** 0.9.15/func_spec.c	Wed Dec 16 08:01:24 1992
+--- mudos_linux/func_spec.c	Wed Jan 20 20:54:05 1993
+***************
+*** 120,126 ****
+  void write(mixed);
+  int write_bytes(string, int, string);
+  int write_file(string, string);
+! void dump_file_descriptors(void);
+  string *deep_inherit_list(object default: F_THIS_OBJECT);
+  string *inherit_list(object default: F_THIS_OBJECT);
+  
+--- 120,126 ----
+  void write(mixed);
+  int write_bytes(string, int, string);
+  int write_file(string, string);
+! void dump_file_descriptors();
+  string *deep_inherit_list(object default: F_THIS_OBJECT);
+  string *inherit_list(object default: F_THIS_OBJECT);
+  
+***************
+*** 198,204 ****
+  int socket_acquire(int, string, string, string);
+  string socket_error(int);
+  string socket_address(int);
+! void dump_socket_status(void);
+  
+  /*
+   * parser 'magic' functions, turned into efuns
+--- 198,204 ----
+  int socket_acquire(int, string, string, string);
+  string socket_error(int);
+  string socket_address(int);
+! void dump_socket_status();
+  
+  /*
+   * parser 'magic' functions, turned into efuns
+diff -rc 0.9.15/lint.h mudos_linux/lint.h
+*** 0.9.15/lint.h	Sun Dec 20 01:09:44 1992
+--- mudos_linux/lint.h	Wed Jan 20 21:03:31 1993
+***************
+*** 60,74 ****
+  void perror(char *);
+  #endif
+  
+! #if !defined(_SEQUENT_) && !defined(_AIX)
+  int read PROT((int, char *, int));
+  #endif /* !defined(_SEQUENT_) && !defined(_AIX) */
+! #if !defined(_AIX) && !defined(_SEQUENT_) && !defined(_YACC_)
+  void *malloc PROT((unsigned));
+  void *realloc PROT((void *, unsigned));
+  void free PROT((void *));
+  #endif
+! #if !defined(sgi) && !defined(hpux) && !defined(_AIX) && !defined(_SEQUENT_) && !defined(SVR4)
+  int mkdir PROT((char *, int));
+  #endif
+  int fclose PROT_STDIO((FILE *));
+--- 60,74 ----
+  void perror(char *);
+  #endif
+  
+! #if !defined(_SEQUENT_) && !defined(_AIX) && !defined(LINUX)
+  int read PROT((int, char *, int));
+  #endif /* !defined(_SEQUENT_) && !defined(_AIX) */
+! #if !defined(_AIX) && !defined(_SEQUENT_) && !defined(_YACC_) && !defined(LINUX)
+  void *malloc PROT((unsigned));
+  void *realloc PROT((void *, unsigned));
+  void free PROT((void *));
+  #endif
+! #if !defined(sgi) && !defined(hpux) && !defined(_AIX) && !defined(_SEQUENT_) && !defined(SVR4) && !defined(LINUX)
+  int mkdir PROT((char *, int));
+  #endif
+  int fclose PROT_STDIO((FILE *));
+***************
+*** 84,98 ****
+--- 84,102 ----
+  void srandom PROT((int));
+  #endif
+  #ifndef _SEQUENT_
++ #ifndef LINUX
+  int chdir PROT((char *));
+  #endif
++ #endif
+  int gethostname PROT((char *, int));
+  void abort PROT((void));
+  int fflush PROT_STDIO((FILE *));
+  #ifndef _SEQUENT_
++ #ifndef LINUX
+  int rmdir PROT((char *));
+  int unlink PROT((char *));
+  #endif
++ #endif
+  int fclose PROT_STDIO((FILE *));
+  #if !defined(sgi) && !defined(hpux) && !defined(_AIX) && !defined(M_UNIX) && !defined(_SEQUENT_) && !defined(SVR4)
+  int system PROT((char *));
+***************
+*** 104,126 ****
+  void qsort PROT((char *, int, int, int (*)()));
+  #endif
+  #endif
+! #if !defined(hpux)
+  int setsockopt PROT((int, int, int, char *, int));
+! #endif /* !defined(hpux) */
+  int fseek PROT_STDIO((FILE *, long, int));
+  int wait PROT((int *));
+  int pipe PROT((int *));
+  int dup2 PROT((int, int));
+  unsigned int alarm PROT((unsigned int));
+! #if !defined(hpux)
+  int ioctl PROT((int, ...));
+! #endif /* !defined(hpux) */
+  int close PROT((int));
+! #if !defined(_SEQUENT_) && !defined(_AIX)
+  int write PROT((int, char *, int));
+! #endif /* !defined(_SEQUENT_) && !defined(_AIX) */
+  int _filbuf();
+  char *crypt PROT((char *, char *));
+  #ifdef sun
+  char *_crypt PROT((char *, char *));
+  #endif
+--- 108,136 ----
+  void qsort PROT((char *, int, int, int (*)()));
+  #endif
+  #endif
+! #if !defined(hpux) && !defined(LINUX)
+  int setsockopt PROT((int, int, int, char *, int));
+! #endif /* !defined(hpux) && !defined(LINUX) */
+! #ifndef LINUX
+  int fseek PROT_STDIO((FILE *, long, int));
++ #endif
+  int wait PROT((int *));
+  int pipe PROT((int *));
+  int dup2 PROT((int, int));
++ #ifndef LINUX
+  unsigned int alarm PROT((unsigned int));
+! #endif
+! #if !defined(hpux) && !defined(LINUX)
+  int ioctl PROT((int, ...));
+! #endif /* !defined(hpux) && !defined(LINUX) */
+  int close PROT((int));
+! #if !defined(_SEQUENT_) && !defined(_AIX) && !defined(LINUX)
+  int write PROT((int, char *, int));
+! #endif /* !defined(_SEQUENT_) && !defined(_AIX) && !defined(LINUX) */
+  int _filbuf();
++ #ifndef LINUX
+  char *crypt PROT((char *, char *));
++ #endif
+  #ifdef sun
+  char *_crypt PROT((char *, char *));
+  #endif
+***************
+*** 141,149 ****
+--- 151,161 ----
+  #endif
+  #endif
+  #ifndef _SEQUENT_
++ #ifndef LINUX
+  int link PROT((char *, char *));
+  int unlink PROT((char *));
+  #endif
++ #endif
+  #endif /* MSDOS */
+  
+  #endif /* NeXT */
+***************
+*** 335,341 ****
+  void set_inc_list PROT((char *list));
+  int legal_path PROT((char *path));
+  struct vector *get_dir PROT((char *path, int));
+! #if !defined(ultrix) && !defined(M_UNIX) && !defined(sgi) && !defined(hpux) && !defined(_AIX) && !defined(NeXT) && !defined(_SEQUENT_) && !defined(SVR4)
+  extern int rename PROT((char *, char *));
+  #endif
+  void set_simul_efun PROT((char *));
+--- 347,353 ----
+  void set_inc_list PROT((char *list));
+  int legal_path PROT((char *path));
+  struct vector *get_dir PROT((char *path, int));
+! #if !defined(ultrix) && !defined(M_UNIX) && !defined(sgi) && !defined(hpux) && !defined(_AIX) && !defined(NeXT) && !defined(_SEQUENT_) && !defined(SVR4) && !defined(LINUX)
+  extern int rename PROT((char *, char *));
+  #endif
+  void set_simul_efun PROT((char *));
+diff -rc 0.9.15/main.c mudos_linux/main.c
+*** 0.9.15/main.c	Thu Dec 17 12:42:33 1992
+--- mudos_linux/main.c	Wed Jan 20 21:04:49 1993
+***************
+*** 167,172 ****
+--- 167,175 ----
+     * descriptors than the operating system can handle.  This is a problem
+     * that can be resolved by decreasing MAX_USERS, MAX_EFUN_SOCKS, or both.
+     */
++ #ifdef LINUX
++ #define FD_SETSIZE 256
++ #endif
+    if (dtablesize > FD_SETSIZE) {
+      fprintf(stderr,
+  	    "Warning: File descriptor requirements exceed system capacity!\n");
+***************
+*** 359,365 ****
+--- 362,370 ----
+      signal(SIGIOT, sig_iot);
+  #endif
+      signal(SIGHUP, sig_hup);
++ #ifndef LINUX
+      signal(SIGBUS, sig_bus);
++ #endif
+      signal(SIGSEGV, sig_segv);
+      signal(SIGILL, sig_ill);
+  #endif /* DEBUG */
+diff -rc 0.9.15/socket_efuns.c mudos_linux/socket_efuns.c
+*** 0.9.15/socket_efuns.c	Sat Dec 19 02:54:49 1992
+--- mudos_linux/socket_efuns.c	Wed Jan 20 21:05:48 1993
+***************
+*** 9,15 ****
+--- 9,17 ----
+  #include <sys/ioctl.h>
+  #include <sys/socket.h>
+  #ifndef apollo
++ #ifndef LINUX
+  #include <sys/socketvar.h>
++ #endif
+  #endif
+  #ifdef _AIX
+  #include <sys/select.h>
+------------------> Snip here as well <---------------------------------
+ 
+---------------------------------------=+=------------------------------------
+Aragorn@NANVAENT (Administrator)       =+=      Olav Kolbu
+130.159.220.8,3000 5pm-9am+sat+sun GMT =+=      okolbu@ifi.uio.no 
+---------------------------------------=+=------------------------------------
+        NO, THERE IS ONLY ME. THE _FINAL_ FRONTIER.             -Death
+ 

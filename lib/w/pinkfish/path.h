@@ -1,0 +1,1 @@
+#define ROOM "/w/pinkfish/"

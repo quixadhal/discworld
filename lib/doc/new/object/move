@@ -1,0 +1,48 @@
+.DT
+move
+Discworld object help
+move
+
+Name
+.SI 5
+move - Moves an object to a destination.
+.EI
+
+Syntax
+.SI 5
+varargs int move(mixed dest, string messin, string messout);
+.EI
+
+Description
+.SP 5 5
+This function moves the object to the given destination.  The destination
+can either be a string or an object.  All sort of things are checked on the
+way like weather the object is already carrying to much, if you are not
+allowed to move objects into the object and so on.  Weight and light are
+also updated with this function.  The messin and messout variables are
+printed if they are non zero.  However, they are not required to be set,
+you can just call the function with the destination.
+
+The function returns 0 if the move was successful or one of the move
+failures from in move_failures.h
+.EP
+
+.SO 5 22 -32
+	MOVE_OK	The move is successful...
+	MOVE_EMPTY_DEST	The destination field is 0.
+	MOVE_NO_GET	The object was not allowed to enter the destination.
+	MOVE_NO_DROP	The object was not allowed to leave its current environment.
+	MOVE_TOO_HEAVY	The object weighs too much to enter the destinations inventory.
+	MOVE_INVALID_DEST	The destination field is invalid.
+.EO
+
+Example
+.SI 5
+move(find_player("pinkfish"));
+move("/d/am/am/mendeddrum");
+.EI
+
+See also
+.SP 5 5
+set_weight, set_get, reset_get, set_drop, reset_drop
+.EP

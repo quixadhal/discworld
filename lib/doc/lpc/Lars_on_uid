@@ -1,0 +1,69 @@
+In article <1991Sep21.170218.5667@bronze.ucs.indiana.edu> kellehe@silver.ucs.ini
+ana.edu (Mike Kelleher) writes:
+>
+>Most silly 3.0 questions, I hope there getting more intelligent as we go
+>allong. Does anybody have a suggestions as a whole for secuirty measures in
+>3.0? There are several calls like Get_rootid that really bother me.
+>anyone got some suggestions?
+
+The name 'root' has nothing to do with the login name 'root' on unix
+systems. The only common thing is the spelling.
+
+The 3.0 has a new security system, which is not used if -o is specified !
+
+The new security system has been inspired by the Unix way of handling
+user id (uid) and effective user id (euid), but is not exactly the same.
+
+Every object will have a uid and a euid.  It is the euid that governs what
+permissions the object will have. The euid can be changed.
+
+The game driver only maintains these two values, represented as strings. It
+is the master.c that defines what they mean. The values can be any string,
+but one good way is to use the name of the wizard.
+
+When an object wants to access a file, valid_read (or valid_write) will
+be called in master.c, which will make a decision depending on the path
+name of the file and the euid. The 2.4.5 game driver called the valid_read in
+player.c, which was quite bad when there were no "current player".
+
+The euid can be changed to only some other values by the object, but always
+to the value of the uid. This is also defined by the master.c object.
+
+There is no set-uid as in Unix, but there is a possibility to transfer
+your euid to another objects uid. If object A do seteuid(0), then any
+object B can do export_uid(A) which will set the uid of A to the euid
+of B.
+
+There are some special rules (which I won't list here) which define what
+happens when an object makes another object become loaded. These rules are
+currently hard-coded in the game driver, but will probably also be transfered
+to master.c. In general, a loaded object either gets the same uid as the euid
+of the loader, or 0 (means no permission).
+
+This new security system is in many ways compatible with the old system. The
+big difference is that when a wizard A makes a room be loaded that was defined
+by wizard B, then you don't want that room to have uid A. Instead, it will
+have 0, which means that it must set the euid to something to be able to
+do any file access. This might seem arduos, but as all new mudlib systems
+are defined in a hierarchical way, a single line in a single file will
+(should :-) do it.
+
+There are some interesting problems resulting from this. For example, a
+player.c object can't call save_object() without preparations because it
+doesn't normally have permission to modifiy player save files.
+
+This is solved by talking with the master.c. The player object first sets its
+euid to 0, then calls a special request function in master.c which will
+give the player object the "root" uid. Now, the object can do the save,
+set back to euid 0 and return control to master.c. Of course, the master.c
+will validate that it is actually the player object, not something
+made by a wizard.
+
+Even if an object has euid "root", it can't access files outside the
+mudlib directory. This is never ever supposed to be possible.
+
+The wizlist modifications are now based on the uid of the object. That means
+that "root" can show up, as well as "backbone".
+
+Lars Pensj|
+lars@cd.chalmers.se

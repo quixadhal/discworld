@@ -1,0 +1,21 @@
+int|string wear_armour(object armour)
+		Makes the living object wear the given armour.  It checks
+		various things like query the nunmber of items of the
+		given type it can wear off the race object.  returns
+		0 if he succeded in wearing it, or returns the string
+		error message.
+int|string remove_armour(object armour)
+		trys to remove the armour from the victim.  returns 0 on
+		success and the error message on failure.
+int query_ac(string type, int dam)
+		Returns the ac of the player.  This will take into
+		account the natural armour class of the creature plus
+		the armour class of what he is wearing.  the dam
+		paramater is used by the armours in damageing them.  ie
+		their condition.
+int wear(string str)
+		Trys to wear the armour.  This is the command called
+		from the player_object.
+int remove(string str)
+		Trys to remove the armour.  This is called from
+		the player object.

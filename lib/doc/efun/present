@@ -1,0 +1,23 @@
+.DT
+present
+Discworld efun help
+present
+
+object present(object|string find, void|object env)
+.SP 5 5
+If an object that identifies to the name find is present, then return it.
+
+find can also be an object, in which case the test is much faster and easier.
+
+The object is searched for in the inventory of the current object, and
+in the inventory of the environment of the current object.
+
+The second, optional argument defaults to this_object().
+Normally this_player() is a good environment.
+.EP
+
+See also
+.SI 5
+find_match, move_object, environment.
+.EI
+>>> NOTE: use find_match instead of this function or we will bop you one <<<

@@ -1,0 +1,29 @@
+This object is used as a reposity for standard armours and weapons.
+
+int armours(string str)
+		Does a listing of the armours stored here.
+int weapons(string str)
+		Does a listing of all the weapons stored here.
+mixed request_weapon(string str, int per)
+		reuests a weapon from the armoury.  The percentage
+		paramater is used as measure of how good it is compared
+		to a fully functional one.  So a 50% dagger is only 50%
+		as good as a 100% one.
+mixed request_armour(string name, int per)
+		Requests an armour from the armoury.  Returns a wholely
+		useful which you can equip your npcs with.
+int add_weapon(string name, mixed *arr)
+		Useful function.. but can only be called from
+		/obj/misc/add_armoury so its not much use to you.
+int remove_weapon(string name)
+		Same goes for this one.
+int add_armour(string name, mixed *arr)
+		And this one...
+int remove_armours(string name)
+		Ooohhh and this one too.
+mixed query_armours()
+		returns our armours array.  Useful I suppose in some
+		ways.
+mixed query_weapons()
+		Returns our weapons array.  And sorry cannot use the
+		array "bug" here.

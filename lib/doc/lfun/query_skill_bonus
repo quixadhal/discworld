@@ -1,0 +1,10 @@
+int query_skill_bonus(string skill)
+
+Description
+	Returns the players bonus in a skill.  This will range from
+aproximately 0-200.  It will get higher than 200 but not much.  This is
+defined on all npcs and players.  This is also called on the race and
+guild object (ie function of the same name) to determine the over all
+skill bonus.  look at /std/guilds/standard for an overview as to how the
+query_skill_bonus calculates it level.  Each guild calculates it own
+bonus.

@@ -1,0 +1,17 @@
+.DT
+sort_array
+Discworld efun help
+sort_array
+
+mixed *sort_array(mixed *arr, string greater_fun, object ob);
+.SP 5 5
+Returns an array sorted by the ordering function ob->greater_fun()
+The function 'greater_fun' in the object 'ob' is continously passed two
+arguments which are two of the elements of the array 'arr'. It should return
+true or a positive number if the first argument is greater than the second.
+.EP
+
+See also
+.SI 5
+filter_array, map_array.
+.EI

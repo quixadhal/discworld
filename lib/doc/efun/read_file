@@ -1,0 +1,20 @@
+.DT
+read_file
+Discworld efun help
+read_file
+
+string read_file(string file, int start_line, int end_line)
+.SP 5 5
+Reads lines of text from a file into a string.  For examples on how this
+is useful, look at the grep code in the player object.
+
+The string can then be sscanf'd, etc or manipulated in anyway seen fit.  The
+start_line is the line number of the line you wish to read.  This routine
+will return 0 if you try to read past the end of the file, or if you try to
+read from a nonpositive line.
+.EP
+
+See also
+.SI 5
+log_file, write_file.
+.EI

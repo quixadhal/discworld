@@ -1,0 +1,19 @@
+Usage : trace [off|call|call_other|return|args|exec|heart_beat|apply|
+               obj_name|numer]
+
+Trace is used as a debugging tool.  It will print a debugging message every
+time the event you specify occurs during the execution of a command that you
+initiated.  To get some idea what is meant by this, try
+
+trace call_other
+
+and then type stat <yourself>.  This will show you all the functions that get
+called using call_other to get the information for the command.
+
+Examples:
+
+trace call_other
+
+trace return
+
+trace off

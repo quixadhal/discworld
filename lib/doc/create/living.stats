@@ -1,0 +1,74 @@
+
+void reset_hp()
+		This is called when the con is changed.  It resets the
+		hps to what they are supposed to be.
+void reset_sp()
+		This is called when the int/wis is changed.  It calls
+		the funcrtion set_sp on the guild object (if one is
+		defined).  if there is no guild object it sets the sp to
+		the skill_bonus of magic.points + 50.
+void reset_carry_cap()
+		This resets the carrying capactity for the object. This
+		is called when the strength is changed.
+void reset_all()
+		Calls all the reset functions.
+int set_str(int i)
+int set_con(int i)
+int set_int(int i)
+int set_dex(int i)
+int set_wis(int i)
+		Sets the apropriate stats to the given number.
+int query_str()
+int query_int()
+int query_dex()
+int query_wis()
+int query_con()
+		Returns the total value of a given stat.  This is the
+		bonuses+the natural+the temporaries
+int query_real_str()
+int query_real_int()
+int query_real_dex()
+int query_real_wis()
+int query_real_con()
+		returns the real stats. ie th natural ones
+int query_tmp_str()
+int query_tmp_dex()
+int query_tmp_con()
+int query_tmp_int()
+int query_tmp_wis()
+		returns the temporary stats.  The temporary stats are
+		used by spells and potions that increase strength every
+		15 minutes the current temporaries are halved.  These
+		are saved between sessions.
+int query_bonus_str()
+int query_bonus_int()
+int query_bonus_dex()
+int query_bonus_wis()
+int query_bonus_con()
+		These are the bonus stats.  These are used by objects
+		and items that you have in your inventory.  They add to
+		the persons stats but they are not saved.
+int adjust_dex(int i)
+int adjust_con(int i)
+int adjust_str(int i)
+int adjust_wis(int i)
+int adjust_int(int i)S
+		adjusts the characters real stats.  Only do this as a
+		quest reward or something similar.
+int adjust_tmp_int(int i)
+int adjust_tmp_dex(int i)
+int adjust_tmp_wis(int i)
+int adjust_tmp_str(int i)
+int adjust_tmp_con(int i)
+		adjusts the temporary stats.  use this for potions etc.
+int adjust_bonus_int(int i)
+int adjust_bonus_dex(int i)
+int adjust_bonus_wis(int i)
+int adjust_bonus_str(int i)
+int adjust_bonus_con(int i)
+		Adjusts the bonus stats.  Use this for items etc
+void update_tmps()
+		Called every 15 mins or so.
+string stat_string(int i)
+		Returns the stat string for the object.  This handles
+		the 18/00 type things.

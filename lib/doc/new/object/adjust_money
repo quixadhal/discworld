@@ -1,0 +1,34 @@
+.DT
+adjust_money
+Discworld object help
+adjust_money
+
+Name
+.SI 5
+adjust_money - Change the cost of an object.
+.EI
+
+Syntax
+.SI 5
+void adjust_money(int amt, string coin);
+.EI
+
+Description
+.SP 5 5
+Changes the value of an object by a certain number of coins.  This can be
+used to set a more useful value on objects instead of using set_value.
+
+Calling this on yourself is how you give yourself lots of money...  Any
+coin type that is unknown by the money handler will default to being
+the same value as brass.
+.EP
+
+Example
+.SI 5
+adjust_money(100, "silver");
+.EI
+
+See also
+.SP 5 5
+set_value, query_value, adjust_value, query_money, query_money_array
+.EP

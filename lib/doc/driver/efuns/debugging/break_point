@@ -1,0 +1,23 @@
+./"checks the program stack
+
+.DT
+break_point
+Discworld driver help
+break_point
+
+Name
+.SI 5
+break_point() - checks the program stack to make sure it's valid
+
+.EI
+Synopsis
+.SI 5
+void break_point();
+
+.EI
+Description
+.SP 5 5
+This efun checks to make sure that the driver has kept the stack
+correctly.  The currently running program will bomb if the stack
+is incorrect.  Useful for debugging the driver.
+.EP

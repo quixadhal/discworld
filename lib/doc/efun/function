@@ -1,0 +1,36 @@
+.DT
+function
+Discworld efun help
+function
+
+FUNCTIONS
+.SP 5 5
+A locally defined function can have any number of arguments. All basic
+types can be sent in the argument. A return value is sent with the
+'return' statement. All four data types can be used in the return statement.
+The type of the function must not be declared.
+
+Uninitialized arguments are set to 0.
+
+The type of the argument must not be declared (except for 'static').
+It is illegal to have a function with the same name as a global function, or
+local variable. Functions are reentrant.
+
+If there is no return statement, the number 0 will be returned.
+.EP
+
+.SI 5
+function_name(argument1, argument2 ...) {
+    statements;
+    ...
+    return value;
+}
+.EI
+
+.SP 5 5
+Functions in other objects can be called with 'call_other(ob, "fun", arg...)'.
+This an also be written 'ob->fun(arg...)', which is nicer syntax.
+
+A function can have the type 'static', and it will not be possible to call
+with call_other() from another object.
+.EP

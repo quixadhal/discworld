@@ -1,0 +1,141 @@
+This is a configurable door object that can be used to create lockable (but not
+open/closable doors between rooms in the mud.  The problem you will likely meet
+is that the door has to be cloned and configured in one room but has two ends
+so unless you force the room that configures the door to be loaded when the
+destination room is loaded, the door WILL NOT BE THERE.  For this reason you
+cannot create doors onto rooms that are not aware that the door is there.  The
+door must be loaded when either room is created.  The one exception is where
+you set the door being non-obvious from the destination end.  This means that
+it is not possible to come back through the door.
+
+The following functions exist for configuration of the door.
+
+void set_type(string str);
+void set_key(string str);
+void set_direction(string str1, string str2);
+void set_obvious_from_source(int val);
+void set_obvious_from_dest(int val);
+void set_lock_on_source(int val);
+void set_lock_on_dest(int val);
+void set_source(string str);
+void set_dest(string str);
+void set_locked(int state);
+int query_obvious_from_dest();
+string query_key();
+int query_obvious_from_source();
+int query_lock_on_source();
+int query_lock_on_dest();
+string query_type();
+string query_direc();
+string query_reverse();
+string query_source();
+string query_dest();
+int query_locked();
+void attach();
+
+void set_type(string str);
+This function lets you set the type of exit that will be passed to add_exit in
+the type field.  For more information on this see the std.room help.
+
+void set_key(string str);
+This function lets you set the id of the key that will unlock the door.  Please
+note that a key of type master will unlock any std/door.  For more information
+on keys, look at obj.key help.
+
+void set_direction(string str1, string str2);
+The set direction command lets you set the exit direction of the exits on both
+sides of the door.  The str1 is from source to destination and str2 is for
+destination to source.
+
+void set_obvious_from_source(int val);
+This sets whether or not the exit appears in the obvious_exits when a player
+types look in the source room.  default 1
+
+void set_obvious_from_dest(int val);
+This does the same as set_obvious_from_source, but for the destination room.
+default 1.
+
+void set_lock_on_source(int val);
+This lets you set whether or not the room can be unlocked from the source room.
+Default 1.
+
+void set_lock_on_dest(int val);
+This lets you set whether or not the room can be unlocked from the destination
+room.  default 1.
+
+void set_source(string str);
+This lets you set the file name of the room that the door comes from.
+eg set_source("/d/am/am/mendeddrum");
+
+void set_dest(string str);
+This lets you set the file name of the room that the door goes to.
+eg set_dest("d/am/am/filgreeshop");
+
+void set_locked(int state);
+This lets you set whether or not the door is locked.  default 1.
+
+int query_obvious_from_dest();
+This returns whether or not the exit is obvious from the destination room.
+
+string query_key();
+This returns the type of key that will unlock the door.  It does not return
+master, but master keys will unlock all doors.
+
+int query_obvious_from_source();
+This returns whether the exit is obvious from the source room.
+
+int query_lock_on_source();
+This returns whether the room can be unlocked from the source room.
+
+int query_lock_on_dest();
+This returns whether the room can be unlocked from the destination room.
+
+string query_type();
+This returns the type that is passed to add_exit when the door attaches itself
+to the rooms.
+
+string query_direc();
+This returns the direction of the door from the source to the destination room.
+
+string query_reverse();
+This returns the direction of the door from the destination to the source room.
+
+string query_source();
+This returns the file name of the source room.
+
+string query_dest();
+This returns the file name of the  destination room.
+
+int query_locked();
+This returns whether or not the door is locked.
+
+void attach();
+This function is called when all the data is initialised and you want the door
+to attach itself to the source and destination rooms.
+
+
+
+An example of using the door follows:
+
+inherit "std/room";
+
+object door;
+
+setup() {
+  set_light(100);
+  set_short("test");
+  set_long("Test\n");
+  add_exit("out", "/w/furball/workroom", "plain");
+  door = clone_object("obj/door");
+  door->set_source(file_name(this_object()));
+  door->set_dest("w/furball/tp");
+  door->set_key("furball");
+  door->set_direction("forwards", "backwards");
+  door->attach();
+}
+
+void dest_me() {
+  if(door)
+    door->dest_me();
+  ::dest_me();
+}

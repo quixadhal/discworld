@@ -1,0 +1,29 @@
+.\"report various statistics related to memory usage
+
+.DT
+malloc_status
+Discworld driver help
+malloc_status
+
+Name
+.SI 5
+malloc_status() - report various statistics related to memory usage.
+
+.EI
+Synopsis
+.SI 5
+void malloc_status();
+
+.EI
+Description
+.SP 5 5
+This function writes memory usage statistics to the caller's screen.
+This function replaces the hardcoded 'malloc' command in vanilla 3.1.2.
+Note that the output produced by malloc_status() depends upon which
+memory management package is chosen in options.h when building the driver.
+
+.EP
+See also
+.SI 5
+mud_status(3), dumpallobj(3)
+.EI

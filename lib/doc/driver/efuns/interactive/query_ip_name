@@ -1,0 +1,23 @@
+.\"
+
+.DT
+query_ip_name
+Discworld driver help
+query_ip_name
+
+Synopsis
+.SI 5
+string query_ip_name(object ob);
+
+.EI
+Description
+.SP 5 5
+Return the IP address for player `ob'.  An asynchronous process `addr_server'
+is used to find out these name in parallel.  If there are any failures to
+find the ip-name, then the ip-number is returned instead.
+
+.EP
+See also
+.SI 5
+query_ip_number(3).
+.EI

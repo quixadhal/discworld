@@ -1,0 +1,47 @@
+.DT
+inform
+Discworld player help
+inform
+
+Name
+.SI 5
+inform - Toggle the inform chanel on and off.
+.EI
+
+Syntax
+.SI 5
+inform [all/none/on/off]
+inform <type> [on/off] [<type> [on/off]] ...
+.EI
+
+Description
+.SP 5 5
+With this command you set which special messages you are informed of.  If you
+specify no arguments it will tell you what you are currently being informed
+of and whether inform is on or off.
+
+The inform messages can repressed or unrepressed by going inform off and inform
+on.  Repressing the inform messages does not change which types of messages
+you will be inform of.  Just stops you being told about them until you turn
+them on again.
+
+The all keyword makes you be informed of all possible event types.  You can
+specificaly turn on and off informing of certain types of events.  If you
+do not specify weather it should be on or off it toggles the status of
+the event.  To find out all the possible types you can be informed of
+try inform all :)
+.EP
+
+Example
+.SI 5
+> inform logon on
+You will now be informed of logon events.
+<...later...>
+[Pinkfish leaves Discworld]
+[Bil enters Discworld]
+.EI
+
+See also
+.SI 5
+quit.
+.EI

@@ -1,0 +1,27 @@
+.\"send a message to an object
+.DT
+tell_object
+Discworld driver help
+tell_object
+
+Name
+.SI 5
+tell_object() - send a message to an object
+
+.EI
+Synopsis
+.SI 5
+void tell_object(object ob, string str)
+
+.EI
+Description
+.SP 5 5
+Send a message `str' to object `ob'. If it is an interactive object (a player),
+then the message will go to him, otherwise it will go to the local
+function "catch_tell()".
+
+.EP
+See also
+.SI 5
+message(3), write(3), shout(3), say(3).
+.EI

@@ -1,0 +1,36 @@
+.\"credit an object with additional "worth"
+.DT
+add_worth
+Discworld driver help
+add_worth
+
+Name
+.SI 5
+add_worth () - credit an object with additional "worth"
+
+.EI
+Synopsis
+.SI 5
+void add_worth (object ob, int worth);
+
+.EI
+Description
+.SP 5 5
+
+add_worth credits an object with having a certain "worth".  This worth
+could represent whatever you as the mudlib administrator are
+interested in keeping track of, since the end result is that the
+objects's domain and author get credited with this object's additional
+"worth", which shows up in the domain and author statistics.
+
+A common use for add_worth is to monitor how much "wealth" is created
+in a certain area.  This is to monitor which areas might have too
+little or too much "wealth" available in them.
+
+add_worth may only be called by objects with backbone or root uid's.
+
+.EP
+See also
+.SI 5
+author_stats(3), set_author(3), domain_stats(3)
+.EI

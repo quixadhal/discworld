@@ -1,0 +1,26 @@
+.\"set the uid of another object
+.DT
+export_uid
+Discworld driver help
+export_uid
+
+Name
+.SI 5
+export_uid() - set the uid of another object
+
+.EI
+Synopsis
+.SI 5
+int export_uid( object ob );
+
+.EI
+Description
+.SP 5 5
+Set the uid of <ob> to the effective uid of this_object(). It is
+only possible when <ob> has an effective uid of 0.
+
+.EP
+See also
+.SI 5
+this_object(3), seteuid(3), getuid(3)
+.EI

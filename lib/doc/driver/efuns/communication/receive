@@ -1,0 +1,29 @@
+.\"displays a message to the current player
+
+.DT
+receive
+Discworld driver help
+receive
+
+Name
+.SI 5
+receive() - displays a message to the current player
+
+.EI
+Synopsis
+.SI 5
+int receive();
+
+.EI
+Description
+.SP 5 5
+This efunction is an interface to the add_message() function in the driver.
+Its purpose is to display a message to the current player.  It returns 1
+if the current object is interactive, 0 otherwise.  Often, receive() is
+called from within catch_tell(4) or receive_message(4).
+
+.EP
+See also
+.SI 5
+catch_tell(4), receive_message(4), message(3)
+.EI

@@ -1,0 +1,140 @@
+.DT
+printf
+Discworld efun help
+printf
+
+Usage:
+  str = sprintf("format string", [arg1, ..., argn]);
+  printf("format string", [arg1, ..., argn]);
+
+This version supports the following as modifiers:
+ ' '  pad positive integers with a space.
+ '+'  pad positive integers with a plus sign.
+ '-'  left adjusted within field size.
+      NB: std (s)printf() defaults to right justification, which is
+          unnatural in the context of a mainly string based language
+          but has been retained for "compatability" ;)
+ '|'  centered within field size.
+ '='  column mode if strings are greater than field size.  this is only
+      meaningful with strings, all other types ignore
+      this.  columns are auto-magically word wrapped.
+ '#'  table mode, print a list of '\n' separated 'words' in a
+      table within the field size.  only meaningful with strings.
+  n   specifies the field size, a '*' specifies to use the corresponding
+      arg as the field size.  if n is prepended with a zero, then is padded
+      zeros, else it is padded with spaces.
+ '.'n presision of n, simple strings truncate after this (if presision is
+      greater than field size, then field size = presision), tables use
+      presision to specify the number of columns (if presision not specified
+      then tables calculate a best fit), all other types ignore this.
+ ':'n n specifies the fs _and_ the presision, if n is prepended by a zero
+      then it is padded with zeros instead of spaces.
+ '@'  the argument is an array.  the corresponding format_info (minus the
+      '@') is applyed to each element of the array.
+The following are the possible type specifiers.
+ '%'  in which case no arguments are interpreted, and a "%" is inserted, and
+      all modifiers are ignored.
+ 'O'  the argument is an LPC datatype.
+ 's'  the argument is a string.
+ 'd'  the integer arg is printed in decimal.
+ 'c'  the integer arg is to be printed as a character.
+ 'o'  the integer arg is printed in octal.
+ 'x'  the integer arg is printed in hex.
+
+Examples:
+
+  printf("fish: %c\n", 65);
+fish: A
+
+  printf("Hello green friends\n");
+Hello green friends
+
+  printf("num: %d\n", 10);
+  printf("num: %+10d\n", 10);
+  printf("num: %010d\n", 5*2);
+  printf("num: %|10d\n", 20/2);
+num: 10
+num:        +10
+num: 0000000010
+num:     10
+
+  printf("%|80s","THE NOT END");
+                                   THE NOT END
+
+  printf("%|=80s", "fun with penguins\n");
+                                fun with penguins
+
+  printf("%-=80O\n", ({ "fish", 9, "gumbies", 2 }));
+({ /* 4 elements */
+  "fish",
+  9,
+  "gumbies",
+  2
+})
+
+  printf("%-=*s", screen_width,
+         "This will wordwrap the specified string within the "+
+         "specified field size, this is useful say, if you let users "+
+         "specify their screen size, then the room descriptions will "+
+         "automagically word-wrap as appropriate.\n"+
+         "slosh-n's will of course force a new-line when needed.\n");
+This will wordwrap the specified string within the specified field size, this is
+useful say, if you let users specify their screen size, then the room
+descriptions will automagically word-wrap as appropriate.
+slosh-n's will of course force a new-line when needed.
+
+  printf("%-=*s %-=*s", screen_width/2,
+         "Two columns next to each other (any number of columns will "+
+         "of course work) independantly word-wrapped, can be useful.",
+         screen_width/2 - 1,
+         "The - is to specify justification, this is in addherence "+
+         "to std sprintf which defaults to right-justification, "+
+         "this version also supports centre justification, and I will "+
+         "eventually get around to both left and right justification, "+
+         "but this isn't supported yet.");
+Two columns next to each other (any      The - is to specify justification, this
+number of columns will of course work)   is in addherence to std sprintf which
+independantly word-wrapped, can be       defaults to right-justification, this
+useful.                                  version also supports centre
+                                         justification, and I will eventually
+                                         get around to both left and right
+                                         justification, but this isn't supported
+                                         yet.
+
+  printf("%-#*s", screen_width,
+         "Given a\nlist of\nslosh-n\nseparated\n'words',\nthis option\n"+
+         "creates a\ntable out\nof them\nthe number of\ncolumns\n"+
+         "be forced\nby specifying a\npresision.\nThe most obvious\n"+
+         "use is for\nformatted\nls output.");
+Given a             this option         columns             The most obvious
+list of             creates a           be forced           use is for
+slosh-n             table out           by specifying a     formatted
+separated           of them             presision.          ls output.
+'words',            the number of
+
+  sample = ({ this_object(), 5, "bob" });
+  printf("Handy for debugging is printing out LPC datatypes: %O\n", sample);
+Handy for debugging is printing out LPC datatypes: ({ /* 3 elements */
+  /w/shadow/test#1092 ("test") (clone) (ok),
+  5,
+  "bob"
+})
+
+  sample = ({ "first column: bing", "second column: womble" });
+  printf("%-=*s\n%-=@*s\n", screen_width,
+         "Another bizarre option is the @ operator, it applies the "+
+         "format string it is in to each element of the array:",
+         screen_width/sizeof(sample),
+         sample);
+Another bizarre option is the @ operator, it applies the format string it is in
+to each element of the array:
+first column: bing                      second column: womble
+
+  printf("Of course all the simple printf options are supported:\n"+
+         "%s: %d %x %o %c\n", "65 as decimal, hex, octal and a char",
+         65, 65, 65, 65);
+Of course all the simple printf options are supported:
+65 as decimal, hex, octal and a char: 65 41 101 A
+
+  printf("%|80s\n", "THE END");
+                                     THE END

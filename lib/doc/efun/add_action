@@ -1,0 +1,44 @@
+.DT
+add_action
+Discworld efun help
+add_action
+
+void add_action(string fun, string cmd, int priority)
+
+
+.SP 5 5
+Set up a local function fun to be called when user input matches the command 
+cmd. Functions called by a player command will get the arguments as a string. 
+It must then return 0 if it was the wrong command, otherwise 1.
+
+If it was the wrong command, the parser will continue searching for another
+command, until one returns true or give error message to player.
+
+Always have add_action() called only from an init() routine. The object that
+defines commands must be present to the player, either being the player,
+being carried by the player, being the room around the player, or being an
+object in the same room as the player.
+
+Never define an action that will call the function exit(), because it is
+a special function.
+
+The order of the called parameters is basicly random.  If you definately
+want your function to be called before or after some of the other
+commands use the priority flag on the end.  If this is set to a +ve
+value the command will be executed before any thing with a lower
+value.  As this defaults to 0, makeing it +ve means it gets executed
+before almost everything.  Makeing it -ve means it gets executed last.
+
+The action to match on can have a * in it.  The part of the verb after
+this * is optional.  ie l*ook Means that the functionw ill get called
+when the player type l lo loo or look.  If the * is on the end
+it calls the function with the parmater being set to all of the
+string after the command.  ie add_action("'*", "do_say"); would call
+the functionm say with the value of "bing" if the player typed
+"'bing".
+.EP
+
+See also
+.SI 5
+query_verb, add_verb, lfun/init, lfun/exit, actions_defined.
+.EI

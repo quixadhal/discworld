@@ -1,0 +1,47 @@
+.DT
+death
+Discworld concepts help
+death
+
+Name
+.SI 5
+death - How to die.
+.EI
+
+Description
+.SP 5 5
+Death.  Death comes about when your hit points go to 0 or beyond.  Once
+death occurs, you are dead.  No seriously now.  The death process
+is along these lines.  When you die the function second_life is called
+on the object that is dieing.  If this function returns a 0 then the
+default processing of death occurs.  If it returns 1 then no other
+processing is done at all.  (It is assumed you did it).  The default
+processing creates a corpse.  Moves all of the equipment it can
+from the living body onto the corpse, dests all of remainder then
+dests itself.
+
+Other functions that might be useful is the function make_corpse that
+creates a corpse with the right characteristics (ie right bits and
+that sort of stuff).  If also moves the equipment into it and sets
+up the wielding/wearing on the corpse.
+
+Death itself is in /d/sur/death/chars/death.  The function
+person_died(string name) is called on him when a player dies to get
+them to be visited by death.  You could fake these by calling the
+function yourself :)
+
+To turn yourself back from a ghost again, you call the function
+remove_ghost on yourself and this dests the death shadow and resets
+the properties on you that say that you are dead.  If you have died
+and not finished being visited by death you should have the property
+"noregen" set on you.  If this is set none of the resurrect/raise
+spells will work on you.  The property "dead" will also be set on you.
+This property specifies whether or not you are dead (funny that) and
+none of the raise spells will work if this is not set.  The remove_ghost
+function will remove the dead property, but not the noregen one.
+.EP
+
+See also
+.SP 5 5
+make_corpse, second_life
+.EP

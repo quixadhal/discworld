@@ -1,0 +1,27 @@
+.DT
+second_life
+Discworld living help
+second_life
+
+Name
+.SI 5
+second_life - Function called by death.
+.EI
+
+Syntax
+.SI 5
+int second_life();
+.EI
+
+Description
+.SP 5 5
+This function is called when an object dies.  If it returns 0 the
+default processing for dieing is done, if it returns 1 then no
+further processing is done.  This is useful to trap if you wish your
+monster to do something useful when it dies.
+.EP
+
+See also
+.SP 5 5
+make_corpse, death
+.EP

@@ -1,0 +1,60 @@
+wiz_present is not a command, but many of the wizard commands use it.
+
+This is a description of how to use wiz_present.
+
+You can simple specify objects that are in the room and respond to a given id().
+
+  fish
+  stick
+
+You can specify the environment of any object in the same manner.
+
+  (fish)
+  (stick)
+
+You can also specify objects inside other objects.
+
+  fish in box
+
+You can also specify multiple objects in the following ways.
+
+  every fish
+  every fish and every stick
+  fish and stick
+
+You can also specify every object.
+
+  all
+
+You can also specify exceptions to groups of objects.
+
+  every fish except me
+
+You can also specify all players.
+
+  everyone
+
+You can also specify yourself
+
+  me
+
+You can also specify your environment
+
+  here
+
+You can specify a living object
+
+  @name
+
+You can specify a player as well
+
+  player <name>
+
+Other things that will be checked are your standard nicknames and find_living.
+present, find_match and parse_command are also called.
+
+Combinations of the above should work as well.
+
+  all in here except me
+  all in (me) except me
+  everyone except me

@@ -1,0 +1,31 @@
+.DT
+query_dark_mess
+Discworld room help
+query_dark_mess
+
+Name
+.SI 5
+query_dark_mess - Returns the dark message.
+.EI
+
+Syntax
+.SI 5
+string query_dark_mess();
+.EI
+
+Description
+.SP 5 5
+Returns the message set to be printed when it is dark.  It defaults to
+"It is too dark to see".  This is printed instead of the long when the
+room is dark.
+.EP
+
+Example
+.SI 5
+set_dark_mess("The room is dark, black, in fact pitch dark is a good word.");
+.EI
+
+See also
+.SP 5 5
+query_dark_mess, set_long
+.EP

@@ -1,0 +1,60 @@
+/std/container inherit list
+ 
+/std/container +
+               |
+               +--- /std/object
+               |
+               +--- /std/basic/cute_look
+ 
+ 
+/std/basic/cute_look
+string list_contents(string str)
+           Returns a pretty display of the inventory of the object.
+ 
+/std/basic/extra_look
+string calc_extra_look()
+           Returns the extra_look string of the object.
+void add_extra_look(object ob)
+           Adds the object to the extra look list.  When the objectr is
+           looked at it calls the function calc_extra_look() and adds
+           it onto the long description.
+void remove_extra_look(object ob)
+           Removes the object ob from the extra look bunch
+object *query_extra_looks()
+           Retruns all the objects currently set up to do extra looks on the
+           object.
+ 
+/std/container
+void set_transperant()
+           Sets the container to be transperant.  This means that the
+           contents of the container is displayed in the short, or more
+           specificly when you see the inventory of a room with a fishbowl
+           in it.  You see the fish in the fish bowl as well
+void reset_transperant()
+           Switches of the transperancy.  This is the default.
+void set_opaque()
+           Same as reset_transperant
+void set_closed()
+           When the container is closed, you cannot move anything into or
+           out of it.
+void reset_closed()
+           Resets the closed condition.
+void set_max_weight(int i)
+           Sets the maximun weight of the container to the specified weight.
+int add_weight(int i)
+           Adds the weight to the container.  Do not use this too much cause
+           the driver basicly handles most of it for you. Returns a 1 on
+           failure.
+int query_max_weight()
+           Returns the maximun carring capacity of the container
+int query_loc_weight()
+           Returns the current local weight.  this is how much weight is
+           in the container at the moment.
+int transfer_all_to(object dest)
+           Transfers the contents of the container to the destination.
+           Returns a 1 on success, if a 0 is returned it means that one
+           (at least) of the object was failed to be transfered to the
+           destination.
+
+See also
+    std.object

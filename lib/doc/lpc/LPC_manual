@@ -1,0 +1,1950 @@
+	 	                  LPmud	
+
+	  	   A Programmable Multi-User Domain
+
+			      by Lars Pensj|
+
+
+
+	    [ Edited from TeX into Ascii by Adam Beeman ]
+
+				
+
+
+			1  General
+
+
+			1.1  Idea of the game
+
+
+	LPmud is a multi user adventure game. That means that several players 
+can be playing the game at the same time, using the same object database. It
+also means that the players will meet each other, and affect the game for other 
+players.
+
+
+			1.2  History of LPmud
+
+	In the beginning, I played a lot of Abermud and some Tinymud, and wanted
+to do something better, combining the two systems. I made the first version of 
+LPmud as some kind of argument, to show that my ideas were possible. Luckily, 
+I didn't know at that time how that would impact my near future.
+
+			1.3  Objects, files and programs
+
+	The programs defining the behaviour of objects are stored in files.
+Every object has exactly one file defining the program, but every file may be
+used for more than one object. When an object that is not loaded is referenced,
+it will automatically be compiled and loaded. More than one instance of an
+object can be created using the function clone_object(). [See clone_object in
+the LPC reference manual].  clone_object() should not be used if only one 
+instance of an object is wanted.  Cloned objects may be configured differently 
+after creation, hence enabling different behaviour.
+
+
+			Chapter 2: Installation and Setup
+
+
+	This chapter describes how to get LPmud running from scratch. It works 
+for SUN SparcStation running SunOS 4.1.1. If you are using any other platform 
+you may have some trouble getting the game up. We don't have time or equipment 
+needed for porting the game to other systems.
+
+
+
+			2.1  Getting LPmud Sources
+
+[ Editor's note: Currently, the source for a full 3.0 mudlib is not available.
+  You can choose one of two options: get the old 2.4.5 mudlib and run in
+  compatibility mode, or begin from scratch with the mudlib.n.  You could 
+  also just wait until someone decides to release a functional 3.0 mudlib.
+  This may be a while.  ]
+
+
+	LPmud can be retrieved with anonymous FTP from host
+alcazar.cd.chalmers.se, IP-number 129.16.48.100. Log on as ftp, and give your
+email address as password.  The archive holding the source can be found in
+`/pub/lpmud/3.0', and is called `3.0.50.tar.Z'.  It is a binary file, which
+means that you have to set FTP in binary mode.
+	This is how a ftp session might look:
+
+
+% ftp alcazar.cd.chalmers.se
+Connected to alcazar.
+220 alcazar FTP server (Version 5.53 Sun May 27 01:43:44 MET DST 1990) ready.
+Name (alcazar.cd.chalmers.se:arne): ftp
+331 Guest login ok, send ident as password.
+Password: arne@cd.stanford.edu
+230 Guest login ok, access restrictions apply.
+ftp> cd pub/lpmud
+250 CWD command successful.
+ftp> bin
+200 Type set to I.
+ftp> get 3.0.50.tar.Z
+200 PORT command successful.
+150 Opening BINARY mode data connection for 3.0.50.tar.Z (510193 bytes).
+226 Transfer complete.
+local: 3.0.50.tar.Z remote: 3.0.50.tar.Z
+510193 bytes received in 1e-06 seconds (1.4e+06 Kbytes/s)
+ftp> bye
+221 Goodbye.
+%
+
+
+			2.2  Contents of the Archive
+
+
+	The archive contains all you need to set up an LPmud on your host. 
+However you need a mudlib. You can write one yourself or get one by ftp. The 
+software you got in this archive contains the preprocessor, communication stuff,
+efuns and lots of other functions needed in the game. The other major part is 
+what we call `mudlib'. Everything accessible from within the game is in 
+`mudlib', such as save files, log files and LPC source code. The LPC source
+code is the code defining what your LPmud will be like. It is the game itself, 
+while the `game driver' is a tool for running the game. There are also some 
+other things included in the archive, among them documentation and some useful
+utilities.
+	This is what the directory structure in the archive looks like:
+
+
+
+                                     mud
+                                      |
+              ----------------------------------------------------------
+              |          |         |              |            |       |
+            README      bin       doc            lib          src     swap
+                                                               |
+                                                             util
+
+
+[ Editor's note: this is what it WILL look like, one day. Currently the
+  source code just spills out into the current directory, making the util
+  directory. So when you unpack 3.0.50.tar.Z, be sure to move the file into
+  a directory called 'src' before unpacking it. The structure I use looks
+  more like this:
+
+                             mud
+                      ________|__________
+                     /     |      |      \ 
+                  mudlib  bin    src     swap  
+                    |             |
+            several subdirs      util
+            including doc
+
+	You have to make these directories yourself... the main differences are
+   the position of the doc directory, which tends to be needed from inside the
+   mudlib.  You could just use symbolic links, of course. ] 
+ 
+
+	This is a description of what some of the direcories are.  
+[See File Hierarchy for information on the contents of the `lib' directory.]
+
+README 	A file describing where to find the documentation.
+bin	Directory that will contain all the executables after installation.
+doc	All the documentation as a text file, a texinfo file and a PostScript
+	file.
+lib	The `mudlib' directory.
+src	The source code for the `game driver'.
+util	Source code for some utility programs and shell scripts.
+swap	When the game is running it creates a swap file here.
+
+
+			2.3  Unpacking the Source Archive
+
+
+	When you unpack the source archive, a directory called `mud' will be 
+created in your current directory. All the files in the archive will be put 
+in the `mud' directory. Before unpacking the archive you should decide where 
+in the filesystem you want to have the game and change directory to that
+location.
+
+[ Editor's note: As of 11/26/91, this was not true.  You must create the
+  'mud' directory and the 'src' directory.  Then, change into the 'src' 
+  directory before unpacking the source. ]
+
+
+	The archive is a compressed tar archive.  To unpack it you need one of 
+the commands uncompress or zcat and the program tar.
+	Here is an example of how the archive can be unpacked:
+[ edited for accuracy ]
+
+% cd /usr/src/games
+% mkdir mud
+% cd mud
+% mkdir src
+% mkdir bin
+% mkdir swap
+% cd src
+% zcat 3.0.50.tar.Z | tar xf -
+
+
+			2.4  Compiling the Game Driver
+
+	The first thing you have to do is to configure LPmud to suit your
+system. Change directory to `mud/src'. Edit `config.h' and change any defines
+needed. They are well commented in the file, but those that it is likely that
+you want to change are explained here.
+
+
+TIME_TO_SWAP	Tells how long the game driver should wait before swapping out 
+		an unused object. The time should be high if you have much 
+		memory, and low if disk space is more abundant than memory.
+
+TIME_TO_RESET	Sets the intervall between calls to reset() in objects.
+
+PORTNO    	This is the port number that the games uses. Before setting it,
+		you should ask your system manager what number to use.
+
+DOMAINS		If this is defined you enable domains, i.e. groups of wizards 
+		can work together, with a special domain directory for each 
+		group.
+
+SWAP_FILE 	Should be a full path to a file used for swapping objects. It 
+		is typically set to `mud/swap' as mentioned previously.
+
+LOG_SHOUT 	If LOG_SHOUT is defined all shouting in the game is logged in 
+		a file, `mud/syslog/SHOUTS'.
+
+MAX_PLAYERS 	The maximum number of simultaneous players in the game. The 
+		more powerful system you have, the higher it should be.
+
+
+	Next, you should edit the `Makefile' and make changes suitable for your 
+system. These are some of the parameters that you might want to change.
+
+
+MALLOC		There are three different versions of malloc to choose from. 
+		The `Makefile' tells the difference between them.
+
+CC		What C compiler to use.
+
+BINDIR		Where to put all the executables. Typically set to `mud/bin'.
+
+MUD_LIB   	The path to mudlib. Usually set to `mud/lib'.
+
+
+	After editing `config.h' and `Makefile' you are ready to compile the
+game driver. Type:
+
+		make
+
+	If the compilation is completed without errors, an executable file
+`driver' should have been created.
+
+
+			2.5  Installing the Game
+
+
+	After compiling the game driver, several files have to be installed in
+their proper places. If you have changed the path for MUD_LIB in the
+`Makefile' to something other than `mud/lib' in the directory where you
+extracted the software, you have to move the contents of `mud/lib' to the
+new location. If you have changed BINDIR in the `Makefile' or SWAP_FILE in
+`config.h' to be other than those that were extracted, you must make those
+directories in the new location. After doing that, give the command:
+
+		make install
+
+	Now the game driver should be installed in BINDIR.
+
+	We provide a shell script that restarts the game every time it crashes
+or is shut down. It restarts the game at most 50 times. After that the script
+has to be rerun. The script is called `restart_mud' and is located in
+`mud/src/util'. To install it in BINDIR type:
+
+		make install.restart_mud
+
+	If you want the game to be restarted every time your computer is
+rebooted, ask your system manager to run `restart_mud' from `/etc/rc.local'.
+Here is an example of what to put in `/etc/rc.local'.
+
+
+	if [ -f /usr/games/mud/bin/restart_mud ]; then
+		/bin/su arne -c /usr/games/mud/bin/restart_mud 2>&/dev/null
+		echo 'Starting LPmud'
+	fi
+
+[ Editor's note: This assumes the game is run by account 'arne'. ]
+
+
+			2.6  Starting the Game
+
+
+	The simplest way of starting the game is to issue the command
+
+		driver	
+
+	that after a successfull installation resides in `bin'. That command
+will start the game in 3.0 mode, accepting connections on the port configured
+in `src/config.h'.
+
+These are the command line options that are available:
+
+-c	Print a message to stdout every time a file is compiled.
+-d	Print debug information.
+-e	Start the game without loading any wizard or domain files.
+
+[ Editor's note: This command will start the game, but unless you redirect
+  the output of it, it will also send error messages to the tty that the game
+  was booted from, rather than logging the errors.  I recommend you either
+  use restart_mud, or issue the command in this form:
+
+		driver >& ../mudlib/log/lpmud.log &
+
+  This will send the output of the game driver (run time errors, etc.) to
+  a log file you can check from inside the game, and background the process. ]
+
+
+
+		Chapter 3: Commands Tied to Functions in Objects
+
+
+
+	All commands except a very few special cases are defined by the 
+objects. All commands have a simple basic way to be recognized. The first word
+of the sentence is supposed to be the verb. Every command defined is tied to a
+special function in an object. Commands are defined with the function
+add_action(), which specifies the verb to be recognised, and the name of the
+local function to be called [See add_action, in the LPC Reference Manual]. When
+a living object gives a command which matches a verb with a command defined by
+an object, then the corresponding function will be called in the specified
+object. If this function returns 0, then next command with the same verb is
+tried. If the function returns 1, then he search is terminated. This enables
+several objects to define commands with the same verbs, but still behave
+different if the rest of the sentence differs. For example, there might be two
+armours. One is named leather jacket, and one is named plate mail. Both 
+objects will have defined a command with the verb wear. If the player now gives
+the command `wear jacket', then we can't know which defined command is called
+first. Suppose that the wear function in the plate mail is called first. It
+will then detect that the argument to wear is jacket, not plate mail. It would
+then return 0, which would enable the game driver to call the command in the
+leather jacket that defines the wear verb.  This function would accept the
+command, and execute some appropriate code, followed by a return of 1.
+
+	Every time an object O comes in contact with a living object L then O
+will be asked to define commands.
+
+
+			3.1  Call of clean_up()
+
+
+	The function clean_up() is automatically called now and then. When an
+object is loaded, it is checked for existence of a function clean_up().  If
+found, a flag O_WILL_CLEAN_UP is set.  If an object hasn't been used (any
+function called) for a certain time and O_WILL_CLEAN_UP is set, then clean_up()
+is called. If this function returns a non-zero value, then O_WILL_CLEAN_UP is
+set again (which means that clean_up() can be called again).
+
+	The idea of clean_up() is that objects can self-destruct, which is much
+more space effective than being swapped out. It will also work for cloned
+objects.  It can be a good idea to define a default clean_up() in the much used
+room.c, which will destruct the room when it is empty. If a wizard wants to
+save important rooms, (s)he will have to redefine clean_up().
+
+	It is of course possible to do other types of cleaning than destruction.
+The administrator has to define time until clean up() is called in config.h.
+The time should be much longer than the time to reset().
+
+[ Editor's note: I have no idea why this is. I tend to use a fairly short
+  clean_up( time myself, to keep memory use down. ]
+
+
+
+			4  LPC reference manual
+
+
+
+	The language used to program objects is called LPC. It is syntactically
+modelled after C. As it is important that objects be loadable "on the fly" in
+a game, I chose to make it an interpreted language. If it would be compiled
+for real, there would be big problems of portability when moving to different
+machines. The security of the program is also very important. Under no
+circumstances should an LPC programmer crash the game by doing a mistake.
+That rules out standard C.
+	Several ideas has been borrowed from object oriented languages, like
+inheritance. However, as performance is very important, I have not hesitated to
+use "impure" language constructs when needed, which will conflict with the
+concepts of object oriented languages.
+	An LPC programs consists several building blocks:
+
+	- inheritance specifications
+	- preprocessor
+	- variables
+	- functions
+
+
+			4.1  Types Declaration
+
+   Types can be used at four places:
+	1. Declaring type of global variables.
+	2. Declaring type of functions.
+	3. Declaring type of arguments to functions.
+	4. Declaring type of local variables to functions.
+
+
+	Normally, the type information is completely ignored, and can be
+regarded purely as documentation. However, when the basic type of a function is
+declared, then a more strict type checking will be enforced.  That means that
+the type of all arguments must be defined. And, the variables can only be used
+to store values of the declared type. The function call_other is defined to
+return an unkown type, as the compiler can't know the type. This value must
+always be casted (when strict type checking is enabled). Casting a type is done
+by putting the type name inside a pair of parentheses.
+	Note that casting in LPC is not the same as casting in C. It is only
+used as information for the compiler, and can only be used to cast values of
+type unknown. This type is only returned from call_other.
+	An example when querying the short description of an object:
+
+	(string)call_other(ob, "short");
+
+	When a function is compiled with strict type testing, it can only call
+other functions that are defined. If they are not yet defined, prototypes can be
+defined.
+
+	string func(int arg);
+
+	Note the ';' instead of a body to the function. All arguments must be
+given names, but do not have to have the same names as in the real definition.
+All types must of course be the same.
+
+[ Editor's note: this means you can do:
+
+	string func(int arg);
+		and then later
+	string func(int x) {  /* begin actual function */
+
+  be sure to keep the number of arguements and their types consistent. ]
+
+
+	There is currently a bug (3.0.36) that recursive calls can not be done
+if the function is not also defined by a prototype. That is because a function
+is not really defined until the whole function has been compiled. Don't rely on
+this behaviour, which will hopefully soon be fixed. A dangerous effect is that
+it is possible to redefine efun's, and let the new definition call the old
+before it is replaced. Such code will break sooner or later.
+	If an efun is to be redefined to get some new enhancements, always
+define the new one with a new name.
+	There are two kinds of types. Basic types, and special types. There
+can be at most one basic type, but any number of special types. The strict type
+checking is only used by the compiler, not by the runtime.  Hence, it is
+actually possible to store a number in a string variable even when strict type
+checking is enabled.
+	Why use strict type checking? It is really recommended, because the
+compiler will find many errors at compile time, which will save a lot of hard
+work. It is in general much harder to trace an error occuring at run time. I
+recommend, that when a wizard is having problem with an object and wants help,
+that he first must make all functions have declared types.
+	The basic types can be divided in to groups. Those that are referenced
+by value, and those that are referenced by address.  The types int and string
+are always representing different entities.  But the type object is a pointer
+to an object.  If a value of this type is assigned to a variable or passed as
+argument, they will all point to the same object.  The same goes for arrays.
+That means that if the value of an element in an array is changed, then it can
+modify all other variables pointing to the same array. Changing the size of the
+array will always allocate a new one, though.
+	The comparation operator, ==, will compare the actual value for the
+group of types above. But for arrays and objects, it will simply check if it is
+the same object (or array). That has the very important implication that the
+expression `() == ()' will always evaluate to false becaus the array
+construction operator-pair, ( ) always generates a new array.
+[ Editor's note: not sure if this bit about arrays is still true. ]
+
+
+			4.1.1  Basic Types
+
+
+
+int	An integer 32 bit number.
+
+object	Pointer to an object.  An object pointer can mainly be used for two
+	things.  Either giving as argument to functions, or used for calling
+	functions defined by that object with its specific instance of
+	variables.
+
+string	An unlimited string of characters. A lot of operators are allowed for
+	strings, like + and [] etc.
+
+mixed	This type is special, in that it is valid to use in any context. Thus,
+	if everything was declared mixed, then the compiler would never
+	complain. This is of course not the idea.  It is really only supposed
+	to be used when a variable really is going to contain different
+	types of values. This should be avoided if possible. It is not good
+	coding practice, to allow a function for example to return different
+	types.
+
+void	This type is only usable for functions. It means that the function will
+	not return any value. The compiler will complain (when type checking is
+	enabled) if the return value is used.
+
+
+				4.1.2  Arrays
+
+
+	Arrays are declared using a '*' with a basic type. For example,
+declaring an array of numbers:
+			int *arr;
+Use the type mixed if you want an array of arrays, or a mixed combination of
+types.
+
+
+				4.1.3  Special Types
+
+
+	There are some special types, which can be given before the basic type.
+These special types can also be combined. When using special type T before an
+inherit statement, all symbols defined by inheritance will also get the
+special type T. The only special case is public-defined symbols, which can not
+be redefined as private in a private inheritance statement.
+
+
+varargs	A function of this type can be called with a variable number of
+	arguments. Otherwise, the number of arguments is checked, and can
+	generate an error.
+
+private	Can be given for both functions and variables. Functions that are
+	private in object A can not be called through call_other from another
+	object. And, they are not accessible to any object that inherits A.
+
+static	This special type behaves different for variables and functions. It is
+	similar to private for functions, in that they can not be called from
+	other objects. static variables will be neither saved nor restored when
+	calling save_object() or restore_object().
+
+public	A function defined as public will always be accessible from other
+	objects, even if private inheritance is used.
+
+nomask	All symbols defined as nomask can not be redefined by inheritance. They
+	can still be used and accessed as usual.
+
+
+		4.2  Access of data and programs in other objects
+
+
+
+	There is a function call_other(), that can be used to call functions in
+other objects.  All functions can be called except those declared static or
+private.  See Section 4.7 [Predefined Functions] for more information. There is
+another syntax that will do the same thing:
+
+	ob->func(args);
+
+	This will call function func in object ob. It is a much better looking
+way to do it.
+
+There has been a lot of questions why this syntax hasn't been used to allow for
+accessing variables in other objects. There are some good reasons for that.
+
+	- It conflicts with the idea of programming in an object-oriented way.
+	- It makes the programming less structured, as there are more
+	  dependencies.
+	- If a variable name is changed, code can be broken.
+	- Sometimes, you don't even want to keep the variable at all any longer.
+
+
+
+			4.3  Statements
+
+
+			4.3.1  If
+			4.3.2  Block
+			4.3.3  While
+			4.3.4  Do - While
+			4.3.6  Return
+			4.4  Expressions
+			4.5  Saving and Restoring Objects
+			4.6  Inheritance
+[ As yet, this is undocumented. ]
+
+
+			4.7  Predefined Functions
+
+	There are two kinds of predefined functions:
+
+efun	The functions hard coded , which are defined by the game driver. They
+	can be redefined by a local function of the same name, which will then
+	be used instead.
+
+lfun	Functions that optionally can be defined by the objects. These functions
+	will be called by other lfuns, and sometimes by the game driver. They
+	will control how the object will behave in special situations. An
+	example is get(), which if defined and returning 1, will enable the 
+	object to be picked up by players. If returning 0, then the player will
+	get a message that says that the object can't be picked up.
+
+
+
+			4.7.1  Efuns
+
+[ What follows is a listing of most or all of the efuns.  I have removed
+  the section numbering on them, because when new functions are added, it is
+  easier for me to put them in if I don't have to redo the numbering. ]
+
+----
+			add_action
+
+void add_action(string fun, string cmd, int flag)
+
+Set up a local function fun to be called when user input matches the command
+cmd. Functions called by a player command will get the arguments as a string.
+It must then return 0 if it was the wrong command, otherwise 1.
+
+If it was the wrong command, the parser will continue searching for another
+command, until one returns true or give error message to player.
+
+For example, there can be a wand and a rod. Both of these objects defines
+add_verb("wave"). One of them will be randomly called first, and it must look
+at the argument, and match against "wand" or "rod" respectively.
+
+If second argument, cmd, is not given, it must be given by add_verb().
+Support of add_verb() is of historical reasons.
+
+Always have add_action() called only from an init() routine. The object that
+defines commands must be present to the player, either being the player, being
+carried by the player, being the room around the player, or being an object in
+the same room as the player.
+
+If argument flag is 1, then only the leading characters of the command has to
+match the verb cmd.
+
+Never define an action that will call the function exit(), because it is a
+special function.
+[ Editor's note: I believe this is called when leaving a room. ]
+
+See also: query_verb, add_verb, lfun/init, lfun/exit.
+
+
+-----
+			add_verb
+
+void add_verb(string str)
+
+This function is connected to the add_action() function. It will set up the
+command str to trigger a call to the function set up by the previous call to
+add_action().
+
+This function is now obsolete as the verb can be given directly with
+add_action().  add_verb() remains for compatibility.
+
+See also: add_action, query_verb.
+
+
+-----
+			all_inventory
+
+object *all_inventory(object ob)
+
+Returns an array of the objects contained in the inventory of ob.
+
+See also: first_inventory, next_inventory.
+
+
+-----
+			allocate
+
+allocate(int size)
+
+Allocate an array of size elements. The number of elements must be >= 0 and not
+bigger than a system maximum (usually 1000).
+
+See also: sizeof.
+
+
+-----
+			call_other
+
+unknown call_other(object ob, string str, mixed arg)
+
+Call function in another object with an argument.  The return value is returned
+from the other object.
+
+See also: present, find_living.
+
+
+-----
+			call_out
+
+void call_out(string fun, int delay, mixed arg)
+
+Set up a call of function fun in this_object(). The call will take place in
+delay seconds, with the argument arg provided. arg can be of any type.
+
+Please note that you can't rely on `write' or `say' in the fun called since
+this_player() is set to 0.  Use tell_object() instead.
+
+[ Editor's note: This has now been fixed.  "this_player()" now carries through
+  the call_out(). ]
+
+See also: remove_call_out, call_out_info.
+
+
+-----
+			call_out_info
+
+mixed *call_out_info()
+
+Get information about all pending call outs. An array is returned, where every 
+item in the array consists 4 elements:
+
+	1. The object
+	2. The function
+	3. The delay to go
+	4. The optional argument
+
+See also: call_out, remove_call_out.
+
+
+-----
+			capitalize
+
+string capitalize(string str)
+
+Convert the first character in str to upper case, and return the new string.
+
+
+-----
+			cat
+
+int cat(string path, int start, int num)
+
+List the file found at path. It is not legal to have '..' or spaces in the
+path. This function is normally connected to the `cat' command that wizards
+have. It is also used by the `help' command. The optional arguments start and
+num makes is start line number, and number of lines. If they are not given, the
+whole file is printed from the beginning.
+
+The total number lines will not exceed a system limit, which normally is 40
+lines.
+
+cat() returns number of lines read and printed if success, 0 if no such file or
+no lines to read.
+
+See also: ls, file_size.
+
+
+-----
+			catch
+
+mixed catch(string expr)
+
+Evaluate expr.  If there is no error, 0 is returned.  If there is a standard
+error, a string (with a leading '*') will be returned.
+
+The function throw(value) can also be used to immediately return any value,
+except 0.
+
+The catch() is somewhat costly, and should not be used anywhere. Rather, use
+it at places where an error would destroy consistency.
+
+
+-----
+			clear_bit
+
+string clear_bit(string str, int n)
+
+Return the new string where bit n is cleared in string str.  Note that the old
+string str is not modified.
+
+See also: set_bit, test_bit.
+
+
+-----
+			clone_object
+
+object clone_object(string name)
+
+Load a new object from definition name, and give it a new unique name. Return
+the new object.  The original used for cloning, should not be used in the game,
+only used for cloning.
+
+[ Editor's note: if the original copy has a locatio, you will get an error,
+  *cloning bad object. ]
+
+See also: destruct, move_object.
+
+
+-----
+			command
+
+int command(string str)
+
+Execute str as a command given directly by the player. Any effects of the
+command will apply to the current object. There was a second argument, which is
+not supported any longer.
+
+Return value is 1 or 0, for success or failure. Return value is 0 for failure.
+Otherwise, a numeric value is returned, which tells the evaluation cost. Bigger
+number means higher cost. The evaluation cost is approximately the number of of
+machine code instructions executed.
+
+See also: enable_commands.
+
+
+-----
+			create_wizard
+
+string create_wizard(string name)
+string create_wizard(string name, string domain)
+
+In the first form, with only name given as argument, create_wizard() makes a
+directory for the wizard with the name name.  It also creates the files
+`castle.c' and `workroom.c' in the new directory.  The new directory is called
+`PLAYER_DIR/name', where PLAYER_DIR is a define in the game driver and name is
+the name of the wizard.
+
+The second form is used for adding a wizard to a domain, and expects the
+argument domain to contain the name of the domain that the wizard name is
+joining.  The difference from the first form is that the directory is placed in
+`DOMAIN_DIR/domain/name', where DOMAIN_DIR is a define in the game driver,
+domain is the name of the domain and name is the name of the wizard. Also, a
+symbolic link is created in PLAYER_DIR pointing at the new directory.
+
+It returns the name of the new castle. In case of error, false is returned.
+
+
+-----
+			creator
+
+string creator(object ob)
+
+Return as a string the name of the wizard that created object ob. If the object
+was not created by a wizard, 0 is returned.
+
+This function is no longer supported (except in -o mode).
+
+
+-----
+			crypt
+
+string crypt(string str, string seed);
+
+Crypt the string str using two characters from seed as a seed. If seed is 0,
+then random seed is used.
+
+The result has the first two characters as the seed.
+
+
+-----
+			ctime
+
+string ctime(int clock)
+
+Give a nice string with current date and time, with the argument clock that is
+the number of seconds since 1970.
+
+See also: time.
+
+
+-----
+			destruct
+
+void destruct(object ob)
+
+Completely destroy and remove object ob. The argument can also be a string.
+After the call to destruct(), no global variables will exist any longer, only
+local, and arguments.
+
+If an object self-destructs, it will immediately terminate execution and
+return 0.  There is one exception:  If the destruct-statement is followed by
+a `return 1;' immediately after, then this return statement will be executed.
+
+This should NOT be used on normal objects in the game, instead use the lfun
+remove() in the object you want removed: `ob->remove();'. This will ensure
+correct update of weights, volumes etc.
+
+See also: clone_object.
+
+
+-----
+			ed
+
+void ed(string file); void ed(string file, string func);
+
+This is a funny function. It will start a local editor on an optional file.
+This editor is almost ed compatible. If a second argument is given, then a
+function with that name will be called when the user exits the editor.
+
+
+-----
+			enable_commands
+
+void enable_commands();
+
+Enable this object to use commands normally accessible to players. This also
+marks the current object as living. Commands defined by `player.c' will not be
+accessible, of course.
+
+This function must be called if the object is supposed to interact with other
+players.
+
+Avoid calling this function from other places then reset(), because the
+command_giver will be set to the this_object().
+
+See also: command, living.
+
+
+-----
+			environment
+
+object environment(object obj)
+
+Return the surrounding object to obj. If no argument is giving, it returns the
+surrounding to the current object. The object will dissapear silently without
+any sign.
+
+See also: find_first_inventory, this_player, this_object.
+
+
+-----
+			explode
+
+string *explode(string str, string del)
+
+Return an array of strings, created when the string str is splitted into
+substrings as divided by del. The str must end with del if the last part is
+wanted too.
+
+Example: explode(str, " ") will split the string str into an array of words as
+separated by spaces in the original string. The array is returned.
+
+See also: sscanf, extract.
+
+
+-----
+			export_uid
+
+int export_uid(object ob)
+
+Set the uid of object ob to this_object's effective uid. It is only possible
+when object ob has an effective uid of 0.
+
+See also: seteuid, getuid.
+
+
+-----
+			extract
+
+string extract(string str, int from, int to)
+
+Extract a substring from a string. Character 0 is first character.
+`extract(str, n)' will return a substring from characer number n to the end.
+`extract(str, i, j)' will return a string from character i to character j.
+
+See also: sscanf, explode.
+
+
+-----
+			file_name
+
+string file_name(object ob)
+
+Get the file name of an object. If the object is a cloned object, then it will 
+not have any corresponding file name, but rather a new name based on the
+original file name.
+
+Example: `find_object(file_name(ob)) == ob' is guaranteed to be true for all
+objects ob.
+
+[ Editor's note: the new name, when it is a cloned object, will be
+  the file name of the object, a #, and the object number... so, a player
+  might be "/obj/player#38". ]
+
+
+-----
+			file_size
+
+int file_size(string file)
+
+Give the size of a file. Size -1 indicates that the file either does not exist,
+or that it is not readable by you. Size -2 indicates that it is a directory.
+
+See also: save_object, load_object, write_file, cat.
+
+
+-----
+			filter_objects
+
+mixed *filter_objects(mixed *arr, string fun, object ob, mixed extra)
+
+Returns an array holding the items of arr filtered through `ob->fun()'. The
+function fun in ob is called for each element in arr with that element as
+parameter. A second parameter extra is sent in each call if given. If
+`ob->fun(arr[.index.], extra)' returns 1 the element is included in the
+returned array.
+
+If arr is not an array, then 0 will be returned.
+
+
+-----
+			find_call_out
+
+int find_call_out(string func)
+
+Find the first call out due to be executed for function func, and return the
+time left. If it is not found, then return -1.
+
+See also: efun/call_out, efun/remove_call_out.
+
+
+-----
+			find_living
+
+object find_living(string str)
+
+Find first `living' object that answers to the id str (by calling local id()). 
+A living object is an object that has done enable_commands().
+
+The object must have set a name with set_living_name(). There is a special hash
+table that speeds up the search for living objects.
+
+See also: find_player, enable_commands, set_living_name.
+
+[ Editor's note: it seems actually to find the name set with set_living_name()
+  rather than the id. These are usually set to the same string though. ]
+
+
+-----
+			find_object
+
+object find_object(string str)
+
+Find an object with the file name str. If the file isn't loaded, it will not
+be found.
+
+
+-----
+			find_player
+
+object find_player(string str)
+
+Find a player with the name str. The string must be lowercase. Players are
+found even if they are invisible or link dead. Monsters are not found.
+
+This function uses the name that was set by set_living_name().  This is done
+automatically in the player object.
+
+See also: find_living, set_living_name.
+
+
+-----
+			first_inventory
+
+object first_inventory(mixed ob)
+
+Get the first object in the inventory of ob, where ob is either an object or
+the file name of an object.
+
+See also: next_inventory, all_inventory.
+
+
+-----
+			function_exists
+
+string function_exists(string str, object ob)
+
+Return the file name of the object that defines the function str in object ob.
+The returned value can be other than `file_name(ob)' if the function is defined
+by an inherited object.
+
+0 is returned if the function was not defined.
+
+
+-----
+			getuid
+
+string getuid(object ob)
+
+Get the name of the wizard that is set to the user of this object. That name is
+also the name used in the wizlist.
+
+See also: geteuid, seteuid, and export_euid.
+
+
+-----
+			geteuid
+
+string geteuid(object ob)
+
+Get the effective user identification of the object ob.  The effective user id
+is often used to determine permissions.
+
+See also: getuid, seteuid, and export_euid.
+
+
+-----
+			implode
+
+string implode(mixed *arr, string del)
+
+Concatenate all strings found in array arr, with the string del between each
+element. Only strings are used from the array.
+
+See also: explode.
+
+
+-----
+			input_to
+
+void input_to(string fun, int flag)
+
+Enable next line of user input to be sent to the local function fun as an
+argument. The input line will not be parsed.
+
+Note that fun is not called immediately.  It will not be called until the
+current execution has terminated, and the player has given a new command.
+
+If input_to() is called more than once in the same execution, only the first
+call has any effect.
+
+If optional argument flag is non-zero, the line given by the player will not be
+echoed, and is not seen if snooped.
+
+See also: call_other, sscanf.
+
+
+-----
+			interactive
+
+int interactive(object ob)
+
+Return non-zero if ob is an interactive player. 0 will be returned if he is
+link dead.
+
+See also: query_ip_number, query_ip_name.
+
+
+-----
+			intp
+
+int intp(mixed arg)
+
+Return 1 if arg is an integer number.
+
+See also: stringp, pointerp, objectp.
+
+
+-----
+			living
+
+int living(object ob)
+
+Return true if ob is a living object (that is, enable_commands() has been
+called by ob).
+
+
+-----
+			log_file
+
+void log_file(string file, string message)
+
+Append a message to a log file. All log files are in the directory `lib/log'.
+`/log' is automatically prepended to the file name.
+
+See also: write_file.
+
+
+-----
+			lower_case
+
+string lower_case(string str)
+
+Convert the all characters in str to lower case, and return the new string.
+
+See also: capitalize.
+
+
+-----
+			ls
+
+void ls(string path)
+
+List files in an optional path. It is not allowed to use '.' or space in the
+path. This function is normally connected to the `ls' command.
+This function is also obsolete in native mode.
+
+See also: cat, get_dir.
+
+
+-----
+			map_array
+
+mixed *map_array(mixed *arr, string fun, object ob, mixed extra)
+
+Returns an array holding the items of arr mapped through `ob->fun()'.  The
+function fun in ob is called for each element in arr with that element as
+parameter.  A second parameter extra is sent in each call if given.
+Principal function: `foreach (index) arr[index] = ob->fun(arr[index],extra);'
+
+The value returned by `ob->fun(arr[.index.], extra)' replaces the existing
+element in the array.
+
+If arr is not an array, then 0 will be returned.
+
+
+-----
+			member_array
+
+int member_array(mixed item, mixed *arr)
+
+Returns the index of the first occurence of item in array arr. If not found,
+then -1 is returned.
+
+
+-----
+			mkdir
+
+int mkdir(string path)
+
+Make a directory named path. Return 1 for success and 0 for failure.
+
+See also: rmdir, rm
+
+
+-----
+			move_object
+
+void move_object(mixed item, mixed dest)
+
+Move the object item to the object dest.  Currently, both arguments can be
+strings.  Usually, transfer() should be used instead of move_object().
+In native mode, move_object() can only be called from the object being moved.
+
+See also: transfer, first_inventory, this_object, this_player.
+
+
+-----
+			next_inventory
+
+object next_inventory(object ob)
+
+Get next object in the same inventory as ob.
+
+Warning: If the object ob is moved by move_object(), then next_inventory() will
+return an object from the new inventory.
+
+See also: first_inventory, all_inventory.
+
+
+-----
+			notify_fail
+
+void notify_fail(string str)
+
+Store str as the error message given instead of the default message `What ?'.
+If notify_fail() is called more than once, only the last call of will be used.
+The idea of this function is to give better error messages instead of simply
+`What ?'.
+
+
+-----
+			objectp
+
+int objectp(mixed arg)
+
+Return 1 if arg is an object.
+
+See also: intp, stringp, pointerp.
+
+
+-----
+			parse_command
+
+int parse_command(string str, object source, string pattern, var1, var2 ...)
+
+Parses commands given in str against the pattern in pattern and returns 1 if it
+matches. source is either an object or an array of objects. This is essentially
+a 'hotted' sscanf and it has a similar syntax, although parse_command works on
+word basis where sscanf works on character basis.
+
+str	Given command.
+
+source	source is either an object or an array of objects.
+
+array	array holding the accessible objects
+
+object	object from which to recurse and create the list of accessible objects,
+	normally ob = environment(this_player())
+
+pattern	Parse pattern as list of words and formats:
+
+	word	obligatory text (One word)
+	[word]	optional text (One word)
+	/	Alternative marker
+	%o	Single item, object
+	%l	Single living object
+	%s	Any text (multiple words)
+	%w	Any word
+	%p	Preposition
+	%i	Any items
+	%d	Number 0- or tx(0-99)
+
+	Example string: " 'get' / 'take' %i "
+
+	Items as in %o and %i be can on many forms. Some examples:
+	apple, two apples, twentyfirst apple
+	apples, all apples, all green apples, all green ones
+
+
+varN	This is the list of result variables as in sscanf.
+	One variable is needed for each %_
+	The return types of different %_ are:
+
+	%o	Returns an object
+	%l	Returns an object
+	%s	Returns a string of words
+	%w	Returns a string of one word
+	%p	Can on entry hold a list of word in array or an empty variable
+		Returns:
+		if empty variable: a string
+		if array: array[0]=matched word
+
+	%i	Returns a special array on the form:
+		[0] = (int) given numeric prefix
+		=0: all or a pluralform given
+		>0: numeral given: two, three, four...
+		<0: order given: second, third ...
+		[1..n] (object) Objectpointers
+		A list of the POSSIBLE objects that can match the given %i. No 
+		choosing of third or such.
+	%d	Returns a number
+
+
+
+   Example:
+
+a=parse_command("take apple",environment(this_player()), " 'get' / 'take' %i ",
+	items);
+
+[ Editor's note: That example didn't help much, did it? ]
+
+
+-----
+			people
+
+void people()
+
+A function that will list all interactive players, and some info about them.
+This function is normally connected to the people command, that wizards have.
+
+THIS FUNCTION IS OBSOLETE. LOOK AT users() INSTEAD.
+
+
+-----
+			pointerp
+
+int pointerp(mixed arg)
+
+Return 1 if arg is a string.
+
+See also: intp, stringp, objectp.
+
+
+-----
+			present
+
+object present(mixed str, object ob)
+
+If an object that identifies to the name str is present, then return it.
+str can also be an object, in which case the test is much faster and easier.
+
+The object is searched for in the inventory of the current object, and in the
+inventory of the environment of the current object.
+
+A second optional argument ob is the enviroment where the search for the str is
+done. Normally this_player() is a good environment.
+
+See also: move_object, environment.
+
+
+
+-----
+			previous_object
+
+object previous_object()
+
+Returns an object pointer to the object that did a call_other() to the current
+object, if any.  There is one exception, and that is doing call_other() to
+this_object(), which will not change the value of previous_object().
+
+See also: call_other.
+
+
+-----
+			query_idle
+
+int query_idle(object ob)
+
+Query how many seconds idle a player object has been.
+This will generate an error if called on a non-interactive object.
+
+
+-----
+			query_ip_name
+
+string query_ip_name(object ob)
+
+Give the ip-name for player ob. An asynchronous process `hname' is used to find
+out this name in parallell. If there are any failures to find the ip-name, then
+the ip-number is returned instead.
+
+See also: query_ip_number.
+
+
+-----
+			query_ip_number
+
+string query_ip_number(object ob)
+
+Give the ip-number for player ob.
+
+See also: query_ip_name.
+
+
+-----
+			query_verb
+
+string query_verb()
+
+Give the name of the current command, or 0 if not executing from a command. 
+This enables add_action() of several commands to the same function.
+
+See also: add_action.
+
+
+-----
+			random
+
+int random(int n)
+
+Return a number in the random range [0 .. n-1].
+
+-----
+			regexp
+
+string *regexp(string *list, string pattern);
+ 
+Match the pattern pattern against all strings in list, and return a new array
+with all strings that matched.
+
+
+-----
+			remove_call_out
+
+int remove_call_out(string fun)
+
+Remove next pending call out for function fun in this object. The time left is
+returned.  -1 is returned if there were no call out pending to this function.
+
+See also: call_out, call_out_info.
+
+
+-----
+			rename
+
+int rename(string from, string to)
+
+The efun rename will move `from' to the new name `to'. If `from' is a file,
+then `to' may be either a file or a directory. If `from' is a directory, then
+`to' has to be a directory. If `to' exists and is a directory, then `from' will
+be placed in that directory and keep its original name.
+
+It is only possible to change name of a directory within a directory on
+machines running System V, i.e it is not possible to move it to another
+directory. It is not possible to move a directory across filesystems on any
+system.
+
+On successful completion rename will return 0. If any error occurs 1 is
+returned.
+
+
+-----
+			restore_object
+
+int restore_object(string name)
+
+Restore values of variables for current object from file name. It is illegal
+to have '.' or spaces in the name. Return true if success.
+
+Variables that has the type modifer `static' will not be saved. Example:
+`static int xxx;'.
+
+If inheritance is used, then it might be possible that a variable will exist
+with the same name in more than one place. When restoring, only one of these
+variables will be restored if encountered in the save file. A good practice is
+to have verbose and unique names on non-static variables, which also will make
+it easier to read or patch the save file manually.
+
+See also: save_object.
+
+
+-----
+			rm
+
+int rm(string file)
+
+Remove file file. Returns 0 for failure and 1 for success.
+
+See also: mkdir, rmdir.
+
+
+-----
+			rmdir
+
+void rmdir(string dir)
+
+Remove directory dir.
+
+See also: rm, mkdir.
+
+
+-----
+			save_object
+
+void save_object(string name)
+
+Save values of variables of this object in the file name. It is illegal to have
+ '.' or space in the field name. Wizards that call this function can only save
+to files in their own directories.
+
+Object pointers are stored as the number '0'.
+
+Variables that has the type modifier 'static' will not be saved. Example:
+`static int xxx;'.
+
+See also: restore_object.
+
+
+-----
+			say
+
+void say(string str) void say(string str, object obj)
+
+Send a message str to all players in the same object (room). This function is
+also used by the `say' command.
+
+If the message depends on the reciever an array of two messages or a message
+containing words intended for 'value by function call' can be used.
+
+If a second argument obj is specified, messages is sent to all except obj. If
+obj is not an object, but an array of objects, all those objects are excluded,
+they do not get the message.
+
+This commands behaves differently if called from a heart_beat(), or otherwise.
+When called from a heart_beat(), the message will reach all players in the same
+environment of the object that calls say().
+
+See also: write, shout, tell.
+
+
+-----
+			set_bit
+
+string set_bit(string str, int n)
+
+Return the new string where bit n is set in string str. Note that the old
+string str is not modified.
+
+The max value of n is limited. Ask the administrator if you want to know the
+maximum value.
+
+The new string will automatically be extended if needed.
+Bits are packed 6 per byte in printable strings.
+
+See also: clear_bit, test_bit.
+
+
+-----
+			set_heart_beat
+
+int set_heart_beat(int flag)
+
+Enable or disable heart beat. If the heart beat is not needed for the moment,
+then done disable it.  This will reduce system overhead.
+
+Return true for success, and false for failure. Specifically, it will fail if
+the heart beat function has been disabled, which it will be if there is a run
+time error in it.
+
+See also: lfun/heart_beat.
+
+
+-----
+			set_light
+
+int set_light(int n)
+
+An object is by default dark. It can be set to not dark by calling
+`set_light(1)'. The environment will the also get this light. The returned value
+is the total number of lights in this room.
+
+Note that the value of the argument is added to the light of the current
+argument!
+
+
+-----
+			set_living_name
+
+void set_living_name(string name)
+
+Set a living name on an object that must be living. When this is done, the
+object can be found with find_living().
+
+An object can only have one name that can be searched for with find_living().
+
+See also: find_living, find_player.
+
+
+-----
+			seteuid
+
+int seteuid(string str)
+
+Set effective uid to str. It is not possible to set it to any string. It can
+always be set to getuid(), the creator of the file for this object or 0.
+When this value is 0, then current objects uid can be changed by export_uid(), 
+and only then.  But, when the value is 0, no objects can be loaded or cloned by
+this object.
+
+See also: export_uid, getuid.
+
+
+-----
+			shout
+
+void shout(string str)
+
+Send a string str to all players. This function is also used by the sampshout
+command.
+
+[ Editor's note: This function is not to be used lightly, as many find it 
+  highly annoying. ]
+
+See also: write, tell_object, say.
+
+
+-----
+			sizeof
+
+int sizeof(mixed arr)
+
+Return the number of arguments of an array arr. If arr is not an array, then
+'0' is returned.
+
+See also: allocate.
+
+
+-----
+			slice_array
+
+mixed *slice_array(mixed *arr, int from, int to)
+
+Returns an array that is a slice of the array arr from the index from to the
+index to. Indexes are numbered beginning with 0.  If arr is not an array or
+indexes are outside the limits of arr, then 0 will be returned.
+
+Note also that you can use the operator `+' on arrays.
+
+THIS IS NOW OBSOLETE. YOU CAN NOW RETURN RANGES OF AN ARRAY.
+
+
+-----
+			sscanf
+
+int sscanf(string str, string fmt, mixed var1, mixed var2 ...)
+
+Parse a string str using the format fmt. fmt can contain strings separated by
+"%d" and "%s".  Every "%d" and "%s" corresponds to one of var1, var2... "%d"
+will give a number, and "%s" will give a string.  The number of matched "%d"
+and "%s" is returned.
+
+See also: extract, explode.
+
+
+-----
+			stringp
+
+int stringp(mixed arg)
+
+Return 1 if arg is a string.
+
+See also: intp, pointerp, objectp.
+
+
+-----
+			tell_object
+
+void tell_object(object ob, string str)
+
+Send a message str to object ob. If it is an interactive object (a player),
+then the message will go to him, otherwise it will go to the local function
+catch_tell().
+
+See also: write, shout, say.
+
+
+-----
+			tell_room
+
+void tell_room(mixed ob, string str)
+
+Send a message str to object all objects in the room ob. ob can also be the
+name of the room (string).
+
+If the message depends on the reciever an array of two messages or a message
+containing words intended for 'value by function call' can be used. 
+
+See also: write, shout, say, tell_object.
+
+
+-----
+			test_bit
+
+int test_bit(string str, int n)
+
+Return 0 or 1 of bit n was set in string str.
+
+See also: set_bit, clear_bit.
+
+
+-----
+			this_object
+
+object this_object()
+
+Return the object pointer of this object. This is not to be confused with the
+internal name of an object, which is used by the id() function.
+
+See also: this_player.
+
+
+-----
+			this_player
+
+object this_player()
+
+Return the object representing the current player.
+
+See also: this_object.
+
+
+-----
+			time
+
+int time()
+
+Return number of seconds since 1970.
+
+See also: ctime.
+
+
+-----
+			trace
+
+int trace(int traceflags)
+
+Sets the trace flags and returns the old trace flags.  When tracing is on a lot
+of information is printed during execution.
+
+	The trace bits are:
+
+	1	Trace all function calls to lfuns.
+	2	Trace all calls to call_other.
+	4	Trace all function returns.
+	8	Print arguments at function calls and return values.
+	16	Print all executed stack machine instructions (produces a lot
+		of output!).
+	32	Enable trace in heart beat functions.
+	64	Trace calls to apply.
+	128	Show object name in tracing.
+
+
+
+-----
+			traceprefix
+
+string traceprefix(string prefix)
+
+If the the traceprefix is set (i.e. not 0) tracing will only occur in objects
+having a name with the set prefix.
+
+
+-----
+			unique_array
+
+mixed unique_array(object *obarr, string separator)
+
+Groups objects together for which the separator function returns the same
+value. obarr should be an array of objects, other types are ignored. The
+separator function is called only once in each object in obarr. The return
+value is an array of arrays of objects on the form:
+
+	({
+		(-Same1:1, Same1:2, Same1:3, .... Same1:N "),
+		(-Same2:1, Same2:2, Same2:3, .... Same2:N "),
+		(-Same3:1, Same3:2, Same3:3, .... Same3:N "),
+					     ....
+					     ....
+		(-SameM:1, SameM:2, SameM:3, .... SameM:N "),
+	})
+
+
+-----
+			users
+
+object *users()
+
+Return an array of objects, containing all interactive players.
+
+
+-----
+			write
+
+void write(mixed str)
+
+Write a message str to current player. str can also be a number, which will be
+translated to a string.
+
+See also: say, tell_object, shout.
+
+
+-----
+			write_file
+
+int write_file(string file, string str)
+
+Append the string str into the file file. Returns 0 or 1 for failure or success.
+
+See also: file_size, cat, log_file.
+
+
+-----
+			4.7.2  Lfuns
+-----
+			move
+
+int move(object dest)
+
+Move the object to the object dest. All kinds of tests are done, and a number
+is returned specifying the result:
+
+	0:	Success.
+	1:	To heavy for destination.
+	2:	Can't be dropped.
+	3:	Can't take it out of it's container.
+	4:	The object can't be inserted into bags etc.
+	5:	The destination doesn't allow insertions of objects.
+	6:	The object can't be picked up.
+
+If an object is transfered to a newly created object, make sure that the new
+object first is moved to it's destination.
+
+
+-----
+			Shadow
+
+object shadow(object ob, int flag)
+
+If flag is 1, then current object will shadow ob. If flag is 0, then either 0
+will be returned, or the object that is the shadow for ob.
+
+An object that defines the funtion query_prevent_shadow() to return 1 can't be
+shadowed, and the shadow() function will return 0 instead of ob.  If an object
+A shadows an object B, then all call_other() to B will be redirected to A. If
+object A has not defined the function, then the call will be passed on to B.
+There is only one object that can call functions in B with ncall_other(), and
+that is A. Not even object B can call_other() itself.
+
+All normal (internal) function calls inside B will however remain internal to B.
+There are two ways to remove the shadow. Either destruct it, or the object that
+was shadowed.  In the latter case, the shadow will also be destructed
+automatically.
+
+The result is that it is possible to hide an object behind another one, but 
+everything can be totally transparent.
+
+
+-----
+			4.8  Compilation Errors
+
+ [ Editors's note: he didn't do anything here. ]
+
+-----
+			4.9  Simulated efuns
+
+	There is a mechanism to simulate efuns. All simulated efuns have to be
+defined in a special file (which can be anywhere). The function
+'string get_simul_efun()' has to be defined in master.c to return the name of
+this file, as well as loading it. If this function returns 0 or is non-existing,
+then no automatic simulation of efuns will take place.
+	When compiling an object and a function call is found that has not been
+defined locally, then it is either an efun or an undefined function.  If this
+function is defined in the file of simulated efuns, then there will be a
+call_other set up to this function. That means that the function will behave as
+if it was an efun. The type result of the call_other does not have to be casted,
+but will automatically be set by the compiler.
+	This file of simulated efuns are examined by the game driver at startup
+of the game. All functions and the types of them are stored then to speed up
+later references. This means that it is possible to modify this file and reload
+it. But, changing the number of functions or the type definitions of them will
+not affect the compiler.
+	The idea of these simulated efuns are several. One is that it is now
+possible to do major changes (and even removals) of efuns, to be replaced by a
+simulated efun.
+	A function declared as static will never be called automatically.
+
+
+
+			Chapter 5: The LPC Implementation
+
+	The language is defined by two files. `lex.c' defines the lexical
+elemements and takes care of preprocessor directives. `lang.y' defines the
+grammar.
+[ note: unfinised. ]
+
+			5.1  The Virtual Stack Machine
+
+[ note: also unfinished ]
+
+			5.2  How to Add Your Own Functions
+
+	All predefined functions callable by the object must return exactly one
+result on the stack, even if they are defined as void functions.  The compiler
+assumes that there always is one resulting value.
+	The functions that returns the void value, might as well return
+anything, as it won't be used (or at least is undefined). That means that I
+usually return the first argument, which speeds things up as I don't have to
+pop and push unnecessarily.  Many 'stack instructions' exists only to be called
+by the compiler.  Like 'pop', which obviously must not return a value on the
+stack. But, all those instructions are only generated explicitely by the
+compiler, which knows what it does.
+
+If you want to add a new function of you own, you will have to change:
+
+- lang.y:	Define a new name 'F_XXX'. Add it last in the list of '%token',
+		because the Makefile has not been instructed to recompile every
+		file depending on the order of the F_ definitions.
+
+- lex.c:	Add a line to 'predefs', with information about the instruction.
+		Functions that only allow a constant number of arguments are
+		best, as the compiler always knows how many arguments there is,
+		and won't generated code information about that.
+
+- interpret.c:	Add a case statement in eval_instruction().  If the types of
+		the arguments were specified, and only one type allowed, then
+		you will not have to check the types, but can assume they are
+		correct.  If different types are allowed, then they will have
+		to be checked.  Also, if the number of arguments are constant,
+		then you can assume they are correct. Otherwise, the variable
+		num_var will tell you the actual number of arguments.
+
+
+
+
+
+[ Well, that's all for today, kids... I realize that there's still a lot to
+  be done as far as writing documentation here... I can only hope that more
+  will be written and shared.  If you should write anything that fills in the
+  empty spaces, please send me a copy, at adam@dogstar.colorado.edu
+
+	--Adam / Buddha ]
+
+

@@ -1,0 +1,26 @@
+\"returns an array of the filenames of the objects to be preloaded.
+.DT
+Epilog
+Discworld driver help
+Epilog
+
+Name
+.SI 5
+epilog - returns an array of the filenames of the objects to be preloaded.
+
+.EI
+Synopsis
+.SI 5
+string *epilog();
+void preload(string filename);
+
+.EI
+Description
+.SP 5 5
+The driver calls epilog() in master after the master object has been loaded.
+Mudlibs typically use epilog to initialize data structures in master (such
+as security tables etc).  epiolog() should returns an array of filenames
+which correspond to objects that the mudlib wants to have preloaded; that is,
+loaded before the first player logs in.  For each filename returned in the
+array, the driver will called preload(filename) in master.
+.EP

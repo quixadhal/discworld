@@ -1,0 +1,39 @@
+.DT
+nroff
+Discworld creator help
+nroff
+
+Name
+.SI 5
+nroff - Text formating format.
+.EI
+
+Description
+.SP 5 5
+The nroff text formating is the text formating like you see on your
+screen from reading this help file.  It does all of the auto wraping
+etc.  The nroff commands are imbeded into the text of the help file
+prededed by a '.' on a new line.  The commands are all two letters
+long.  They are listed below.
+.EP
+
+.SO 5 20 -30
+	SI <num>	Start indent.  From here until the next change command all of the text will be indented by num chars, if no number is given the text is not formated.
+	EI	End indent.  Go back to unformated text.
+	SP <num> <num>	Start paragraph mode.  The first number is the distance from the right side of the screen and the second number is the distance from the left side of the screen to wrap the characters between.
+	EP	End paragraph mode.  Go back to unformated text.
+	SC	Start centering.
+	EC	End Centering.
+	SL	Start left justify.
+	EL	End left justify.
+	ST	Start table mode.  Table mode is how you print things like the soul commands.  Lists of single words ro whatever that need to wrap cutely.
+	ET	End table mode.
+	SO <num> [<num> ...]]	Start column mode.  The numbers after this specify the width of each table.  If a negative number is given this means the width of the screen minus the given number.  This is the mode used for this table for instance.
+	EO	End cOlumn mode.
+	DT	Do title.  The next three lines are interpreted as the bit to put at the left of the screen, the middle of the screen and the end of the screen.  It is how the headers of all the help files are done.
+.EO
+
+See also
+.SI 5
+help.
+.EI

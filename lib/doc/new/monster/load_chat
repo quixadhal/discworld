@@ -1,0 +1,49 @@
+.DT 
+load_chat
+Discworld monster help 
+load_chat
+
+Name
+.SI 5
+load_chat - Random chat messages.
+.EI
+
+Syntax
+.SI 5
+void load_chat(int chance, mixed *mess);
+.EI
+
+Description
+.SP 5 5
+This loads up the default chat messages.  The chance is the chance in
+1000 that one of the messages will show up every heart_beat whilst
+not in combat.  The
+mess array is actualy made up of pairs.  Each pair consists of a weight
+and a message.  The weight is designed to allow you to make some
+messages much more likely to be said than others.  The mesage can
+actualy be several things.  If the message starts with a ' it is a say,
+if it starts with a " it is a loud say.  If it starts with an @ it is a
+soul command.  If it starts with a : it is an emote.  If it starts with
+none of the above it acts like an echo.
+
+All of the strings are parsed through expand_string first.  There is another
+option for the messages bit.  It can be an array.  If it is an array then
+the message is a story and it will say the entire story in its entirity
+from the start to the end before chooseing a new random message
+to say.  Each message in the story has the same options as a normal
+message (except you cannot have nested storys).
+
+Some help, if the starting character is:
+.EP
+.SO 5 5 -15
+	@	Soul command
+	'	Say.
+	"	Loud say.
+	:	Emote.
+	default	echo.
+.EO
+
+See also
+.SP 5 5
+expand_string, load_a_chat
+.EP

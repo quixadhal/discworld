@@ -1,0 +1,27 @@
+.\"load a copy of an object
+.DT
+clone_object
+Discworld driver help
+clone_object
+
+Name
+.SI 5
+clone_object() - load a copy of an object
+
+.EI
+Synopsis
+.SI 5
+object clone_object( string name );
+
+.EI
+Description
+.SP 5 5
+Load a new object from definition <name>, and give it a new unique
+name. Return the new object.  The original used for cloning, should
+not be used in the game, only used for cloning.
+
+.EP
+See also
+.SI 5
+destruct(3), move_object(3)
+.EI

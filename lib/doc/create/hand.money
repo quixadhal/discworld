@@ -1,0 +1,42 @@
+THe money handler.  This has a plethora of useful and contagious
+functions on it, so beware.
+
+
+void add_type(string type, int value)
+		Adds a new type of coinage into the system at the moment
+		we only have brass, copper, silver, gold, platinum.  The
+		value is it value in brass coins (which are worth 1 ;)
+void remove_type(string type)
+		Removes a type of coin from the handler a great way to
+		annoy players.  revalue or delete a bit of the
+		currency.
+mixed *query_values()
+		Returns the values  array.  Is of the format ({ "brass",
+		1, "copper", 10, "silver", 100, ... })
+int query_value(string type)
+		Returns the value of the given coinage.
+int query_total_value(mixed m_array)
+		Returns the total value (in brass coins) of the money
+		array.
+string money_string(mixed m_array)
+		Returns a string of the format 10 silver coins and 1
+		brass coin.  Is used by the shop and the money object
+		itself for shorts.
+mixed *create_money_array(int value)
+		Given a value of an object in brass coins, create a
+		money array that uses the least amout of coins
+		necessary.
+mixed *calc_change(int amt, mixed *values)
+		Calculates change is mostly for internal use by the
+		make_payment procedure defined below.
+mixed make_payment(string type, int amt, object ob)
+		From the objects pool of money try and make a payment of
+		the amt of type coins.  This is used by the pay_money
+		function on players so they can buy things  at the shop.
+		It also calculates the amount of change to give them.
+		Returns an array of the format ({ ({ take_m_array }),
+		({ add_m_array }) }).
+		The take money array is an array that should be taken
+		off the player for the amout of money specifed to be
+		payed.  The add money array is the amout that needs to
+		be added on as change.

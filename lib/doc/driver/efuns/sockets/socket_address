@@ -1,0 +1,38 @@
+.\"return the remote address for an efun socket
+.DT
+socket_address
+Discworld driver help
+socket_address
+
+Name
+.SI 5
+socket_address() - return the remote address for an efun socket
+
+.EI
+Synopsis
+.SI 5
+.EI
+#include <socket.h>
+#include <socket_errors.h>
+
+string socket_address(int s)
+
+Description
+.SP 5 5
+socket_address() returns the remote address for an efun socket s.
+The returned address is of the form:
+
+"127.0.0.1 23".
+.EP
+Return values
+.SI 5
+socket_address() returns:
+.EI
+.TP
+a string format address on success.
+.TP
+an empty string on failure.
+See also
+.SI 5
+socket_connect(3), socket_create(3)
+.EI

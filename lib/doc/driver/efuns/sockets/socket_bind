@@ -1,0 +1,62 @@
+.\"bind a name to a socket
+.DT
+socket_bind
+Discworld driver help
+socket_bind
+
+Name
+.SI 5
+socket_bind() - bind a name to a socket
+
+.EI
+Synopsis
+.SI 5
+.EI
+#include <socket.h>
+#include <socket_errors.h>
+
+int socket_bind(int s, int port)
+
+Description
+.SP 5 5
+socket_bind() assigns a name to an unnamed socket. When a socket is
+created with socket_create(3) it exists in a name space (address family)
+but has no name assigned. socket_bind() requests that the port be assigned
+to the socket s.
+.EP
+Return values
+.SI 5
+socket_bind() returns:
+.EI
+.TP
+EESUCCESS on success.
+.TP
+a negative value indicated below on error.
+Errors
+.SI 5
+.EI
+.TP 15
+EEFDRANGE
+Descriptor out of range.
+.TP
+EEBADF
+Descriptor is invalid.
+.TP
+EESECURITY
+Security violation attempted.
+.TP
+EEISBOUND
+Socket is already bound.
+.TP
+EEADDRINUSE
+Address already in use.
+.TP
+EEBIND
+Problem with bind.
+.TP
+EEGETSOCKNAME
+Problem with getsockname.
+See also
+.SI 5
+socket_connect(3), socket_create(3), socket_listen(3)
+.EI

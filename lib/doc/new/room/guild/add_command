@@ -1,0 +1,28 @@
+.DT
+add_command
+Discworld guild help
+add_command
+
+Name
+.SI 5
+add_command - Adds a teachable command.
+.EI
+
+Syntax
+.SI 5
+void add_command(string command, string *path, int level);
+.EI
+
+Description
+.SP 5 5
+This sets up a command that will be taught to the person once they
+reach a certain level.  The skill is given by *path, and the level
+needed in the skill is given by level.  If the teaching person is
+dead or hasn't been set, then this will not do anything.  There needs
+to be a valid teaching person for the teaching to work.
+.EP
+
+See also
+.SP 5 5
+add_spell, set_teaching_person
+.EP

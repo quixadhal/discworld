@@ -1,0 +1,16 @@
+mixed *query_skills() 
+
+Description
+	Returns the currently set skills array on the living object.  This is
+used by other commands and players to do any clever things they need to do
+with the skills array.  Returns an array of the format 
+({ name, exp, lvl, ({
+       name2, epx, lvl ({ ... }),
+   name3, exp, lvl ({ }) });
+eg
+({ "fighting", 0, 0, ({ }),
+   "magic", 10000, 10, ({
+          "spells", 1000, 11 ({ }),
+          "points", 0, 10, ({ }),
+          }),
+   });

@@ -1,0 +1,50 @@
+Some diff's between LPC and C
+Comment:	Haven't verified
+these diff's myself as I don't know C, but this may (or may not) prove helpful.
+
+	-- you don't need a main() (I have never even seen one)
+	-- there are many routines and functions that are hidden in
+	the parser, equivalent to the kernal in UNIX, are basic system
+	calls
+	-- pointers are allocated automatically, and no there is currently
+	no garbage collection in the parser
+	-- strings are not arrays the way they are in C the are much closer
+	to the strs of BASIC (you remember being forced to learn that trash
+	in High School right?).  String functions are implied i.e. you may
+	us the '+' operator to combine strings such that:
+		ack=foo+bar; is equivelen to:
+		strcpy(ack,foo);
+		strcat(ack,bar);
+	Also ack[foo] does not refer to a character
+	-- lpc does not use typing.  this means that you can do nonsense like
+	this:
+
+	do_it()
+	{
+		int i;
+
+		i="ack";
+		return i;
+	}
+
+	-- lpc lacks switchs, your stuck with endless if-then's
+
+	-- the object orientedness of lpc is mostly a illusion all your
+	doing is modifing shared parameters, so don't expect C++ kinds of
+	stuff to work
+
+	-- ++, --, +=, -=, *=, and /= behave in strange ways
+
+	-- {}'s seem to be requiered at times for no apperend reason
+
+	-- All low- to high-level lpc objects are not held togethor like
+	a tradtional program it is closer to writing a module for a large
+	program and using a incremental compilor apon each module independant
+	of all other modules
+
+	-- Lpc is interpuretted not compiled
+
+	-- -> is not used for membership (matter of fact you can not do
+	anything fancier then the basic types [no unions, structs, and such])
+
+	-- one last warning let the programmer beware

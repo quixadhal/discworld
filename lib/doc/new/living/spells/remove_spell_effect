@@ -1,0 +1,26 @@
+.DT
+remove_spell_effect
+Discworld spells help
+remove_spell_effect
+
+Name
+.SI 5
+remove_spell_effect - Removes a spell effect.
+.EI
+
+Syntax
+.SI 5
+int remove_spell_effect(string name);
+.EI
+
+Description
+.SP 5 5
+This removes a spell effect as given by the name.  Note this doesnt use the
+type field at all.  It searches each type for the spell of the given name
+and removes that.
+.EP
+
+See also
+.SP 5 5
+query_effects, add_spell_effect, query_effect
+.EP

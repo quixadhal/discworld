@@ -1,0 +1,29 @@
+.\"finds which file defines a given function in a given object
+.DT
+function_exists()
+Discworld driver help
+function_exists()
+
+Name
+.SI 5
+function_exists() - find the file containing a given function in an object 
+
+.EI
+Synopsys
+.SI 5
+string function_exists(string str, object ob)
+
+.EI
+Description
+.SP 5 5
+Return the file name of the object that defines the function `str' in
+object `ob'. The returned value can be other than `file_name(ob)' if the
+function is defined by an inherited object.
+
+0 is returned if the function was not defined.
+
+.EP
+See also
+.SI 5
+call_other(3)
+.EI

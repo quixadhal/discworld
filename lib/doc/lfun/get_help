@@ -1,0 +1,33 @@
+string get_help();
+
+get_help is used for supplying help on an object.  When a player types help
+<object>, there are a number of things that are checked.  First, it checks
+to see if an object is supplied and if not, it lists the standard help files.
+Next, the mud helps to see if find_match(str,this_player()) returns an object
+or objects.  If it does, help will then write out the strings returned by
+calling get_help on each of the objects.  Basically here is the point at which
+you would want to use get_help().
+
+inherit "std/object";
+
+void setup() {
+  set_name("test");
+  set_short("test");
+  set_main_plural("tests");
+  set_long("This is the test object.  'help test' for more info.\n");
+}
+
+string get_help() {
+  return "This is where the extra help goes.\n";
+}
+
+
+Now when the player types:
+
+help test
+
+The mud will respond by printing out the object and the string returned.
+
+Do not add_action("???","help") without good reason.  With this function, you
+should never need to.  Also adding commands that are added by the player object
+should be avoided where possible.

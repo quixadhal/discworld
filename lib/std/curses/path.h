@@ -1,0 +1,1 @@
+#define HERE "/std/curses/"

@@ -1,0 +1,35 @@
+.\"remove an object from the game
+.DT
+destruct
+Discworld driver help
+destruct
+
+Name
+.SI 5
+destruct() - remove an object from the games
+
+.EI
+Synopsis
+.SI 5
+void destruct( {object|string} ob );
+
+.EI
+Description
+.SP 5 5
+Completely destroy and remove object <ob>. The argument can also be a string. 
+After the call to destruct(), no global variables will exist any longer,
+only local, and arguments.
+
+If an object self-destructs, it will immediately terminate execution and
+return 0. There is one exception: if the destruct statement is followed by
+a 'return 1' immediately after, then this return statement will be executed.
+
+This should NOT be used on normal objects in the game, instead use the lfun
+'remove' in the object you want removed (i.e. ob->remove();). This will
+ensure correct update of weights, volumes etc.
+
+.EP
+See also
+.SI 5
+clone_object(3), remove(l)
+.EI

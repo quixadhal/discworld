@@ -1,0 +1,29 @@
+.\"snoop an interactive user
+.DT
+snoop
+Discworld driver help
+snoop
+
+Name
+.SI 5
+snoop() - snoop an interactive user
+
+.EI
+Synopsis
+.SI 5
+varargs object snoop( object snooper, object snoopee );
+
+.EI
+Description
+.SP 5 5
+When both arguments are used, begins snooping of `snoopee' by `snooper'.
+If the second argument is omitted, turns off all snooping by `snoopee'.
+Security for snoop() is normally controlled by a simul_efun.  snoop() returns
+`snoopee' if successful in the two-argument case, and `snooper' if it was
+successful in the single-argument case.  A return of 0 indicates failure.
+
+.EP
+See also
+.SI 5
+query_snoop(3).
+.EI

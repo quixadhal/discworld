@@ -1,0 +1,41 @@
+.\"call a function in another object
+.DT
+call_other
+Discworld driver help
+call_other
+
+Name
+.SI 5
+call_other() - call a function in another object
+
+.EI
+Synopsis
+.SI 5
+unknown call_other( object ob, string str, mixed arg );
+
+.EI
+Description
+.SP 5 5
+Call function in another object with an argument. The return value is
+returned from the other object. The compiler don't know the return type,
+so it must be cast.
+
+There is a syntactically more attractive way to do call_others:
+
+ob -> func( args... );
+
+Which is equivalent to call_other( "func", args... );
+If the first argument passed to call_other() is an array, then "func"
+will be called on each element of the array which is an object.  Here
+are some example usages of this MudOS feature:
+
+all_inventory(ob)->move(dest);
+
+users()->quit();
+
+
+.EP
+See also
+.SI 5
+present(3), find_living(3)
+.EI

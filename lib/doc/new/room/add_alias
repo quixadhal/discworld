@@ -1,0 +1,30 @@
+.DT
+add_alias
+Discworld room help
+add_alias
+
+Name
+.SI 5
+add_alias - Adds a room alias.
+.EI
+
+Syntax
+.SI 5
+void add_alias(string name, string alias);
+.EI
+
+Description
+.SP 5 5
+Room aliases are used for aliasing exit directions to other names.
+For example, if you have an exit which works on enter dust bin...
+You could add an alias of "bin" to "dust bin" so that enter bin
+would work too.  You could also alias "enter" to "dig", then "dig bin"
+or "dig dust bin" would get you through the exit as well.  These aliases
+are not used for items any more.  This was an old method of doing this
+and is now obsolete.
+.EP
+
+See also
+.SP 5 5
+remove_alias, modify_alias
+.EP

@@ -1,0 +1,22 @@
+The miscellaneous menu contains all the setup functions that many rooms need.
+A brief description of each of them follows.
+
+short - The description you get when in brief mode.  Usually about 1-4 words.
+        Stairway, Path in Forest, Wide Open Plain, Mages Workroom.
+
+long - The description you get when you are in verbose mode or when you type
+       look.  It should be about 2-3 lines and contain a brief description of
+       where the exits lead and what items are in the room.  The items should
+       also be added in the items menu for the player to be able to look at.
+
+light - The light level of the room.  This is used for working out if you can
+        see or not.
+
+zone - The zone is used for wandering monsters.  The monsters will wander
+       around a set of zones.  If your room is of zone "ankh morpork", any
+       monster that has been told to wander in that zone will just walk around
+       the rooms there.
+
+coord - You don't need to set the coordinates except in rooms where players are
+        likely to be moved to and there is no exit leading back.  Rooms are
+        supposed to work out their own coordinates based on those around them.

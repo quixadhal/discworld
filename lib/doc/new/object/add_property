@@ -1,0 +1,35 @@
+.DT
+add_property
+Discworld object help
+add_property
+
+Name
+.SI 5
+add_property - Add a dynamic property to the object.
+.EI
+
+Syntax
+.SI 5
+void add_property(string name, mixed value);
+.EI
+
+Description
+.SP 5 5
+This allows you to add easy to query but also easy to change values to
+an object.  You can use these to store information about an object that
+you need to have saved (as they are automagicly saved) without having
+to declare an extra variable.
+
+help properties will give you a more complete listing of the properties
+available to you at this point in time.
+.EP
+
+Example
+.SI 5
+add_property("emote",1);
+.EI
+
+See also
+.SP 5 5
+query_property, query_properties, remove_property
+.EP

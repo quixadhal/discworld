@@ -1,0 +1,29 @@
+.DT
+long
+Discworld object help
+long
+
+Name
+.SI 5
+long - Return the process long description.
+.EI
+
+Syntax
+.SI 5
+string long(string str, int dark);
+.EI
+
+Description
+.SP 5 5
+Returns the long desription of the object.  This is the description
+the player sees when they actually look at the object.  This does all
+the extra processing like adding in the weapons condition string and
+any items that happen to be in its inventory and so on.  The paramaters
+passed to the long function are the string on which it matched the object
+and weather or not the player thinks it is dark or not.
+.EP
+
+See also
+.SI 5
+set_long, query_long
+.EI

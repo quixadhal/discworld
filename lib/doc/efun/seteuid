@@ -1,0 +1,20 @@
+.DT
+seteuid
+Discworld efun help
+seteuid
+
+int seteuid(string str)
+.SP 5 5
+Set effective uid to str. It is not possible to set it to any string. It 
+can always be set to getuid(), the creator of the file for this object or 0.
+
+When this value is 0, then current objects uid can be changed by export_uid(),
+and only then.
+
+But, when the value is 0, no objects can be loaded or cloned by this object.
+.EP
+
+See also
+.SI 5
+export_uid, getuid.
+.EI

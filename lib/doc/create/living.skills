@@ -1,0 +1,23 @@
+int query_skill_successuful(string str, int modifyer)
+                Returns 1 if the object successfuly completed the skill
+                check.  The modifer is so that you can make the attempt
+                easy or hard.
+int query_skill(string str)
+		Returns the level of the skill.
+int query_skill_bonus(string skill)
+		Returns the players bonus in a skill.  This will range
+		from aproximately 0-200.  It will get higher than 200
+		but not much.  The bonus is calculated on the guild
+		object and the bonus from the race object added on.
+int add_skill_lvl(string skill, int lvl, int exp)
+		Adds the number of levels specified to the given skill.
+		The exp option is how much exp was used in increasing
+		the level.
+mixed *query_skills() 
+		Returns the currently set skills array on the living
+		object.  This is used by other commands and players to
+		do any clever things they need to do with the skills
+		array.
+vois set_skills(mixed *frog)
+		Sets the skills array to the paramter.  Beware of using
+		this.

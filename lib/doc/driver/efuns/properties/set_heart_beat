@@ -1,0 +1,32 @@
+.\"enable or disable an object's heartbeat
+
+.DT
+set_heart_beat
+Discworld driver help
+set_heart_beat
+
+Name
+.SI 5
+set_heart_beat() - enable or disable an object's heartbeat
+
+.EI
+Synopsis
+.SI 5
+int set_heart_beat(int flag);
+
+.EI
+Description
+.SP 5 5
+Enable (flag == 1) or disable heart beat (flag == 0). If the heart beat
+is not needed for the moment, then do disable it. This will reduce system
+overhead.
+
+Return true for success, and false for failure.  Specifically, it will
+fail if the heart beat function has been disabled, which it will be
+if there is a run time error in the object.
+
+.EP
+See also
+.SI 5
+lfun/heart_beat.
+.EI

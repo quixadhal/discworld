@@ -1,0 +1,30 @@
+.DT
+functions
+Discworld efun help
+functions
+
+Functions
+.SI 5
+* Efuns
+* Lfuns
+* Shadow
+.EI
+
+There are two kinds of predefined functions:
+
+efun
+.SP 5 5
+The functions hard coded, which are defined by the game driver. They can be 
+redefined by a local function of the same name, which will then be used 
+instead.
+.EP
+
+lfun
+.SP 5 5
+Functions that optionally can be defined by the objects. These functions will 
+be called by other lfuns, and sometimes by the game driver. They will control 
+how the object will behave in special situations. An example is get(), which 
+if defined and returning 1, will enable the object to be picked up by players.
+If returning 0, then the player will get a message that says that the object 
+can't be picked up.
+.EP

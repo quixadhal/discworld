@@ -1,0 +1,25 @@
+.DT
+input_to
+Discworld efun help
+input_to
+
+void input_to(string fun, int flag)
+
+.SP 5 5
+Enable next line of user input to be sent to the local function fun as
+an argument. The input line will not be parsed.
+
+Note that fun is not called immediately. It will not be called until the 
+current execution has terminated, and the player has given a new command.
+
+If input_to() is called more than once in the same execution, only the first 
+call has any effect.
+
+If optional argument flag is non-zero, the line given by the player will not 
+be echoed, and is not seen if snooped.
+.EP
+
+See also
+.SI 5
+call_other, sscanf.
+.EI

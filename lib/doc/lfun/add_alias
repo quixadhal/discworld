@@ -1,0 +1,35 @@
+int add_alias(string str)
+ 
+        Adds an alias to the object.  The name, the alias and the adjectives
+go together to allow for referenceing of the object.
+ 
+Eg
+ 
+void setup() {
+  set_name("frog");
+  add_alias("toad");
+  add_adjective("big");
+  add_adjective("blue");
+  set_main_plural("big blue frogs");
+  set_short("big blue frog");
+  set_long("A big blue frog stareing intetly at you.\n");
+  add_plural("frogs");
+  add_plural("toads");
+}
+ 
+This object could be looked at by typeing
+> look at frog
+> look at big frog
+> look at blue toad
+> look at big blue frog
+ 
+The plurals which have been set allow you to do things like
+ 
+> look at frogs
+> look at blue frogs
+ 
+etc.
+ 
+See also
+    set_name, query_name, add_adjective, add_plural, set_main_plural,
+    remove_alias

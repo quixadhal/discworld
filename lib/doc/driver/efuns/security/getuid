@@ -1,0 +1,27 @@
+.\"return the user id (uid) of an object
+
+.DT
+getuid
+Discworld driver help
+getuid
+
+Name
+.SI 5
+getuid() - return the user id (uid) of an object
+
+.EI
+Synopsis
+.SI 5
+string getuid(object ob);
+
+.EI
+Description
+.SP 5 5
+Returns the user id of an object.  The uid of an object is determined at
+object creation time by the creator_file() simulated efunction.
+
+.EP
+See also
+.SI 5
+seteuid(3), geteuid(3).
+.EI

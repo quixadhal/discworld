@@ -1,0 +1,104 @@
+.DT
+auto_load
+Discworld concepts help
+auto_load
+
+Name
+.SI 5
+auto_load - Saving the state of objects over quits.
+.EI
+
+Syntax
+.SI 5
+mixed query_static_auto_load();
+mixed query_dynamic_auto_load();
+void init_dynamic_arg(mixed arg);
+void init_static_arg(mixed arg);
+.EI
+
+Description
+.SP 5 5
+Whenever a player quits/saves in the game each object in his inventory
+has the functions query_dynamic_auto_load and query_static_auto_load
+called on them.  If either of these functions return a non zero value
+the object is saved for autoloading.  The object can be saved
+in several ways.  If it is a clone it will reclone the object when
+they log on.  If it is a "master", or whatever you want to call an
+object without an object number, it will check to see if the object
+is loaded, if it is, the player will not get it.  If the object
+is not loaded, it loads it and moves it into their inventory.  In
+both cases the init_xx_arg functions are called with the same values
+as was returned from the querying functions.
+
+Why two functions?  There are two functions because every object has
+two quite clear cut bits that are set on it.  One is the static
+stuff that never changes, and the other is the dynamic stuff which
+can change all the time through the objects lifetime.  So, we
+divided them into two so you can change them easily.  The static
+stuff is NOT returned if it is not a base object.  This is cause
+most of these objects will have their short/long etc set already.
+
+How to use.  If you are createing a base object which you expect to
+be inherited you will have to be careful that you split up the dynamic
+bits and the static bits and put them in the right functions.  If you
+have an end of the line object like a torch or an exploding wand, you
+can just use query_static_auto_load as this will return 0 anyway.
+
+If you are wondering what the strange int_static_auto_load stuff
+is for, it is for createing base object that wish to save all of the
+base code of the previous objects in its inherit tree.  Hey, I think
+I am on a roll of utter confusion here, I don't think even I understand
+what I just wrote.  Oh well, anyone who can do better, just rewrite it
+ok?  Most of the stanard objects will do a strange test in the
+query_static_auto_load function along the lines of
+.EP
+
+.SI 5
+if (file_name(this_object())[0..10] != "/obj/armour")
+  return 0;
+.EI
+
+.SP 5 5
+This checks to make sure that the object being saved has been inherited
+or not.  If it has been inherited, it does not save the information.
+This is the reason you use the int_static_auto_load function to get
+the values, otherwise the internal checks would fail.  (This is used
+as a disk space saving device).
+
+If you are just wanting to save one paramater, its easy!  You
+can do it like this.
+.EP
+
+.SI 5
+mixed query_static_auto_load() {
+  return num_charges;
+} /* query_static_auto_load() */
+
+void init_static_arg(mixed arg) {
+  num_charges = arg;
+} /* init_static_arg() */
+.EI
+
+.SP 5 5
+If you are wishing to save multiple variables it is slightly more
+tricky.  The easiest way is to save them in an array, like so.
+.EP
+
+.SI 5
+mixed query_static_auto_load() {
+  return ({ num_charges, colour });
+} /* query_static_auto_load() */
+
+void init_static_arg(mixed arg) {
+  num_charges = arg[0];
+  colour = arg[1];
+.EI
+
+.SP 5 5
+I think that about wraps it up.  Share and enjoy.
+.EP
+
+See also
+.SP 5 5
+arrays
+.EP

@@ -1,0 +1,28 @@
+.DT
+add_spell
+Discworld guild help
+add_spell
+
+Name
+.SI 5
+add_spell - Set up a spell to be taught.
+.EI
+
+Syntax
+.SI 5
+void add_spell(string spell, string *path, int level);
+.EI
+
+Description
+.SP 5 5
+This sets up a spell to be taught to various people once they reach the
+specified level in the skill given by the path.  For a good example on
+this code look at the temple of small gods in Ankh Morpork.  The spell
+will be taught by the teaching person, if the teaching person is 0.
+ie killed, then the spell will not be taught.
+.EP
+
+See also
+.SP 5 5
+add_command
+.EP

@@ -1,0 +1,105 @@
+.DT
+aliases
+Discworld player help
+aliases
+
+Name
+.SI 5
+aliases - the discworld alias system
+.EI
+
+Syntax
+.SI 5
+alias [<name> [<definion>]]
+unalias  <name>
+.EI
+
+Description
+.SI 5
+%^BOLD%^alias%^RESET%^ [<name> [<definition>]]
+.EI
+.SP 5 5
+       The alias comand has three different formats.  The first format,
+alias on a line by itself, will show all your currently defined aliases
+in a nice formated output.  The second format alias with a name after it
+wwill show you what you have defined name kto be be.  The third format,
+alias <name> <definition> will set name to the definition you have
+passed to it.
+.EP
+
+.SI 5
+%^BOLD%^unalias%^RESET%^ <name>
+.EI
+.SP 5 5
+	Unalias is used to delete aliases from your list. unalias <name>
+will delete the alias of the given name.
+.EP
+
+Format of the definition string.
+.SP 5 5
+	The rest of the command line is automagicly appended to the end
+of the last line in your alias file.  However for more functionality the
+following are added (BTW if you use one of these commands, the rest of
+the command line is not appended)
+.EP
+
+.SO 25 -25
+$*$	will be replaced with all of the argument string.
+$1$	will be replaced with the first argument.
+$1*$	will be replaced with the all the command line from the first agument inclusive.
+$*2$	will be replaced with all the command line up to and includeing the second argument.
+$arg:frog$	will be replaced with the argument to the alias or if none is defined will be replaced with frog
+$arg1:frog$	will be replaced with the 1st comand line argument (if it exists) or if none is give is replaced with frog.
+$ifarg:c1$else$c2~$	pretty obvious i suppose
+$ifarg2:c1$else$c2~$	as above.
+;	are expanded out to being equivilant to pressing return.
+\;	will insert a ; into the line.
+.EO
+
+share and enjoy
+
+Example
+.SI 5
+> alias
+la: look at $*$
+b:bounce      gr: grin
+> alias la
+la: look at $*$
+> alias l look
+Ok
+> alias
+la: look at $*$
+b: bounce    gr: grin     l: look
+> unalias b
+Ok
+> alias
+la look at $*$
+gr:grin      l:look
+> alias p poke $arg:pinkfish$
+Ok
+> p
+You poke pinkfish.
+> p shadow
+You poke shadow.
+> la fish
+You see a nice litle fish lying on the ground gasping for air.
+> alias bing bounce;smile;grin
+Ok
+> bing
+B O I N G !!
+You smile.
+You grin.
+>
+
+For a more complicated alias try this one
+> alias l look$ifarg: at $*$~$
+> l fish
+You see a nice little fish
+> l
+Description of the room.
+.EI
+
+See also
+.SI 5
+nickname, ealias.
+.EI

@@ -1,0 +1,32 @@
+
+int query_hp()
+		Returns the monsters current hit points.
+int query_max_hp()
+		Returns the monsters current maximun hit points.
+int query_sp()
+		Returns the monsters current spell points
+int query_max_sp()
+		Returns the monsters current maximun spell points.
+int query_xp()
+		Returns the current experiance points for the monster
+int query_total_xp()
+		Returns the total amount of experiance points this
+		obkect has ever gained.
+int set_max_hp(int max)
+		Sets the objects maximun hps to max.
+int set_hp(int i, object attacker)
+		Sets the current hps to i.  If i is less than zero the
+		death sequence is called.  This is why the paramter
+		attacked is there.
+int adjust_hp(int i, object attacker)
+		Adjusts the current hit points by i.  The attacker
+		paramater is there beacuse if the hps go below 0 the
+		death sequence is initiated.
+int set_max_sp(int i)
+		Sets the object maximun spell points to i.
+int set_sp(int i)
+		Sets the objects current spell points to i.
+int adjust_sp(int i)
+		adjusts the spell points by i.
+int adjust_xp(int i)
+		adjusts the object current experiance points by i.

@@ -1,0 +1,29 @@
+.\"returns a pointer to the user (player) object to the driver
+.DT
+Connect
+Discworld driver help
+Connect
+
+Name
+.SI 5
+connect - returns a pointer to the user (player) object to the driver
+
+.EI
+Synopsis
+.SI 5
+object connect()
+
+.EI
+Description
+.SP 5 5
+
+The driver calls connect() in the master object whenever a new user logs
+into the driver.  The object returned by connect() is used as the initial
+user object.  Note that it is possible to use exec(3) to switch the user
+connection from the initial user object to some other object.
+
+.EP
+See also
+.SI 5
+exec(3)
+.EI

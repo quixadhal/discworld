@@ -1,0 +1,19 @@
+.DT
+find_living
+Discworld efun help
+find_living
+
+object find_living(string str)
+
+.SP 5 5
+Find first living object that answers to the id str (by calling local id()). 
+A living object is an object that has done enable_commands().
+
+The object must have set a name with set_living_name(). There is a special
+hash table that speeds up the search for living objects.
+.EP
+
+See also
+.SI 5
+find_player, enable_commands, set_living_name.
+.EI

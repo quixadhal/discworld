@@ -1,0 +1,18 @@
+.DT
+notify_fail
+Discworld efun help
+notify_fail
+
+void notify_fail(string str)
+.SP 5 5
+Set the message that will be printed if the functions for the current
+verb return 0. Default is 'What?'.
+
+If notify_fail() is called more than once, only the last call of
+will be used.
+
+The idea of this function is to give better error messages instead of simply
+What ?.  Use this function as much as you can.  It is a lot more polite to
+return an error from your add_actioned commands than to prtint and error
+and return 1.
+.EP

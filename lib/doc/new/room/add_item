@@ -1,0 +1,51 @@
+.DT
+add_item
+Discworld room help
+add_item
+
+Name
+.SI 5
+add_item - Adds an item to the room.
+.EI
+
+Syntax
+.SI 5
+varargs void add_item(string name, string desc, int no_plural);
+varargs void add_item(string *name, string desc, int no_plural);
+varargs void add_item(string name, string *desc, int no_plural);
+.EI
+
+Description
+.SP 5 5
+This adds in an item description into the room.  This allows you to set
+up objects which do not as such exist, but can be looked at for instance.
+There should be a lot of these in rooms.  The name of the item can be
+multiple word, and the plural for it is automagicaly added, unless the
+no_plural flag is set.  If the name is an array all of the elements in
+the array respond to the description.
+
+If the desc is set to an array, you can use this for handling things like
+read messages and so on too.  Every second element in the array is the
+description/text to be printed and the other element is the command
+upon which the text should be printed.  The special command 'long' is
+used to set the long description.
+
+Since this is a long description, you can use process_string embeded
+commands in the description.
+.EP
+
+Example
+.SI 5
+add_item("green pot plant", "It's a nasty green pot plant lurking by "+
+                            "the door.\n");
+add_item(({ "telephone", "red phone" }),
+         "The red phone sits over in the corner stareing into space "+
+         "it looks pretty unhappy with it's lot in life.\n");
+add_item("small book", ({ "long", "A small red book with dots on the cover.\n",
+                          "read", "It says rabbit! in big letters.\n" }));
+.EI
+
+See also
+.SP 5 5
+modify_item
+.EP

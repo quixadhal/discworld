@@ -1,0 +1,56 @@
+.DT 
+expand_string 
+Discworld monster help 
+expand_string 
+
+Name
+.SI 5
+expand_string - Monster message processing.
+.EI
+
+Syntax
+.SI 5
+string expand_string(string in_str, object on, object attacker);
+.EI
+
+Description
+.SP 5 5
+This expands the incoming string using a set of $ enclosed macro
+thingys.  The attacker is a fairly obvious argument :)  and the on
+is used as an argument to the object expansion thingy, if it is not
+set a random object is chosen.
+
+There are expansions on several things, listed below:
+.EP
+.SO 5 5 -15
+	l	Living object, randomly choosen from the environment.
+	o	Object, randomly choosen from the environment.
+	a	attacker.  Passed as a parameter.
+	m	Me....
+.EO
+.SP 5 5
+
+
+Each of these objects/thingys have a second bit to them that specifies
+exactly what they are going to be.  They are
+.EP
+.SO 5 10 -20
+	name	Name of the object.
+	cname	Cap name of the object.
+	gender	Gender string.
+	poss	Possessive string.
+	obj	Objective string.
+	gtitle	Gender title.
+	pronoun	Pronoun string.
+.EO
+.SP 5 5
+
+
+Using these illustrious values the string will be expanded.
+.EP
+
+See also
+.SP 5 5
+set_throw_out, load_chat, load_a_chat
+.EP
+

@@ -1,0 +1,26 @@
+.DT
+adjust_light
+Discworld object help
+adjust_light
+
+Name
+.SI 5
+adjust_light - Change the light level of the object.
+.EI
+
+Syntax
+.SI 5
+void adjust_light(int amt);
+.EI
+
+Description
+.SP 5 5
+This is the function that is called by objects adding and removeing themself
+from the inventory of objects.  This should never be called manualy unless
+you actually wish to change the internal light levels of the object.
+.EP
+
+See also
+.SP 5 5
+set_light, light, query_light
+.EP

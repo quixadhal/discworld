@@ -1,0 +1,28 @@
+.\"called by the MudOS driver when a prompt should be printed
+.DT
+Process_input
+Discworld driver help
+Process_input
+
+Name
+.SI 5
+write_prompt \- called when the parser wants a prompt to be written.
+
+.EI
+Synopsis
+.SI 5
+void write_prompt()
+
+.EI
+Description
+.SP 5 5
+
+If write_prompt is present in the player object, the driver will call it
+whenever the default prompt would normally be printed.  The driver will
+not call write_prompt when the player is in input_to or ed.
+
+.EP
+Author
+.SI 5
+Truilkan@TMI
+.EI

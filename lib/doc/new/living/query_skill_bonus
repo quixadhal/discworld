@@ -1,0 +1,37 @@
+.DT 
+query_skill_bonus 
+Discworld living help 
+query_skill_bonus 
+
+Name
+.SI 5
+query_skill_bonus - The working skill value.
+.EI
+
+Syntax
+.SI 5
+int query_skill_bonus(string skill);
+.EI
+
+Description
+.SP 5 5
+This returns the value for the skill.  This is the value that is used in
+calculation of skill success/failure.  This function takes into account
+stats, level and guild/race bonuses.  This uses two of the caches.
+The bonus cache and the stat cache.  The rough range for values returned
+from this function is 0-300.  However values above 300 are possible,
+just unlikely.  There is no theoretical limit on the value this function
+can return.  But assume that 300 means they are an amazing master
+of the skill.
+
+When writing skill success checking functions, please make sure you
+don't use a static cut off.  Try and make things random, so that as the
+player gets better at something he succeeds more often, but not that
+often...
+.EP
+
+See also
+.SP 5 5
+query_skill, query_bonus_cache, query_stat_cache, query_skills
+.EP
+

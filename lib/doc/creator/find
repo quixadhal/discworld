@@ -1,0 +1,35 @@
+.DT
+find
+Discworld creator help
+find
+
+Name
+.SI 5
+find - Find where a function is defined.
+.EI
+
+Syntax
+.SI 5
+find <func> <object(s)>
+.EI
+
+Description
+.SP 5 5
+This acts similarly to 'call' but only finds out where the function is and 
+doesn't call it. It tells you where the function is in the object, and
+any shadows that mask the function.
+
+note: I will get it to list *all* the incidences of the function soon--bil
+.EP
+
+Examples:
+.SI 5
+> find long me
+> find long here
+> find set_short torch
+.EI
+
+See also
+.SP 5 5
+call
+.EP

@@ -1,0 +1,27 @@
+.\"get pending call_out() information
+.DT
+call_out_info
+Discworld driver help
+call_out_info
+
+Name
+.SI 5
+call_out_info() - get pending call_out() information
+
+.EI
+Synopsis
+.SI 5
+mixed *call_out_info();
+
+.EI
+Description
+.SP 5 5
+Get information about all pending call outs. An array is returned,
+where every item in the array consists 4 elements: the object,
+the function, the delay to go, and the optional argument.
+
+.EP
+See also
+.SI 5
+call_out(3), remove_call_out(3)
+.EI

@@ -1,0 +1,21 @@
+.DT
+process_string
+Discworld efun help
+process_string
+
+string process_string(string)
+.SP 5 5
+Checks a string for the below occurences and replaces:
+Fixes a call to a named function if the value is of the
+form: '@@function[:filename][|arg|arg]@@' Filename is optional.
+Note that process_string does not recurse over returned
+replacement values. If a function returns another function
+description, that description will not be replaced.
+
+It calls the function 'function' in the current object or the object
+specified by 'filename' and replaces the bits between the @@'s with
+the return value.  If the return value is not a string no replacement
+will be done, so you will end up with a very silly looking string :)
+
+Returns a string containing the result of all replacements.
+.EP

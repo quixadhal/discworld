@@ -1,0 +1,25 @@
+The Post Office is south, east, east, south from the Mended Drum.
+Share and enjoy.
+
+Mailer commands,
+
+h         - show headers
+m <name>  - mails to the given person
+r [num]   - replys to the message number or the current message if none given
+R [num]   - as above but only sends to the sender, not the Cc's as well
+d [range] - deletes a range of messages
+f [num] <name> - forwards the message (current or given) to the person
++ [num]   - goes on num messages (1 default)
+- [num]   - goes back num messages (q default)
+l         - List the currently avaiable mailing lists.
+l <list>  - List the members of the mailing list <list>.
+q         - quit and delete all the messages selected for deletion
+x         - quit but do not delete all the messages
+?         - display this message
+<num>     - reads messages num
+
+Return on a blank line will display the next message.
+
+A range is defined as a list of comma seperated numbers or spans.
+So 1-2 is defined as well as 1,2,3 and
+all is a special case that means all messages, so d all is ok.

@@ -1,0 +1,30 @@
+.DT 
+query_stat_cache 
+Discworld living help 
+query_stat_cache 
+
+Name
+.SI 5
+query_stat_cache - Contents of the bonus cache.
+.EI
+
+Syntax
+.SI 5
+mapping query_stat_cache();
+.EI
+
+Description
+.SP 5 5
+To speed up the skill checking/querying functions several "caches" were
+added to the living objects.  This one, the stat cache, is for the
+skill level calculation junk.  This function is mostly for debugging
+use, and has no great relevance to the rest of the world.  Unlike the
+other two cache's this is not a straight number, it is an array
+containing a number and the stat string.  Not that it matters much.
+.EP
+
+See also
+.SP 5 5
+query_bonus_cache, query_level_cache
+.EP
+

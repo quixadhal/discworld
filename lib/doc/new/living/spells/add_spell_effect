@@ -1,0 +1,32 @@
+.DT
+add_spell_effect
+Discworld spells help
+add_spell_effect
+
+Name
+.SI 5
+add_spell_effect - Add a spell effect onto the object.
+.EI
+
+Syntax
+.SI 5
+void add_spell_effect(int no_rnds, string type, string name,
+                      object callee, string func, mixed param);
+.EI
+
+Description
+.SP 5 5
+This adds an effect into the spell effect array.  The type is supposed to
+filter out the different sorts of effects into sperate distinct groups.
+Things like "defense" and so on.  Each of these groups can be handled in
+a different way, for instance you may only allow one defense type spell
+to be active at any one time, or you may wish to allow any number of
+them.  This is all completely up to the caller.  This just adds it
+directly into the array, with no processing.  The number of rounds is
+the amount of time the effect will stay on the object before vanishing.
+.EP
+
+See also
+.SP 5 5
+query_effects, query_effect
+.EP

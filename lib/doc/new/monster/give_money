@@ -1,0 +1,29 @@
+.DT 
+give_money 
+Discworld monster help 
+give_money 
+
+Name
+.SI 5
+give_money - Setup default money.
+.EI
+
+Syntax
+.SI 5
+int give_money(int base, int rand, string type);
+.EI
+
+Description
+.SP 5 5
+Gives the monster base+random(rand) coins of the type 'type'.  This
+is the general method of giveing a monster its default amount of money.
+This function returns the total amount of money the monster now has
+in the coinage specified.  If no coin type is given then the default
+type is copper.
+.EP
+
+See also
+.SP 5 5
+money
+.EP
+

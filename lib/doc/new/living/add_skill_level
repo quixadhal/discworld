@@ -1,0 +1,29 @@
+.DT 
+add_skill_level 
+Discworld living help 
+add_skill_level 
+
+Name
+.SI 5
+add_skill_level - Increase the skill level.
+.EI
+
+Syntax
+.SI 5
+int add_skill_level(string skill, int level, int exp);
+.EI
+
+Description
+.SP 5 5
+This function increases the skill level of the living object by the amount
+specified in the level var.  The exp var is used to specify how much
+exp was spent on increaseing that skill.  The value returned by this
+function is the new level of the skill.  This is the function used by
+guilds and so on to increase levels of the players skills.
+.EP
+
+See also
+.SP 5 5
+query_skill, query_skill_bonus, query_skills
+.EP
+

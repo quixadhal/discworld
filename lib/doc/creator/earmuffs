@@ -1,0 +1,46 @@
+.DT
+earmuffs
+Discworld creator help
+earmuffs
+
+Name
+.SI 5
+earmuffs - Block certain events.
+.EI
+
+Syntax
+.SI 5
+earmuffs
+earmuffs on
+earmuffs off
+earmuffs <type> [on|off] ...
+.EI
+
+Description
+.SP 5 5
+Earmuffs by itself displays information saying weather your earmuffs
+are currently on or off, which events you have currently blocked and
+the events you don't have blocked.
+
+Earmuffs with just the on after it turns on the blocking.  All of the
+events you have set to be blocked will be blocked from this time on,
+you won't see them.  The off parameter turns off the blocking.  The
+status of the blocking is independant of the actual events being blocked.
+
+The last thing you can do with the command is turn on and off the blocking
+of the various events.  If you don't specify on or off after the type the
+value is toggled.  If you put an on or off there it is set to that value.
+.EP
+
+Examples:
+.SI 5
+> earmuffs
+> earmuffs on
+> earmuffs shout on
+> earmuffs shout off remote-soul on
+.EI
+
+See also
+.SP 5 5
+inform, shout, soul
+.EP

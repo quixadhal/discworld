@@ -1,0 +1,28 @@
+.DT
+set_co_ord
+Discworld room help
+set_co_ord
+
+Name
+.SI 5
+set_co_ord - Sets the co_ordinates in the room.
+.EI
+
+Syntax
+.SI 5
+void set_co_ord(mixed *co_ord);
+.EI
+
+Description
+.SP 5 5
+Sets the co-ordinates of the room to be the value passed to the function.
+It should be an array of three elements being ({ x, y, z }).  This should be
+set in any room that you wish to have constant co-ordinates or that you
+wish npcs to wander to.  Or whatever.  It should especialy be set in any
+of the default start locations.
+.EP
+
+See also
+.SP 5 5
+query_co_ord
+.EP

@@ -1,0 +1,115 @@
+.DT
+stats
+Discworld living help
+stats
+
+Name
+.SI 5
+stats - General help on stats.
+.EI
+
+Description
+.SP 5 5
+This is a general help on all the stat functions.  There are too many
+stats for this to be done in a more useful fashion.  There are 5 stats
+namely, Strength, Dexterity, Consitition, Wisdom and Inteligence.
+
+Of each of these stats there are 3 parts.  One part is the basic part,
+or the natural part of the stat.  This value is saved and can only
+range from 0-28.  The second part is the bonus value.  This is the value
+gained from races and certain items.  This value is not saved and
+can have any value.  The other one is the temporary value.  The
+temporary value is halved every 15 minutes.  This is saved and
+can also have any value.
+
+The natural value of a stat should be very rarely changed.  The times
+when it is changed should be when you rearrange the stats and when
+you complete some really hard quest.  So, if you create a sword that
+gives somone a great strength when they are wielding it, don't play
+with this value.  Use the bonus value of the stat.
+
+The bonus values are used for things like stat bonus's from races and
+for stat changes from things like swords or thingys like that.  Remember
+this is NOT saved.  So this is most useful for bonuses from things
+like items you are carrying.
+
+The temporary value of a stat should be used for things like potions.
+This gives an effect that slowly wears off.
+
+Each of the stat values have three functions available for them.
+Setting them, querying them and adjusting them.  The main query's
+ie query_str, query_con, query_dex, query_wis and query_int are
+actually the composite value gained from adding all of the stat parts
+together.  To get at the real values, use the query_real set.
+
+When a stat is changed certain values that rely on it need to be
+changed.  One of the functions that is called is zap_stat_cache
+with a one letter string being the id of the stat being changed passed
+as a paramater.
+
+The other function called for each stat.
+.EP
+.SO 5 15 -25
+	Strength	reset_carry_cap
+	Consitution	reset_hp
+	Wisdom	reset_gp
+	Inteligence	reset_gp
+	Dexterity	No function is called.
+.EO
+.SP 5 5
+
+
+There are two other function related to this.  set_no_check and
+query_no_check.  These are set and queryed for the no_set variable.
+If this variable is set then the extra functions are not called when
+the stat is changed.  This is used in the setting up of a monster so
+that the expensive routines for calculating hps and so on were not
+called more than once.
+.EP
+
+.SI 5
+Function reference:
+.EI
+
+.SP 5 5
+This returns the composite value of the stats:
+.EP
+.SP 5 5
+query_str, query_dex, query_int, query_wis, query_con
+.EP
+
+.SP 5 5
+Values for working on the "natural" values:
+.EP
+.SP 5 5
+set_str, set_dex, set_int, set_wis, set_con
+query_real_str, query_real_dex, query_real_int, query_real_wis, query_real_con
+adjust_str, adjust_dex, adjust_int, adjust_wis, adjust_con
+.EP
+
+
+
+.SP 5 5
+Functions for adjusting the bonus stats:
+.EP
+.SP 5 5
+set_bonus_str, set_bonus_dex, set_bonus_int, set_bonus_wis, set_bonus_con
+query_bonus_str, query_bonus_dex, query_bonus_int, query_bonus_wis, query_bonus_con
+adjust_bonus_str, adjust_bonus_dex, adjust_bonus_int, adjust_bonus_wis, adjust_bonus_con
+.EP
+
+
+
+.SP 5 5
+Functions for adjusting the temporary stats:
+.EP
+.SP 5 5
+set_tmp_str, set_tmp_dex, set_tmp_int, set_tmp_wis, set_tmp_con
+query_tmp_str, query_tmp_dex, query_tmp_int, query_tmp_wis, query_tmp_con
+adjust_tmp_str, adjust_tmp_dex, adjust_tmp_int, adjust_tmp_wis, adjust_tmp_con
+.EP
+
+See also
+.SP 5 5
+query_stat_cache, skills, set_no_check, query_no_check
+.EP

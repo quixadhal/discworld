@@ -1,0 +1,19 @@
+.DT
+set_heart_beat
+Discworld efun help
+set_heart_beat
+
+int set_heart_beat(int flag)
+.SP 5 5
+Enable or disable heart beat. If the heart beat is not needed for the moment,
+then do disable it. This will reduce system over head.
+
+Return true for success, and false for failure. Specifically, it will
+fail if the heart beat function has been disabled, which it will be
+if there is a run time error in it.
+.EP
+
+See also
+.SI 5
+heart_beat.
+.EI

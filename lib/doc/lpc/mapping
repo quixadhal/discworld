@@ -1,0 +1,40 @@
+Righto, this is going to be hideous (Please bear in mind i am writing
+this from experience of mappings, not from knowledge of how they *work*
+-- bil).
+
+Mappings are a wonder new data structure, which i think it a friendly
+version of alists in the basic 3.0 code (you don't need to know this).
+They are wonderful because they allow you to index values from
+anything, not just an integer (as in a normal array/list).
+They can be created like this:-
+
+mapping fish;
+
+  fish = ([
+           "womble": 12,
+           "bing"  :  6,
+           "spam"  : 42
+         ]);
+
+What you have done there is set the index "womble" to the value 12,
+"bing" to 6 and "spam" to 42. To retrieve values you index in the same
+way as with arrays ie mapping[index]. In this example 
+fish["womble"] == 12 and fish["bing"] == 6. If an index does not exist,
+then a 0 is returned. eg fish["spoon"] == 0.
+
+If you wish to set a value later, you can use mapping[index] = value
+and it will be set, whether index existed before or not (but mapping
+must already have been initialised - as above, with fish = ([ ]); or
+by using mkmapping (see mkmapping help) eg.
+
+  fish["boom"] = 666;
+  fish["bing"] = 2;
+
+Note that the type of both the indexes and values have type mixed
+so can be of any sort. And can be freely mixed within a single mapping eg.
+
+  fish["example mixed array"] = ({ "what fun!", ({ 1, 1, 4 }) });
+
+
+See also:
+  mappingp, mkmapping, m_sizeof, m_indices, m_values, m_delete

@@ -1,0 +1,38 @@
+.DT
+calc_co_ord
+Discworld room help
+calc_co_ord
+
+Name
+.SI 5
+calc_co_ord - Try and find a co-ordinate.
+.EI
+
+Syntax
+.SI 5
+void calc_co_ord();
+.EI
+
+Description
+.SP 5 5
+This trys to force the room to calculate its co-ordinate.  It is normaly
+called in init so as to not load the entire mud when one room is loaded.
+Use this if you fail to get a co-ordinate from a room then call the
+query_co_ord function again to see if it has found a co_ord for you.
+.EP
+
+Example
+.SI 5
+mixed *find_co_ord(mixed room) {
+  if (!room->query_co_ord()) {
+    room->calc_co_ord();
+    return (mixed *)room->query_co_ord();
+  }
+  return (mixed *)room->query_co_ord();
+} /* find_co_ord() */
+.EI
+
+See also
+.SP 5 5
+query_co_ord, set_co_ord
+.EP

@@ -1,0 +1,17 @@
+.DT
+caller
+Discworld efun help
+caller
+
+object caller()
+
+.SP 5 5
+Return the object pointer of the object that called the current function.
+WARNING: If called from the parameter list of a function call, it will
+return the object containing the function being called, not the caller.
+.EP
+
+See also
+.SI 5
+this_player(), this_object().
+.EI

@@ -1,0 +1,26 @@
+.DT
+drop
+Discworld object help
+drop
+
+Name
+.SI 5
+drop - Allowed to be droped function.
+.EI
+
+Syntax
+.SI 5
+int drop();
+.EI
+
+Description
+.SP 5 5
+If this function returns 0 the object is allowed to be dropped.  This basicly
+just querys the value of the move_flag set by reset_drop or set_drop.
+This function is called by the test_remove function on the living object.
+.EP
+
+See also
+.SP 5 5
+test_add, test_remove, drop, get, move
+.EP

@@ -1,0 +1,77 @@
+.DT
+combat
+Discworld living help
+combat
+
+Name
+.SI 5
+combat - How things beat each other up.
+.EI
+
+Description
+.SP 5 5
+Combat is controlled on both the player object and the monster objects
+by the function attack().  Each call to the attack function does
+an attack.  The attack function also checks all of the object in its
+attackers_list to see if they are in the room it is in.  If they are
+not it puts them in another array and starts up a call_out.  It
+then checks to see if the person is wielding a weapon.  If they are
+it uses that for the damage, else it uses the player object itself.
+
+This function also checks the attacking object to see if it is being
+protected, if it is, it redirects the attacks.  The attacking object
+is selected randomly from the attacker_list unless the concentrate
+pramater is set using set_concentrate().  If this is set then the
+monster will only attack the first thing in its attacker_list.
+(Well until it dies anyway).
+
+The function attack_by(this_object()) is called on the object we are
+attacking.  The function attack_by(ob) puts the object into the
+attackers_array on the object it is called on.  The function attack_ob(ob)
+puts the attacker in the attackers_array as well.  In fact both of these
+functions do very similar things.
+
+Once all of these things are done, the actuall attack is called on the
+weapon.  This is done by calling the function weapon_attack(attackee,
+attacker) is called on the weapon, or on the object itself.  If the
+flag, always use natural attacks is set, then the default natural attacks
+will also be used even if the object is wielding a weapon. (set_natural()).
+
+The weapon itself calculates the damage by calling the function query_ac()
+on the object being attacked with the attack type.  (ie "sharp" or "blunt").
+This is then subtracted from the value "to hit" that is gained from the
+attack, if the value is greater than 0 then the attack is said to have
+"hit".  If it hits then a second "damage" value is calculated and this
+also has the armour class subtracted off it, this is the actual damage
+done to the creature.  The weapon_attack function also returns the
+amount of xp to add onto the attacking creature.
+
+A more detailed explanation of weapon attacks.  A weapon attack consists
+of three parts.  A "base", a "to hit" and a "damage" part.  The way that
+hits and damage is calculated is like this.
+.EP
+.SI 5
+
+hit_value = base + to_hit
+
+if (hit_value > 0) then
+  damage = base + damage
+/* The way this is actualy done is
+  damage = hit_value - to_hit + damage
+ */
+endif
+
+.EI
+.SP 5 5
+As all this is calculated, weapons and armours are also damaged.  If
+an armour protects against an attack it has a chance (equal to the
+damage_change variable) of being damaged.  The amount of damage done
+is equal to the amount of damage done by the weapon.  The same follows
+on the weapons.
+.EP
+
+See also
+.SP 5 5
+attack, query_attacker_list, set_damage_chance, set_natural, set_protector
+set_concentrate
+.EP

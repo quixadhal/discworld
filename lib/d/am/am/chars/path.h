@@ -1,0 +1,8 @@
+#define cpath "/room/chars/"
+#define wpath "/obj/weapons/"
+#define apath "/obj/armours/"
+#define defmonster "/obj/monster"
+#define tpath "/room/treasures/"
+#define ARMOURY "/room/armours/armoury"
+#define TREASURY "/room/treasures/treasury"
+#define CHAR "/d/am/am/chars/"

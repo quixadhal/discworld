@@ -1,0 +1,24 @@
+/*	The Wedding Chapel, developed for DiscWorld by Geolin
+*	You are welcome to amend this, but please leave comments below:
+*
+*	Created: 16th January 1993
+*/
+
+inherit "std/room";
+#include "path.h";
+
+void setup() {
+
+	set_light(80);
+	set_short("Outside a Church");
+   set_long("You are standing outside of a large Church.\n"+
+	"The huge stone walls lie majestically in front of you, you notice "+
+	"some pieces of confetti lying around on the ground.  It looks like there "+
+	"was a wedding here recently.\n"+
+	"The entrance to the church is a large archway to the east.\n");
+
+
+	add_exit("east",ROOM+"chapel","door");
+
+	add_item("confetti","Well, they're different coloured little pieces of paper.");
+}

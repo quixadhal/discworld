@@ -1,0 +1,29 @@
+.DT
+destruct
+Discworld efun help
+destruct
+
+void destruct(object ob)
+
+.SP 5 5
+Completely destroy and remove object ob. The argument can also be a string. 
+After the call to destruct(), no global variables will exist any longer,
+only local, and arguments.
+
+If an object self-destructs, it will immediately terminate execution and
+return 0. There is one exception: If the destruct-statement is followed by
+a return 1; immediately after, then this return statement will be executed.
+
+This should NOT be used on normal objects in the game, instead use the lfun
+dest_me() in the object you want removed: ob->dest_me();. This will ensure 
+correct update of weights, volumes etc.
+
+One of the times you will need to call this is in the dest_me function
+(assuming you have not inherited a standard thingy and need to write
+it yourself).  Or in shadows.
+.EP
+
+See also
+.SI 5
+clone_object.
+.EI

@@ -1,0 +1,37 @@
+.DT
+wandering
+Discworld monster help
+wandering
+
+Name
+.SI 5
+wandering - Wandering monster help.
+.EI
+
+Description
+.SP 5 5
+The wandering monster code is embeded neatly into the code :)  (What a
+nice start...).  Each room has a zone, or no zone, and each monster
+has a set of zones it is allowed to wander in.  Each monster also
+has a time delay between each wander, this time delay has a fixed and
+random part to it.  Monsters will not move out of their allowed zones
+even if they wimpy or chase someone.
+
+The function in the room code for setting a zone is, set_zone(), a big
+surprise there...  The monster object has the functions add_move_zone(),
+query_move_zones(), remove_move_zone(), set_move_after().  The add, query
+and remove move zones have fairly obvious functions.  The set move after
+function takes two arguments.  The first one is the fixed time for it
+to move and the second is the random time.  If you add a move zone
+without setting a move after time, then it will default to 1 minute/1
+minute (for the random and fixed times).
+
+So, createing a wandering monster is as easy as calling one function
+in it when you set it up.  add_move_zone()
+.EP
+
+See also
+.SP 5 5
+add_move_zone, remove_move_zone, query_move_zones, set_move_after,
+query_move_after
+.EP

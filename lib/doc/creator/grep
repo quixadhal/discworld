@@ -1,0 +1,41 @@
+.DT
+grep
+Discworld creator help
+grep
+
+Name
+.SI 5
+grep - Global replace.
+.EI
+
+Syntax
+.SI 5
+grep <pattern> <file(s)>
+.EI
+
+Description
+.SP 5 5
+Grep stands for Get Regular ExPression (I think) and if it doesn't, the unix
+version will take a regular expression and search files for it.  The version on
+the mud just takes a string and tries to find all occurances of it through the
+files specified.
+
+Grep is used to search through the list of files given for any occurance of 
+the pattern.  Useful if you are trying to find every file which has the
+word frog in it for instance.  The optional flag -n means that it doesnt
+print the line that the string occured on, it just prints the file name.
+.EP
+
+Examples:
+.SI 5
+grep frog /std/living/*.c
+grep this_player() test.c
+grep am /log/APPLICATIONS
+grep frog /global/*
+grep -n frog *
+.EI
+
+See also
+.SP 5 5
+more, cat, ed, le
+.EP

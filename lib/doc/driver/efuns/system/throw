@@ -1,0 +1,40 @@
+.\"forces an error to occur in an object.
+
+.DT
+throw
+Discworld driver help
+throw
+
+Name
+.SI 5
+throw() - forces an error to occur in an object.
+
+.EI
+Synopsis
+.SI 5
+void throw(mixed);
+
+.EI
+Description
+.SP 5 5
+The throw() efun may be used to force an error to occur in an object.  When
+used in conjunction, throw() and catch() allow the programmer to choose what
+error message is displayed when a runtime error occurs.  When throw() is used,
+it should be used in conjunction with the catch(3) efun.  Here is a typical
+usage:
+
+   string err;
+   int rc;
+
+   err = catch(rc = ob->move(dest));
+   if (err) {
+        throw("move.c: ob->move(dest): " + err + "\n");
+        return;
+   }
+
+.EP
+See also
+.SI 5
+catch(3).
+
+.EI

@@ -1,0 +1,33 @@
+Attributes stuff (added by Raistlin)
+----------------
+void add_attribute(string, int|object)  - some sort of attribute thing
+void add_prot_attribute(string, int|object) - see add_attribute
+void delete_attribute(string, object) - see add_attribute
+any *get_attribute(object|string, object) - see add_attribute
+int query_attribute(string, object) - see add_attribute
+
+Miscellaneous stackmachine/memory/other lowlevel stuff
+------------------------------------------------------
+void break_point()       - check the stack, and crash if not what expected
+int check_ref(object|pointer, int) - from code, seems to push args onto stack
+void combine_free_list() - some memory deallocation gunk.
+int memused() - amount of memory used?
+swap(object) - swap an object out?
+object exec(object, object) - replace an interactive object with another
+Others
+------
+(tabbed comments by Aahz)
+[Enter for more]
+void add_worth(int number, object obj)  - more player.c stuff ?
+        wizlist stuff
+object previous_object() - ??
+        similar to caller(); in current chain of function calls, the
+        last object before this one to make any calls
+string query_arg() - ??
+int remove_shadow({object}) - remove a shadow?
+        yah
+
+Obselete
+--------
+string describe(pointer, string, {int} ) - No longer supported
+

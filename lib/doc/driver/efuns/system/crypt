@@ -1,0 +1,23 @@
+.\"encrypt a string
+.DT
+crypt
+Discworld driver help
+crypt
+
+Name
+.SI 5
+crypt() - encrypt a string
+
+.EI
+Synopsis
+.SI 5
+string crypt( string str, string seed );
+
+.EI
+Description
+.SP 5 5
+Crypt the string <str> using the first two characters from <seed> as
+a seed. If <seed> is 0, then random seed is used.
+
+The result has the first two characters as the seed.
+.EP

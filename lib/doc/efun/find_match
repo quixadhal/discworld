@@ -1,0 +1,22 @@
+.DT
+find_match
+Discworld efun help
+find_match
+
+object *find_match(string str, object|(object *)ob)
+
+.SP 5 5
+Returns an array of objects that match str, within the object ob or array
+of objects ob. It checks the inventory of specified objects and 
+returns the matching objects.
+
+If it fails to match anything it returns the empty array.
+
+Unlike present, str may not be an object, use present() *8-)*
+
+If you are still confused the code is in /std/simul_efun.c
+but if you understand it from that you are a better man/etc than I.
+(Bit of bil humour there, of course it is understandable.  I wrote it :)
+.EP
+
+See also: present, move_object, environment.

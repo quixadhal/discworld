@@ -1,0 +1,26 @@
+.DT
+query_plural
+Discworld object help
+query_plural
+
+Name
+.SI 5
+query_plural - Returns the object plural.
+.EI
+
+Syntax
+.SI 5
+string query_plural();
+.EI
+
+Description
+.SP 5 5
+Returns the main_plural if that has been set, otherwise it returns the
+short description of the object run through the pluralize efun.  If the
+short returns 0, this also returns 0.
+.EP
+
+See also
+.SP 5 5
+query_main_plural, set_main_plural, set_short, short
+.EP

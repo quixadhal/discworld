@@ -1,0 +1,30 @@
+.\"report various statistics on all objects that have been loaded
+
+.DT
+dumpallobj
+Discworld driver help
+dumpallobj
+
+Name
+.SI 5
+dumpallobj() - report various statistics on all objects that have been loaded
+
+.EI
+Synopsis
+.SI 5
+void dumpallobj(string|void);
+
+.EI
+Description
+.SP 5 5
+This function dumps a list of statistics on all objects that have been loaded.
+If no argument is specified, then the information will be dumped to a file
+named /OBJ_DUMP.  If an argument is specified, then that name is used as
+the filename for the dump.  This function replaces the hardcoded 'dumpallobj'
+command in vanilla 3.1.2.
+
+.EP
+See also
+.SI 5
+mud_status(3), debug_info(3)
+.EI

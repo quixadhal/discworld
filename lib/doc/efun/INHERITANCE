@@ -1,0 +1,28 @@
+.DT
+inheritance
+Discworld efun help
+inheritance
+
+Inheritance
+.SP 5 5
+An object can inherit all variables and functions from another object.
+This is done with the declaration 'inherit "file";'. This must come before
+any local variables or functions.
+.EP
+
+Example
+.SI 5
+inherit "obj/monster";
+
+reset(arg) {
+    ::reset(arg);
+    set_name("troll");
+    set_level(9);
+    set_hp(100);
+    set_wc(12);
+    set_al(-60);
+    set_short("A troll");
+    set_long("It is a nasty troll that looks very aggressive.\n");
+    set_aggressive(1);
+}
+.EI

@@ -1,0 +1,1 @@
+#define ROOM "/obj/examples/"

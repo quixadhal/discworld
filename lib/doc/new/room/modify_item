@@ -1,0 +1,26 @@
+.DT
+modify_item
+Discworld room help
+modify_item
+
+Name
+.SI 5
+modify_item - Change an items description.
+.EI
+
+Syntax
+.SI 5
+int modify_item(string item, string new_desc);
+.EI
+
+Description
+.SP 5 5
+Changes an items description from what it was set to before, to what
+new_desc is set to.  If it cannot fnd the item this routine returns
+0, if it successfuly changes it, it returns 1.
+.EP
+
+See also
+.SP 5 5
+add_item
+.EP

@@ -1,0 +1,37 @@
+.DT 
+set_gender 
+Discworld living help 
+set_gender 
+
+Name
+.SI 5
+set_gender - Sets the objects gender.
+.EI
+
+Syntax
+.SI 5
+void set_gender(mixed gender);
+.EI
+
+Description
+.SP 5 5
+Sets the objects gender.  The set_gender function can be passed several
+things.  If it is passed an integer, 0 is neuter, 1 male, 2 female.  You
+can also pass it a string to give it is gender.  "male" or "female" in
+fact are the two strings you can pass it.  This confused you?  Oh
+good.
+.EP
+
+Example
+.SI 5
+set_gender(1); /* male */
+set_gender(1+random(2)); /* Randomly male or female */
+set_gender("male");
+set_gender("female");
+.EI
+
+See also
+.SP 5 5
+query_gender
+.EP
+

@@ -1,0 +1,53 @@
+.DT
+add_exit
+Discworld room help
+add_exit
+
+Name
+.SI 5
+add_exit - Adds an exit to the room.
+.EI
+
+Syntax
+.SI 5
+int add_exit(string direc, string dest, string type);
+.EI
+
+Description
+.SP 5 5
+Adds an exit to the room.  The direction is the direction in which the
+exit should go.  This is something like "north" or "enter gate".  The
+destination field is where the player will go when they enter the exit.
+The type is a set type that sets a whole bunch of defaults for the room.
+
+The types are controlled by /obj/handlers/room_handler.c.  The current
+types and what this all means are:
+.EP
+.SO 10 15 -30
+	road	Wide road.
+	path	Narrower path.
+	door	An exit with a door.  Defaults to closed, not locked.
+	secret	A secret door.  Defauls to closed, not locked and not obvious.
+	gate	A large door.  Defaults to open, not locked.
+	corridor	A corridor (bing).
+	hidden	A hidden exit without a door.
+.EO
+
+.SP 5 5
+The room aliases are used to expand things for exits.  However they don't
+expand the entire exit name.  They expand it in bits.  For instance,
+if the exit was "enter live eel", you could add_alias("eel", "live eel");
+and add_alias("bing", "enter"); to get both of the bits of the exit.
+So "bing eel", "enter eel", "bing live eel" etc would work.
+.EP
+
+Example
+.SI 5
+add_exit("north", PATH+"market2", "road");
+add_exit("enter live eel", PATH+"live_eel", "secret");
+.EI
+
+See also
+.SP 5 5
+modify_exit, query_dest_dir, remove_exit
+.EP

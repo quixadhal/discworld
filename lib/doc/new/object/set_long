@@ -1,0 +1,35 @@
+.DT
+set_long
+Discworld object help
+set_long
+
+Name
+.SI 5
+set_long - sets the long description of the object.
+.EI
+
+Syntax
+.SI 5
+void set_long(string str);
+.EI
+
+Description
+.SP 5 5
+The long description of the object is the description you see when you
+look at it or examine it.  The long description is passed through a
+couple of filters before the player gets to see it.  One of the filters
+is process_string() and the other is the colour filters.  So you can
+make parts of your long description trigger functions or look
+different colours.
+.EP
+
+Example
+.SI 5
+set_long("A large %^GREEN%^green%^RESET%^ box made of glass.  You can "+
+         "see a small cat inside clawing at the walls trying to get out.\n");
+.EI
+
+See also
+.SI 5
+process_string, colours, query_long, long
+.EI

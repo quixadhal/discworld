@@ -1,0 +1,35 @@
+.DT
+query_money_array
+Discworld object help
+query_money_array
+
+Name
+.SI 5
+query_money_array - returns the value of the item as a money array.
+.EI
+
+Syntax
+.SI 5
+mixed *query_money_array();
+.EI
+
+Description
+.SP 5 5
+Returns the cost of the item as a money array.  The money array is a list
+of coinages followed by a number of coins.  For instance.
+.SP
+.SI 5
+({ "copper", 10, "silver", 12 })
+.EI
+.SP 5 5
+This is what the shop uses to calculate change for people and so on.
+.EP
+
+Example
+.SI 5
+set_value, query_value, adjust_value, query_money, adjust_money
+.EI
+
+See also
+.SP 5 5
+.EP

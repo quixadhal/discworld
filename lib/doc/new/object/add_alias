@@ -1,0 +1,30 @@
+.DT
+add_alias
+Discworld object help
+add_alias
+
+Name
+.SI 5
+add_alias - Add aliases for the object.
+.EI
+
+Syntax
+.SI 5
+void add_alias(string str);
+void add_alias(string *str);
+.EI
+
+Description
+.SP 5 5
+An alias for the object is the part used as the main noun for the object.  ie
+in the case of a "green bath tub", "bathtub" might be an alias for the object.
+and "green" and "bath" would be adjectives.  The value set with add_alias
+is also used with present.  This means you can make up an alias for an object
+that players cannot normaly access but you can get a handle on with present.
+For an exmple of this look at the money object.
+.EP
+
+See also
+.SP 5 5
+remove_alias, query_aliases, set_name
+.EP

@@ -1,0 +1,138 @@
+.DT
+parse_command
+Discworld efun help
+parse_command
+
+int parse_command(string str, object source, string pattern, var1, var2 ...)
+.SP 5 5
+Parses commands given in str against the pattern in pattern and returns 1 
+if it matches. source is either an object or an array of objects. This is 
+essentially a 'hotted' sscanf and it has a similar syntax, although 
+parse_command works on word basis where sscanf works on character basis.
+
+Essentialy find_match is a better interface to this.  PLease use
+find_match instead of this.  Any of these constructs can be used with
+add_command.  Please see add_command for more details.
+.EP
+
+str
+.SP 5 5
+Given command.
+.EP
+source
+.SP 5 5
+ source is either an object or an array of objects.
+.EP
+
+array
+.SP 5 5
+  array holding the accessible objects
+.EP
+object
+.SP 5 5
+  object from which to recurse and create
+  the list of accessible objects, normally
+  ob = environment(this_player())
+.EP
+
+pattern
+.SP 5 5
+ Parsepattern as list of words and formats:
+.EP
+
+word
+.SP 5 5
+obligatory text (One word)
+.EP
+[word]
+.SP 5 5
+optional text (One word)
+.EP
+/
+.SP 5 5
+Alternative marker
+.EP
+%o
+.SP 5 5
+Single item, object
+.EP
+%l
+.SP 5 5
+Single living object
+.EP
+%s
+.SP 5 5
+Any text (multiple words)
+.EP
+%w
+.SP 5 5
+Any word
+.EP
+%p
+.SP 5 5
+Preposition
+.EP
+%i
+.SP 5 5
+ Any items
+.EP
+%d
+.SP 5 5
+ Number 0- or tx(0-99)
+.EP
+
+Example
+.SI 5
+Example string: " 'get' / 'take' %i "
+.EI
+.SP 5 5
+Items as in %o and %i be can on many forms. Some examples:
+apple, two apples, twentyfirst apple
+apples, all apples, all green apples, all green ones
+.EP
+
+varN
+.SP 5 5
+This is the list of result variables as in sscanf.
+One variable is needed for each %_
+The return types of different %_ are:
+.EP
+
+PS I give up on doing the formating at this point... (Pinkfish)
+
+ %o
+  Returns an object
+
+ %l
+  Returns an object
+
+ %s
+  Returns a string of words
+
+ %w
+  Returns a string of one word
+
+ %p
+  Can on entry hold a list of word in array
+  or an empty variable
+  Returns:
+  if empty variable: a string
+  if array: array[0]=matched word
+
+ %i
+  Returns a special array on the form:
+  [0] = (int) given numeric prefix
+      =0: all or a pluralform given
+      >0: numeral given: two, three, four...
+      <0: order given: second, third ...
+  [1..n] (object) Objectpointers
+      A list of the POSSIBLE objects that can match
+      the given %i. No choosing of third or such.
+
+ %d
+  Returns a number
+ 
+Example:
+a=parse_command("take apple",environment(this_player()),
+	 " 'get' / 'take' %i ",items);
+

@@ -1,0 +1,34 @@
+.DT
+add_adjective
+Discworld object help
+add_adjective
+
+Name
+.SI 5
+add_adjective - Adds an adjective to the object.
+.EI
+
+Syntax
+.SI 5
+void add_adjective(string str);
+void add_adjective(string *str);
+.EI
+
+Description
+.SP 5 5
+Add an adjective or multiple adjectives to the object.  The adjectives are
+used in object matching so you should add quite a few of these for your
+objects so that player can match their objects on the most intuitive
+(to them) sequence.
+.EP
+
+Example
+.SI 5
+add_adjective("brown");
+add_adjective(({ "green", "hairy" }));
+.EI
+
+See also
+.SP 5 5
+remove_adjective, query_adjectives
+.EP

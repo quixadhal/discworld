@@ -1,0 +1,215 @@
+core:
+
+unknown call_other(object|string|object *, string, ...);
+object new(string); /* clone_object */
+void destruct(object);
+int exec(object, object);
+
+finding objects:
+
+object find_object(string);
+object find_living(string);
+object find_player(string);
+mixed *find_wizard(string);
+object present(object|string, void|object);
+string *wizards();
+object *users();
+object next_living(object);
+
+state of the system:
+
+object previous_object();
+object this_object();
+object this_player(void|int);
+string query_verb();
+
+system calls:
+
+string mud_name();
+object master();
+string version();
+string query_load_average();
+string rusage();  /* resource usage */
+int command(string);        /* where should this one go? */
+void throw(mixed);
+void shutdown();
+void set_prompt(string);
+/* where should the call_out stuff go? */
+mixed *call_out_info();
+int remove_call_out(string);
+void call_out(string, int, void|mixed);
+int find_call_out(string);
+void notify_fail(string);
+void wizlist(void|string); /* where should this go? */
+object shadow(object, int); /* where should this one go? */
+/* these two should be written in terms of the file io functions */
+void save_object(string);
+int restore_object(string);
+
+system calls: directly mapped to UNIX equivalents
+
+string crypt(string, string|int);	/* An int as second argument? */
+string query_host_name();
+string ctime(int);
+int random(int);
+int time();
+
+system calls: debugging
+
+void break_point();
+int trace(int);
+void swap(object);		/* Only used for debugging */
+string traceprefix(string|int);
+mixed debug_info(int, mixed|void, ...);
+
+filesystem i/o:
+/*
+   too many filesystem efuns.  We should winnow this list and implement
+   a lot of these as simul_efuns (especially all of the read/write ones)
+*/
+
+filesystem i/o: mapped directly to UNIX equivalents
+
+int mkdir(string);
+int cp(string, string);
+int link(string, string);
+int rm(string);
+void rmdir(string);
+int rename(string, string);
+
+filesystem i/o: derived
+
+string read_bytes(string, void|int, void|int);
+string read_file(string, void|int, void|int);
+int cat(string, void|int, void|int);
+int write_file(string, string); 
+void log_file(string, string); /* why do we have this one? */
+string *get_dir(string, int default: F_CONST0);
+mixed *stat(string, int default: F_CONST0);
+int file_size(string);
+void tail(string);  /* shouldn't cat be used for this? */
+int write_bytes(string, int, string);
+void ed(void|string, void|string); /* hmm, maybe this should go elsewhere */
+
+security:
+
+int export_uid(object);
+string geteuid(object default: F_THIS_OBJECT);
+string getuid(object default: F_THIS_OBJECT);
+int seteuid(string|int);
+
+communication: between objects
+
+void tell_object(object, string);
+void tell_room(object|string, string, void|object *);
+void say(string|mixed *, void|object|object *);
+void shout(string);
+void message(string, string, string|string *|object|object *,
+             void|object|object *);
+
+communication: between object and interactive
+
+void get_char(string, void|int);
+void input_to(string, ...);
+int receive(string);
+object snoop(void|object, void|object);
+void printf(string, ...);
+void write(mixed);
+string sprintf(string, ...);
+
+programming language - types
+
+int intp(mixed);
+int objectp(mixed);
+int pointerp(mixed);
+int stringp(mixed);
+int mapp(mixed);
+int undefinedp(mixed);
+int sizeof(int|mapping|mixed *);
+
+programming language - bitstrings
+
+string clear_bit(string, int);
+int test_bit(string, int);
+string set_bit(string, int);
+
+programming language - mappings:
+
+void map_delete(mapping,mixed);
+mapping allocate_mapping(int);
+mixed *keys(mapping);
+
+programming language - string processing:
+
+string capitalize(string);
+string lower_case(string);
+int strlen(string);
+string process_string(string);
+string *regexp(string *, string);
+string extract(string, void|int, void|int);
+int cindent(string);
+
+programming language - array processing:
+
+string implode(string *, string);
+string *explode(string, string);
+mixed *map_array(mixed *, string, object|string, void|mixed);
+int member_array(mixed, mixed *);
+mixed filter_array(mapping|mixed *, string, object|string, void|mixed);
+mixed *sort_array(mixed *,string,object|string default: F_THIS_OBJECT);
+mixed *unique_array(mixed *, string, void|mixed);
+mixed *allocate(int);
+
+object properties: verbs/actions
+
+void add_action(string, void|string, void|int);
+int remove_action(string, string);
+void add_verb(string);
+void add_worth(int, void|object|string);
+void add_xverb(string);
+
+object properties: container/contained
+
+object environment(void|object);
+void move_object(object|string, void|object|string);
+object *all_inventory(object default: F_THIS_OBJECT);
+object *deep_inventory(object);
+object first_inventory(object|string default: F_THIS_OBJECT);
+object next_inventory(object default: F_THIS_OBJECT);
+
+object properties: living
+
+void disable_commands();
+void enable_commands();
+int living(object);
+void set_living_name(string);
+mixed *commands();
+int set_heart_beat(int);
+
+object properties: miscellaneous
+
+string function_exists(string, object default: F_THIS_OBJECT);
+string file_name(object default: F_THIS_OBJECT); /* important */
+void enable_privileges(object);
+int privp(object);
+object query_snoop(object);
+void set_hide(int);
+int set_light(int);
+
+object properties: relationship to other objects
+
+string *deep_inherit_list(object default: F_THIS_OBJECT);
+string *inherit_list(object default: F_THIS_OBJECT);
+object *children(string);
+
+object properties: interactive
+
+int query_idle(object);
+string query_ip_name(void|object);
+string query_ip_number(void|object);
+int interactive(object default: F_THIS_OBJECT);
+int in_edit(object default : F_THIS_OBJECT);
+int in_input(object default : F_THIS_OBJECT);
+void enable_wizard();
+int wizardp(object);
+int userp(object);

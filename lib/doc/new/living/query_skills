@@ -1,0 +1,35 @@
+.DT 
+query_skills 
+Discworld living help 
+query_skills 
+
+Name
+.SI 5
+query_skills - The raw skills array.
+.EI
+
+Syntax
+.SI 5
+mixed *query_skills();
+.EI
+
+Description
+.SP 5 5
+This function returns the raw skill array in it nicely unmodified format.
+This is used by most of the skill printing functions hanging around in
+the mudlib.  The format of the nice array is
+.EP
+.SI 5
+({ name, level, exp, ({ sub_tree }), ... })
+.EI
+.SP 5 5
+The sub_tree is a recursive skill list, and you can have any number of
+names at each level.  Call the function on yourself and see what you
+get.  Should give you some idea of what goes on in the background.
+.EP
+
+See also
+.SP 5 5
+query_skill, query_skill_bonus
+.EP
+

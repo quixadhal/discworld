@@ -1,0 +1,6 @@
+pathof everyone
+See who is logged on and what player object they have.
+
+exec printf("%#-*s\n",this_player()->query_cols(),
+            implode(get_dir(this_player()->get_path("$*$")),"\n"))
+Dir a directory of a the specified directory.

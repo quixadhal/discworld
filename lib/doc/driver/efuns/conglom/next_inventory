@@ -1,0 +1,29 @@
+.\"return the next object in the same inventory as the specified object
+
+.DT
+next_inventory
+Discworld driver help
+next_inventory
+
+Name
+.SI 5
+next_inventory() - return the next object in the same inventory
+
+.EI
+Synopsis
+.SI 5
+object next_inventory(object ob);
+
+.EI
+Description
+.SP 5 5
+Return the next object in the same inventory as `ob'.
+
+Warning: If the object `ob' is moved by "move_object()",
+then "next_inventory()" will return an object from the new inventory.
+
+.EP
+See also
+.SI 5
+first_inventory(3), all_inventory(3).
+.EI

@@ -1,0 +1,29 @@
+.DT 
+zap_stat_cache 
+Discworld living help 
+zap_stat_cache 
+
+Name
+.SI 5
+zap_stat_cache - Reset's the stat cache.
+.EI
+
+Syntax
+.SI 5
+void zap_stat_cache(string stat);
+.EI
+
+Description
+.SP 5 5
+Resets the stat cache back to its original empty stat.  This is used
+in the stat changeing thingys to make sure that the skills are correctly
+modified by the newly changed stats.  If stat is 0 it will zap the entire
+array, if it is a string it will only zap the ones that that particular
+stat has something to do with.
+.EP
+
+See also
+.SP 5 5
+query_stat_cache, query_skill_bonus
+.EP
+

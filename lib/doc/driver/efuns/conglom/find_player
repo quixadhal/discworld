@@ -1,0 +1,28 @@
+.\"find a player by name
+.DT
+find_player()
+Discworld driver help
+find_player()
+
+Name
+.SI 5
+find_player() - find a player by name
+
+.EI
+Synopsis
+.SI 5
+object find_player( string str );
+
+.EI
+Description
+.SP 5 5
+Find a player with the name <str>. The string must be lowercase.
+Players are found even if they are invisible or link dead.
+Monsters are not found.
+This function uses the name that is set by set_living_name().
+
+.EP
+See also
+.SI 5
+lower_case(3), find_living(3), set_living_name(3)
+.EI

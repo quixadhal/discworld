@@ -1,0 +1,54 @@
+The quest handler is designed to keep track of the quests that exist on the mud
+and a small amount of information on them.
+
+The quest handler supports the following functions.
+
+int add_quest(string name, int level, string title, string story);
+int query_quest_level(string name);
+string query_quest_title(string name);
+string query_quest_story(string name);
+int delete_quest(string name);
+string *query_quest_names();
+int *query_quest_levels();
+string *query_quest_titles();
+int *query_quest_stories();
+
+int add_quest(string name, int level, string title, string story);
+This is the function you call to add a quest.  You only need to call it ONCE.
+The quest handler remembers quests by using a save_object file in /save/quests.o
+The parameters are as follows:
+name - The name that the quest will be referred to by.  It must be unique and
+       not clash with an existing quest.
+level - The number of quest points gained for completing the quest.  0-100
+title - The title that a player will get if they finish this quest.  0 for none.
+story - The story that gets put in the book if a player reads about a person who
+        has done this quest.
+
+int delete_quest(string name);
+This function will remove the quest if it exists.  It returns 1 on succesful
+removal of a quest, and 0 if the quest did not exist in the first place.
+
+
+int query_quest_level(string name);
+Given the name of the quest, this function will return the number of the quest
+points allocated for the quest.
+
+string query_quest_title(string name);
+Given the name of a quest, this function will return the string that is to be
+used for a title for that quest.
+
+string query_quest_story(string name);
+Given the name of a quest, this function will return the string that is to be
+used for a story about that quest.
+
+string *query_quests();
+This function returns the array of quests.
+
+int *query_quest_levels();
+This function returns the array of quest levels;
+
+string *query_quest_titles();
+This function returns the array of quest titles.
+
+string *query_quest_stories();
+This function returns the array of quest stories.

@@ -1,0 +1,15 @@
+Destinations can be specified in two ways.  The rooms will automatically 
+inherit "path.h" whether you like it or not, so it is in your best interests
+to put it there.  The format for path.h is
+
+#define ROOM "d/am/am/"
+#define CHAR ROOM+"chars/"
+
+The two ways you can specify rooms are the full pathname like
+/d/am/am/mendeddrum, /d/am/death/study, /d/am/am/frost2
+
+or just the name of the room which will be expanded to ROOM+"name"
+mendeddrum, study, frost2
+
+The full pathname should be used for rooms that are in different directories,
+while the room name alone should be used for rooms in the same directory.

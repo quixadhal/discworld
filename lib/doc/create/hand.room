@@ -1,0 +1,11 @@
+The room handler is for handling the exit types.  IN the add_exit (when
+you add an exit to a room) the third paramater is a string like door or
+something.  This is the object that is queryed for what this means.
+
+int add_exit_type(string type, mixed message, mixed obvious, int size,
+                  mixed func)
+		Adds a new exit type to the eixt type list.
+int remove_exit_type(string type)
+		Returns 1 if the exit type exists.
+mixed *query_exit_type(string type)
+		Returns the array used by the room for the add_exit.

@@ -1,0 +1,56 @@
+.DT
+modify_exit
+Discworld room help
+modify_exit
+
+Name
+.SI 5
+modify_exit - Change the paramaters of an exit.
+.EI
+
+Syntax
+.SI 5
+int modify_exit(string dir, mixed *arr);
+.EI
+
+Description
+.SP 5 5
+The modify_exit call is the call you use to change any paramaters about
+an exit that are not as you have specified with your default.  The dir
+is the handle onto the exit you wish to change and the array is an
+array of the format
+.SI 5
+({ type1, param1, type2, param2 })
+.EI
+.SP 5 5
+The types are from a table given below and the parameter depends on the
+type.  With this function you can change all of the settings of exits.
+The messages sent when you enter and leave the room, all of the door
+settings and so on.
+.EP
+
+
+.SO 5 15 -30
+	message	This is the message that is printed when the person exits the room using this exit.  The string needs to start with a dummy character, and it alshould have a $N in it somewhere.  eg. "&$N womble carefully through the tight hole.".  You do not need a \n on the end, but you do need a . if you wish to have one.
+	function	This is a function that is called whenever someone leaves the rooom using that exit.  This should return 0 if the player was not able to leave through the exit and 1 if he was.  If you wish to print a fail message when the player tries the exit, use notify_fail.  The function can have several formats.  If it is a string it calls the function of that name on the room, if it is an array it calls the function specified in the second element on the object specified in the first element.  Eg: ({ object, func }).
+	size	The size of an exit will be used by various items around the mud to see if they can fit through the exit.  Mostly it was intended for use by things like horses, so you can't walk your horse around inside a house or a tight corridor.  The size can also be set to a function, if it is a string or an array it is called every time the size the queryed.
+	obvious	This sets weather the exit is obvious or not.  If it is obvious people can see it in the obvious exits description, otherwise it is not shown in this.  Set to 1 to make it show up, and 0 to not make it show up.  It defaults in most cases to 1.  The obvious flag can also be set to a function.  If it is not a integer, but a string or an array it calls the function specified in a similar fashion to the "function" type.
+	enter	The message printed in the destination room when you go through the exit.  The enter message should be set as a three element array.  The first part of the array is a number specifing if the exit message should have $F expansion done on the string or not.  If it is set to 0 it does.  The other two elements of the array are the enter string when only one person is going through the exit and the other the enter exit when multiple people are going through the exit.  These also need to start with a leading pad character like the message strings.
+	dest	The destination room of the exit.
+	open	This is used with doors.  It sets weather the exit is open or closed.
+	locked	This is also for use with doors.  It sets weather the exit is locked or not.
+	key	This is the property used to identify the key.  If an object returns non zero from the query_property call using the paramater as a property name, the person is allowed to unlock the door.
+	other	The other id of the door in the destination room.  This is the door we talk to.
+	difficulty	How hard the lock is to pick.
+	undoor	Make something that was a door vanish and make it a non door.
+	open desc	The description of the door when it is open.  (Long description).
+	close desc	The description of the door when it is closed.
+	lock/unlock func	Sets up a function to be called when the door is locked or unlocked.  If the function returns 0 the door is not unlocked, if the function returns 1 it does normal key checking, and if it returns 2 it skips the key checking and (un)locks the door.  The function is passed one argument and that is weather the door is being locked or unlocked, it is passed a 1 if it is being unlocked and a 0 if it is being locked.  The paramater is an array with two elements.  The first being the object to call the function on and the second the object to call the function on.  ie ({ this_object(), "check_locking" })
+	open/close func	This works basicly like the lock/unlock func described above, except a 1 is passed for opening and a 0 for closeing.  If the function returns 1 the transaction is considered successful and the door is opened or closed.  There is no special return value as there are no keys for just opening a door.  Thats it.
+	door short	The short description of the door.  This will also set up all the required adjectives and so on.
+.EO
+
+See also
+.SP 5 5
+add_exit, remove_exit
+.EP

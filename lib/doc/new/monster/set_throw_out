@@ -1,0 +1,36 @@
+.DT 
+set_throw_out 
+Discworld monster help 
+set_throw_out 
+
+Name
+.SI 5
+set_throw_out - Sets the throw out stuff.
+.EI
+
+Syntax
+.SI 5
+void set_throw_out(int hps, int chance, 
+                     string their_mess, string everyone_mess);
+.EI
+
+Description
+.SP 5 5
+This sets the throw out variable.  If this is set, once any creature in the
+room with the monster reaches a hp level of the hps variable or lower
+it has a chance (equal to chance) of throwing them out of the room.  This
+is checked every heart beat.  When this is done they
+are told the message their_mess and everyone else sees everyone_mess.  It
+uses expand_string on the messages, so all the normal expansions are
+available for use...
+
+The creatures will be thrown into a random nearby room, however if
+the room has the property "no throw out" set to a non zero value then
+the creature will not be thrown into it.
+.EP
+
+See also
+.SP 5 5
+query_throw_out, set_agressive, set_attack_everyone
+.EP
+

@@ -1,0 +1,30 @@
+.DT 
+query_skill 
+Discworld living help 
+query_skill 
+
+Name
+.SI 5
+query_skill - Returns the level of the skill.
+.EI
+
+Syntax
+.SI 5
+int query_skill(string skill);
+.EI
+
+Description
+.SP 5 5
+What level is the player in the skill bing?  This is the function that
+will tell you this devastingly useful information.  It is a straight level,
+this is not modified by race or any other strange thingys.  This should
+not be used as a skill success checking function.  Use the 
+query_skill_bonus for that.  This function makes use of the level
+cache.
+.EP
+
+See also
+.SP 5 5
+query_skill_bonus, query_skills, query_level_cache
+.EP
+

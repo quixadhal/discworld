@@ -1,0 +1,23 @@
+.DT
+tell_room
+Discworld efun help
+tell_room
+
+void tell_room(mixed ob, string str)
+void tell_room(mixed ob, string str, object *ex_ob)
+.SP 5 5
+Send a message str to object all objects in the room ob. ob can also be 
+the name of the room (string).
+
+If the message depends on the reciever an array of two messages or a
+message containing words intended for 'value by function call' can be used.
+For information on reciever dependant messages see Meeting Players.
+
+The third arg (ex_ob) must be an array.  The messages will be sent to
+all of the objects in the specified room except the objects in ex_ob.
+.EP
+
+See also
+.SI 5
+write, shout, say, tell_object.
+.EI
