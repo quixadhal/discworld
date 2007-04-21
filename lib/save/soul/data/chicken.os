@@ -1,0 +1,1 @@
+({({"<string> <indirect:any-living>","<indirect:any-living> <string>","<indirect:any-living>",}),0,({({"You flap your arms and cluck like a chicken at $hcname$.","$mcname$ flaps $mposs$ arms and clucks like a chicken at $hcname$.","$mcname$ flaps $mposs$ arms and clucks like a chicken at you.",0,0,0,}),0,}),})

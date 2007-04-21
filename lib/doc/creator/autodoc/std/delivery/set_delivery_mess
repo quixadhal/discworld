@@ -1,0 +1,52 @@
+.DT
+set_delivery_mess
+DW_wibble creator help
+set_delivery_mess
+
+.SH Name
+.SP 5 5
+set_delivery_mess -  This method sets the delivery message that is displayed to the player  when they log on.
+.EP
+
+.SH Syntax
+.SI 5
+void set_delivery_mess(string s)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^s%^RESET%^ - the new delivery string
+.EI
+
+.SH Defined in
+.SI 5
+/std/delivery.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the delivery message that is displayed to the player 
+when they log on. $S is substituted in the string with the name of 
+the player who sent the message, $N is replaced with the a_short()
+of the item being sent. 
+.EP
+
+.SH Example 1
+.SI 5
+    set_delivery_mess("A small frog hops up to you, and thrusts $N "
+        "into your arms.  He holds up a large sign that reads: \""
+        "From $S\", and then runs away.\n");
+
+// Recipient sees:
+A small frog hops up to you, and thrusts a large blue box into your
+arms.  He holds up a large sign that reads: \"From Taffyd!\", and then
+runs away.
+
+.EI
+
+.SH See also
+.SP 5 5
+query_delivery_mess(), /std/basic/desc->a_short()
+.EP
+

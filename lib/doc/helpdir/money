@@ -1,0 +1,47 @@
+.DT
+money
+Discworld player help
+money
+
+.SH Name
+.SI 5
+money - Show how much cash you are carrying
+.EI
+
+.SH Syntax
+.SI 5
+money 
+money <area name> in <container> brief 
+money in <container> brief 
+money <area name> in <container> 
+money in <container> 
+money <area name> brief 
+money brief 
+.EI
+
+.SH Description
+.SP 5 5
+This command shows you how much money you are carrying, including any you have in open or transparent containers.  When used with no arguments, the command shows all types of money.  If an area name is given, only money of that type will be displayed.  The "provincial" money (ie brass, copper, silver, gold, platinum) is always displayed.  If you ONLY want these types, use "money default".  You may specify a container in which case the money in that container is displayed.
+.EP
+
+.SH Note
+.SP 5 5
+There was a long-standing, very subtle, and extremely obscure bug
+which caused money put in containers to disappear once in a long while.  For
+this reason, money can not be placed in containers.
+.EP
+
+.SH Example
+.SI 5
+> money
+Your purse contains one Ankh-Morpork dollar, one brass coin and 10 Lancre
+crowns.
+
+> money lancre
+Your purse contains one brass coin and 10 Lancre crowns.
+.EI
+
+.SH See also
+.SP 5 5
+currency
+.EP

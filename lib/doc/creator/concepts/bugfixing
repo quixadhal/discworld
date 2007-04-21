@@ -1,0 +1,297 @@
+.DT
+Bug Fixing
+Discworld Creator Help
+Bug Fixing
+                        
+
+.SH Name
+.SI 5
+A Simple Guide to Fixing Bugs.
+.EI
+
+.SH Introduction
+
+.SP 5 5                        
+A lot of people avoid the fixing of simple bugs in their domains
+because they think it is more difficult than it really is, they don't
+really understand how to do it, or they are not sure how to use RCS.
+.EP
+
+.SP 5 5 
+This file is designed to be a simple walkthrough of how to fix bugs
+in your domain.  There is no place to hide; by typing fixed <creator> you
+can see how many bugs have been fixed by each creator.The total numbers of 
+bugs fixed by everyone can be seen by typing 'fixed all'.
+.EP
+
+.SH Locating Bugs
+
+.SP 5 5
+There are two ways to start.  The first way is to use finderrors,
+which has its own helpfile in case you get confused.  Finderrors will
+allow you to add directories to a list and then check that list for error
+reports. 
+.EP
+
+.SP 5 5
+To use finderrors, you must first add the directories you want to the
+list.  To do this, type "finderrors add <directory name>".  For example,
+"finderrors add /d/ram/*" would add all of the Ram domain to your list.  
+Then type "finderrors" to take you to an error.  The command "finderrors
+count" will list all of the errors in the directories you chose and give
+you a total.  For more detailed finderrors help, see the helpfile.
+.EP
+
+.SP 5 5
+The other way to do it is to go to the relevant error tracker, posted
+on domain boards weekly.  It should look something like the following:
+.EP
+
+.SP 5 5  
+Title: "Error summaries for Ram"
+
+There are reports in the following directories in Ram
+.EP
+
+.SO 67 -5
+     BUG TYPO IDEA
+      1    0    0  /d/ram/Razorback
+      1    0    0  /d/ram/Temple_of_Soyin
+      1    0    0  /d/ram/bandit_camp
+      2    1    0  /d/ram/chars
+      0    0    1  /d/ram/foothills
+      1    0    0  /d/ram/items
+      1    2    0  /d/ram/madstoat
+      1    0    0  /d/ram/mountains
+      1    0    0  /d/ram/ohulan/dock_street
+      3    0    1  /d/ram/ohulan/market
+     12    3    2  TOTAL
+.EO
+
+.SP 5 5
+Go to the relevant directory using the cd command.  (For
+example, "cd /d/ram/chars".)  Then type "errors" to bring up the bug
+report for that directory.  Or, alternatively, "errors <directory>" will
+work just as well.
+.EP
+
+.SP 5 5
+A bug, typo or idea report will show up in the following format:
+.EP
+
+.SO 52 -5
+     ROOM TYPO 
+     /d/ram/ohulan/market/market_c
+     Made by        : Sasquatch
+     at             : Wed Sep  8 09:15:31 1999
+
+     set_short is center, not centre
+     [1-1] (1) Choose from EBUCFDNPGIQX, H for help. 
+.EO
+
+.SP 5 5
+Once you have read the error report, it is always a good idea to go
+to the location of the bug or typo mentioned in the report to check it
+out.  If you determine it needs fixing, you must unlock the file using
+RCS.  (You cannot modify a file on RCS without unlocking it first.)  
+Please note: RCS has an excellent helpfile.
+.EP
+
+.SP 5 5
+To unlock an RCS file, type "rcsout <file pathname>".  For example,
+rcsout /d/ram/ohulan/market/market_c would unlock the file to you.  Only
+you can edit that file until you put it back.  This gives you access to
+fix the file, which can be fixed using ftp or ed, depending on your
+preference.  You must have write access to the file to be able to rcsout it 
+however.
+.EP
+
+.SP 5 5
+Using rcsout should return something close to the following:
+.EP
+
+.SO 76 -5
+     >rcsout /d/ram/ohulan/market/market_c
+     d/ram/ohulan/market/RCS/market_c.c,v --> d/ram/ohulan/market/market_c.c
+     revision 1.2 (locked)
+     done
+.EO
+
+.SP 5 5
+Then fix the typo in the normal way and update the room to make sure
+it works.  Please remember to check the room for objects that might be
+destroyed or similar situations before updating.
+.EP
+
+.SP 5 5
+If something goes wrong here and you accidentally break something, do
+not panic.  The command "rcsrelease <file pathname>" will revert the file
+to the previous version.  If everything works fine, type "rcsin <file
+pathname>" to check the file back in so others may access it.
+.EP
+
+.SP 5 5
+The rcsin command will prompt you to add a short comment explaining
+what you did.  Please do so.
+.EP
+
+.SP 5 5
+For example:
+.EP
+
+.SO 80 -5
+     rcsin /d/ram/ohulan/market/market_c
+     Enter a comment.
+     Enter your text.  Use ** on a line by itself to exit.
+     1 ] Fixed typo
+     2 ] **
+     1 lines - Choose from IDLMCESQ or H for help.
+     s
+     Quitting and saving.
+     > d/ram/ohulan/market/RCS/market_c.c,v  <--  d/ram/ohulan/market/market_c.c
+     new revision: 1.3; previous revision: 1.2
+     done
+.EO
+
+.SP 5 5
+Typing "rcslog <file pathname>" (for example, rcslog
+/d/ram/ohulan/market/market_c) will show you a log of all changes done to
+the file.
+.EP
+
+.SP 5 5
+For example:
+.EP
+
+.SO 79 -5
+     rcslog /d/ram/ohulan/market/market_c
+     RCS file: d/ram/ohulan/market/RCS/market_c.c,v
+     Working file: d/ram/ohulan/market/market_c.c
+     head: 1.3
+     branch:
+     locks: strict
+     access list:
+     symbolic names:
+     keyword substitution: kv
+     total revisions: 3;     selected revisions: 3
+     description:
+     Bing
+     ----------------------------
+     revision 1.3
+     date: 1999/09/08 16:28:52;  author: sasquatch;  state: Exp;  lines: +1 -1
+     Fixed typo
+     ----------------------------
+     revision 1.2
+     date: 1999/03/13 16:14:51;  author: rue;  state: Exp;  lines: +1 -1
+     fixed a typo - Rue
+     ----------------------------
+     revision 1.1
+     date: 1999/02/25 21:45:44;  author: tape;  state: Exp;
+     Initial revision
+     =========================================================================
+.EO
+
+.SP 5 5
+The error is now fixed; all that needs doing is to mark the bug
+report as done so no one else wastes time trying to fix it.  This is done
+by entering the errors menu again, either by typing "errors" while in the
+directory or by using "finderrors".
+.EP
+
+.SP 5 5
+Pressing h for the helpfile will give you the following:
+.EP
+
+.SO 63 -5
+     B b - Post the report to board b.
+     E   - Edit the file to correct the error.
+     E f - Edit file with name f.
+     I   - Change a report into an idea.
+     U   - Forward and delete report to the 'unknown' list.
+     F n - Forward and delete report to creator or directory n.
+     C   - Enter a comment about the report.
+     D   - Mark report as fixed.
+     D F - Mark report as being fixed.
+     D N - Mark report as not an error.
+     D C - Mark report as being considered.
+     D R - Delete report and reply to sender yourself.
+           The word $report$ will be replaced by the original
+            report.
+     N/+ - Next report.
+     P/- - Previous report.
+     G n  - Go to report n.
+     Q   - Quit.
+     X   - Save and quit.
+     H/? - This help file.
+     [1-1] (1) Choose from EBUCFDNPGIQX, H for help
+.EO
+
+.SP 5 5
+In this case you would use option d, as you have fixed the error.  
+This will mark it as fixed and put you back to the error menu.  At this
+point, DO NOT QUIT USING Q; that will quit you out of the menu.  The
+correct option is x, which will save and quit.  If you do press q, do not
+panic.  It will ask you if you really do want to quit without saving.  
+Selecting x will automatically send the person who reported the bug mail
+telling them it was fixed.
+.EP
+
+.SP 5 5
+This helpfile explains how to fix bugs using ftp and the mud.  For
+your information, it is also possible to use the error handler on the
+secure pages of the Disc's webpage to fix bugs.  It works in a similar
+fashion as the handler on the mud does, but has a few significant differences.
+.EP
+
+.SP 5 5
+In the web handler, you can enter a directory, like /d/ram/, and select
+whether you would like to search the subdirectories for errors.  In doing 
+this, you have the choice of errors to search for.  You can see all of the
+errors in the directory, which includes the ones open, fixed, or fixing, or
+choose to just view one type, for example the open (not yet fixed) bugreps.
+Also, you can choose to view just the bugs, typos or ideas in the directory,
+or again, view them all.  There is an index of the bugs in the directory, 
+which will let you view all of the bugs in a list, and shows the dates, this
+is useful for seeing the newer bugreps, instead of having to search through
+them all for the new ones, that have shown up on finderrors.
+.EP
+
+.SP 5 5
+Another advantage this interface has, is that you can see the numbers in each 
+individual directory, so, if you had for example /d/guilds/priests and also
+/d/guilds/assassins in your finderrors list, a finderrors count would only
+show the total bugs, but by using the web for just priests, this allows you
+to see how many are in each directory.  There are also other options to 
+search from, such as only show reports with fixer..., only show reports
+about..., only show reports containing..., don't show reports containing...
+These options allow you to search out bugs specifically for the ones you are
+looking for.
+.EP
+
+.SP 5 5 
+When you view a bug report using the web interface, there is an option
+availible for you to edit the file in question.  (This is useful for those
+quick fixes during times when you can web surf, but not mud)  Upon editing
+the file to a fixed version, it will save the file to /tmp/<creator>/, where 
+<creator> is your name.  The file can then be copied to the relevent directory
+when you next log on.  The /tmp/<creator> directory will be added 
+automatically, there is no need for you to make one yourself.  
+.EP
+
+.SP 5 5
+A popular option is to use both handlers together, search for bugs using the
+web handler, fix them using the mud, and then mark as fixed using the web. 
+When a bug is marked as fixed using the web, it is important to click on the
+save button, this is the same as quitting with X in the mud interface, and 
+will send a mail to the people who reported the bugs.  The don't save option
+is the same as q in the mud, and will just quit and leave the bugs.
+The choice of interface is entirely down to personal preference, some like 
+the web, some only use the mud, but it is always nice to have the option of 
+more.
+.EP
+
+.SC
+I hope this helps people to understand bug fixing a little better. 
+.EC
+
+

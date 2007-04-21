@@ -1,0 +1,35 @@
+.DT
+cp
+Discworld creator help
+cp
+
+.SH Name
+.SI 5
+cp - Copy files.
+.EI
+
+.SH Syntax
+.SI 5
+cp <file(s)> <file|dir>
+.EI
+
+.SH Description
+.SP 5 5
+The cp command is used to duplicate a file.  You can copy it into a different
+directory keeping the same name, or copy it to a file of a different name
+anywhere.  cp will not overwrite files, so you will have to rm the file that
+is already there if you want to replace an old copy of a file with a newer
+one.
+.EP
+
+.SH Examples
+.SI 5
+cp test1 test2
+cp test1 testdir
+cp test* testdir
+.EI
+
+.SH See also
+.SP 5 5
+mv, rm
+.EP

@@ -1,0 +1,38 @@
+.DT
+event_death
+Discworld events help
+event_death
+
+Name
+.SI 5
+event_death - Called when an object dies.
+.EI
+
+Syntax
+.SI 5
+void event_death(object ob, object killers, object killer, string room_mess, string killer_mess);
+.EI
+
+Description
+.SP 5 5
+This is the function called on things when something dies in them or in their environment.  The ob argument is the thing
+that actually dies.  The killers argument is an array containing all the objects in the attacker array.
+The killer argument is the object that struck the death blow.  The room_mess and killer_mess arguments
+are the messages printed to the room and the killer, respectively.
+.EP
+
+Examples:
+.SI 5
+void event_death(object ob, object killers, object killer, string room_mess, 
+  string killer_mess);
+  if (ob->query_creator()) {
+    killer->do_command ("say Another filthy creator bites the dust!");
+  }
+} /* event_death() */
+
+.EI
+
+See also
+.SP 5 5
+do_death, death_helper, second_life
+.EP

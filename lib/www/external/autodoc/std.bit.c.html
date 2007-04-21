@@ -1,0 +1,421 @@
+<html><head><title>File bit.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/bit.c</h2>
+The bit object is the object created to handle bits of corpses, like
+fingers and eyes and so on.<p>Written by Ember
+<hr><h2>Inherits</h2>
+This class inherits the following classes std/object.c<hr><h2>Includes</h2>
+This class includes the following files <a href="include.corpse.h.html">/include/corpse.h</a> and <a href="include.bit.h.html">/include/bit.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_bit_gone"><b>add_bit_gone</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_cure"><b>do_cure</b></a>()<dd>
+This method cures the corpse.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_decay"><b>do_decay</b></a>()<dd>
+This method is called by the bits controller to do the actual
+decaying of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_eat"><b>do_eat</b></a>()<dd>
+The main eat entry point.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#extra_look"><b>extra_look</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_bit"><b>make_bit</b></a>(string)<dd>
+This method creates a bit from the current bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_bits"><b>make_bits</b></a>(string *)<dd>
+This method makes a bunch of bits at once.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#no_decay"><b>no_decay</b></a>()<dd>
+THis method checks to see if the bit can inherently not decay.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bit_data"><b>query_bit_data</b></a>()<dd>
+This method returns the bit data for the bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bit_left"><b>query_bit_left</b></a>(string)<dd>
+This method figures out of the specified bit is left.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bit_left_pl"><b>query_bit_left_pl</b></a>(string)<dd>
+This method figures out of the specified bit is left using the plural name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bits_gone"><b>query_bits_gone</b></a>()<dd>
+This method returns the current array of bits gone from this
+bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bits_left"><b>query_bits_left</b></a>()<dd>
+This method returns the current array of bits left.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_collective"><b>query_collective</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cured"><b>query_cured</b></a>()<dd>
+This returns the cured state of the bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_decay"><b>query_decay</b></a>()<dd>
+This method returns the current decay level of the corpse
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_determinate"><b>query_determinate</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_edible"><b>query_edible</b></a>()<dd>
+This method checks to see if the bit is edible or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_medium_alias"><b>query_medium_alias</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_possible_bits"><b>query_possible_bits</b></a>(string)<dd>
+This method returns the possible bits that can be removed
+from this bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_possible_plural_bits"><b>query_possible_plural_bits</b></a>(string)<dd>
+This returns the plural of all the possible bit names.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_race_name"><b>query_race_name</b></a>()<dd>
+This method returns the name of the race associated with this
+bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_race_ob"><b>query_race_ob</b></a>()<dd>
+This method returns the race object associated with the bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_vect"><b>query_vect</b></a>()<dd>
+This method returns the vector used with the potion space.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bit"><b>set_bit</b></a>(string, int)<dd>
+This method sets the bit that this actually is.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bits"><b>set_bits</b></a>()<dd>
+This method sets all the basic bits for the bit when it is first created.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bits_gone"><b>set_bits_gone</b></a>(string *)<dd>
+This method sets the array of gone bits on the bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_corpse_weight"><b>set_corpse_weight</b></a>(int)<dd>
+This method sets the weight of the bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_race_name"><b>set_race_name</b></a>(string)<dd>
+This method sets the name of the race associated with the corpse.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_race_ob"><b>set_race_ob</b></a>(object)<dd>
+This method sets the race object associated with the corpse.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_long"><b>setup_long</b></a>()<dd>
+This method setsup the long and short based on the current decay
+levels of the corpse.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_bit_gone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_bit_gone</b></a><pre>
+mixed * add_bit_gone(string bit)
+</pre>
+<dt><a name="do_cure">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_cure</b></a><pre>
+void do_cure()
+</pre><dd>
+This method cures the corpse.  A cured bit no longer decays.
+<p>
+
+<dt><a name="do_decay">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_decay</b></a><pre>
+int do_decay()
+</pre><dd>
+This method is called by the bits controller to do the actual
+decaying of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it still exists, 0 if it has finished decaying
+
+</dl>
+
+<dt><a name="do_eat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_eat</b></a><pre>
+int do_eat()
+</pre><dd>
+The main eat entry point.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="extra_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>extra_look</b></a><pre>
+string extra_look()
+</pre>
+<dt><a name="make_bit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_bit</b></a><pre>
+object make_bit(string which_bit)
+</pre><dd>
+This method creates a bit from the current bit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>which_bit - the name of the bit to create
+<dt><b>Returns:</b>
+<dd>the object that is the new bit
+
+</dl>
+
+<dt><a name="make_bits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_bits</b></a><pre>
+object * make_bits(string * what_bits)
+</pre><dd>
+This method makes a bunch of bits at once.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>what_bits - the list of bits to create
+<dt><b>Returns:</b>
+<dd>the array of made bits
+
+</dl>
+
+<dt><a name="no_decay">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>no_decay</b></a><pre>
+int no_decay()
+</pre><dd>
+THis method checks to see if the bit can inherently not decay.
+Like trolls teeth and other such things.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it cannot decay, 0 if it can
+
+</dl>
+
+<dt><a name="query_bit_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bit_data</b></a><pre>
+mixed query_bit_data()
+</pre><dd>
+This method returns the bit data for the bit.  The return array is of
+the format same format as used in the races.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the bit data
+<dt><b>See also:</b>
+<dd>/std/races/basic.c
+</dl>
+
+<dt><a name="query_bit_left">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bit_left</b></a><pre>
+string query_bit_left(string s)
+</pre><dd>
+This method figures out of the specified bit is left.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the bit to check if it is left
+
+<dt><b>Returns:</b>
+<dd>the name of the bit if it is left
+</dl>
+
+<dt><a name="query_bit_left_pl">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bit_left_pl</b></a><pre>
+string * query_bit_left_pl(string s)
+</pre><dd>
+This method figures out of the specified bit is left using the plural name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the bit to check if it is left
+
+<dt><b>Returns:</b>
+<dd>the name of the bit if it is left
+</dl>
+
+<dt><a name="query_bits_gone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bits_gone</b></a><pre>
+string * query_bits_gone()
+</pre><dd>
+This method returns the current array of bits gone from this
+bit.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of missing bits
+
+</dl>
+
+<dt><a name="query_bits_left">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bits_left</b></a><pre>
+string * query_bits_left()
+</pre><dd>
+This method returns the current array of bits left.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of bits left
+
+</dl>
+
+<dt><a name="query_collective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_collective</b></a><pre>
+int query_collective()
+</pre>
+<dt><a name="query_cured">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cured</b></a><pre>
+int query_cured()
+</pre><dd>
+This returns the cured state of the bit.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is cured, 0 if not
+
+</dl>
+
+<dt><a name="query_decay">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_decay</b></a><pre>
+int query_decay()
+</pre><dd>
+This method returns the current decay level of the corpse<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current decay level
+
+</dl>
+
+<dt><a name="query_determinate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_determinate</b></a><pre>
+string query_determinate(object caller)
+</pre>
+<dt><a name="query_edible">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_edible</b></a><pre>
+int query_edible()
+</pre><dd>
+This method checks to see if the bit is edible or not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is edible, 0 if not
+
+</dl>
+
+<dt><a name="query_medium_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_medium_alias</b></a><pre>
+string query_medium_alias()
+</pre>
+<dt><a name="query_possible_bits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_possible_bits</b></a><pre>
+string * query_possible_bits(string word)
+</pre><dd>
+This method returns the possible bits that can be removed
+from this bit.  If the bits are restricted then the
+possible bits are the ones that are contained by that bit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - restrict the possible bits
+<dt><b>Returns:</b>
+<dd>the list of possible bits
+
+</dl>
+
+<dt><a name="query_possible_plural_bits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_possible_plural_bits</b></a><pre>
+string * query_possible_plural_bits(string word)
+</pre><dd>
+This returns the plural of all the possible bit names.
+If the bits are restricted then the
+possible bits are the ones that are contained by that bit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - restrict the possible bits
+<dt><b>Returns:</b>
+<dd>the array of possible bit names
+
+</dl>
+
+<dt><a name="query_race_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_race_name</b></a><pre>
+string query_race_name()
+</pre><dd>
+This method returns the name of the race associated with this
+bit.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the race
+
+</dl>
+
+<dt><a name="query_race_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_race_ob</b></a><pre>
+object query_race_ob()
+</pre><dd>
+This method returns the race object associated with the bit.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the race object
+
+</dl>
+
+<dt><a name="query_vect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_vect</b></a><pre>
+int * query_vect()
+</pre><dd>
+This method returns the vector used with the potion space.  I 
+think this call is now obsolete and not used.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the vectorof the bit
+
+</dl>
+
+<dt><a name="set_bit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bit</b></a><pre>
+void set_bit(string s,
+             int dec)
+</pre><dd>
+This method sets the bit that this actually is.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the name of the bit
+<dd>dec - the current decay numbe
+
+</dl>
+
+<dt><a name="set_bits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bits</b></a><pre>
+void set_bits()
+</pre><dd>
+This method sets all the basic bits for the bit when it is first created.
+<p>
+
+<dt><a name="set_bits_gone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bits_gone</b></a><pre>
+void set_bits_gone(string * bits)
+</pre><dd>
+This method sets the array of gone bits on the bit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bits - the set of bits gone to set
+
+</dl>
+
+<dt><a name="set_corpse_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_corpse_weight</b></a><pre>
+void set_corpse_weight(int i)
+</pre><dd>
+This method sets the weight of the bit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the weight of the bit
+
+</dl>
+
+<dt><a name="set_race_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_race_name</b></a><pre>
+void set_race_name(string s)
+</pre><dd>
+This method sets the name of the race associated with the corpse.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the race name to set
+
+</dl>
+
+<dt><a name="set_race_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_race_ob</b></a><pre>
+void set_race_ob(object s)
+</pre><dd>
+This method sets the race object associated with the corpse.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the race object to set
+
+</dl>
+
+<dt><a name="setup_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_long</b></a><pre>
+void setup_long()
+</pre><dd>
+This method setsup the long and short based on the current decay
+levels of the corpse.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 02:07:18 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,44 @@
+.DT
+set_eat_mess
+DW_wibble creator help
+set_eat_mess
+
+.SH Name
+.SP 5 5
+set_eat_mess -  This sets the eat function of the food.
+.EP
+
+.SH Syntax
+.SI 5
+void set_eat_mess(mixed word)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - The string or array to be used as
+the add_succeeded_mess() when eating the food.
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets the eat function of the food.  The function is
+carried out when the food is consumed.  The eat message,
+set with set_eat_mess(), is displayed when this function
+is carried out.
+
+
+The eat mess should be treated exactly the same as a add_succeeded_mess(), as it is processed later as add_succeeded_mess(eat_mess, ({ })); 
+.EP
+
+.SH See also
+.SP 5 5
+set_eat_object(), set_eat_func(), /global/new_parse->add_succeeded_mess()
+.EP
+

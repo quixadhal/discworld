@@ -1,0 +1,114 @@
+std/guild.c is the inheritable guild.  If you are going to write a guild
+inherit this file.  Your guild must provide a certain number of functions to
+interact with the mud properly.  Some of these are handled by std/guild.c and
+others must be included in your file.  The following functions must be supported
+in your guild:
+
+void set_sp(object ob);
+int query_skill_cost(string skill);
+int query_skill_max_level(string skill);
+int query_skill_bonus(int level, string skill);
+string query_title(object player);
+void start_player();
+void set_new_level(mixed *arr);
+int query_level(object ob);
+string query_start_pos();
+
+void set_sp(object ob);
+You must take the object, get its level, and then call
+ob->set_max_sp(int)
+to set the maximum number of spell points that player can have.  The spell
+points in guilds like a fighters guild should be used for things like in combat
+fighting commands and judging weapons/armours.
+
+int query_skill_cost(string skill);
+This function takes a skill string of the format "fighting.combat.melee" and
+must return the cost to advance.  How you do this is irrelevant, but the return
+value is an integer.  The standard cost to advance should be 10.  If the skill
+is in theme for the guild, such as any fighting skill for a fighters guild, then
+you can return a lower cost by returning a small number like 3.  If the skill
+is out of character for the guild, then you can charge more for the skill by 
+returning a high number like 20.  The normal range should be from about 3
+through to 25 or so.  If the skill is not particulary affected by the guild in
+either direction, just return 10.  For a list of skills, have a look at
+/include/skills.h
+
+int query_skill_max_level(string skill);
+This function takes the same string that is passed to query_skill_cost.  It has
+to return the highest level that someone in your guild can advance to in a given
+skill.  For a non-appropriate skill, like magic for fighters, the maximum level
+should be about 5.  For skills that are not affected either way by the guild,
+you should be able to reach about 15.  For skills that are appropriate for the
+guild, you can go up to about 300 which is effectively open ended.
+
+int query_skill_bonus(int level, string skill);
+This function takes the same string that is passed to query_skill_cost.  It has
+to return a number between 0-200 roughly.  Most of the work is done in
+std/guild's query_skill_cost so if you want to leave it out of your guild, it
+will work properly.  If however you wish to let people specialise in a
+particular skill, you could add a bonus to it.  The fighters guild adds 30 to
+skill if it is the weapon type that the fighter is specialising in.
+
+string query_title(int level);
+This function returns the title of the player based on the level of the player.
+The level of the player is also entirely dependant on your guild.  The
+query_level() function is usually used.  You could set it up as a switch
+statement, or as a series of if statements or even just index off an array.
+An easy way to calculate level is to base it on the skill_level in the highest
+level of the skill heirarchy that is suited to the guild.  So for fighters,
+the level of the fighter is the average of all the fighter skills which is
+obtained by doing query_skill_level("fighting");  It is best to query_level()
+and to put that code in query_level().
+
+void start_player();
+Start player is called whenever the player logs into the mud.  If there is
+anything that you must do when they log in, like giving them an object, or
+calling a function on them, then this is where you do it.
+
+void set_new_level(mixed *arr);
+This function is called whenever a monster has had set_class("guild"); called
+on it and yours is the guild specified.  You must set the stats, skills etc
+to appropriate levels for the level passed.  The parameter passed is an array
+of the following format.
+({ object ob, int level })
+So you should set up variables containing these for simplicity.  You must set
+the stats, skills, add an attack, set the hp's and set the sp's.
+
+An example of this follows:
+void set_new_level(mixed *arr) {
+  object ob;
+  int lvl;
+
+  ob = arr[0];
+  lvl = arr[1];
+  ob->add_skill_level("fighting", lvl);
+  ob->set_str(lvl+8);
+  ob->set_con(lvl+4);
+  ob->set_dex(lvl+4);
+  if (lvl > 8) {
+    ob->set_int(lvl-8);
+    ob->set_wis(lvl-8);
+  } else {
+    ob->set_int(1);
+    ob->set_wis(1);
+  }
+/*
+ * fighters... huh magic? whats that?
+ */
+  ob->set_hp(500+level*100);
+  ob->set_sp(50+level*10);
+}
+
+int query_level(object ob);
+This function should calculate the level of the player in the guild by doing
+some wonder calculation.  Usually this will just be a query of some skills
+and averaging them if neccesary.  The integer returned is not important except
+in your guild as it is expected that there can be little correlation between
+guilds and their levels.
+
+string query_start_pos()
+Returns the room in which the player will start.
+Eg
+string query_start_pos() {
+  return "/d/am/am/mendeddrum";
+}

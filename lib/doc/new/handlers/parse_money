@@ -1,0 +1,59 @@
+.DT
+parse_money
+Discworld handler help
+parse_money
+
+Name
+.SI 5
+parse_money - matches and checks money from a player
+.EI
+
+Syntax
+.SI 5
+varargs mixed parse_money( string words, object player, string place )
+.EI
+
+Description
+.SP 5 5
+This function, defined on the money handler, takes a string, the variable
+words, and attempts to match it with objects in the object player; if
+nothing matches the string, the function returns NO_MATCH.  It then looks
+at each object matched to check if it is money; if no money is found, the
+function returns NO_MONEY.  The handler then looks at the money, checking
+to see if it is legal tender, according to the variable place, returning
+any that isn't legal tender to the player; if there is no money that is
+legal tender, the function returns NO_LEGAL.  Given that the function
+finds some legal tender, it returns that money object.  The definition
+MONEY_HAND for the money handler and the other definitions used above may
+all be found in /include/money.h.
+.EP
+
+Examples
+.SI 5
+#include <money.h>
+
+[some code]
+
+int place_bet( string words ) {
+   mixed money;
+   if ( !words )
+      return notify_fail( "Bet what?\n" );
+   money = (mixed)MONEY_HAND->parse_money( words, this_player(),
+         "Ankh-Morpork" );
+   if ( !objectp( money ) )
+      switch ( money ) {
+         case NO_MATCH :
+            return notify_fail( "You don't have \""+ words +"\".\n" );
+         case NO_MONEY :
+            return notify_fail( "Try betting some money.\n" );
+         default :
+            return notify_fail( "Try betting some local currency.\n" );
+      }
+   [some more code]
+} /* place_bet() */
+.EI
+
+See also
+.SI 5
+-
+.EI

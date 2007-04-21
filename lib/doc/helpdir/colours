@@ -1,0 +1,101 @@
+.DT
+colours
+Discworld player help
+colours
+
+.SH Name
+.SI 5
+colour - set and review colours
+.EI
+
+.SH Syntax
+.SI 5
+options colour [<type>=<colour|default|none>]
+options colour inform [<type>=<colour|default|none>]
+options colour club [<type>=<colour|default|none>]
+.EI
+
+.SH Description
+.SP 5 5
+Colour is used to review and change the colour of messages you
+receive. Typing just 'options colour' will list your current settings. Typing 
+'options colour <event>=<colour>' will set all future messages of type
+'event' to be in the colour 'colour'.
+
+The colour can alternatively be 'default' to reset the colour back to
+the default, or 'none' to set it to have no value.
+
+The colour of inform events can be seen and modified by using the
+'inform' parameter.
+
+You can also setup colours for each of your clubs.  When setting the club
+name you have to place it in "'s.
+.EP
+
+.SH The Colours
+.SP 5 5
+Options available for colours are: red, magenta, orange, yellow,
+green, blue, cyan, white and black.  Options for background colours are:
+b_red, b_magenta, etc.  Additional modifiers are: bold, flash and
+underline. Some of these colours may not be supported depending on
+your terminal type.
+.EP
+
+.SI 5
+The Plain Colours
+.EI
+.SI 10
+%^RED%^red%^RESET%^
+%^MAGENTA%^magenta%^RESET%^
+%^ORANGE%^orange%^RESET%^
+%^YELLOW%^yellow%^RESET%^
+%^GREEN%^green%^RESET%^
+%^BLUE%^blue%^RESET%^
+%^CYAN%^cyan%^RESET%^
+%^WHITE%^white%^RESET%^ (white)
+%^BLACK%^black%^RESET%^ (black)
+.EI
+
+.SI 5
+Some Exciting Extras
+.EI
+.SI 10
+%^B_RED%^b_red%^RESET%^
+%^B_BLUE%^%^YELLOW%^b_blue yellow%^RESET%^
+%^CYAN%^%^BOLD%^cyan bold%^RESET%^
+%^RED%^%^FLASH%^red flash%^RESET%^
+%^RED%^%^UNDERLINE%^red underline%^RESET%^
+.EI
+
+.SH Examples
+.SI 5
+> options colour
+Shout      [%^BOLD%^ BOLD %^RESET%^]
+Tell       [%^YELLOW%^ YELLOW %^RESET%^]
+Say        [%^CYAN%^ CYAN %^RESET%^]
+Whisper    [%^CYAN%^ CYAN %^RESET%^]
+Soul       [%^CYAN%^ CYAN %^RESET%^]
+Emote      default
+Remote     default
+Exits      default
+Inventory  default
+Weather    default
+
+> options colour tell=green
+Colour for tell set to %^GREEN%^green%^RESET%^.
+
+> options colour inform
+Logon      [%^YELLOW%^ YELLOW %^RESET%^]
+Birthday   default
+
+> options colour inform logon=blue
+Logon colour set to [%^BLUE%^blue%^RESET%^].
+
+> options colour club the_discworld_free_love_society=bold red
+The Discworld Free Love Society set to [%^BOLD%^%^RED%^bold red%^RESET%^]
+.EI
+
+.SH See also
+.SI 5
+term, options
+.EI

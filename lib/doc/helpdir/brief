@@ -3,24 +3,35 @@ brief
 Discworld player help
 brief
 
-Name
+.SH Name
 .SI 5
-brief - brief mode toggle
+brief - brief mode control
 .EI
 
-Syntax
+.SH Syntax
 .SI 5
-brief [on/off]
+brief [type|all]
 .EI
+
+.SH Description
 
 .SP 5 5
-Brief is a toggle that flips between brief and verbose mode.  In brief mode
-you only get short descriptions of the rooms when you walk into them.  In
-verbose mode, you get a long description of the room.  Both modes will list the
-room contents when you enter them.  Verbose performs the identical function.
+The brief command controls which things you see in brief mode and which in verbose.  Typing just 'brief' will list which items are in which state.  Typing 'brief all' will set all items to brief.
+
+In brief mode you will get reduced descriptions of events depending on which items you have in brief mode.
 .EP
 
-See also
+.SH Examples
+.SI 5
+> brief
+Your settings are: combat (verbose) look (brief) score (verbose) names (verbose)
+> brief combat
+Ok.
+> brief all
+Ok.
+.EI
+
+.SH See also
 .SI 5
 verbose
 .EI

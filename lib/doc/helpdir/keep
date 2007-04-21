@@ -1,0 +1,45 @@
+.DT
+keep
+Discworld player help
+keep
+
+.SH Name
+.SP 5 5
+keep - Designates that an object shouldn't be sold.
+.EP
+
+.SH Syntax
+.SP 5 5
+keep <object>
+.EP
+
+.SH Description
+.SP 5 5
+This command helps you avoid selling something by accident.  Items
+that you have decided to keep are shown as such by "locate".  Whether
+an item is to be kept or not is preserved over logins, but not if
+the item leaves your inventory at any time.
+.EP
+
+.SH Example
+.SI 5
+> locate daggers
+The dagger (1 - wielded) is in your inventory.
+The dagger (2) is in your inventory.
+> keep dagger
+You will now attempt to keep the dagger.
+> locate daggers
+The dagger (1 - wielded - keeping) is in your inventory.
+The dagger (2) is in your inventory.
+> sell daggers
+You sell the dagger for 42 Ankh-Morpork pence.
+> locate daggers
+The dagger (wielded) (keeping) is in your inventory.
+> sell dagger
+You have previously decided to keep the dagger.
+.EI
+
+.SH See also
+.SP 5 5
+locate, unkeep.
+.EP

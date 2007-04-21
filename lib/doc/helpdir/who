@@ -1,0 +1,61 @@
+.DT
+who
+Discworld player help
+who
+
+.SH Name
+.SI 5
+who - complete information on who is online
+.EI
+
+.SH Syntax
+.SI 5
+who [verbose|[filter 1, filter 2, ...][& filter 3, filter 4, ...]...]
+who here
+.EI
+
+.SH Description
+.SP 5 5
+When used with no parameters who give a short list of who is online.
+
+When used with the 'verbose' parameter it gives the long information about who
+is online, shows their status, their guild rank and any other pertinent
+information.
+
+Optionally you can provide a list of filters to show in which case only members
+of the filter you give are listed.  The list can include the names of any
+of the guilds you know and love plus "creators", "liaisons",
+"adventurers", "playtesters", "killers", "friends", "families" or
+nationality (morporkian, agatean etc.)  If you specific a '-' in front of the
+name of the filter (ie: -creator) then it will show the members that are
+not in that filter list.
+
+You can find out details on all the people in the room with the 'who here'
+command.  It will give you guild details and information on the people in
+the room with you.
+
+You can show an intersection of people on as well using the '&' connector.
+So 'who killers & thieves' would show all the player killer thieves.
+.EP
+
+.SH Notations
+.SP 5 5
+Some people will have letters following their name eg. Ceres (T).
+(l) indicates a liaison, (C) indicates a creator, (S) indicates a
+senior creator, (D) indicates a domain director and (T) indicates an
+administrator (Trustee).
+.EP
+
+.SH Example
+.SI 5
+> who
+> who witches
+> who -assassins
+> who wizards,priests
+> who thieves&killers
+.EI
+
+.SH See also
+.SP 5 5
+whois, finger, users, qwho
+.EP

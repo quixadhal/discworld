@@ -1,0 +1,153 @@
+.DT
+terrain_map_intro
+Discworld Creator Help
+terrain_map_intro
+
+.SH Name
+.SI 5
+Terrains Maps - An inherit/handler system for generating small to mid-sized 
+highly detailed and interactive 'virtual' areas from ascii maps. I
+.EI
+
+.SH Description
+.SP 5 5
+The system is designed to be extremely easy to use, and allows incredibly 
+quick and simple modification of areas and layouts. It does a great deal for you,
+including the automatic modification of room descriptions, and addition of
+room chats and items, depending on what's nearby. Prominent features can 
+be inserted into an area, which are visible for large distances, and the
+room chats, and descriptions can be dependant on how far away the feature is.
+Features can also be modified dynamically, so a mountain could suddenly
+erupt and become a volcano, and this will be seen anywhere the mountain was
+visible. Extra facilities are provided to allow you to automatically divide the 
+map into any number of overlapping or distinct zones, with extra touches
+like functions to return all the currently loaded rooms in a particular zone.
+.EP
+
+.SH What comprises a terrain map?
+.SP 5 5
+There are five basic entities defined in an terrain map.
+.EP
+
+.SP 10 5
+Rooms are simply standard rooms within the area.
+.EP
+
+.SP 10 5
+Roads are like rooms, except that they can be seen from adjacent locations.
+On creating them, you define what they appear like to any adjacent
+locactions, a 'continuation message' which is added to the road description
+describing where it leads, and an add_item which will be automatically added 
+to said adjacent locations. This *is* less complex than it sounds.
+Additional features allow you to have them add room chats to adjacent
+locations.
+.EP
+
+.SP 10 5
+Obstacles are "dead" areas on the map, where no rooms exist. They act purely
+as barriers, but have descriptions that can be seen from adjacent locations,
+and can also contribute room chats to any rooms they can be seen from.
+.EP
+
+.SP 10 5
+Features are added within the handler setup routine. They can be seen from
+a distince (the range is defined when you create them), and what can be 
+seen from each location is dictated by how far away the feature is.
+Features can automatically add room chats to locations that can see them,
+and can be altered dynamically just so you can add some extra zest to an
+area. If you want distant tower to explode, or a campfire sending up 
+smoke signals for a time, then burning out, features are the ones to use.
+.EP
+
+.SP 10 5
+Exits are added to allow players to leave an area. They simply add standard
+exits to the specified location.
+.EP
+
+.SH What else can be done with them?
+.SP 5 5
+This is entirely up to you. Extra features allow you to customise moving
+messages between rooms of different or the same types, dictate whether
+exits exist between rooms of type X and Y, specify the zones within an
+area, broadcast messages to particular zones, retrieve the rooms currently
+loaded within any one or more zones, broadcast range-dependant messages
+which can be seen from many rooms, retrieve the rooms currently loaded
+within distance X of any point, join two terrain maps together, and so 
+on and so forth.
+.EP
+
+.SH Coordinate System
+.SP 5 5
+Terrain maps use an internal coordinate system for its setup purposes, 
+which is independent of the Discworld coordinate system. Simply put,
+the bottom left of the map is coordinate (0, 0), and each room
+is one unit wide. That was easy, moving on....
+.EP
+
+.SH This sounds great! How do I make one?
+.SP 5 5
+A terrain mapped area is generated from three key components. This is best
+described in conjunction with a working example, which can be viewed with:
+'help terrain_map_example'.
+.EP
+
+.SI 5
+The Map
+.EI
+.SP 10 5
+The map is a straight text representation of the area. Map files *must* be
+rectangular, but can contain any combination of ASCII characters. Each
+character used in the map file must have a corresponding definition in
+the handler. Maps must always use the file extension '.map'.
+.EP
+
+.SI 5
+The Handler
+.EI
+.SP 10 5
+The primary use of the handler is to define the meanings of each ASCII
+character used in the map.
+The handler must inherit from TERRAIN_MAP_HANDLER_BASE, and must override
+the function:  string query_map_file() to return the pathname of the map.
+The .map extension should be omitted from this return value.
+.EP
+
+.SI 5
+Room Files
+.EI
+.SP 10 5
+Each room/road file must inherit from either TERRAIN_MAP_INSIDE_BASE or 
+TERRAIN_MAP_OUTSIDE_BASE, and must override the function: 
+string query_handler_path() to return the path of the handler that
+controls the area it's in. Everything else should be as per a normal
+room, although there are certain functions which can be optionally 
+overriden to change the behaviour of the room - eg to prevent exits
+being formed to rooms/roads of a particular type.
+.EP
+
+.SI 5
+The Zone Map
+.EI
+.SP 10 5
+The zone file is an optional extra, and is formed in the same way as
+the area map. Each character represents one or more zones, and these
+must be defined in the handler. Zone maps must be given the '.zone'
+file extension, but the name and path must be the same as the map 
+file. 
+.EP
+
+.SH OK. So far so good. Now how do people get into one of these areas?
+.SP 5 5
+Rooms adjoining a terrain map must also inherit TERRAIN_MAP_OUTSIDE_BASE
+or TERRAIN_MAP_INSIDE_BASE. Then you can simple add an exit to a the
+correct room file with the desired coordinates. eg:
+.EP
+.SP 5 5
+add_exit("north", __DIR__ + "field:4:5", "road");
+.EP
+
+.SH See Also
+.SP 5 5
+terrain_map_example terrain_map_handler 
+terrain_map_outside terrain_map_inside
+.EP

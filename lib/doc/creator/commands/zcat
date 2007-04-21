@@ -1,0 +1,47 @@
+.DT
+zcat
+Discworld creator help
+zcat
+
+.SH Name
+.SI 5
+zcat -- view the contents of a compressed archive
+.EI
+
+.SH Syntax
+.SI 5
+zcat <file(s)>
+zcat {-l|--list} <file(s)>
+.EI
+
+.SH Description
+.SP 5 5
+This command is used to view the contents of a gzip archive.  This will mainly
+be of use for viewing compressed .o save files without having to call the 
+uncompress_file() and compress_file() efuns.  It can also be used to list 
+the contents of a gzip save file to see the compression statistics and
+archive contents.
+.EP
+
+.SH Example
+.SI 5
+> zcat /open/twords.txt.gz
+Zcat started.
+Tab
+tabernacle
+tabernacles
+table
+tableau
+.EI
+
+.SH Example 2
+.SI 5
+> zcat --list /open/twords.txt.gz
+Zcat started.
+Compressed  uncompr. ratio uncompressed_name
+     5393     16779  68.0% open/twords.txt
+
+.SH See also
+.SP 5 5
+cat, grep
+.EP

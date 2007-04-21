@@ -1,0 +1,41 @@
+.DT
+query_children
+DW_wibble creator help
+query_children
+
+.SH Name
+.SP 5 5
+query_children -  This method returns the children of the specified skill chunk.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_children(mixed * arr,
+                        string path)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^arr%^RESET%^ - the skill chunk
+%^BOLD%^path%^RESET%^ - the skill bit leading up to this section
+.EI
+
+.SH Returns
+.SI 5
+the children of the skill chunk
+.EI
+
+.SH Defined in
+.SI 5
+/std/skills.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the children of the specified skill chunk.
+You need to pass into this array a skill chunk as taken from the
+skill array.  It is recursive and returns all the internal children
+as well.
+.EP
+

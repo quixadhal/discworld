@@ -1,0 +1,43 @@
+.DT
+inheritance
+Discworld creator help
+inheritance
+
+.SH Name
+.SI 5
+inheritance - Prints the inheritance hierarchy of an object.
+.EI
+
+.SH Syntax
+.SI 5
+inh[eritance] <filename> [<filename>]
+.EI
+
+.SH Description
+.SP 5 5
+This command will print the inheritance hierarchy of an object, showing
+which objects are inherited by this one, which are inherited by those,
+etc.  The object must be specified by its file name, and the file must
+be loaded.
+.EP
+
+.SP 5 5
+If a second file name is given, only the branches of the inheritance
+tree that contain that file will be printed.
+.EP
+
+.SH BUGS
+.SP 5 5
+Virtual objects behave as if their base object had been given as the
+argument (possibly a deficiency in inherit_list()?).
+.EP
+
+.SP 5 5
+It would be nice if wiz_present-type descriptions could be given for the
+object (e.g., "red book in me").
+.EP
+
+.SH See also
+.SI 5
+find, pathof, inherit_list
+.EI

@@ -3,123 +3,138 @@ add_command
 Discworld creator help
 add_command
 
-Name
+.SH Syntax
 .SI 5
-add_command - More general interface to object referenceing.
+int add_command(string verb, object ob)
+int add_command(string verb, object ob, string pattern)
+int add_command(string verb, object ob, string *pattern)
+int add_command(string verb, object ob, string pattern, function f)
+int add_command(string verb, object ob, string *pattern, function f)
 .EI
 
-Syntax
+.SH Note
 .SI 5
-void add_command(string verb, object ob, string pattern)
-void add_command(string verb, object ob, string *patterns)
+For information on converting from add_action() to add_command() please
+see 'help add_command_conversion'. For full details of using add_command see 'help add_command_details'.
 .EI
 
-Description
+.SH Description
 .SP 5 5
-Add command!!!  My favourite command.  How to use it.  This is
-what is used to drive all the 'read sign' things and so on.  This
-coupled with the tempory_items in rooms makes things very cute.  Ok, how
-to call add_command and a quick description of what it does.
+This function is a pattern matching input parser.  It is designed to
+make input parsing from the user a lot easier.
 
-Add_command is sort of like add_action in that it defines something you
-can do.  The difference with add_command is that you need to have an
-object to reference.  So you could not do the command 'say' using
-add_command because there are no object references involved.  However
-you can do read, etc because you have to read something.  The object
-passed is the object upon which the verb will be defined, which object
-you wish to be called when the verb succeeds.  In most cases this will
-be this_object, but you can do cute things....  The pattern varible is
-string something like the form "%D %p %I", or "%I %p %D".  WHat does all
-this gobbledy gook mean?  Well, %D means direct object.  This is the
-object that is directly referenced, eg 'read book' book is the direct
-object.  In 'pour water into frog' water is the direct object and frog
-the indirect object.  The %p is a preposition, this is from
-parse_command and in fact the things are passed almost directly to
-parse_command so look at the docs on parse_commad for a more complete
-explination of the other options.  When a verb is matched and the object
-matched it calls a function do_verb(object *in_dir, Params...) on the
-object.  ie do_read().  In cases where you only have a direct object
-you do not need to check anything in the routine.  If this fucntion
-returns 0, the action is considered to have failed.  If it returns 1 or
-a string the action has suceeded.  If it returns a string it uses this
-for the name in the mulitple short.  For example a flower with a note
-attached as one object, you get the do_read proceedure to return "note";
+The first parameter passed to the add_command function is the verb.  The
+verb is the same as the verb specified in the add_action command.  The verb
+does not handle '*' completion stuff and it does not handle short verbs.
 
-For a more complete list of things you can do with add_command look
-at the documentation on parse_command.  Some common useful things to
-know.  If you wish to have text in your add_command statement, for
-instance 'open book to page 10', you need to put ''s around the
-words in the pattern. ie
+The second parameter is the object.  This is the object that is defining the
+verb and it is the object upon which the function is called if it is matched.
+This will be defined in more detail later on.
+
+The third parameter is the pattern.  The pattern is the main part of the
+processing.  If the pattern is not defined a pattern of "<direct:object>" is
+assumed.  The format of the pattern will be defined in the Section on
+patterns.
+
+The fourth parameter is a function pointer.  If no pointer is given a
+function do_<command> will be called. eg. if the command is 'read'
+do_read() will be called.
 .EP
-.SI 5
-this_player()->add_command("open", "$D 'to' 'page' %d", this_object());
-.EI
+
+.SH Patterns
 .SP 5 5
-If instead of putting ''s around the words you put ['s around the words
-you can make the words optional.
+The patterns are defined by using a series of key characters and a
+normal text string.  Anything which is not enclosed in wrapping
+brackets is a required word.
+.SO 5	20	-30
+	{in|on}	required words
+	[in|on]	optional words
+	<indirect:object>	special word list
 
-If the function do_verb does not exist on the object in question, the
-function command_control is called on the object instead with the
-same paramaters as do_verb but, the first paramter is the verb and
-all the other parameters are shuffled down one.
-
-A though description of the paramaters passed to the function calls.
-The do_verb command is call with these paramaters:
+.EO
+.SP 5 5
+The special word list sequences have a few options.  Options are
+separated from the main identifier by a ':'.
 .EP
-.SI 5
-int do_verb(object *in_dir, string direct, string indirect, mixed *args,
-            string format);
 
-A description of each argument follows:
-.EI
-.SO 10 10 -25
-	in_dir	The indirect objects.  These are the objects matched with the %I parameter in the format.
-	direct	The string which the direct objects matched on.
-	indirect	The string which the indirect objects matched on.
-	args	The args as returned from parse_command.  This is useful if you have imbeded some information in the format string.
-	format	The format string which is currently being passed.  YOu can use this to haver several different format strings for the same object that do slightly different things.
+.SO 5 20 -30
+	direct	The direct object reference.  
+	indirect	The indirect object reference.
+	string	One or more words comprise a string.
+	word	A single word.
+	number	A number (only matching numerics)
+	fraction	A composite number.
+	preposition	A preposition, a word like 'from', 'in', 'under'.
 .EO
 
-Other notes:
-.SI 5
-If no pattern is give "%D" is assumed.
+.SP 5 5
+Several of these specifiers have options as follows.
+.EP
+
+.SO 5 20 -30
+	object	Any object, uses find_match directly.
+	living	Any living object.
+	distant-living	Uses find_living.
+	any-living	A combination of living and distant-living.
+	player	Will only match a player.
+	wiz-present	Uses wiz_present to do a match.
+.EO
+
+.SP 5 5
+The second option is where to look for the objects.  
+.EP
+
+.SO 5 20 -30
+	me	The players inventory.
+	here	The inventory of the room.
+	here-me	The inventory of the room, then the inventory of the player.
+	me-here	The inventory of the player and then the inventory of the room.
+	direct-obs	The inventory of the direct object.
+.EO
+
+.SP 5 5
+Strings also have parameter, they can be short, long or quoted. Strings
+default to being short strings.
+.EP
+
+.SH Standard Arguments
+.SP 5 5
+These are the arguments which are passed into the function calls by
+default.  The reason these all seem a little weird is those wonderful
+words, 'backwards compatibility'.  These are always the same:
+.EP
+.SI 10
+int func(object *indirect_obs, string dir_match, string indir_match,
+         mixed *args, string pattern);
+
+int func(object **indirect_obs, string *dir_match, string indir_match,
+         mixed *args, string pattern);
 .EI
 
-Example of usage.
-.SI 5
-inherit "/std/object";
+.SP 5 5
+When using a function pointer to call your function the params above are
+numbered 1 to 5. Thus if you just want to know the first indirect
+object and the second argument string you would use:
+.EP
+.SI 10
+add_command("bing", this_object(), "<indirect:player> sideways",
+            (: my_fun($1[0], $4[1]) :);
 
-void setup() {
-  set_name("rose");
-  set_short("nice red rose");
-  add_adjective( ({ "red", "nice" }) );
-  set_long("A lovely full stemed red rose.  It is slim and slender "+
-           "reminding you of a beatiful a women.\nIt has a small note "+
-           "attached.\n");
-} /* setup() */
+and declare your function as:
 
-void init() {
-  this_player()->add_command("read", this_object());
-  this_player()->add_command("present", this_object(), "%D to %I");
-} /* init() */
-
-string do_read() {
-  write("The note says: To Khaos with love fro Pinkfish.\n");
-  return "note";
-} /* do_read() */
-
-int do_present(object *obs) {
-  int i;
-
-  for (i=0;i < sizeof(obs) && !living(obs[i]);i++);
-  if (i == sizeof(obs))
-    return 0;
-  if (this_object()->move(obs[i]))
-    return 0;
-  this_player()->add_succeeded(obs[i]);
-  return 1;
-} /* do_present() */
+int my_fun(object ob, string param);
 .EI
 
-See also:
-  add_action
+.SH Return value
+.SP 5 5
+Returning 1 from func will signal that the command succeded,
+returning 0 that the command failed.
+.EP
+
+.SH See also
+.SI 5
+add_command_details, add_succeeded, add_succeeded_mess,
+add_failed_mess, command_control and help syntax, help
+add_command_conversion
+or look in /d/learning/add_command for a more verbose explanation.
+.EI

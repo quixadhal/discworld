@@ -1,0 +1,39 @@
+.DT
+unkeep
+Discworld player help
+unkeep
+
+.SH Name
+.SI 5
+unkeep - designates that an object may be sold
+.EI
+
+.SH Syntax
+.SI 5
+unkeep <object>
+.EI
+
+.SH Description
+.SP 5 5
+If "keep" has been used to mark an object that shouldn't be sold, this
+command will remove the mark and let the object be sold again.
+.EP
+
+.SH Example
+.SI 5
+> locate dagger
+The dagger (wielded) (keeping) is in your inventory.
+> sell dagger
+You have previously decided to keep the dagger.
+> unkeep dagger
+You will no longer attempt to keep the dagger.
+> locate dagger
+The dagger (wielded) is in your inventory.
+> sell dagger
+You sell the dagger for 42 Ankh-Morpork pence.
+.EI
+
+.SH See also
+.SP 5 5
+keep, locate
+.EP

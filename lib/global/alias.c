@@ -1,470 +1,343 @@
-#include "alias.h"
-#include "player.h"
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: alias.c,v 1.12 2001/06/16 05:01:27 presto Exp $
+ * $Log: alias.c,v $
+ * Revision 1.12  2001/06/16 05:01:27  presto
+ * Put in a missing set of braces in query_player_alias
+ *
+ * Revision 1.11  2001/06/16 00:15:35  ceres
+ * Fixed possible runtime in query_player_alias
+ *
+ * Revision 1.10  2001/03/11 01:42:01  ceres
+ * Restricted alias lenghts
+ *
+ * Revision 1.9  1999/04/03 23:19:40  dragonkin
+ * Fixed so that player aliases called "" can be removed by anyone.
+ *
+ * Revision 1.8  1999/03/10 09:44:56  pinkfish
+ * Rip out the guts into the alias commands.
+ *
+ * Revision 1.7  1999/03/09 06:04:38  presto
+ *  Forcibly unlocked by pinkfish
+ *
+ * Revision 1.6  1999/02/08 14:15:04  wodan
+ * changed add_actions to other things (/cmds stuff and add_command)
+ *
+ * Revision 1.5  1999/01/27 00:03:46  ceres
+ *  Forcibly unlocked by pinkfish
+ *
+ * Revision 1.4  1998/12/30 21:45:13  ceres
+ * Fixed code for checking for colour sequences so it works properly.
+ *
+ * Revision 1.3  1998/12/30 21:42:27  olorin
+ *  Forcibly unlocked by ceres
+ *
+ * Revision 1.2  1998/02/21 19:05:47  pinkfish
+ * Fix up the problem with the command queue and aliases.
+ *
+ * Revision 1.1  1998/01/06 04:54:05  ceres
+ * Initial revision
+ * 
+*/
+/**
+ * The alias control module for players.
+ * @author Pinkfish
+ */
+#include <alias.h>
+#include <player.h>
 inherit "/global/history";
 
-int convert();
+mapping aliases;
+nosave mapping doing_alias;
 
-mapping aliases, map_aliases;
-static mapping doing_alias;
+protected void exec_alias(string verb, string args);
+protected string *expand_alias(string verb, string args);
+protected void set_doing_alias(string verb);
+protected int is_doing_alias(string verb);
+protected string *run_alias(string verb, string args);
+int remove_alias_thing(string);
+protected int alias(string);
+protected int edit_alias(string);
 
-mixed *compile_alias(string str) {
-  mixed *ret;
-  int i, space;
-  string *frog, *lines, s1, s2;
-  int num, tmp, gumby, nodollar;
-  mixed *ifargs;
-
-  str = replace(str, ({ "\\;", "$escaped$", ";", "$new_line$", "", "" }));
-  str = replace(str, "$escaped$", ";");
-  str = "&"+str+"&";
-  frog = explode(str, "$");
-  if (frog[0] == "&")
-    frog = delete(frog, 0, 1);
-  else
-    frog[0] = frog[0][1..100];
-  s1 = frog[sizeof(frog)-1];
-  if (s1 == "&")
-    frog = delete(frog, sizeof(frog)-1, 1);
-  else
-    frog[sizeof(frog)-1] = s1[0..strlen(s1)-2];
-  ret = ({ });
-  ifargs = ({ });
-  nodollar = 1;
-  for (i=0;i<sizeof(frog);i++)
-    if (frog[i] == "new_line") {
-      ret += ({ NEW_LINE });
-      nodollar = 1;
-    } else if (frog[i] == "*") {
-      ret += ({ ALL_ARGS });
-      gumby = 1;
-      nodollar = 1;
-/* hack by CPR for andrew so that $!$ substitues current location */
-    } else if (frog[i] == "!" && this_object()->query_creator()) {
-      ret += ({ CURR_LOC });
-      nodollar = 1;
-/* end of hack by CPR */
-    } else if (frog[i][0..4] == "ifarg") {
-      if (sscanf(frog[i], "ifarg%d:%s", tmp, s1) == 2) {
-        if (tmp < 0)
-          tmp = 0;
-        if (tmp > ALIAS_MASK)
-          tmp = ALIAS_MASK;
-        ret += ({ IFARG_THING+ tmp, 0, "" });
-        frog[i--] = s1;
-        nodollar = 1;
-        ifargs += ({ sizeof(ret)-2 });
-        space = 0;
-        gumby = 1;
-      } else if (frog[i][5] == ':') {
-        ret += ({ ALL_IFARG, 0, "" });
-        frog[i] = frog[i--][6..100];
-        nodollar = 1;
-        ifargs += ({ sizeof(ret)-2 });
-        space = 0;
-        gumby = 1;
-      } else
-        if (sizeof(ret) && stringp(ret[sizeof(ret)-1]) && !space)
-          ret[sizeof(ret)-1] += "$"+frog[i];
-        else if (nodollar) {
-          ret += ({ frog[i] });
-          nodollar = 0;
-        } else
-          ret += ({ "$"+frog[i] });
-    } else if (frog[i][0..2] == "arg") {
-      if (sscanf(frog[i], "arg%d:%s", tmp, s1) == 2) {
-        if (tmp < 0)
-          tmp = 0;
-        if (tmp > ALIAS_MASK)
-          tmp = ALIAS_MASK;
-        ret += ({ ARG_THING+ tmp, s1, "" }); 
-        nodollar = 1;
-      } else if (frog[i][3] == ':') {
-        ret += ({ ALL_ARG, frog[i][4..100], "" });
-        nodollar = 1;
-      } else
-        if (sizeof(ret) && stringp(ret[sizeof(ret)-1]) && !space)
-          ret[sizeof(ret)-1] += "$"+frog[i];
-        else if (nodollar) {
-          ret += ({ frog[i] });
-          nodollar = 0;
-        } else
-          ret += ({ "$"+frog[i] });
-      gumby = 1;
-      space = 0;
-    } else if (frog[i] == "else" && sizeof(ifargs)) {
-      ret[ifargs[sizeof(ifargs)-1]] = sizeof(ret)-ifargs[sizeof(ifargs)-1]+1;
-      ret += ({ ELSE_THING, 0, "" });
-      ifargs[sizeof(ifargs)-1] = sizeof(ret)-2;
-      nodollar = 1;
-    } else if (strlen(frog[i]) && frog[i][strlen(frog[i])-1] == '*' &&
-               sscanf(frog[i], "%d%s*", tmp, s2) == 2 && s1 == "") {
-      if (tmp < 0)
-        tmp = 0;
-      if (tmp > ALIAS_MASK)
-        tmp = ALIAS_MASK;
-      ret += ({ FROM_ARG + tmp });
-      gumby = 1;
-      nodollar = 1;
-    } else if (strlen(frog[i]) && frog[i][0] == '*' && 
-               sscanf(frog[i][1..1000], "%d%s", tmp,s1) == 2 && s1 == "") {
-      if (tmp < 0)
-        tmp = 0;
-      if (tmp > ALIAS_MASK)
-        tmp = ALIAS_MASK;
-      ret += ({ TO_ARG + tmp });
-      gumby = 1;
-      nodollar = 1;
-    } else if (sscanf(frog[i], "%d%s", tmp, s1) == 2 && s1 == "") {
-      if (tmp < 0)
-        tmp = 0;
-      if (tmp > ALIAS_MASK)
-        tmp = ALIAS_MASK;
-      ret += ({ ONE_ARG + tmp });
-      gumby = 1;
-      nodollar = 1;
-    } else if ((frog[i] == "~" || frog[i] == "endif") && sizeof(ifargs)) {
-      ret += ({ END_IF });
-      ret[ifargs[sizeof(ifargs)-1]] = sizeof(ret)-
-                                      ifargs[sizeof(ifargs)-1];
-      ifargs = delete(ifargs, sizeof(ifargs)-1, 1);
-      nodollar = 1;
-      space = 1;
-    } else {
-      if (!nodollar)
-        frog[i] = "$"+frog[i];
-      nodollar = 0;
-      space = 0;
-      if (strlen(frog[i]) && frog[i][strlen(frog[i])-1] == '~')
-        if (sizeof(ifargs)) {
-          if (strlen(frog[i]) == 1)
-            frog[i] = "";
-          else
-            frog[i] = frog[i][0..strlen(frog[i])-2];
-/* create an offset */
-          ret += ({ END_IF });
-          ret[ifargs[sizeof(ifargs)-1]] = sizeof(ret)-
-                                           ifargs[sizeof(ifargs)-1];
-          ifargs = delete(ifargs, sizeof(ifargs)-1, 1);
-          nodollar = 1;
-          space = 1;
-        }
-      if (sizeof(ret) && stringp(ret[sizeof(ret)-1]) && space != 2)
-        ret[sizeof(ret)-1] += frog[i];
-      else  
-        ret += ({ frog[i] });
-      if (space)
-        space = 2;
-    }
-  while (sizeof(ifargs)) {
-    ret += ({ END_IF });
-    ret[ifargs[sizeof(ifargs)-1]] = sizeof(ret)-
-                                    ifargs[sizeof(ifargs)-1];
-    ifargs = delete(ifargs, sizeof(ifargs)-1, 1);
-  }
-  if (!gumby) {
-    if (sizeof(ret) && !stringp(ret[sizeof(ret)-1]) || space)
-      ret += ({ " ", ALL_ARGS });
-    else {
-      ret[sizeof(ret)-1] += " ";
-      ret += ({ ALL_ARGS });
-    }
-  }
-  return ret;
-}
-
-string alias_string(mixed *al) {
-  int i, num, *add_thing;
-  string str;
-
-  str = "";
-  add_thing = ({ });
-  for (i=0;i<sizeof(al);i++) {
-    if (stringp(al[i]))
-      str += replace(al[i], ";", "\\;");
-    else {
-      num = al[i] & ALIAS_MASK;
-      switch (al[i] - num) {
-        case NEW_LINE  : str += ";";
-                         break;
-        case ALL_ARGS  : str += "$*$";
-                         break;
-        case ONE_ARG   : str += "$"+num+"$";
-                         break;
-        case TO_ARG    : str += "$*"+num+"$";
-                         break;
-        case FROM_ARG  : str += "$"+num+"*$";
-                         break;
-        case ALL_ARG   : str += "$arg:"+al[++i]+"$";
-                         break;
-        case ARG_THING : str += "$arg"+num+":"+al[++i]+"$";
-                         break;
-        case ELSE_THING :
-                         str += "$else$";
-/*
-                         add_thing[sizeof(add_thing)-1] = i+1+al[++i];
+/**
+ * This method sets the alias to the new value.
+ * @param name the name of the alias
+ * @param value the value to set the alias too
+ * @see query_player_alias()
  */
-                         break;
-        case ALL_IFARG : str += "$ifarg:";
-/*
-                         add_thing += ({ i+1+al[++i] });
- */
-                         break;
-        case IFARG_THING :
-                         str += "$ifarg"+num+":";
-/*
-                         add_thing += ({ i+1+al[++i] });
- */
-                         break;
-	case CURR_LOC	 :
-			 str += "$!$";
-			 break;
-        case END_IF      :
-                         str += "$endif$";
-                         break;
-      }
-    }
-/*
-    if (member_array(i, add_thing) != -1)
-      str += "~$";
- */
-  }
-  return str;
-}
-
-static string editing_alias;
-
-int edit_alias(string str) {
-  string al;
-
-  if (editing_alias) {
-    notify_fail("You are already editing the '"+editing_alias+"' alias.\n");
-    return 0;
-  }
-  if (!str) {
-    notify_fail("Syntax: "+query_verb()+" <alias>\n");
-    return 0;
-  }
-  if (!aliases[str]) {
-    notify_fail("No alias '"+str+"' defined.\n");
-    return 0;
-  }
-  editing_alias = str;
-  al = replace(alias_string(aliases[str]), ";", "\n");
-  this_object()->do_edit(al, "finish_alias_edit", 0, 1);
-  return 1;
-}
-
-int finish_alias_edit(string str) {
-  if (!str) {
-    editing_alias = 0;
-    return 0;
-  }
-  str = replace(str, "\n", ";");
-  aliases[editing_alias] = compile_alias(str);
-  write("Changed alias '"+editing_alias+"'\n");
-  editing_alias = 0;
-  return 1;
-}
-
-void alias_commands() {
-  add_action("alias", "al*ias");
-  add_action("unalias", "un*alias");
-  add_action("edit_alias", "ea*lias");
-  add_action("remove_alias_thing", "END_ALIAS");
-}
-
-int print_aliases() {
-  int i,pos1,pos2;
-  string str,str1,str2, *tmp, bing;
- 
- /* ahh well here goes the clean. you dont want to know what used to
-  * be here ;)
-  */
-  if (!m_sizeof(aliases)) {
-    notify_fail("None defined.\n");
-    return 0;
-  }
- 
-  str1 = "";
-  str2 = "";
-  tmp = m_indices(aliases);
-  for (i=0;i<sizeof(tmp);i++) {
-    if (!tmp[i]) {
-      aliases = m_delete(aliases, 0);
-      continue;
-    }
-    bing = alias_string(aliases[tmp[i]]);
-    str = tmp[i]+": "+bing;
-    if (strlen(str)>39)
-      printf(tmp[i]+": %-=*s\n", (int)this_player()->query_cols()-
-                                     strlen(tmp[i])-2, bing);
-    else if (strlen(str)>19)
-      str1 += str+"\n";
-    else
-      str2 += str+"\n";
-  }
-  if (strlen(str1))
-    printf("%-#*s\n", this_player()->query_cols(), str1);
-  if (strlen(str2))
-    printf("%-#*s\n", this_player()->query_cols(), str2);
-  return 1;
-}
-
-int alias(string str, int bing) {
-  string s1, s2;
-
-  if (!mappingp(aliases))
-    aliases = ([ ]);
-  if (map_aliases && !bing)
-    convert();
-  if (!str)
-    return print_aliases();
-  if (sscanf(str, "%s %s", s1, s2) != 2) {
-    if (!aliases[str]) {
-      notify_fail("No alias '"+str+"' defined.\n");
+int add_player_alias(string name, mixed *value) {
+   if (file_name(previous_object()) != ALIAS_CMD &&
+       file_name(previous_object()) != EDIT_ALIAS_CMD) {
       return 0;
-    }
-    printf("%s: %-=*s\n", str, (int)this_player()->query_cols() -
-                          strlen(str) -2, alias_string(aliases[str]));
-    return 1;
-  }
-  if (!aliases[s1]) {
-    aliases[s1] = compile_alias(s2);
-    write("Added alias '"+s1+"'.\n");
-  } else {
-    aliases[s1] = compile_alias(s2);
-    write("Changed alias '"+s1+"'.\n");
-  }
-  return 1;
-}
+   }
 
-int unalias(string str) {
-  if (!mappingp(aliases))
+   if(name == "unalias" || name == "alias" || name == "ealias")
+     return 0;
+  
+   aliases[name] = value[0..1023];
+   return 1;
+} /* add_player_alias() */
+
+/**
+ * This method returns the value of the specified alias.
+ * @param name the name of the alias to query
+ * @return the value of the alias
+ * @see add_player_alias()
+ */
+mixed *query_player_alias(string name) {
+  if(!mappingp(aliases))  {
     aliases = ([ ]);
-  if (map_aliases)
-    convert();
-  if (!str) {
-    notify_fail("Syntax: "+query_verb()+" <alias>\n");
     return 0;
   }
-  if (!aliases[str]) {
-    notify_fail("The alias '"+str+"' does not exist, cannot unalias.\n");
-    return 0;
-  }
-  aliases = m_delete(aliases, str);
-  return 1;
-}
+    
+   return copy(aliases[name]);
+} /* query_player_alias() */
 
-mapping query_aliases() { return aliases; }
+/**
+ * This method will remove the alias from the player.
+ * @param name the name of the alias
+ * @see query_player_alias()
+ * @see add_player_alias()
+ */
+int remove_player_alias(string name) {
+   if ((file_name(previous_object()) != UNALIAS_CMD) &&
+       name != "" &&
+       !this_player(1)->query_lord()) {
+      printf("%O\n", file_name(previous_object()));
+      return 0;
+   }
+   map_delete(aliases, name);
+   return 1;
+} /* remove_player_alias() */
 
-static int exec_alias(string verb, string args) {
-  int i, num;
-  string *bits, line;
-  mixed stuff;
+/**
+ * This method adds all the alias commands onto the player.  The commands
+ * are 'alias', 'unalias', 'ealias', 'END_ALIAS' and the "*" pattern
+ * expand the alias.
+ */
+void alias_commands() {
+   add_command("END_ALIAS", "<string>", (:remove_alias_thing($4[0]):));
+} /* alias_commands() */
 
-  if (verb[0] == '.') {
-    if (args)
-      command(expand_history(verb[1..1000])+" "+args);
-    else
-      command(expand_history(verb[1..1000]));
-    return 1;
-  }
-  if (verb[0] == '^') {
-    if (args)
-      command(substitute_history(verb[1..1000]+" "+args));
-    else
-      command(substitute_history(verb[1..1000]));
-    return 1;
-  }
-  if (!mappingp(aliases))
-    aliases = ([ ]);
-  if (!aliases[verb])
-    return 0;
-  if (!doing_alias)
-    doing_alias = ([ ]);
-  if (doing_alias[verb]) {
-    notify_fail("Recursive aliases. Bad (insert appropriate gender).\n");
-    return 0;
-  }
+/**
+ * This method zaps all the current aliases defined.  This can only be
+ * called by a high lord.
+ * @return 0 on failure and 1 on success
+ */
+int remove_all_aliases() {
+   if (!this_player(1)->query_lord()) {
+      write("You can't do that :)\n");
+      return 0;
+   }
+
+   aliases = ([ ]);
+   return 1;
+} /* remove_all_aliases() */
+
+
+/**
+ * This method returns a complete list of all the aliases
+ * defined on the player.  This is the internal mapping so it will
+ * be quite unreadable.
+ * @see print_aliases()
+ * @see /include/alias.h
+ * @return the mapping of aliases
+ */
+mapping query_aliases() { 
+   return copy(aliases); 
+} /* query_aliases() */
+
+/**
+ * This method tells us if the given name is an alias.
+ * @param verb the verb to check
+ * @return 1 if it is an alias, 0 if not
+ */
+int is_alias(string verb) {
+   return aliases[verb] != 0;
+} /* is_alias() */
+
+/**
+ * This method runs the alias and executes all the commands in the
+ * alias.  You should probably use run_alias() instead.  This calls
+ * set_doing_alias() to setup blocking.
+ * @param verb the name of the alias
+ * @param args the arguments associated with the alias
+ * @see run_alias()
+ * @see set_doing_alias()
+ */
+protected void exec_alias(string verb, string args) {
+   string *bing;
+   string comm;
+
+   bing = run_alias(verb, args);
+   if (bing) {
+      set_doing_alias(verb);
+      foreach (comm in bing) {
+         command(comm);
+      }
+   }
+} /* exec_alias() */
+
+/**
+ * Attempt to expand the alias.    This will look up the alias and
+ * see if it is defined.  If it is, it will attempt to expand the 
+ * alias. This does not call set_doing_alias().  This will
+ * return 0 if the alias does not exist, or the alias is already
+ * being run.
+ * @return the array if the alias was expanded, 0 if failed
+ * @param verb the name of the alias to expand
+ * @param args the arguments to the alias
+ * @see exec_alias()
+ * @see is_doing_alias()
+ * @see set_doing_alias()
+ * @see expand_alias()
+ */
+protected string *run_alias(string verb, string args) {
+   if (!mappingp(aliases)) {
+      aliases = ([ ]);
+   }
+   if (!aliases[verb] || is_doing_alias(verb)) {
+      return 0;
+   }
+   return expand_alias(verb, args);
+} /* run_alias() */
+
+/**
+ * This method checks to see if the player is doing the specified alias
+ * already.
+ * @param verb the verb to check
+ * @see exec_alias()
+ * @see set_doing_alias()
+ */
+protected int is_doing_alias(string verb) {
+   if (!doing_alias) {
+      doing_alias = ([ ]);
+   }
+   if (doing_alias[verb]) {
+      return 1;
+   }
+   return 0;
+} /* is_doing_alias() */
+
+/**
+ * This method sets us as currently doing the given alias.
+ * @param verb the alias to do
+ * @see is_doing_alias()
+ */
+protected void set_doing_alias(string verb) {
   doing_alias[verb] = 1;
   in_alias_command++;
-  stuff = aliases[verb];
-  line = "";
-  if (!args)
-    args = "";
-  bits = explode(verb+" "+args, " ");
-  for (i=0;i<sizeof(stuff);i++)
-    if (stringp(stuff[i]))
-      line += stuff[i];
-    else {
-      num = stuff[i] & ALIAS_MASK;
-      switch (stuff[i] - num) {
-        case NEW_LINE :
-                        command(line);
-                        line = "";
-                        break;
-        case ALL_ARGS : line += args;
-                        break;
-        case ONE_ARG  : if (num < sizeof(bits))
-                          line += bits[num];
-                        break;
-        case TO_ARG   : line += implode(bits[1..num], " ");
-                        break;
-        case FROM_ARG : line += implode(bits[num..100], " ");
-                        break;
-        case ALL_ARG  : i++;
-                        if (args == "")
-                          line += stuff[i];
-                        else
-                          line += args;
-                        break;
-        case ARG_THING : i++;
-                         if (num < sizeof(bits))
-                           line += bits[num];
-                         else
-                           line += stuff[i];
-                         break;
-        case ALL_IFARG : i++;
-                         if (args == "")
-                           i += stuff[i];
-                         break;
-        case IFARG_THING :
-                         i++;
-                         if (num >= sizeof(bits))
-                           i += stuff[i];
-                         break;
-        case ELSE_THING :
-                         i++;
-                         i += stuff[i];
-                         break;
-        case CURR_LOC :
-                         i++;
-                         line += file_name(environment())+".c";
-                         break;
-        case END_IF :
-                         break;
+} /* set_doing_alias() */
+
+/**
+ * This method expands the alias from the input string thingy.
+ * @param verb the verb to expand
+ * @param args the arguments to the verb
+ * @see run_alias()
+ */
+protected string *expand_alias(string verb, string args) {
+   int i;
+   int num;
+   string *bits;
+   string line;
+   mixed stuff;
+   string *ret;
+   
+   /* Default expansion :) */
+   if (!aliases[verb]) {
+      return ({ verb + " " + args });
+   }
+   ret = ({ });
+   stuff = aliases[verb];
+   line = "";
+   if (!args) {
+      args = "";
+   }
+   bits = explode(verb + " " + args, " ");
+   for (i = 0; i < sizeof(stuff); i++) {
+      if (stringp(stuff[i])) {
+         line += stuff[i];
+      } else {
+         num = stuff[i] & ALIAS_MASK;
+         switch (stuff[i] - num) {
+         case NEW_LINE :
+            ret += ({ line });
+            line = "";
+            break;
+         case ALL_ARGS :
+            line += args;
+            break;
+         case ONE_ARG  :
+            if (num < sizeof(bits)) {
+               line += bits[num];
+            }
+            break;
+         case TO_ARG   :
+            line += implode(bits[1..num], " ");
+            break;
+         case FROM_ARG :
+            line += implode(bits[num..100], " ");
+            break;
+         case ALL_ARG  :
+            i++;
+            if (args == "") {
+               line += stuff[i];
+            } else {
+               line += args;
+            }
+            break;
+         case ARG_THING :
+            i++;
+            if (num < sizeof(bits)) {
+               line += bits[num];
+            } else {
+               line += stuff[i];
+            }
+            break;
+         case ALL_IFARG :
+            i++;
+            if (args == "") {
+               i += stuff[i];
+            }
+            break;
+         case IFARG_THING :
+            i++;
+            if (num >= sizeof(bits)) {
+               i += stuff[i];
+            }
+            break;
+         case ELSE_THING :
+            i++;
+            i += stuff[i];
+            break;
+         case CURR_LOC :
+            i++;
+            line += file_name(environment())+".c";
+            break;
+         case END_IF :
+            break;
+         }
       }
-    }
-  if (line != "")
-    command(line);
-  command("END_ALIAS "+verb);
-  return 1;
-}
+   }
+   if (line != "") {
+      ret += ({ line });
+   }
+   ret += ({ "END_ALIAS " + verb });
+   return ret[0..1023];
+} /* expand_alias() */
 
+/**
+ * This is called to signify the end of an alias.  This is needed
+ * keep track of recursive aliases and such like.
+ * @param verb the verb name to remove
+ * @return always returns 1
+ * @see set_doing_alias()
+ * @see is_doing_alias()
+ */
 int remove_alias_thing(string verb) {
-  in_alias_command--;
-  doing_alias = m_delete(doing_alias, verb);
-  this_player()->adjust_time_left(-DEFAULT_TIME);
-  return 1;
-}
-
-int convert() {
-  int i;
-  string *str;
-
-  str = m_indices(map_aliases);
-  for (i=0;i<sizeof(str);i++)
-    alias(str[i]+" "+map_aliases[str[i]], 1);
-  map_aliases = 0;
-  return 1;
-}
+   in_alias_command--;
+   map_delete(doing_alias, verb);
+   this_player()->adjust_time_left(-DEFAULT_TIME);
+   return 1;
+} /* remove_alias_thing() */

@@ -1,0 +1,39 @@
+.DT
+monster_heart_beat
+DW_wibble creator help
+monster_heart_beat
+
+.SH Name
+.SP 5 5
+monster_heart_beat -  This method is called from inside the npc to do the heartbeat on the guild and race objects.
+.EP
+
+.SH Syntax
+.SI 5
+void monster_heart_beat(string race,
+                        string guild,
+                        mixed race_ob,
+                        mixed guild_ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^race%^RESET%^ - the race to do a heart beat on
+%^BOLD%^guild%^RESET%^ - the guild to do a heart beat on
+%^BOLD%^race_ob%^RESET%^ - the object to use for the race
+%^BOLD%^guild_ob%^RESET%^ - the object to use for the guild
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/race.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called from inside the npc to do the heartbeat on the
+guild and race objects.
+.EP
+

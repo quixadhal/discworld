@@ -1,0 +1,48 @@
+.DT
+set_piece_plural
+DW_wibble creator help
+set_piece_plural
+
+.SH Name
+.SP 5 5
+set_piece_plural -  This plural description used for the pieces.
+.EP
+
+.SH Syntax
+.SI 5
+void set_piece_plural(string plural)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - The plural used for the 'pieces' when cut into
+pieces.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This plural description used for the pieces.  It is only
+really of use if the piece short pluralises in an unusual
+manner.  If it is not set the piece plural is set to what
+the pice short has been set to with an "s" stuck on the
+end, for example, slice to slices.
+
+.EP
+
+.SH Example 1
+.SI 5
+set_piece_plural("slices");
+
+.EI
+
+.SH See also
+.SP 5 5
+query_in_pieces(), set_piece_description(), set_piece_short(), set_piece_substance()
+.EP
+

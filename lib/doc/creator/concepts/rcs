@@ -1,0 +1,83 @@
+.DT
+RCS
+Discworld Creator Help
+RCS
+
+.SH Name
+.SI 5
+RCS - Revision Control System
+.EI
+
+.SH Description
+.SP 5 5
+Discworld has an interface to the Unix RCS programs. Some files
+(especially the mudlib) are stored within RCS. This means that you can 
+find out who currently has the file locked, and you can look at the
+history of files.
+.EP
+
+.SH Using RCS
+.SP 5 5
+To place files under revision control create a directory called RCS in the directory the files are in. The use rcscreate to place files into the RCS system. Then, whenever you wish to edit a file first use rcsout to checkout and lock a copy of the file. Once you are finished editing use rcsin to check it back in and add a comment explaining what you changed.
+.EP
+
+.SP 5 5
+Everytime you check a file into RCS it creates a new revision. This allows you to use rcsdiff to view the differences between versions of the file or to use rcsout to recover an earlier (presumably working) version of the file.
+.EP
+
+.SP 5 5
+Since RCS has the ability to recover any previous version of a file there is no need to make copies named .bak, .orig, .b4<name> etc. for files which are under source control.
+.EP
+
+.SH String substitution
+.SP 5 5
+By placing keyword strings in the header comments of your files RCS will automatically maintain a revision history of your files which is visible to anyone reading them in the future.
+
+I recommend the following:
+.EP
+
+     /*
+      * $Id$
+      */
+
+.SP 5 5
+Which produces output like this which shows the files name, current version, date of the last version, who did the last version and that it is currently locked by Pinkfish.
+.EP
+
+     /*
+      * $id: rcs,v 1.17 1998/01/04 06:27:38 olorin Exp pinkfish $
+      */
+
+.SH Commands
+.SO 5 24 45
+	rcscreate [ -c ] <filename>	To add a new file to RCS make sure there is an RCS directory in the directory the file lives in. Then use rcscreate <filename>. You will be prompted to give a comment describing the file. The -c option will cause RCS to automatically insert the standard substitution strings (Locker and Id) to the top of the file (see String Substitution below).
+
+	rcsout [ -r<version> ] <filename>	The command rcsout is used to check out copies of files. Any files that are in RCS are read-only until someone gets that file out for editing. This is the command to do this. The -r<version> is optional. It is used if you wish to recover an earlier version of a file. See the rcsrevert command below if you want to make the earlier version the default revision, and not a branch. It is recommended to avoid branches.  You can also use the flag '-f' to forcibly overwrite the file.  You should use this if you are having problems with a file you cannot check out, or check in.
+
+	rcsrelease  <filename>	The command rcsrelease releases a lock on a file reverting it to the previously checked in version.
+
+	rcsin [ -u<version> ] <filename>	Once you have finished editing the file you must check it back in. You will be prompted for a comment to describe the changes that you have made. The -u<version> is optional. It is used if you wish to bump the revision level to a higher version than the default. If you checked out the file with revision 1.27 it would normally be checked in as revision 1.28, but you can make it version 2.1 by using the -u option. Note that revision numbers ending in .0 are usually avoided when using RCS, so I recommend you don't use them either.
+
+	rcslog [ -L ] <filenames>	rcslog will display the edit history of the file, who edited it, when and what their comments were when they checked the file back into the system. If you only wish to see which files have locks on them use the -L option.
+
+	rcsdiff [ -r<version1> [ -r<version2> ]] <filename>	With this command you can view the differences between versions of the file. rcsdiff <filename> will show the differences between the current version and the last checked in version. rcsdiff -r<version1> -r<version2> <filename> will show the differences between version1 and version2 of the file.
+
+	rcsforce <filename>	This command is only available to senior creators and higher and will forcibly check in a file that is locked by another user. It will prompt for extra text to add to the standard mail message it sends. Please use this command carefully!
+
+	rcslocks <filenames>	This command will indicate which of the given files is locked and who has a lock on that file.
+	locks	This command shows info about the locked files in your current directory.
+
+	rcsrevert <filename>	This command allows you to revert to a previous revision of a file. You should first have checked out the revision you wish to revert to (with rcsout -r), otherwise it will just lock the file with the latest revision. You have to do this to avoid a branch when checking the file back in. You usually don't want a branch. Note that you will still have to check the file back in with the 'rcsin' command.
+
+	rcscomment <filename>	This command allows you to change the comment log message for a revision. This can be useful if the file was rcsforced and you wish to change the log message to something a little more descriptive. It will prompt you for the revision and then for the new comment.
+.EO
+
+.SH Caveats and Notes
+.SP 5 5
+We are using a specially modified version of RCS which uses your Discworld username rather than a Unix userid. The files are still normal RCS files but it may not be possible to perform some operations on the files from a Unix command line version of RCS.
+.EP
+
+.SH See also
+.SP 5 5
+rcs_brief
+.EP

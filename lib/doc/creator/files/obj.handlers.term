@@ -1,0 +1,61 @@
+.DT
+term
+Discworld Creator help
+term
+
+Name
+.SI 5
+/obj/handlers/term.c - Handler for <desc>
+.EI
+
+Description
+
+.SP 5 5
+This is the skeletal help for the term handler.
+
+<description missing>
+.EP
+
+Functions
+/* The terminal handler.  This has all sorts of utterly useless junk on it
+ * Share and enjoy.
+ * Thrown up by Pinkfish.
+    Modified by Godot to add the xterm terminal. (10/16/92)
+    Added vt100 Chrisy 15 may 93
+    Definitions:
+        <colour>    foreground colour
+        B_<colour>  background colour
+        BOLD        bold or bright letters
+        ENDTERM     unknown
+        FLASH       flashing or blinking letters
+        INITTERM    unknown
+        RESET       return to the normal font -- not a terminal reset.
+        STATUS      unknown
+        WINDOW      unknown
+        REVERSE     reverse video mode
+        UNDERLINE   underline mode
+ */
+.SI 5
+void create()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed set_network_term_type(string str)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mapping set_term_type(string str)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string *query_term_types()
+.EI
+.SP 10 5
+.EP
+

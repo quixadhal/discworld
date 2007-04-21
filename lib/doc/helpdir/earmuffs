@@ -1,0 +1,51 @@
+.DT
+earmuffs
+Discworld player help
+earmuffs
+
+.SH Name
+.SI 5
+earmuffs - Block certain events.
+.EI
+
+.SH Syntax
+.SI 5
+options earmuff
+options earmuff state=on
+options earmuff state=off
+options earmuff state=allowfriends
+options earmuff events <type>=[on|off]
+.EI
+
+.SH Description
+.SP 5 5
+'options earmuff' by itself displays information saying whether your earmuffs
+are currently on or off.  'options earmuff events' shows which things you
+currently have earmuffed.
+
+'options earmuff state=on' turns on the blocking.  All of the
+events you have set to be blocked will be blocked from this time on,
+you won't see them.  The off parameter turns off the blocking.  The
+status of the blocking is independant of the actual events being blocked.
+
+'options earmuff state=allowfriends' turns on the blocking, but it
+allows all of your friends to still communicate with you.  It blocks
+everyone else.
+
+The last thing you can do with the command is turn on and off the blocking
+of the various events.  If you don't specify on or off after the type the
+value is toggled.  If you put an on or off there it is set to that value.
+.EP
+
+.SH Example
+.SI 5
+> options earmuff
+> options earmuff state=on
+> options earmuff events shout=on
+> options earmuff events shout=off
+.EI
+
+.SH See also
+.SP 5 5
+inform, shout, soul, options
+.EP

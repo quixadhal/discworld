@@ -1,0 +1,54 @@
+::Quote::
+class item_data {
+    string skill;
+    int    difficulty;
+    int    upper;
+    mixed  extra;
+    string *season;
+    mixed  quant;
+    string ob;
+}
+
+::Data:: mapping of class item_data
+
+::item "floppy madman"::
+# Okay, so this is wrong.  But what am I supposed to do during winter?
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: ({ 3, 5 })
+::->ob:: "/obj/plants/floppy_madman.ob"
+
+::item "pink clover"::
+::->skill:: ""
+::->difficulty:: 0
+::->upper:: 0
+::->extra:: 0
+::->season:: ({ "spring", "summer" })
+::->quant:: ({ 5, 8 })
+::->ob:: "/obj/plants/pink_clover.ob"
+
+::item "white clover"::
+::->season:: ({ "spring" })
+::->quant:: ({ 3, 4 })
+::->ob:: "/std/plant"
+
+::item "green grass"::
+::->season:: ({ "spring", "summer", "autumn" })
+::->quant:: ({ 20, 25 })
+::->ob:: "/obj/plants/grass.ob"
+
+::item "yarrow"::
+# Okay, so this is wrong.  But what am I supposed to do during winter?
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: ({ 3, 5 })
+::->ob:: "/obj/plants/yarrow.ob"
+
+::item "comfrey"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: ({ 3, 5 })
+::->ob:: "/obj/plants/comfrey.ob"
+
+::item "ivy seeds"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: ({ 1, 1 })
+::->ob:: "/obj/plants/ivy_seed.ob"
+

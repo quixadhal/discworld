@@ -1,0 +1,45 @@
+.DT
+event_destruct
+Discworld events help
+event_destruct
+
+Name
+.SI 5
+event_destruct - Called on an object when it will be destructed.
+.EI
+
+Syntax
+.SI 5
+void event_destruct();
+.EI
+
+Description
+.SP 5 5
+This is the function called on things when they about to be
+successfully destructed by dest_me.  You should NOT attempt prevent
+the destruction with this routine however you may notify something
+else that the item is effectively gone.  If you need to prevent
+destruction then mask dest_me() on the object.  The call is made using
+a call_out so shadows may use the event.  This event is not a true
+event in that it does not use the event system.  If anything substantial
+is to be done by event_destruct a call_out should be invoked so that
+dest_me can return promptly.  
+.EP
+
+Examples:
+.SI 5
+/* Wicked Witch NPC */
+void event_destruct() {
+  children("/std/munchkin")->init_command(
+    "say Ding Dong the witch is dead, the Wicked Witch is dead!",1);
+  }
+} /* event_destruct() */
+.EI
+
+See also
+.SP 5 5
+move, event_exit, event_move_object, event_enter, dest_me, event_dest_me
+.EP
+
+
+

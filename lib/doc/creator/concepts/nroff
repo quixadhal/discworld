@@ -1,0 +1,41 @@
+.DT
+nroff
+Discworld creator help
+nroff
+
+.SH Name
+.SI 5
+nroff - Text formating format.
+.EI
+
+.SH Description
+.SP 5 5
+The nroff text formating is the text formating like you see on your
+screen from reading this help file.  It does all of the auto wrapping
+etc.  The nroff commands are embedded into the text of the help file
+preceded by a '.' on a new line.  The commands are all two letters
+long.  They are listed below.
+.EP
+
+.SO 5 20 -30
+	DT	Do Title.  The next three lines are interpreted as the bit to put at the left of the screen, the middle of the screen and the end of the screen.  It is how the top line of this helpfile was made.
+	SH <string>	Section Header.  Will show the string highlighted like the `Name' and `Description' lines above.
+	SI <num>	Start Indent.  From here until the next change command all of the text will be indented by num chars, if no number is given the text is not formated.
+	EI	End Indent.  Go back to unformated text.
+	SP <num> <num>	Start Paragraph mode.  The first number is the distance from the right side of the screen and the second number is the distance from the left side of the screen to wrap the characters between.
+	EP	End Paragraph mode.  Go back to unformated text.
+	SC	Start Centering.
+	EC	End Centering.
+	SL	Start Teft justify.
+	EL	End Teft justify.
+	ST	Start Table mode.  Table mode is how you print things like the soul commands.  Lists of single words or whatever that need to wrap cutely.
+	ET	End Table mode.
+	SO <num> [<num> ...]]	Start cOlumn mode.  The first number is how much to indent, the numbers after this specify the width of each column.  If a negative number is given this means the width of the screen minus the given number.  This is the mode used for this table for instance.  NOTE: Columns must be separated by tab characters.
+	EO	End cOlumn mode.
+	NF	New File.  The next line should contain the name of the file to take the real text from.  This will ignore everything else in the file, and should only be used when you want to make a file available under another name as well.
+.EO
+
+.SH See also
+.SI 5
+help.
+.EI

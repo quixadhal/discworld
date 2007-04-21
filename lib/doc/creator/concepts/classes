@@ -1,0 +1,133 @@
+.DT
+classes
+Discworld creator help
+classes
+
+.SH Name
+.SI 5
+classes - A funky way of storing data
+.EI
+
+.SH Syntax
+.SI 5
+class [class name] {
+    <member type> <member name>;
+    ...
+}
+class <class name> <variable name>;
+.EI
+
+.SH Description
+.SP 5 5
+Classes in LPC are the equivalent of a structure in C.  A structure is 
+essentially a user-defined type, that is composed of fields or members 
+that can have different types.
+
+Classes are excellent ways of storing database type data, and can be
+used as an alternative to mappings.  They provide a simple and intuitive
+way of accessing data, and it means that you do not have to rely on array
+indicies excessively. 
+
+Classes can also be used in conjunction with mappings
+and arrays, and it is possible to have an array of classes or a class as 
+the value section of a mapping.
+
+Classes must be initialised first with the 'new' function, this allocates
+memory for them and sets its member variables to their default values.  This
+is usually 0. The "call_other" operator (->) can be used to access a member of 
+a class, returning either its value or storing a new item in it.
+
+The sizeof() efun can be used to determine how many members are in a class,
+and it is possible to place a reference to the same class inside itself.  To
+determine whether or not a given variable is a class, the classp() efun can 
+be used.
+
+In order for a class to be used in another object, then the definition must
+also be contained in that object. Otherwise the class is said to have gone
+"out of scope", and its members can no longer be accessed using the "->" 
+operator.
+
+Classes are saved and restored correctly by save_object()/restore_object(), 
+although remember if you try and save an object reference then this will be stored
+as 0 in the save file.  As classes are stored by reference, similar to arrays
+and mappings, you should use the copy() efun when querying data of this type
+to avoid accidently changing its contents.
+.EP
+
+Example
+class customer_details {
+    int customer_id;
+    string customer_name;
+    string customer_address;
+    string *purchases;
+    class customer_details *family_members;
+    int total_spent;
+}
+
+Here is a completely useless function that shows how to use a class in
+practice:
+
+int create_customer() {
+    class customer_details customer;
+    
+    customer = new(class customer_details);
+    customer->customer_id = 5;
+    customer->customer_name = "John Smith";
+    customer->customer->address = "123 Berryl Street\n"
+        "Frog Town, Womble City, 2000\n"
+        "Australia\n";
+    customer->purchases = ({ "rug", "cat food", "waffle maker" });
+    customer->family_members = ({ });
+    customer->total_spent = 100;
+
+    /* Returns 5 */    
+    return customer->customer_id;    
+} /* create_customer() */
+
+Example 2
+class shoe {
+    string brand_name;
+    string shoe_name;
+    int us_size;
+    int uk_size;
+    int stock;
+}
+
+This function shows how to use a class to make a simple database
+that stores shoe details;
+
+class shoe *shoes = ({ });
+
+int add_new_shoe(string shoe, string brand, int s_size) {
+    class shoe new_shoe;
+    int i, size;
+
+    if (undefinedp(shoes))
+        return 0;
+
+    /* Shoes is an array, look for an existing shoe of 
+       this type. */
+    
+    size = sizeof(shoes);
+
+    for (i = 0; i < size; i++) {
+        if (shoes[i]->shoe_name == shoe) {
+            shoes->stock = shoes->stock + 1;
+            return 1;
+        }
+    }
+
+    /* No shoe of this type... add it! */
+
+    new_shoe = new(class shoe, brand_name : brand, shoe_name : shoe,
+        us_size : s_size, uk_size : (s_size * 2) / 3, stock : 1);
+   
+    shoes += ({ new_shoe });
+
+    return 1;
+} /* add_new_shoe() */
+
+.SH See also
+.SI 5
+help, new, classp, copy, sizeof
+.EI

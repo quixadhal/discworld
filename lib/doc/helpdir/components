@@ -1,0 +1,39 @@
+.DT
+components
+Discworld command help
+components
+
+.SH Name
+.SP 5 5
+components - List the components required to cast a spell
+.EP
+
+.SH Syntax
+.SI 5
+components [for] <spell>
+.EI
+
+.SH Description
+.SP 5 5
+This command will list those components (not targets) required to begin casting a spell.  You must know the spell in question in order to find out this information.  
+
+Note that some spells have side effects in addition to merely consuming components; see the help files for each particular spell for more information.
+.EP
+
+.SH Example
+.SI 5
+> components for Hag's Blessing
+You don't need anything to cast Hag's Blessing
+
+> components Pragi's Fiery Gaze
+Pragi's Fiery Gaze will consume an eye.
+
+> components Mama Blackwing's Potent Preserver
+Mama Blackwing's Potent Preserver requires a frog and a lit candle but
+will not consume them.
+.EI
+
+.SH See also:
+.SI 5
+spells
+.EI

@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions ([])
+protected_functions ([])
+inherits (["/obj/weapon":({}),])
+main_docs (["main":({"This is a clonable shovel object (a \"shovel\" in this case being anythingthat can be used for digging, from a garden trowel to a steam shovel).The \"dig\" command is defined with the following syntax:<ul><li> \"with <direct:object> in <string>\"<li> \"with <direct:object> in <indirect:object>\"<li> \"with <direct:object>\"<li> \"[in] <string> with <direct:object>\"<li> \"[in] <indirect:object> with <direct:object>\"</ul><br>The do_dig() function tries to call a function dig() on this_player()'senvironment, which should be defined as<p><code>int dig( object indir, string indir_s )</code><p>where<ul><li> <i>indir</i> is the <indirect:object> matched (if any)<li> <i>indir_s</i> is the <string> matched, or the string that     matched <indirect:object></ul><br>Note that the command can match either actual objects or just strings;also note that, although it will match room items, the object passedwon't really be of much use (which is why the string is passed also).",}),"index":({"dig",}),])
+define_docs ([])
+includes ([])
+class_docs ([])
+file_name "/obj/shovel.c"
+last_changed 1059516271

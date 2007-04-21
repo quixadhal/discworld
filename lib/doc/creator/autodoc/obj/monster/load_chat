@@ -1,0 +1,75 @@
+.DT
+load_chat
+DW_wibble creator help
+load_chat
+
+.SH Name
+.SP 5 5
+load_chat -  This method loads up the chat strings for the npc.
+.EP
+
+.SH Syntax
+.SI 5
+void load_chat(int chance,
+               mixed * c_s)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^chance%^RESET%^ - the chance in 1000 of a chat working every 2 seconds
+%^BOLD%^c_s%^RESET%^ - the chat string to use
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method loads up the chat strings for the npc.  This will be
+an array containing pairs of elements, the first pair is the
+weighting of the chat and the second is the chat to use.
+
+
+All the weights in the array are added up and then a random number is chosen in the weighting. Then that element is looked up in the array. This way you can control a chat and make it rare. 
+
+If the chat string is an array then this a story, the story will be executed one after another and no other chats will be executed in between. If the first parameter of the story array is a number it will be used as a 1/1000 chance of the next story line being displayed. Special strings can be used which will replace with object names, see expand_mon_string() for further information. 
+
+The chat chance is a chance (in 1000) of the chat occuring. You will need to play with this yourself to see which frequency of chatting you wish for your npcs. 
+.EP
+
+.SH Example 1
+.SI 5
+load_chat(60,
+   ({
+      1, "'I am a chicken!",
+      // Make this one more likely to occur.
+      2, ":clucks like a chicken."
+      1, ":pecks at $lpossshort$ foot."
+    }));
+.EI
+
+.SH Example 2
+.SI 5
+load_chat(100,
+   ({
+      1, "'I am a simple farmer."
+      1, ":waves $mposs$ pitchfork around."
+      // A story, they will always occur in this order
+      1, ({
+          500,
+           "'Once upon a time there was a rabbit.",
+           "'It was a nice rabbit and hung around in bars.",
+           "'It sung little songs about fruit.",
+          }),
+     }));
+.EI
+
+.SH See also
+.SP 5 5
+expand_mon_string(), load_a_chat(), query_chat_chance(), query_chat_string()
+
+.EP
+

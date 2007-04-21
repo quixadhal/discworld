@@ -1,0 +1,39 @@
+.DT
+set_cannot_change_position
+DW_wibble creator help
+set_cannot_change_position
+
+.SH Name
+.SP 5 5
+set_cannot_change_position -  This method sets the value of the unable to change position flag.
+.EP
+
+.SH Syntax
+.SI 5
+void set_cannot_change_position(int flag)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^flag%^RESET%^ - the unable to change position flag
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the value of the unable to change position flag.
+This flag will be checked by the soul, and by anything else which
+deliberatly changes someones position.
+.EP
+
+.SH See also
+.SP 5 5
+/std/living/living->set_default_position()
+
+.EP
+

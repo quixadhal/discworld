@@ -1,0 +1,34 @@
+.DT
+delete_queued_commands
+DW_wibble creator help
+delete_queued_commands
+
+.SH Name
+.SP 5 5
+delete_queued_commands -  This method throws away any queued commands.
+.EP
+
+.SH Syntax
+.SI 5
+void delete_queued_commands()
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method throws away any queued commands.
+It doesn't remove the call_out however if no
+new commands are added there will be no effect.
+.EP
+
+.SH See also
+.SP 5 5
+init_equip(), init_command(), delay_command(), do_command(), queue_command()
+
+.EP
+

@@ -1,0 +1,295 @@
+<html><!-- #BeginTemplate "/Templates/Body Text.dwt" -->
+<head>
+<title> Discworld Documentation </title>
+</head>
+<body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">
+<table width="75%" border="0">
+  <tr>
+    <td><font face="arial,helvetica"><img align=left src="http://discworld.imaginary.com/external//pics/dw4.gif"></font></td>
+    <td><font face="arial,helvetica">
+      <h2>Discworld Documentation:</h2>
+      <h2>LPC for Dummies</h2>
+      </font> 
+      <p><font size="+1"><!-- #BeginEditable "Title" --><font size="+1"><b>Chapter Three: 
+  Functions</b></font><!-- #EndEditable --></font></p>
+      <p><i>N.B - This is a work in progress... a living document if you like. 
+        If it appears to be dead when you view it, don't worry. It's most likely 
+        just playing possum.</i></p>
+      <p>Comments on these chapters and tutorials can be e-mailed to <a href="mailto:drakkos@cableinet.co.uk">Drakkos.</a></p>
+    </td>
+  </tr>
+</table>
+<br>
+<!-- #BeginEditable "Body" --> 
+<p>All of the objects you write on Discworld will use functions. Writing a complex 
+  program as a single, monolithic chunk of code is extremely time-consuming and 
+  inefficient. Instead, the principle of 'divide and conquer' can be adapted to 
+  programming to break programs into smaller, more manageable chunks. In LPC, 
+  these chunks are known as 'functions', or 'methods'.
+<p> On Discworld, new objects are generally written using a combination of new 
+  functions written by the coding creator, and the standard functions available 
+  as a part of the mudlib and the driver. The mudlib and driver offer a nice range 
+  of functions for achieving large amounts of functionality, but in order to create 
+  new behaviour it will be necessary to write your own, unique functions. The 
+  range of functions available as standard make the creator's job easier since 
+  it is not necessary to continually re-invent the wheel. </p>
+<p><b>Function Categories</b> </p>
+<p>The standard functions fall into three categories on Discworld... Efuns, Lfuns 
+  and Sfuns:</p>
+<p> <b>Efun </b></p>
+<blockquote> 
+  <p>'Efun' is short for 'External function'. Essentially, these functions define 
+    the 'driver' for the MUD. These functions are impossible to duplicate in LPC 
+    code, and therefore must be defined 'externally' in the driver. Since these 
+    functions are defined independently of any LPC code, they can be used globally 
+    over the whole MUD. For example, the efun this_player() returns the object 
+    responsible for calling a function. This cannot be simulated using LPC, and 
+    so must be defined in the driver. </p>
+</blockquote>
+<p><b>Lfun </b></p>
+<blockquote> 
+  <p>An 'Lfun', on the other hand, is a function that is 'inherited' from a specific 
+    object. Only files which inherit the object, or have the function defined 
+    locally, can use the function. For example, the function add_exit() is defined 
+    in the object /std/room. Only objects which, at some point, inherit 'std/room' 
+    (or have the function coded locally) can use the function.</p>
+</blockquote>
+<p> <b>Sfuns</b></p>
+<blockquote> 
+  <p> 'Sfun', or 'Simulated Functions', are like Efuns in that they can be used 
+    globally, but are not defined in the driver. Instead, they are made up of 
+    LPC code stored in an object called /secure/simul_efun.c. As far as most creators 
+    need know, however, there is no difference between using an efun and an sfun... 
+    the functionality is purely transparent. </p>
+</blockquote>
+<p>Typically any object on Discworld may utilise all three types of function to 
+  achieve the desired aims. </p>
+<p><b>Function Arguments </b></p>
+<p> Functions allow the creator to modularise a program by breaking code up into 
+  segments that can be executed, or called, independently of the main program. 
+  In order to make functions flexible, they usually work with a list of 'arguments', 
+  and return a value based on what the function does and the arguments that are 
+  'passed in' to the function. Arguments provide the means of passing information 
+  between functions. Note that unless a function is qualified as 'varargs' (more 
+  on this later), you must pass in the correct number of arguments.</p>
+<p> <b>Defining Functions </b></p>
+<p>Let us look at an example of how a simple function works. Let us consider a 
+  function called 'sum' that takes two numbers as arguments, and returns the sum 
+  of these two numbers:</p>
+<blockquote> 
+  <p> <code>int sum(int x, int y) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return (x + y);<br>
+    }</code></p>
+</blockquote>
+<p> Now what does all that mean? Let's look at it in stages, starting with the 
+  first line:</p>
+<blockquote> 
+  <p> i<code>nt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int x, int y) 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+    &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    |<br>
+    [1]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    [4]</code></p>
+</blockquote>
+<p> [<b>1</b>] This is the 'return type'... the type of the value the function 
+  sends back when it is finished executing. For more information on the different 
+  kinds of return type, see part 2 of this introductory tutorial. Note that even 
+  if you do not want to actually return a value, you must explicitly declare your 
+  function as 'void'. <br>
+</p>
+<p>[<b>2</b>] The name of the function. This is the name by which the function 
+  will be 'called' by code. Functions must be called with their name and any arguments 
+  they take.<br>
+</p>
+<p>[<b>3</b>] This is the parameter list. This is the list of information required 
+  by the function before it can execute. In this case, two variables of type int 
+  are passed in to the function. The letter after the variable type (x and y respectively) 
+  are the names by which these values can be accessed within the function. It 
+  doesn't matter what these names are, provided they are not words already reserved 
+  by the LPC language... they are simply labels that can be used to manipulate 
+  data.<br>
+</p>
+<p>[<b>4</b>] This is the starting brace of the function, indicating where the 
+  block of code that belongs to the function begins.</p>
+<p> Now the second line:</p>
+<blockquote> 
+  <p> <code>return &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(x + y);<br>
+    &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+    &nbsp; [5]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6] </code> 
+  </p>
+</blockquote>
+<p>[<b>5</b>] The 'return' keyword is used to halt execution of a function and 
+  send the value that follows back to where the code was called. All functions 
+  except those that are defined to return a 'void' or 'int' value must explicitly 
+  return a value of the correct type. Functions declared as void cannot return 
+  a value... if execution of the function is to halt, a return statement by itself 
+  must be placed on the line. Functions of type int will return 0 by default if 
+  a specific return value is omitted. <br>
+</p>
+<p>[<b>6</b>] This is the expression that handles the functionality of this particular 
+  function... it simply adds the contents of the value labelled 'y' to the contents 
+  of the value labelled 'x'. The expression here could just as easily be an explicit 
+  value, a variable itself, or even another function. For example, 'return 1;', 
+  'return x', or 'return some_other_function()' are all valid return types, and 
+  will return 1, the contents of variable x, and whatever the function 'some_other_function()' 
+  returns, respectively.</p>
+<p> And finally, the third line (a simple line!):</p>
+<blockquote> 
+  <p> <code>&nbsp;}<br>
+    &nbsp;|<br>
+    [7]</code></p>
+</blockquote>
+<p> [<b>7</b>] This is the closing brace of the function, indicating where this 
+  particular block of code ends. </p>
+<p>So there it is, our first function! And how do we use it? Well if the function 
+  was defined locally in an object (more on this later), we'd use it like so:</p>
+<blockquote> 
+  <p> <code>sum(5 ,&nbsp;8);<br>
+    &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+    [8] &nbsp;&nbsp;&nbsp;[9] </code></p>
+</blockquote>
+<p>[<b>8</b>] The name of the function, which corresponds to number [2] above.<br>
+  [<b>9</b>] The parameter list, which corresponds to number [3] above. In this 
+  case, value 'x' would be 5, and value 'y' would be 8.</p>
+<p> Which would return the value of five + eight. Remember, though, if you don't 
+  actually do anything with the returned value, nothing will happen. The returned 
+  value (thirteen) will simply dissipate into the ether. For this reason, we'd 
+  either use the result instantly in a more complex expression, or store it in 
+  an appropriate variable until we need it: </p>
+<blockquote> 
+  <p><code>int bing;</code></p>
+  <p><code> bing = sum(5 , 8);</code></p>
+</blockquote>
+<p> <b>Function Prototypes</b> </p>
+<p>If the function is defined in code before it actually gets called by anything, 
+  then this will work perfectly. But if it isn't, you will get an error when you 
+  try and load the object saying that 'sum()' is an undefined function. This is 
+  because LPC will not realise that a function has actually been defined if it 
+  is called before it ever sees it. For example, we have two functions, one that 
+  calls another:</p>
+<blockquote> 
+  <p> <code>void bing() {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;bong(); <br>
+    }</code></p>
+  <p><code> void bong() {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;printf ("bing!\n");<br>
+    }</code></p>
+</blockquote>
+<p> When we attempt to compile this object, the driver comes to the function call 
+  to bong() in bing(), and thinks to itself 'I don't know what this function is. 
+  I better stop compiling'. It then spits out an error message saying it doesn't 
+  know the function. However, if the order of the functions were reversed in the 
+  code:</p>
+<blockquote> 
+  <p> <code>void bong() {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;printf ("bing!\n"); <br>
+    }</code></p>
+  <p><code> void bing() {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;bong(); <br>
+    }</code></p>
+</blockquote>
+<p> The driver has already seen the function bong() before it is called in bing(), 
+  and so is quite happy to compile normally. Of course, this would be extremely 
+  awkward if you had to significantly restructure the format of your code every 
+  time you wanted to add a new function to be called. You'd have to make sure 
+  that all functions that are called within other functions are defined before 
+  the compiler ever sees them. Nightmare!</p>
+<p> To avoid this, a 'function prototype' should be included at the top of the 
+  file... essentially, this tells the MUD what the returned type of a particular 
+  function is, what its name is, and what arguments it requires and in what order. 
+  This function prototype is used by the MUD to validate function calls, and also 
+  checks to make sure that the parameter list of the function prototype matches 
+  with the parameter list of the actual function, and makes sure their return 
+  types are the same. For our 'sum' function, the function prototype would look 
+  like:</p>
+<blockquote> 
+  <p> <code>int sum(int, int);</code></p>
+</blockquote>
+<p>Almost exactly the same as the first line of the function above, but with two 
+  subtle differences. One is that the parameter list has no labels to identify 
+  the values in the function: we are not interested in what the values are at 
+  this point, only what data type they are going to be. You can include the labels 
+  if you like, but the MUD will simply ignore them when it compiles the object. 
+  The second difference is that the line does not end with a brace '{', but with 
+  a semi-colon ';'. This is because the function prototype isn't a function itself, 
+  but a statement telling the MUD what form the function takes. </p>
+<p>If your function prototype disagrees with your function definition, then the 
+  MUD will throw up an error when you try and load the object. </p>
+<p><b>Function Scope</b> </p>
+<p>Now, what did we mean by 'defined locally in an object'?</p>
+<p> Well, like variables, functions also have a 'scope'. If a function is defined 
+  in the same object that calls it, then it is said to be defined locally. It 
+  is also said to be local if the function is inherited by an object. In both 
+  of these cases, the function is an lfun. If a function is located in the driver, 
+  it is said to be an 'external' function... it exists independently of the object 
+  and can thus be called anywhere. In both of these cases, a function is called 
+  using the calling convention shown above.</p>
+<p> However, sometimes it is necessary to call a function that belongs to another 
+  object. To take an example, let's say we want to get the name of a player and 
+  store it in another object. It is necessary to call these functions in a different 
+  manner. There are two normal ways of doing this. One is to use the call_other 
+  efun... this can take a number of forms, but the simplest would be: </p>
+<blockquote> 
+  <p><code>call_other(object name, ({"name of function", parameter 1, parameter 
+    2, ...})); </code> </p>
+</blockquote>
+<p>Yikes! There is, however, a much easier way, and that is to use the -> operator 
+  on the object: </p>
+<blockquote> 
+  <p><code>object_name->function(arguments);</code></p>
+</blockquote>
+<p> So, say we have an object variable called 'ob' that points to a player object. 
+  If we want to get the name of this object, we can use the line:</p>
+<blockquote> 
+  <p> <code>ob->query_name();</code></p>
+</blockquote>
+<p> Which simply means, 'call the function 'query_name' on the object labelled 
+  'ob' with no arguments'. Query_name() doesn't actually take arguments, but if 
+  we were calling a function that did... for example, adjust_xp, we would simply 
+  pass the arguments in between the brackets as above: </p>
+<blockquote>
+  <p><code>ob->adjust_xp (1000);</code></p>
+</blockquote>
+<p> Note that we don't need to do this with sfuns and efuns... we always use the 
+  function_name (arguments) format, since they are in scope to all objects.</p>
+<p> <b>Chapter Summary</b></p>
+<p> In this chapter, we looked at how functions work on Discworld, and how the 
+  three categories of functions: lfuns, efuns, and sfuns, may be used within code. 
+  We also looked at how we may pass information into a function through the use 
+  of argument lists, and how we may return data from a function for later use.</p>
+<ul>
+  <li><code> There are three types of functions on Discworld. Lfuns, efuns, and 
+    sfuns.</code></li>
+  <li><code>Lfuns are 'local functions', and are defined locally in an object 
+    or in an object inherited by the current object. </code></li>
+  <li><code>Efuns are 'external functions', and are defined in the driver of the 
+    MUD</code></li>
+  <li><code>Sfuns are 'simulated functions', and are written in LPC, although 
+    they may be accessed globally like efuns. </code></li>
+  <li><code>Function definitions take the form of return_type name (argument_list) 
+    </code></li>
+  <li><code>Code belonging to a function must be enclosed in braces: { }. </code></li>
+  <li><code>Functions with a return type defined must 'return' an appropriate 
+    value. Void functions may simply 'return'. Integer functions will return 0 
+    unless another return is specified. </code></li>
+  <li><code>Functions that are called before their code is defined will cause 
+    the driver to throw up an undefined function parse error.</code></li>
+  <li><code> Function prototypes may be included at the start of an object to 
+    ensure the driver is aware the code is defined after a function is called.</code></li>
+  <li><code> Like variables, functions have a scope. Efuns and sfuns may be called 
+    simply by the name of the function and any arguments. Lfuns local to an object 
+    may be called the same way. Lfuns in other functions must be accessed with 
+    either the call_other efun, or the -> object operator. </code></li>
+</ul>
+<!-- #EndEditable --> 
+<p>
+<hr>
+<center><font size="-1"><a href="/login.html">Discworld MUD</a>'s world wide web pages.<br>brought to you by<br>
+  <strong>Cut Me Own Throat Dibbler's <a href="/sausages.html">Sensational Sausages</a>;&nbsp;buy 
+  one while they are hot.</strong> <br>
+<hr>Lost?  Try Discworld's <a href="/">home page</a>.</font></center><font size="-1"><i><a href="mailto:drakkos@cableinet.co.uk"><font size="-2">Mail Drakkos!</font></a></i>
+</font>
+</body>
+<!-- #EndTemplate --></html>

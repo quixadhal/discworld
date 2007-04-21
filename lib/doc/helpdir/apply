@@ -1,0 +1,112 @@
+.DT
+apply
+Discworld player help
+apply
+
+.SH Name
+.SP 5 5
+apply - applications to be a creator or player killer
+.EP
+
+.SH Syntax
+.SI 5
+
+apply vouch for <name> as <position> 
+apply query vouch for <name> as <position> 
+apply query all my vouches 
+apply delete vouch for <name> as <position> 
+
+apply as creator in <word> domain 
+apply as playtester 
+apply as liaison 
+apply as player killer 
+apply delete my application as <position> 
+
+apply list requirements for {creator|liaison|playtester} applications 
+apply list questions for {creator|liaison|playtester} applications 
+apply list available positions 
+apply list position status 
+
+.EI
+
+.SH Description
+.SP 5 5
+The apply command is used to apply for an official position change on 
+Discworld.   Most of these positions are awarded on the basis of 
+merit by a domain leader... the exception to this is player killer, 
+which is available to all applicable applicants without the 
+requirement of domain leader approval.
+
+The employment system on Discworld works through a system of 
+applications and vouches.  Each category of employment carries 
+with it its own requirements and its own questions for application.
+You can see what the requirements for a position are with 
+'apply list requirements for <type> applications'.  You can see which 
+positions are handled by this command with 'apply list available 
+positions', and you can see which positions are currently hiring 
+with 'apply list position status'.  If you wish to see the questions 
+for a particular position, then 'apply list questions for <type> 
+applications'.
+
+'Apply as player killer' is instantaneous if you meet the minimum 
+requirements.  It is important that you read the 'playerkilling' 
+helpfile before you do this... your playerkiller status can only 
+be reset by refreshing.
+
+The procedure for the other positions works as follows:  First, you 
+write your application.  When you agree to submit your application 
+then it gets stored in a 'pending' position until you get a number 
+of people to vouch for you... the number of people depends on the 
+type of position you are applying for.  When you have received the 
+required number of vouches, your application gets posted to a 
+relevant board for consideration.  Only once you have received all 
+the vouches for your application are you under consideration for 
+employment.  You may only have one pending application for each 
+category at once... so you may have pending applications as a 
+creator and a playtester, but not two as a creator.  It is not 
+advisable to pursue employment in more than one category at a 
+particular time, however.
+
+Note that 'apply as creator in liaison domain' and 'apply as 
+liaison' both do the same thing.
+
+Applications will time out of the system if you do not get enough 
+vouches in the specified time-frame.  You may resubmit an application 
+as many times as you like.  The time-frame for this varies with 
+each position.  You will be mailed if your application times out, 
+and also if your application receives the required number of vouches 
+and is posted to the board.
+
+People can submit vouches on your application using 
+'apply vouch for <name> as <position>'... their vouch will be recorded 
+along with your application for that position.  If they wish to change 
+their vouch, they can simply revouch and their new vouch will overwrite 
+the earlier.  They will be asked why they think you would make a good 
+applicant for the position, and their vouches will also be posted to the 
+board along with your application.  Note:  The quality of your vouches 
+will directly reflect on the quality of your application.  The more 
+mature, responsible and trustworthy your vouchers, the better it will be 
+for your application.  You also cannot vouch for yourself.
+
+If at any point before your application is posted you wish to 
+change your mind, you can 'apply delete my application as <position>'.
+
+Those who have submitted vouches can see what they wrote for a 
+particular applicant with 'apply query vouch for <name> as <position>', 
+and what all of their pending vouches were with 'apply query all my 
+vouches'
+
+NOTE:  It is important that you are honest in your application and that 
+your answers reflect your complete knowledge of a subject.  If you gain 
+employment under false pretenses then you will be dismissed and/or 
+deleted.  Likewise, if someone vouches for a candidate they know to be 
+applying under false pretenses, and keeps this information secret, 
+then that player will be subject to discipline under the 
+'Aiding and Abetting, Collusion and Conspiracy' clause of the rules.
+
+.EP
+
+.SH See also
+.SP 5 5
+creator, playerkilling, liaisons_detail, newbiehelpers, playtesters
+.EP

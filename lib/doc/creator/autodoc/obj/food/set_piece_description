@@ -1,0 +1,47 @@
+.DT
+set_piece_description
+DW_wibble creator help
+set_piece_description
+
+.SH Name
+.SP 5 5
+set_piece_description -  This sets the long description of the food when it is has 'cut' into pieces.
+.EP
+
+.SH Syntax
+.SI 5
+void set_piece_description(string word)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - The long description to use when cut into pieces.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets the long description of the food when it is has
+'cut' into pieces.
+
+
+If this is set then the short of the object is changed to 'piece of cake'. If the piece description is not set the short description of the object is not changed. 
+.EP
+
+.SH Example 1
+.SI 5
+set_piece_description("The brown, soft, moist cake looks "
+  "totally wonderful.\n");
+
+.EI
+
+.SH See also
+.SP 5 5
+query_in_pieces(), set_piece_short(), set_piece_plural(), set_piece_substance()
+.EP
+

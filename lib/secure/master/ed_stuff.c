@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: ed_stuff.c,v 1.1 1998/01/06 05:12:03 ceres Exp $
+ * $Log: ed_stuff.c,v $
+ * Revision 1.1  1998/01/06 05:12:03  ceres
+ * Initial revision
+ * 
+*/
 int save_ed_setup(object wiz, int setup) {
   wiz->set_ed_setup(setup);
   return 1;
@@ -20,12 +29,14 @@ string make_path_absolute(string str) {
 /*
  * Give a file name for edit preferences to be saved in.
  */
-string get_ed_buffer_save_file_name(string file) {
+string get_save_file_name(string file, object who) {
   string *file_ar;
 
+  if (!objectp(who))
+    return 0;
   file_ar = explode(file,"/") - ({ "" });
-  file = file_ar[sizeof(file_ar)-1];
+  file = file_ar[<1];
   write("File saved in \"/w/.dead_ed_files/" +
-        this_player()->query_name() + "-" + file + "\"\n");
-  return "/w/.dead_ed_files/" + this_player()->query_name() + "-" + file;
+        who->query_name() + "-" + file + "\"\n");
+  return "/w/.dead_ed_files/" + who->query_name() + "-" + file;
 } /* get_ed_buffer_save_file_name() */

@@ -1,0 +1,30 @@
+.DT
+set_empty_mess
+DW_wibble creator help
+set_empty_mess
+
+.SH Name
+.SP 5 5
+set_empty_mess -  The empty message is a string used to describe the lightable when it is out of fuel.
+.EP
+
+.SH Syntax
+.SI 5
+void set_empty_mess(string msg)
+.EI
+
+.SH Defined in
+.SI 5
+/std/lightable.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The empty message is a string used to describe the lightable
+when it is out of fuel.  It should be on the form
+"is burnt to a stub." to fit both the_short() +" "+ msg
+and "It "+ msg.
+
+.EP
+

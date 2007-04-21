@@ -1,0 +1,36 @@
+.DT
+query_last_route_direction
+DW_wibble creator help
+query_last_route_direction
+
+.SH Name
+.SP 5 5
+query_last_route_direction -  This method tells us if the npc is currently following a route.
+.EP
+
+.SH Syntax
+.SI 5
+int query_last_route_direction()
+.EI
+
+.SH Returns
+.SI 5
+1 if there are route directions to follow still.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method tells us if the npc is currently following a route.
+.EP
+
+.SH See also
+.SP 5 5
+get_next_route_direction(), query_following_route(), do_route_move()
+
+.EP
+

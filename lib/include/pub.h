@@ -1,3 +1,6 @@
+#ifndef __SYS__PUB
+#define __SYS__PUB
+
 #define SOFTDRINK "softdrink"
 #define ALCOHOL   "alcohol"
 #define FOOD      "food"
@@ -11,3 +14,5 @@
 #define DR_OTHMES 6
 #define DR_OTHMESS 6
 
+
+#endif /* __SYS__PUB */

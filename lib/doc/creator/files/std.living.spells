@@ -1,0 +1,58 @@
+.DT
+spells
+Discworld Creator help
+spells
+
+Name
+.SI 5
+/std/living/spells.c - object inherited by everything living
+.EI
+
+Description
+
+.SP 5 5
+/std/living/spells is the object that keeps track of the spells and rituals
+known by the living object.  Note that for the purposes of these functions,
+rituals and spells are the same.
+.EP
+
+Functions
+
+.SI 5
+int add_spell( string name, string ob, string func )
+.EI
+.SP 10 5
+This will add a spell/ritual to those castable by the living.  The parameter
+name is the name it's known by to the caster, ob is spell/ritual object,
+func is the function called on ob when the spell/ritual is cast.
+.EP
+
+.SI 5
+int remove_spell( string name )
+.EI
+.SP 10 5
+This will remove a spell/ritual from those known.
+.EP
+
+.SI 5
+string *query_spell( string name )
+.EI
+.SP 10 5
+This will return the array ({ ob, func }) if the spell/ritual is known, 0 if
+not.
+.EP
+
+.SI 5
+string help_spell( string str )
+.EI
+.SP 10 5
+This should return the help for the spell/ritual.
+.EP
+ 
+.SI 5
+mixed query_spells()
+.EI
+.SP 10 5
+This will return the mapping of known spells/rituals.
+.EP
+

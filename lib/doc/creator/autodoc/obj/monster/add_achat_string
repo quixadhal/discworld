@@ -1,0 +1,41 @@
+.DT
+add_achat_string
+DW_wibble creator help
+add_achat_string
+
+.SH Name
+.SP 5 5
+add_achat_string -  This method adds a single chat string into the current list of attack message chat strings.
+.EP
+
+.SH Syntax
+.SI 5
+void add_achat_string(mixed weight,
+                      mixed chat)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^weight%^RESET%^ - the weight of the chat
+%^BOLD%^chat%^RESET%^ - the new chat string
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a single chat string into the current list of
+attack message chat strings.  See load_chat() for a longer description of
+the chat string.
+.EP
+
+.SH See also
+.SP 5 5
+load_chat(), load_achat(), remove_achat_string()
+
+.EP
+

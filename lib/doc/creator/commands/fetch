@@ -1,0 +1,42 @@
+.DT
+fetch
+Discworld creator help
+fetch
+
+.SH Name
+.SI 5
+fetch - fetch an item from the broken room and return it to a player
+.EI
+
+.SH Syntax
+.SI 5 
+fetch <item> for <player>
+.EI
+
+.SH Description
+.SP 5 5
+This command is used to move items from the broken room, /room/broken
+back into a player.  This command automatically adds playerinfo entries
+to the player.  
+.EP
+
+.SH Example
+.SI 5
+> fetch wand for terano
+You fetch the grey wand for Terano Grolschdrinker from the broken room.
+> playerinfo terano
+...
+9. Fri Jan 28 07:32:02 2000          replace       (added by Taffyd)
+    Fetched grey wand from /room/broken.
+> fetch /obj/misc/paper#543961 for allana
+You fetch the page from a note book for Allana d'Licious from the broken room.
+> fetch button for gruper
+Warning-- could not move a red button to Gruper.
+No objects could be retrieved for Gruper.
+.EI
+
+.SH See also
+.SP 5 5
+replacement, liaison_policy
+.EP
+

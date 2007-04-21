@@ -1,0 +1,208 @@
+.DT
+money_handler
+Discworld Creator help
+money_handler
+
+Name
+.SI 5
+/obj/handlers/money_handler.c - Handler for <desc>
+.EI
+
+Description
+
+.SP 5 5
+This is the skeletal help for the money_handler handler.
+
+<description missing>
+.EP
+
+Functions
+
+.SI 5
+void create()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void save_me()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mapping query_all_values()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed *query_values()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed *query_values_in( string where )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void add_type( string where, string type, int value )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void remove_type( string where, string type )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mapping query_details()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed *query_details_for( string word )
+.EI
+.SP 10 5
+.EP
+ 
+void add_details( string word, string hd_sht, string tl_sht, string hd_lng,
+.SI 5
+  string tl_lng, mixed composition, string plural )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void remove_details( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mapping query_symbols()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed *query_symbol_for( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void add_symbol( string word, string symboliser )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void remove_symbol( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_alias_for( string type )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_short_for( string type )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_plural_for( string type )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void set_plural_for( string type, string plural )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_main_plural_for( string type )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs int query_value( string type, string where )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs int query_total_value( mixed mon_array, string where )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string money_string( mixed mon_array )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs mixed *create_money_array( int value, string where )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs string money_value_string( int value, string where )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed *calc_change( int value, mixed *mon_array )
+.EI
+.SP 10 5
+.EP
+ 
+varargs mixed *make_payment( string type, int value, object thing,
+.SI 5
+                                                    string where )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs object pay_amount_from( int value, object money, string where )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs object make_new_amount( int value, string where )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs object *filter_legal_tender( object money, string where )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs mixed parse_money( string words, object player, string place )
+.EI
+.SP 10 5
+.EP
+ 

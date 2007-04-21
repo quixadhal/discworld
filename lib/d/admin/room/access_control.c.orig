@@ -1,0 +1,301 @@
+/* file access control room */
+
+#include <access.h>
+#include "path.h"
+
+inherit "/std/room";
+
+#define LOGIN "/secure/login"
+
+void setup() {
+  string *doms, com;
+  int i;
+  
+  set_light(100);
+  set_short("File access control room");
+  set_long(
+    "You are in a room full of filling cabinets.  There are filing "
+    "cabinets everywhere, they are all packed full of papers and look "
+    "in a horrible mess.\n"
+"Available commands:\n"
+"  read <euid> <path>        : add read permison to the path.\n"
+"  write <euid> <path>       : add write permission to the path.\n"
+"  grant <euid> <path>       : add granting privileges to the path.\n"
+"  noread <euid> <path>      : remove read permission from the path.\n"
+"  nowrite <euid> <path>     : remove write permission from the path.\n"
+"  nogrant <euid> <path>     : remove granting privileges to the path.\n"
+"  summary [path|euid]       : give a list of all the read/write perms.\n"
+"  tidy                      : tidy away unnecessary perms.\n" );
+  add_exit("east", ROOM+"domain_control", "corridor");
+  seteuid("Admin");
+} /* setup() */
+
+void init() {
+  ::init();
+  add_action("do_read", "read");
+  add_action("do_write", "write");
+  add_action("do_grant", "grant");
+  add_action("do_noread", "noread");
+  add_action("do_nowrite", "nowrite");
+  add_action("do_nogrant", "nogrant");
+  add_action("do_summary", "summary", 1);
+   add_action( "do_tidy", "tidy" );
+} /* init() */
+
+int do_read(string str) {
+  string euid, path, eu;
+
+  if (this_player() != this_player(1) || !interactive(previous_object())) {
+    event(users(), "inform", "Illegal attempt to call do_read by "+
+          this_player()->query_cap_name(), "cheat");
+    write_file("/log/CHEAT", ctime(time())+": Illegal attempt to call do_read "+
+               "by "+this_player()->query_cap_name()+"("+str+")\n");
+    return 0;
+  }
+  if (!str || sscanf(str, "%s %s", euid, path) != 2) {
+    notify_fail("Syntax: "+query_verb()+" <euid> <path>\n");
+    return 0;
+  }
+  path = (string)this_player()->get_path(path);
+  if (!master()->high_programmer((eu = geteuid(previous_object()))) &&
+      !master()->check_permission(eu, path, 4)) {
+    notify_fail("You do not have permission to add read access.\n");
+    return 0;
+  }
+  notify_fail("Something went wrong.\n");
+  return (int)master()->add_read_permission(euid, path);
+} /* do_read() */
+
+int do_write(string str) {
+  string euid, path, eu;
+
+  if (this_player() != this_player(1) || !interactive(previous_object())) {
+    event(users(), "inform", "Illegal attempt to call do_write by "+
+          this_player()->query_cap_name(), "cheat");
+    write_file("/log/CHEAT", ctime(time())+": Illegal attempt to call "+
+               "do_write by "+this_player()->query_cap_name()+"("+str+")\n");
+    return 0;
+  }
+  if (!str || sscanf(str, "%s %s", euid, path) != 2) {
+    notify_fail("Syntax: "+query_verb()+" <creator> <path>\n");
+    return 0;
+  }
+  path = (string)this_player()->get_path(path);
+  if (!"/secure/master"->high_programmer((eu = geteuid(previous_object()))) &&
+      !"/secure/master"->check_permission(eu, explode(path,"/"), 4)) {
+    notify_fail("You do not have permission to add write access.\n");
+    return 0;
+  }
+  notify_fail("Something went wrong.\n");
+  return (int)"/secure/master"->add_write_permission(euid, path);
+} /* do_write() */
+
+int do_grant(string str) {
+  string euid, path, eu;
+
+  if (this_player() != this_player(1) || !interactive(previous_object())) {
+    event(users(), "inform", "Illegal attempt to call do_grant by "+
+          this_player()->query_cap_name(), "cheat");
+    write_file("/log/CHEAT", ctime(time())+": Illegal attempt to call "+
+               "do_grant by "+this_player()->query_cap_name()+"("+str+")\n");
+    return 0;
+  }
+  if (!str || sscanf(str, "%s %s", euid, path) != 2) {
+    notify_fail("Syntax: "+query_verb()+" <creator> <path>\n");
+    return 0;
+  }
+  path = (string)this_player()->get_path(path);
+  if (!"/secure/master"->high_programmer((eu = geteuid(previous_object()))) &&
+      !"/secure/master"->check_permission(eu, path, 4)) {
+    notify_fail("You do not have permission to add grant access.\n");
+    return 0;
+  }
+  notify_fail("Something went wrong.\n");
+  return (int)"/secure/master"->add_grant_permission(euid, path);
+} /* do_grant() */
+
+int do_noread(string str) {
+  string euid, path, eu;
+
+  if (this_player() != this_player(1) || !interactive(previous_object())) {
+    event(users(), "inform", "Illegal attempt to call do_noread by "+
+          this_player()->query_cap_name(), "cheat");
+    write_file("/log/CHEAT", ctime(time())+": Illegal attempt to call "+
+               "do_noread by "+this_player()->query_cap_name()+"("+str+")\n");
+    return 0;
+  }
+  if (!str || sscanf(str, "%s %s", euid, path) != 2) {
+    notify_fail("Syntax: "+query_verb()+" <creator> <path>\n");
+    return 0;
+  }
+  path = (string)this_player()->get_path(path);
+  if (!"/secure/master"->high_programmer((eu = geteuid(previous_object()))) &&
+      !"/secure/master"->check_permission(eu, path, 4)) {
+    notify_fail("You do not have permission to remove read access.\n");
+    return 0;
+  }
+  notify_fail("Something went wrong.\n");
+  return (int)"/secure/master"->remove_read_permission(euid, path);
+} /* do_noread() */
+
+int do_nowrite(string str) {
+  string euid, path, eu;
+
+  if (this_player() != this_player(1) || !interactive(previous_object())) {
+    event(users(), "inform", "Illegal attempt to call do_nowrite by "+
+          this_player()->query_cap_name(), "cheat");
+    write_file("/log/CHEAT", ctime(time())+": Illegal attempt to call "+
+               "do_nowrite by "+this_player()->query_cap_name()+"("+str+")\n");
+    return 0;
+  }
+  if (!str || sscanf(str, "%s %s", euid, path) != 2) {
+    notify_fail("Syntax: "+query_verb()+" <creator> <path>\n");
+    return 0;
+  }
+  path = (string)this_player()->get_path(path);
+  if (!"/secure/master"->high_programmer((eu = geteuid(previous_object()))) &&
+      !"/secure/master"->check_permission(eu, path, 4)) {
+    notify_fail("You do not have permission to remove write access.\n");
+    return 0;
+  }
+  notify_fail("Something went wrong.\n");
+  return (int)"/secure/master"->remove_write_permission(euid, path);
+} /* do_nowrite() */
+
+int do_nogrant(string str) {
+  string euid, path, eu;
+
+  if (this_player() != this_player(1) || !interactive(previous_object())) {
+    event(users(), "inform", "Illegal attempt to call do_nogrant by "+
+          this_player()->query_cap_name(), "cheat");
+    write_file("/log/CHEAT", ctime(time())+": Illegal attempt to call "+
+               "do_nogrant by "+this_player()->query_cap_name()+"("+str+")\n");
+    return 0;
+  }
+  if (!str || sscanf(str, "%s %s", euid, path) != 2) {
+    notify_fail("Syntax: "+query_verb()+" <creator> <path>\n");
+    return 0;
+  }
+  path = (string)this_player()->get_path(path);
+  if (!"/secure/master"->high_programmer((eu = geteuid(previous_object()))) &&
+      !"/secure/master"->check_permission(eu, path, 4)) {
+    notify_fail("You do not have permission to remove grant access.\n");
+    return 0;
+  }
+  notify_fail("Something went wrong.\n");
+  return (int)"/secure/master"->remove_grant_permission(euid, path);
+} /* do_nogrant() */
+
+int list_before( string first, string second ) {
+   if ( first < second )
+      return -1;
+   if ( first > second )
+      return 1;
+   return 0;
+} /* list_before() */
+
+int do_summary(string str) {
+  mapping perms;
+  string *paths, *euids, ret, creator;
+  int i, j, k;
+   
+  if (this_player() != this_player(1))
+    return 0;
+  perms = (mapping)"/secure/master"->query_permissions();
+  if (str) {
+    if (!perms[str]) {
+      if (!LOGIN->test_user( str) && str != "all") {
+        write("There are no permissions for "+str+".\n");
+        return 1;
+      } else {
+        creator = str; 
+      }
+    } else {
+      perms = ([ str : perms[str] ]);
+    }
+  }
+  paths = sort_array( m_indices( perms ), "list_before", this_object() );
+  if (!sizeof(paths))
+    ret = "No permissions set.\n";
+  else
+    ret = sprintf("%11-s    Path\n", "Euid");
+  for (i=0;i<sizeof(paths);i++) {
+    euids = m_indices(perms[paths[i]]);
+    for (j=0;j<sizeof(euids);j++) {
+      if (!creator || (euids[j] == creator ) ) {
+        k = perms[paths[i]][euids[j]];
+        if (!k)
+          ret += sprintf("%11-s LCK %s\n", euids[j], paths[i]);
+        else
+          ret += sprintf("%11-s %c%c%c %s\n", euids[j],(k&1?'R':' '),
+                         (k&2?'W':' '), (k&4?'G':' '), paths[i]);
+      }
+    }
+  }
+  this_player()->more_string( ret, "Permissions", 1 );
+  return 1;
+} /* do_summary() */
+
+int do_tidy() {
+   int i, j, perm, same;
+   string path, creator, *bits;
+   mapping perms, euids, others;
+   if ( ( this_player() != this_player( 1 ) ) ||
+         !interactive( previous_object() ) ) {
+      event( users(), "inform", "illegal attempt to call do_tidy() by "+
+            (string)this_player()->query_name(), "cheat" );
+      log_file( "CHEAT", ctime( time() ) +": illegal attempt to call "+
+            "do_tidy() by "+ (string)this_player()->query_name() +"\n" );
+      return notify_fail( "Failed.\n" );
+   }
+   perms = (mapping)"/secure/master"->query_permissions();
+   foreach( path in keys( perms ) ) {
+      euids = perms[ path ];
+      foreach( creator in keys( euids ) ) {
+         perm = euids[ creator ];
+         if ( !"/secure/login"->test_creator( creator ) ) {
+            write( "No creator: "+ creator +".\n" );
+            if ( perm & 1 )
+               "/secure/master"->remove_read_permission( creator, path );
+            if ( perm & 2 )
+               "/secure/master"->remove_write_permission( creator, path );
+            if ( perm & 4 )
+               "/secure/master"->remove_grant_permission( creator, path );
+            continue;
+         }
+         if ( path == "/" )
+            continue;
+         same = perms[ "/" ][ creator ] & perm;
+         if ( same ) {
+            write( "Access to / supercedes "+ path +" for "+ creator +".\n" );
+            if ( same & 1 )
+               "/secure/master"->remove_read_permission( creator, path );
+            if ( same & 2 )
+               "/secure/master"->remove_write_permission( creator, path );
+            if ( same & 4 )
+               "/secure/master"->remove_grant_permission( creator, path );
+            continue;
+         }
+         bits = explode( path, "/" );
+         j = sizeof( bits ) - 1;
+         for ( i = 0; i < j; i++ ) {
+            others = perms[ "/"+ implode( bits[ 0 .. i ], "/" ) ];
+            if ( !others )
+               continue;
+            same = others[ creator ] & perm;
+            if ( same ) {
+               write( "Access to /"+ implode( bits[ 0 .. i ], "/" ) +
+                     " supercedes "+ path +" for "+ creator +".\n" );
+               if ( same & 1 )
+                  "/secure/master"->remove_read_permission( creator, path );
+               if ( same & 2 )
+                  "/secure/master"->remove_write_permission( creator, path );
+               if ( same & 4 )
+                  "/secure/master"->remove_grant_permission( creator, path );
+               break;
+            }
+         }
+      }
+   }
+   return 1;
+} /* do_tidy() */

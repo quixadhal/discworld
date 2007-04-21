@@ -1,0 +1,57 @@
+.DT
+guild
+Discworld room help
+guild
+
+.SH Name
+.SI 5
+guild room - the place where you go to advance and join a guild
+.EI
+
+.SH Syntax
+.SI 5
+join
+info
+advance <skill>
+advance <skill> to <level>
+advance <skill> by <levels>
+cost {primaries|all|all brief}
+cost <skill>
+cost <skill> to <level>
+cost <skill> by <levels>
+.EI
+
+.SH Description
+.SP 5 5
+This is a room help file.
+
+The guild is the place where you can join the guild and learn specific
+guild taught skills.  The 'info' command will give you information about
+the guild before you join it, the 'join' command is the one that actually
+allows you to join the guild.
+
+Primaries are specific skills that your guild will teach very cheaply to
+a high level.  Every guild has a different set of primaries and you can
+see what they are by using the 'cost primaries' command.  The various
+cost commands will tell you how much it will cost to raise your skills
+by various amounts, and the 'advance' command will actually raise your
+skills.
+
+With all the skill names you can abbreviate their name down to the
+smallest unique match.  For example, fighting.combat.melee can be
+abbreviated to fi.co.me
+.EP
+
+.SH Example
+.SI 5
+> info
+> join
+> cost primaries
+> advance fighting.combat.melee
+> advance fi.co.me by 2
+.EI
+
+.SH See also
+.SP 5 5
+advance, cost
+.EP

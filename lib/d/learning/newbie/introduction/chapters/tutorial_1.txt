@@ -1,0 +1,446 @@
+A Brief Introduction to LPC  -  Putting It All Together 1
+Ae First Rough Draft
+
+Drakkos - 26/09/2000
+
+N.B     -       This is a work in project... a living document if
+                you like.  If it appears to be dead when you view
+                it, don't worry.  It's most likely just playing
+                possum.
+
+==============================================================================
+Concepts still to be covered:
+
+Not sure... perhaps nothing.
+==============================================================================
+
+Now that we've gone over some of the concepts you'll need to understand
+as a creator on Discworld, let's put them all together and actually
+create some objects to do some nifty things.  The first thing we'll do
+is create a basic NPC and set it up so it can talk to us a little.  Sound
+like fnu?  Well, let's give it a try and see!
+
+
+Commenting Your Code
+====================
+
+Well, first things first, you should always put a comment at the top of your
+code indicating what the object is, who wrote the object, and on what date
+it was coded.  This is very useful for later assigning blame.  Did I say
+blame?  I meant praise.  Yes.
+
+Comments are basically little sections of text that are completely ignored
+by the driver.  We can use them to add little notes about our code.  This is
+extremely useful if you have written some monstrously complicated function
+that only you and someone with a PhD in Advanced Astrophysics could possibly
+understand.  By commenting the code thoroughly, you can explain what bits
+of code are trying to do.  This is also vital if someone else will be 
+debugging your code.  If there's an explanation of what the code *should* be
+doing, an examination of the code may show some subtle error in logic that
+can then be fixed.  Otherwise, who knows what any one piece of code is
+supposed to be doing?
+
+But I digress.  We can put comments into our file by one of two methods  The
+first is to preface your comment with the '//'.  This signifies a comment
+that extends to the end of the current line of code:
+
+    void bing() {  // Anything after the double slash is a comment.
+    
+Or, you can use the /* */ pair of symbols.  Anything between these two symbols
+is classed as a comment:
+
+    /*
+        This is a comment.
+        And so is this. 
+        In fact, everything until I put in the closing symbol: 
+    */    
+
+For the purposes of our tutorials, we will be using the /* */ convention.  So 
+let's start with a leetle header to our file, indicating what it is, who we
+are, and when we coded it:
+
+/*
+    This is a basic NPC!
+    Written by Drakkos.
+    
+    26/09/2000
+*/
+
+Woo, that was easy!  Now what do we do?
+
+
+Inherit, and Setup!
+===================
+
+Well, if you've read the chapter on inheritance, you probably think we inherit
+a file.  And you'd be 100% correct!  The file we inherit for creating a basic
+NPC is called /obj/monster, and deals with all the horrendously complicated 
+stuff that must be done before you can start being creative with your code.  
+We already know that we inherit a file using the 'inherit' keyword, so let's
+do that now:
+
+    inherit "/obj/monster";
+    
+Woo, that was easy too!
+
+But now we get a little more complicated.  Because, having written our comment
+and inherited the correct file, we now have to define a function in our NPC.
+
+All objects that can be seen, touched, and played with (oo-er) by creators and
+players must have a setup() function.  This function is called by the when a
+tangible object is created, and deals with setting up all the values our NPC
+must have.  The first thing we have in our setup is a name.  All objects that
+can be manipulated by other objects must have a name.  The name is the label
+by which we refer to the object.  Since we're not trying for Shakespeare 
+at the moment, we'll simply give our npc the name 'blob'.  To do this, we
+use the line:
+
+    set_name("blob");
+    
+So whenever we want to look at our NPC, give something to our NPC, or...
+shock horror, kill our NPC, we can do it by 'look blob', 'give <item> 
+to blob', or 'kill blob'.  Neat!
+
+Next thing we need is to set the short of the NPC.  This is the pretty
+description we see when the NPC enters the room, or does an action. 
+We do this by:
+
+    set_short("grey blob");
+    
+Again, simple to do.  Now we'll see:
+
+    A grey blob is standing here.
+    
+When we look at the room we're in.  
+
+We also need to set a long description for our NPC.  The long description,
+or simple 'long', is what is returned when we 'look' or 'examine' an object.
+Essentially, it's the description of what the object looks like.  So we
+put something like:
+
+    set_long("This is a grey blob.  It is grey.  It is also quite "
+        "blobby.\n");
+        
+So whenever anyone looks at our blob, they see:
+
+    This is a grey blob.  It is grey.  It is also quite blobby.
+
+Woo!  We're building up our NPC real nicely now.  But there's still more stuff
+that we need to do before our NPC is ready to be cloned into life.  We need to
+give our NPC a race, a guild, and a level.  If we don't, then our NPC will
+wither and fade away before we can even say hello.  
+
+There are two ways to do this.  One is to call first set_race(), then 
+set_guild(), and then set_level(), within the setup() of the NPC.  However,
+a better and simpler way to setup the three values is to use the basic_setup()
+function.  This takes three arguments... the first two are strings, and are
+the race, and the guild respectively.  The third is an integer argument and
+is the level of our NPC.  We'll talk some more about races in one of our later
+tutorials in this suite of documents, but for now we'll do something simple and
+make our blob a human warrior:
+
+    basic_setup("human", "warrior", 10);
+
+And finally... well... finally for now, we need a gender for our NPC.  Let's 
+make him male, for the simple fact that female blobs are too provocative for
+this sedate document:
+
+    set_gender("male");
+    
+And that's all we need to have our fully working NPC!  To recap, the code
+up 'till now will look like this:
+
+
+    /*
+        This is a basic NPC!
+        Written by Drakkos.
+    
+        26/09/2000
+    */
+
+    inherit "/obj/monster":
+
+    void setup() {
+
+        set_name("blob");
+        set_short("grey blob");
+        set_long("This is a grey blob.  It is grey.  It is also quite "
+            "blobby.\n");
+        basic_setup("human", "warrior", 10);
+        set_gender("male");
+    }
+
+
+Now, all we have to do is save that into a file with a .c extension, and then
+type 'clone <filename>' to summon up our very own grey blob to keep us 
+company.  Woohoo!
+
+
+Cloning and Updating
+====================
+
+When we first clone our object, we make a master copy of it in memory that is
+then used as the basis for all other clones.  We talked about this a bit in
+chapter one.  Basically, this means that every time you clone an NPC, it will
+first check for a master object.  If there isn't one, it will create one,  If
+there is, then it will make a clone of the object from the master object.  This
+means that if you clone an object, discover some errors, fix them, then clone
+another object, these errors will still be present.
+
+To update the master object with the new code, we use the 'update' command on
+the filename:  update /d/learning/newbie/introduction/examples/simple_npc.  
+This creates an updated master object of your code.  All objects cloned from
+the old master object will still have the errors, however, so you can 
+'update' them individually.  This may introduce some peculiarities into
+objects... NPCs in particular, so if you find things like add_responses are
+no longer working, dest the offending object and clone a fresh copy.  You
+can update a local NPC, rather than the master object, in the same way you
+would give them something or attack them... 'update <npc_name>.
+
+
+More Setup!
+===========
+
+But we're not quite done yet with our setup.  Okay, we have enough to load our
+NPC, but we need to make sure he's designed properly.  For example, we have a
+blob... we can only reference it by 'blob'.  Isn't it a grey blob?  We can't
+we reference it as a 'grey blob'?  Well... we can.  If we add an adjective to
+it:
+
+    add_adjective("grey");
+    
+Woo, so we can now refer to it as 'blob', or 'grey blob'.  Actually, for good
+measure, let's add 'oozing' as an adjective as well:
+
+    add_adjective("oozing");
+    
+So we can refer to it as 'blob', 'grey blob', 'oozing blob', or 'oozing grey 
+blob' if we so desired.  Mmm!  We could consolidate both of these lines, 
+however, into one add_adjective statement by passing the adjectives in as an
+array:
+
+    add_adjective(({"oozing", "grey"}});
+
+Woo!  When you look at our leetle NPC in the right light, however... he does
+look a little like a sack of porridge.  A moving sack, but a sack nonetheless.
+Just in case people get confused whether our NPC is a blob, or a sack of
+porridge, let's make it easy for them by adding 'porridge' as an alias:
+
+    add_alias("porridge");
+    
+So now 'look porridge' will work just as 'look blob' does.  Whee!
+
+And finally, let's set the plural of our NPC.  Normally the MUD will do that
+for us when more than one NPC of the same type are in the room... instead
+of 'A grey blob is standing here', it would be 'two grey blobs are standing'
+here.  But that's what everyone else is doing.  Let's go Tolkein for our
+tutorial NPC!  If we use the set_main_plural method, we can change the way
+the mud pluralises our NPC:
+
+    set_main_plural("grey blobses");
+
+In this case, it's purely a matter of whimsey that we do this.  But if you're
+coding items such as a pair of trousers, you'll need to set the main plural
+properly to avoid the mud pluralising them as: a pair of trouserses.  Instead,
+you'd use set_main_plural to set them as 'pairs of trousers'.      
+
+Well, now that we've got all of that sorted out, let's see what else we can
+do with our leetle NPC.
+    
+    
+Load Chats!
+===========
+
+Now, this is all very well and good... but... well... our blob doesn't really
+do much with himself at the moment, does he?  He just stands around doing 
+nothing.  If we want him to speak up for himself, we're going to have to put
+some words in his mouth.  Luckily, we have a function that does this for is:
+load_chat():
+
+    load_chat(20,({ 2, ": oozes around.",
+        1, "' I'm very grey.",
+        2 , "' I'm a blob.",
+        }) );
+        
+The arguments to this function are a little more complicated, so we'll look at 
+it in action.
+
+The first argument (20) is the frequency of a chat.  The number represents the 
+chance in 1000 of one of the following chats to occur every two seconds.  It 
+sounds complex, but it isn't really... essentially it can be worked out with 
+((20/1000) * 100) to give a percentage chance that a chat will occur every two
+seconds.  You can vary this initial argument to increase or decrease the 
+frequency of chats.
+
+The second argument is an array.  The first argument of the array is the 
+'weighting'... the chance a particular chat will occur.  The second is the 
+chat itself.   The chat itself takes the form of a command for the NPC to 
+execute, just as if you were typing the command in yourself.  The apostrophe
+is shorthand for 'say', then colon is shorthand for an emote.  So the actions
+we've given our NPC will appear as:
+
+    The grey blob oozes around.
+    The grey blob says: I'm very grey.
+    The grey blob says: I'm a blob.
+
+These chats will be chosen at random according to the weighting.  The weighting
+allows you to favour particular chats... in this case, the weightings are 2, 1, 
+and 2 respectively, giving a total of five.  This means that the first chat has
+a two in five chance of being executed, the second has a one in five chance, 
+and the third also a two in five chance.
+
+
+Adding Responses!
+=================
+
+Mmm... isn't our Blob nice and talkative now?  Indeed he is... but he's also
+peculiarly unresponsive.  We can say anything to him, and he just stands there
+like a big sack of porridge.  Wouldn't it be nice if we could get him to talk
+back to us?
+
+The method add_respond_to_with allows for you to setup a trigger for the NPC
+to respond to.  The argument list is a little complicated, so let's have a
+look at an actual function call:
+
+    add_respond_to_with(({ "@say",({"blob"}),
+        }), "say Yes, I am a grey blob.");
+        
+Now, for the first argument here, we're actually passing in an array of 
+arrays.  Don't worry too much about this for the moment.   The first
+argument to this function is the ({ "@say",({"blob"}), }) part.  The
+first part of this argument is the type of action to trigger on... in
+this case, the action will be triggered on a 'say'.  The second part is
+the text to trigger with... in this case, blob.   So, this response
+will only be triggered if someone does a 'say' containing the word 'blob'
+in the room occupied by the NPC.
+
+Should the trigger event occur, the NPC will then execute the command
+passed in as the second argument of the function.  In this case, 
+'say Yes, I am a grey blob'.
+
+You can use add_respond_to_with as often as you like within the NPC,
+each use will add another response trigger and action... these will not 
+overwrite each other, so you can have an NPC as interactive as you wish.
+
+The trigger we have above responds only to a single trigger word, however.
+Surely our blob would be slightly less restrictive than that?  Surely he
+should also respond to 'grey', for example, with the same comment?  Well,
+luckily we can do this very easily by expanding the trigger a little:
+
+    add_respond_to_with(({ "@say",({"blob", "grey"}),
+        }), "say Yes, I am a grey blob.");
+
+This simply means that either the word 'blob', or the word 'grey', will
+trigger this response from our NPC.  But, as always, we want more.  Yes,
+more!  Hang those who talk of less!  Why should we have to settle for
+one boring trigger phrase?  We should be able to make our NPC respond
+to any number of words, in any combination!
+
+We can do this too with add_respond_to_with(), simply by adding new
+arrays containing extra trigger words:
+  
+
+    add_respond_to_with(({ "@say",({"ooze"}),
+                        ({"porridge"}),
+                        }), "' Yes, I'm oozing quite nicely, like grey "
+                            "blobs do.  Like porridge!");  
+                            
+So now our NPC can also respond to the phrase 'ooze porridge', but
+won't respond to 'ooze', or 'porridge' by themselves.  And, like above,
+you can make each of these trigger phrases less restrictive by adding
+in alternatives for that trigger:
+
+    add_respond_to_with(({ "@say",({"ooze", "blue", "cardboard"}),
+                        ({"porridge", "bing", "womble"}),
+                        }), "' Yes, I'm oozing quite nicely, like grey "
+                            "blobs do.  Like porridge!");  
+
+So our NPC will respond to 'ooze porridge', or 'ooze womble', or 'blue 
+womble', or any combination.  And if we want to add another trigger,
+we just have to add another array to the list as we did before.
+
+
+Finishing Up!
+=============
+
+So, now we have an NPC we can talk to, and an NPC that will potter around
+doing it's Own Thang when we leave it alone.  Neat!  So, what else can
+we do with it?
+
+Well... in the great traditions of the MUD... let's kill it!
+
+So we start to hurt our leetle NPC... but what's this?  It doesn't seem 
+perturbed at all:
+
+    You miss the grey blob.
+    Hp: 639 (639) Gp: 270 (270)
+    The grey blob says: I'm very grey.
+    The grey blob oozes around.
+    The grey blob swings wildly.
+
+It's just making its normal chats all the way through.  Perhaps it should
+be a little more... well... upset, when someone is trying to kick seven shades 
+of  ooze out of it.
+
+Well, there's another function, exactly like load_chat, but that deals
+solely with combat chats.  The parameters are exactly the same, just
+the function names is different:
+
+    load_a_chat(20,({ 2, ": oozes all over you.",
+        1, "' Lemme alone!.",
+        2 , ": sobs bitter, slimy tears.",
+        }) );
+
+
+And now when we pick a fight with the poor little fellow:
+
+    The grey blob oozes all over you.
+    You miss the grey blob.
+    Hp: 639 (639) Gp: 270 (270)
+
+Whee!  Now he can Hurl Insults at his foes as they try and beat him up.  What 
+NPC could ask for more?
+
+        
+Chapter Summary
+===============        
+
+And that's it for our NPC for now.  We've put into practise some of the 
+concepts we've discussed in the previous chapter... here, we've used 
+inheritance, predefined functions (both efuns and lfuns) and data types.  We 
+still have to see how we can use our own functions in an object, but that's 
+for the next tutorial.  :-)
+
+-   Code files should be commented with what the file is, who coded it, and 
+    when it was coded.
+-   Basic NPCs inherit /obj/monster as a base.
+-   All tangible objects in the MUD require a setup() function, which is 
+    called when an object is created.
+-   All objects that may be manipulated or referenced to must have a 
+    set_name() in their setup.
+-   The short of an object is the text that appears to describe an object
+    in the inventory of another object, or when the object enters/exits a 
+    room or performs an action/
+-   The long of an object is that text that is returned when you look at that
+    object.
+-   All NPCs require a race, guild, and level to be set.  Basic_setup() is 
+    used for this.  If an NPC doesn't have these set, then it will fail to
+    clone.
+-   Set_gender() will set the sex of the NPC.
+-   Load_chat and load_a_chat are used to add random actions to an NPC.  
+    load_chat will set the actions for when the NPC is not in combat, 
+    load_a_chat will set the actions for when an NPC is.
+-   add_respond_to_with() is used to add trigger phrases for an NPC to respond
+    to.
+        
+        
+Support Files
+=============
+
+/d/learning/newbie/introduction/examples/simple_npc.c
+    
+
+    
+    
+
+

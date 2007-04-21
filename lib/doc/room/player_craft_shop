@@ -1,0 +1,56 @@
+.DT
+craft shop
+Discworld room help
+craft shop
+
+.SH Name
+.SI 5
+player craft shop - a place where a player can control items bought and sold
+.EI
+
+.SH Syntax
+.SI 5
+retrieve <id>
+waiting
+waiting unapproved
+reject <id>
+value <object>
+.EI
+
+.SH Description
+.SP 5 5
+This is an extension of the category craft shop, it does all the things that
+it does plus is adds some extensions to work for players control.
+
+This allows a player to setup a craft shop and control the inventory of
+the shop.  They also make money on each purchase.  A player will sell the
+item to the shop normally and the shop will then place the item into a
+list of items which are to be accepted.  The player can change any of the
+various values of the item, both before and after it is placed for sale.
+
+If someone acidently sells something they didn't want to, they can get it
+out of the shop by using the 'reject <id>' syntax.  This will only
+work on items they, themselves have added.  The players can also see
+which items have been added to the shop and have not yet been accepted
+or rejected with the 'waiting' command.
+
+*NOTE* There are two waiting lists, there is the approved and unapproved
+waiting lists.  The approved waiting list is anything that was approved
+by the owner functions.
+
+To run the shop you will need the Shop Owners Guide which is available
+at a book store near you.
+.EP
+
+.SH Example
+.SI 5
+> value frog
+> sell frog
+> waiting
+> reject aa
+.EI
+
+.SH See also
+.SP 5 5
+craft_shop, craft_shop_category
+.EP

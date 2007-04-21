@@ -1,0 +1,56 @@
+.DT
+friends
+Discworld player help
+friends
+
+.SH Name
+.SI 5
+friends - your list of friends
+.EI
+
+.SH Syntax
+.SI 5
+friends
+friends <person>
+friends add <person> <tag>
+friends remove <person>
+friends clear
+.EI
+
+.SH Description
+.SP 5 5
+This allows you to track down your friends and keep track of them.  It
+controls all the people you have in your friends list and lets you add
+a small tag beside each friend.
+
+The command by itself will list all of your currently setup friends.  The
+command with only one argument will list information about that one
+friend.
+
+The <tag> part will add a message you will see when the person logs in/out
+of Discworld, or when you list your friends
+
+If you use the 'friends clear' command it will clear all of the friends in
+your friend list.
+
+If you use the 'who', 'qwho' or related commands you can use 'friends' as
+an argument to get the list of your currently online friends.
+.EP
+
+.SH Examples
+.SI 5
+> friends
+Dlsss: too witchy for words
+Pinkfish: fluffy
+> friends add dlsss too witchy for words
+You add dlsss with a tag of too witchy for words.
+> friends remove pepsi
+You remove pepsi from your friends list
+[Pinkfish enters Discworld -- fluffy]
+> qwho friends
+.EI
+
+.SH See also
+.SP 5 5
+who, qwho
+.EP

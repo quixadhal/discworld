@@ -1,0 +1,61 @@
+.DT
+delevent
+Discworld creator help
+delevent
+
+
+.SH Name
+.SI 5
+delevent - Deletes an entry from the player information database.
+.EI
+
+.SH Syntax
+.SI 5
+delevent <player_name> <event> <index>
+.EI
+
+.SH Description
+.SP 5 5
+Delevent can be used to delete an entry from the player's dossier. The index
+argument identifies the entry to be deleted; the event argument should match
+the type of the entry in order for the command to succeed.
+.EP
+
+.SH Notes
+.SP 5 5
+1. After the entry is deleted, the remaining entries are renumbered to ensure
+that no "holes" are left.
+.EP
+.SP 5 5
+2. This is a restricted command: entries can only be deleted by lords, except
+for the "misc" and "replace" entries that can be deleted by senior creators.
+.EP
+
+.SH Examples:
+.SI 5
+> playerinfo griffin
+Report for: Griffin
+
+2. Sun Nov  1 09:56:18 1998   ungag  (added by Fiona)
+      Ungagged.
+1. Sat Oct 31 10:55:33 1998    gag   (added by Fiona)
+      He was talking too much.
+
+.SI 5
+> delevent griffin misc 1
+Cannot remove entry #1 from Griffin's dossier.
+
+> delevent griffin gag 1
+Entry #1 of Griffin's dossier deleted.
+
+> playerinfo griffin
+Report for: Griffin
+
+1. Sun Nov  1 09:56:18 1998   ungag  (added by Fiona)
+      Ungagged.
+.EI
+
+.SH See also
+.SP 5 5
+playerinfo, addevent, addalt, delalt
+.EP

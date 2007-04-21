@@ -1,0 +1,191 @@
+.DT
+Messages
+Discworld Creator Help
+Messages
+
+Name
+.SI 5
+Messages - Processing the messages sent to an interactive
+.EI
+
+Description
+.SP 5 5
+Messages sent to an interactive are stored and then processed by
+/global/events before being finally seen.  This allows the grouping
+together of similar messages (for example, when three people enter
+a room in the same manner, you see a single message rather than
+three messages) and for descriptions to be dependent on the observer
+(for example, with sufficient perception, you can make out the true
+identity of the man in the mask whereas others can only see "a masked
+man").  There is a chain of functions which are called, both before
+and after a call_out (in order to allow message grouping), and a number
+of control codes are used to control processing. 
+.EP
+
+Processing Functions
+.SP 5 5
+The processing functions used by the message system will very rarely
+need to be understood in any detail as they should only need to be
+used internally.  The most useful of the functions is convert_message,
+which should be used whenever a message is stored for later retrieval.
+.EP
+
+void add_message( string message, mixed *things )
+.SP 5 5
+Whenever any message is submitted to a player (except via printf),
+this function is used.  Generally this will only be used internally,
+as the hook to the message system for write, say, tell_object,
+tell_room and various events.  It uses reform_message and then attempts
+to group the message with others if possible, making a call_out to
+print_message if one has not been made already.
+.EP
+
+mixed *reform_message( string message, mixed *things ) 
+.SP 5 5
+Another function for internal use, this is called by add_message
+to perform a certain amount of preprocessing. First relative
+direction references are processed, then references to multiply
+grouped objects and finally references to individual objects.
+.EP
+
+void print_messages()
+.SP 5 5
+In order, this function processes the internal list of stored
+messages with evaluate_message, using show_message to finally show
+them to the interactive.  This is called internally via the call_out
+submitted in add_message.
+.EP
+
+string evaluate_message( mixed *stuff )
+.SP 5 5
+This function is internally called to take the information for a message
+and calculate the short descriptions of objects mentioned in the message
+and the correct forms of their associated verbs.
+.EP
+
+void show_message( string message )
+.SP 5 5
+This function first uses fit_message to perform the last stages of
+processing and then, if the message is to be paged, use the pager to
+show the message to the player, otherwise submitting it directly using
+the tell_object efun - note that tell_object, like write, say and
+tell room, is a simul efun so that messages can be diverted into this
+system.
+.EP
+
+string fit_message( string message )
+.SP 5 5
+This function is responsible for capitalising, indenting and wrapping
+it, taking into account, as far as possible, the space taken up by
+colour codes. This can be called externally for this purpose, although
+the need for this will probably be limited to the notify_fail simul efun.
+.EP
+
+string convert_message( string message )
+.SP 5 5
+This function is only used externally and exists for the purpose of
+processing a message sufficiently so that if it is stored, it no
+longer refers to objects which will cease to exist at the next shut
+down.  This would be used, for example, if a room description was to
+be stored as part of a picture.  The function simply processes the
+message using reform_message and then evaluate_message.
+.EP
+
+Control Codes
+.SP 5 5
+There now follows a list of the control codes used by the messaging
+system and their meanings.
+.EP
+
+$<number>$
+.SP 5 5
+This code refers to a certain group of objects for the message and
+represents those objects' short descriptions.  It is largely used
+internally, being substituted for the short description codes by
+reform_message and then replaced by the lists of short descriptions
+by evaluate_message.
+.EP
+
+$<string>_short:<string>$
+.SP 5 5
+This code represents a particular form of an object's short, the
+first string being one of "a", "one", "poss" or "the" and the
+second string is the object's file name.
+.EP
+
+$A<number>$
+.SP 5 5
+This code is used internally by fit_message to keep track of colour
+codes.
+.EP
+
+$C$
+.SP 5 5
+This code causes the character following to be capitalised.  Messages
+are automatically capitalised, but capitalisation may be desired later
+in the message when capitalize cannot be used, for example, when a
+observer dependent description appears at the start of a sentence.
+.EP
+
+$I$<number>=
+.SP 5 5
+This code means that all lines of this message after the first are
+to be indented by a certain number of spaces.  This does not reset
+at a carriage return, so it is necessary to use $I$0= to return to
+no indentation.
+.EP
+
+$M$<string>$M$
+.SP 5 5
+This code is usually produced by query_multiple_short.  It signifies
+that the string is a list of short descriptions which are to be, once
+short descriptions have been processed, placed in a nice list (commas
+between consecutive items except for the last pair which are separated
+by "and").
+.EP
+
+$P$<string>$P$
+.SP 5 5
+This code should be placed at the start of a message to signify that
+it should be paged, with the status line being marked with the string.
+For example, the "look" command uses $P$Look$P$ at the beginning to
+page the output.
+.EP
+
+$R$<string>$R$
+$R$+<string>$R$
+$R$-<string>$R$
+$R$[<string>]<string>$R$
+$R$[<string>]+<string>$R$
+$R$[<string>]-<string>$R$
+.SP 5 5
+This code is responsible for the replacement of a direction by a
+relative direction (for example, of "west" by "left" if the interactive
+is facing north). There are three forms of a given relative direction
+that can be used as specified by the first three forms of the control
+code.  The first refers to the static relative direction (in front of
+you, to your right), the second refers to the entering relative
+direction (up ahead, the right - think of putting "from" before these)
+and the third refers to the leaving relative direction (forward, right)
+which is also the simple name for the relative direction.  If another
+word is provided in square brackets, that word is also used if the
+direction is not relative; for example, part of an arrival message
+could consist of $R$[the ]+north$R$ which is replaced by "up ahead"
+if the north exit is relative and the interactive is facing north or
+by "the north" if the north exit is not relative.
+.EP
+
+$V$<number>=<string>,<string>$V$
+.SP 5 5
+This code allows a verb to be conjugated correctly depending on the
+number of objects there are in a certain group of objects for this
+message.  The first string is the singular form of the verb while
+the second is the plural form.  This is mostly used internally for
+dealing with exit and entrance messages.
+.EP
+
+See also
+.SI 5
+write, say, tell_object, tell_room
+a_short, one_short, poss_short, the_short, query_multiple_short
+.EI

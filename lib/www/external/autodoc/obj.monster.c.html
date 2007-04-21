@@ -1,0 +1,1961 @@
+<html><head><title>File monster.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/monster.c</h2>
+This file contains all the information relevant to creating an
+npc (or monster).<p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="global.guild-race.c.html">/global/guild-race.c</a>, <a href="global.events.c.html">/global/events.c</a>, <a href="std.living.mon_actions.c.html">/std/living/mon_actions.c</a>, <a href="std.living.response_mon.c.html">/std/living/response_mon.c</a> and <a href="std.living.living.c.html">/std/living/living.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.route.h.html">/include/route.h</a>, <a href="include.playtesters.h.html">/include/playtesters.h</a>, <a href="include.skills.h.html">/include/skills.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.top_ten_tables.h.html">/include/top_ten_tables.h</a>, <a href="include.map.h.html">/include/map.h</a>, <a href="include.combat.h.html">/include/combat.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.wander.h.html">/include/wander.h</a>, <a href="include.monster.h.html">/include/monster.h</a>, <a href="include.living.h.html">/include/living.h</a> and <a href="include.config.h.html">/include/config.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_achat_string"><b>add_achat_string</b></a>(mixed, mixed)<dd>
+This method adds a single chat string into the current list of
+attack message chat strings.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_chat_string"><b>add_chat_string</b></a>(mixed, mixed)<dd>
+This method adds a single chat string into the current list of
+chat strings.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_combat_action"><b>add_combat_action</b></a>(int, string, mixed)<dd>
+This method adds a combat action to the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_enter_commands"><b>add_enter_commands</b></a>(mixed)<dd>
+This method adds a command to be called whenever the npc enters
+a room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_language"><b>add_language</b></a>(string)<dd>
+This method adds a language to the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_move_zone"><b>add_move_zone</b></a>(mixed)<dd>
+This method adds a move zone onto the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_spell_action"><b>add_spell_action</b></a>(string, int, string, mixed)<dd>
+This method adds an action to the npc that will happen if a specified
+spell is cast.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#attack_permission"><b>attack_permission</b></a>(object, object, string)<dd>
+
+attack_permission function, added for use by the allow_attack simul.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#basic_setup"><b>basic_setup</b></a>(string, string, int)<dd>
+This method sets up the basic abilities and race of the critter.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_anyone_here"><b>check_anyone_here</b></a>()<dd>
+This method checks to see if there are any players in the environment
+of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cleaning_room"><b>cleaning_room</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#combat_actions_call_back"><b>combat_actions_call_back</b></a>(object, object)<dd>
+This is the call back from the combat effect to do something
+wonderful and wild.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#command_override"><b>command_override</b></a>(function)<dd>
+Use this function to set a function that is called with the NPCs input
+before command() gets it, return 1 from the function if the
+input needs no further parsing (ie the command is handled)
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delay_command"><b>delay_command</b></a>(string, int)<dd>
+This method allows you to control the npc and get it to do
+actions where they are queued as for players.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_queued_commands"><b>delete_queued_commands</b></a>()<dd>
+This method throws away any queued commands.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_combat_action"><b>do_combat_action</b></a>(object, object, mixed)<dd>
+This method does a combat action.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_command"><b>do_command</b></a>(string)<dd>
+This method allows you to control the npc and get it to do
+actions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_follow_move"><b>do_follow_move</b></a>(string)<dd>
+This method is used to make the npcs follow after attackers when they
+leave the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_move"><b>do_move</b></a>(string)<dd>
+This method causes the npc to move in the given direction.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_move_after"><b>do_move_after</b></a>(int)<dd>
+This is called when the npc decides it must continue down
+a certain route.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_route_move"><b>do_route_move</b></a>()<dd>
+This method moves the npc one more location along the route it
+is following.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_spell_action"><b>do_spell_action</b></a>(object, object *, mixed, mixed)<dd>
+This method does a combat action.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#drunk_check"><b>drunk_check</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_fight_in_progress"><b>event_fight_in_progress</b></a>(object, object)<dd>
+This event is called when a fight is in progress.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_npc_ritual_casting"><b>event_npc_ritual_casting</b></a>(object, object, object *, class spell_argument)<dd>
+This is the event called when a ritual is being cast.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_npc_spell_casting"><b>event_npc_spell_casting</b></a>(object, object, object *, class spell_argument)<dd>
+This is the event called when a spell is being cast.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#expand_mon_string"><b>expand_mon_string</b></a>(mixed)<dd>
+This method executes the string passed in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#expand_string"><b>expand_string</b></a>(string, object)<dd>
+This method is used to expand the message strings used in the
+npc messages.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_next_route_direction"><b>get_next_route_direction</b></a>()<dd>
+This method gets the next direction to go in the route which is
+currently being followed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#give_money"><b>give_money</b></a>(int, int, string)<dd>
+This method is used to give some startup money to the npc.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#got_the_route"><b>got_the_route</b></a>(string *, int, string)<dd>
+This method is called by the move_me_to function after the
+route handler has successfuly discovered the route to follow.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_command"><b>init_command</b></a>(string, int)<dd>
+This method allows you submit delayed commands to the npc
+via a call_out.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_dynamic_arg"><b>init_dynamic_arg</b></a>(mapping, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_equip"><b>init_equip</b></a>()<dd>
+This method makes the npc initialise all their equipment, like hold
+it and stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_static_arg"><b>init_static_arg</b></a>(mapping)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_a_chat"><b>load_a_chat</b></a>(int, mixed *)<dd>
+This method loads up the set of chat strings to use while in combat.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_chat"><b>load_chat</b></a>(int, mixed *)<dd>
+This method loads up the chat strings for the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move_me_to"><b>move_me_to</b></a>(string, int)<dd>
+This method will move the npc to the specified destination.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_achat_chance"><b>query_achat_chance</b></a>()<dd>
+This method returns the current chat chance for attack messages on
+the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_achat_string"><b>query_achat_string</b></a>()<dd>
+This method queries the current chat string for attack messages on the
+npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_aggressive"><b>query_aggressive</b></a>()<dd>
+This method returns the current aggressive level of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_always_return_to_default_position"><b>query_always_return_to_default_position</b></a>()<dd>
+This method returns the status of the flag that makes the npc return
+to the default position if its position is changed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cannot_change_position"><b>query_cannot_change_position</b></a>()<dd>
+This method returns the current value of the unable to change
+position flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cap_name"><b>query_cap_name</b></a>()<dd>
+This method returns the current capitalized name of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_chat_chance"><b>query_chat_chance</b></a>()<dd>
+This method returns the current chat chance for messages on
+the npc
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_chat_string"><b>query_chat_string</b></a>()<dd>
+This method queries the current chat string for messages on the
+npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_combat_actions"><b>query_combat_actions</b></a>()<dd>
+This method returns the current array of combat actions on the
+npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_death_xp"><b>query_death_xp</b></a>()<dd>
+This method returns the amount of death experiecne that would be
+gained by killing the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dynamic_auto_load"><b>query_dynamic_auto_load</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_enter_commands"><b>query_enter_commands</b></a>()<dd>
+This method returns the current array of enter commands.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_fight_type"><b>query_fight_type</b></a>()<dd>
+This method returns the flag which allows the npc to join into fights.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_follow_speed"><b>query_follow_speed</b></a>()<dd>
+This method queries the speed at which the npc will follow
+after a player when they leave combat.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_following_route"><b>query_following_route</b></a>()<dd>
+This method returns the current array of directions we are following
+as a route.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_guild"><b>query_guild</b></a>()<dd>
+This method returns the current guild of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_guild_ob"><b>query_guild_ob</b></a>()<dd>
+This returns the guild object associated with the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_join_fights"><b>query_join_fights</b></a>()<dd>
+This method returns the message to use when joining into fights.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_route_direction"><b>query_last_route_direction</b></a>()<dd>
+This method tells us if the npc is currently following a route.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_level"><b>query_level</b></a>()<dd>
+This method returns the current guild level of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_move_after"><b>query_move_after</b></a>()<dd>
+This method returns the current move after values.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_move_zones"><b>query_move_zones</b></a>()<dd>
+This method returns the current list of move zones on the npc
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ok_turn_off_heart_beat"><b>query_ok_turn_off_heart_beat</b></a>()<dd>
+This method returns 1 if it is ok to turn of the npc's heart beat.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_queued_commands"><b>query_queued_commands</b></a>()<dd>
+This method returns the queued command list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_race"><b>query_race</b></a>()<dd>
+This method returns the current race of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_race_ob"><b>query_race_ob</b></a>()<dd>
+This returns the race object associated with the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_spell_actions"><b>query_spell_actions</b></a>()<dd>
+This method returns the list of spell actions present on the
+npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_throw_out"><b>query_throw_out</b></a>()<dd>
+This method returns the current throw out array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_true_location"><b>query_true_location</b></a>()<dd>
+This method returns the true location of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_virtual_move"><b>query_virtual_move</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#queue_command"><b>queue_command</b></a>(string, int)<dd>
+This method allows you to control the npc and get it to do
+actions where they are queued as for players.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#rand_num"><b>rand_num</b></a>(int, int)<dd>
+This method generates a random number.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#real_room"><b>real_room</b></a>(string)<dd>
+This method moves the npc to room it is really supposed to be in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_achat_string"><b>remove_achat_string</b></a>(mixed)<dd>
+This method attempts to remove the given chat string from the
+current list of attack message chat strings.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_chat_string"><b>remove_chat_string</b></a>(mixed)<dd>
+This method attempts to remove the given chat string from the
+current list of chat strings.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_combat_action"><b>remove_combat_action</b></a>(string)<dd>
+This method will remove the combat action with the specified name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_move_zone"><b>remove_move_zone</b></a>(mixed)<dd>
+This method removes a move zone from the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_spell_action"><b>remove_spell_action</b></a>(string)<dd>
+This method removes the specified spell action.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_enter_commands"><b>reset_enter_commands</b></a>()<dd>
+This method resets the array of enter commands back to nothing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#run_away"><b>run_away</b></a>()<dd>
+This method is used to make the npc run away.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_achat_chance"><b>set_achat_chance</b></a>(int)<dd>
+This method sets the current chat chance for attack messages on the
+npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_achat_string"><b>set_achat_string</b></a>(string *)<dd>
+This method sets the current chat string for attack messages on the
+npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_aggressive"><b>set_aggressive</b></a>(int)<dd>
+This method sets the current aggressive level of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_always_return_to_default_position"><b>set_always_return_to_default_position</b></a>(int)<dd>
+This method sets the status of the flag that makes the npc return
+to the default position if its position is changed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_cannot_change_position"><b>set_cannot_change_position</b></a>(int)<dd>
+This method sets the value of the unable to change position flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_cap_name"><b>set_cap_name</b></a>(string)<dd>
+This method set the current capitalized name of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_chat_chance"><b>set_chat_chance</b></a>(int)<dd>
+This method sets the current chat chance for messages on the
+npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_chat_string"><b>set_chat_string</b></a>(string *)<dd>
+This method sets the current chat string for messages on the
+npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_follow_speed"><b>set_follow_speed</b></a>(int)<dd>
+This method sets the speed at which the npc will follow
+after a player when they leave combat.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_guild"><b>set_guild</b></a>(string)<dd>
+This method is deprecated.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_guild_ob"><b>set_guild_ob</b></a>(mixed)<dd>
+This method sets the guild object associated with the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_join_fight_type"><b>set_join_fight_type</b></a>(int)<dd>
+This method sets the flag which allows the npc to join into fights.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_join_fights"><b>set_join_fights</b></a>(string)<dd>
+This method sets the message to use when joining into fights.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_level"><b>set_level</b></a>(int)<dd>
+This function is deprecated.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_move_after"><b>set_move_after</b></a>(int, int)<dd>
+This method sets the speed at which the npc will randomly
+wander around.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_race"><b>set_race</b></a>(string)<dd>
+This function is deprecated.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_race_ob"><b>set_race_ob</b></a>(mixed)<dd>
+This method sets the race object associated with the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_random_stats"><b>set_random_stats</b></a>(int, int)<dd>
+This method sets the stats for the npc to some exciting random
+values.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_throw_out"><b>set_throw_out</b></a>(int, int, string, string)<dd>
+This method is used to determine when to throw people out of a
+room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_true_location"><b>set_true_location</b></a>(string)<dd>
+This method sets the true location of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_virtual_move"><b>set_virtual_move</b></a>(int)<dd>
+This method sets the current virual move ability of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_nationality"><b>setup_nationality</b></a>(string, string)<dd>
+This method sets up a nationality and sets up a region in the
+nationality for the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_attack"><b>start_attack</b></a>(object)<dd>
+This method check to see if the npc should start attacking someone
+when they enter the npcs environment.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_achat_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_achat_string</b></a><pre>
+void add_achat_string(mixed weight,
+                      mixed chat)
+</pre><dd>
+This method adds a single chat string into the current list of
+attack message chat strings.  See load_chat() for a longer description of
+the chat string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>weight - the weight of the chat
+<dd>chat - the new chat string
+<dt><b>See also:</b>
+<dd><a href="#load_chat">load_chat()</a>, <a href="#load_achat">load_achat()</a> and <a href="#remove_achat_string">remove_achat_string()
+</a></dl>
+
+<dt><a name="add_chat_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_chat_string</b></a><pre>
+void add_chat_string(mixed weight,
+                     mixed chat)
+</pre><dd>
+This method adds a single chat string into the current list of
+chat strings.  See load_chat() for a longer description of
+the chat string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>weight - the weight of the chat
+<dd>chat - the new chat string
+<dt><b>See also:</b>
+<dd><a href="#load_chat">load_chat()</a> and <a href="#remove_chat_string">remove_chat_string()
+</a></dl>
+
+<dt><a name="add_combat_action">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_combat_action</b></a><pre>
+void add_combat_action(int chance,
+                       string name,
+                       mixed action)
+</pre><dd>
+This method adds a combat action to the npc.  This is an action which
+has a chance of occuring during combat.  The name is an identifier
+which can be used to remove the action with later.  The action
+itself can be a string, then that command will be executed.  If
+the action is a function pointer then it will be evaluated with
+two arguments, the first being the attacker, the second being the
+target.
+<p>
+If the action is an array, if it is one element then the function
+specified will be called on the attacked with the same arguements
+as above.  If the size of the array is two then the function will
+be called on the specified object with the arguments as above.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#remove_combat_action">remove_combat_action()</a>, <a href="#query_combat_actions">query_combat_actions()</a> and /std/effects/fighting/combat.c
+</dl>
+
+<dt><a name="add_enter_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_enter_commands</b></a><pre>
+int add_enter_commands(mixed str)
+</pre><dd>
+This method adds a command to be called whenever the npc enters
+a room.  If the command is a string, then it will be executed
+as if they had typed it.  If it is a function then the function
+will be evaluated and one argument (the npc itself) will be passed
+in.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the enter commands to add
+<dt><b>See also:</b>
+<dd><a href="#reset_enter_commands">reset_enter_commands()</a> and <a href="#query_enter_commands">query_enter_commands()
+</a></dl>
+
+<dt><a name="add_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_language</b></a><pre>
+void add_language(string str)
+</pre><dd>
+This method adds a language to the npc. 
+<p>
+After the sun has died away<br>
+The stars come out and glow<br>
+Lighting the embers of good intentions<br>
+Ghostly white, unhappily bright<br>
+Time lost, the day done<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the language to add
+
+</dl>
+
+<dt><a name="add_move_zone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_move_zone</b></a><pre>
+void add_move_zone(mixed zone)
+</pre><dd>
+This method adds a move zone onto the npc.  The move zones control
+which areas the npcs will wander into, a move zone is set on the
+room and the npcs will only enter rooms which have a matching
+move zone.  If there is no move zone, then the npc will enter
+any room.
+<p>
+If the parameter is an array each of the elements of the array
+will be added as a move zone.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>zone - the zone(s) to add
+<dt><b>See also:</b>
+<dd><a href="#remove_move_zone">remove_move_zone()</a>, <a href="#query_move_zones">query_move_zones()</a> and <a href="#set_move_after">set_move_after()
+</a></dl>
+
+<dt><a name="add_spell_action">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_spell_action</b></a><pre>
+void add_spell_action(string spell_object,
+                      int chance,
+                      string name,
+                      mixed action)
+</pre><dd>
+This method adds an action to the npc that will happen if a specified
+spell is cast.  This is an action which
+has a chance of occuring when a spell is being cast.
+The name is an identifier
+which can be used to remove the action with later.  The action
+itself can be a string, then that command will be executed.  If
+the action is a function pointer then it will be evaluated with
+two arguments, the first being the caster, the second being the
+target(s) array and the third being the magic arguments class.
+<p>
+If the action is an array, if it is one element then the function
+specified will be called on the attacked with the same arguements
+as above.  If the size of the array is two then the function will
+be called on the specified object with an extra first argument being
+the npc which the effect is being called from.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>spell_object - the spell to respond to
+<dd>chance - the chance of it working
+<dd>name - the name of the thing
+<dd>action - the action to preform
+
+</dl>
+
+<dt><a name="attack_permission">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>attack_permission</b></a><pre>
+int attack_permission(object ob1,
+                      object ob2,
+                      string stringy)
+</pre><dd>
+
+attack_permission function, added for use by the allow_attack simul.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>object - The person performing the action
+<dd>object - The object being acted on, this object usually.
+<dd>string - Attack type, this will be one of "combat", "theft", or "magic",
+this lets you give your NPCs different responses for different attacks. As well
+as make them immune to theft and magic (as an example)
+<dt><b>Returns:</b>
+<dd>int 1 if the action is denied, 0 is it can go through.
+<dt><b>See also:</b>
+<dd><a href="#efun::allow_attack">efun::allow_attack()
+
+</a></dl>
+
+<dt><a name="basic_setup">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>basic_setup</b></a><pre>
+void basic_setup(string race,
+                 string guild,
+                 int level)
+</pre><dd>
+This method sets up the basic abilities and race of the critter.  It
+is equivalent to calling set_race(), set_guild(), and then set_level()
+with the same parameters.  But those latter three functions are
+deprecated and shouldn't be used.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>race - this is the race of the character.  It should be a
+race that's understood by the /std/race.c
+<dd>guild - this is the guild, class, or profession of the NPC.
+<dd>level - this is the base skill level of the NPC.  The
+number is used by the race object to set ability scores, and
+base skills.
+
+<dt><b>See also:</b>
+<dd><a href="#set_race">set_race()</a>, <a href="#set_guild">set_guild()</a> and <a href="#set_level">set_level()</a></dl>
+
+<dt><a name="check_anyone_here">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_anyone_here</b></a><pre>
+int check_anyone_here()
+</pre><dd>
+This method checks to see if there are any players in the environment
+of the npc.  This should be used to determine when chats should
+be turned off and other things which should only work in the
+presence of players.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if there is a player in the room, 0 otherwise
+
+</dl>
+
+<dt><a name="cleaning_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cleaning_room</b></a><pre>
+int cleaning_room()
+</pre>
+<dt><a name="combat_actions_call_back">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>combat_actions_call_back</b></a><pre>
+void combat_actions_call_back(object player,
+                              object target)
+</pre><dd>
+This is the call back from the combat effect to do something
+wonderful and wild.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player
+<dd>target - the target
+
+</dl>
+
+<dt><a name="command_override">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>command_override</b></a><pre>
+void command_override(function func)
+</pre><dd>
+Use this function to set a function that is called with the NPCs input
+before command() gets it, return 1 from the function if the
+input needs no further parsing (ie the command is handled)
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - = function in the players environment to call.
+
+</dl>
+
+<dt><a name="delay_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delay_command</b></a><pre>
+int delay_command(string words,
+                  int interval)
+</pre><dd>
+This method allows you to control the npc and get it to do
+actions where they are queued as for players.   The command
+is always delayed by delay even if there are no commands pending
+unlike queue_command(). This function
+is 100% compatible with queue_command() and init_command().<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the action to perform
+<dd>interval - to wait before the command.
+<dt><b>See also:</b>
+<dd><a href="#queue_command">queue_command()</a>, <a href="#query_queued_commands">query_queued_commands()</a>, <a href="#init_command">init_command()</a> and <a href="#do_command">do_command()</a><dt><b>Example:</b>
+<dd><pre>ob = clone_object(NICE_HAIRY_APE);
+ob->delay_command("'I am a hairy ape!",10);
+ob->delay_command("emote apes around the room.",2);
+ob->queue_command("emote get banana.",3);
+ob->queue_command("emote get apple.");
+After 10 seconds it says "I am a hariy ape",
+2 seconds after that it apes around the room,
+immediately following that it gets a banana
+and 3 seconds after that it gets an apple.
+</pre></dl>
+
+<dt><a name="delete_queued_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_queued_commands</b></a><pre>
+void delete_queued_commands()
+</pre><dd>
+This method throws away any queued commands.
+It doesn't remove the call_out however if no
+new commands are added there will be no effect.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#init_equip">init_equip()</a>, <a href="#init_command">init_command()</a>, <a href="#delay_command">delay_command()</a>, <a href="#do_command">do_command()</a> and <a href="#queue_command">queue_command()
+</a></dl>
+
+<dt><a name="do_combat_action">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_combat_action</b></a><pre>
+void do_combat_action(object player,
+                      object target,
+                      mixed action)
+</pre><dd>
+This method does a combat action.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>target - the target of the action
+</dl>
+
+<dt><a name="do_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_command</b></a><pre>
+int do_command(string words)
+</pre><dd>
+This method allows you to control the npc and get it to do
+actions.  This can be used for npc control and inteligence.
+
+Be very careful with this command! This does not go through any
+command queue like players have and so NPCs can end up doing
+tons of commands in very short order.
+
+If you're trying to make your NPC act like a player use
+eue_command() instead
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the action to preform
+<dt><b>See also:</b>
+<dd><a href="#init_equip">init_equip()</a> and <a href="#init_command">init_command()</a><dt><b>Example:</b>
+<dd><pre>ob = clone_object(NICE_HAIRY_APE);
+ob->do_command("'I am a hairy ape!");
+ob->do_command("emote apes around the room.");
+</pre></dl>
+
+<dt><a name="do_follow_move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_follow_move</b></a><pre>
+void do_follow_move(string dir)
+</pre><dd>
+This method is used to make the npcs follow after attackers when they
+leave the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the dirction to follow them in
+
+</dl>
+
+<dt><a name="do_move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_move</b></a><pre>
+void do_move(string move)
+</pre><dd>
+This method causes the npc to move in the given direction.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>move - the direction to move
+
+</dl>
+
+<dt><a name="do_move_after">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_move_after</b></a><pre>
+void do_move_after(int running_away)
+</pre><dd>
+This is called when the npc decides it must continue down
+a certain route.  This will be called by the wander handler
+and can be used to force the npc to wander along a route
+faster.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>running_away - this is 1 if the npc is running away
+<dt><b>See also:</b>
+<dd><a href="#set_move_after">set_move_after()
+</a></dl>
+
+<dt><a name="do_route_move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_route_move</b></a><pre>
+void do_route_move()
+</pre><dd>
+This method moves the npc one more location along the route it
+is following.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_last_route_direction">query_last_route_direction()</a>, <a href="#query_following_route">query_following_route()</a> and <a href="#get_next_route_direction">get_next_route_direction()
+</a></dl>
+
+<dt><a name="do_spell_action">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_spell_action</b></a><pre>
+void do_spell_action(object caster,
+                     object * targets,
+                     mixed action,
+                     mixed args)
+</pre><dd>
+This method does a combat action.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>caster - the caster of the spell
+<dd>targets - the targets of the spell
+<dd>action - the action to do
+<dd>args - the spell arguements
+
+</dl>
+
+<dt><a name="drunk_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>drunk_check</b></a><pre>
+int drunk_check(string str)
+</pre>
+<dt><a name="event_fight_in_progress">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_fight_in_progress</b></a><pre>
+void event_fight_in_progress(object me,
+                             object him)
+</pre><dd>
+This event is called when a fight is in progress.  It will
+be used for things like joining into currently running
+fights and initiating combat with spell casters.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>me - the person initiating the attack
+<dd>him - the person being attacked
+
+</dl>
+
+<dt><a name="event_npc_ritual_casting">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_npc_ritual_casting</b></a><pre>
+void event_npc_ritual_casting(object ritual,
+                              object caster,
+                              object * targets,
+                              class spell_argument args)
+</pre><dd>
+This is the event called when a ritual is being cast.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>spell_ob - the ritual
+<dd>caster - the caster of the ritual
+<dd>targets - the targets of the ritual
+<dd>args - the ritual arguements
+
+</dl>
+
+<dt><a name="event_npc_spell_casting">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_npc_spell_casting</b></a><pre>
+void event_npc_spell_casting(object spell,
+                             object caster,
+                             object * targets,
+                             class spell_argument args)
+</pre><dd>
+This is the event called when a spell is being cast.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>spell_ob - the spell object
+<dd>caster - the caster of the spell
+<dd>targets - the targets of the spell
+<dd>args - the spell arguements
+
+</dl>
+
+<dt><a name="expand_mon_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>expand_mon_string</b></a><pre>
+void expand_mon_string(mixed str)
+</pre><dd>
+This method executes the string passed in.  It handles all the
+stuff which is needed from the chat_string stuff.
+
+If the input is a function pointer then it is evaluated with one
+parameter, being the npc.
+
+If the input is a string then the first letter determines what will
+be done with it.  All these are passed through expand_string
+so that exciting things can be done.
+<ul>
+<li># - A call_other will be generated.  The parameters are separated by
+':'s, so "#frog:bing:fred:chicken" would call<pre>
+this_object()->bing("fred", "chicken");
+</pre>.
+<ul>', ", : - These will generate a 'say', 'lsay' or 'emote'.
+<ul>@ - This will run the passed in command.  Eg: "@frog" would cause the
+    soul command frog to be used.
+<ul>Anything else will be used as a message to be sent to everyone in the
+    room.
+</ul><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the thing to execute
+<dt><b>See also:</b>
+<dd><a href="#expand_string">expand_string()
+</a></dl>
+
+<dt><a name="expand_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>expand_string</b></a><pre>
+string expand_string(string in_str,
+                     object on)
+</pre><dd>
+This method is used to expand the message strings used in the
+npc messages.  It is used for chat strings and such things like
+that.  The strings it expands are of the form:<br>
+$lname$, $mname$, $aname$, ...<br>
+The first letter determines the type of object being referenced.
+They are:
+<dl>
+<dt>m
+<dd>Me!  The npc itself.
+<dt>l
+<dt>A living object, choose a random living object in the npcs
+    environment.
+<dt>a
+<dd> Chooses a random attacker from those attacking the npc.
+<dt>o
+<dd>Choose a random object in the inventory of the npc.
+</dl>
+After the first letter is a type of information being request.
+<dl>
+<dt>name
+<dd>The name of the selected object.
+<dt>cname
+<dd>The capitalised name of the selected object.
+<dt>gender
+<dd>The gender string of the selected object (male, female, neuter).
+<dt>poss
+<dd>The possessive string of the selected object.
+<dt>obj
+<dd>The objective string of the selected object.
+<dt>pronoun
+<dd>The pronoun string of the selected object.
+<dt>gtitle
+<dd>The guild title of the selected object (only useful on livings).
+<dt>ashort
+<dd>The a_short() call.
+<dt>possshort
+<dd>The poss_short() call.
+<dt>theshort
+<dd>The the_short() call.
+<dt>oneshort
+<dd>The one_short() call.
+</dl><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>in_str - the input string
+<dd>on - the object to use for the 'o' matching
+
+<dt><b>See also:</b>
+<dd><a href="#set_chat_string">set_chat_string()</a> and <a href="#expand_mon_string">expand_mon_string()</a></dl>
+
+<dt><a name="get_next_route_direction">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_next_route_direction</b></a><pre>
+string get_next_route_direction()
+</pre><dd>
+This method gets the next direction to go in the route which is
+currently being followed.  It will remove this direction off the
+array.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the next direction to go down
+<dt><b>See also:</b>
+<dd><a href="#query_last_route_direction">query_last_route_direction()</a>, <a href="#query_following_route">query_following_route()</a> and <a href="#do_route_move">do_route_move()
+</a></dl>
+
+<dt><a name="give_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>give_money</b></a><pre>
+int give_money(int base,
+               int rand,
+               string type)
+</pre><dd>
+This method is used to give some startup money to the npc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>base - the base amount of money to give (fixed)
+<dd>rand - the random amount of money to give
+<dd>type - the type of money to give (default: "copper")
+<dt><b>Returns:</b>
+<dd>the return value of adjust_money()
+<dt><b>See also:</b>
+<dd>/std/living/money.c
+<dt><b>Example:</b>
+<dd><pre>ob = clone_object(CLUCKY_CHICKEN);
+// This will give the chicken 10 + random(10) royals.
+// It is a royal chicken
+ob->give_money(10, 10, "royal");</pre></dl>
+
+<dt><a name="init_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_command</b></a><pre>
+varargs void init_command(string str,
+                          int tim)
+</pre><dd>
+This method allows you submit delayed commands to the npc
+via a call_out.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#do_command">do_command()</a>, <a href="#queue_command">queue_command()</a> and <a href="#delay_command">delay_command()
+</a></dl>
+
+<dt><a name="init_dynamic_arg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_dynamic_arg</b></a><pre>
+void init_dynamic_arg(mapping args,
+                      object ob)
+</pre>
+<dt><a name="init_equip">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_equip</b></a><pre>
+void init_equip()
+</pre><dd>
+This method makes the npc initialise all their equipment, like hold
+it and stuff.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#do_command">do_command()
+</a></dl>
+
+<dt><a name="init_static_arg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_static_arg</b></a><pre>
+void init_static_arg(mapping args)
+</pre>
+<dt><a name="load_a_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_a_chat</b></a><pre>
+void load_a_chat(int chance,
+                 mixed * c_s)
+</pre><dd>
+This method loads up the set of chat strings to use while in combat.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>chance - the chance of the chat occuring
+<dd>c_s - the chat string to use
+<dt><b>See also:</b>
+<dd><a href="#load_chat">load_chat()</a>, <a href="#query_achat_chance">query_achat_chance()</a> and <a href="#query_achat_string">query_achat_string()
+</a></dl>
+
+<dt><a name="load_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_chat</b></a><pre>
+void load_chat(int chance,
+               mixed * c_s)
+</pre><dd>
+This method loads up the chat strings for the npc.  This will be
+an array containing pairs of elements, the first pair is the
+weighting of the chat and the second is the chat to use.
+<p>
+All the weights in the array are added up and then a random
+number is chosen in the weighting.  Then that element is looked
+up in the array.  This way you can control a chat and make it
+rare.
+<p>
+If the chat string is an array then this a story, the story will be
+executed one after another and no other chats will be executed
+in between.  If the first parameter of the story array is a number it
+will be used as a 1/1000 chance of the next story line being displayed. 
+Special strings can be used which will replace with
+object names, see expand_mon_string() for further information.
+<p>
+The chat chance is a chance (in 1000) of the chat occuring.  You
+will need to play with this yourself to see which frequency of
+chatting you wish for your npcs.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>chance - the chance in 1000 of a chat working every 2 seconds
+<dd>c_s - the chat string to use
+<dt><b>See also:</b>
+<dd><a href="#expand_mon_string">expand_mon_string()</a>, <a href="#load_a_chat">load_a_chat()</a>, <a href="#query_chat_chance">query_chat_chance()</a> and <a href="#query_chat_string">query_chat_string()
+</a><dt><b>Example:</b>
+<dd><pre>load_chat(60,
+   ({
+      1, "'I am a chicken!",
+      // Make this one more likely to occur.
+      2, ":clucks like a chicken."
+      1, ":pecks at $lpossshort$ foot."
+    }));</pre><dd><pre>
+load_chat(100,
+   ({
+      1, "'I am a simple farmer."
+      1, ":waves $mposs$ pitchfork around."
+      // A story, they will always occur in this order
+      1, ({
+          500,
+           "'Once upon a time there was a rabbit.",
+           "'It was a nice rabbit and hung around in bars.",
+           "'It sung little songs about fruit.",
+          }),
+     }));</pre></dl>
+
+<dt><a name="move_me_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move_me_to</b></a><pre>
+varargs void move_me_to(string dest,
+                        int delay)
+</pre><dd>
+This method will move the npc to the specified destination.  The
+npc will walk from where they currently are to the destination using
+the time delay specified between the movements.
+<p>
+If the location is reached then the function "stopped_route" will
+be called on the npc.  The first arguement to the function will
+be 0 if the npc did not reach its destination and 1 if it did.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dest - the destination to go to
+<dd>delay - the time delay between each move
+<dt><b>See also:</b>
+<dd><a href="#get_next_route_direction">get_next_route_direction()</a>, <a href="#got_the_route">got_the_route()</a>, <a href="#query_last_route_direction">query_last_route_direction()</a>, <a href="#query_following_route">query_following_route()</a> and <a href="#do_route_move">do_route_move()
+</a><dt><b>Example:</b>
+<dd><pre>inherit "/obj/monster";
+
+void go_home() {
+   move_me_to(HOME_LOCATION, 2);
+} /* go_home() */
+
+void stopped_route(int success) {
+   if (success) {
+      do_command("emote jumps for joy.");
+   } else {
+      do_command("emote looks sad and lost.");
+   }
+} /* stopped_route() */</pre></dl>
+
+<dt><a name="query_achat_chance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_achat_chance</b></a><pre>
+int query_achat_chance()
+</pre><dd>
+This method returns the current chat chance for attack messages on
+the npc.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current attack message chat chance
+<dt><b>See also:</b>
+<dd><a href="#set_achat_chance">set_achat_chance()</a>, <a href="#load_chat">load_chat()</a> and <a href="#load_achat">load_achat()
+</a></dl>
+
+<dt><a name="query_achat_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_achat_string</b></a><pre>
+string * query_achat_string()
+</pre><dd>
+This method queries the current chat string for attack messages on the
+npc.  See load_chat() for a longer description of how the
+chat string is formatted.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current attack message chat string
+<dt><b>See also:</b>
+<dd><a href="#load_chat">load_chat()</a>, <a href="#load_achat">load_achat()</a> and <a href="#set_chat_string">set_chat_string()
+</a></dl>
+
+<dt><a name="query_aggressive">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_aggressive</b></a><pre>
+int query_aggressive()
+</pre><dd>
+This method returns the current aggressive level of the npc.
+If the aggressive is set to 1, then the npc will attack all players
+that enter its environment.  If the aggressive is set to 2 then
+the npc will attack everything (including other npcs).
+<p>
+See the function start_attack() for information about things you
+can do to stop aggressive npcs attacking things.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the aggressive level of the npc
+<dt><b>See also:</b>
+<dd><a href="#set_aggressive">set_aggressive()</a> and <a href="#start_attack">start_attack()
+</a></dl>
+
+<dt><a name="query_always_return_to_default_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_always_return_to_default_position</b></a><pre>
+int query_always_return_to_default_position()
+</pre><dd>
+This method returns the status of the flag that makes the npc return
+to the default position if its position is changed.  The flag
+specified the length of time to wait before causing the
+default position to be restored.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the time to wait before the position is restored
+<dt><b>See also:</b>
+<dd><a href="std.living.living.c.html#return_to_default_position">/std/living/living->return_to_default_position()</a> and <a href="#set_always_return_to_default_position">set_always_return_to_default_position()
+</a></dl>
+
+<dt><a name="query_cannot_change_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cannot_change_position</b></a><pre>
+int query_cannot_change_position()
+</pre><dd>
+This method returns the current value of the unable to change
+position flag.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the unable to change position flag
+<dt><b>See also:</b>
+<dd><a href="std.living.living.c.html#set_default_position">/std/living/living->set_default_position()
+</a></dl>
+
+<dt><a name="query_cap_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cap_name</b></a><pre>
+string query_cap_name()
+</pre><dd>
+This method returns the current capitalized name of the npc.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current capitalized name
+<dt><b>See also:</b>
+<dd><a href="#set_cap_name">set_cap_name()
+</a></dl>
+
+<dt><a name="query_chat_chance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_chat_chance</b></a><pre>
+int query_chat_chance()
+</pre><dd>
+This method returns the current chat chance for messages on
+the npc<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current chat chance
+<dt><b>See also:</b>
+<dd><a href="#set_chat_chance">set_chat_chance()</a> and <a href="#load_chat">load_chat()
+</a></dl>
+
+<dt><a name="query_chat_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_chat_string</b></a><pre>
+string * query_chat_string()
+</pre><dd>
+This method queries the current chat string for messages on the
+npc.  See load_chat() for a longer description of how the
+chat string is formatted.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current chat string
+<dt><b>See also:</b>
+<dd><a href="#load_chat">load_chat()</a> and <a href="#query_chat_string">query_chat_string()
+</a></dl>
+
+<dt><a name="query_combat_actions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_combat_actions</b></a><pre>
+mixed * query_combat_actions()
+</pre><dd>
+This method returns the current array of combat actions on the
+npc.
+<p>
+The array will have the format of:
+<pre>
+   ({
+       action1_chance,
+       action1_name,
+       action1_action,
+       ...
+    })
+</pre><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the combat action array
+<dt><b>See also:</b>
+<dd><a href="#add_combat_action">add_combat_action()</a>, <a href="#remove_combat_actions">remove_combat_actions()</a> and /std/effects/fighting/combat.c
+</dl>
+
+<dt><a name="query_death_xp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_death_xp</b></a><pre>
+int query_death_xp()
+</pre><dd>
+This method returns the amount of death experiecne that would be
+gained by killing the npc.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the amount of death experience for the npc
+
+</dl>
+
+<dt><a name="query_dynamic_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dynamic_auto_load</b></a><pre>
+mapping query_dynamic_auto_load()
+</pre>
+<dt><a name="query_enter_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_enter_commands</b></a><pre>
+string * query_enter_commands()
+</pre><dd>
+This method returns the current array of enter commands.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current array of enter commands
+<dt><b>See also:</b>
+<dd><a href="#reset_enter_commands">reset_enter_commands()</a> and <a href="#add_enter_commands">add_enter_commands()
+</a></dl>
+
+<dt><a name="query_fight_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_fight_type</b></a><pre>
+int query_fight_type()
+</pre><dd>
+This method returns the flag which allows the npc to join into fights.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if the npc is to join fights, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#set_join_fights">set_join_fights()</a> and <a href="#query_join_fight_type">query_join_fight_type()
+</a></dl>
+
+<dt><a name="query_follow_speed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_follow_speed</b></a><pre>
+int query_follow_speed()
+</pre><dd>
+This method queries the speed at which the npc will follow
+after a player when they leave combat.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current follow speed
+<dt><b>See also:</b>
+<dd><a href="#set_follow_speed">set_follow_speed()
+</a></dl>
+
+<dt><a name="query_following_route">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_following_route</b></a><pre>
+string * query_following_route()
+</pre><dd>
+This method returns the current array of directions we are following
+as a route.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#get_next_route_direction">get_next_route_direction()</a>, <a href="#query_last_route_direction">query_last_route_direction()</a> and <a href="#do_route_move">do_route_move()
+</a></dl>
+
+<dt><a name="query_guild">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_guild</b></a><pre>
+string query_guild()
+</pre><dd>
+This method returns the current guild of the npc.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>this current guild of the npc
+<dt><b>See also:</b>
+<dd><a href="#query_race">query_race()</a>, <a href="#set_guild">set_guild()</a> and <a href="#set_level">set_level()
+</a></dl>
+
+<dt><a name="query_guild_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_guild_ob</b></a><pre>
+mixed query_guild_ob()
+</pre><dd>
+This returns the guild object associated with the npc.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the guild object associated with the npc
+<dt><b>See also:</b>
+<dd><a href="#set_guild">set_guild()</a>, <a href="#set_guild_ob">set_guild_ob()</a> and <a href="#set_level">set_level()
+</a></dl>
+
+<dt><a name="query_join_fights">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_join_fights</b></a><pre>
+string query_join_fights()
+</pre><dd>
+This method returns the message to use when joining into fights.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the message to print when joining a fight
+<dt><b>See also:</b>
+<dd><a href="#set_join_fights">set_join_fights()</a> and <a href="#set_join_fight_type">set_join_fight_type()
+</a></dl>
+
+<dt><a name="query_last_route_direction">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_route_direction</b></a><pre>
+int query_last_route_direction()
+</pre><dd>
+This method tells us if the npc is currently following a route.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if there are route directions to follow still
+<dt><b>See also:</b>
+<dd><a href="#get_next_route_direction">get_next_route_direction()</a>, <a href="#query_following_route">query_following_route()</a> and <a href="#do_route_move">do_route_move()
+</a></dl>
+
+<dt><a name="query_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_level</b></a><pre>
+int query_level()
+</pre><dd>
+This method returns the current guild level of the npc.  This is
+a pass through call to a function on the guild object associated
+with this npc.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current guild level of the object
+<dt><b>See also:</b>
+<dd><a href="#set_guild">set_guild()
+</a></dl>
+
+<dt><a name="query_move_after">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_move_after</b></a><pre>
+mixed query_move_after()
+</pre><dd>
+This method returns the current move after values.
+It returns an array of the form:<pre>
+   ({
+     after,
+     rand,
+    })
+</pre><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the move after values
+<dt><b>See also:</b>
+<dd><a href="#set_move_after">set_move_after()
+</a></dl>
+
+<dt><a name="query_move_zones">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_move_zones</b></a><pre>
+string * query_move_zones()
+</pre><dd>
+This method returns the current list of move zones on the npc<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current list of move zones
+<dt><b>See also:</b>
+<dd><a href="#add_move_zone">add_move_zone()</a>, <a href="#remove_move_zones">remove_move_zones()</a> and <a href="#set_move_after">set_move_after()
+</a></dl>
+
+<dt><a name="query_ok_turn_off_heart_beat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ok_turn_off_heart_beat</b></a><pre>
+int query_ok_turn_off_heart_beat()
+</pre><dd>
+This method returns 1 if it is ok to turn of the npc's heart beat.
+THis can be overridden for times when the heart beat needs to be
+kept on for some reason.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if the heart beat should go off, 0 if it should stay on
+
+</dl>
+
+<dt><a name="query_queued_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_queued_commands</b></a><pre>
+mixed * query_queued_commands()
+</pre><dd>
+This method returns the queued command list.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#init_equip">init_equip()</a>, <a href="#init_command">init_command()</a>, <a href="#delay_command">delay_command()</a>, <a href="#do_command">do_command()</a> and <a href="#queue_command">queue_command()
+</a></dl>
+
+<dt><a name="query_race">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_race</b></a><pre>
+string query_race()
+</pre><dd>
+This method returns the current race of the npc.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current race of the object
+<dt><b>See also:</b>
+<dd><a href="#set_race">set_race()</a>, <a href="#query_guild">query_guild()</a> and <a href="#set_level">set_level()
+</a></dl>
+
+<dt><a name="query_race_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_race_ob</b></a><pre>
+mixed query_race_ob()
+</pre><dd>
+This returns the race object associated with the npc.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the race object associated with the npc
+<dt><b>See also:</b>
+<dd><a href="#set_race">set_race()</a>, <a href="#set_race_ob">set_race_ob()</a> and <a href="#set_level">set_level()
+</a></dl>
+
+<dt><a name="query_spell_actions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_spell_actions</b></a><pre>
+mapping query_spell_actions()
+</pre><dd>
+This method returns the list of spell actions present on the
+npc.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of spell actions
+
+</dl>
+
+<dt><a name="query_throw_out">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_throw_out</b></a><pre>
+mixed * query_throw_out()
+</pre><dd>
+This method returns the current throw out array.
+The array consists of
+<pre>({
+  hps,
+  chance,
+  their_mess,
+  everyone_mess
+})
+</pre>The parameters are the same as used in the set_throw_out
+function.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the throw out array
+
+<dt><b>See also:</b>
+<dd><a href="#set_throw_out">set_throw_out()</a></dl>
+
+<dt><a name="query_true_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_true_location</b></a><pre>
+string query_true_location()
+</pre><dd>
+This method returns the true location of the npc.  This is
+the real room it is in, not the room it is currently in.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the true location of the npc
+<dt><b>See also:</b>
+<dd><a href="#set_true_location">set_true_location()</a> and <a href="#set_virtual_move">set_virtual_move()
+</a></dl>
+
+<dt><a name="query_virtual_move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_virtual_move</b></a><pre>
+int query_virtual_move()
+</pre>
+<dt><a name="queue_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>queue_command</b></a><pre>
+varargs int queue_command(string words,
+                          int interval)
+</pre><dd>
+This method allows you to control the npc and get it to do
+actions where they are queued as for players.  If there are no
+commands pending the command is executed immediately.  This function
+is 100% compatible with delay_command() and init_command().<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the action to perform
+<dd>interval - to wait before processing another command.
+If omitted defaults to 2 seconds as per players
+<dt><b>See also:</b>
+<dd><a href="#delay_command">delay_command()</a>, <a href="#query_queued_commands">query_queued_commands()</a>, <a href="#init_command">init_command()</a> and <a href="#do_command">do_command()</a><dt><b>Example:</b>
+<dd><pre>ob = clone_object(NICE_HAIRY_APE);
+ob->queue_command("'I am a hairy ape!");
+ob->queue_command("emote apes around the room.",5);
+ob->queue_command("get banana",10);
+ob->delay_command("emote get apple.",3);
+Right away it says "I am a hairy ape",
+2 seconds later it apes around the room,
+5 seconds after that it gets a banana
+and 13 seconds (10+3) after that it gets an apple.
+</pre></dl>
+
+<dt><a name="rand_num">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rand_num</b></a><pre>
+int rand_num(int no,
+             int type)
+</pre><dd>
+This method generates a random number.  It used to setup the random
+stats.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>no - the number of times to roll the dice
+<dd>type - the size of the dice
+<dt><b>Returns:</b>
+<dd>the randomly generate number
+
+<dt><b>See also:</b>
+<dd><a href="#set_random_stats">set_random_stats()</a></dl>
+
+<dt><a name="real_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>real_room</b></a><pre>
+void real_room(string check_room)
+</pre><dd>
+This method moves the npc to room it is really supposed to be in.
+This is used with the virtual moving<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>check_room - the place where it thinks we are
+<dt><b>See also:</b>
+<dd><a href="#query_virtual_move">query_virtual_move()
+</a></dl>
+
+<dt><a name="remove_achat_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_achat_string</b></a><pre>
+void remove_achat_string(mixed chat)
+</pre><dd>
+This method attempts to remove the given chat string from the
+current list of attack message chat strings.  The chat message is checked
+to see if it exists in the array, the weighting of the
+string is ignored.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>chat - the chat string to remove
+<dt><b>See also:</b>
+<dd><a href="#add_achat_string">add_achat_string()</a>, <a href="#load_chat">load_chat()</a> and <a href="#load_achat">load_achat()
+</a></dl>
+
+<dt><a name="remove_chat_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_chat_string</b></a><pre>
+void remove_chat_string(mixed chat)
+</pre><dd>
+This method attempts to remove the given chat string from the
+current list of chat strings.  The chat message is checked
+to see if it exists in the array, the weighting of the
+string is ignored.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>chat - the chat string to remove
+<dt><b>See also:</b>
+<dd><a href="#add_chat_string">add_chat_string()</a> and <a href="#load_chat">load_chat()
+</a></dl>
+
+<dt><a name="remove_combat_action">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_combat_action</b></a><pre>
+int remove_combat_action(string name)
+</pre><dd>
+This method will remove the combat action with the specified name.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is found and removed, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#add_combat_action">add_combat_action()</a>, <a href="#query_combat_actions">query_combat_actions()</a> and /std/effects/fighting/combat.c
+</dl>
+
+<dt><a name="remove_move_zone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_move_zone</b></a><pre>
+void remove_move_zone(mixed zone)
+</pre><dd>
+This method removes a move zone from the npc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>zone - the zone to remove
+<dt><b>See also:</b>
+<dd><a href="#add_move_zone">add_move_zone()</a>, <a href="#query_move_zones">query_move_zones()</a> and <a href="#set_move_after">set_move_after()
+</a></dl>
+
+<dt><a name="remove_spell_action">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_spell_action</b></a><pre>
+int remove_spell_action(string name)
+</pre><dd>
+This method removes the specified spell action.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the spell to remove
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 if not
+
+</dl>
+
+<dt><a name="reset_enter_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_enter_commands</b></a><pre>
+void reset_enter_commands()
+</pre><dd>
+This method resets the array of enter commands back to nothing.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_enter_commands">add_enter_commands()</a> and <a href="#add_enter_commands">add_enter_commands()
+</a></dl>
+
+<dt><a name="run_away">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>run_away</b></a><pre>
+int run_away()
+</pre><dd>
+This method is used to make the npc run away.  This will be
+called by the combat code for wimpy when the npc is bellow the
+number of points used to trigger the wimpy action.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if successfuly ran away
+
+</dl>
+
+<dt><a name="set_achat_chance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_achat_chance</b></a><pre>
+void set_achat_chance(int i)
+</pre><dd>
+This method sets the current chat chance for attack messages on the
+npc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the attack message chat chance
+<dt><b>See also:</b>
+<dd><a href="#load_chat">load_chat()</a>, <a href="#load_achat">load_achat()</a> and <a href="#query_achat_chance">query_achat_chance()
+</a></dl>
+
+<dt><a name="set_achat_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_achat_string</b></a><pre>
+void set_achat_string(string * chat)
+</pre><dd>
+This method sets the current chat string for attack messages on the
+npc.  See load_chat() for a longer description of how the
+chat string is formatted.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>chat - the new chat attack message strings.
+<dt><b>See also:</b>
+<dd><a href="#load_chat">load_chat()</a>, <a href="#load_achat">load_achat()</a> and <a href="#query_achat_string">query_achat_string()
+</a></dl>
+
+<dt><a name="set_aggressive">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_aggressive</b></a><pre>
+void set_aggressive(int a)
+</pre><dd>
+This method sets the current aggressive level of the npc.
+If the aggressive is set to 1, then the npc will attack all players
+that enter its environment.  If the aggressive is set to 2 then
+the npc will attack everything (including other npcs).
+<p>
+See the function start_attack() for information about things you
+can do to stop aggressive npcs attacking things.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>a - the new aggressive level
+
+<dt><b>See also:</b>
+<dd><a href="#query_aggressive">query_aggressive()</a>, <a href="#start_attack">start_attack()</a>, <a href="#set_join_fights">set_join_fights()</a> and <a href="#set_throw_out">set_throw_out()</a></dl>
+
+<dt><a name="set_always_return_to_default_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_always_return_to_default_position</b></a><pre>
+void set_always_return_to_default_position(int tim)
+</pre><dd>
+This method sets the status of the flag that makes the npc return
+to the default position if its position is changed.  The flag
+specified the length of time to wait before causing the
+default position to be restored.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>tim - the time to wait before the position is restored
+<dt><b>See also:</b>
+<dd><a href="std.living.living.c.html#return_to_default_position">/std/living/living->return_to_default_position()</a> and <a href="#query_always_return_to_default_position">query_always_return_to_default_position()
+</a></dl>
+
+<dt><a name="set_cannot_change_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_cannot_change_position</b></a><pre>
+void set_cannot_change_position(int flag)
+</pre><dd>
+This method sets the value of the unable to change position flag.
+This flag will be checked by the soul, and by anything else which
+deliberatly changes someones position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - the unable to change position flag
+<dt><b>See also:</b>
+<dd><a href="std.living.living.c.html#set_default_position">/std/living/living->set_default_position()
+</a></dl>
+
+<dt><a name="set_cap_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_cap_name</b></a><pre>
+void set_cap_name(string s)
+</pre><dd>
+This method set the current capitalized name of the npc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the capitalized name of the npc
+<dt><b>See also:</b>
+<dd><a href="#query_cap_name">query_cap_name()
+</a></dl>
+
+<dt><a name="set_chat_chance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_chat_chance</b></a><pre>
+void set_chat_chance(int i)
+</pre><dd>
+This method sets the current chat chance for messages on the
+npc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the chat chance
+<dt><b>See also:</b>
+<dd><a href="#load_chat">load_chat()</a> and <a href="#query_chat_chance">query_chat_chance()
+</a></dl>
+
+<dt><a name="set_chat_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_chat_string</b></a><pre>
+void set_chat_string(string * chat)
+</pre><dd>
+This method sets the current chat string for messages on the
+npc.  See load_chat() for a longer description of how the
+chat string is formatted.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>chat - the new chat strings.
+<dt><b>See also:</b>
+<dd><a href="#load_chat">load_chat()</a> and <a href="#query_chat_string">query_chat_string()
+</a></dl>
+
+<dt><a name="set_follow_speed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_follow_speed</b></a><pre>
+void set_follow_speed(int f)
+</pre><dd>
+This method sets the speed at which the npc will follow
+after a player when they leave combat.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current follow speed
+<dt><b>See also:</b>
+<dd><a href="#set_follow_speed">set_follow_speed()
+</a></dl>
+
+<dt><a name="set_guild">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_guild</b></a><pre>
+int set_guild(string str)
+</pre><dd>
+This method is deprecated.  Use basic_setup() instead.
+
+This method sets the current guild of the npc to the
+passed in value.  The guild should be one of
+the guilds listed in the /std/race.c object.
+This is used in conjuction with the
+race when set_level is called to setup the default
+attributes for the npc.  This should only be
+called *before* set_level() is called.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new guild for the npc
+<dt><b>See also:</b>
+<dd><a href="#query_race">query_race()</a>, <a href="#query_guild">query_guild()</a>, <a href="#set_guild">set_guild()</a> and <a href="#set_level">set_level()
+</a><dt><b>Example:</b>
+<dd><pre>ob = clone_object("/obj/monster");
+ob->set_guild("fighter");</pre><dd><pre>
+inherit "/obj/monster";
+
+void setup() {
+   ...
+   set_race("fighter");
+   ...
+   set_level(12);
+} /* setup() */</pre></dl>
+
+<dt><a name="set_guild_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_guild_ob</b></a><pre>
+void set_guild_ob(mixed g)
+</pre><dd>
+This method sets the guild object associated with the npc.
+This will probably not do what you expect and cannot be used
+in conjucton with set_level to set the guild.  It is called
+by /std/race.c when set_level() is called.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>g - the new guild object
+
+<dt><b>See also:</b>
+<dd><a href="#set_level">set_level()</a>, <a href="#set_guild">set_guild()</a> and <a href="std.race.c.html">/std/race.c</a></dl>
+
+<dt><a name="set_join_fight_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_join_fight_type</b></a><pre>
+void set_join_fight_type(int i)
+</pre><dd>
+This method sets the flag which allows the npc to join into fights.
+If this is set to a non-zero value then the npc will join into
+fights in progress using the fight joining message.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - 1 if the npc is to join fights, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#set_join_fights">set_join_fights()</a> and <a href="#query_join_fight_type">query_join_fight_type()
+</a></dl>
+
+<dt><a name="set_join_fights">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_join_fights</b></a><pre>
+void set_join_fights(string str)
+</pre><dd>
+This method sets the message to use when joining into fights.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the message to print when joining a fight
+<dt><b>See also:</b>
+<dd><a href="#query_join_fights">query_join_fights()</a> and <a href="#set_join_fight_type">set_join_fight_type()
+</a></dl>
+
+<dt><a name="set_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_level</b></a><pre>
+void set_level(int i)
+</pre><dd>
+This function is deprecated.  Use basic_setup() instead.
+
+This method sets the level of the npc.  This should only be called
+*after* the race and guild are set.  If this is called before that
+the results will be unexpected.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the level to set the npc to
+
+<dt><b>See also:</b>
+<dd><a href="#set_race">set_race()</a>, <a href="#set_guild">set_guild()</a> and <a href="#basic_setup">basic_setup()</a></dl>
+
+<dt><a name="set_move_after">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_move_after</b></a><pre>
+void set_move_after(int after,
+                    int rand)
+</pre><dd>
+This method sets the speed at which the npc will randomly
+wander around.  The npc will wander at the speed:<pre>
+speed = after + random(rand)
+</pre>This is called every time the npc sets up for its next move.
+<p>
+The move zones control
+which areas the npcs will wander into, a move zone is set on the
+room and the npcs will only enter rooms which have a matching
+move zone.  If there is no move zone, then the npc will enter
+any room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>after - the fixed amount of time
+<dd>rand - the random amount of time
+<dt><b>See also:</b>
+<dd><a href="#remove_move_zone">remove_move_zone()</a>, <a href="#query_move_zones">query_move_zones()</a> and <a href="#add_move_zone">add_move_zone()
+</a></dl>
+
+<dt><a name="set_race">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_race</b></a><pre>
+int set_race(string str)
+</pre><dd>
+This function is deprecated.  Use basic_setup() instead.
+
+This method sets the race of the npc.  The race should be one of
+the races listed in the /std/race.c object.
+This is used in conjuction with the
+guild when set_level is called to setup the default
+attributes for the npc.  This should only be
+called *before* set_level() is called.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the race to set
+<dt><b>Returns:</b>
+<dd>always returns 1
+<dt><b>See also:</b>
+<dd><a href="#query_race">query_race()</a>, <a href="#query_guild">query_guild()</a>, <a href="#set_guild">set_guild()</a>, <a href="#set_level">set_level()</a> and <a href="#basic_setup">basic_setup()
+</a><dt><b>Example:</b>
+<dd><pre>ob = clone_object("/obj/monster");
+ob->set_race("fish");</pre><dd><pre>
+inherit "/obj/monster";
+
+void setup() {
+   ...
+   set_race("fish");
+   ...
+   set_level(12);
+} /* setup() */</pre></dl>
+
+<dt><a name="set_race_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_race_ob</b></a><pre>
+void set_race_ob(mixed r)
+</pre><dd>
+This method sets the race object associated with the npc.
+This will probably not do what you expect and cannot be used
+in conjucton with set_level to set the race.  It is called
+by /std/race.c when set_level() is called.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>r - the new race object
+
+<dt><b>See also:</b>
+<dd><a href="#set_level">set_level()</a>, <a href="#set_race">set_race()</a> and <a href="std.race.c.html">/std/race.c</a></dl>
+
+<dt><a name="set_random_stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_random_stats</b></a><pre>
+void set_random_stats(int no,
+                      int type)
+</pre><dd>
+This method sets the stats for the npc to some exciting random
+values.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>no - the number of times to roll the dice
+<dd>type - the size of the dice
+<dt><b>See also:</b>
+<dd><a href="#rand_num">rand_num()
+</a></dl>
+
+<dt><a name="set_throw_out">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_throw_out</b></a><pre>
+void set_throw_out(int hps,
+                   int chance,
+                   string their_mess,
+                   string everyone_mess)
+</pre><dd>
+This method is used to determine when to throw people out of a
+room.  This is what detritus uses to throw people out of the
+mended drum when it gets a bit rowdy.
+<p>
+The hps is the level of hps at which the npc will start throwing
+people out with the chance of it occuring (chance is a percentage).
+<p>
+People will be thrown into a random room, if the property
+<pre>"no throw out"</pre> is specified on the room then they
+will not be thrown into that room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>hps - the number of hps at which to start throwing people out
+<dd>chance - the percentage chance of being thrown out
+<dd>their_mess - the message to show them
+<dd>everyone_mess - the message to show everyone else
+<dt><b>See also:</b>
+<dd><a href="#set_aggressive">set_aggressive()</a>, <a href="#query_throw_out">query_throw_out()</a>, <a href="#set_join_fights">set_join_fights()</a> and <a href="#expand_string">expand_string()
+</a></dl>
+
+<dt><a name="set_true_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_true_location</b></a><pre>
+void set_true_location(string word)
+</pre><dd>
+This method sets the true location of the npc.  This is
+the real room it is in, not the room it is currently in.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the new true location of the npc
+<dt><b>See also:</b>
+<dd><a href="#set_true_location">set_true_location()</a> and <a href="#set_virtual_move">set_virtual_move()
+</a></dl>
+
+<dt><a name="set_virtual_move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_virtual_move</b></a><pre>
+void set_virtual_move(int number)
+</pre><dd>
+This method sets the current virual move ability of the npc.
+NB: This is currently disabled virtual moving is not possible
+at all.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - 1 for virtual moving, 0 for not
+<dt><b>See also:</b>
+<dd><a href="#query_virtual_move">query_virtual_move()
+</a></dl>
+
+<dt><a name="setup_nationality">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_nationality</b></a><pre>
+void setup_nationality(string nationality,
+                       string region)
+</pre><dd>
+This method sets up a nationality and sets up a region in the
+nationality for the npc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>nationality - the nationality to set
+<dd>region - the region in the nationality
+
+</dl>
+
+<dt><a name="start_attack">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_attack</b></a><pre>
+void start_attack(object who)
+</pre><dd>
+This method check to see if the npc should start attacking someone
+when they enter the npcs environment.  It is called from inside
+init().  It will only attack if the agressive is set and the
+person is visible to be attacked.  The property
+<pre>"no attack"</pre> can be set on the npc (or player) to
+stop them being attacked.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>who - the person to potentially start attacking
+<dt><b>See also:</b>
+<dd><a href="#set_aggressive">set_aggressive()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="got_the_route">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>got_the_route</b></a><pre>
+void got_the_route(string * route,
+                   int delay,
+                   string dest)
+</pre><dd>
+This method is called by the move_me_to function after the
+route handler has successfuly discovered the route to follow.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>route - the route to follow
+<dd>delay - the delay to follow it with
+<dd>dest - route destination
+<dt><b>See also:</b>
+<dd><a href="#move_me_to">move_me_to()
+</a></dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 14 Oct 2003 18:00:43 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

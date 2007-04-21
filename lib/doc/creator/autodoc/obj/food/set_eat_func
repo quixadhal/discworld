@@ -1,0 +1,48 @@
+.DT
+set_eat_func
+DW_wibble creator help
+set_eat_func
+
+.SH Name
+.SP 5 5
+set_eat_func -  This sets the eat function of the food.
+.EP
+
+.SH Syntax
+.SI 5
+void set_eat_func(string word)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - The function to set as the eat function.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets the eat function of the food.  This is called when
+the food is eaten.
+
+
+If the eat object is set, then the eat function needs to be set as well. If the function is not set then setting the object has no effect. 
+
+The function will be called with two parameters, the first being the object being eaten and the second being the person eating the object. 
+.EP
+
+.SH Example 1
+.SI 5
+See the example for set_eat_object()
+
+.EI
+
+.SH See also
+.SP 5 5
+set_eat_object(), set_eat_mess()
+.EP
+

@@ -1,30 +1,24 @@
-inherit "/std/races/standard";
+inherit "/std/races/fish_base";
 
 void setup() {
-   set_long("Fish,  yes.  A fish.  Nice generic standard fish thing.\n");
-   set_name("guppy");
-   /* throw away human bits and replace totally */
-   bits = ({ 
-"head", 0, ({ 0, 2, 0, "left eye", "right eye", "left gill", "right gill" }),
-"left eye", "eye", ({ "head", 1, 0 }),
-"right eye", "eye", ({ "head", 1, 0 }),
-"left gill", "gill", ({ "head", 1, 0 }),
-"right gill", "gill", ({ "head", 1, 0 }),
-"torso", "guts", ({ 0, 400, 0, "heart", "liver", "left kidney",
-    "right kidney", "spleen" }),
-"heart", "", ({ "guts", 10, 0 }),
-"liver", "", ({ "guts", 5, 0 }),
-"left kidney", "kidney", ({ "guts", 5, 0 }),
-"right kidney", "kidney", ({ "guts", 5, 0 }),
-"spleen", "", ({ "guts", 5, 0 }),
-"genitals", "", ({ 0, 5, 0 }),  /* sex ????  ohhh yes*/
-"left petral fin", "fin", ({ 0, 5, 0, }),
-"right petral fin", "fin", ({ 0, 5, 0, }),
-"dorsal petral fin", "fin", ({ 0, 5, 0 }),
-"tail", 0, ({ 0, 5, 0 }),
-});
-}
+   set_name( "guppy" );
+   set_long( "Fish,  yes.  A fish.  Nice generic standard fish thing.\n" );
+   set_height( 15 );
+   set_weight( 40 );
+   set_desc( "a beautiful looking guppy" );
 
-string query_desc(object ob) {
-   return "A beatiful looking guppy.\n";
-}
+   set_stats( ({ -2, 14, -4, -4, -6 }) );
+} /* setup() */
+
+/*
+* Need to create a shadow to handle multipleing the armour class by
+* an obscene value when underwater...
+*/
+void start_player( object thing ) {
+   ::start_player( thing );
+//   thing->add_effect( "/std/effects/other/fish_effect", ({ }) );
+   thing->add_property( "gills", 1 );
+   thing->tactics( "response dodge" );
+} /* start_player() */
+
+int lives_in_water() { return 1; }

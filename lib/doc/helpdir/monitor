@@ -3,35 +3,34 @@ monitor
 Discworld player help
 monitor
 
-Name
-.SI 5
-monitor - Hit point monitor
-.EI
-
-Syntax
-.SI 5
-monitor <on/off>
-.EI
-
-Description
+.SH Name
 .SP 5 5
-Monitor is a hit point monitor that goes on during combat.  This tells
-you the current state of your hit points and guild points.  Whilst you
-have monitor on you will lose one (1) guild point per round during a
-battle.  Monitor by itself will toggle states.
+monitor - Hit point monitor.
 .EP
 
-Examples
+.SH Syntax
+.SP 5 5
+monitor [off|on|slow|snails pace]
+.EP
+
+.SH Description
+.SP 5 5
+Monitor is a hit point monitor that goes on during combat.  This tells
+you the current state of your hit points and guild points.  Monitor by
+itself will show the current monitor status.
+.EP
+
+.SH Examples
 .SI 5
 > monitor on
-Your hit point monitor is now on.
-> monitor off
-Your hit point monitor is now off.
+Your hit point monitor is set to on.
+> monitor slow
+Your hit point monitor is set to slow.
 > monitor
-Your hit point monitor is now on.
+Your hit point monitor is set to slow.
 .EI
 
-See also:
-.SI 5
-score.
-.EI
+.SH See also
+.SP 5 5
+health, score.
+.EP

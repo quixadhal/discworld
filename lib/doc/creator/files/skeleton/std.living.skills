@@ -1,0 +1,145 @@
+.DT
+skills
+Discworld Creator help
+skills
+
+Name
+.SI 5
+/std/living/skills.c - object inherited by everything living
+.EI
+
+Description
+
+.SP 5 5
+/std/living/skills is the object that
+
+<description missing>
+.EP
+
+Functions
+
+ 
+mixed recursive_skill_add(mixed skil, string *path, int avr, int lvl, int exp,
+ 
+static mapping bonus_cache,
+               stat_cache,
+.SI 5
+mapping query_skills()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_skills( mapping map )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void create()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int not_there( string skill )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mapping query_bonus_cache()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mapping query_stat_cache()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void zap_stat_cache()
+.EI
+.SP 10 5
+.EP
+ 
+/*
+ * This is most probably the code you wish to call when doing skil
+ * checks.  It returns the skill + all its bonsues for stats/whatever.
+ *  It first checks to see if the skill is in it's cache. 
+ */
+.SI 5
+varargs int query_skill_bonus(string skill)
+.EI
+.SP 10 5
+.EP
+ 
+/*
+ * This returns jus the skill level.  Used a lot to determine if you
+ * can use/teach/whatever a skill.
+ * This also uses a cache.
+ */ 
+.SI 5
+mixed query_skill(string skill)
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+static void flatten_it(string skill)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs int add_skill_level( string skill, int lvl, int exp )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void convert_skills(mixed *skills, string path)
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int stat_modify(int lvl, string skill)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int calc_bonus(int lvl, string skill)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_skill_successful(string str, int mod)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int add_teach_offer(object ob, string skill, int num, int lvl, int xp)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mapping query_teach_offer()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void stop_teaching_skills(int left, mixed bing)
+.EI
+.SP 10 5
+.EP
+ 

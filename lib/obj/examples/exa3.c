@@ -28,7 +28,7 @@ void setup()
  * 4) optional name - if not set it defaults to 'sign'
  */
   add_sign("The plaque is made of bronze.\n",
-           "'Don't read me, i'm only an example sign you know!'\n",
+           "'Don't read me, I'm only an example sign you know!'\n",
            0,
            "plaque");
 
@@ -51,14 +51,14 @@ void reset()
   object bar;
   
 /* oooh checking if an item is there...horror stuff.
- * read the help on find_match, sizeof and this_object and come back later *8-)*
+ * read the help on match_objects_for_existence, sizeof and this_object and come back later *8-)*
  * what we are doing now is checking to see is there is already
  * a bar here, and if so we do not continue with making a new one.
  * Why there would be a new one I haven't a clue, and you should
  * never actually just give away items like this. So why am I doing it?
  * It does teach you some things. Bing!
  */
-  if(sizeof(find_match("copper bar", this_object())))
+  if(sizeof(match_objects_for_existence("copper bar", ({ this_object() }) )))
     return;
 /* cloning objects - here we clone a standard object ("/std/object") and
  * set the variable 'bar' to point to it.

@@ -1,0 +1,76 @@
+.DT
+attack_messages
+Discworld creator help
+attack_messages
+
+.SH Name
+.SI 5
+
+/obj/handlers/attack_messages.c - provides the correct attack messages for a connecting attack
+.EI
+
+.SH Functions
+.SI 5
+
+string parse_string( string mess, object him, object me, object wep )
+mixed query_message( int dam, string type, object him, object me, string name, object wep )
+.EI
+
+.SH Description
+.SP 5 5
+This handler contains a set of standard attack messages for all weapons and other common attacks on Discworld.
+
+It consists mostly of a large mapping containing all of the attack messages, and two functions, parse_string() and query_message().
+
+query_message() is called by the combat effect subsequent to a connecting attack of which the victim's armour protected against no more than 1/3 of the damage (in which case the message would indicate the their armour protected against the blow).  The first thing it does is use the name and type of the attack to find the correct set of messages.  It does this by attempting to find a set of messages matching the name and type appended in the form "type-name", eg "sharp-slice".  If this doesn't exist, it will default on the type, eg "sharp".  Failing this, it will return 0.
+
+The argument 'dam' indicating the level of damage done is now used.  Having selected the set of messages, we now have a mixed array in the form ({ num, *string, num, *string }).  We move up every other element of this array, starting with the first, comparing dam with the value of the element in the array, until we get to the last number or we find a number which is larger than dam.  In short, We pick the first number bigger than dam or default to the last.  We then use the string array following it, which will be of size 3.
+
+Finally, we return a string array with three elements, corresponding to the what the attacker sees, what the victim sees, and what bystanders see.  This string array consists of the elements of the string array we found just now, passed through parse_string() as an argument along with the arguments him, me and wep.
+
+parse_string() simply replaces all instances of contractions such as $wcname$ with the appropriate string.
+.EP
+
+.SH Examples
+.SI 5
+
+Example 1:
+
+add_attack("hax0r", ({ 20, 5, 20 }), "sharp", "sharp", 0);
+An attack is made doing 59 points of damage.
+
+We attempt to find "sharp-hax0r", it doesn't exist so we default to "sharp".
+59 is more than 20, but less than 60, so we use the second set of messages.
+We pass each of the elements through parse_string, and return something like this:
+
+({ "You scratch Taffyd d'Licious with your enormous hax0r.\n",
+   "Dasquian scratches you with its enormous hax0r.\n",
+   "Dasquian scratches Taffyd d'Licious with its enormous hax0r.\n" })
+
+
+Example 2:
+
+add_attack("bite", ({ 20, 5, 20 }), "pierce", "pierce", 0);
+An attack is made doing 945 points of damage.
+
+We attempt to find "pierce-bite", and find it.
+945 is bigger than any of the numbers, so we default to the last set of messages.
+We pass each of the elements through parse_string, and return something like this:
+
+({ "You bite deep into Taffyd d'Licious's flesh, splintering his bones.\n",
+   "Dasquian bites deep into your flesh, splintering your bones.\n",
+   "Dasquian bites deep into Taffyd d'Licious's flesh, splintering his bones.\n" })
+
+
+Example 3:
+
+add_attack("fishslap", ({ "46, 2, 150 }), "fish", "unarmed", 0);
+
+We attempt to find "fish-fishslap", but fail to find it.
+There isn't a "fish" set of messages either, so we return 0.
+.EI
+
+.SH See also
+.SP 5 5
+none
+.EP

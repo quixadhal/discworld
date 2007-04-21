@@ -1,0 +1,272 @@
+Section 4: Arguments passed to (function) funct
+===============================================
+
+When a player types a command and the parser finds a valid match between
+input and pattern, it passes a default set of arguments to the default
+function do_<verb> unless you tell it to do otherwise.
+
+These default arguments and their order are as follows:
+
+Argument                          Value determined by
+--------                          -------------------
+$1 object  *indirect_obs,         <indirect>
+$2 string  dir_match,             <direct>
+$3 string  indir_match,           <indirect>
+$4 mixed   args,                  everything in < >, most things in { }
+$5 string  pattern.               add_command
+
+NB: 'Tannah's pattern matcher' (/d/learning/items/matcher) is a handy tool
+that lets you test out add_command patterns and see what they match in
+various circumstances and therefore what arguments your commands
+automagically pass to do_<verb>.
+
+
+4.1 Argument $1: (object) *indirect_obs
+----------------------------------------
+
+This array includes every object identified by the input the parser
+matched to the specifier(s) <indirect>, in any of its forms.
+
+If your pattern does not include any instance of <indirect>, the value of
+this argument will be an empty array.
+
+For example:
+
+add_command( "water", "<direct:object> with [watering] can" );
+> water plant with watering can
+
+*indirect_obs == ({ })
+
+If your pattern contains the <indirect> specifier only once, the value of
+the argument will be a one dimensional array containing all those objects
+which match successfully.
+
+For example:
+
+add_command( "water", "<direct> with <indirect>" );
+> water plant with watering can
+
+*indirect_obs == find_match( "watering can", ({ this_player(),
+                 environment( this_player() ) })
+
+Ie: an array containing all those objects in the player's inventory ('me')
+or environment ('here') which think they're watering cans.
+
+Note that this is the case when using the default <indirect>, which is
+essentially <indirect:object:me-here>.  If the specifier used had been
+<indirect:object:me>, only the player's inventory would be searched;
+similarly, if it had been <indirect:object:here>, only his environment
+would be searched, and if it had been <indirect:object:here-me>, his
+environment would be searched before his inventory.  See Section 3: Format
+Patterns for more information on specifiers and descriptors.
+
+If your patterns includes multiple instances of <indirect>, the value of
+the argument passed will be a two dimensional array, each member of which
+is an array of objects.  The member arrays will contain all those objects
+that match each instance of <indirect>, in the order those matches are
+made.
+
+Example:
+
+add_command( "mend", "<indirect:object:me'clothing'> with <direct> and
+    <indirect:object:me'thread'>" );
+> mend shirt with needle and thread
+
+*indirect_obs[0] == find_match( "shirt", this_player() ) and
+*indirect_obs[1] == find_match( "thread", this_player() ).
+
+
+4.2 Argument $2: (string) dir_match
+-----------------------------------
+
+The second default arguments passed to the default (function) funct is
+whatever string in the input the parser matched to the last instance of
+<direct>.  If there is no such instance, the value is 0.
+
+Examples:
+
+add_command( "water", "{plant|flower|daisy} with [watering] can" );
+
+> water plant with can
+dir_match = 0
+
+add_command( "mend", "<indirect:object:me'clothing'> with <direct> and
+    <indirect:object:me'thread'>" );
+
+> mend shirt with needle and thread
+dir_match == "needle"
+
+add_command( "mend", "<indirect:object:me'clothing'> with <direct> and
+    <indirect:object:me'thread'>" );
+
+> mend shirt with blue needles and thread
+dir_match == "blue needles"
+
+Note that using <direct> more than once in a pattern causes very strange
+results: the last match made is what determines both the value of
+dir_match, AND the objects in which the function do_<verb> will be called.
+There are very few, if any, cases where doing this is a good idea.
+
+Example:
+
+add_command( "fill", "<direct> with <direct>" )
+
+> fill bucket from buckets
+dir_match == "buckets"
+You fill four buckets with four buckets.
+
+> fill buckets from bucket
+dir_match == "bucket"
+You fill the bucket from the bucket.
+
+
+4.3 Argument $3: (string) indir_match or *indir_match
+-----------------------------------------------------------
+
+The third default argument passed to the default function do_<verb> is the
+string or strings in the input that matched to instances of <indirect>. If
+there is no such instance, the value is 0.  If there is a single instance,
+the value is a string.  If there is one, the value is an array of strings,
+added in the order the matches are made.
+
+Example:
+
+add_command( "water", "{plant|flower|daisy} with [watering] can" );
+
+> water plant with can
+indir_match == 0
+
+add_command( "soak", "<indirect:object:here'plant'> with <direct>" );
+
+> soak plant with hose
+indir_match == "plant"
+
+add_command( "mend", "<indirect:object:me'clothing'> with <direct> and
+    <indirect:object:me'thread'>" );
+
+> mend shirt with needle and thread
+*indir_match == ({ "shirt", "thread" })
+
+
+4.4 Argument $4: (mixed) args
+-----------------------------
+
+The fourth default argument passed to the default function do_<verb> is an
+array that contains every piece of input that the parser matched to
+unknown values.
+
+Note that required words and optional words in [ ] are not unknown values
+(they are expicitly added to the pattern and must be matched exactly as
+they are or left out) and therefore are not included in args.
+
+Note also that words in { } are only included where there is some question
+as to which string was used, therefore in cases where a single word in
+enclosed in { }, e.g. {flower}, nothing is added to args because there is
+no question as to what match has been made.
+
+Different specifiers add different types of members to the array.  Most
+add whatever string from the input was matched to the specifier but
+<number>s are added as integers and fractions are added as two members: an
+int (the dividend) and a string (the divisor).
+
+Example:
+
+add_command( "water", "{plant|flower|daisy} with [watering] can" );
+
+> water plant with can
+args == ({ "plant" })
+
+Example:
+
+add_command( "soak", "<indirect:object:here'plant' with <direct>" );
+
+> soak plant with hose
+args == ({ "plant", "hose" })
+
+Example:
+
+add_command( "mend", "<indirect:object:me'clothing'> with <direct> and
+    <indirect:object:me'thread'>" );
+
+> mend shirt with needle and thread
+args == ({ "shirt", "needle", "thread" })
+
+Example:
+
+add_command( "pick", "<number> apples from <direct>" );
+
+> pick 3 apples from tree
+args == ({ 3, "tree" })
+
+Example:
+
+add_command( "spill", "<fraction> of <direct> on {carpet|floor}" );
+
+> spill 1/2 of bottle on floor
+args == ({ 1, "2", "bottle", "floor" })
+
+
+4.5 Argument $5: (string) pattern
+---------------------------------
+
+The fifth default argument passed to the default function do_<verb> is
+simply the pattern as it was added with the command.  It is rarely used
+but can help to identify which version of a command the parser matched if
+the command has been added to a living object more than once.
+
+Example:
+
+add_command( "water", "{plant|flower|daisy} with [watering] can" );
+
+> water plant with can
+pattern == "{plant|flower|daisy} with [watering] can"
+
+Example:
+
+add_command( "mend", "<indirect:object:me'clothing'> with <direct> and
+    <indirect:object:me'thread'>" );
+
+> mend shirt with needle and thread
+pattern == "<indirect:object:me'clothing'> with <direct> and
+           <indirect:object:me'thread'>"
+
+
+4.6 Passing Other Arguments to (function) funct
+-----------------------------------------------
+
+If, when adding a command, you wish to pass something other than the
+default arguments, you must do so with a function pointer.  The default
+arguments can be accessed by passing the following:
+
+Argument              Value(s) to which it refers
+--------              ---------------------------
+  $1                  (object) *indirect_obs
+  $2                  (string) dir_match
+  $3                  (string) indirect_match or *indirect_match
+  $4                  (mixed)  args
+  $5                  (string) pattern
+
+You can also access specific members of the arguments that are arrays in
+the usual way of referencing array members: i.e. $4[0] is the first member
+of the array (mixed) args.
+
+Example:
+
+add_command( "place" "<indirect:object:me'seed' in <direct'pellet'>",
+    (: do_place( $1[0], $2 ) :) );  // only pass one seed at a time
+add_command( "insert", "<indirect:object:me'seed' in <direct'pellet'>",
+    (: do_place( $1[0], $2 ) :) );
+
+/* Only one seed is passed */
+
+int do_place( object seed, string str ) {
+  if( str == "pellets" ) return 0;
+  .
+  .
+  .
+  return 1;
+/* do_place() */
+
+For a more complete discussion of how function pointers work, see the
+learning documents on that subject.
+

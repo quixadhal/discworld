@@ -1,0 +1,1 @@
+({({"<indirect:any-living> [ear]",}),({({"You buzz gently.","$mcname$ buzz$s$ gently.",0,}),({"You buzz $arg$.","$mcname$ buzz$s$ $arg$.",0,({"#",}),}),}),({({"You buzz in $mhcname$ ear.","$mcname$ buzz$s$ in $mhcname$ ear.","$mcname$ buzz$s$ in your ear.",0,0,0,}),0,}),})

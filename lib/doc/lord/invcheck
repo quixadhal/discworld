@@ -1,0 +1,49 @@
+.DT
+invcheck
+Discworld creator help
+invcheck
+
+.SH Name
+.SI 5
+invcheck - control the dwarves!
+.EI
+
+.SH Syntax
+.SI 5
+invcheck ban <filename>
+invcheck unban <filename>
+invcheck list 
+.EI
+
+.SH Description
+.SP 5 5
+This command allows you to forbid objects of a particular filename from 
+appearing in player inventories.  Creators, playtesters, guests and 
+interactives with the 'test character' property set will not be frisked
+by the dwarves.  If a banned object appears in the inventory of any
+other players, it will be confiscated by the dwarves, have the no recycling
+property added to it, and dested.  This command can be used to deal with
+playtester items that have leaked into the game.
+
+'Invcheck ban <filename>' is used to add <filename> to the list of banned 
+objects.  'Invcheck unban <filename>' removes an entry from the forbidden
+list.  'Invcheck list' will list all forbidden objects.
+.EP
+
+.SH Examples
+.SI 5
+> invcheck ban /d/ram/items/standard_tussie.c
+/d/ram/items/standard_tussie.c added to the list of banned objects.
+
+> invcheck unban /d/ram/items/standard_tussie.c
+/d/ram/items/standard_tussie.c removed from the list of banned objects.
+
+> invcheck list
+The following filenames have been forbidden to non-playtesters:
+/d/ram/items/standard_tussie.
+.EI
+
+.SH See also
+.SP 5 5
+-
+.EP

@@ -1,0 +1,21 @@
+query_dark               Discworld race help                       query_dark
+
+Name
+     query_dark - Returns whether a creature of this race can see or not at 
+                  this light level.
+
+Syntax
+
+     int query_dark(int light);
+
+Description
+
+     Returns an integer indicating how well the monster can see at this light
+     level. The number varies from -2 to 2.
+
+Values
+     -2 total darkness
+     -1 twilight (normally they can see a bit but nothing detailed).
+      0 normal light levels
+      1 very bright. As for -1 but too bright.
+      2 too bright to see anything.

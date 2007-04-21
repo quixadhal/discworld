@@ -1,0 +1,5 @@
+if (worn_by) {
+  worn_by->remove_armour(this_object());
+  if (sizeof(wear_remove_func))
+    call_other(wear_remove_func[0], wear_remove_func[1], 0);
+}

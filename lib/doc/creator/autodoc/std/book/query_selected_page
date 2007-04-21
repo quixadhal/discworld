@@ -1,0 +1,41 @@
+.DT
+query_selected_page
+DW_wibble creator help
+query_selected_page
+
+.SH Name
+.SP 5 5
+query_selected_page -  This method returns the contents of the selected page.
+.EP
+
+.SH Syntax
+.SI 5
+object query_selected_page(int num)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^num%^RESET%^ - the page to return
+.EI
+
+.SH Returns
+.SI 5
+0 on failure or if the page is torn out, the object on success
+.EI
+
+.SH Defined in
+.SI 5
+/std/book.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the contents of the selected page.  The number
+must be greator than 0.  This will return the exact value of the
+page, it will not search for non-torn out pages.  Becare with
+the return value of this as the default page object might be
+returned if the page does not actually exist.  If you need a
+real object remember to use the clone version.
+.EP
+

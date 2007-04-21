@@ -1,0 +1,43 @@
+/**
+ *  Author Terano
+ *  Created 8/07/02
+ *  This file prevents the mixing of healing tea and blue water, in
+ *  accordance with the prophecy.
+ */
+
+::item "BlueHealingWater" "BrewedComfreyYarrowTea"::
+::->ratio:: ({ 1.0, 1.0 })
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->result_amt:: 1.0
+::->func:: ({
+        (: $3->set_name( "ooze" ) :),
+        (: $3->add_alias( "green ooze" ) :),
+        (: $3->set_short( "thick green ooze" ) :),
+        (: $3->set_main_plural( "thick green oozes" ) :),
+        (: $3->add_plural( "oozes" ) :),
+        (: $3->add_adjective( "green" ) :),
+        (: $3->set_long( "This is a thick, green "
+                        "mush, $amount_size$.  It smells "
+                        "terrible, and is bubbling slightly.\n" ) :),
+        (: $3->set_medium_alias( "ThickGreenOoze" ) :),
+        (: $3->add_eat_effect( "/std/effects/ingested/drunk", 50 ) :),
+    })
+
+::item "BlueHealingWater" "ComfreyYarrowTea"::
+::->ratio:: ({ 1.0, 1.0 })
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->result_amt:: 1.0
+::->func:: ({
+        (: $3->set_name( "ooze" ) :),
+        (: $3->add_alias( "green ooze" ) :),
+        (: $3->set_short( "thick green ooze" ) :),
+        (: $3->set_main_plural( "thick green oozes" ) :),
+        (: $3->add_plural( "oozes" ) :),
+        (: $3->add_adjective( "green" ) :),
+        (: $3->set_long( "This is a thick, green "
+                        "mush, $amount_size$.  It smells "
+                        "terrible, and is bubbling slightly.\n" ) :),
+        (: $3->set_medium_alias( "ThickGreenOoze" ) :),
+        (: $3->add_eat_effect( "/std/effects/ingested/drunk", 50 ) :),
+    })
+

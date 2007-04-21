@@ -1,0 +1,158 @@
+This file will try to sum up the ideas about FAME in the Musicians'
+Guild. (with reservations of typos)
+
+An idea we had for the Musicians' Guild was a system based on
+how large a crowd an individual performer could entertain,
+and here's a suggestion ho it can be done.
+In this case, the jukeboxes have a major part, and it might involve
+a problem which I'll come to laters.
+ 
+What I'm thinking about can be called a "musician's FAME ratio". 
+ 
+This is value that can increase and decrease, and it's dependent
+(calculated) primarily how popular the musician's SONGS are; and
+some (not as much) on the musician's average skill in music.
+How popular a musician is, can be done by either checking on how
+often their songs are choosen on the jukeboxes (by the other 
+players).
+
+The higher their song is on the chart (which also is calculated
+by the choice from the jukeboxes) the higher is their popularity-
+ratio. When/if the song(s) get pushed down from the list, the
+ratio would decrease.
+OR, it can be calculated by a simple voting system at the jukeboxes.
+The choice from the players are stored somewhere and then the
+musician's ratio is calulated from them, perhaps once a week
+(rl time).
+Some random fluxation can be implemented as well.
+NPC's could perhaps do _some_ voting in a smaller extent.
+ 
+This is something a player in the Musicians' Guild could strive 
+for, too keep beeing famous.
+It makes some sense if the ratio is MORE calculated on their
+popularity than their skill, as lousy musicians can be much
+more famous with good/popular songs, than vice verca.
+ 
+Then the ratio can be diveded into certain areas, like you can
+be very famous in Ankh-Morpork, quite famous in Klatch, not
+famous at all in Sto-lat.
+So when you do "score" it could look like :
+ 
+You have 5552 (5552) hit points, 908 (908) guild points, 
+175 (543) quest points and 50 (50) social points.
+Your current experience is 3519 and you are level 102 in 
+the Musicians' Guild; your overall rating is 32872.
+You have died 3 times and can die 7 times before you are 
+completely dead.
+Your wimpy is set to 50%.
+You are unburdened.
+You are evil, worshipping no god.
+*You are very famous in Ankh-Morpork.
+*You are quite famous in Klatch.
+You are 76 days, 14 hours, 15 minutes and 33 seconds old and have 
+logged in 150 times.
+
+I'm not sure about it being listed on "score", as there's already
+quite a lot of information there. That information could be available
+from the guild or some other source, though.
+
+You need to "break" the market in the other areas by getting your
+songs on the jukeboxes in each specific area, and hope that they
+get played and famous.
+ 
+The more famous you are, the more money you make when "busking" and
+when playing gigs, as you can fill larger venues. If some musicians
+get together for a gig, their ratio together is summed up 
+and will set how large crowd they'll get.
+There's also lists in the guild that tells how famous you are
+which can be the guild's high table.
+ 
+The problem (well, one atleast) I mentioned above, is: would 
+players use the jukeboxes enough so a calculation can be made 
+and would the popular songs get played more than the others ? 
+
+I guess there's no way to tell except to try it out, really.
+
+It was suggested to have a system of copywrite laws so that the
+writer of a song gets royalties when other people perform it.. 
+and the performers have to pay a percentage to the guild (some of 
+which goes to the writer of the song) every time they perform.
+
+I have no idea how this can be done, code-wise though.
+
+Here's how it can look like when a player registers a song on the
+jukeboxes.
+
+This is done in the guild branch for each specific area. If I want my
+song to be listed on the jukeboxes in Ankh-Morpork, I simply go to the
+city's guild branch to do it.
+This requires that the player is a member of the Musicians' Guild
+ofcourse.
+
+Something in the lines of:
+
+This is the section of Musicians' Guild where you can make your songs
+heard in Ankh-Morpork. A man is sitting behind a desk and there's a
+sign hanging on the wall.
+
+>read sign
+
+Welcome to Baltazar's jukebox sercive. To sign a song to the jukeboxes
+(damn, can't think of a better word) you must have the song written 
+down on a piece of note-paper and pay a fee of 30 dollars, which
+will cover food and lodging for the hard working imps.
+Then leave the training and the rest for us.  Please allow some days
+for the imps to learn your song.
+
+You read a sign.
+
+>give Gold Song to man
+You give a piece of paper to the man behind the counter.
+
+The man closely examines the paper.
+(Here's a check to see that the song isn't too long, and it has
+its syntax, as explained in the song composing bit, correct.)
+The man says: Well, your song seems to be ok.
+The man says: That will be 30 dollars then, sir.
+>give 25 dollars to man
+The man says: Oh no, my friend. The fee for this service is 30 dollars.
+The man gives 25 dollars to you.
+
+>give 30 dollars to man
+You give the man 30 dollars.
+The man says: Thank you very much.  The Gold Song will be taught to
+every jukebox-imp in the city, it will be a big hit, I'm sure!
+The man grins.
+The man files a note-paper in a box.
+
+---
+
+Then the song file gets passed on to a file that the jukeboxes 
+inherits. The "title" of the song get passed to the jukebox's list
+(every jukebox will have the same songs) and when the song is played,
+it will follow the pattern the song got when it was made, with all
+information between the verses, etc.
+
+The fee is an interesting thing I think. A musician must get some money
+first, to get his songs "published". Either by busking, or loaning from
+players or why not from the guild or another institute?
+Anyway, that's another thing for the musician to do.
+
+The fee could be calculated on how long the song is too, the shorter
+song the cheaper fee. But that might get an "uncreative back-effect".
+
+There can be a time limit on how long the song can be on the jukebox
+but that is something that can be decided when we see how quickly the
+slots fills up in the jukeboxes. There must be a number of songs on 
+them all the time.
+
+Problem: What if a player hands in a song that another player
+has written but not registrated to the jukeboxes before ?
+It's just possible for a player to change a couple of lines
+of a song and it's then impossible to filter out.
+
+Well, one possibility is that before the song is accepted --- the
+A$30 has to be paid, as a processing fee, of course :) --- copies
+of it get sent to a number of referees (maybe people who've already
+had their songs published) and they have to validate it. That way,
+there'll be some checks on plagiarism.

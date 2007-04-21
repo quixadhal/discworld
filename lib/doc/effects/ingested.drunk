@@ -1,0 +1,58 @@
+.DT
+drunk effect
+Discworld creator help
+drunk effect
+
+Name
+.SI 5
+ingested/drunk - Effect for drunkeness
+.EI
+
+Arguments
+.SI 5
+int strength
+.EI
+
+Shadows
+.SI 5
+ingested/drunk
+.EI
+
+Description
+.SP 5 5
+This effect roughly simulates the drunk handling built into the player
+object.  The strength is divided by half of the player's constitution to
+obtain the duration in seconds (this was determined empirically from the
+built-in drunk effect, to give approximately the same duration).
+.EP
+
+.SP 5 5
+Behavior includes various soul commands (hiccup, burp, etc.), dropping
+objects, falling and injuring oneself, wandering, and passing out (the
+last two being more likely at higher levels of intoxication).  The
+effect is countered one-for-one by ingested/knurd and vice versa.  It
+also counteracts the hangover effect if the duration of drunkeness is
+greater than 10 times the duration of the hangover (basically, to get
+rid of the hangover you have to get drunk again).
+.EP
+
+.SP 5 5
+Slurring of speech is handled by the shadow.  Note that this effect
+does *not* use the alcohol volume in the player object.
+.EP
+
+Bugs
+.SP 5 5
+The proportioning of the case statement that handles the random behavior
+could probably stand some work.  It doesn't seem to do much at high
+levels of constitution.  But then, maybe that's a feature.
+.EP
+
+.SP 5 5
+The hangover handling isn't implemented yet.
+.EP
+
+See also
+.SI 5
+ingested.knurd
+.EI

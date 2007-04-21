@@ -16,10 +16,28 @@
    debug(4,("module.c: simulate(): x = %d, y = %d\n",x,y));
 */
 
+#ifndef _FUNC_SPEC_
 extern int debug_level;
 
+void handle_debug_level (char *);
+void debug_level_set (char *);
+void debug_level_clear (char *);
+
 #ifdef DEBUG_MACRO
-#define debug(x,y) if (x & debug_level) { printf y; fflush(stdout); }
+#define debug(x,y) if (debug_level & DBG_##x) { printf("%s: ", #x); printf y; putchar('\n'); fflush(stdout); }
 #else
 #define debug(x,y)
+#endif
+
+/* Would be nice to have tons of these; should go to arbitrary bitsets */
+#define DBG_call_out	 	1
+#define DBG_addr_server		2
+#define DBG_d_flag		4
+#define DBG_connections		8
+#define DBG_mapping		16
+#define DBG_sockets		32
+#define DBG_comp_func_tab	64
+#define DBG_LPC			128
+#define DBG_LPC_line		256
+
 #endif

@@ -1,0 +1,150 @@
+<!doctype HTML public "-//W30//DTD W3 HTML 3.0//EN">
+<HTML>
+<HEAD><TITLE>Java client help</TITLE></HEAD>
+<font face="arial,helvetica,sans">
+<h1>A Simple MUD Client v1.0</h1>
+
+<h3>What it is</h3>
+
+This is a small telnet client, that can be used to connect to a MUD. It
+understands ANSI colour and it has a 500 line scrollback buffer. You can
+scroll through it with PageUp/PageDown, or with the mouse.
+<p>
+Unlike the other ANSI applets I've seen, it also has a separate input line,
+so the text you type doesn't get mixed up with incoming text from the MUD.
+The command line has a history buffer, and remembers the last 32 commands
+entered. Use the up and down arrows to scroll through the remembered
+commands.
+<p>
+Note that, to make the most out of this limited buffer, commands
+entered more than once are only stored once in the history buffer. E.g.,
+if you enter the sequence of commands "inventory", "look", "consider all",
+and again "look", the first instance of "look" will be erased, to conserve
+buffer space. I.e., the history buffer will now look like: "inventory",
+"consider all" and "look". To put it otherwise, it tries to remember up to
+32 _different_ commands, which hopefully should be more useful than if 20
+of them were duplicates.
+<p>
+Also, being specially designed for MUD's, the keypad acts as a direction
+pad. E.g., you can press '7' on the keypad and have 'nw' sent to the MUD.
+It really makes walking around faster and easier. (You must have NumLock ON
+for this to work.)
+<p>
+The function keys also produce some useful commands. (Though if you're not
+on Discworld or a derivative thereof, they may not match the commands
+understood by the MUD, and thus will be less useful. In a future release,
+I might make the program load the commands from a text file.)
+<p>
+Due to popular request ;) it now does wrap incoming text, and it does it
+by breaking the line at a space character. It turned out that you can't
+reliably expect the MUD to always do the wrapping for you. Note that, due
+to speed reasons, it only wraps incoming text, not lines of text already
+received. I.e., if you resize the screen or change the font size, the
+already received text isn't re-formatted to the new width. (But any text
+you receive from now on, obviously is.)
+<p>
+
+<h3>What it isn't</h3>
+
+Briefly, it isn't a general purpose terminal emulation. It understands
+the ANSI colour codes, and the ANSI bright and reverse video commands.
+But that's all. It does NOT understand the cursor positioning commands,
+nor underline, nor italic, nor the rest of the ANSI standard. (At least
+not for now.)
+<p>
+It also doesn't wrap text by itself. It assumes that the text will come
+already wrapped around from from the MUD.
+<p>
+I.e., it should be ideal for connecting to most MUD's, but not for playing
+a telnet version of space invaders, because it lacks cursor positioning.
+<p>
+Also, it doesn't have local scripting, aliases, timers or triggers. At
+least, not for now. Those would significantly inflate the size and
+number of classes downloaded, when used as an applet. I.e., it would make
+the applet load a whole lot slower. If you really need those, grab a copy
+of zMud or gMud instead.
+<p>
+
+<h3>The Buttons</h3>
+
+<dl>
+<dt>Disconnect
+<dd>Disconnects you from the MUD. Note that this will make you
+net-dead, instead of properly logging you out, so it's generally bad
+practice.
+
+<dt>Connect
+<dd>Connects you to the MUD. If you were connected already, it
+first disconnects you, and then connects again.
+
+<dt>Large Font
+<dd>
+Use 14 pixel bold Courier for a font. You'll appreciate this
+if you're using very high resolution, like I do :) If your MUD auto-detects
+screen size, but it is NOT fully compliant with RFC 1073, you may need to
+reconnect to force it to notice the new screen size.
+
+<dt>Small Font
+<dd>
+Use 12 pixel plain Courier for a font. Mainly there for those
+of you with 640x480 screens. If your MUD auto-detects screen size, but it is
+NOT fully compliant with RFC 1073, you may need to reconnect to force it to
+notice the new screen size.
+
+<dt>Detach
+<dd>
+If it's used as an applet, detaches it from the html page and
+into a separate frame. I.e., now you can resize it freely, to suit your
+preferences. This button will only be visible if it's run as an applet, and
+it isn't detached already.
+
+<dt>Attach
+<dd>
+Nukes the frame, and attaches the client back onto the html
+page. This button will only be visible if it's run as an applet, and
+it is currently detached.
+</dl>
+
+<h3>Hints</h3>
+
+On Discworld or derivatives, use 'term network'. This will enable negotiating
+window size on the fly. I.e., when you change the window size or font size,
+Discworld will automatically adjust its text wrapping and pausing.
+<p>
+<h3>Compatibility Considerations</h3>
+
+The applet uses the 1.1 AWT event model, as opposed to the more simplistic
+1.02. I.e., you'll need a browser that does understand Java 1.1 to use it
+as an applet, or a 1.1 or 1.2 compatible JDK or JRE to run it as a standalone
+application.
+<p>
+It has been extensively tested as an applet with Netscape 4.51 and 4.6, and
+Internet Explorer 5.0. As an application it has been tested with Sun's JDK
+1.2.1 with the HotSpot JVM, IBM's 1.1.7 JRE, and Microsoft's Virtual Machine
+build 3167 and 3177.
+<p>
+If you have Netscape Explorer 4.05 or earlier, it has a problem with
+understanding the 1.1 AWT event model. Allegedly, there is a patch for that.
+Or you can just get a newer version of Netscape.
+<p>
+Also, I would recommend NOT using Internet Explorer or the Microsoft JVM to
+run it. They are buggy and slightly incompatible with the standard. Note that
+I'm not preaching anti-Microsoft theory, but it's based on actual testing.
+E.g., under my current Microsoft JVM, it doesn't seem to notice the PageUp and
+PageDown keys, so you're stuck with using a mouse to scroll back. Also, it
+doesn't seem to allow using ALT and the keypad to enter extended characters.
+Unless you enjoy wanton incompatibilities and headaches, avoid Microsoft's
+Java implementations. It's that simple.
+<p>
+
+<hr width="30%">
+<center>
+<font size=-1>
+<a href="java_client.html">Small client</a>,
+<a href="java_800_client.html">800x600 client</a><br>
+Copyright &copy; 1999 JagdTiger.
+</font>
+</center>
+@@/footer:footer@@
+</body>
+</html>

@@ -1,0 +1,85 @@
+.DT
+ptobject
+Discworld creator help
+ptobject
+
+.SH Name
+.SI 5
+ptobject - Add, remove and control items and commands in playtesting.
+.EI
+
+.SH Syntax
+.SI 5
+ptobject info 
+ptobject help 
+ptobject add object <path of object> as <item name> 
+ptobject allow <guilds> to use object <item name> 
+ptobject remove object <item name> 
+ptobject add command <command name> 
+ptobject allow <guilds> to use command <command name> 
+ptobject remove command <command name> 
+ptobject list 
+ptobject list commands 
+ptobject list objects 
+ptobject control 
+ptobject control commands 
+ptobject control objects 
+ptobject request <item> 
+.EI
+
+.SH Description
+.SP 5 5
+This is a simple anywhere-you-like interface to the armoury in the
+Playtesters' Palace.  It allows you to control what items are
+automatically available from the armoury and to whom they are provided.
+.EP
+
+.SP 5 5
+The best way of teaching this command is by way of example:
+.EP
+
+.SH Example Object
+.SI 5
+> ptobject add object /w/arienne/obj/leaf as leaf
+Added object /w/arienne/obj/leaf as "leaf".
+Don't forget to "allow" people to use it!
+
+> ptobject allow witches,wizards to use object leaf
+Object "leaf" now set as allowed for use by witches and wizards.
+
+> ptobject allow everyone to use object leaf
+Object "leaf" now set as allowed for use by priests,
+wizards, thieves, assassins, witches, warriors and PlayerKillerses.
+
+> ptobject remove object leaf
+Object "leaf" [/w/arienne/obj/leaf] removed from playtesting.
+.EI
+
+.SH Example Command
+.SI 5
+> ptobject add command say
+Added command "say".
+Don't forget to "allow" people to use it!
+
+> ptobject allow pks to use command say
+Command "say" now set as allowed for use by PlayerKillerses.
+
+> ptobject remove command say
+Command "say" removed from playtesting.
+
+.EI
+
+.SH Example List
+.SI 5
+> ptobject control
+.EI
+
+.SH Example Request
+.SI 5
+> ptobject request leaf
+.EI
+
+.SH See also
+.SP 5 5
+/d/playtesters/palace_rooms/armoury.c
+.EP

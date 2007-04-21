@@ -1,0 +1,38 @@
+.DT
+set_volume
+DW_wibble creator help
+set_volume
+
+.SH Name
+.SP 5 5
+set_volume -  This method sets the current amount of liquid in the container.
+.EP
+
+.SH Syntax
+.SI 5
+void set_volume(int i)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^i%^RESET%^ - the new amount of liquid in the containe
+.EI
+
+.SH Defined in
+.SI 5
+/obj/container.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the current amount of liquid in the container.  If
+the container has a leak rate, it starts to leak.
+.EP
+
+.SH See also
+.SP 5 5
+query_volume(), set_leak_rate()
+
+.EP
+

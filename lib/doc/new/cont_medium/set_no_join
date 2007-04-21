@@ -1,0 +1,31 @@
+.DT
+set_no_join
+Discworld cont_medium help
+set_no_join
+
+Name
+.SI 5
+set_no_join - Internal flag.
+.EI
+
+Syntax
+.SI 5
+void set_no_join();
+.EI
+
+Description
+.SP 5 5
+This is an internal flag used by the object telling it if it should
+or should not join to the existing objects in the inventory when it
+moves.  This is used to prevent -ve medium object anhiliating
+inventories (anti-comfrey!).
+
+Could be set on a medium object to force it to stop joining with
+other objects of the same type.  The status of this variable is
+not saved over player log outs.
+.EP
+
+See also
+.SI 5
+query_no_join, reset_no_join
+.EI

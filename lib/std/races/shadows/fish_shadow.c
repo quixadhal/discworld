@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: fish_shadow.c,v 1.1 1998/01/06 04:31:13 ceres Exp $
+ * $Log: fish_shadow.c,v $
+ * Revision 1.1  1998/01/06 04:31:13  ceres
+ * Initial revision
+ * 
+*/
 object my_player;
 
 void init_shadow(object ob) {
@@ -30,7 +39,7 @@ int move(object ob, string s1, string s2) {
 }
 
 void do_drown() {
-  tell_room(my_player, my_player->query_cap_name()+" gasps for air.\n");
+  tell_room(my_player, my_player->one_short()+" gasps for air.\n");
   my_player->adjust_hp(random(50)+50);
   call_out("do_drown", 2);
 }

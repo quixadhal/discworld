@@ -1,0 +1,42 @@
+.DT
+query_aggressive
+DW_wibble creator help
+query_aggressive
+
+.SH Name
+.SP 5 5
+query_aggressive -  This method returns the current aggressive level of the npc.
+.EP
+
+.SH Syntax
+.SI 5
+int query_aggressive()
+.EI
+
+.SH Returns
+.SI 5
+the aggressive level of the npc.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current aggressive level of the npc.
+If the aggressive is set to 1, then the npc will attack all players
+that enter its environment.  If the aggressive is set to 2 then
+the npc will attack everything (including other npcs).
+
+
+See the function start_attack() for information about things you can do to stop aggressive npcs attacking things.
+.EP
+
+.SH See also
+.SP 5 5
+set_aggressive(), start_attack()
+
+.EP
+

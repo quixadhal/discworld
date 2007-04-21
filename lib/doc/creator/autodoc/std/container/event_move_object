@@ -1,0 +1,35 @@
+.DT
+event_move_object
+DW_wibble creator help
+event_move_object
+
+.SH Name
+.SP 5 5
+event_move_object -  This method is called from move to notify any tracked items contained of the move using event_container_moved.
+.EP
+
+.SH Syntax
+.SI 5
+void event_move_object(mixed from,
+                       mixed to)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^from%^RESET%^ -   start
+%^BOLD%^to%^RESET%^ -     destination
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/container.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called from move to notify any tracked items contained of
+the move using event_container_moved.
+.EP
+

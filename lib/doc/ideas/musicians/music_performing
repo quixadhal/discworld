@@ -1,0 +1,228 @@
+This file will try to sum up the ideas about PERFORMING songs.
+Both single and in group. (with reservations of typos)
+
+Here's an example how it _could_ look like, when a player plays a song:
+
+>songs
+
+You know the following songs:
+The Hedgehog Can Never Be Buggered At All
+The Streets Of Ankh-Morpork
+Dwarfish Gold Song
+The Ankh-Morporkian City Watch Song
+
+(Question here is, what happens if two different people write two 
+different songs but happen to choose the same name for both?)
+
+>play A Dwarfish Gold Song
+
+Play A Dwarfish Gold Song on what?
+
+>play A Dwarfish Gold Song on banjo
+
+The Dwarfish Gold Song can't be played on a banjo.
+
+>help A Dwarfish Gold Song
+
+A Dwarfish Gold Song is fast and happy with a steady rhythm. It is
+written for vocals and a bass horn. The composer was Hobbes.
+
+(Maybe it could even mention whether it's popular or not.)
+
+>play A Dwarfish Gold Song on bass horn
+
+/* This is what the others see */
+
+
+Hobbes begins to play a fast and happy song with a steady rhythm on
+his bass horn, which sounds quite good.
+(How it sounds is calculated by the musicians skills in music.theory
+and the instrument skill used perhaps)
+
+Hobbes sings: Gold Gold Gold Gold
+Hobbes sings: Gold Gold Gold Gold
+Hobbes sings: Gold Gold Gold Gold
+Hobbes sings: Gold Gold Gold Gold
+
+Hobbes plays a lovely solo on his guitar.
+
+Hobbes sings: Gold Gold Gold Gold
+Hobbes sings: Gold Gold Gold Gold
+Hobbes sings: Gold Gold Gold Gold
+Hobbes sings: Gold Gold Gold Gold
+The song gets louder.
+          
+Hobbes sings: Gold Gold Gold Gold
+Hobbes sings: Gold Gold Gold Gold
+Hobbes sings: Gold Gold Gold Gold
+Hobbes sings: Gold Gold Gold Gold
+
+>solo a super solo on horn
+Cant find "horn" to solo on.
+>solo a super solo on bass horn
+Hobbes solos a super solo on his bass horn.
+
+Hobbes sings: Gold Gold Gold Gold
+Hobbes sings: Gold Gold Gold Gold
+Hobbes sings: Gold Gold Gold Gold
+Hobbes sings: Gold Gold Gold Gold
+
+Hobbes stops playing on his bass horn.
+
+You feel inclined to give Hobbes 1 dollar for his fine performance.
+
+(PKers should get put on the same system as NPCs, where they might
+find themselves giving a dollar without choosing to :)
+
+/* switch* /
+
+You feel more experienced in your bass horn playing.
+
+The messages can be printed in different colours so the song
+and "music" gets seperated from other spam on the screen.
+Preferably, "Hobbes sings:" can be in magenta or something likely.
+
+The musician can also choose to just sing the song, then the lines
+with the instrument (in this case the bass-horn) would be excluded.
+See the COMPOSING bit for more info on that.
+
+If you perform (busk) in a city room (outside?), there's a chance NPC's will
+toss coins to you, depending on some factors: nigh/day, your skill in
+the instrument played, the complexity of the song according to your
+level, your skill in showmanship. Some streets should be better to busk
+at, but I'm not sure how to solve that.
+
+>Deutha: Well, the easiest thing is to probably make up a "buskability" 
+>index based on room size, typical NPC density (the number passed in the
+>set_monster() call --- I assume cityrooms in other places still use
+>that) and maybe some semi-periodic function using the coordinates to
+>introduce a bit of variation. If you want to set the index to a
+>particular value, say you want the junction of Baker Street and God
+>Street to be a hot place to busk, the code could also check for a
+>property on the room that overrides the generic algorithm.
+
+
+If you enter the room while a player is playing it could say:
+
+This is yet another of Ankh-Morpork's many back alleys. There is probably no
+need for you to stay here for any longer than you would in any of the others.
+It is a freezing cold autumn prime day with a steady wind and medium cloud
+cover.
+Deutha, Pinkfish and Hobbes are here.
+You realise that Hobbes is playing a song.
+
+Mistakes:
+
+On every "turn" of the performance, there should be a chance that a mistake
+is made. This would happen if the performer lacks the skill and/or tries
+to play a song which is too difficult. Some examples:
+Womble sings: Gold Gold Gold Gold!
+Womble sings: Gold Gold Gold Gold!
+Womble starts to sing, but appears to have forgotten the lyrics!
+
+Or:
+
+Aksu starts playing a difficult solo, but misses many notes and sounds
+truly awful.  The crowd boos!
+
+Presumably, there will also be grades of mistake, such that a truly bad
+one might even abort the song.
+
+---------
+
+Musicians could form teams under the current group system, and become
+bands ->so if there is a FAME ratio (more on this later) lower level
+musicians could still draw larger crowds.
+
+The bands could be hired by players to perform on weddings, parties,
+etc.
+
+So how will it look like when a group (more than one person) performs
+then? I think the easiest way to handle this that the musicians
+must be in a team/group before they start (That is using the current
+group system, or something likely).
+Then they must perform the same song. If it isn't same for everyone,
+they would either start playing different songs, or a check could
+be made saying: Womble and Frog don't have the same song as you.
+
+Then it can look something like this:
+
+This is yet another of Ankh-Morpork's many back alleys. There is probably no
+need for you to stay here for any longer than you would in any of the others.
+It is a freezing cold autumn prime day with a steady wind and medium cloud
+cover.
+Deutha, Pinkfish, Skitso and Hobbes are here. 
+
+Hobbes says: Ok, lets do a song, you've re-composed the one I gave you
+yesterday, right?
+
+Deutha and Skitso nod.
+
+>invite A Dwarfish Gold Song with group
+
+Hobbes invites(?) Skitso, Deutha and Pinkfish to play a A Dwarfish 
+Gold Song.
+(only the leader of the group may invite)
+
+(Deutha see: Hobbes invites you, Skitso and Pinkfish to play A Dwarfish
+Gold Song. Type "join in" to play, or "leave" to leave the group."
+
+Pinkfish has been idle for 23 hours and 21 seconds.
+
+>expell(?) pinkfish
+
+Pinkfish leaves the Offler's Quartet group.
+
+Deutha, Skitso has joined in to play A Dwarfish Gold Song.
+
+>play A Dwarfish Gold Song with group
+
+Deutha, Skitso and Hobbes begins to play a fast and happy song with 
+a steady rhythm on (Deutha sings) guitar and trumpet which sounds
+quite good.
+
+Deutha sings: Gold Gold Gold Gold
+Deutha sings: Gold Gold Gold Gold
+Deutha sings: Gold Gold Gold Gold
+Deutha sings: Gold Gold Gold Gold
+Skitso starts playing a difficult solo on his guitar, but misses
+many notes and sounds truly awful.
+Hobbes plays an excellent melody on his trumpet.
+
+Deutha starts to sing, but appears to have forgotten the lyrics!
+Deutha sings: Gold Gold Gold Gold
+Deutha sings: Gold Gold Gold Gold
+Deutha sings: Gold Gold Gold Gold
+Skitso plays a nice chord sequence on his guitar.
+Hobbes plays a terrific solo on his trumpet.
+
+And so on...
+
+Hobbes, Deutha and Skitso stops playing.
+
+You feel inclined to give 3 dollars for the Offler's Quartet for their
+fine performance.
+
+Skitso says: Wow, I got a TM in instruments.guitar!
+
+Hobbes and Deutha cheers enthusiastically.
+
+Pinkfish says: hey, this is not fair, i was wombling in space! May I 
+join the group again?
+
+========================================================================
+
+What then, will determine how it "sounds" ?
+
+Deutha: It'll need to be an average of some kind. I'd suggest what I
+think is the harmonic mean, such that if the skills are S_1, S_2, S_3
+and so forth up to S_N, the overall skill is:
+
+           / [  1     1     1           1  ]
+   S = N  /  [ --- + --- + --- + ... + --- ]
+         /   [ S_1   S_2   S_3         S_4 ]
+
+This has the property that a really low skill tends to dominate,
+pulling the average down. I'm assuming that the average ability
+of a group of musicians is more heavily weighted by the ability of
+the worst musician than would be the case for the usual mean.

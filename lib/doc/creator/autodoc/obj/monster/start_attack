@@ -1,0 +1,41 @@
+.DT
+start_attack
+DW_wibble creator help
+start_attack
+
+.SH Name
+.SP 5 5
+start_attack -  This method check to see if the npc should start attacking someone when they enter the npcs environment.
+.EP
+
+.SH Syntax
+.SI 5
+void start_attack(object who)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^who%^RESET%^ - the person to potentially start attacking
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method check to see if the npc should start attacking someone
+when they enter the npcs environment.  It is called from inside
+init().  It will only attack if the agressive is set and the
+person is visible to be attacked.  The property
+"no attack"can be set on the npc (or player) to stop them being attacked.
+.EP
+
+.SH See also
+.SP 5 5
+set_aggressive()
+
+.EP
+

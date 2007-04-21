@@ -1,224 +1,228 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: pweath.c,v 1.7 2001/09/11 03:38:33 presto Exp $
+ * $Log: pweath.c,v $
+ * Revision 1.7  2001/09/11 03:38:33  presto
+ * Fixed type error I think
+ *
+ * Revision 1.6  2001/03/13 00:22:08  pinkfish
+ * Format it...
+ *
+ * Revision 1.5  2001/03/13 00:19:35  ceres
+ *  Forcibly unlocked by pinkfish
+ *
+ * Revision 1.4  2000/04/10 05:07:41  ceres
+ * Made it public :)
+ *
+ * Revision 1.3  2000/01/06 07:44:09  terano
+ * Changed weather_extra_look to check for null values
+ *
+ * Revision 1.2  2000/01/06 07:42:16  ceres
+ *  Forcibly unlocked by terano
+ *
+ * Revision 1.1  1998/01/06 04:54:05  ceres
+ * Initial revision
+ * 
+*/
 /* your very own personal weather... */
-#include "weather.h"
-static int current_thing,
-           light;
-int wetness;
+#include <weather.h>
+#include <clothing.h>
+#include <playtesters.h>
 
-int query_wetness() { return wetness; }
-void add_wetness(int arg) { wetness += arg; }
+#define COMFORTABLE 20
 
-void create() {
-  this_object()->add_alias("weather");
-  this_object()->add_alias("moon");
-  this_object()->add_alias("sun");
-}
- 
-void weather_commands() {
-  add_action("make","make");
-  add_action("splash","splash");
+int temperature;
+string temperature_str;
+
+int query_wetness()
+{
+   return 0;
 }
 
-string weather_extra_look() {
-  if (wetness>100)
-    return "You could swear that "+this_object()->query_pronoun()+
-           " was a pond.\n";
-  if (wetness>30)
-    return "Is soaked. In fact really not looking that well.\n";
-  if (wetness>10)
-    return "Looks wet and bedraggled.\n";
-  if (wetness>5)
-    return "Looks wet.\n";
-  if (wetness>0)
-    return "Looks slightly wet.\n";
-  return "";
-}
- 
-string weather_long(string str) {
-  mixed *co_ords;
-  object env;
-  string i;
- 
-  env = environment();
-    if ((string)environment()->query_property("location") == "inside")
-    return "You are not outside.\n";
- 
-  if (str== "sun")
-    if (WEATHER->query_day(env))
-      return "Ouch that hurts.\n";
-    else
-      return "The sun is not up, sorry.\n";
- 
-  if (str=="moon")
-    if (WEATHER->query_day(env))
-      return "The moon is not up, try at night.\n";
-    else if (WEATHER->query_moon_string(env))
-      return WEATHER->query_moon_string(env)+".\n";
-    else
-      return "The moon is not up at the moment, try again later.\n";
- 
-  if (str != "weather")
-    return "";
-  co_ords=(mixed *)environment()->query_co_ord();
-  if (pointerp(co_ords))
-    return "The weather is currently " + WEATHER->weather_string(env) + ".\n";
-  else
-    return "sorry but today the weather is on strike, hassle your nearest\n"+
-          "neighbourhood wizard.\n";
+void add_wetness(int arg)
+{
 }
 
-void event_weather() {
-  call_out("check_it",0);
+void dry_out()
+{
 }
- 
-void check_it() {
-  mixed *co_ords, *arr;
-  object env;
-  int bingle, no_co_ord, *type;
-  string loc;
- 
-  if (!environment())
-    return ;
-  env = environment();
-  loc = (string)environment()->query_property("location");
-  co_ords = (mixed *)environment()->query_co_ord();
-  if (!pointerp(co_ords)) {
-    co_ords = ({ 0, 0, 0, "standard" });
-    no_co_ord = 1; /* so we dont get wet etc, when we dont know where we are */
-  }
-  if (!WEATHER->query_day(env)) {
-    if (light && loc != "inside")
-      tell_object(this_object(), "The sun sets slowly on the horizon.\n");
-    light = 0;
-  } else {
-    if (!light && loc != "inside")
-      tell_object(this_object(), "The sun rises above the horizon and greets you for a new day.\n");
-    light = 1;
-  }
-  if (!no_co_ord) {
-    type = (int *)WEATHER->query_type_rain(env);
-    bingle = type[1];
-    if (current_thing != type[0] && loc != "inside")
-      if (current_thing && type[0])
-        tell_object(this_object(), "It has stopped "+({ "raining", "hailing",
-              "snowing" })[current_thing-1] + " and started "+
-              ({ "raining", "hailing", "snowing"})[type[0]-1]+".\n");
-      else if (current_thing)
-        tell_object(this_object(), "It has stopped "+({ "raining", "hailing",
-              "snowing" })[current_thing-1]+".\n");
-      else if (type[0])
-        tell_object(this_object(), "It has started "+({ "raining", "hailing",
-               "snowing" })[type[0]-1]+".\n");
-    current_thing = type[0];
-    if (bingle > 0)
-      switch (type[0]) {
-        case 1 :
-        case 2 :
-          if (bingle>0 && loc == "outside") {
-/* we get wet ;) */
-            arr = all_inventory(this_object());
-            arr = filter_array(arr, "check_umbrella", this_object());
-            if (!sizeof(arr))
-              wetness += bingle; /* strength... my oh my what rain ! */
-          }
-          break;
-        case 3 :
-          if (bingle && loc == "outside") {
-            arr = all_inventory(this_object());
-            arr = filter_array(arr, "check_umbrella", this_object());
-            if (!sizeof(arr))
-             wetness += bingle /2;
-          }
-          break;
+
+void set_personal_temp(int i)
+{
+   temperature = i;
+}
+void adjust_personal_temp(int i)
+{
+   temperature += i;
+}
+
+int query_personal_temp()
+{
+   return temperature;
+}
+
+string query_temp_str()
+{
+   if (!temperature_str || temperature_str == "") {
+      return "quite comfortable";
+   }
+   return temperature_str;
+}
+
+/**
+ * This method calculates an objects personal temperature index.
+ *
+ * All temperatures in here are 20C lower so that comfort is at zero to
+ * make calculations easier.
+ */
+int calc_personal_temp()
+{
+   mixed tmp;
+   object where,
+    *clothes;
+   string item,
+     zone,
+     type,
+    *types,
+    *zones;
+   int adjustment,
+     room_temp,
+     correction,
+    *enums;
+
+   if (this_object()->query_property("dead")) {
+      temperature = 0;
+      return 0;
+   }
+   where = environment(this_object());
+
+   // If they're on a horse or somesuch then use that locations temperature
+   // info.
+   if (!where->query_property("location") &&
+       environment(where) && environment(where)->query_property("location"))
+      where = environment(where);
+
+   // Figure out the temperature where they are.
+   switch (where->query_property("location")) {
+   case "outside":
+      room_temp = (WEATHER->query_temperature(where) - COMFORTABLE);
+      break;
+   default:
+      room_temp = 0;
+   }
+
+   // add the warmth of the room.
+   room_temp += where->query_property("warmth");
+   room_temp -= where->query_property("cooling");
+
+   adjustment = room_temp;
+
+   // add their personal warmth (from effects or shadows)
+   adjustment += this_object()->query_property("warmth");
+   adjustment -= this_object()->query_property("cooling");
+
+   // Calculate how warm (or cool) their clothing is keeping them.
+   clothes = filter_array(this_object()->query_wearing(),
+                          (: !$1->id("scabbard") &&
+                             !$1->id("belt") &&
+                             !$1->id("backpack") &&
+                             !$1->id("glasses") && !$1->id("jewellery") :));
+   zones = ({ });
+   foreach(item in clothes) {
+      tmp = item->query_type();
+      if (arrayp(tmp))  types = tmp;
+      else types = ({ tmp });
+
+      foreach(type in types) {
+         // Find out what zone this clothing type covers.
+         // If it doesn't cover a zone (eg. jewellery) it doesn't give any
+         // warmth.
+         if (CLOTHING_HANDLER->query_equivilant_type(type))
+            type = CLOTHING_HANDLER->query_equivilant_type(type);
+
+         foreach(zone in CLOTHING_HANDLER->query_zone_names(type)) {
+            if (member_array(zone, zones) == -1) {
+               zones += ({ zone });
+            }
+            tmp = item->query_property("warmth");
+            if (!tmp) {
+               adjustment++;
+            } else if (intp(tmp) && tmp) {
+               adjustment += tmp;
+            }
+            // If it's warm here then do adjustments for clothing that
+            // cool you.
+            if (room_temp > 0 && item->query_property("cooling")) {
+               adjustment -= item->query_property("cooling");
+            }
+         }
       }
-    else if (wetness>0) {
-/* the warmth property is used for fires etc... */
-      bingle = WEATHER->temperature_index(env)+
-               environment()->query_property("warmth");
-      if (bingle<0)
-/* we dry very quickly... (oh good) */
-        wetness += bingle;
-      else
-        wetness -= 1; /* we do get dry slowly even if it is cold */
-    }
-  }
-  if (wetness>0 && random(100) < 10)
-    tell_object(this_object(),"Squelch.\n");
+   }
+
+   // You get a warmth bonus or coolness bonus for each zone covered.
+   // This means it's better to cover more of your body when it's cold.
+   // It also means you can wear light clothing with less temperature
+   // penalties since the warmth & cooling cancel out somewhat.
+   if (room_temp < 0) {
+      adjustment += sizeof(zones);
+      if (room_temp + sizeof(zones) > 5) {
+         adjustment -= (room_temp + sizeof(zones) - 5);
+      }
+   } else {
+      adjustment -= sizeof(zones);
+      if (room_temp - sizeof(zones) < -5) {
+         adjustment -= (room_temp - sizeof(zones) + 5);
+      }
+   }
+
+   // Wetness makes you cooler -- so sweating isn't necessarily a bad thing.
+   enums = (int *) this_object()->effects_matching("body.wetness");
+   if (sizeof(enums)) {
+      adjustment -= sqrt(sqrt((int) this_object()->arg_of(enums[0]))) * 2;
+   }
+   // this hopefully does two things.
+   // 1. effectively puts a maximum/minimum on temperature
+   // 2. accounts for the body working to adjust temperature.
+   if (temperature > room_temp && room_temp >= 0 || temperature > 5) {
+      correction -= (temperature / 5) + 5;
+   }
+   if (temperature < room_temp && room_temp <= 0 || temperature < -5) {
+      correction -= (temperature / 5) - 5;
+   }
+#ifdef 0
+   /*
+    * This factor is not currently used. Depending on how the testing goes
+    * it may get put in place.
+    */
+   // this factor adjusts for when rooms aren't too hot or cold. So if you're
+   // not too far off the room temperature you don't adjust quite so fast.
+   if ((room_temp < 10 && temperature >= 0) ||
+       (room_temp > 10 && temperature <= 0)) {
+      factor = (ABS(room_temp - temperature) / 10.0);
+      if (factor > 1.0 || factor < 0.0)
+         factor = 1.0;
+   } else {
+      factor = 1.0;
+   }
+   temperature += to_int((adjustment + correction) * factor);
+#endif
+
+   temperature += (adjustment + correction);
+
+   // calculate the temperature string and other effects based on the
+   // race of the person.
+   temperature_str = (this_object()->query_race_ob())->
+      temperature_effects(this_object(), temperature);
+
+   return temperature;
 }
- 
-int check_umbrella(object ob) {
-  return (int)ob->query_property("umbrella");
-}
- 
-int make(string str) {
-  object ob, env;
-  int *co_ords;
- 
-  env = environment();
-  if ((string)environment()->query_property("location") == "inside") {
-    notify_fail("You must be outside to do that.\n");
-    return 0;
-  }
-  co_ords = (mixed *)env->query_co_ord();
-  env = environment();
-  if (!pointerp(co_ords)) {
-    notify_fail("This room has no co-ordinates... Arggghhh.\n");
-    return 0;
-  }
-  if (str == "snowball") {
-/* well lets do it then ;) */
-    if (!WEATHER->query_snowing(env)) {
-      notify_fail("You need snow to make a snowball.\n");
-      return 0;
-    }
-    ob = clone_object("/std/environ/snowball");
-    ob->move(this_object());
-    write("You make a lovely big snowball. Have fun with it ;)\n");
-    return 1;
-  }
-  if (str == "snowman") {
-    if (!WEATHER->query_snowing(env)) {
-      notify_fail("You need snow to make a snowman.\n");
-      return 0;
-    }
-    ob = clone_object("/std/environ/snowman");
-    ob->move(environment());
-    write("You make a snowman to make anyone else weep.\n");
-    return 1;
-  }
-  notify_fail("You can't do that!\n");
-  return 0;
-}
- 
-int splash(string str) {
-  object *obs, weath,env;
-  int *co_ords, i;
- 
-  if ((string)environment()->query_property("location") == "inside") {
-    notify_fail("You must be outside to do that.\n");
-    return 0;
-  }
-  if (!str) {
-    notify_fail("You must splash someone.\n");
-    return 0;
-  }
-  env = environment();
-  if (!WEATHER->query_raining(env)) {
-    notify_fail("It must be raining to splash someone.\n");
-    return 0;
-  }
-  obs = find_match(str,environment());
-  if (!sizeof(obs)) {
-    notify_fail(str+" does not exist, are you dreaming?\n");
-    return 0;
-  }
-  for (i=0;i<sizeof(obs);i++) {
-    obs[i]->add_wetness(2+random(4));
-    tell_object(obs[i],(string)this_player()->query_cap_name()+
-        " splashes "+query_multiple_short(obs - ({ obs[i] }) + ({ "you" }))+
-        ".\n");
-  }
-  str = query_multiple_short(obs);
-  write("You splash "+str+".\n");
-  say(this_object()->query_cap_name()+" splashes "+str+".\n", obs);
-  return 1;
+
+string weather_extra_look()
+{
+   if (stringp(temperature_str) && strlen(temperature_str)) {
+      return capitalize((string) this_object()->query_pronoun()) + " looks " +
+         temperature_str + ".\n";
+   }
+   return "";
 }

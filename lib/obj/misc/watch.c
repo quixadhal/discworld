@@ -1,4 +1,4 @@
-inherit "std/object";
+inherit "/obj/clock";
 
 int our_offset,
     their_offset,
@@ -6,14 +6,14 @@ int our_offset,
     cur_alarm,
     offset_alarm,
     alarm;
-string alarms,
-       alarm_write,
+mixed *alarms; 
+string *alarm_write,
        alarm_name;
 object our_player;
 
-string get_time();
+varargs int get_text(string line);
 
-setup() {
+void setup() {
   set_name("watch");
   add_adjective("demonic");
   add_alias("watch");
@@ -21,16 +21,16 @@ setup() {
   set_short("demonic watch");
   set_long("A small wrist attackable living quaters for a demon "+
            "the demon looks pretty harried about giveing out the "+
-           "time all the time, and the pay is lousy. PS try \"use\" "+
-           "watch.\n");
+           "time all the time, and the pay is lousy..\n");
+  set_value(20000);
   our_offset = 0;
   their_offset = 8;
   last_time = time();
   call_out("check_alarm",60);
   alarms = ({ });
 }
-
-long() {
+/*
+string long(string word, int dark) {
   if (our_offset == their_offset)
     return ::long()+".\n"+get_time()+".\n";
   else
@@ -43,19 +43,18 @@ string query_read() {
   else
     return get_time()+"\nMud time: "+ctime(time())+".\n";
 }
+*/
 
-init() {
-  add_action("do_time","time");
-  add_action("set_gmt","gmt");
-  add_action("use","use");
+void init() {
+  add_command("time", "");
+  add_command("gmt", "<word'offset'>", (:this_object()->set_gmt($4[0]):));
+  add_command("use", "<direct:object>", (:this_object()->use():));
   this_player()->add_command("read", this_object());
 }
 
-use(arg) {
+int use(string arg) {
   if (!alarms)
     alarms = ({ });
-  if (member_array(this_object(),find_match(arg,environment())) == -1)
-    return 0;
   printf("%-=80s","You look into the watch and fiddle with several buttons, "+
                   "Finally a light lights up in the top corner say you have "+
                   "the security clearance to modify the settings.\n"+
@@ -66,7 +65,7 @@ use(arg) {
   return 1;
 }
 
-the_command(arg) {
+int the_command(string arg) {
   string s1;
   int i;
 
@@ -76,7 +75,7 @@ the_command(arg) {
   }
   if (sscanf(arg,"set%s",s1)) {
     int hour, min;
-    string name, bing;
+    string name;
     if (sscanf(s1," %s %d:%d%s",name,hour,min,s1)!=4)
       write("Usage: set <name> <hour>:<min> [+]\n");
     else {
@@ -132,58 +131,11 @@ the_command(arg) {
                  alarms[i+2]+"\n");
     }
   }
-  if (sscanf(arg,"time%s",s1)==1) {
-    write(get_time()+"\n");
-  }
-  if (sscanf(arg,"gmt%s",s1)==2) {
-  }
-  write("What do you wish to do ? ");
-  input_to("the_command");
   return 1;
 }
 
-int do_read() {
-  if (query_read_mess() && !::do_read())
-    return 0;
-  write(get_time()+"\n");
-  return 1;
-}
-
-set_gmt(arg) {
-  if (!arg) {
-    notify_fail("You must give a GMT to set to.\n");
-    return 0;
-  }
-  if (arg[0] == '+')
-    sscanf(arg,"+%d",their_offset);
-  else
-    sscanf(arg,"%d",their_offset);
-  write("Ok your GMT offset is now set to ");
-  if (their_offset>=0)
-    write("+"+their_offset+".\n");
-  else
-    write(their_offset+".\n");
-  return 1;
-}
-
-do_time() {
-  write(get_time()+"\n");
-  write("Mud time: "+ctime(time())+".\n");
-  return 1;
-}
-
-get_time() {
-  string the_time;
-
-  the_time = "";
-
-  the_time = ctime(time()-(our_offset-their_offset)*3600);  
-  return the_time;
-}
-
-string text;
-
-get_text(line) {
+varargs int get_text(string line) {
+   string text;
   if (!line) {
     text = "";
     write(sprintf("%-=80s","Please enter the text you wish to be displayed "+
@@ -200,9 +152,8 @@ get_text(line) {
   return 1;
 }
 
-query_auto_load() {
+mixed query_auto_load() {
   mixed ret;
-  int i;
 
   if (!alarms)
     alarms = ({ });
@@ -210,57 +161,54 @@ query_auto_load() {
   return ret;
 }
 
-init_arg(arg) {
-  string bits,name,text;
-  int i,hour,min;
-
+void init_arg(mixed *arg) {
   their_offset = arg[0];
   alarms = arg[1];
   if (!alarms)
     alarms = ({ });
 }
 
-check_alarm() {
-  int the_time, offset, i;
+void check_alarm() {
+   int the_time, offset, i;
+   int tmp;
+   
+   the_time = time();
+   offset = (the_time/(3600*24))*3600*24 - our_offset*3600;
+   for (i=0;i<sizeof(alarms);i+=4) {
 
-  the_time = time();
-  offset = (the_time/(3600*24))*3600*24 - our_offset*3600;
-  for (i=0;i<sizeof(alarms);i+=4) {
-    int tmp;
-
-    tmp = offset + (alarms[i+1]-our_offset+their_offset)*3600 + alarms[i+2]*60;
-    if (the_time>tmp && tmp>last_time) {
-/* we go off. bounce */
-      alarm = 6;
-      alarm_name = alarms[i];
-      if (alarms[i+3])
-        alarm_write = explode(alarms[i+3],"\n");
+      tmp = offset + (alarms[i+1]-our_offset+their_offset)*3600 + alarms[i+2]*60;
+      if (the_time>tmp && tmp>last_time) {
+         /* we go off. bounce */
+         alarm = 6;
+         alarm_name = alarms[i];
+         if (alarms[i+3])
+         alarm_write = explode(alarms[i+3],"\n");
       else
-        alarm_write = ({
-"Beep Beep Beep, Your "+alarms[i]+" alarm has gone off.\n",
-"Beep Beep Beep, Your "+alarms[i]+" alarm has gone off.\n",
-"Beep Beep Beep, Your "+alarms[i]+" alarm has gone off.\n",
-"Beep Beep Beep, Your "+alarms[i]+" alarm has gone off.\n",
-"Beep Beep Beep, Your "+alarms[i]+" alarm has gone off.\n",
-"Beep Beep Beep, Your "+alarms[i]+" alarm has gone off.\n",
-        });
-      offset_alarm = 0;
-      set_heart_beat(1);
-    }
-  }
-  last_time = the_time;
-  call_out("check_alarm",60);
+         alarm_write = ({
+            "Beep Beep Beep, Your "+alarms[i]+" alarm has gone off.\n",
+            "Beep Beep Beep, Your "+alarms[i]+" alarm has gone off.\n",
+            "Beep Beep Beep, Your "+alarms[i]+" alarm has gone off.\n",
+            "Beep Beep Beep, Your "+alarms[i]+" alarm has gone off.\n",
+            "Beep Beep Beep, Your "+alarms[i]+" alarm has gone off.\n",
+            "Beep Beep Beep, Your "+alarms[i]+" alarm has gone off.\n",
+         });
+         offset_alarm = 0;
+         set_heart_beat(1);
+      }
+   }
+   last_time = the_time;
+   call_out("check_alarm",60);
 }
 
-heart_beat() {
-  if (our_player)
-    our_player->event_say(this_object(), "The watch goes: "+
-                       alarm_write[offset_alarm++]+"\n");
-  if (offset_alarm>sizeof(alarm_write))
-    set_heart_beat(0);
+void heart_beat() {
+   if (our_player)
+     our_player->event_say(this_object(), "The watch goes: "+
+                           alarm_write[offset_alarm++]+"\n");
+   if (offset_alarm>sizeof(alarm_write))
+     set_heart_beat(0);
 }
 
-move(ob) {
+int move(object ob) {
   int i;
 
   i = ::move(ob);

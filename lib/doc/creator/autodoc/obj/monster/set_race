@@ -1,0 +1,66 @@
+.DT
+set_race
+DW_wibble creator help
+set_race
+
+.SH Name
+.SP 5 5
+set_race -  This function is deprecated.
+.EP
+
+.SH Syntax
+.SI 5
+int set_race(string str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the race to set
+.EI
+
+.SH Returns
+.SI 5
+always returns 1.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function is deprecated.  Use basic_setup() instead.
+
+This method sets the race of the npc.  The race should be one of
+the races listed in the /std/race.c object.
+This is used in conjuction with the
+guild when set_level is called to setup the default
+attributes for the npc.  This should only be
+called *before* set_level() is called.
+.EP
+
+.SH Example 1
+.SI 5
+ob = clone_object("/obj/monster");
+ob->set_race("fish");
+.EI
+
+.SH Example 2
+.SI 5
+inherit "/obj/monster";
+
+void setup() {
+   ...
+   set_race("fish");
+   ...
+   set_level(12);
+} /* setup() */
+.EI
+
+.SH See also
+.SP 5 5
+query_race(), query_guild(), set_guild(), set_level(), basic_setup()
+
+.EP
+

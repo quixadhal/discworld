@@ -1,0 +1,432 @@
+A Brief Introduction to LPC  -  Inheritance
+Ae First Rough Draft
+
+Drakkos - 2/12/2000
+
+N.B     -       This is a work in project... a living document if
+                you like.  If it appears to be dead when you view
+                it, don't worry.  It's most likely just playing
+                possum.
+
+==========================================================================
+Concepts still to be covered:
+
+Not sure... perhaps nothing.
+==========================================================================
+
+The basic concept behind inheritance is simple.  Say you have an object that
+you want to work as a weapon.  In order to do so, you need to code a certain
+amount of functionality into the object.  You need to code it so it can be 
+wielded... so that it can be aimed at someone, and so that it can do damage 
+to the target.  You might also want to code it so that it can get damaged 
+during a fight, or so that it's particularly effective against one type of 
+armour, but not against another.  Obviously a whole lot of effort has to go 
+in to creating the weapon... and this code has to be duplicated and modified 
+every time you want to create another weapon.
+
+Eventually, you find out that another creator has been coding weapons as 
+well, that work almost the same way as yours do... but not exactly, so they 
+are incompatible.  You have discontinuities such as one type of weapon 
+breaking in combat, while another doesn't even take damage.  This is 
+undesirable, and leads to a patchwork, unprofessional MUD.
+
+A much better solution is to have one piece of code that defines the behaviour 
+and logic of a particular object, and allow other objects to use that as a 
+base, modifying the base code as necessary to produce unique objects.  This 
+is done using a method called 'inheritance'.
+
+The term derives from the natural world... an example of the principle in 
+practise is shown below:
+
+
+                    Animal
+                    /    \
+                   /      \
+                Mammal   Reptile
+                /   \     
+               /     \
+             Dog     Cat 
+             /
+            /
+        Great Dane          
+          
+All animals have a certain number of characteristics that are common to all.  
+They all require sustenance to survive... they are all capable of procreation, 
+and they all have a limited life span.
+
+However, there are differences between mammals and reptiles.  Reptiles are 
+cold blooded, for example, and mammals are warm blooded.  Both 'inherit' the 
+properties of being an animal, but refine it slightly more.
+
+Likewise, dogs and cats have their differences too... but each inherits the 
+basic properties of being a mammal... and so also inherit the properties of 
+being an animal.  Great Danes inherit all the properties of being a dog, and 
+so all the properties of being a mammal, and so all the properties of being 
+an animal.
+
+
+Object Orientated Programming
+=============================
+
+This model can be applied successfully to computer programming to provide a 
+basic library of functionality for objects, and allow other objects to 
+'inherit' this functionality, as well as providing their own.  This ensures 
+compatibility without stifling creativity, and so is a Very Good Thing.  
+
+Let's have a look at how this technique would work in practise.  Let's say
+we have two objects.  An object called bing, and an object called bong.
+Bing has the functions 'frog' and 'womble' defined.  Bong has the
+function 'wibble' defined:
+
+    bong.c:
+
+        void wibble() {
+            printf("Wibble!\n");
+        }
+
+    bing.c:
+
+        void frog() {
+            printf("Frog!\n");
+        }
+
+        void womble() {
+            printf("Womble!\n");
+        }
+
+
+Now, if we call the function frog() in the object bong, we'll get an error
+stating the function is not defined.  However, if we called wibble(), we
+get the text "Wibble!" printed to the screen.  Likewise, calling wibble in
+bing will give a function not defined error, whereas both frog() and womble()
+will print the relevant text.
+
+If we weren't using inheritance, in order include the functions frog() and
+womble() into object bong, it would be necessary to duplicate the code into
+bong like so:
+
+    bong.c:
+
+        void wibble() {
+            printf("Wibble!\n");
+        }
+
+        void frog() {
+            printf("Frog!\n");
+        }
+
+        void womble() {
+            printf("Womble!\n");
+        }
+
+If we then wanted to change the function frog() to print out "frog frog!", 
+we'd need to alter the code in both object bing and in object bong.  Imagine 
+if these were useful functions that were spread over a thousand pieces of code 
+over the MUD.  Nightmare!
+
+However, if it were possible to 'inherit' the properties of object bing, it
+would be possible to then use the functions in bong as if they had been 
+duplicated:
+
+    bong.c
+
+        inherit "bing";
+
+        void wibble() {
+            printf("Wibble!\n");
+        }
+
+So, in our new object bong, we can now call the methods frog() and womble() 
+in addition to wibble().  Neat!  But why is this better than duplicating the
+code each time?  Well, there are a number of reasons:
+
+1)  Storing the code in an object that is then inherited means that wide 
+    ranging changes to functionality can be made only by changing the object
+    that is inherited.  Instead of having to change frog() in every object 
+    that has the function, we simply change it in bing, and every object that
+    inherits the function will be changed.
+2)  Providing substantially usable objects as a basis to be inherited allows
+    for greater consistency and efficiency when creating.  You don't need to
+    reinvent the wheel for every object.  So instead of adding code to hold,
+    wield, and break weapons, you simply inherit a single file that does all 
+    that for you.  This leaves you to be more creative without worrying about 
+    the low level functionality.
+3)  It is much more efficient with regards to the driver.  Briefly, rather than
+    compiling each duplicated function separately in each object, inheritance
+    allows for objects to share the same piece of compiled code.  Each object
+    will have individual copies of each global variable within the object,
+    however:  this means that if objects A and B inherit object C, the running
+    of object A will not interfere in any way with the running of object B 
+    because they both have their own slice of memory containing their various
+    variables.
+
+
+Masking Inherited Methods
+=========================
+    
+Of course, in many cases an object that you inherit may provide a function that
+you would like to utilise... unfortunately, this object does not provide quite
+the functionality that you require for your object.  Perhaps you need to do an
+extra check on a particular variable, for example, but the inherited function
+does not do this.  Fear not!  You are not stumped because of this, because it
+is possible to 'mask' inherited methods to change the functionality!
+
+Let us look back to our object bong.  Let's say we want to inherit bing as
+above, but rather than print "Womble!" when we call the function womble(), we
+want it to print out "Uncle Bulgaria!" instead.
+
+The code for printing "Womble" is already in place.  What we want to do, 
+however, is redefine this method locally in bong so that it prints out 
+"Uncle Bulgaria".  But, since we want to keep the functionality of the frog() 
+function, we don't  want to simply write an object that does not inherit 
+bing.  Instead, we override, or mask,  the womble method to:
+
+    bong.c
+    
+        inherit "bing";
+
+        void wibble() {
+            printf("Wibble!\n");
+        }
+    
+        void womble() {
+            printf("Uncle Bulgaria!\n");
+        }
+    
+Now, when the function womble() is called on bong, we get the text  'Uncle 
+Bulgaria!' instead of the text 'Womble!'.  Neat!  But what if we wanted to 
+print out "Uncle Bulgaria!" first, then the text "Womble!" in the inherited 
+method?  Well, we could do this by duplicating the code from bing... but 
+that's not compatible with our inheritance model.  Instead, we can 'override' 
+a method to first perform some code in our local object before executing the 
+code in the inherited object.  We do this using the  '::' scope definition 
+to preface the name of the function.  This essentially states 'go back one 
+object in the inheritance chain and try to call this function'.  If that 
+function doesn't exist, it will continue to travel down the inheritance chain 
+until it finds an object that does define it, or throws out an error because 
+the function doesn't exist anywhere:
+
+    bong.c
+    
+        inherit "bing";
+
+        void wibble() {
+            printf("Wibble!\n");
+        }
+    
+        void womble() {
+            printf("Uncle Bulgaria!\n");
+            ::womble();
+        }
+
+Now calling the function womble in bong will produce:
+
+    Uncle Bulgaria!
+    Womble!
+    
+If we wanted it the other way around, we could do:
+
+    bong.c
+
+        inherit "bing";
+
+        void wibble() {
+            printf("Wibble!\n");
+        }
+    
+        void womble() {
+            ::womble();
+            printf("Uncle Bulgaria!\n");
+        }
+    
+Which would print:
+
+    Womble!
+    Uncle Bulgaria!
+    
+This is only a very simple example of how we can use these techniques, of 
+course.  In day to day creatoring, it is likely you will be inheriting objects
+that inherit other objects that inherit multiple objects in the same file!  At
+this time, however, you do not need to think too deeply about any of this.
+
+
+Variable and Function Qualifiers
+================================
+
+But wait, there's more!  Of course there's more!
+
+Sometimes in objects, you will notice the functions and variables may be 
+prefaced with Unusual and Arcane words.  'private', 'public', 'protected'.  
+Although related primarily to functions and variables, we couldn't cover 
+them in those chapters because it is necessary to understand the basics of 
+inheritance before some of them make sense.  Having read what we have above, 
+hopefully you will have the appreciation of inheritance required to be able 
+to fully understand what these 'qualifiers' do.
+
+Occasionally, for security reasons, it will be necessary for a variable or
+function to be made invisible to an object that inherits it.  For example, if
+we have a variable called 'name' used in the inheritable, we don't want any
+objects that inherit it to later over-write the value of this because of a 
+locally defined variable or function.  The 'private' qualified exists for
+this reason, and is used thusly:
+
+    private string _name;
+
+    private void my_function () {
+        printf("Wheee!\n");
+    }
+            
+Private variables and functions may only be referenced in the object that
+defines them... they cannot be referenced in any object that may inherit them.
+Let's look back on our bing inheritable, and add in two new methods:
+
+    bing.c:
+
+        void frog() {
+            printf("Frog!\n");
+        }
+
+        void womble() {
+            printf("Womble!\n");
+        }
+    
+        void wobble() {
+            do_print_message();
+        }
+    
+        private void do_print_message() {
+            printf("Wobble!\n");
+        }
+    
+Again, we will say that object bong inherits object bing.  Now, say we want to
+call the wobble() function in bong.  We do so, and the text:
+
+    Wobble!
+    
+Appears on our screen as can be expected.  All well and good, but all wobble()
+does is call another function that prints the message.  But if we try and call
+this function directly from bong, we get an error message stating the function
+does not exist.  
+
+The reasons this will generally be done are for security and to ensure data
+integrity.  Unless you are actually going to dabble in writing inheritables 
+(and that is beyond the scope of this document), you will only need to know
+what the private qualifier implies.
+
+Another qualifier you are likely to see is the qualifier 'nomask'.  A function
+qualified as 'nomask' cannot be masked or overridden as defined above... it will 
+only give an error when you attempt to do so.  For example, let's say we change
+our object bing a little:
+
+    bing.c:
+
+        void frog() {
+            printf("Frog!\n");
+        }
+
+        void womble() {
+            printf("Womble!\n");
+        }
+    
+        nomask void wobble() {
+            do_print_message();
+        }
+    
+        private void do_print_message() {
+            printf("Wobble!\n");
+        }
+    
+And we leave bong exactly as it was:
+
+    bong.c
+
+        inherit "bing";
+
+        void wibble() {
+            printf("Wibble!\n");
+        }
+    
+        void womble() {
+            printf("Uncle Bulgaria!\n");
+            ::womble();
+        }
+    
+This will now produce a parse error when you attempt to compile bong.  This
+is because our object attempts to redefine the function womble(), which we
+just qualified as 'nomask'.  Like with private qualifier, this is usually done 
+for security, so that critical functions cannot be masked to return false 
+values for the purpose of circumventing code that depends on it.
+
+Sometimes a function or a variable will be qualified as 'public'.  This is
+the default for functions and variables, and can be assumed when no qualifier
+is present.  It means that a function/variable is available to all objects
+that inherit it, and can be masked/overridden as defined above.
+
+Although it is not directly related to inheritance, there is another function
+qualifier called 'varargs' that can be used to change the way a function deals
+with arguments being passed in.  Normally when you define a list of parameters
+to a function, you will get a parse error if you try and pass in a different
+number when you call the function.  It is possible to qualify a function as
+varargs, however, which will allow you to be somewhat more flexible with the
+function.  You cannot pass in more arguments than you previously specify, but
+you can pass in a smaller number, with the remainder being passed in as 0:
+
+    varargs void test_function (string, string, int);
+    
+    test_function (string name, string word, int value) {
+        printf("Arguments are: %s, %s, %d\n", name, word, value);
+    }
+
+By declaring our test_function as varargs, we can call it with anything between
+zero and three arguments.  You will need to manually design your function so 
+that it behaves differently depending on what is passed in, however... varargs
+cannot do this for you.
+
+Let's look at what is passed in with three different argument lists to the
+test_function:  test_function("drakkos"), test_function("Drakkos", "bing!"), 
+and test_function("Drakkos, "bing!", 10).  The printf in our function will
+print the argument list in order, so let's see what the printf will come up
+with:
+
+    test_function("drakkos"):
+    Arguments are: drakkos, 0, 0
+    
+    test_function("drakkos", "bing!"):
+    Arguments are: drakkos, bing!, 0
+    
+    test_function("drakkos", "bing!", 10):
+    Arguments are: drakkos, bing!, 10
+
+This is an extremely useful qualifier when writing generic inheritables... in
+general you will not have to use this qualifier, but as always, it is important
+to understand what it does.
+
+    
+Chapter Summary
+===============
+
+In this chapter, we discussed the basics of inheritance, and how it can be
+used to improve quality and consistence within the MUD.  We also looked at how
+to redefine methods, and how to qualify our functions so as to alter their
+behaviour in regards to other objects that inherit them.
+
+-   One of the key benefits of inheritance is that it allows for greater 
+    efficiency and object reusability.
+-   Inheritables are inherited using the inherit keyword, followed by the
+    path of the file to inherit:  inherit "/obj/monster";
+-   Objects that inherit other objects can access the functions in the 
+    inherited object as if they were defined locally.  
+-   Objects that inherit other objects get their own memory allocated for
+    global variables, although they use the same compiled function code.
+-   Inherited functions can be redefined, or masked, locally to alter their 
+    behaviour.  The :: scope operator can be used to call functions in 
+    inherited objects.
+-   Variables and functions can be 'qualified' using qualifier keywords. 
+-   The private qualifier makes a function or variable invisible to any object
+    that inherits it.
+-   The nomask qualifier makes it impossible to redefine the qualified #
+    function locally.
+-   The varargs qualifier can be used to make argument lists more flexible by
+    allowing variable numbers of arguments to be passed in as a function.  
+    Arguments that are not explicitly passed in will be treated as if they
+    were 0.

@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: chef_curse.c,v 1.1 1998/01/06 04:02:57 ceres Exp $
+ * $Log: chef_curse.c,v $
+ * Revision 1.1  1998/01/06 04:02:57  ceres
+ * Initial revision
+ * 
+*/
 #include "path.h"
 #define MY_NAME "chef curse"
 

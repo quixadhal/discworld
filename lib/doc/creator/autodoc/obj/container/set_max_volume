@@ -1,0 +1,39 @@
+.DT
+set_max_volume
+DW_wibble creator help
+set_max_volume
+
+.SH Name
+.SP 5 5
+set_max_volume -  This method sets the maximum volume of the container.
+.EP
+
+.SH Syntax
+.SI 5
+void set_max_volume(int i)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^i%^RESET%^ - the new maximum volume
+.EI
+
+.SH Defined in
+.SI 5
+/obj/container.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the maximum volume of the container.  This also
+sets the maximum weight of the container to one tenth of the
+volume (if there is not current maximum weight).
+.EP
+
+.SH See also
+.SP 5 5
+set_max_weight(), add_volume()
+
+.EP
+

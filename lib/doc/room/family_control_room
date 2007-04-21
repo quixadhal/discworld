@@ -1,0 +1,61 @@
+.DT
+family control room
+Discworld room help
+family control room
+
+.SH Name
+.SI 5
+family control room - allows you to control various aspect of families
+.EI
+
+.SH Syntax
+.SI 5
+create family called <name>
+list families
+list family <name>
+balance [of] <family>
+deposit <money> to <family>
+description of <family>
+.EI
+
+.SH Description
+.SP 5 5
+This is a room help file.
+
+This place allows you to control all of the aspects of your family.  
+It allows you to create and list families, and deposit money into your
+family.  The command 'relationship' is used to bring people into your
+family and to setup relationships with people in other families.
+
+If your family balance is less than the required
+amount when it is time for your family to pay for its fees, the
+family will be disbanded.
+
+You cannot choose a family name from the books for
+your families.
+.EP
+
+.SH Basic Commands
+.SO 5 12 -22
+	list	This command allows you to see all the families and detailed information about one family.
+	create	Allows the creation of the family itself.  Please note that the case of the name you use when you create the family is the case that will be used in all references to the family.
+	description	Allows you to change the description of the family.
+.EO
+
+.SH Financial Commands
+.SO 5 12 -22
+	balance	Shows you the balance of all the club accounts.
+	deposit	Allows you to deposit money into one of the clubs accounts.
+.EO
+
+.SH Example
+.SI 5
+> create family called Fluff
+> description of fluff
+> deposit 2 royals to fluff
+.EI
+
+.SH See also
+.SP 5 5
+club_control_room
+.EP

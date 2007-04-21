@@ -1,133 +1,144 @@
-static mixed *rest;
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: find_match.c,v 1.24 2001/02/28 01:29:05 presto Exp $
+ * $Log: find_match.c,v $
+ * Revision 1.24  2001/02/28 01:29:05  presto
+ * Put in different version of is_in_me_or_environment()
+ *
+ * Revision 1.23  2000/09/07 21:13:24  pinkfish
+ * Fix the docs.
+ *
+ * Revision 1.22  2000/09/07 21:11:30  pinkfish
+ * Update the documentation.
+ *
+ * Revision 1.21  2000/06/28 03:49:11  pinkfish
+ * Stop it runtiming.
+ *
+ * Revision 1.20  2000/06/26 19:55:02  pinkfish
+ * Turn on the new parser for everyone.
+ *
+ * Revision 1.19  2000/06/24 03:48:44  presto
+ * Line 163, was using ob[i] when ob was not an array.
+ *
+ * Revision 1.18  2000/06/23 03:40:56  pinkfish
+ * Fix up the references to find_match.
+ *
+ * Revision 1.17  2000/06/10 08:20:34  pinkfish
+ * Make pts able to use the system as well.
+ *
+ * Revision 1.16  2000/06/07 23:30:02  pinkfish
+ * Fix up the return codes of the parser.
+ *
+ * Revision 1.15  2000/05/31 21:40:26  pinkfish
+ * Some changes to make it work more correctly.
+ *
+ * Revision 1.14  2000/05/31 00:16:10  pinkfish
+ * Add in some stuff to do matching of ambiguous things too.
+ *
+ * Revision 1.13  2000/05/26 18:48:37  pinkfish
+ * Add in hooks to the new parser.
+ *
+ * Revision 1.12  2000/04/28 01:19:03  pinkfish
+ * Stop people using "all" in dark/bright rooms.
+ *
+ * Revision 1.11  2000/04/28 01:13:14  pinkfish
+ * Fix up some things to do with <cc> in <xx>
+ *
+ * Revision 1.10  1999/12/07 23:10:22  pinkfish
+ * Fix up an error that was causing 0's to get stuck in the return array.
+ *
+ * Revision 1.9  1999/12/07 23:02:05  pinkfish
+ * Fixes and changes.
+ *
+ * Revision 1.8  1998/09/30 14:38:39  wodan
+ * added prototype for add_action free drivers.
+ *
+ * Revision 1.7  1998/09/01 21:19:46  pinkfish
+ * Speed up the find_match code by using a function pointer for the
+ * map methods.
+ *
+ * Revision 1.6  1998/09/01 21:04:28  pinkfish
+ * Clean up the code slightly, plus make the syntaxes:
+ * 'my book' and 'book here' work.
+ *
+ * Revision 1.5  1998/07/28 01:36:15  pinkfish
+ * Stop '0' evaluating to everything.
+ *
+ * Revision 1.4  1998/03/24 07:28:59  pinkfish
+ * Add some docs to make the simulefuns more usefully lookupable.
+ *
+ * Revision 1.3  1998/03/07 13:49:40  pinkfish
+ * Fixes because of the new inherit structor of the simul_efun object.
+ *
+ * Revision 1.2  1998/03/06 05:31:47  pinkfish
+ * Handle expanded inventory stuff...
+ *
+ * Revision 1.1  1998/01/06 05:13:15  ceres
+ * Initial revision
+ * 
+ */
+#define OBJ_PARSER_NO_CLASSES
+#include <obj_parser.h>
+inherit "/secure/simul_efun/obj_parser";
+
+#include <playtesters.h>
+
+private nosave mixed *rest;
+
+mixed *query_strange_inventory(mixed *arr);
+private object query_simul_efun_id(object ob, mixed *arr);
+private object query_frac_simul_efun_id(object ob, mixed *arr);
+
+#if !efun_defined(living)
+int living(object);
+#endif
 
 /* If anyone can tell me what this does...
  * I would be most apprecative, Pinkfish... Yes yes ok i did write it.
  */
-mixed find_match(string str, mixed ob) {
-mixed *array, test, *ret;
-int i, num, top, bot, bing, j;
-string nick, type, *bits;
-mapping rabbit;
+/**
+ * The find_match simul_efun.
+ * @author Pinkfish
+ */
 
-  if (!ob || intp(ob))
-    return ({ });
-  if (str == "" || !str)
-    return ({ });
-  if (stringp(ob)) {
-    ob -> dummy();
-    ob = find_object(ob);
-  }
-  if (!pointerp(ob)) {
-    ob = (mixed)ob->find_inv_match(str);
-    if (!ob)
-      return ({ });
-  } else {
-    array = ({ });
-    for (i=0;i<sizeof(ob);i++)
-      if ((test = (object *)ob[i]->find_inv_match(str)))
-        array += test;
-    ob = array;
-  }
-  bits = explode(implode(explode(str, " and "), ","), ",");
-  ret = ({ });
-  for (j=0;j<sizeof(bits);j++) {
-    str = bits[j];
-    nick = (string)this_object()->expand_nickname(str);
-    if (!nick && this_player())
-      nick = (string)this_player()->expand_nickname(str);
-    if (nick && nick!="")
-      str = nick;
-    if (str == "it" || str == "them" || str == "him" || str == "her") {
-      rest = all_inventory(this_player()) +
-             all_inventory(environment(this_player()));
-      array = (object *)this_player()->query_it_them();
-      while (i<sizeof(array))
-        if (member_array(array[i], rest) == -1)
-          array = delete(array, i, 1);
-        else
-          i++;
-      if (!sizeof(array))
-        continue;
-      if (str == "it") {
-        ret += array[0..0];
-        continue;
-      }
-      if (str == "her")
-        if (living(array[0]) && (int)array[0]->query_gender() == 2) {
-          ret += array[0..0];
-          continue;
-        } else
-          continue;
-      if (str == "him")
-        if (living(array[0]) && (int)array[0]->query_gender() == 1) {
-          ret += array[0..0];
-          continue;
-        } else
-          continue;
-      ret += array;
-      continue;
-    }
-    test = explode(str, " ");
-    sscanf(test[sizeof(test)-1], "%d", bing);
-    test = ({ });
-    rest = ({ });
-    if (sscanf(str, "%d/%d of %s", top, bot, str) != 3)
-      top = bot = 1;
-    if (top <= 0)
-      top = 1;
-    if (bot < top)
-      bot = top;
-    parse_command(str,ob,"%i",test);
-    if (!test || !sizeof(test))
-      continue;
-    if (bot != top) {
-      num = test[0];
-      rabbit = ([ ]);
-      for (i=1;i<sizeof(test);i++)
-        rabbit[test[i]] = 1;
-      array = query_strange_inventory(keys(rabbit));
-      test = ({ });
-      for (i=0;i<sizeof(array);i+=2)
-        test += map_array(array[i+1], "query_frac_simul_efun_id",
-                           this_object(), ({ num, str, 0, sizeof(array[i+1]),
-                                             top, bot }) );
-      array = test + rest;
-      ret += array;
-      continue;
-    }
-    if (test[0] == 1 && bing)
-      test[0] = -bing;
-    rabbit = ([ ]);
-    for (i=1;i<sizeof(test);i++)
-      rabbit[test[i]] = 1;
-    array = map_array(keys(rabbit), "query_simul_efun_id",
-                           this_object(), ({ test[0], str }));
-    array += rest;
-    ret += array;
-  }
-  if (this_player() && sizeof(ret))
-    return this_player()->set_it_them( ret - ({ 0 }) );
-  return ret - ({ 0 });
-} /* find_match() */
+/**
+ * This method checks to see if the specified object is in the player
+ * or the environment.  If it has no environment it is considered to
+ * be here.
+ * @param ob the object to test
+ * @param player the player to check against
+ * @return 1 if it is, 0 if not
+ */
 
-object query_simul_efun_id(object ob, mixed *arr) { 
-  mixed ret;
-  ret = (mixed)ob->query_parse_id(arr);
-  if (!pointerp(ret))
-    return ret;
-  rest += ret[1..sizeof(ret)];
-  return ret[0];
-} /* query_simul_efun_id() */
+int is_in_me_or_environment(object thing, object person)  {
+   object env;
 
-object query_frac_simul_efun_id(object ob, mixed *arr) {
-  mixed ret;
-  ret = (mixed)ob->query_frac_parse_id(arr);
-  if (!pointerp(ret))
-    return ret;
-  rest += ret[1..sizeof(ret)];
-  return ret[0];
-} /* query_frac_efun_id() */
+   if ((env = environment(thing)) == environment(person))
+      return 1;
 
-int fixup_parse_command(mixed ob) {
-  return objectp(ob);
-} /* fixup_parse_command() */
+   // This is a special case if 'thing' is a room.
+   // Needed for the 'get' command, and others (I assume)
+   if (!env)
+      return 1;
+
+   while (env  &&  !living(env))
+      env = environment(env);
+
+   if (env == person)
+      return 1;
+
+   return 0;
+}
+
+/**
+ * This method returns the array of objects that are only inside the
+ * player in question, or in their environment.  It excludes any items
+ * in other peoples inventorys.
+ * @param obs the objects to filer
+ * @param player the player to check
+ * @return the filtered objects
+ */
+object* filter_in_me_or_environment(object* obs, object player) {
+   return filter(obs, (: is_in_me_or_environment($1, $2) :), player);
+} /* filter_in_me_or_environment() */

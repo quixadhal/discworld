@@ -1,0 +1,250 @@
+.DT
+setup()
+Discworld Creator help
+setup()
+
+.SI 5
+void setup() : successful use of set_name(), set_short(), etc.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+.EI
+
+.SP 5 5
+The information in this monograph concerns those functions which all objects
+that are tangible to players in the game have in their setup function.  These
+are:
+.EP
+
+.SO 10 50 -20
+	set_name( string word )	( 1 )
+	set_short( string words )	( 2 )
+	set_long( string text )	( 2 )
+	add_alias( string word | string *words )	( 1 )
+	add_plural( string word | string *words )	( 1 )
+	set_main_plural( string words )	( 2 )
+	add_adjective( string word | string *words )	( 1 )
+	add_property( "determinate", string word )	( 2 ) 
+.EO
+
+.SI 8
+These functions fall into two categories:
+.EI
+
+.SO 10 -10
+( 1 )	functions that set up information which will be drawn upon by the parser in its attempts to ascertain if this is the object with which the player wants to do something, and
+( 2 )	functions that set up information that is used to print responses to the player's actions involving the object.
+.EO
+
+The second category is the simpler and will be dealt with first.
+
+.SI 5
+set_short( string words )
+.EI
+.SP 10 10
+The short description ( or short for short ) is that word or, more often,
+those words which the player will see when looking at a room that contains the
+object, e.g.
+.EP
+
+.SP 15 10
+"beggar", "Detritus", "old man", "green caterpillar", "blue box",
+"wooden table", "chocolate eclair", "short sword", "shiny stone".
+.EP
+
+.SP 1 5
+Usually the short is one adjective and one noun, although it can be just a noun
+or may be more complicated ( "bunch of flowers" ).  It is the first thing to be
+decided upon when coding the object, although not necessarily the first to
+appear in the setup function.  The short should not be capitalised unless the
+object has a proper name, e.g. "Hrun", "Klang"; it also should not contain any
+articles ( "a", "an" or "the" ) since these are added automatically - see the
+comments concerning the determinate below.
+.EP
+
+.SI 5
+set_long( string text )
+.EI
+.SP 10 5
+The long description ( or long for short ) is that piece of text, often a
+few lines long, which the player will see when looking directly at, or
+examining, the object.  The bare long, i.e. the piece of text given in
+set_long(), often has extra text appended for output to give, for instance,
+information about the object's inventory, enchantment or health.  The long will
+often contain a few more adjectives which are suitable for describing the
+object.
+.EP
+
+.SI 5
+set_main_plural( string words )
+.EI
+.SP 10 5
+Related to the short is the main plural, e.g.
+.EP
+
+.SP 15 10
+"beggars", "Detrituses", "old men", "green caterpillars", "blue boxes",
+"wooden tables", "chocolate eclairs", "short swords", "shiny stones".
+.EP
+
+.SP 10 5
+For correct appearance in the game, the short, long and main plural should
+be set - these three, and only these three, give the player information about
+the object.
+.EP
+
+.SI 5
+add_property( "determinate", string word )
+.EI
+.SP 10 5
+Also of interest, as far as nice output is concerned, is the determinate, or
+article, that is combined with the short when generating response messages.
+Most objects have "a " or "an " as their determinate, although objects with
+proper names will have determinate "", and some objects, unique things such
+as the Librarian, will have "the " as their deteminate - note the extra space
+in the non-trivial determinates, since a space is not inserted when joining
+the determinate to the short.  To work out the correct determinate ( if it
+is not immediately obvious ) think about what should be put into the blank
+in sentences such as:
+.EP
+
+.SI 15
+ "<blank> arrives from the south.", e.g.
+.EI
+.SP 20 10
+ "A burly fighter...", "An old man...", "Stren Withel...",
+ "The Weasel...",
+.EP
+
+.SI 15
+ "You find a <blank> in the undergrowth.", e.g.
+.EP
+.SP 20 10
+"... a blue stone...", "... an aromatic herb...", "... Klang...",
+"... the Sacred Rice-bowl of Offler...".
+.EP
+
+.SP 1 5
+If there is more than one object, then the number ( "five", "seven", etc. ) or
+"some" will be used instead of the determinate.  Determinates should not be
+capitalised since they will not necessarily appear at the start of a sentence.
+If the determinate property is not set, "a " or "an " are used by default.
+.EP
+
+.SI 5
+set_name( string word )
+.EI
+.SP 10 5
+Once the short, long and main plural have been chosen, the parser
+information function arguments can be deduced.  The name of the object is
+almost always the principal noun from the short, but it _must_ be in lowercase
+throughout, e.g.
+.EP
+.SP 20 10
+"beggar", "detritus", "man", "caterpillar", "box", "table", "eclair",
+"sword", "stone".
+.EP
+
+.SP 1 5
+The name should be the word that will be most used to reference the object.
+.EP
+
+.SI 5
+add_alias( string word | string *words )
+.EI
+.SP 10 5
+Additional valid names can be given as aliases, e.g. "troll" for Detritus
+({ "man", "pauper", "urchin" }) for the beggar - note that add_alias, like
+add_adjective and add_plural, can accept an array argument such that:
+.EP
+
+.SI 15
+add_alias( ({ "man", "pauper", "urchin" }) );
+.EI
+
+.SP 10 5
+is equivalent to:
+.EP
+
+.SI 15
+add_alias( "man" );
+add_alias( "pauper" );
+add_alias( "urchin" );
+.EI
+
+Aliases, as well as adjectives and plurals, must be in lower case throughout
+for the purposes of parsing commands.
+
+add_plural( string word | string *words )
+-----------------------------------------
+
+   The system automatically adds one plural for you: the plural of the name
+once you have called set_name().  Sometimes this default plural is not quite
+right, though, e.g. the plural of "key" is found to be "keies", so the correct
+plural must be given, e.g. add_plural( "keys" ); .  Plurals of each alias
+should also be given in this way, e.g.
+
+      add_plural( ({ "men", "paupers", "urchins" }) );
+
+for the beggar ( the default plural of "beggar" is "beggars" which is correct
+and so "beggars" need not be given again ).
+
+add_adjective( string word | string *words )
+--------------------------------------------
+
+   All relevant adjectives should be given using add_adjective() - adjectives
+in the short _must_ be given since the player ought at least be able to
+reference an object by its short, e.g.
+
+      - , - , "old", "green", "blue", ({ "wooden", "wood" }), ({ "chocolate",
+      "choc" }), "short", "shiny".
+
+
+Some examples :
+---------------
+
+Example 1: a battered hat.
+
+   void setup() {
+      set_name( "hat" );
+      set_short( "battered hat" );
+      set_long( "This is an old, battered hat.  It's made from felt.\n" );
+      set_main_plural( "battered hats" );
+      add_adjective( ({ "battered", "old", "felt" }) );
+      ...
+
+Example 2: a bunch of flowers.
+
+   void setup() {
+      set_name( "bunch" );
+      set_short( "bunch of flowers" );
+      set_long( "This is a nice bunch of dahlias.\n" );
+      add_alias( ({ "flowers", "dahlias" }) );
+      add_plural( ({ "bunches", "bunches of flowers" }) );
+      set_main_plural( "bunches of flowers" );
+      add_adjective( ({ "bunch", "of" }) );
+      ...
+
+Example 3: a pair of slippers.
+
+   void setup() {
+      set_name( "slippers" );
+      set_short( "pair of slippers" );
+      set_long( "This is a pair of light blue slippers.\n" );
+      add_plural( "pairs of slippers" );
+      set_main_plural( "pairs of slippers" );
+      add_adjective( ({ "pair", "of" }) );
+      ...
+
+Example 4: the Librarian.
+
+   void setup() {
+      set_name( "librarian" );
+      set_short( "Librarian" );
+      set_long( "This is the Librarian.  He was turned into an adult male "+
+            "orang-utan in a magical accident.\n" );
+      add_alias( ({ "orang-utan", "orangutan", "orang", "utan", "ape" }) );
+      add_plural( ({ "orang-utans", "orangutans", "orangs", "utans",
+            "apes" }) );
+      set_main_plural( "orang-utans" );
+      add_adjective( ({ "orang", "adult", "male" }) );
+      add_property( "determinate", "the " );
+      ...

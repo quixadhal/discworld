@@ -1,0 +1,38 @@
+.DT
+query_amount_types
+Discworld cont_medium help
+query_amount_types
+
+Name
+.SI 5
+query_amount_types - The amount types of this stuff.
+.EI
+
+Syntax
+.SI 5
+mapping query_amount_types();
+.EI
+
+Description
+.SP 5 5
+This is used to give how large the different sorts of amount types
+are for the medium in question.  It is a mapping with the names
+of the amount types and the number of the medium which corresponds
+to them.
+.EP
+.SI 5
+
+([ "pinch": ({ 1, "pinches" }),
+   "handful": ({ 50, "handfuls" }) ])
+.EI
+
+.SP 5 5
+This would mean a pinch is 1 unit and a handful is 50 units.
+.EP
+
+
+See also
+.SP 5 5
+set_amount_types, set_continuous, reset_continuous, query_continuous,
+amount_size, set_amount, query_amount, adjust_amount
+.EP

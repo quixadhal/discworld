@@ -1,0 +1,229 @@
+<html><head><title>File lightable.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/lightable.c</h2> This is the standard lightable.  It can be used for candles,
+lanterns, lamps etc.  It adds the commands "light" and
+"dowse"/"extinguish" to the player, but no refuelling
+command.  Holding stuff is handled by /obj/weapon and the
+ho_ld command.<p>Written by Gruper<p>Started 11th of May, 1998
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.weapon.c.html">/obj/weapon.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.fuel_handler.h.html">/include/fuel_handler.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#current_fuel_message"><b>current_fuel_message</b></a>()<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_brightness"><b>query_brightness</b></a>()<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_empty_mess"><b>query_empty_mess</b></a>()<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_fuel"><b>query_fuel</b></a>()<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_fuel_messages"><b>query_fuel_messages</b></a>()<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_hold_required"><b>query_hold_required</b></a>()<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_lit"><b>query_lit</b></a>()<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_fuel"><b>query_max_fuel</b></a>()<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_brightness"><b>set_brightness</b></a>(int)<dd>
+The brightness is the number used in set_light(),
+ie how brightly the lightable shines when lit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_empty_mess"><b>set_empty_mess</b></a>(string)<dd>
+The empty message is a string used to describe the lightable
+when it is out of fuel.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_fuel"><b>set_fuel</b></a>(int)<dd>
+Sets the current amount of fuel.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_fuel_messages"><b>set_fuel_messages</b></a>(mixed)<dd>
+This function is used to set the different messages shown
+depending on how much fuel is left in the lightable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_hold_required"><b>set_hold_required</b></a>(int)<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_lit"><b>set_lit</b></a>(int)<dd>
+This function is used to light or dowse the lightable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_fuel"><b>set_max_fuel</b></a>(int)<dd>
+Sets the maximum amount of fuel.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="current_fuel_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>current_fuel_message</b></a><pre>
+string current_fuel_message()
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>String describing how much fuel is left.
+
+</dl>
+
+<dt><a name="query_brightness">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_brightness</b></a><pre>
+int query_brightness()
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>How brightly the object shines when lit
+
+</dl>
+
+<dt><a name="query_empty_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_empty_mess</b></a><pre>
+string query_empty_mess()
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>String empty_mess
+
+</dl>
+
+<dt><a name="query_fuel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_fuel</b></a><pre>
+int query_fuel()
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The current amount of fuel.
+
+</dl>
+
+<dt><a name="query_fuel_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_fuel_messages</b></a><pre>
+mixed query_fuel_messages()
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a mapping containing all the different fuel_messages
+
+</dl>
+
+<dt><a name="query_hold_required">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_hold_required</b></a><pre>
+int query_hold_required()
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>number of hands required to hold object when lit
+
+</dl>
+
+<dt><a name="query_lit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_lit</b></a><pre>
+int query_lit()
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if lit, 0 if unlit
+
+</dl>
+
+<dt><a name="query_max_fuel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_fuel</b></a><pre>
+int query_max_fuel()
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The max amount of fuel the object can contain.
+
+</dl>
+
+<dt><a name="set_brightness">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_brightness</b></a><pre>
+void set_brightness(int i)
+</pre><dd>
+The brightness is the number used in set_light(),
+ie how brightly the lightable shines when lit.
+<p>
+
+<dt><a name="set_empty_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_empty_mess</b></a><pre>
+void set_empty_mess(string msg)
+</pre><dd>
+The empty message is a string used to describe the lightable
+when it is out of fuel.  It should be on the form
+"is burnt to a stub." to fit both the_short() +" "+ msg
+and "It "+ msg.
+<p>
+
+<dt><a name="set_fuel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_fuel</b></a><pre>
+void set_fuel(int i)
+</pre><dd>
+Sets the current amount of fuel.  One fuel unit equals
+one second of burning time.  If fuel > max_fuel,
+fuel = max_fuel, so it is important to set max_fuel
+before fuel.
+<p>
+
+<dt><a name="set_fuel_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_fuel_messages</b></a><pre>
+void set_fuel_messages(mixed msgs)
+</pre><dd>
+This function is used to set the different messages shown
+depending on how much fuel is left in the lightable.
+The fuel messages should be on a form suitable to be
+appended to the_short() +" is lit/not lit.  "
+The argument msgs can either be an array of strings or an
+array of string, int pairs.  In the first case, the fuel
+messages will be evenly spaced.  In the second case, the
+int is a percentage (fuel_left*100/max_fuel) below which
+the string will be used.  If no message for 100 is given,
+it will default to the last string element in the array.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>msgs - A mixed array of either strings or string, int pairs
+<dt><b>Example:</b>
+<dd><pre>    set_fuel_messages( ({ "There is almost no fuel left.", 10
+                          "It is more than halfway empty.", 50,
+                          "It is not yet halfway empty.", 80,
+                          "It is almost full.", 100 }) );
+</pre></dl>
+
+<dt><a name="set_hold_required">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_hold_required</b></a><pre>
+void set_hold_required(int hands)
+</pre><dd><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>hands - The number of hands required to hold the object when lit
+Any non-zero value will cause the ho_ld command to be executed,
+so use set_no_limbs( 2 ) as usual for two-handed weapons.
+I guess what I'm really trying to say is that a 0 will not require
+the object to be held and any other value will.
+
+In winter darkness<br>
+Gruper lights a cheerful flame<br>
+It smells like honey<br>
+
+</dl>
+
+<dt><a name="set_lit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_lit</b></a><pre>
+int set_lit(int i)
+</pre><dd>
+This function is used to light or dowse the lightable.
+Two properties are checked: unextinguishable means that
+the lightable cannot be extinguished and unlightable that
+it cannot be lit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - 1 for lit and 0 for unlit
+<dt><b>Returns:</b>
+<dd>The current state, 1 for lit, 0 for unlit
+
+</dl>
+
+<dt><a name="set_max_fuel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_fuel</b></a><pre>
+void set_max_fuel(int i)
+</pre><dd>
+Sets the maximum amount of fuel.
+One fuel unit equals one second of burning time.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 03:30:48 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

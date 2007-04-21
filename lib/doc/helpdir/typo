@@ -1,34 +1,77 @@
 .DT
 typo
-Discworld player commands
+Discworld player help
 typo
 
-Name
+.SH Name
 .SI 5
-typo - Report a typing mistake
+typo - Report typos to the creators
 .EI
 
-Syntax
+.SH Syntax
 .SI 5
-typo <text>
+typo object <name of NPC or item>
+typo command <name>
+typo spell <name>
+typo ritual <name>
+typo help <subject>
+typo room
+typo general
 .EI
 
-Description
+.SH Description
 .SP 5 5
-The typo command should be used when misspellings are found in room or object
-descriptions.
+This command informs the creators of typos in commands, spells, objects (room
+items, normal items, NPCs, etc.), rituals, help files, rooms, help files or
+in general.  The first argument is used to specify what type of typo report
+it is, while the second is the name of the command, spell, etc.  The
+second argument is not used for rooms as "here" is implicit, it's also not
+used for general reports.
+
+The typo report is recorded in a database specific to whatever you are using
+the command for, so try to be specific in your use.
+
+If you have to report a typo in a spell you haven't remembered at the
+moment, you can use the name of one you have, as all spells are bugfixed by
+the same creator, so the report will still go to the right person.  The same
+is true for rituals.
+
+To report typos in rooms just stand in them and use the command.
+
+To report typos in objects be VERY SPECIFIC.  For example, if you've got three
+swords, don't use 'typo object sword' because the typo report will go to the
+first sword even if it's not the one with the typo.  Instead, make sure
+which one has the typo and use something like 'typo object sword 2',
+or you can use its full name, i.e. 'typo object sword of doom'.
+
+Specially for creators: the object can be specified by filename.
+
+To report typos in commands, spells and rituals, just put the name of
+the command or spell as you know it as the second argument.
+
+To report typos in a help file, use 'bug help <name>', PLEASE only use this
+for reporting typos in helpfiles.
 .EP
 
-Examples:
+.SH Examples
 .SI 5
-> typo Useage should be Usage.
+> typo object sword
+Ok, enter your text.  ** on a line by itself to exit.
+1 ] The sword of salying should be of slaying.
+2 ] **
+1 lines - Choose from IDLMCESQ or H for help. s
+Quitting and saving.
 
-> typo forg should be frog probably
-
-> typo assassin assassin assassin!  not assasin!!!! AARRGGHHH!!
+> typo object dwarf
+Ok, enter your text.  ** on a line by itself to exit.
+1 ] The dwarf is ok, but when there are two it should be dwarfs, not dwarves
+2 ] this is not a Tolkien based world.
+3 ] **
+2 lines - Choose from IDLMCESQ or H for help. s
+Quitting and saving.
 .EI
 
-See also
+.SH See also
 .SI 5
-bug, idea.
+bug, idea, bugcheck
 .EI

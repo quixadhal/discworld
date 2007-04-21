@@ -1,5 +1,17 @@
-#define PAY_RATES ({ 100, 60, 100, 50, 800, 40, 1000, 30, 2000, 20, 2000, 10, 5000, 5, 100000, 2 })
-/* 1000 silver coins... ;) */
-#define MAX_AMOUNT 100000
-/* max objects in buy/sell - to prevent over-evalling */
+#ifndef __SYS__SHOP
+#define __SYS__SHOP
+
+#define PAY_RATES ({ 100, 90, \
+                     200, 80, \
+                     400, 70, \
+                     800, 60, \
+                     1600, 50, \
+                     3200, 40, \
+                     6400, 30, \
+                     12800, 20, \
+                     10 })
+#define MAX_AMOUNT 50000
+#define MAX_INVENTORY 50
 #define MAX_OBS 8
+
+#endif /* __SYS__SHOP */

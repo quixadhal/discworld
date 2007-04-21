@@ -1,0 +1,266 @@
+.DT
+weather
+Discworld Creator help
+weather
+
+Name
+.SI 5
+/obj/handlers/weather.c - Handler for <desc>
+.EI
+
+Description
+
+.SP 5 5
+This is the skeletal help for the weather handler.
+
+<description missing>
+.EP
+
+Functions
+
+/* An attempt at a new weather handler for Discworld.
+ * Ceres@Discworld 14/4/96
+ *
+ * Having thought about the way weather works (and Discworlds interesting
+ * meteorology) I decided not to try and implement some model of realworld
+ * weather. Instead regional variations in weather are handled by
+ * regional climate properties. This system will handle diurnal and seasonal
+ * variations and that's about it. Hopefully that will make it more
+ * understandable, usable and efficient.
+ *
+ * Basic Operation
+ * ---------------
+ * The weather is based on weather 'pattern's. The pattern lasts for several
+ * hours and is calculated from the 'seasonal' norm and the 'variance'. The
+ * 'current' weather will tend towards the pattern weather. The actual weather
+ * in a room will depend on the current weather, local modifiers
+ * (climate property), diurnal variations and variance.
+ *
+ * Thus update_patttern() is called once every reboot (for the moment) and
+ * update_weather() is called every 5 minutes (UPDATE_SPEED).
+ *
+ * Decisions
+ * ---------
+ * Calculation of the general weather has been moved into
+ * update_weather. Rather than doing it on a room by room basis everytime
+ * someone looks! Instead, local climate controls will be added verbatim to
+ * the current global weather. This will improve efficiency massively, but will
+ * reduce the overall weather variations.
+ *
+ * Principles
+ * ----------
+ * Temperature should go down during winter and during the night.
+ * Clouds should increase during the winter.
+ * Wind should be higher during autumn and winter (I guess).
+ * Rain/sleet/snow will depend on cloud density and temperature.
+ * If it's windy and lots of cloud density we might get a thunder storm.
+ * Cloud cover should lower temperature as should wind.
+ *
+ * Changed Jun 3 1996 by Grampa to include weather notifications for rooms.
+ */
+.SI 5
+void setup()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int weather_notify( object which_room, int notifications )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void test_notifications()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int day_number()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int minute_number()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_moon_string(object env)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_moon_state()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_moon_phase()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_season()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_day(object env)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_darkness(object env)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int calc_actual(object env, int type)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int temperature_index(object env)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int cloud_index(object env)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int rain_index(object env)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string weather_string(object env)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int next_update()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void dest_me()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_rain_type(int temp, int rain)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_snowing(object env)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_raining(object env)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int calc_variance(int type, int seasonal)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void set_day()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void migrate(int type)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int check_umbrella(object ob)
+.EI
+.SP 10 5
+.EP
+ 
+void do_inform(object who, int old_temp, int old_cloud, int old_rain,
+.SI 5
+               int old_day)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string sun_direction(int which)
+.EI
+.SP 10 5
+.EP
+ 
+void do_room_inform(object what, int old_temp, int old_cloud, int old_rain,
+.SI 5
+        int old_day, int notifications)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void notify_room( object what, int has_changed )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void update_pattern()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void update_weather()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void print_stats(object here)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int *query_mooncycle()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void set_variance(int temp, int cloud, int wind)
+.EI
+.SP 10 5
+.EP
+ 

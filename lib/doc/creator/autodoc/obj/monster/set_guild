@@ -1,0 +1,63 @@
+.DT
+set_guild
+DW_wibble creator help
+set_guild
+
+.SH Name
+.SP 5 5
+set_guild -  This method is deprecated.
+.EP
+
+.SH Syntax
+.SI 5
+int set_guild(string str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the new guild for the npc
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is deprecated.  Use basic_setup() instead.
+
+This method sets the current guild of the npc to the
+passed in value.  The guild should be one of
+the guilds listed in the /std/race.c object.
+This is used in conjuction with the
+race when set_level is called to setup the default
+attributes for the npc.  This should only be
+called *before* set_level() is called.
+.EP
+
+.SH Example 1
+.SI 5
+ob = clone_object("/obj/monster");
+ob->set_guild("fighter");
+.EI
+
+.SH Example 2
+.SI 5
+inherit "/obj/monster";
+
+void setup() {
+   ...
+   set_race("fighter");
+   ...
+   set_level(12);
+} /* setup() */
+.EI
+
+.SH See also
+.SP 5 5
+query_race(), query_guild(), set_guild(), set_level()
+
+.EP
+

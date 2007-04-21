@@ -1,470 +1,164 @@
-#include "drinks.h"
-#include "player.h"
-int social_points, max_social_points;
-static object converse_ob;
-static string my_file_name;
-string *languages,
-       cur_lang;
+/*  -*- LPC -*-  */
+/*
+ * $Id: communicate.c,v 1.28 2003/07/13 10:16:00 pinkfish Exp $
+ */
+/**
+ * The communication handling code for the player object.  Controls all
+ * the basic channels and basic communication stuff.
+ * @author Pinkfish
+ */
+#include <drinks.h>
+#include <library.h>
+#include <player.h>
+#include <language.h>
+
+#define TELL_CMD "/cmds/player/t_ell"
+#define REMOTE_CMD "/cmds/player/rem_ote"
+
+class language_info {
+   string cur_lang;
+   int mangle_accent;
+   string default_lang;
+}
+
+/*
+ * Current & Max social points
+ */
+private int *_sp = ({0, 0});
+private class language_info cur_lang;
+private mixed *tell_reply_list = ({ 0, 0 });
+
+private nosave object converse_ob;
 
 string drunk_speech(string str);
+string expand_nickname(string str);
+private int converse(string);
+private int do_write(string);
+private int do_repeat(string);
+string query_current_language();
 
 void communicate_commands() {
-  add_action("do_say","sa*y");
-  add_action("converse", "converse");
-  add_action("do_say","'*");
-  add_action("do_loud_say", "lsay");
-  add_action("do_loud_say","\"*");
-  add_action("do_emote",":*");
-  add_action("do_emote","em*ote");
-  add_action("do_echo","ec*ho");
-  add_action("do_emote_all", "emoteall");
-  add_action("do_echo_to", "echoto");
-  add_action("do_write", "frimble");
-  add_action("do_tell","t*ell");
-/* Next two line commented out by GH Tue Jan 19 20:52:34 GMT 1993 */
-/* to prevent the code that is killing the driver from running... */
-  add_action("do_shout", "sh*out");
-  add_action("do_shout", "shout!"); 
-  add_action("do_creator_tell", "cre");
-  add_action("do_creator_tell", "cre!");
-  add_action("do_whisper", "whi*sper");
-  add_action("set_language", "sp*eak");
-} /* communicate_commands() */
+  add_command("converse", "", (: converse(0) :));
+  add_command("converse", "<string'person'>", (: converse($4[0]) :));
+  add_command("frimble", "<string>", (: do_write($4[0]) :));
+  add_command("repeat", "<string'command'>", (: do_repeat($4[0]) :));
+}
 
-void set_max_social_points(int num) {
-  max_social_points = num;
-} /* set_max_social_points() */
+int query_real_max_sp() {
+  int ret;
 
-int query_max_social_points() {
-  return max_social_points;
-} /* query_max_social_points() */
+  ret = sqrt(this_object()->query_time_on() / -15);
 
-void set_social_points(int num) {
-  social_points = num;
-} /* set_social_points() */
+  if(ret < 50)
+    return 50;
+  if(ret > 500)
+    return 500;
+  return ret;
+}
 
-int query_social_points() {
-  return social_points;
-} /* query_social_points() */
+/**
+ * This returns the maximum number of social points available.
+ * @return the maximum social points
+ */
+int query_max_sp() { return _sp[1]; }
 
-int adjust_social_points(int num) {
-  int temp;
+/**
+ * This method adjusts the current maximum social points.
+ * @param number the amount to adjust it by
+ * @return the new maximum social points
+ */
+int adjust_max_sp( int number ) {
+   _sp[1] += number;
+   if ( _sp[1] < 0 )
+      _sp[1] = 0;
 
-  temp = social_points + num;
-  if(temp >= 0) {
-    social_points = temp;
-    if(social_points > max_social_points)
-      social_points = max_social_points;
-    return 1;
-  }
-  return -1;
-} /* adjust_social_points() */
+   number = query_real_max_sp();
 
-int hard_adjust_social_points(int num) {
-  social_points += num;
-} /* hard_adjust_social_points() */
+   if ( _sp[1] > number )
+      _sp[1] = number;
+   return _sp[1];
+} /* adjust_max_sp() */
 
-varargs string query_word_type(string str, string def) {
-  int i;
+/**
+ * This method sets the maximum social points.
+ * @param number the maxmum social points
+ * @return the new maximum social points
+ */
+int set_max_sp( int number ) { return adjust_max_sp( number - _sp[1] ); }
 
-  for (i=strlen(str)-1;str[i] == ' ';i--);
-  switch (str[i]) {
-    case '!' : return "exclaim";
-    case '?' : return "ask";
-    default:   if (def)
-                 return def;
-               else
-                 return "say";
-  }
-} /* query_word_type() */
+/**
+ * This method returns the current social points.
+ * @return the current social points
+ */
+int query_sp() { return _sp[0]; }
 
-string query_shout_word_type(string str) {
-  int i;
+/**
+ * This method changes the current number of social points
+ * @param number the amount to change the social points by
+ * @return the current social points
+ */
+int adjust_sp( int number ) {
+  if (_sp[0] + number < 0)
+    return -1;
 
-  for (i=strlen(str)-1;str[i] == ' ';i--);
-  switch (str[i]) {
-    case '!' : return "yell";
-    case '?' : return " asking";
-    default:   return "";
-    }
-} /* query_shout_word_type() */
+  if (number < 0)
+    adjust_max_sp(1);
+  _sp[0] += number;
+  if ( _sp[0] > _sp[1] )
+    _sp[0] = _sp[1];
+  return _sp[0];
+}
 
-string query_whisper_word_type(string str) {
-  int i;
+/**
+ * This method sets the current social points for the player
+ * @param number the number of social points
+ */
+int set_sp( int number ) {
+   return adjust_sp( number - _sp[0] );
+} /* set_sp() */
 
-  for (i=strlen(str)-1;str[i] == ' ';i--);
-  switch (str[i]) {
-    case '!' : return "urgently ";
-    case '?' : return "questioningly ";
-    default:   return "";
-  }
-} /* query_whisper_word_type() */
+void comm_event( mixed thing, string type, string start, string rest,
+      string lang, string accent ) {
+   if ( !objectp( thing ) && !pointerp( thing ) ) {
+      return;
+   }
+   event( thing, type, start, rest, lang, accent );
+   // Trickle the event down to our inventory too..
+   // But not to us...
+   call_other(all_inventory(), "event_" + type, this_object(),
+              start, rest, lang, accent);
+} /* comm_event() */
 
-string de_eight(string arg) {
-  object g;
+void comm_event_to(object ob, string event_type, string start, string type,
+                   string words, object *others, string lang, object me,
+                   string accent) {
+  event(ob, event_type, start, type, words, others, lang, me, accent);
+}
 
-  g=(object)this_object()->query_guild_ob();
-  if (g && (string)g->query_name()=="wizards") {
-    arg = "@ " + arg + "@";
-    arg=implode(explode(arg, " eight"), " seven plus one");
-    arg=implode(explode(arg, "8"), "(7+1)");
-    arg = arg[2..strlen(arg)-2];
-  }
-  return arg;
-} /* de_eight() */
+void do_whisper(object ob, string event_type, string start, string type,
+                string words, object *others, string lang, object me,
+                string accent) {
+  event(ob, event_type, start, type, words, others, lang, me, accent);
+}
 
-/* to properly columnate word_typed things */
-void my_mess(string fish, string erk) {
-  if(!interactive()) return;
-  printf("%s%-=*s\n", fish, (int)this_player()->query_cols()-strlen(fish), 
-          this_object()->fix_string(erk));
-} /* my_mess() */
-
-int do_write(string arg) {
+private int do_write(string arg) {
   if (!arg || arg == "") {
     notify_fail("Syntax: "+query_verb()+" <string>\n");
     return 0;
   }
-  write(arg+"\n");
+  write(sprintf("$I$0=%s\n", arg));
   this_player()->adjust_time_left(-DEFAULT_TIME);
   return 1;
 } /* do_write() */
 
-int do_loud_say(string arg) {
-  string word, s1, s2;
-  object g;
-
-  if (!arg) 
-    arg = "";
-  if (arg == "" || arg == " ") {
-    notify_fail("Syntax: lsay <something>\n");
-    return 0;
-  }
-  if (!LANGUAGE_HAND->query_language_spoken(cur_lang)) {
-    notify_fail(capitalize(cur_lang)+" is not a spoken language.\n");
-    return 0;
-  }
-  word = query_word_type(arg); 
-  if (this_object()->query_volume(D_ALCOHOL))
-    arg = drunk_speech(arg);
-  arg = de_eight(arg);
-  event(environment(), "person_say", this_object()->query_cap_name()+
-                       " " + word + "s loudly: ", 
-                       arg, cur_lang);
-  if (cur_lang != "common") word += " in "+cur_lang;
-  my_mess("You " + word + " loudly: ", arg);
-  this_player()->adjust_time_left(-5);
-  return 1;
-} /* do_loud_say() */
-
-int do_say(string arg, int no_echo) {
-  string word, s1, s2;
-  object g;
-
-  if (!arg) 
-    arg = "";
-  if (arg == "" || arg == " ") {
-    notify_fail("Syntax: say <something>\n");
-    return 0;
-  }
-  if (!LANGUAGE_HAND->query_language_spoken(cur_lang)) {
-    notify_fail(capitalize(cur_lang)+" is not a spoken language.\n");
-    return 0;
-  }
-  word = query_word_type(arg);
-  if (this_object()->query_volume(D_ALCOHOL))
-    arg = drunk_speech(arg);
-  arg = de_eight(arg);
-  event(environment(), "person_say", this_object()->query_cap_name()+
-                       " " + word + "s: ", arg, cur_lang);
-  if (!no_echo) {
-    if (cur_lang != "common")
-      word += " in "+cur_lang;
-    my_mess("You " + word + ": ", arg);
-  }
-  this_player()->adjust_time_left(-5);
-  return 1;
-} /* do_say() */
-
-int do_tell(string arg, object ob, int silent) {
-  string str, rest, word;
-
-  if ((!arg || arg == "") && !ob) {
-    notify_fail("Syntax: tell person <message>\n");
-    return 0;
-  }
-  if (!ob) {
-    if (sscanf(arg,"%s %s",str,rest)!=2) {
-      notify_fail("Syntax: tell <name> something\n");
-      return 0;
-    }
-  } else
-    rest = arg;
-
-  if (!LANGUAGE_HAND->query_language_spoken(cur_lang)) {
-    notify_fail(capitalize(cur_lang)+" is not a spoken language.\n");
-    return 0;
-  }
-  if (!LANGUAGE_HAND->query_language_distance(cur_lang)) {
-    notify_fail(capitalize(cur_lang)+" is not able to spoken at a "+
-                "distance.\n");
-    return 0;
-  }
-  if (!ob) {
-    str = lower_case(str);
-    str = (string)this_object()->expand_nickname(str);
-    ob = find_player(str);
-    if (!ob)
-      ob = find_living(str);
-    if (!ob) {
-      notify_fail(capitalize(str) + " is not logged in.\n");
-      return 0;
-    }
-  }
-  if (ob == this_player()) {
-    notify_fail("Talking to yourself again.  I don't know.\n");
-    return 0;
-  }
-  if (ob->query_property("player") && !interactive(ob)) {
-    notify_fail(ob->query_cap_name()+" is net dead.\n");
-    return 0;
-  }
-  if (my_file_name == "/global/player" && 
-      adjust_social_points(-TELL_COST) < 0) {
-    notify_fail(NO_POWER);
-    return 0;
-  }
-  word = query_word_type(rest, "");
-  if (word != "")
-    word = " " + word + "ing";
-  if (this_object()->query_volume(D_ALCOHOL))
-    arg = drunk_speech(arg);
-  if (word != " asking") {
-    ob->event_person_tell(this_object(), this_object()->query_cap_name()+
-                       " tells you" + word + ": ", rest, cur_lang);
-    if (cur_lang != "common") word += " in "+cur_lang;
-    if (!silent)
-      my_mess("You tell " +  ob->query_cap_name() + word + ": ", rest);
-  } else {
-    ob->event_person_tell(this_object(), this_object()->query_cap_name()+
-                       " asks you: ", rest, cur_lang);
-    if (cur_lang != "common") word += " in "+cur_lang;
-    if (!silent)
-      my_mess("You ask " + ob->query_cap_name()+": ", rest);
-  }
-  this_player()->adjust_time_left(-5);
-  return 1;
-} /* do_tell() */
-
-int do_emote(string arg) {
-  string str;
-
-  if(my_file_name=="/global/player"&&!this_player()->query_property("emote")) {
-    notify_fail(NOT_ALLOWED);
-    return 0;
-  }
-  if (!arg)
-    arg = "";
-
-  str = query_verb();
-
-  if (arg == "" || arg == " ") {
-    notify_fail("Syntax: emote <womble>\n");
-    return 0;
-  }
-
-  if (my_file_name == "/global/player" && 
-      adjust_social_points(-EMOTE_COST) < 0) {
-    notify_fail(NO_POWER);
-    return 0;
-  }
-  this_player()->adjust_time_left(-5);
-  if (this_object()->query_volume(D_ALCOHOL))
-    arg = drunk_speech(arg);
-  str = (string)this_object()->query_cap_name()+" "+arg+"%^RESET%^\n";
-
-  say(str);
-  write(str);
-  return 1;
-} /* do_emote() */
-
-/* ok... the shout cost is charged for every 10 letters, plus a bonus
- * one for the start charge..  SO a shout of yes will cost 1 social
- * point... where as a shout of lots a letters will cost lots
- */
-int do_shout(string str) {
-  string tmp, s1, s2, s;
-  object g;
-
-  if(!str || str == "") {
-    notify_fail("Syntax : shout <text>\n");
-    return 0;
-  }
-  if (this_object()->check_earmuffs("shout")) {
-    notify_fail("Why shout when you can't hear people shout back?\n");
-    return 0;
-  }
-  if (!LANGUAGE_HAND->query_language_spoken(cur_lang)) {
-    notify_fail(capitalize(cur_lang)+" is not a spoken language.\n");
-    return 0;
-  }
-  if (!LANGUAGE_HAND->query_language_distance(cur_lang)) {
-    notify_fail(capitalize(cur_lang)+" is not able to spoken at a "+
-                "distance.\n");
-    return 0;
-  }
-  if (my_file_name == "/global/player" && 
-      adjust_social_points(-SHOUT_COST*((strlen(str)/10)+1)) < 0) {    
-    notify_fail(NO_POWER);
-    return 0;
-  }
-  s1 = query_shout_word_type(str);
-  if (s1 != "yell")
-    s = "shouts"+s1;
-  else
-    s = s1+"s";
-  if (this_object()->query_volume(D_ALCOHOL))
-    str = drunk_speech(str);
-  str = replace(str, "", "");
-  if (s1 != "yell") {
-    if (cur_lang != "common") s1 += " in "+cur_lang;
-    my_mess("You shout" + s1 + ": ", str);
-  } else {
-    if (cur_lang != "common") s1 += " in "+cur_lang;
-    my_mess("You " + s1 + ": ", str);
-  }
-  s2 =  " " + lower_case(str);
-  if (sscanf(s2, "%seight%s", s1, s1)==2 ||
-      sscanf(s2, "%s8%s", s1, s1)==2) {
-/*
-    s2 = " "+lower_case(str);
-    s1 = replace(s2, "8", "", " ", "");
-*/
-    s1 = replace(s2, "8", "", " eight", "eight");
-    if (s1 == "" || s1 == "eight") {
-    g = (object)this_object()->query_guild_ob();
-    write("Oops...\n");
-    if (random(100) < 40 || (g && (string)g->query_name() == "wizards"))
-      call_out("summon_bel_shamharoth", 3);
-    }
-  }
-  event(users(), "person_shout", this_object()->query_cap_name()+
-                 " "+s, str, cur_lang);
-  return 1;
-} /* do_shout() */
-
-int do_creator_tell(string mess) {
-  if (!this_object()->query_creator())
-    return 0;
-  if (!mess || mess == "") {
-    notify_fail("Syntax: cre <text>\n");
-    return 0;
-  }
-  if (this_object()->check_earmuffs("creator-tell")) {
-    write("Why use creator-tell when you can't hear a response?\n");
-    return 1;
-  }
-  mess = replace(mess, "", "");
-  event(users(), "creator_tell", (string)this_object()->query_cap_name() + ": ",
-        mess);
-  my_mess("You creator-tell: ", mess);
-  this_player()->adjust_time_left(-DEFAULT_TIME);
-  return 1;
-} /* do_creator_tell() */
-
-
-int do_echo(string str) {
-  if(my_file_name=="/global/player"&&!this_player()->query_property("echo")) {
-    notify_fail(NOT_ALLOWED);
-    return 0;
-  }
-  if (!str || str == "") {
-    notify_fail("Syntax : echo <text>\n");
-    return 0;
-  }
-  if (my_file_name == "/global/player" && 
-      adjust_social_points(-ECHO_COST) < 0) {
-    notify_fail(NO_POWER);
-    return 0;
-  }
-  if (this_object()->query_volume(D_ALCOHOL))
-    str = drunk_speech(str);
-  log_file("ECHOS", ctime(time())+" "+this_player()->query_name()+" echo's: "+
-                    str+"\n");
-  str += "%^RESET%^";
-  my_mess("You echo: ", str);
-  event(environment(), "player_echo", str + "\n");
-  return 1;
-} /* do_echo() */
- 
-int do_echo_to(string str) {
-  string who, what;
-  object ob;
-  if(my_file_name=="/global/player"&&!this_player()->query_property("echoto")) {
-    notify_fail(NOT_ALLOWED);
-    return 0;
-  }
-  if(!str || str == "") {
-    notify_fail("Syntax : echoto <player> <text>\n");
-    return 0;
-  }
-  if(sscanf(str, "%s %s", who, what) != 2) {
-    notify_fail("Syntax : echoto <player> <text>\n");
-    return 0;
-  }
-  who = lower_case(who);
-  who = (string)this_object()->expand_nickname(who);
-  if (my_file_name == "/global/player" && 
-      adjust_social_points(-ECHOTO_COST) < 0) {
-    notify_fail(NO_POWER);
-    return 0;
-  }
-  ob = find_player(who);
-  if (this_object()->query_volume(D_ALCOHOL))
-    what = drunk_speech(what);
-  log_file("ECHOS", ctime(time())+" "+this_player()->query_cap_name()+
-                    " Echoto's "+who+": " +what+"\n");
-  what += "%^RESET%^";
-  my_mess("You echo to " + who + ": ", what);
-  event(ob, "player_echo_to", what + "\n");
-  return 1;
-} /* do_echo_to() */
-
-int do_emote_all(string str) {
-  if(my_file_name=="/global/player"&&
-        !this_player()->query_property("emoteall")) {
-    notify_fail(NOT_ALLOWED);
-    return 0;
-  }
-  if(!str || str == "") {
-    notify_fail("Syntax : emoteall <string>\n");
-    return 0;
-  }
-  if (my_file_name == "/global/player" && 
-      adjust_social_points(-EMOTEALL_COST*((strlen(str)/10)+1)+100) < 0) {
-    notify_fail(NO_POWER);
-    return 0;
-  }
-  str = replace(str, "", "");
-  if (this_object()->query_volume(D_ALCOHOL))
-    str = drunk_speech(str);
-  log_file("ECHOS", ctime(time())+" "+this_player()->query_cap_name()+
-                    " Emotealls: "+str+"\n");
-  str += "%^RESET%^";
-  my_mess("You emoteall : ", this_player()->query_cap_name()+" " + str);
-  event(users(), "player_emote_all", this_player()->query_cap_name() + " "
-                 + str + "\n");
-  return 1;
-} /* do_emote_all() */
-
-int converse(string str) {
-  if (!LANGUAGE_HAND->query_language_spoken(cur_lang)) {
-    notify_fail(capitalize(cur_lang)+" is not a spoken language.\n");
+private int converse(string str) {
+  if (!LANGUAGE_HAND->query_language_spoken(query_current_language())) {
+    notify_fail(capitalize(query_current_language())+" is not a spoken language.\n");
     return 0;
   }
   if (str) {
-    if (!LANGUAGE_HAND->query_language_distance(cur_lang)) {
-      notify_fail(capitalize(cur_lang)+" is not able to spoken at a "+
+    if (!LANGUAGE_HAND->query_language_distance(query_current_language())) {
+      notify_fail(capitalize(query_current_language())+" is not able to spoken at a "+
                   "distance.\n");
       return 0;
     }
@@ -491,146 +185,211 @@ int converse(string str) {
 void do_converse(string str) {
   if(str == "**") {
     write("Ok.\n");
+    converse_ob = 0;
     return;
   }
   if(str)
-/*
-    if(str[0] == '!')
-      command(str[1..strlen(str)-1]);
-    else */ if (!converse_ob)
-      do_say(str, 1);
+    if (!converse_ob)
+      "/cmds/living/sa_y"->cmd( str );
     else
-      do_tell(str, converse_ob, 1);
+      if ( function_exists( "trap_tell", environment() ) )
+        environment()->trap_tell( str, converse_ob, 1 );
+      else
+        TELL_CMD->cmd( str, converse_ob, 1 );
   write("] ");
   input_to("do_converse");
 } /* do_converse() */
 
-int do_whisper(string str) {
-  object *obs;
-  string s, s2, *bits, peeps;
-  int i;
-
-  notify_fail("Syntax: whisper <string> to <person>\n");
-  if (!str)
-    return 0;
-  if (!LANGUAGE_HAND->query_language_spoken(cur_lang)) {
-    notify_fail(capitalize(cur_lang)+" is not a spoken language.\n");
-    return 0;
-  }
-  str = replace(str, " to", "  to");
-  bits = explode(str, " to ");
-  if (!bits || sizeof(bits) < 2 || (sizeof(bits) == 2 && bits[0] == ""))
-    return 0;
-  s2 = replace(implode(bits[0..sizeof(bits)-2], " to "), "  to", " to");
-  obs = find_match(bits[sizeof(bits)-1], environment());
-  if (sizeof(obs) == 1 && obs[0] == this_player()) {
-    say(this_player()->query_cap_name()+" whispers to "+
-        this_player()->query_objective()+"self.\n");
-    write("Whispering to your self!?\n");
-    return 1;
-  }
-  obs = obs - ({ this_player() });
-  for (i=0;i<sizeof(obs);i++)
-    if (!living(obs[i]))
-      obs = delete(obs, i--, 1);
-  if (!sizeof(obs)) {
-    notify_fail("Could not find anyone to whisper to.\n");
-    return 0;
-  }
-  if (this_object()->query_volume(D_ALCOHOL))
-    s2 = drunk_speech(s2);
-  s2 += "%^RESET%^";
-  s = query_whisper_word_type(s2);
-  event(environment(), "whisper", this_object()->query_cap_name() +
-        " whispers " + s, s2, obs, cur_lang);
-  my_mess("You whisper " + s + "to " + query_multiple_short(obs) + ": ", s2);
-  this_player()->adjust_time_left(-5);
-  return 1;
-} /* do_whisper() */
-
-string drunk_speech(string str) {
-/* I think I like replace already */
-  return replace(str, ({ "s", "sh", "r", "rr", "ing", "in'", "x", "xsh",
-                         "S", "SH", "R", "RR" }));
-} /* drunk_speech() */
-
-int summon_bel_shamharoth(int quiet) {
-  string mess;
-  object *ob;
-  int i;
-  if ("/secure/master"->high_programmer(geteuid()))
-    mess = "The heavens shake with a hideous roar and just as suddenly all "+
-           "is quiet.\n" + this_object()->query_cap_name() + " chuckles "+
-           "in the distance.\n";
-  else
-    mess = "A sudden darkness passes over the land as " + 
-         this_object()->query_cap_name() + " is carried off screaming to " +
-         "the land of Shades.\n";
-  if (!quiet) {
-    ob = users();
-    for (i=0; i < sizeof(ob); i++) {
-      if (ob[i]!=this_object() && !ob[i]->query_earmuffs())
-        tell_object(ob[i], sprintf("%-=*s", ((int)ob[i]->query_cols()-1), 
-                                            mess));
-    }
-  }
-  if ("/secure/master"->high_programmer(geteuid()))
-    mess = "Your godhood saves you from a grizzly encounter with the "+
-           "Sender of Eight.\n";
-  else
-    mess = "You think you'd best be careful what you say in the future as " +
-         "shadowy tentacles drag you into the earth...\n";
-  printf("%-=*s", ((int)this_object()->query_cols()-1), mess);
-  if(!"/secure/master"->high_programmer(geteuid()))
-    this_object()->quit();
-  return 1;
-} /* summon_bel_shamharoth() */
-
+/**
+ * This method will add a language to a player/npc.  It is used to make sure
+ * that a player or npc has a specific language.
+ * @param lang the language to add
+ */
 void add_language(string lang) {
+  int lvl;
+  string skill;
+
   if (!LANGUAGE_HAND->test_language(lang))
     return ;
-  if (member_array(lang, languages) != -1)
-    return ;
-  languages += ({ lang });
+
+  if (LANGUAGE_HAND->query_language_spoken(lang)) {
+    skill = LANGUAGE_HAND->query_language_spoken_skill(lang);
+    lvl = this_object()->query_skill(skill);
+    this_object()->add_skill_level(skill, 100 - lvl);
+  }
+
+  if (LANGUAGE_HAND->query_language_written(lang) ||
+      LANGUAGE_HAND->query_language_magic(lang)) {
+    skill = LANGUAGE_HAND->query_language_written_skill(lang);
+    lvl = this_object()->query_skill(skill);
+    this_object()->add_skill_level(skill, 100 - lvl);
+  }
 } /* add_language() */
 
-void remove_language(string lang) {
-  int i;
+private void fixup_lang_class() {
+   mixed tmp;
 
-  if ((i = member_array(lang, languages)) == -1)
-    return ;
-  languages = delete(languages, i, 1);
-  if (lang == cur_lang) {
-    if (!sizeof(languages))
-      cur_lang = "grunt";
-    else
-      cur_lang = languages[0];
-    tell_object(this_object(), "You just forgot the language you were "+
-                "speaking.  You are now speaking "+cur_lang+".\n");
-  }
-} /* remove_language() */
+   if (!classp(cur_lang)) {
+      tmp = cur_lang;
+      if (!tmp) {
+         tmp = "common";
+      }
+      cur_lang = new(class language_info);
+      cur_lang->cur_lang = tmp;
+      cur_lang->default_lang = "common";
+      cur_lang->mangle_accent = 1;
+   }
+}
 
+/**
+ * This method sets the language we are currently speaking.
+ * @param str the language we are current speaking
+ * @see query_current_language()
+ */
 int set_language(string str) {
-  if (!str) {
-    notify_fail("You are now speaking "+cur_lang+" and can speak any of "+
-                query_multiple_short(languages+({ "grunt" }))+".\n");
+  if (!LANGUAGE_HAND->test_language(str))
     return 0;
-  }
-  if (member_array(str, languages+({ "grunt" })) == -1) {
-    notify_fail("You do not know "+str+".\n");
-    return 0;
-  }
-  cur_lang = str;
-  write("Now using "+str+" for speaking and writing.\n");
+  fixup_lang_class();
+  cur_lang->cur_lang = str;
   return 1;
 } /* set_language() */
 
-string query_current_language() { return cur_lang; }
- 
-string *query_languages() { return languages; }
+/**
+ * This method returns the language the person is currently speaking.
+ * @return the spoken language
+ * @see set_language()
+ */
+string query_current_language() {
+  fixup_lang_class();
+  return cur_lang->cur_lang;
+}
 
-int query_language(string str) {
-  if (member_array(str, languages) == -1)
+/**
+ * This method sets the default language to use for the person.  The default
+ * language is their native tongue, so things in this language show as
+ * not being a special language.
+ * @param def the default language
+ */
+void set_default_language(string def) {
+  fixup_lang_class();
+  cur_lang->default_lang = def;
+}
+
+/**
+ * This method returns the default language to use for the person.
+ * @return the default language
+ */
+string query_default_language() {
+  fixup_lang_class();
+  return cur_lang->default_lang;
+}
+
+/**
+ * This method sets the mangle accents flag.  If this is set to 1 then the
+ * accents will be mangled in the speech text, if it is set to 0 then
+ * the accent will just be added to the say string instead.
+ * @param flag the new value of the flag
+ */
+void set_mangle_accent(int flag) {
+   fixup_lang_class();
+   cur_lang->mangle_accent = flag;
+}
+
+/**
+ * This method returns the mangle accents flag.  If this is set to 1 then the
+ * accents will be mangled in the speech text, if it is set to 0 then
+ * the accent will just be added to the say string instead.
+ * @return the mangle accent flag
+ */
+int query_mangle_accent() {
+   fixup_lang_class();
+   return cur_lang->mangle_accent;
+}
+
+private int do_repeat(string str) {
+  if (!str) {
+    notify_fail("Syntax: repeat <cmd>\n");
     return 0;
+  }
+  input_to("do_wombat_repeat", 0, str);
+  write("Enter the commands you wish to pass to "+str+".  '**' on a line "+
+        "by itself to exit.\n");
+  write("] ");
   return 1;
-} /* query_language() */
+} /* do_repeat() */
+
+protected int do_wombat_repeat(string str, string com) {
+  if (str == "**") {
+    return 0;
+  }
+  write("Doing '"+com+" "+str+"\n");
+  command(com+" "+str);
+  write("] ");
+  input_to("do_wombat_repeat", 0, com);
+  return 0;
+} /* do_wombat_repeat() */
+
+/**
+ * This method returns the people in the array who this player is currently
+ * ignoring.
+ * @param people the people to check to see if they are being ignored
+ * @return the people who are being ignored from the array
+ * @see query_ignored_by()
+ */
+object *query_ignoring(object *people)  {
+   string *ignore;
+   object *fail = ({ });
+
+   ignore = this_object()->query_property( "ignoring" );
+   if ( ignore )  {
+      fail = filter_array( people,
+                (: member_array( $1 && $1->query_name(), $(ignore) ) > -1 :) );
+   }
+   return fail;
+} /* query_ignoring() */
+
+/**
+ * This method returns the people in the array who are ignoring this
+ * player.
+ * @param people the people to check to see for ignoring
+ * @return the array of people that are ignoring this player
+ * @see query_ignoring()
+ */
+object *query_ignored_by(object *people) {
+   return filter(people, (: sizeof($1->query_ignoring( ({ this_player() }) )) :));
+} /* query_ignored_by() */
+
+/**
+ * This method sets the players tell reply list.
+ *
+ * @param list the reply list.
+ * @param tim the timeout
+ */
+int set_tell_reply_list(mixed list) {
+  if (base_name(previous_object())[0 .. strlen(TELL_CMD) - 1] != TELL_CMD &&
+      base_name(previous_object())[0 .. strlen(REMOTE_CMD) - 1] != REMOTE_CMD  &&
+     !previous_object()->query_lord())
+    return 0;
+
+  tell_reply_list = ({time() + (60 * 15), list });
+  return 1;
+}
+
+/**
+ * This method returns the players tell reply list.
+ *
+ * @return the tell reply list.
+ */
+mixed query_tell_reply_list() {
+  if(base_name(previous_object())[0..strlen(TELL_CMD) - 1] != TELL_CMD &&
+     base_name(previous_object())[0 .. strlen(REMOTE_CMD) - 1] != REMOTE_CMD  &&
+     !previous_object()->query_lord())
+    return 0;
+
+  if(tell_reply_list[0] < time())
+    return 0;
+
+  return tell_reply_list[1];
+}
+
+

@@ -1,0 +1,74 @@
+.DT
+playtesting
+Discworld player help
+playtesting
+
+.SH Name
+.SI 5
+playtesting - Query projects in playtesting
+.EI
+
+.SH Syntax
+.SI 5
+playtesting list
+playtesting list <domain>
+playtesting list <playtester>
+playtesting details <project id>
+playtesting report <project id>
+playtesting assign <project id>
+playtesting unassign <project id>
+
+.EI
+
+.SH Description
+.SP 5 5
+The playtesting command is an interface to the Discworld creator project 
+management system.  Scary as that sounds, it's pretty much just a 
+simplified query tool that allows playtesters to find out useful details 
+about projects in playtesting.  
+
+The simple 'playtesting list' command will list all projects currently 
+in playtesting.  This can be qualified with either a domain or the name
+of a playtester.  If you qualify it with a domain name, it returns all
+the projects that domain currently has in playtesting.  If you qualify 
+it with a playtester's name, you get the list of all projects they have
+been assigned to playtest.
+
+'playtesting details' will give you the relevant details about a project,
+including the name, description, assigned creators and assigned 
+playtesters.  You must qualify this with the project ID, rather than the
+name... and remember that the ID is case sensitive.
+
+'playtesting report' allows you to add a 'status report' of sorts to the
+project tracker entry for the project.  You can use this to record 
+observations that don't quite fit into a bug report.  Again, you must 
+qualify this by the project ID (case sensitive).  This counts towards 
+your quota in the same way an idea report does.
+
+Senior playtesters can make use of the 'assign' and 'unassign' commands.  
+These will allow them to assign and unassign themselves to a project in 
+playtesting.  Normal playtesters will need a domain lord or the
+Lord/deputy of the playtesting domain to assign them to projects.
+.EP
+
+.SH Example
+.SI 5
+> playtesting list ram
+The following projects are currently in playtesting:
+Project ID           Name                                     Domains
+
+Monopoly             Exclusive Possession                     Ram
+NewSlice             The village of Slice                     Ram
+
+> playtesting details Monopoly
+The details for this project are:
+
+Project ID: Monopoly
+Project Name: Exclusive Possession
+Project Leader: Drakkos
+Description: Monopoly for Discworld.
+Domains: Ram
+Creators: Drakkos
+Assigned Playtesters: None.
+
+.EI

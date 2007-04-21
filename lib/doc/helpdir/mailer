@@ -1,27 +1,43 @@
-The Post Office is south, south, east, east, east, east, east, northeast,
-east, southeast, south, south, south and south from the bar of the Drum.
+Commands for the mailer. Womble on!
 
-Share and enjoy.
+h [range] ............ Main menu (showing subjects and stuff). If you give a
+		       range the subjects in the range will be displayed.
+		       Otherwise as many as fit on your screen. "h all" will
+		       show all subjects, even if that means you get 6 screens
+		       at once :-).
+m <name> ............. Mails to the given person(s).
+r [num] .............. Replies to the message number or the last read message
+                       if none given.
+R [num] .............. As above but sends to the Cc's as well.
+d [range] ............ Deletes a range of messages.
+u [range] ............ Undeletes a range of messages.
+f [num] <name> ....... Forwards the message to the person(s) given.
+F [num] .............. Forwards the message to your E-mail address, if set.
+                       Please make sure that this is a valid address!
+> [range] <folder>.... Copies given message(s) to a folder. It will be created
+                       if it didn't exist yet.
+s [range] <filename> . Creators only: saves given message(s) to given file.
+                       If no full pathname was given it will be saved in the
+                       current directory(!). The resulting file is in E-mail
+                       format, so it can be read by an E-mail program.
+i .................... Index of your mail folders. You always have an inbox.
+c <name> ............. Change to given folder (if it exists).
+l .................... List the currently available mailing lists.
+l <list> ............. List the members of the mailing list <list>.
+L .................... Toggles showing of full/abbreviated header for
+                       messages. The default is abbreviated.
+q .................... Quit, the mailer will ask if you want to delete/move
+                       marked/read messages. It asks if you want to move the
+                       read messages from your inbox to the received folder.
+? .................... Display this help file.
+<num> ................ Display given message.
 
-Mailer commands,
-
-h [range] - show headers.
-m <name>  - mails to the given person
-r [num]   - replys to the message number or the current message if none given
-R [num]   - as above but only sends to the sender, not the Cc's as well
-d [range] - deletes a range of messages
-f [num] <name> - forwards the message (current or given) to the person
-+ [num]   - goes on num messages (1 default)
-- [num]   - goes back num messages (q default)
-l         - List the currently avaiable mailing lists.
-l <list>  - List the members of the mailing list <list>.
-x         - quit and delete all the messages selected for deletion
-q         - quit but do not delete all the messages
-?         - display this message
-<num>     - reads messages num
-
-Return on a blank line will display the next message.
+Return on a blank line will display the next unread message.
 
 A range is defined as a list of comma seperated numbers or spans.
-So 1-2 is defined as well as 1,2,3 and
-all is a special case that means all messages, so d all is ok.
+So "1-2" is defined as well as "1,2,3" and
+"all" is a special case that means all messages, so "d all" is a valid command.
+It does intelligent matching, so if there are 4 messages and you typed
+"d 1-30" it will delete the 4 messages and will not complain.
+You can execute all commands by just typing the letter, the mailer will then
+explain what you have to type.

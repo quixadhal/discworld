@@ -1,0 +1,539 @@
+A Brief Introduction to LPC  -  Putting It All Together 6
+Ae First Rough Draft
+
+Drakkos - 20/10/2000
+
+N.B     -       This is a work in project... a living document if
+                you like.  If it appears to be dead when you view
+                it, don't worry.  It's most likely just playing
+                possum.
+
+==========================================================================
+Concepts still to be covered:
+
+Not sure... perhaps nothing.
+==========================================================================
+
+Woo, here it is.  The final tutorial of this coding document.  You've come
+a long way already... you're just growing up so fast.  *sniffle* 
+
+In this final tutorial, we're going to take another look at objects and some
+of the nifty things we can do with them.  We've already seen how to code
+basic weapons and clothes.  We're now going to look at how to make our objects
+somewhat more interesting and interactive.  Sounds like fnu?  Well, let's 
+hope so!
+
+
+Objects Within Objects!
+=======================
+
+It's always nice to be able to carry objects nice and easily when wandering
+from place to place.  Backpack, satchels, and nice big pocketses are very
+useful for this.  The file that deals with most of the container code is
+/std/container, but the file you inherit in most cases depends on what
+kind of container you are creating.  There are a number of containers in 
+/obj/, allowing for all kinds of storage objects to be created:
+
+/obj/clothing   -   /obj/clothing inherits /std/container as a part of its
+                    default setup.  You can use the add_pocket() method to
+                    add storage to your clothing.  More on this later.
+
+/obj/baggage    -   This file would be used when you're creating items such
+                    as sacks and chests.
+                    
+/obj/vessel     -   This file should be inherited when creating containers 
+                    designed to hold liquids.  Glasses, bottles, and so on
+                    should inherit this file.
+                    
+/obj/cont_save  -   This files should be inherited when you want a baggage
+                    type container to save its contents when objects are
+                    added or removed from it.
+                    
+Except for containers using /obj/clothing, we make our containers in exactly
+the same way as we would any other object.  We start off with a comment, an
+inherit, and setup:
+
+    /*
+        This is a container,
+        For containing fings.
+    
+        Wrytten by Drakkos Thee Creator.
+        20/10/2000
+    */
+
+    inherit "/obj/baggage";
+
+    void setup() {
+        set_name("bag");
+        set_short("little green bag");
+        set_long("This is a little green bag.\n");
+        add_adjective(({"little", "green"}));
+        set_weight(5);
+        set_max_weight(20);
+    }
+
+Woo... isn't that easy?  The only new information her is set_max_weight().  
+This function simply determines how much inventory the object can hold... 
+in this case, twenty weight units.  The weight of the container itself
+does not count towards this, so you could put twenty weight units into the
+bag.  The total weight of the bag after that would be twenty units, plus
+the five units the bag weights itself... giving a total weight of twenty-five
+units.
+
+Well... that was deceptively easy.  Is that really all there is to it?  Indeed
+it is!  At least, for baggage type containers.  We need to do things slightly
+differently for vessels and clothing.
+
+For clothing, we use the add_pocket method instead.  This takes two arguments,
+a string and an integer.  The string is the type of pocket (breast pocket, 
+trouser pocket, etc), and the integer is the maximum weight that pocket can 
+hold.  We've already seen how to create dungarees in our third tutorial.  We
+would simply add the line:
+
+    add_pocket("dungaree", 10);
+    
+To our dungarees to give them a dungaree pocket that can hold ten units of
+weight.  Simple!
+
+For vessels, however, we also need to set a max_volume in addition to a 
+max_weight.  This determines how much of a liquid the container can hold.  
+For reference, 4000 units is roughly a litre of fluid.  So if we have a 
+vessel that has the line:
+
+    set_max_volume(4000);
+    
+It means that it can hold a litre of liquid before filling up.  The vessel
+inheritable deals with all the neato stuff like pouring vessels into other
+vessels and so on.  We're going to continue on with our baggage example,
+however, since that's what we've started to code.
+
+It's very simple to make containers, as you can see.  But there are a 
+number of nifty things you can do to make your containers more interesting.
+The functions test_add and test_remove, for example, can be used to determine
+whether an object may be added or removed from a container.  The object you
+inherit will define these as standard, but sometimes it is useful to redefine
+the function to allow for specific behaviour.  For example, since this is a
+bag for you only, let's make it so only you can add or remove to it.
+Test_add() takes two arguments.  The first in an object, and is the reference
+to the item being added to the container.  The second is the move flag, but we
+don't need to worry about that at the moment.  Test_add will return a 1 if the
+object can be added, and a 0 if it cannot:
+
+    int test_add(object ob, int flag) {
+        if(this_player()->query_name() != "your_name_here") {
+            return 0;
+        } 
+        else {
+            return ::test_add(ob, flag);
+        }
+    }
+    
+Remember that :: stuff from the theoretical part on inheritence?  To recap, it
+simply means 'execute the inherited function test_add'.  In this case, we're
+calling the inherited function and returning the return of that function.  This
+ensures that all the code dealing with objects moving into containers is 
+executed properly.  In other words, we need to execute the inherited function,
+or we may end up with a situation where we can put objects into the container
+regardless of how much is already in it.
+
+We do something similar for test_remove, except that test_remove takes three
+arguments.  The first is the object, the second is the move flag, and the
+third is the destination of the object:
+
+    int test_remove(object ob, int flag, mixed dest) {
+        if(this_player()->query_name() != "your_name_here") {
+            return 0;
+        } 
+        else {
+            return ::test_remove(ob, flag, dest);
+        }
+    }
+    
+So now we have a nice, safe, secure bag that only you can add or remove
+stuff from.  Neat?  Indeed!  
+
+
+Wear And Remove Functions!
+==========================
+
+Okay, so we've got a neat little bag now.  But we need something else to
+outfit ourselves with.  We've already coded up some simple clothing for
+our NPC, but now we're going to code up something for ourselves.  Something
+nice and stylish... something tasteful, but not conservative, that hints at
+impeccable taste and a playful sense of fun.  Hmm... what could possibly
+fit that bill?  
+
+Oh, I know!  Let's code ourselves a pair of flourescent pink flares.  You
+know you want to!
+
+Right, so we start off with our comment, our inherit, and our setup.  We're
+also going to give our flares a couple of pockets, just because we can:
+
+    /*
+        Flourescent Flared Trousers
+        (Pink!)
+        Wrytten by Drakkos Thee Creator
+        21/10/2000
+    */
+    
+    inherit "/obj/clothing";
+    
+    void setup() {
+        set_name("trousers");
+        set_short("pair of flourescent pink flared trousers");
+        add_adjective(({"pair of", "flourescent", "pink", "flared"}));
+        set_long("This is a pair of extremely stylish, extremely "
+            "tasteful, flourescent pink flared trousers.\n");
+        set_weight(10);
+        set_value(0);
+        set_type("trousers");
+        set_main_plural("pairs of flourescent pink flared trousers");
+        add_plural("trousers");
+        setup_clothing(10000);
+        add_pocket("left", 20);
+        add_pocket("right", 20);
+    }
+                
+Now, that's all pretty straight forward.  But they really are such stylish 
+trousers.  It would be terrible if anyone but you could wear them.  It would,
+wouldn't it?  Well, let's make it so anyone but us trying to wear them get a 
+horrible, scary message.  We do this by using set_wear_remove_func().  This takes 
+two arguments.  The first should be the filename of your trousers, the second 
+should be a string containing the name of the function to call:
+
+    set_wear_remove_func(base_name(this_object()), "do_wear_stuff");
+    
+base_name(this_object()) will simply return the base filename of your
+trousers file.  So if your trousers were stored in /w/your_name/clothing.c, 
+then it would return "/w/your_name/clothing".  We use base_name() rather
+than the seemingly more intuitive file_name, because file_name returns
+the name of the object, *plus* the object reference of it, so you end
+up with something like '/w/your_name/clothing#2517552'.  Base_name simply
+disregards the object reference, so is what we want in this case.
+
+Our function, do_wear_stuff(), takes one object argument.  If the clothing is
+being removed, then the argument will be 0.  If it is being worn, then the
+argument will be the object reference of the item.  Confusing?  Well, let's
+look at this example:
+
+    void do_wear_stuff(object ob) {
+        if(this_player()->query_name() != "your_name_here") {
+            if(!ob) {
+                tell_object(this_player(), "You heave a sigh of relief as "
+                    "you remove the ghastly garment.\n");
+            }
+            else {
+                tell_object(this_player(), "Ye gods, are you really going "
+                    "to wear those hideous things?!\n");
+            }
+       }
+       else {
+            if(!ob) {
+                tell_object(this_player(), "Awww, why are you taking off your "
+                    "super-cool slacks?\n");
+            }
+            else {
+                tell_object(this_player(), "You feel Real Cool as you slip "
+                    "into your fabulous flares!\n");
+            }
+      }
+   }
+   
+Giving the trousers to my fashion concious helper, Draktest, he puts them on 
+and we see:
+
+    Ye gods, are you really going to wear those hideous things?!
+    You wear a pair of flourescent pink flared trousers.
+    
+'Lawks', says Draktest, and quickly wiggles out of them:
+
+    You heave a sigh of relief as you remove the ghastly garment.
+    You remove a pair of flourescent pink flared trousers.
+    
+Hehe!  And now when *we* wear them:
+
+    You feel Real Cool as you slip into your fabulous flares!
+    You wear a pair of flourescent pink flared trousers.
+    
+And when, later on, we take them off:
+
+    Awww, why are you taking off your super-cool slacks?
+    You remove a pair of flourescent pink flared trousers.
+    
+Whee!  Now *no-one* will want to wear our trendy trousers.  And who can blame 
+them?  I mean, with a message like that, you'd be fooled into thinking you 
+weren't being fashionable!  But, of course, as if!
+
+But... our flourescent trousers aren't actually flourescent:
+
+    > bright
+    The pair of flourescent pink flared trousers produces no light at all.
+
+They should be so flourescent that we can guide small aircraft down from the 
+skies!  Well... maybe not *that* flourescent, but they should at least give 
+out some light.   So let's add another line to our setup:
+
+    set_light(20);
+    
+And voila:
+
+    > bright    
+    The pair of flourescent pink flared trousers produces a bit of light.
+
+Whee!  Now we're fashionable, *and* conspicious in dark rooms!  What else
+could a fledgling creator possible want?
+
+
+Wield Functions and Attack Functions!
+=====================================
+
+I'll tell you what else we want!  We want a weapon!  A mighty weapon, 
+something to strike fear into the hearts of all!  What should we code for 
+ourselves.  Hmm... a sword?  No... everyone and their monkey has a sword.  
+A mace?  No... too heavy.  Hmm... oh, wait, I know!  Let's code ourselves
+a nice big ruler to whack across people's knuckles.  I know that always used
+to strike terror into my heart at school.  But obviously, such a powerful
+weapon shouldn't fall into the hands of those unready for the responsibility,
+so we're going to make it so only creators can wield it.  We'll start off 
+with, again, comments, inherit, and setup:
+
+    /*
+        Ruler Of Death +2
+        Wrytten by Drakkos Thee Creator
+        
+        21/10/2000
+    */
+    
+    inherit "/obj/weapon";
+    
+    void setup() {
+        set_name("ruler");
+        set_short("wooden ruler");
+        add_adjective("wooden");
+        set_long("This is a thick, wooden ruler, with the inches "
+            "inked out in black.\n");
+        set_weight(1);
+        set_value(0);
+        new_weapon(5000);
+        add_attack("rap", 50, ({ 25, 10, 5 }), "blunt", "blunt", 0);
+        add_attack_message("rap", "blunt", 
+        ({
+        0, ({ "You rap $hcname$ smartly across the knuckles with your "
+            "ruler.\n",
+            "$mcname$ raps you smartly across the knuckles with $mposs$ "
+                "ruler.\n",
+            "$mcname$ raps $hcname$ smartly across the knuckles with "
+                "$mposs$ ruler.\n"})
+        })); 
+    }
+         
+Again, pretty familiar stuff.  We've already seen how all these functions 
+work in our previous tutorials.  New_weapon() looks new, but it's simply the
+condition setup for a weapon object.  What we're going to look at here are 
+wield functions.  We're also going to see about that last argument of
+add_attack, the one we've studiously left as 0 until now.
+
+The first thing we do is set our wield function.  Obviously a ruler as 
+powerful as this must be kept in the hands of those responsible enough to use
+it properly.  Unfortunately, we can't find any of those people just at the
+moment, so we'll have to limit it to just creators.  The arguments to the
+wield function are just the same as our set_wear_remove_function, but in
+the opposite order.  The function name comes first, followed by the object:
+
+    set_wield_func("test_creator", base_name(this_object() ) );
+    
+We then need a test_creator function in our object.  Unlike the wear function,
+however, this function will need to return a one or a zero.  Zero indicates 
+that the weapon cannot be wielded, and one indicates that it can.  We have to
+be very careful when designing this function, however, since it gets called
+at unusual times.  It gets called when the item is first cloned, when someone
+tries to hold it, when someone holding it dies, etc.  So we must make sure
+we cater for all these eventualities and return the correct value, otherwise
+Much Strangeness will ensue.  Like our function above, we pass in a single 
+object argument.  In this case, it is the object attempting to wield the 
+weaopn:
+
+    int test_creator(object ob)  {
+
+        // In case the function is called when there's no object to
+        // be passed in.
+        if(!ob) {
+            return 1;
+        }    
+        
+        // In case the object calling the function is a corpse attempting to
+        // rehold the weapon after death.
+        if(ob->query_corpse()) {
+            return 1;           
+        }
+        
+        // And now the test creator bit itself.
+        if(ob->query_creator()) {
+            tell_object(ob, "You have been deemed worthy, leetle "
+                "creator!\n");
+            return 1;
+        }
+        else {
+            tell_object(ob, "You have been deemed unworthy, leetle "
+                "player!\n");         
+            return 0;
+        }
+    }
+    
+So now, creators can hold the ruler and Smite Their Foes with it, but any 
+non creators who try will simply be unable to do so.  Neato!  
+
+And now we've effectively barred anyone but we happy creators from using our
+ruler of death, we can have some fnu with it!  See our add_attack function?
+
+    add_attack("rap", 50, ({ 25, 10, 5 }), "blunt", "blunt", 0);
+        
+As we discussed previously, the last argument there is a function pointer that
+is evaluated every time the function is called.  We normally leave this as 
+0 because we have no function to evaluate.  But let's change that a little
+bit, and add a simple function to be called every time we attack with our
+ruler:
+
+    add_attack("rap", 50, ({ 5, 10, 5 }), "blunt", "blunt", "do_shame");
+    
+Now, every time we succeed with this attack, the function do_shame() is called.
+This function has five arguments.  The first is an integer and holds the
+damage the attack would do.  The second is the object being attacked, the
+third is the object doing the attack.  The fourth is a string containing
+the attack type, and the last is a string containing the attack name:    
+
+    void do_shame(int damage, object attack_ob, object attack_by, string
+        type, string name ) {
+        
+        tell_object(attack_ob, "Your knuckles %^BOLD%^sting!%^RESET%^\n");
+        tell_object(attack_by, "You feel strangely satisfied as " + 
+            attack_ob->one_short() + " whimpers in pain!\n");
+    }
+    
+A very simple example, simply printing some text on our poor leetle target's
+screen, and some text on ours too.  It is obviously possible to make this
+function much more complicated, and do all sorts of clever things, limited only
+by your imagination.  But, let's see the nice message in all its glory:
+
+    You rap Draktest smartly across the knuckles with your ruler.
+    You feel strangely satisfied as Draktest whimpers in pain!
+    
+Whee, fnu!
+
+
+Food And Eat Effects For Fnu And Profit!
+========================================
+
+We'll finish off our final tutorial with a brief look at food and eat 
+effects.  We  won't go into too much detail here, since the writing of effects 
+and shadows is something for a later date.  But we will look at how to add existing 
+effects to food objects.
+
+Briefly, effects are little additions to the living that allow for 
+behaviour not specifically coded into players and NPCs.  For example, a simple
+effect may echo a message to the player it is placed on, and another message
+to the room the player is in, every few seconds.  A simple effect may change 
+the way the player looks to other people, adding an extra line to their
+description, and so on.  We will look at exactly what effects are at a later
+date.  There already exist a wide range of effects in the mudlib... in 
+/std/effects/ to be precise.  These cover a whole range of functionality, from
+the useful, to the bizzare.  
+
+We'll start off nice and easy, by coding a leetle food item.  Much the same
+deal as the other items we've coded.  Since we're not actually going to be
+coding any new function in our object, however, we will code it into a 
+virtual object:
+
+    ::Name::"sandwich"
+    ::Short::"monkey sandwich"
+    ::Adjective::({ "monkey" })
+    ::Value::0
+    ::weight::1
+    ::Long::"This is a monkey sandwich.  Made from real monkey.  Mmm!\n"
+    
+Easy as pie!  Or, rather, easy as a monkey sandwich.  Remember we have to save
+our virtual object with a .food extension, tho'.  
+
+But... well... monkey sandwiches aren't exactly nice, are they?  They're cruel
+to monkeys, for one thing.  I like monkeys.  Do you like monkeys?  I do... so
+I don't like seeing people eating them on sandwiches.  Plus, monkey meat 
+doesn't keep to well, most likely, so it's likely to become poisonous as soon
+as you've buttered the bread.  We can easily make our monkey sandwich poisonous
+by adding an eat effect to it:
+
+    ::Eat Effects:: "/std/effects/ingested/poison", 600
+    
+The first argument there is the path to the effect, in this case, 
+/std/effects/ingested/poision.  The second is the argument to the effect 
+itself.  We'll come back to that in a later document, but for now it's
+sufficient to know that, in this case, 600 is the number of seconds the
+poison effect will be active for.
+
+And that's all!  Look, I'll even prove it to you:
+
+    > eat sandwich
+    You suddenly don't feel very well.  Maybe it was something you ate.
+    You eat the monkey sandwich.
+
+Woohoo!
+
+Later on, we'll look at how you can write your own hoopy effects too, but for
+now we'll be happy with seeing how we can add these effects to food.
+
+
+Chapter Summary and Tutorial Conclusion
+=======================================
+
+Wow!  That's it!  We've come to the end of this coding tutorial.  I hope you 
+found it at least partially informative.  If you've read through everything,
+you'll find you've picked up a large number of skills that will be of benefit
+to you as a creator.  You know about data types, inheritence, functions, 
+and control flow of programs.  You know about creating NPCs, itemss and 
+rooms, and you also know how to make these objects more interesting by adding
+neat little touches to each.  By now, you should feel comfortable in taking
+on whatever projects you're assigned to.  Congratulations... you should give
+yourself a hearty pat on the back for getting this far.  Kudos!
+
+And now, we must part company for now.  It's been fun writing these documents,
+even if it probably hasn't been fun reading them.  But if any of you (poor 
+deluded fools) are hungry for more, then stay tuned to the second coding 
+tutorial, in which we cover some of the more advanced topics in LPC.  But,
+that's another day and another dollar, and you should wait until you're fluent 
+with what you've learned already before tackling anything more advanced.
+
+-   Container objects inherit inherit different files depending on what kind
+    of container is being created.
+-   /obj/baggage is inherited when the container is a chest or sack type of
+    object.
+-   /obj/vessel is inherited when the container is to hold liquids.
+-   /obj/clothing is inherited if the container is to be wearable.
+-   The function set_max_weight() determines how much can be stored in 
+    a particular container.
+-   The function set_max_volume() is used with vessels to determine how
+    much liquid they can hold.
+-   The function add_pocket is used on clothing to add container pockets
+    to garments.
+-   The function test_add() can be over-ridden in a container to change
+    the way the object deals with adding inventory.
+-   The function test_remove() can be over-ridden to change an object's
+    behaviour with regards to removing inventory.
+-   We can declare a function on clothing to be executed whenever someone
+    wears or removes the item.  We use the set_wear_remove_function
+    function to do this.
+-   We can make objects emit light using the set_light() function.
+-   We can add a function to be called on a weapon whenever it is wielded
+    by using the set_wield_func() function.  If our function returns 0,
+    the weapon cannot be wielded.  If it returns 1, then it can.
+-   We can add functions to weapon attacks by passing in the function
+    name as the last argument of add_attack().
+-   We can add effects to be inflicted on a player when an item of food
+    is eaten by defining an eat effect.
+    
+                       
+Support Files
+=============
+
+/d/learning/newbie/introduction/examples/advanced_item_1.c
+/d/learning/newbie/introduction/examples/advanced_item_2.c
+/d/learning/newbie/introduction/examples/advanced_item_3.c
+/d/learning/newbie/introduction/examples/advanced_item_4.food

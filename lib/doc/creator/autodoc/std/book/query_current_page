@@ -1,0 +1,40 @@
+.DT
+query_current_page
+DW_wibble creator help
+query_current_page
+
+.SH Name
+.SP 5 5
+query_current_page -  Returns the object associated with the current open page.
+.EP
+
+.SH Syntax
+.SI 5
+object query_current_page()
+.EI
+
+.SH Returns
+.SI 5
+the current page object.EI
+
+.SH Defined in
+.SI 5
+/std/book.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Returns the object associated with the current open page.  If the
+page does not actualy exist yet then the default base object
+is returned.  This object should be handled carefully...  If the
+page is torn out then the next readable page is returned or
+0 is returned.
+.EP
+
+.SH See also
+.SP 5 5
+query_current_page_clone(), set_open_page(), query_open_page(), query_current_page_clone()
+
+.EP
+

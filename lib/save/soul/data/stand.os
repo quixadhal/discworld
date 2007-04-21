@@ -1,0 +1,1 @@
+({({"<string>",}),({0,({"You stand $arg$.","$mcname$ stand$s$ $arg$.",0,({"in uffish thought","about","patiently","on one hand",}),}),}),0,})

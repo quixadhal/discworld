@@ -1,0 +1,61 @@
+.DT
+basic calls
+Discworld Creator Help
+basic calls
+
+.SH How to check a player's inventory
+.SI 5
+You can check a player's current inventory by typing:
+%^CYAN%^inv <player>%^RESET%^.
+.EI
+
+.SH How to replace a lost item with a receipt
+.SI 5
+To replace an item that the player has a receipt for, first:
+%^CYAN%^stat <item> in <player>%^RESET%^.
+.EI
+.SP 5 5
+This will give you all sorts of information on the item that is
+missing.  What you want is the path.  After you note this, type:
+.EP
+.SI 5
+%^CYAN%^clone <path>%^RESET%^,
+then hand the item to the player.
+.EI
+
+.SH How to remove items or receipts from a player
+.SP 5 5
+ To remove the receipt, or any other
+items from the player's inventory:
+.EP
+.SI 5
+%^CYAN%^dest <item> in <player>%^RESET%^.
+.EI
+.SP 5 5
+%^RED%^***%^RESET%^ Be cautious when using dest.  Do NOT %^CYAN%^dest
+0 in <player>%^RESET%^ as this will delete her entire inventory.
+%^RED%^***%^RESET%^
+.EP
+
+.SH How to replace other items
+.SP 5 5
+Most of the other items that can be replaced for a player can be done
+using Presto's Wand.
+.EP
+
+.SH Duplicating items
+.SI 5
+To copy an item that a player already has one of, use:
+%^CYAN%^duplicate <item> in <player>%^RESET%^.
+.EI
+
+.SH Finding an item's path
+.SP 5 5
+Finding the path of the item to clone from a recipt you need to use the
+stat command as decribed above.  You can also use the 'inv' command
+(also described above) to get path names of individual objects and the
+'pathof' command to get the path of a specific object.
+.EP
+.SI 5
+%^CYAN%^pathof <item> in <player>%^RESET%^
+.EI

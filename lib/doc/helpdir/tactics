@@ -1,0 +1,136 @@
+.DT
+Tactics
+Discworld Player Help
+Tactics
+
+.SH Name
+.SI 5
+tactics - the options of combat
+.EI
+
+.SH Syntax
+.SI 5
+options combat tactics 
+options combat tactics <attitude|response|focus|attack|parry|unarmed_parry>
+options combat tactics attitude = <insane|offensive|neutral|defensive|wimp> 
+options combat tactics response = <dodge|neutral|parry> 
+options combat tactics focus = <upper body|lower body|head|neck|chest|abdomen|arms|hands|legs|feet|none> 
+options combat tactics attack = <left|right|both>
+options combat tactics parry = <left|right|both>
+options combat tactics unarmed_parry = <on|off>
+.EI
+
+.SH Description
+.SP 5 5
+There are a number of combat options that you can set to determine your
+tactics in a fight - you can change these settings at any time, even
+during the middle of a fight, to change your tactics.  The first option
+is your attitude: you can be on the offensive (in which case you get a
+bonus to attacking, but a penalty to dodging and parrying), or on the
+defensive (in which case you get a bonus to dodging and parrying, but a
+penalty to attacking) or you can take a neutral attitude (in which case
+there are no bonuses or penalties).
+.EP
+
+.SP 5 5
+In dealing with an attack, you can choose your response: you can
+always dodge or you can always parry or you can be neutral in your
+response. When using neutral response there is a slight bonus since
+your opponent doesn't know if you will dodge or parry.
+.EP
+
+.SP 5 5
+For parrying, you can choose whether to always parry with the weapon,
+or shield, in your left or right hand or always attempt to use the
+weapons, or weapon and shield, in both hands.
+.EP
+
+.SP 5 5
+If you are fighting unarmed, you can choose to attempt to parry with your
+arm or hand (this special manoeuvre can be disabling if you are not
+skillful enough, but would prevent an attack from reaching your more
+vital areas).
+.EP
+
+.SP 5 5
+You can control your mercy: always accept surrenders, never accept
+surrenders, or ask whether or not to accept surrenders.
+.EP 
+
+.SP 5 5
+You can focus on a specific part of an opponents body. While this
+makes it more difficult to hit the opponent you may manage to injure
+that body part enough to make it unusable. With different races the
+part you have chosen to target will be mapped onto that races body.
+.EP
+
+.SP 5 5
+It is important to realise that for best results, the tactics that you
+choose should depend on your armoury, your opponents and the armouries
+of your opponents - no two fights will ever be quite the same.
+
+.EP
+
+.SH Note
+.SP 5 5
+The distance and mercy options are currently disabled, they may be enabled in
+the future.
+.EP
+
+Examples
+.SI 5
+> options combat tactics
+Your combat options are:
+
+   Attitude - defensive.
+   Response - dodge.
+   Mercy - ask.
+   Focus - none.
+   Target distance - none.
+You will use both hands to parry.
+
+You will not attempt to parry unarmed.
+Combat tactics:
+   attack            = left       <left|right|both>
+   attitude          = neutral    <insane|offensive|neutral|defensive|wimp>
+   focus             = chest      <upper body|lower
+    body|head|neck|chest|abdomen|arms|hands|legs|feet|none>
+   parry             = right      <left|right|both>
+   response          = parry      <dodge|neutral|parry>
+   unarmed_parry     = on         <on|off>
+
+> options combat tactics attitude=defensive
+Your attitude is now defensive.
+
+> options combat tactics response=neutral
+Your response is now neutral.
+
+> options combat tactics parry=left
+You will now use your left hand to parry.
+.EI
+
+Character Profiles
+.SP 5 5
+Alice the Assassin wears typical assassin's clothing, but carries around
+rather a lot of the hardware typical to the trade.  After a successful
+inhumation, she wields a rapier and a dagger and attempts to make good
+her escape from the scene.  Since she is mostly interested in getting
+away, she sets her combat attitude to defensive; given the weight of the
+tools that she carries, she sets her combat response to parry and
+chooses to always parry with the dagger in her left hand in order to
+protect her more delicate rapier.
+.EP
+
+.SP 5 5
+Birzig the Barbarian wears the standard leather garment, a cloak made
+from the wool of Hublandish sheep and a pair of fur-lined boots.  He
+carries little beyond a small satchel and his trusty bastard sword.
+Since his goal is to defeat his enemies, he sets his combat attitude to
+offensive and his response to neutral, since given the little he carries he
+can either dodge or parry with his bastard sword.
+.EP
+
+.SH See also
+.SP 5 5
+consider, fighting, mercy, accept, reject, surrender, options
+.EP

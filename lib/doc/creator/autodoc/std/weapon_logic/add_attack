@@ -1,0 +1,52 @@
+.DT
+add_attack
+DW_wibble creator help
+add_attack
+
+.SH Name
+.SP 5 5
+add_attack -  This method adds an attack onto the object.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int add_attack(string a_name,
+                       int chance,
+                       int * damage,
+                       string type,
+                       string skill,
+                       mixed func,
+                       mixed bogus_1,
+                       mixed bogus_2)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^a_name%^RESET%^ - attack name
+%^BOLD%^change%^RESET%^ - the chance of it occuring
+%^BOLD%^damage%^RESET%^ - the damage it will do
+%^BOLD%^type%^RESET%^ - the type of the attack
+%^BOLD%^skill%^RESET%^ - the skill used by the attack
+%^BOLD%^func%^RESET%^ - the special function
+%^BOLD%^bogus_1%^RESET%^ - errrr.
+%^BOLD%^bogus_2%^RESET%^ - frog.
+.EI
+
+.SH Defined in
+.SI 5
+/std/weapon_logic.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an attack onto the object.  The name of the attack
+must be unique on each object.
+.EP
+
+.SH See also
+.SP 5 5
+remove_attack()
+
+.EP
+

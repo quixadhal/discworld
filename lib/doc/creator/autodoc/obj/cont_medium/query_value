@@ -1,0 +1,39 @@
+.DT
+query_value
+DW_wibble creator help
+query_value
+
+.SH Name
+.SP 5 5
+query_value -  This method returns the value of the object.
+.EP
+
+.SH Syntax
+.SI 5
+int query_value()
+.EI
+
+.SH Returns
+.SI 5
+the value of the object.EI
+
+.SH Defined in
+.SI 5
+/obj/cont_medium.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the value of the object.  If the object is
+not continuous, or the value_scale has not been set, the value is
+the value set with set_value(), as usual.  Otherwise, the value is
+scaled by value_scale and multiplied by the current amount.
+.EP
+
+.SH See also
+.SP 5 5
+set_value(), set_value_scale(), query_value_scale()
+
+.EP
+

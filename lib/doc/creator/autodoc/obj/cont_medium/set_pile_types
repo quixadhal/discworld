@@ -1,0 +1,40 @@
+.DT
+set_pile_types
+DW_wibble creator help
+set_pile_types
+
+.SH Name
+.SP 5 5
+set_pile_types -  This method sets the name of the piles given the different amounts of piles available.
+.EP
+
+.SH Syntax
+.SI 5
+void set_pile_types(mixed * args)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^args%^RESET%^ - the pile types
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/cont_medium.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the name of the piles given the different
+amounts of piles available.  The last pile type in the list is
+the size to use for anything larger.  The pile sizes must be in
+order.
+.EP
+
+.SH Example 1
+.SI 5
+set_pile_types(({ 50, "small", 100, "medium", 150, "large", "huge" }));
+.EI
+

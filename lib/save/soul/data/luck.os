@@ -1,0 +1,1 @@
+({({"<indirect:any-living> <string>","<indirect:any-living>",}),0,({({"You wish $hcname$ luck.","$mcname$ wish$s$ $hcname$ luck.","$mcname$ wish$s$ you luck.",0,0,0,}),({"You wish $hcname$ $arg$ luck.","$mcname$ wish$s$ $hcname$ $arg$ luck.","$mcname$ wish$s$ you $arg$ luck.",({"good","bad","lots of","no","an iota of","a frogfull of",}),0,0,}),}),})

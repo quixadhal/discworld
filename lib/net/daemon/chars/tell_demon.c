@@ -1,6 +1,17 @@
-inherit "/obj/monster";
-#define COMM_ROOM "/d/am/uu/uni/comm_room"
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: tell_demon.c,v 1.1 1998/01/06 05:17:24 ceres Exp $
+ * $Log: tell_demon.c,v $
+ * Revision 1.1  1998/01/06 05:17:24  ceres
+ * Initial revision
+ * 
+*/
+#include <comms.h>
+
 #define CHAR "/net/daemon/chars/"
+
+inherit "/obj/monster";
 
 object my_player,
        notebook;
@@ -11,7 +22,8 @@ void setup() {
   set_long("A small purple demon with a large note book.  He is looking "+
            "furtively around the room.  He seems in somewhat of a hurry.\n");
   add_alias("demon");
-  set_short("Purple demon");
+  set_short("purple demon");
+  set_race( "imp" );
   set_level(-2);
   add_adjective(({ "purple", "short" }));
   notebook = clone_object("/std/object");
@@ -51,14 +63,17 @@ void setup_tell(string person, string mud, string who, string mess) {
   move_player("X", COMM_ROOM);
   tell_room(environment(),
             short(0)+" scribbles something hurridly down in its notebook.\n");
-  my_player = find_player(who);
+  my_player = find_player(lower_case(who));
 /* Ok, now we try and find our pooooor little player.  pat pat */
-  add_property("goto player", my_player->query_name());
-  add_triggered_action("player", "goto_player", this_object(),
-                       "got_player");
+  if (!my_player->query_creator()) {
+    add_property("goto player", my_player->query_name());
+    add_triggered_action("player", "goto_player", this_object(),
+                         "got_player");
+  } else
+    got_player(0);
   notebook->set_read_mess(person+"@"+mud+" sent you this message:\n"+mess);
   notebook->add_read_mess(({ CHAR+"tell_demon", "warning" }), 0,
-                          "wizard spells", 0);
+                            "wizard spells", 0);
 } /* setup_tell() */
 
 string garble_text(mixed bing, object ob) {

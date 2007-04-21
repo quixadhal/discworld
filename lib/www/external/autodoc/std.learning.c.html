@@ -1,0 +1,210 @@
+<html><head><title>File learning.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/learning.c</h2>
+Register a lesson with the learning system.
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.money.h.html">/include/money.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.tasks.h.html">/include/tasks.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_lesson"><b>lesson</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_step"><b>step</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_step"><b>add_step</b></a>(string, string *, string, int, string *, string *, string, string, string)<dd>
+Add a step to a lesson plan.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#has_required_cash"><b>has_required_cash</b></a>(string, object)<dd>has_required_cash( string name, object player )
+Give some, get some.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#has_required_materials"><b>has_required_materials</b></a>(string, object)<dd>has_required_materials( string name, object player )
+ Materials: Materials are objects which are necessary for a student to learn
+something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#has_required_skills"><b>has_required_skills</b></a>(string, object)<dd>has_required_skills( string name, object player )
+Skills: Skills and skill levels which may be necessary to learn something
+For instance, one should learn to walk before one learns to run.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#lesson_end"><b>lesson_end</b></a>(string, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#lesson_response"><b>lesson_response</b></a>(string, object, int, string)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#lesson_step"><b>lesson_step</b></a>(string, object, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_lessons"><b>query_lessons</b></a>()<dd>
+This method returns an array of the registered lessons.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#register_lesson"><b>register_lesson</b></a>(string, mapping, mapping, string *, int, string, string *, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_lesson"><b>start_lesson</b></a>(string, object)<dd>
+This method starts a lesson for a given player.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_step">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_step</b></a><pre>
+int add_step(string lesson_name,
+             string * blurbs,
+             string skill,
+             int diff,
+             string * responses,
+             string * params,
+             string award_mess,
+             string succeed_mess,
+             string fail_mess)
+</pre><dd>
+Add a step to a lesson plan.  This is the interaction between student and 
+teacher. One step should be defined for each thing you want the student
+to learn.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lesson_name - the name of the lesson this lesson plan is 
+associated with. 
+<dd>blurbs - An array of strings in order that they should be given 
+during the lesson.  This is what the teacher says to the student. ', :, #, etc. 
+can be used for say, emote and execute a command respectively.
+<dd>skill - The skill being learned.
+<dd>difficulty - The bonus level of the skill being learned.
+<dd>responses - An array of strings.  These are the expected responses 
+to the teacher's blurbs.
+<dd>params - an array of strings given as arguments to the responses in 
+order.
+<dd>award_mess - The string a player sees if they get a TM award during this step. It
+should not end in a newline \n.
+<dd>succeed_mess - The string a player gets if they are successful in doing what the 
+step asks.  It should not end in a newline \n.
+<dd>fail_mess - A string telling the player that they've failed.  It should not 
+end in a newline \n.
+
+</dl>
+
+<dt><a name="has_required_cash">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>has_required_cash</b></a><pre>
+int has_required_cash(string name,
+                      object player)
+</pre><dd>has_required_cash( string name, object player )
+Give some, get some. Money makes a teacher more likely to teach you.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - name of the lesson they're trying to learn
+<dd>player - player object of the player trying to learn
+
+</dl>
+
+<dt><a name="has_required_materials">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>has_required_materials</b></a><pre>
+int has_required_materials(string name,
+                           object player)
+</pre><dd>has_required_materials( string name, object player )
+ Materials: Materials are objects which are necessary for a student to learn
+something.  For instance, to learn to speak a language, you might need
+a textbook. To learn to ride a horse, you might want to require a helmet.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - name of the lesson they're trying to learn
+<dd>player - player object of the player trying to learn
+
+</dl>
+
+<dt><a name="has_required_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>has_required_skills</b></a><pre>
+int has_required_skills(string name,
+                        object player)
+</pre><dd>has_required_skills( string name, object player )
+Skills: Skills and skill levels which may be necessary to learn something
+For instance, one should learn to walk before one learns to run.  If you
+don't have sufficient skill levels in walking, you won't be able to learn
+how to run.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - name of the lesson they're trying to learn
+<dd>player - player object of the player trying to learn
+
+</dl>
+
+<dt><a name="lesson_end">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>lesson_end</b></a><pre>
+int lesson_end(string name,
+               object student)
+</pre>
+<dt><a name="lesson_response">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>lesson_response</b></a><pre>
+int lesson_response(string name,
+                    object student,
+                    int lessonstep,
+                    string args)
+</pre>
+<dt><a name="query_lessons">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_lessons</b></a><pre>
+string * query_lessons()
+</pre><dd>
+This method returns an array of the registered lessons.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a list of lesson names.
+
+</dl>
+
+<dt><a name="register_lesson">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>register_lesson</b></a><pre>
+int register_lesson(string name,
+                    mapping minimum_skills,
+                    mapping maximum_skills,
+                    string * materials,
+                    int cost,
+                    string currency,
+                    string * lesson_ending,
+                    object teacher)
+</pre>
+<dt><a name="start_lesson">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_lesson</b></a><pre>
+int start_lesson(string name,
+                 object player)
+</pre><dd>
+This method starts a lesson for a given player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the - lesson name
+<dd>the - player
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="lesson_step">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>lesson_step</b></a><pre>
+void lesson_step(string name,
+                 object student,
+                 int lessonstep)
+</pre>
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_lesson">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>lesson</b></a><pre>
+class lesson {
+               mapping minimum_skills;
+               mapping maximum_skills;
+               string * materials;
+               int cost;
+               string currency;
+               string * lesson_ending;
+               object teacher;
+               class step * plan;
+}
+
+</pre>
+<dt><a name="class_step">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>step</b></a><pre>
+class step {
+             string * blurbs;
+             string skill;
+             int difficulty;
+             string * responses;
+             string * params;
+             string award_mess;
+             string succeed_mess;
+             string fail_mess;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 03:24:40 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

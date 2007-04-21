@@ -1,0 +1,63 @@
+.DT
+Managers' office
+Player-run shop help
+Managers' office
+
+.SH Name
+.SI 5
+Player-run shop managers' office
+.EI
+
+.SH Syntax - all managers
+
+.SI 5
+office
+list {employees|applicants|baddies}
+memo
+claim
+accounts
+logs
+logs <number>
+logs {personnel|accounts|chart}
+mail
+mail <string>
+query {pay|employees}
+view <employee>
+view <application> [by] <applicant>
+project {pay|bonus}
+vote <applicant> {y|n|a}
+vote policy <name> {y|n}
+policy {suggest|remove} <policy>
+policies
+.EI
+
+.SH Syntax - non-retired managers
+
+.SI 5
+rent cabinet
+remove cabinet
+retire
+check votes
+commend <employee>
+fire <employee> [for] <reason>
+warn <employee> [for] <reason>
+suspend <employee> [for] <reason>
+demote <employee>
+leave <employee> [for] <number> [days]
+ban <person> [for] <reason>
+unban <person>
+set maximum <number> [employees]
+set pay <amount> <type>
+transfer <amount> <type> [from] {register|bonus|profit} [to] {register|bonus|profit}
+.EI
+
+.SH Description
+
+.SP 5 5
+This is the managers' office, accessible only to managers of the shop.
+
+Manager commands can be used in this room.  Retired managers will have access
+to only a subset of the above commands.  For more information on the commands,
+please see the "office" command and the managers' handbook, claimable from
+this office.
+.EP

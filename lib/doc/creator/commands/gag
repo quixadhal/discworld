@@ -1,0 +1,55 @@
+.DT
+gag
+Discworld creator help
+gag
+
+
+.SH Name
+.SI 5
+Gag - Temporarily stop a player using shout and chat channels.
+.EI
+
+.SH Syntax
+.SI 5
+gag <player> <reason> [<minutes>]
+ungag <player>
+.EI
+
+.SH Description
+.SP 5 5
+The gag command can be used to temporarily stop a particular character
+using talker channels, 'newbie', and 'shout'.  It should be used if a player spams or uses profanity, harassment, or abuse on a channel or in shouts.  In some circumstances it's appropriate to give a warning first.
+
+Note that the gag reason is written to the *player* now, as well as
+creators, so make sure it's suitable.  The ideal gag reason to give
+is the objectionable chat itself.  A 'gag' playerinfo event can be added
+manually to give supplemental cre-only information.
+
+The syntax allows you to specify the length of time until the gag times out. 
+If no minutes are specified, the command defaults to 15.
+
+All creators can gag players, but if you do we request you discuss the
+gag with them, or ask a Liaison to.  Gags are logged to the character's
+playerinfo, as well as /log/GAG.
+
+Gags serve two concurrent purposes.  A gag acts as a silencer to stop a player continuing with an abusive thread or spam, stopping them subjecting everyone listening to it and giving you a chance to talk to them about it.  And, they act as a minor punishment.  If a player needed to be gagged, they can wait 15 minutes for it to timeout, rather than be ungagged.
+.EP
+
+.SH Examples:
+.SI 5
+> gag troll Troll wisped: all iraq people are bad!! lets bomb them!!!
+Okay, gagged Troll for 15 minutes.  Now please discuss your reason for gagging with them.
+[Nate gagged Troll for: Troll wisped: all iraq people are bad!! lets bomb them!!!]
+
+Player sees: %^BOLD%^%^RED%^
+You have been gagged by Nate for the reason: Troll wisped: all iraq people are bad!! lets bomb them!!!
+You will not be able to shout, chat or use the newbie channel until the gag is removed.
+%^RESET%^
+> playerinfo troll add gag Explained what was wrong with this, and warned about permanent loss of talker privileges.
+Troll's dossier updated.
+.EI
+
+.SH See also
+.SP 5 5
+playerinfo, suspend, newbie
+.EP

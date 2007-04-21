@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: c_compiler.c,v 1.1 1998/01/06 04:55:54 ceres Exp $
+ * $Log: c_compiler.c,v $
+ * Revision 1.1  1998/01/06 04:55:54  ceres
+ * Initial revision
+ * 
+*/
 #include "virtual.h"
 
 /*

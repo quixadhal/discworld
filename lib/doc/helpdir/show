@@ -1,0 +1,72 @@
+.DT
+show
+Discworld player help
+show
+ 
+.SH Name
+.SI 5
+show - Show an item to a player or npc.
+.EI
+ 
+.SH Syntax
+.SI 5
+show <object> to <living>
+show accept [offer] [from] <living>
+show accept [offer] [from] <living> [and] read [it]
+.EI
+ 
+.SH Description
+.SP 5 5
+With the show command, you can allow someone to inspect
+an item in your inventory closely, without having to
+give it directly to him, and risk losing it.
+.EP
+ 
+.SP 5 5
+You offer an item to a player who is in the same room and is
+able to see you.  If the player wants to take a look at the
+item, he accepts the offer.
+.EP
+ 
+.SP 5 5
+You can simultaneously have an offer to more than one person, but you
+can only have one offer per person at a time.  If you try to show a
+person something, and there is already an offer by you pending to
+that person, the older one is removed and replaced by the newer
+offer.
+.EP
+
+.SP 5 5
+If the item has something that can be read on it, the player
+the item is being shown to will automatically attempt to read it,
+should he choose to accept the offer using the \"read\" option.
+.EP
+
+.SP 5 5
+This help file will automatically destruct in five seconds.
+.EP
+
+.SH Examples
+.SI 5
+> show quill to gruper
+You offer the quill to Gruper for inspection.
+
+[Gruper would see:]
+Tape offers you a quill for inspection.  Use
+"show accept offer from <living>" to view it.
+
+> show accept offer from tape
+
+You accept Tape's offer.
+Tape shows a quill to you.
+
+This is a nice, long, feathery quill.  You could "write" on things with it. 
+You could probably even "copy" writing that you find.
+It is in excellent condition.
+
+.EI
+ 
+.SH See also
+.SI 5
+look, inventory
+.EI

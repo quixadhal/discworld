@@ -1,0 +1,41 @@
+.DT
+add_enter_commands
+DW_wibble creator help
+add_enter_commands
+
+.SH Name
+.SP 5 5
+add_enter_commands -  This method adds a command to be called whenever the npc enters a room.
+.EP
+
+.SH Syntax
+.SI 5
+int add_enter_commands(mixed str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the enter commands to add
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a command to be called whenever the npc enters
+a room.  If the command is a string, then it will be executed
+as if they had typed it.  If it is a function then the function
+will be evaluated and one argument (the npc itself) will be passed
+in.
+.EP
+
+.SH See also
+.SP 5 5
+reset_enter_commands(), query_enter_commands()
+
+.EP
+

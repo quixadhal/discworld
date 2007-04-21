@@ -1,0 +1,93 @@
+.DT
+combat
+Discworld living help
+combat
+
+Name
+.SI 5
+combat - How things beat each other up.
+.EI
+
+.SH Description
+.SP 5 5
+The current Discworld combat system resides in /std/living/combat.c. Combat
+is driven by the living heart_beat() that occurs approximately every two
+seconds. There are no rounds since there is no coordination between
+combatants. Every two seconds each combatants heartbeat fires and the code
+makes a determination whether or not they will attack. If they attack the
+do_attack() function is called to perform that attack.
+
+An attack goes as follows:
+.EP
+.SI 5
+  choose_opponent();
+  choose_defender();
+  choose_attack();
+  choose_defense();
+  calc_attack_modifier();
+  calc_defense_modifier();
+  // perform skill comparison
+  calc_damage();
+  calc_armour_protection();
+  write_messages();
+  // damage people, weapons & armour
+  after_attack();
+.EI
+
+.SP 5 5
+When someone is being defended the attack is slightly more complex in that
+if the attacker is successful combat will loop back after the skill check
+to choose_defender() in order to let the opponent have a chance to defend
+themselves.
+.EP
+
+.SH Combat stages
+.SP 5 5
+Each stage of combat shown above is governed by a single function. Each
+function receives a combat attack data class and returns the same data
+class with additional information filled in. Each function is in the
+autodoc system and has defined pre and post conditions.
+
+The default combat actions and activities can be overridden in one of three
+ways:
+.EP
+.SO 5 25 45
+	combat specials	Combat specials (see below) can register for and augment or override each stage of combat.
+	function overriding	When coding an NPC that will always act differently in combat the existing functions may be overridden.
+	function shadowing	Don't do this. Use combat specials instead or I will come and cut your sensitive bits of with a blunt and rusty instrument. More seriously, there are occassional situations where this may be appropriate, but please make sure you have one of them before using this technique.
+.EO
+
+.SH Attack Class
+.SP 5 5
+The combat attack class is defined in /include/combat.h and is documented
+in the autodoc system. The class records all known information about an
+attack as well as certain anciliary information that may be required (such
+as the last action by the attacker, the tactics of the attacker and
+defender etc. etc.)
+.EP
+
+.SH Combat Specials
+.SP 5 5
+The combat system allows external commands or objects to register their
+interest in a specific objects combat. Registration can be for the
+offensive or defensive part of combat and can register for any of the
+combat stages. The registration is done through the register_special()
+function which is documented (with an example) in the autodoc system.
+.EP
+
+.SH Public Methods
+.SP 5 5
+The combat system provides the same set of public accessor functions as the
+old combat system and tries to be as backwardly compatible as
+possible. Each method is documented in the autodoc system.
+
+In addition to the traditional methods the combat system also defines two
+new methods, start_combat() and end_combat(). These two methods are not
+used by the combat system but are called by it at the start and end of
+combat. You can safely override these if you have things you wish to do at
+the beginning or end of combat.
+.EP
+
+See also
+.SP 5 5
+.EP

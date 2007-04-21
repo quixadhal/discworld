@@ -1,0 +1,72 @@
+.DT
+find
+Discworld creator help
+find
+ 
+.SH Name
+.SI 5
+find - Find where a function is defined.
+.EI
+ 
+.SH Syntax
+.SI 5
+find [-<argument(s)>] <function name> <object(s)>
+.EI
+ 
+.SH Description
+.SP 5 5
+This command locates all occurances of the given function in the given
+object(s), including instances where the function is shadowed.
+.EP
+
+.SH Arguments
+.SI 5
+a - when specified, finds all occurrences of a function in the
+    inheritance tree for the object in question. It is mutually 
+    exclusive with the -n and -d options for performance reasons.
+.EI
+.SI 5
+d - when specified, extracts the function and displays the source code
+    of the function.  At the time of writing this option is only supported
+    when only one object is given.
+.EI
+.SI 5
+n - when specified, extracts the function as with the -d argument but
+    displays the source code with line numbers.
+.EI
+ 
+.SH Examples
+.SI 5
+> find long me
+*** Donky: long() found in /global/player
+> find long here
+*** The grassy knoll: long() found in /std/room
+> find set_short torch
+*** lightable torch: set_short() found in /std/basic/desc
+> find -d create me
+*** Donky: create() found in /global/wiz_file_comm
+void create() {
+  player::create();
+  wiz_object_comm::create();
+  allowed = ({ });
+} /* create() */
+> find -n create me
+*** Rywfol: create() found in /global/wiz_file_comm
+
+36 void create() {
+37    player::create();
+38    wiz_object_comm::create();
+39    allowed = ({ });
+40 }
+.EI
+
+.SH Credits
+.SP 5 5
+Originally coded by Bil? with -d option added by Donky@Nameless Sorrows.
+-n option added by Wodan.
+.EP
+ 
+.SH See also
+.SP 5 5
+call
+.EP

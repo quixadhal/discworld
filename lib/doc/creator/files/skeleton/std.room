@@ -1,0 +1,591 @@
+.DT
+room
+Discworld Creator help
+room
+
+Name
+.SI 5
+/std/room.c - File inherited by all rooms.
+.EI
+
+Description
+
+.SP 5 5
+This is the fundamental object inherited by all rooms.
+.EP
+
+Functions
+ 
+.SI 5
+int add_exit( string direc, mixed dest, string type )
+.EI
+.SP 10 5
+Adds an exit to the room with the direction of direc and
+a destination of dest of type type ;).  ie.
+.EP
+.SP 10 5
+add_exit("north", "/d/am/am/mendeddrum", "door");
+.EP
+.SP 10 5
+The standard types are taken from /std/room_handler.  See that
+file for more details on the standard exit types.  Default
+types include door, road, path, corridor, stair.
+.EP
+.SP 10 5
+The function returns a 0 if it failed to add the exit.
+.EP
+ 
+.SI 5
+int modify_exit( string direc, mixed *data )
+.EI
+.SP 10 5
+This modifies the exit in the direction direc.  This allows
+you to do horribly clever things with the exits on rooms.
+.EP
+.SP 10 5
+See "man modify_exit" for possible things to do.
+.EP
+  
+.SI 5
+int remove_exit( string direc )
+.EI
+.SP 10 5
+Tries to remove the exit direc from the room.  returns a
+1 if it succeded, or a 0 on failure.
+.EP
+ 
+.SI 5
+int query_exit( string direc )
+.EI
+.SP 10 5
+Returns 1 if the exit exists and 0 if it doesn't.
+.EP
+ 
+.SI 5
+string *query_exits()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void reset_exits()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+varargs int add_item( mixed shorts, mixed desc, int no_plural )
+.EI
+.SP 10 5
+The no_plural is optional.  If you set this to one it
+does not automagically add on the plural of the items
+name as well.
+.EP
+.SP 10 5
+Adds an item to the room.  Eg
+.EP
+.SI 15
+add_item("small hairy frog", "This is a small hairy frog.\n");
+add_item( ({ "Yellow life saver", "lifesaver" }),
+.EI
+.SP 10 5
+"This is a yellow and happy life saver.\n");
+> look at frog
+A small hairy frog.
+> look at life saver
+A yellow and happy life saver.
+> look at lifesaver
+A yellow and happy life saver.
+.EP
+.SP 10 5
+Returns a 1 on success and 0 on failure.
+.EP
+.SP 10 5
+PS. A word of advice, put lots of these in your room.  If
+you can see it in the long, make an item for it.  If
+you describe another thingy in an item, also make an
+item for that too.
+.EP
+.SP 10 5
+PPS. If your description is for the singular form, set no_plural=1, and make
+an additional add_item for the plural form with a description that makes more
+sense for that.
+.EP
+.SP 10 5
+PPPS. This function lets you do some horriby complicated things.  Check
+"man add_item" for more information.
+.EP
+ 
+.SI 5
+int remove_item( string word )
+.EI
+.SP 10 5
+Is currently too hard to implement.  Being ignored.
+.EP
+ 
+.SI 5
+int modify_item( string word, mixed new_desc )
+.EI
+.SP 10 5
+Modifies the description of the item.
+.EP
+ 
+.SI 5
+varargs object add_sign( string sign_long, mixed sign_read_mess, string
+    sign_short, mixed sign_name, string sign_language )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void set_co_ord( int *new_co_ord )
+int *query_co_ord()
+.EI
+.SP 10 5
+Set and query the co-ordinates of the room.
+.EP
+ 
+.SI 5
+void calc_co_ord()
+.EI
+.SP 10 5
+This tries to calculate the co-ordinate of the room based on
+the co-ordinates of the rooms sourounding it.  Use this
+if you wish to try and force the room to actually have a
+co-ordinate.
+.EP
+ 
+.SI 5
+string query_long_exit()
+.EI
+.SP 10 5
+Figures out the string used to print the directions for the long
+description.  This will
+always return a string.  If however it does not set the string
+internaly to the room it will regenerate this every time.  The
+reason it is regenerated every time is that you can set up
+exits so that it calls a function to see if they are obvious
+or not for each player that enters the room.
+.EP
+
+.SI 5
+void calc_long_exit()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void set_theft_handler( string word )
+string query_theft_handler()
+.EI
+.SP 10 5
+Set and query the hander defining what special things happen if people try
+to steal in this roon
+.EP
+
+.SI 5
+void event_theft( object command_ob, object thief, object victim,
+      object *stolen )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void add_alias( mixed names, string word )
+.EI
+.SP 10 5
+You can alias exit directions.
+ie
+.EP
+.SP 10 5
+add_alias( ({ "womble", "bongle" }), "north" );
+.EP
+.SP 10 5
+now by typing womble or bongle from the room you will go
+in the same direction as north.
+.EP
+ 
+.SI 5
+void remove_alias( mixed names, string word )
+.EI
+.SP 10 5
+Removes the alias from the list of aliases.
+Returns 1 on success and 0 on failure.
+.EP
+ 
+.SI 5
+string expand_alias( string word )
+.EI
+.SP 10 5
+Expands the string given the internal room aliases.  If nothing
+can be done it returns the string.
+.EP
+ 
+.SI 5
+string *query_aliases()
+.EI
+.SP 10 5
+Returns an array containing all aliasses defined in this room.
+.EP
+
+.SI 5
+object query_item()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+object query_chatter()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+object query_effects()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+object query_linker()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+object query_terrain()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+object query_wall()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+object *query_hidden_objects()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int add_hidden_object( object thing )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int remove_hidden_object( object thing )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs mixed query_door_control( string direc )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs mixed *query_dest_other( string direc )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs string *query_dest_dir( object thing )
+.EI
+.SP 10 5
+An old function that is taken from the original 2.4.5
+room.c.  This returns an array of the format
+({ direc, dest, direc2, dest2 }).  It is very useful for
+some things.
+.EP
+ 
+.SI 5
+varargs string *query_direc( object thing )
+.EI
+.SP 10 5
+Returns the chopped direc array.  This contains just the
+first words of the directions.  Since all directions can
+be set as more than one word (ie. enter town) this is
+used in init so that we don't calculate it every time.
+.EP
+ 
+.SI 5
+string query_destination( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int test_add( object thing, int flag )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int test_remove( object thing, int flag, mixed dest )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int add_weight( int number )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_no_writing()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_decay()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int attack_speed()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_dark_mess()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void set_dark_mess( string word )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_bright_mess()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void set_bright_mess( string word )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed query_room_size()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int *query_room_size_array()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void set_room_size( mixed number )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int id( string word )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string calc_short_exit_string()
+string query_short_exit_string()
+.EI
+.SP 10 5
+Figures out the string used to print the directions for the short
+description.  This will always return a string.
+If however it does not set the string
+internaly to the room it will regenerate this every time.  The
+reason it is regenerated every time is that you can set up
+exits so that it calls a function to see if they are obvious
+or not for each player that enters the room.
+.EP
+
+.SI 5
+string enchant_string()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string long( string word, int dark )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string pretty_short( object thing )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_enchant()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_enchant( int number )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void calc_exits()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void init()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string *query_zones()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void set_zone( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_door_open( string direc )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_relative( string direc )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_look( string direc )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed *query_look_func( string direc )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_size( string direc )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+void event_magic( object channel, int amount, object caster )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void add_effect( string eff, mixed arg )
+.EI
+.SP 10 5
+.EP
+ 
+varargs int set_linker( string *rooms, string d_prep, string s_prep,
+.SI 5
+    string r_name )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int set_terrain( string terrain_name )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void set_wall( mixed *args )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void dest_me()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int clean_up( int parent )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+object *find_inv_match( string words, object looker )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void tell_door( string direc, string message, object thing )
+.EI
+.SP 10 5
+.EP
+ 
+varargs mixed call_door( string direc, string func, mixed arg1, mixed arg2,
+.SI 5
+      mixed arg3 )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_door( mixed dest )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void room_chat( mixed *args )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void stop_room_chats()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed stats()
+.EI
+.SP 10 5
+.EP
+ 

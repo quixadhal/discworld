@@ -1,0 +1,40 @@
+.DT
+remove_achat_string
+DW_wibble creator help
+remove_achat_string
+
+.SH Name
+.SP 5 5
+remove_achat_string -  This method attempts to remove the given chat string from the current list of attack message chat strings.
+.EP
+
+.SH Syntax
+.SI 5
+void remove_achat_string(mixed chat)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^chat%^RESET%^ - the chat string to remove
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method attempts to remove the given chat string from the
+current list of attack message chat strings.  The chat message is checked
+to see if it exists in the array, the weighting of the
+string is ignored.
+.EP
+
+.SH See also
+.SP 5 5
+add_achat_string(), load_chat(), load_achat()
+
+.EP
+

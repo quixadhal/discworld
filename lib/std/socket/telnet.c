@@ -30,7 +30,7 @@
 #define TELOPT_TTYPE 24
 #define TELOPT_NAWS  31
 
-static string *telopts = ({"BINARY", "ECHO", "RCP", "SUPPRESS GO AHEAD",
+nosave string *telopts = ({"BINARY", "ECHO", "RCP", "SUPPRESS GO AHEAD",
 			"NAME", "STATUS", "TIMING MARK", "RCTE", "NAOL", "NAOP",
 		    "NAOCRD", "NAOHTS", "NAOHTD", "NAOFFD", "NAOVTS",
 		    "NAOVTD", "NAOLFD", "EXTEND ASCII", "LOGOUT", "BYTE MACRO",
@@ -40,19 +40,19 @@ static string *telopts = ({"BINARY", "ECHO", "RCP", "SUPPRESS GO AHEAD",
 		    "3270 REGIME", "X.3 PAD", "NAWS", "TSPEED", "LFLOW",
 		    "LINEMODE"});
 
-static string s_iac_dont_echo;
-static string s_iac_do_echo;
-static string s_iac_wont_echo;
-static string s_iac_will_echo;
-static string s_iac_dont_sga;
-static string s_iac_do_sga;
-static string s_iac_wont_sga;
-static string s_iac_will_sga;
-static string s_iac_wont_ttype;
-static string s_iac_wont_naws;
-static string s_iac;
-static string s_dont_echo;
-static string s_do_echo;
+nosave string s_iac_dont_echo;
+nosave string s_iac_do_echo;
+nosave string s_iac_wont_echo;
+nosave string s_iac_will_echo;
+nosave string s_iac_dont_sga;
+nosave string s_iac_do_sga;
+nosave string s_iac_wont_sga;
+nosave string s_iac_will_sga;
+nosave string s_iac_wont_ttype;
+nosave string s_iac_wont_naws;
+nosave string s_iac;
+nosave string s_dont_echo;
+nosave string s_do_echo;
 
 private string callback;
 
@@ -63,7 +63,7 @@ private int verbose;
 private int write_state = WRITE_WAIT_CALLBACK;
 private string write_message = "";
 
-static void init_tel_neg()
+protected void init_tel_neg()
 {
   s_iac_dont_echo  = sprintf("%c%c%c",IAC,DONT,TELOPT_ECHO);
   s_iac_do_echo    = sprintf("%c%c%c",IAC,DO  ,TELOPT_ECHO);

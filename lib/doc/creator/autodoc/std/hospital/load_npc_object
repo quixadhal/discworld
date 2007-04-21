@@ -1,0 +1,37 @@
+.DT
+load_npc_object
+DW_wibble creator help
+load_npc_object
+
+.SH Name
+.SP 5 5
+load_npc_object -  This method loads the specific npc.
+.EP
+
+.SH Syntax
+.SI 5
+object load_npc_object(string npc_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^npc_name%^RESET%^ - the name of the npc to load
+.EI
+
+.SH Returns
+.SI 5
+the npc object
+.EI
+
+.SH Defined in
+.SI 5
+/std/hospital.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method loads the specific npc.  It will do everything it needs
+to create the npc.  In the case of unique npcs they are not cloned.
+.EP
+

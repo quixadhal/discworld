@@ -1,894 +1,515 @@
-inherit "/std/basic/ls";
-inherit "/global/le";
-inherit "/global/wiz_object_comm";
-inherit "/global/player";
-inherit "/global/wiz_info_comm";
-
-#define MASTER "/secure/master"
- 
-static mixed in_editor;
- 
-varargs object *wiz_present(string str, object onobj, int nogoout);
-string desc_object(mixed o);
-string desc_f_object(object o);
-
-static void wiz_commands() {
-  add_action("makedir","mk*dir");
-  add_action("removedir","rmd*ir");
-  add_action("update","upd*ate");
-  add_action("discard", "di*scard");
-  add_action("rm_file","rm");
-  add_action("cp_file", "cp");
-  add_action("mv_file", "mv");
-  add_action("load","lo*ad");
-  add_action("clone","cl*one");
-  add_action("indent", "indent");
-  add_action("execute", "exe*c");
-  wiz_object_comm::wiz_commands();
-  wiz_info_comm::wiz_commands();
-} /* wiz_commands() */
-     
+/*  -*- LPC -*-  */
 /*
-** commands in the app_commands will go to all players with
-** level >= 20. This includes players who have opted to
-** remain players rather than advancing to wizard. As such
-** we must be careful in what we place here
-*/
- 
-static void app_commands() {
-  add_action("du", "du");
-  add_action("grep", "gr*ep");
-  add_action("reg_ex_grep", "rg*rep");
-  wiz_object_comm::app_commands();
-  wiz_info_comm::app_commands();
-} /* app_commands() */
- 
-/* These commands go to ALL players. Note that master.c
-** gives only limited read/write access to dirs anyway,
-** so the apparent security problems are NOT a problem
-*/
- 
-static void all_commands() {
-  add_action("tail_file","ta*il");
-  add_action("what_dir","pw*d");  
-  add_action("list_files","ls");
-  add_action("change_dir","cd");
-  add_action("exa_file","cat");
-  add_action("do_more","mo*re");
-  add_action("edit","ed");
-  add_action("le", "le");
-  add_action("set_home_dir", "homed*ir");
-  add_action("do_sar","sar");
-  wiz_object_comm::all_commands();
-  wiz_info_comm::all_commands();
-} /* all_commands() */
- 
-static int mv_file(string str) {
-  string *filenames, dest, *fnames, source;
-  int loop, fs, pos;
+ * $Locker:  $
+ * $Id: wiz_file_comm.c,v 1.34 2002/06/27 15:55:01 drakkos Exp $
+ */
+/**
+ * This file contains all the file related commands and information
+ * for the creators.
+ * @author Pinkfish
+ */
+#include <creator.h>
+#include <login_handler.h>
+#include <ls.h>
+#include <playtesters.h>
+#include <player_handler.h>
+#include <cmds/friends.h>
 
-  if (this_player(1) != this_player()) return 0;
+#ifdef USE_LE
+inherit "/global/le";
+#endif
 
-  if(!str) {
-    notify_fail("Usage : mv file [file|dir...]\n");
-    return 0;
-  }
-  fnames = explode(str, " ");
-  filenames = get_files(implode(fnames[0..sizeof(fnames) -2], " "));
-  if(!sizeof(filenames)) {
-    notify_fail("Usage : mv file [file|dir...]\n");
-    return 0;
-  }
-  dest = fnames[sizeof(fnames) - 1];
-  dest = get_path(dest);
-  if(!dest) {
-    write("No destination\n");
-    return 1;
-  }
-  for(loop = 0; loop < sizeof(filenames); loop++) {
-    str = filenames[loop];
-    if(file_size(str) == -1) {
-      write("No such file : " + str + "\n");
-      continue;
-    }
-    fs = file_size(dest);
-    if(fs == -2) {
-      string *names;
+inherit "/global/wiz_object_comm";
+inherit "/global/playtester";
+inherit "/global/wiz_info_comm";
+inherit "/global/wiz_channels";
+inherit "/global/wiz_inter_comm";
 
-      names = explode(str, "/");
-      fs = file_size(dest + "/" + names[sizeof(names) - 1]);
-      if(fs != -1) {
-        write("file exists " + dest + "/" + names[sizeof(names) - 1] + "\n");
-        continue;
-      }
-      rename(str, dest + "/" + names[sizeof(names) - 1]);
-    }
-    else {
-      if(fs != -1) {
-        write("File exists : " + dest + "\n");
-        continue;
-      }
-      rename(str, dest);
-    }
-  }
-  write("Ok.\n");
-  return 1;
-} /* mv_file() */
+private int invis;
+private string *allowed;
+private nosave mixed _in_wiz_editor;
+private nosave string *dir_list;
+private nosave mixed last_location;
 
-static int cp_file(string str) {
-  string *filenames, text, dest, *fnames;
-  int loop, fs;
+private int change_dir(string str);
+private int pushd(string str);
+private int popd();
+protected int set_home_dir(string str);
+private int visible();
+private int invisible(string level);
+private int allow(string word);
+private int disallow(string word);
 
-  if (this_player(1) != this_player()) return 0;
+/* Stuck in to help with the auto load stuff change obvject */
+void create() {
+   playtester::create();
+   wiz_object_comm::create();
+   allowed = ({ });
+} /* create() */
 
-  if(!str) {
-    notify_fail("Usage : cp file [file|dir...]\n");
-    return 0;
-  }
-  fnames = explode(str, " ");
-  filenames = get_files(implode(fnames[0..sizeof(fnames) -2], "/"));
-  if(!sizeof(filenames)) {
-    notify_fail("Usage : cp file [file|dir...]\n");
-    return 0;
-  }
-  dest = fnames[sizeof(fnames) - 1];
-  dest = get_path(dest);
-  if(!dest) {
-    write("No destination\n");
-    return 1;
-  }
-  for(loop = 0; loop < sizeof(filenames); loop++) {
-    str = filenames[loop];
-    text = read_file(str);
-    if(!text) {
-      write("No such file : " + str + "\n");
-      continue;
-    }
-    fs = file_size(dest);
-    if(fs == -2) {
-      string *names;
-
-      names = explode(str, "/");
-      fs = file_size(dest + "/" + names[sizeof(names) - 1]);
-      if(fs != -1) {
-        write("file exists " + dest + "/" + names[sizeof(names) - 1] + "\n");
-        continue;
-      }
-      write_file(dest + "/" + names[sizeof(names) - 1], text);
-    }
-    else {
-      if(fs != -1) {
-        write("File exists : " + dest + "\n");
-        continue;
-      }
-      write_file(dest, text);
-    }
-  }
-  write("Ok.\n");
-  return 1;
-} /* cp_file() */
-
-static int do_update(object *ov) {
-   string pname, dummy, err;
-   int i, j;
-   object *invent, rsv, env, dup, loaded;
-
-  if (this_player(1) != this_player()) return 0;
-
-   "room/void"->bingle_bingle();
-
-   rsv = find_object("room/void");  /* RSV = Room Slash Void */
-   if (!rsv) { /* Die in horror */
-      notify_fail("The void is lost!\n");
-      return 0;
+/**
+ * This method adds in all the creator commands to the player.  This
+ * will be called when the play initialy logs onto the game.
+ */ 
+protected void wiz_commands() {
+   /* Get the commands from the inherited objects. */
+   wiz_object_comm::wiz_commands();
+   wiz_info_comm::wiz_commands();
+   wiz_inter_comm::wiz_commands();
+   wiz_channels::wiz_commands();
+   
+#ifdef USE_LE
+   le::le_commands();
+#endif
+   
+   /* Setup our local commands. */
+   add_command("cd", this_object(), "<string'directory'>", (: change_dir($4[0]) :));
+   add_command("cd", this_object(), "", (: change_dir(0) :));
+   add_command("pushd", this_object(), "<string'directory'>", (: pushd($4[0]) :));
+   add_command("pushd", this_object(), "", (: pushd(0) :));
+   add_command("popd", this_object(), "", (: popd() :));
+   add_command("homedir", this_object(), "<string'directory'>", (: set_home_dir($4[0]) :));
+   add_command("visible", this_object(), "", (: visible() :));
+   add_command("vis", this_object(), "", (: visible() :));
+   add_command("invisible", this_object(), "{1|2|3}", (: invisible($4[0]) :));
+   add_command("invis", this_object(), "", (: invisible("1") :));
+   if (this_player()->query_director()) {
+      add_command("invis", this_object(), "{1|2|3}", (: invisible($4[0]) :));
    }
- 
-   for (i = 0; i < sizeof(ov); i++) {
-      if (!ov[i]) continue;
-      env = environment(ov[i]);
-      invent = all_inventory(ov[i]);
+   add_command("allow", this_object(), "<word'name'>", (: allow($4[0]) :));
+   add_command("allow", this_object(), "", (: allow(0) :));
+   add_command("disallow", this_object(), "<word'name'>", (: disallow($4[0]) :));
+   add_command("disallow", this_object(), "all", (: disallow("all") :));
+} /* wiz_commands() */
 
-      for (j = 0; j < sizeof(invent); j++) 
-         invent[j]->move(rsv);
+/**
+ * This method returns the current invisibility level of the object.
+ * This will return 0 if the object is not invisible, 1 for creator
+ * invisible, 2 for director invisible and 3 for trustee invisible.
+ * @return the current invisibility level
+ */
+nomask int query_invis() {
+  return invis;
+} /* query_invis() */
 
-      pname = file_name(ov[i]);
-      if (sscanf(pname, "%s#%d", pname, dummy) != 2) { /* a room ? */
-         ov[i] -> dest_me();
-         if (ov[i]) ov[i]->dwep();
-         if (ov[i]) destruct(ov[i]);
-         file_size("/secure/master");
-         if (!ov[i])
-           ov[i] = find_object(pname);
-         call_other(pname, "??");
-         ov[i] = find_object(pname);
-      } else {
-         loaded = find_object(pname);
-         if (loaded) loaded->dest_me();
-         if (loaded) loaded->dwep();
-         if (loaded) destruct(loaded);
+/** @ignore yes */
+protected void set_invis(int level) {
+   invis = level;
+} /* set_invis() */
 
-         dup = clone_object(pname);
-         if (dup && ov[i]) {
-            ov[i] -> dest_me();
-            if (ov[i]) ov[i]->dwep();
-            if (ov[i]) destruct(ov[i]);
-            ov[i] = dup;
-         }
-      }
+/**
+ * This method returns the current list of people in the allowed array for
+ * the creator.
+ * @return the current list of allowed people
+ */
+nomask string *query_allowed() {
+  return copy(allowed);
+} /* query_allowed() */
 
-     if (!ov[i]) {
-        write("I seem to have lost your object.\n");
-        return 1;
+/**
+ * A bunch of stuff for allows to make it work with friends...
+ * @ignore yes
+ */
+int is_friend(string str) {
+   return ::is_friend(str) ||
+          member_array(str, allowed) != -1;
+} /* is_freiend() */
+
+/** @ignore yes */
+string query_friend_tag(string str) {
+   string womble;
+
+   if(!userp(previous_object())) {
+     womble = ::query_friend_tag(str);
+     if (!womble) {
+       if (member_array(str, allowed) != -1) {
+         return "allowed to reference";
+       }
      }
+     return womble;
+   }
+   return "";
+} /* query_friend_tag() */
 
-     for (j = 0; j < sizeof(invent); j++)
-        if (invent[j]) invent[j]->move(ov[i]);
+/** @ignore yes */
+string* query_friends() {
+   if (file_name(previous_object()) == FRIENDS_CMD) {
+      return ::query_friends() | allowed;
+   }
 
-     if (env) ov[i]->move(env);
-     write("Updated " + desc_f_object(ov[i]) + ".\n");
+   return ({ });
+} /* query_friends() */
+
+/**
+ * This method is called by the visible command to make the creator
+ * become visible.
+ * @return 1 on success
+ */
+private int visible() {
+   if (GetForced()) {
+      return 0;
+   }
+   if (!query_invis()) {
+      return notify_fail("You are already visible.\n");
+   }
+   if (invis >= 2) {
+      invis = 0;
+      LOGIN_HANDLER->player_logon(this_player()->query_name());
+   } else {
+      invis = 0;
+   }
+   write("You appear.\n");
+   return 1;
+} /* visible() */
+
+/**
+ * This method is called by the invisible command to make the creator
+ * turn invisible.
+ * @return 1 on success, 0 on failure
+ */
+private int invisible( string word ) {
+   int max, type;
+   
+   if (GetForced()) {
+      return 0;
+   }
+   if (!word) {
+      word = sprintf("%d", query_invis());
+      if (word == "0") {
+         word = "1";
+      }
+   }
+   max = 1 + (int)master()->query_director(query_name()) +
+      (int)master()->query_trustee(query_name());
+   if (!sscanf(word, "%d", type) || (type > max) || (type < 1)) {
+      return notify_fail("Syntax: invisible [1"+ ( max > 1 ? "|2" : "" ) +
+                         ( max > 2 ? "|3" : "" ) + "]\n");
+   }
+   word = ({ "frog", "creator", "director", "trustee" })[type];
+   if (type == query_invis()) {
+      return notify_fail("You are already "+ word +" invisible.\n");
+   }
+   if (type < invis && type < 2 && invis >= 2) {
+      invis = type;
+      LOGIN_HANDLER->player_login(this_player()->query_name());
+   } else {
+      invis = type;
+   }
+   write("You become "+ word +" invisible.\n");
+   return 1;
+} /* invisible() */
+
+/**
+ * This method adds someone to the current allow list of the creator.
+ * People on the allow list can see the creator while they are
+ * invisible.
+ * @param word the person to add to the allow string
+ * @return 1 on success, 0 on failure
+ */
+private int allow(string word) {
+    string player, mud; 
+
+   if (!word) {
+      if (!sizeof(allowed)) {
+         write("You are not allowing anyone to refer to you.\n");
+      } else {
+         write("You are currently allowing "+
+               query_multiple_short( map_array( sort_array(allowed, 0), 
+                                                (: capitalize( $1 ) :))) +
+               " to refer to you.\n" );
+      }
+      return 1;
+   }
+   word = lower_case(word);
+
+   if ( word != "playtesters" && !PLAYER_HANDLER->test_user(word) && 
+       sscanf( word, "%s@%s", player, mud ) != 2 ) {
+      return notify_fail("There is no user called $C$"+ word +".\n");
+   }
+
+   if (member_array(word, allowed) != -1) {
+      return notify_fail("You have already allowed $C$"+ word +
+                         " to refer to you.\n");
+   }
+   allowed += ({ word });
+   write(word +" is now allowed to refer to you.\n");
+   return 1;
+} /* allow() */
+
+/**
+ * This method removes someone from the current allow list of the
+ * creator.  eople on the allow list can see the creator while they are
+ * invisible.
+ * @param word the person to remove to the allow string
+ * @return 1 on success, 0 on failure
+ */
+private int disallow(string word) {
+   if (!word) {
+      return notify_fail("Disallow who?\n");
+   }
+   if (word == "all") {
+     allowed = ({ });
+     write("Cleared your allow list.\n");
+   } else {
+     word = lower_case(word);
+     allowed -= ({ word });
+     write(word +" is no longer allowed to refer to you.\n");
    }
    return 1;
-} /* do_update() */
- 
-int update(string str) {
-  string tring, *filenames, err;
-  object ob, *val, *obs;
-  int loop, loop2;
+} /* disallow() */
 
-  notify_fail("No such object.\n");
-  tring = str;
-  if (!str || str == "here") { 
-    str = file_name(environment());
-    sscanf(str, "%s#%d", str, loop);
-    filenames = ({ "/" + str });
-    str = "here";
-  }
-  else {
-    filenames = get_cfiles(str);
-  }
-  if(sizeof(filenames) == 0) {
-    val = wiz_present(tring, this_player());
-    if(!sizeof(val)) {
-      notify_fail("No matching objects/filenames\n");
-      return 0;
-    }
-    return do_update(val);
-  }
-  obs = ({ });
-  for(loop = 0; loop < sizeof(filenames); loop++) {
-    str = filenames[loop];
-    ob = find_object(str);
-    if (!ob) {
-      if(file_size(str) >= 0) {
-        if (!(err = catch(str->bing_with_me())))
-          write("Loaded " + str + "\n");
-        else
-          write("Failed to load "+str+", error: "+err+"\n");
-      }
-      else {
-        val = wiz_present(tring, this_player());
-        obs += val;
-      }
-    }
-    else {
-      obs += ({ ob });
-    }
-  }
-  if (!obs)
-    return 0;
-  else
-    return do_update(obs);
-} /* update() */
+/**
+ * This method returns the current visibility status of this creator
+ * in respect to the other object.  This does the allow level checking
+ * and all sorts of exciting things.
+ * <p>
+ * It will return 1 for creator invisible, 2 for director invisible, 3 for
+ * trustee invisible.
+ * @param thing the object to test the visibility against
+ * @return 0 if not invisible, non-zero if invisible
+ */
+int query_visible(object thing) {
+   string word;
 
-/* This is for querying about objects who don't want to be destructed */
-static object discard_obj;
- 
-int discard(string str) {
-  string *file_names;
-  int loop;
-  string err;
-
-  if (!str) {
-    notify_fail("Discard what?\n");
-    return 0;
-  }
-  file_names = get_cfiles(str);
-  for(loop = 0; loop < sizeof(file_names); loop++) {
-    str = file_names[loop];
-    discard_obj = find_object(str);
-    if (!discard_obj) {
-      if (file_size(str) < 0) notify_fail("No such file " + str + "\n");
-      else {
-        write(str + " is not loaded.\n");
-      }
-      continue;
-    }
-    err = catch(discard_obj->dest_me());
-    handle_error(err, "dest_me");
-    if (discard_obj) {
-      write("That object has a violent objection to being dested.\n");
-      write("Are you sure you want to do this? ");
-      input_to("no_discard");
+   if (thing == this_object()) {
       return 1;
-    }
-  }
-  write("Ok.\n");
-  return 1;
-} /* discard() */
-
-void no_discard(string s) { 
-   string err;
-
-   if (affirmative(s)) {
-      err = catch(discard_obj->dwep());
-      handle_error(err, "DWEP");
-      if (discard_obj) {
-         write("It REALLY doesn't want to be discarded.\n");
-         destruct(discard_obj);
-         if (discard_obj) {
-            write("It didn't destruct.\n");
-            return;
-         }
-      }
    }
-   write("Ok.\n");
-   discard_obj = 0;
-} /* no_discard() */
+   word = (string)thing->query_name();
+   if (member_array(word, allowed) != -1) {
+      return ::query_visible(thing);
+   } else if((member_array("playtesters", allowed) != -1) &&
+             PLAYTESTER_HAND->query_playtester(word)) {
+     return ::query_visible(thing);
+   }
+   
+   switch (query_invis()) {
+   case 3 :
+      return (int)master()->query_trustee(word);
+   case 2 :
+      return (int)master()->query_director(word);
+   case 1 :
+      return (int)thing->query_creator();
+   default :
+      return ::query_visible(thing);
+   }
+} /* query_visible() */
 
-int load(string str) {
- string *filenames, err;
- int loop;
+/**
+ * This method returns the value of the in editor flag.
+ * It will return non-zero if the player is in an editor.
+ * @return non-zero in editor, 0 not in an editor
+ * @see set_in_editor()
+ */
+mixed query_in_editor() {
+   return _in_wiz_editor || ::query_in_editor();
+} /* query_in_editor() */
 
-  if (!str) {
-    notify_fail("Load what ?\n"); 
-    return 0;
-  }
-  filenames = get_cfiles(str);
-  if (!sizeof(filenames)) {
-    notify_fail("No such object.\n");
-    return 0;
-  }
-  for(loop = 0; loop < sizeof(filenames); loop++) {
-    str = filenames[loop];
-    if (file_size(str)<0) {
-      write(str + ": No such object.\n");
-      continue;
-    }
-    if (err = catch(str->load_up_with_yellow()))
-      write("Failed to load "+str+", error: "+err+"\n");
-    else
-      write("Loaded "+str+"\n");
-  }
-  write("Ok.\n");
-  return 1;
-} /* load() */
+/**
+ * This method sets the current in editor flag.
+ * @param what the new value of the in editor flag
+ * @see query_in_editor()
+ */
+void set_in_editor(mixed what) {
+   _in_wiz_editor = what;
+} /* set_in_editor() */
 
-int do_more(string str) {
-  object *things, spam;
-  int egg;
-
-  if (this_player(1) != this_player()) return 0;
-
-  if(!str) {
-    notify_fail("More which file(s)/object?\n");
-    return 0;
-  }
-  if(sizeof(things = wiz_present(str, this_player()))) {
-    str = file_name(things[0]);
-    sscanf(str, "%s#%d", str, egg);
-    if (file_size(str) <= 0)
-      str += ".c";
-  }
-  return more_file(str);
-} /* do_more() */
-
-static int edit(string str) {
-  string *filenames, spam, bing;
-  object *things;
-  int egg;
-
-  if (this_player(1) != this_player()) return 0;
-
-  if (!str) {
-    in_editor = "(hidden)";
-    ed("frog", "fini_editor");
-    return 1;
-  }
-  /* dodgy idea, but allows 'ed here' or 'ed strawberry' */        
-  if (sizeof(things = wiz_present(str, this_player()))) {
-    spam = file_name(things[0]);
-    sscanf(spam, "%s#%d", spam, egg);
-    if (file_size(spam) < 0)
-      filenames = ({ spam+".c" });
-    else
-      filenames = ({ spam });
-  } else
-    filenames = get_files(str);
-  if (!sizeof(filenames)) { 
-    str = get_path(str);
-  } else {
-    if (sizeof(filenames) > 0) {
-      str = filenames[0];
-      if (sizeof(filenames) > 1) {
-        int loop;
-
-        loop = 0;
-        while(loop < sizeof(filenames) && file_size(filenames[loop]) < 0)
-          loop++;
-        if(loop >= sizeof(filenames)) {
-          write("No such file.\n");
-          return 0;
-        }
-        else {
-          str = filenames[loop];
-        } 
-        write("Ambiguous, using : " + str + "\n");
-      }
-    }
-  }
-  if (file_size(str) == -2) {
-    write("directory\n");
-    return 1;
-  }
-  in_editor = str;
-  if (!MASTER->valid_write(str, geteuid(), "frog"))
-    write("[read only] ");
-  ed(str, "fini_editor");
-  return 1;
-} /* edit() */
-
-mixed query_in_editor() { return in_editor; }
-
-void fini_editor() {
-  in_editor = 0;
-} /* fini_editor() */
- 
-static int clone(string str) {
-    object ob;
-    string err, *filenames;
-    int loop, mov;
-
-    if (!str) {
-        notify_fail("Clone what ?\n");
-        return 0;
-    }
-
-    filenames = get_cfiles(str);
-    if (!sizeof(filenames))  {
-        notify_fail("No such file.\n");
-        return 0;
-    }
-
-    for(loop = 0; loop < sizeof(filenames); loop++) {
-       str = filenames[loop];
-       if (file_size(str) < 0 && file_size(str + ".c") < 0) {
-          notify_fail("No such file.\n");
-          return 0;
-       }
-/*    err = catch(ob = clone_object(str));
-       handle_error(err, "clone_object()"); */
-       ob = clone_object(str);
-       if (ob) {
-          err = catch((mov = (int)ob->move(this_player())));
-          handle_error(err, "move(this_player())");
-          if (err || mov) {
-             err = catch(ob -> move(environment(this_player())));
-             handle_error(err, "move(environment())");
-          }
-          write("Ok.  Object "+file_name(ob)+" cloned and put in "+
-             (environment(ob)==this_object() ? "you" : 
-              (environment(ob)==environment() ? "here" : desc_object(ob)))+
-             ".\n");
-          say((string)this_player()->query_cap_name() + " fetches " +
-            ((string)ob->query_short()?(string)ob->query_short():"something") +
-             " from another dimension.\n");
-       } else {
-          write("Failed to clone.\n");
-       }
-    }
-    return 1;
-} /* clone() */
- 
-static int what_dir() {
-  write(current_path+"\n");
-  return 1;
-} /* what_dir() */
- 
-static int change_dir(string str) {
-  string *filenames;
-
-  if (this_player(1) != this_player()) return 0;
-
-  if (!str)  {
-    if(!home_dir) {
-      notify_fail("No homedir.  Use homedir to set it.\n");
-      return 0;
-    }
-    str = home_dir;
-  }
-  filenames = get_files(str);
-  if(sizeof(filenames) > 1) {
-    notify_fail("Ambiguous directory.\n");
-    return 0;
-  }
-  if (!sizeof(filenames)) {
-    notify_fail("No such dir.\n");
-    return 0;
-  }
-  str = filenames[0];
-  if (file_size(str) != -2) 
-    write("Bad directory : " + str + ".\n");
-  else
-    current_path = str;
-  write(current_path+"\n");
-  return 1;
-} /* change_dir() */
- 
-string query_path() { return current_path; }
- 
-static int exa_file(string str) {
+/**
+ * This method is called by the cd command and causes the
+ * creator to change their current working directory.
+ * @param str the new working directory
+ * @return 1 on success, 0 on failure
+ */
+private int change_dir(string str) {
    string *filenames;
-   int loop;
-
-  if (this_player(1) != this_player()) return 0;
-
-    if (!str) {
-        notify_fail("Cat what file ?\n");
-        return 0;
-        }
-    filenames = get_files(str);
-    if (!sizeof(filenames)) {
-       notify_fail(str + ": No such file.\n");
-       return 0;
-    }
-    for(loop = 0; loop < sizeof(filenames); loop++) {
-       str = filenames[loop];
-       if(sizeof(filenames) > 1) {
-          write("FILE : " + str + "\n");
-       }
-       cat(str);
-    }
-    return 1;
-} /* exa_file() */
- 
-static int list_files(string str) {
-    if (!str) str = current_path;
-    else str = get_path(str);
-    if (!str) return 1;
-    ls(str);
-    return 1;
-} /* list_files() */
- 
-static int rm_file(string str) {
-    int fsize, pos, loop;
-    string *filenames;
- 
-  if (this_player(1) != this_player()) return 0;
-
-    if (!str) {
-       notify_fail("Usage: rm file [file ...]\n");
-       return 0;
-    }
-    filenames = get_files(str);
-    if (!sizeof(filenames)) {
-       notify_fail("No such file : " + str + "\n");
-       return 0;
-    }
-    for(loop = 0; loop < sizeof(filenames); loop++) {
-       string temp;
-       str = filenames[loop];
-       if(sscanf(str, "%s/.", temp) || sscanf(str, "%s/..", temp)) {
-           continue;
-       }
-       fsize = file_size(str);
-       if (fsize == -1) {
-          notify_fail("No such file or directory.\n");
-          return 0;
-       }
-       if (fsize == -2) {
-          if (!rmdir(str)) {
-             notify_fail("Couldn't rm directory: " + str + "\n");
-             return 0;
-          }
-       } else if (!rm(str)) {
-          notify_fail("Can't remove file.\n");
-          return 0;
-       }
-    }
-    write("Ok.\n");
-    return 1;
-} /* rm_files() */
-
-static int tail_file(string str) {
-    string *filenames;
-    int loop;
-  if (this_player(1) != this_object()) return 0;
-
-  if (!str) {
-    notify_fail("Tail what file ?\n");
-    return 0;
-  }
-  filenames = get_files(str);
-  if (!sizeof(filenames)) {
-    notify_fail(str + ": No such file.\n");
-    return 0;
-  }
-  for(loop = 0; loop < sizeof(filenames); loop++) {
-    str = filenames[loop];
-    if(sizeof(filenames) > 1) {
-       write("FILE : " + str + "\n");
-    }
-    if (!tail(str))
-      write("No such file.\n");
-  }
-  return 1;
-} /* tail_file() */
-
-static int makedir(string str) {
- 
-  if (this_player(1) != this_object()) return 0;
-   if (!str || str == "") {
-      notify_fail("Make what directory?\n");
-      return 0;
-      }
-   str = get_path(str);
- 
-   if (!str)
-      return 1;
- 
-   if (file_size(str) != -1) {
-      notify_fail(str + " already exists.\n");
-      return 0;
-      }
- 
-   if (!mkdir(str)) {
-      notify_fail("Couldn't make dir.\n");
+   object *obs;
+   
+   if (GetForced()) {
       return 0;
    }
-   write("Ok.\n");
-   return 1;
-} /* makedir() */
- 
-static int removedir(string str) {
-   string *filenames;
-   int fsize, loop;
- 
-  if (this_player(1) != this_object()) return 0;
-   if (!str || str == "") {
-      notify_fail("Remove what dir?\n");
-      return 0;
+   if (!str) {
+      if (!query_home_dir()) {
+         add_failed_mess(this_object(), 
+                         "No homedir.  Use homedir to set it.\n", ({ }));
+         return 0;
+      }
+      str = query_home_dir();
    }
+   else { 
+      if ( this_object()->query_property( LS_COMMAND_NICKNAME_PROPERTY ) ) {
+         str = this_object()->expand_nickname( str );
+      }
+   } 
+
    filenames = get_files(str);
+   if (sizeof(filenames) > 1) {
+      add_failed_mess(this_object(),
+                      "Ambiguous directory.\n", ({ }));
+      return 0;
+   }
    if (!sizeof(filenames)) {
-      notify_fail("No such directory : " + str + "\n");
-      return 0;
+      if (!sizeof(obs = WIZ_PRESENT->wiz_present(str, this_object()))) {
+         add_failed_mess(this_object(),
+                         "No such dir.\n", ({ }));
+         return 0;
+      }
+      if (sizeof(obs) > 1) {
+         add_failed_mess(this_object(),
+                         "Ambiguous directory.\n", ({ }));
+         return 0;
+      }
+      filenames =
+         map(obs,
+             (: sprintf("/%s",implode(explode(file_name($1), "/")[0..<2],
+                                      "/")) :));
    }
- 
-   for(loop = 0; loop < sizeof(filenames); loop++) {
-      str = filenames[loop];
-      fsize = file_size(str);
-      if (fsize == -1) {
-         notify_fail(str + " doesn't exist.\n");
-         return 0;
-      }
-      if (fsize != -2) {
-         notify_fail(str + " is not a directory.\n");
-         return 0;
-      }
-      if (!rmdir(str)) {
-         notify_fail("Couldn't remove dir : " + str + "\n");
-         return 0;
-      }
+   str = filenames[0];
+   if (file_size(str) != -2) {
+      printf("cd: %s: Not a directory.\n", str);
+   } else {
+      set_current_path(str);
    }
-   write("Ok.\n");
+   printf("%s\n", query_current_path());
    return 1;
-} /* removedir() */
- 
-static int set_home_dir(string str) {
-  if (this_player(1) != this_object()) return 0;
-    if (str) home_dir = get_path(str);
-    write("Home directory set to "+home_dir+".\n");
-    return 1;
-} /* set_home_dir() */
- 
-static int execute(string str) {
-  mixed  err, ret;
-  object ob;
-  string file, wiz_dir;
-        
-  if (this_player(1) != this_object()) return 0;
-  if (!this_player()) return 0;
-  if (!str) {
-    notify_fail("usage:  exec <lpc code>\n");
-    return 0;
-    }   
-  wiz_dir = "/w/" + (string)this_player()->query_name();
-  if (file_size(wiz_dir)!=-2) {
-    notify_fail("Directory: " + wiz_dir + " does not exist.\n");
-    return 0;
-    }
-  file = wiz_dir + "/exec_tmp";
-  if (find_object(file)) file->dest_me();
-  if (file_size(file+".c")>0) rm(file+".c");
-  write_file(file+".c",
-    "create() { seteuid(geteuid(this_player())); }\n" +
-    "dest_me() { destruct(this_object()); }\n" +
-    "do_call() {\n"+ str + ";\n}\n");
-  err = catch(ret = (mixed) file->do_call());
-  if (err==0) printf("\nReturns: %O\n", ret);
-  if (find_object(file)) file->dest_me();
-  rm(file+".c");
-  return 1;
-} /* execute() */
+} /* change_dir() */
 
-int grep(mixed str) {
-  int i, j, num;
-  string *files, *bit;
-  string s1, s2, s3, s4;
+/**
+ * This method is called by the pushd command.
+ * @return 1 on success, 0 on failure
+ * @param str the new working directory
+ */
+private int pushd(string str) {
+   if (!dir_list) {
+      dir_list = ({ });
+   }
+   dir_list += ({ query_current_path() });
+   return change_dir(str);
+} /* pushd() */
 
-  if (this_player(1) != this_object()) return 0;
-  num = 1;
-  if (sscanf(str,"-n %s", str) == 1)
-    num = 0;
-  if (sscanf(str, "%s -n %s", s1, s2) == 2) {
-    num = 0;
-    str = s1+" "+s2;
-  }
-  if (sscanf(str, "%s %s", s1, s2) != 2) {
-    notify_fail("Usage: grep pattern <files>\n");
-    return 0;
-  }
-
-  files = get_files(s2);
-  if(!sizeof(files)) {
-    notify_fail("File(s) " + s2 + " not found.\n");
-    return 0;
-  }
-  for (i=0;i<sizeof(files);i++)
-    if (file_size(files[i]) > 0)
-      if (sscanf(read_file(files[i]), "%s"+s1+"%s", s3, s4) == 2) {
-        j = 0;
-        str = read_file(files[i], 0, 900);
-        write("File : "+files[i]+"\n");
-        while (str && num) {
-          while (sscanf(str, "%s"+s1+"%s", s3, s4) == 2) {
-            bit = explode(s3,"\n");
-            printf("%4d: %s\n", j+sizeof(bit), bit[sizeof(bit)-1]+s1+
-                                explode(s4,"\n")[0]);
-            j += sizeof(bit);
-            str = implode(explode(s4,"\n")[1..1000],"\n");
-          }
-          j = ((j/900)+1)*900;
-          str = read_file(files[i],j, 900);
-        }
-      }
-  return 1;
-} /* grep() */
-
-int query_ed_setup() { return ed_setup; }
-void set_ed_setup(int i) { ed_setup = i; }
-
-int rec_du(string path) {
-  string *files;
-  int i, size, tot;
-  if (this_player(1) != this_object()) return 0;
-  if (path[strlen(path)-1] != '/')
-    path += "/";
-  files = get_dir(path+"*");
-  for (i=0;i<sizeof(files);i++) {
-    if (files[i] == "." || files[i] == "..")
-      continue;
-    size = file_size(path+files[i]);
-    if (size > 0)
-      tot += size;
-    else if (size == -2) {
-      printf("%-30s %5d\n", path+files[i], (size = rec_du(path+files[i])));
-      tot += size*1024;
-    }
-  }
-  return (tot+1023)/1024;
-} /* rec_du() */
-
-int du(string str) {
-  if (this_player(1) != this_object()) return 0;
-  notify_fail("Must have write access to be allowed to use du on a dir.\n");
-  if (!str) {
-    if(!"secure/master"->valid_write(current_path,geteuid(this_object())))
+/**
+ * This method is called by the popd command.
+ * @return 1 on success, 0 on failure
+ */
+private int popd() {
+   string dest;
+  
+   if (!sizeof(dir_list)) {
       return 0;
-    printf("%-30s %5d\n", "Total:",rec_du(current_path));
-    return 1;
-  }
-/* forget about type 2 for now ;) */
-  return 0;
-} /* du() */
+   }
+   dest = dir_list[sizeof(dir_list)-1];
+   dir_list = delete(dir_list, sizeof(dir_list)-1, 1);
+   return change_dir(dest);
+} /* popd() */
 
-int reg_ex_grep(string str) {
-  string *files;
-  string s1, *s2, *s3, pattern;
-  int i, j, k, fsize;
-  int done;
+/**
+ * This method returns the creators current working directory.
+ * @return the current working directory
+ */
+string query_path() {
+   return query_current_path();
+} /* query_path() */
 
-  if (this_player(1) != this_object()) return 0;
-  notify_fail("Usage: grep <pattern> <files>\n");
-  if (!str)
-    return 0;
+/**
+ * This method sets the home directory of the player.  It is called
+ * by the homedir command.
+ * @param str the new home directory
+ * @return 0 on failure and 1 on success
+ */
+private int set_home_dir(string str) {
+   if (GetForced()) {
+      return 0;
+   }
+   if (str) {
+      ::set_home_dir(get_path(str));
+   }
+   printf("Home directory set to %s.\n", query_home_dir());
+   return 1;
+} /* set_home_dir() */
 
-  if (sscanf(str, "%s %s", pattern, str) != 2)
-    return 0;
+/**
+ * This method returns the saved setup for the inbuild ed command.  THis
+ * allows certain flag settings to be saved between sessions.
+ * @return the current ed setup flags
+ * @see set_ed_setup()
+ */ 
+int query_ed_setup() {
+   return query_property("ed_setup");
+} /* query_ed_setup() */
 
-  files = get_files(str);
-  if(!sizeof(files)) {
-    notify_fail("File(s) " + s2 + " not found.\n");
-    return 0;
-  }
-  for (i=0;i<sizeof(files);i++)
-    if ((fsize=file_length(files[i])) > 0) {
-      done = 0;
-      for (j=0;j<fsize;j+=500) {
-        s1 = read_file(files[i],j,500);
-        s2 = explode(s1,"\n");
-        s3 = regexp(s2, pattern);
-        if (sizeof(s3) && !done)
-          printf("%s\n",files[i]);
-        for (k=0;k<sizeof(s3);k++)
-          printf("%5d: %s\n", j+member_array(s3[k], s2), s3[k]);
-      }
-    }
-  return 1;
-} /* reg_ex_grep() */
+/**
+ * This method sets the current flags for the inbuild ed command.  THis
+ * allows certain flag settings to be saved between sessions.
+ * @param i the new flags for the ed command
+ * @see query_ed_setup()
+ */
+void set_ed_setup(int i) {
+   add_property("ed_setup", i);
+} /* set_ed_setup() */
 
+/**
+ * This method prints out any interesting bits of reviewable information
+ * available on the creator.  This is used by the review command.
+ * @return always returns 1
+ */
 int review() {
-  player::review();
-  wiz_info_comm::review();
-  return 1;
+   playtester::review();
+   wiz_info_comm::review();
+   return 1;
 } /* review() */
 
-/*
-  Nanvaent Industries International
-  
-  LPC: Search and Replace
+/**
+ * This method stores the last location of the creator for use by goback.
+ * @param string location
+ */
+void set_last_location(mixed loc) { last_location = loc; }
 
-  Written by  : Weazel@Nanvaent Nov 92
-  Modified by : Bill@Nanvaent Jan 93
-  Modified by : Bill@Nanvaent+@Discworld Mar 93
-*/
+/**
+ * This method returns the last location of the creator for use by goback.
+ * @return string last location.
+ */
+mixed query_last_location() { return last_location; }
 
-int do_sar(mixed str)
-{
-  int i, j, num;
-  string *files, *bit;
-  string s1, s2, s3, s4;
-  if(!str)
-  {
-    notify_fail("Usage: sar search_string replace_string <files>\n");
-    return 0;
-  }
-  s4 = extract(str, 0, 0);
-  if(sscanf(str, s4+"%s"+s4+" "+s4+"%s"+s4+" %s", s1, s2, s3) != 3)
-    if (sscanf(str, "%s %s %s", s1, s2, s3) != 3)
-    {
-      notify_fail("Usage: sar search_string replace_string <files>\n");
-      return 0;
+protected string process_input(string inp){
+  int start;
+
+  start = strsrch(inp, '@');
+  if(start > 0){
+    int space = strsrch(inp, ' ');
+    if(!(space > 0 && ((space == start+1) || space < start))){
+      inp = inp[0..start] + " " + inp[start+1..];
     }
-  files = (string *)this_player()->get_files(s3);
-  if(!sizeof(files))
-  {
-    notify_fail("File(s) " + s3 + " not found.\n");
-    return 0;
   }
-  for (i=0;i<sizeof(files);i++)
-  {
-    if (file_size(files[i]) <= 0) continue;
-    write("Looking at "+files[i]+".\n");
-    s4 = read_file(files[i]);
-    if (s4)
-    {
-      s4 = replace(s4, s1, s2);
-      rm(files[i]);
-      write_file(files[i], s4);
+  start = strsrch(inp, '`');
+  if(start > 0){
+    int end;
+    end = strsrch(inp, '`', -1);
+    if(end != start){
+      string lpc = inp[start+1..end-1];
+      string err;
+      mixed ret;
+      ret = "/secure/cmds/creator/exe_c"->do_exec("return "+lpc, ref err);
+      if(!err){
+        if(intp(ret))
+          ret = ""+ret;
+
+        if(objectp(ret))
+           ret = file_name(ret);
+
+        if(arrayp(ret)){
+          ret = filter(ret, (:stringp($1) || intp($1) || objectp($1):));
+          ret = map(ret, (:intp($1)?""+$1:(objectp($1)?file_name($1):$1):));
+          if(sizeof(ret))
+            ret = implode(ret, ",");
+        }
+
+        if(stringp(ret)){
+          inp = inp[0..start-1] + ret + inp[end+1..];
+        }
+      }
     }
-    else
-      write("...failed...no file\n");
   }
-  return 1;
+  return ::process_input(inp);
+}
+
+protected mixed command( string txt ) {
+    return ::command( txt );
 }

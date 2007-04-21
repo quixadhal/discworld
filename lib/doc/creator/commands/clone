@@ -1,0 +1,37 @@
+.DT
+clone
+Discworld creator help
+clone
+
+.SH Name
+.SI 5
+clone - clone object.
+.EI
+
+.SH Syntax
+.SI 5
+clone <file name>
+clone obvar=<file name>
+.EI
+
+.SH Description
+.SP 5 5
+Clone is used to get a usable copy of an object on disk.  This is how all
+objects used in the game are created, except the rare one off objects that
+do not actually move into the game usually.  You must specify the file name
+of the objects you wish to clone.
+If an obvar assignment is made then the obvar specified will point to the
+newly created object.
+.EP
+
+.SH Example
+.SI 5
+clone /obj/misc/torch.c
+clone /obj/weapons/*.wep
+clone temp=/std/object
+.EI
+
+.SH See also
+.SP 5 5
+dest, object
+.EP

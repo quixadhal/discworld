@@ -1,3 +1,6 @@
+#ifndef __SYS__TUNE
+#define __SYS__TUNE
+
 /* TIME_BETWEEN_HEAL is scaling factor to speed or slow the rate of healing. */
 
 #define TIME_BETWEEN_HEAL 5
@@ -14,12 +17,18 @@
 #define STD_COST 125
 #define LEVEL_DIV 3
 #define DEFAULT_COST 10
-#define COST_DIV 10
-
+#define COST_DIV 20
 
 /*
  * The time_div define is how many xp per time unit is used in teaching 
  * skills.  This affects how long it takes to learn a skill.
  */
 #define TIME_DIV 300
+
+/*
+ * Er, stuff to do with broadcast
+ */
+#define MAX_AL 10000
 #define SHOUT_DISTANCE 1000
+
+#endif /* __SYS__TUNE */

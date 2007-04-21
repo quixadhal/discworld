@@ -1,0 +1,48 @@
+.DT
+set_log_directory
+DW_wibble creator help
+set_log_directory
+
+.SH Name
+.SP 5 5
+set_log_directory -  This method sets the directory in to which hospital_log_file will log by default.
+.EP
+
+.SH Syntax
+.SI 5
+void set_log_directory(string new_dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^new_dir%^RESET%^ - the directory to log to.
+.EI
+
+.SH Defined in
+.SI 5
+/std/hospital.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the directory in to which hospital_log_file will
+log by default. If the directory does not exist, then it is set to
+DEFAULT_LOG_DIRECTORY.
+.EP
+
+.SH Example 1
+.SI 5
+set_log_directory( "/d/cwc/Bes_Pelargic/log" );
+// log directory is now /d/cwc/Bes_Pelargic/log
+.EI
+
+.SH Example 2
+.SI 5
+// (cre) MacChirton: ithinkmykeyboardisbroken
+set_log_directory( "/d/cWc/BeS_pelarGic/lrg" );
+// Displays: "/d/cwc/hospital/bes_pelargic: Invalid log
+// directory, defaulting to /log"
+
+.EI
+

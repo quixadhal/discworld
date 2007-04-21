@@ -3,36 +3,54 @@ describe
 Discworld player help
 describe
 
-Name
+.SH Name
 .SI 5
 describe - set your description
 .EI
 
-Syntax
+.SH Syntax
 .SI 5
 describe clear
 describe edit
-describe [description]
+describe main <description>
+describe zone {feet|chest|legs|hands|arms|neck|abdomen|head|back} clear
+describe zone {feet|chest|legs|hands|arms|neck|abdomen|head|back} <description>
 .EI
 
-Description
+.SH Description
 .SP 5 5
 The describe command is used to put a line about you in your long description
-that players get when they look at you.  Describe with no parameters will
-print your current description.  Describe clear will clear your description.
+that players get when they look at you.  It is also used in your reference.
+
+Describe with no parameters will print your current description.
+Describe clear will clear your description.
 
 Describe edit will drop you into the editor you have chosen and allows you
 to edit your description.
+
+You can describe zones of your body which will allow the descriptions to
+be optionaly displayed if those zones are covered with clothes or not.  The
+zone descriptions are added together as if they are sentences, so if you do
+not use a complete (or multiple) sentence for your zone descriptions they
+will not look right.
 .EP
 
-Examples:
+.SH Examples:
 .SI 5
-describe is a burly looking man with a tattoo.
-describe
-describe clear
+> describe main is a burly looking man with a tattoo.
+Ok.
+
+> describe
+Usage: describe <string>
+       describe edit
+       describe clear
+description reads : Turrican is a frog.
+
+> describe clear
+Description cleared.
 .EI
 
-See also
+.SH See also
 .SI 5
-chfn, look, editor
+chfn, look, editor, refer, coverage
 .EI

@@ -1,0 +1,39 @@
+.DT
+set_chat_string
+DW_wibble creator help
+set_chat_string
+
+.SH Name
+.SP 5 5
+set_chat_string -  This method sets the current chat string for messages on the npc.
+.EP
+
+.SH Syntax
+.SI 5
+void set_chat_string(string * chat)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^chat%^RESET%^ - the new chat strings.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the current chat string for messages on the
+npc.  See load_chat() for a longer description of how the
+chat string is formatted.
+.EP
+
+.SH See also
+.SP 5 5
+load_chat(), query_chat_string()
+
+.EP
+

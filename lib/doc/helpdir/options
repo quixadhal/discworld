@@ -1,0 +1,48 @@
+.DT
+options
+Discworld player help
+options
+
+.SH Name
+.SI 5
+options - control all the options for your character
+.EI
+
+.SH Syntax
+.SI 5
+options <option>
+options <option> = <value>
+options set <option> <quoted>
+.EI
+
+.SH Description
+
+.SP 5 5
+This command controls all of your options for the character.  It controls
+your brief/verbose settings, your colours and anything else that is
+settable on your character.
+
+If you use 'all' as the last word of the option then you will match all
+of the options in that part of tree.  This can only be used when
+setting options.
+.EP
+
+.SH Examples
+.SI 5
+> options
+options:
+   output                <MORE>
+   colour                <MORE>
+> options output
+output :
+   look                  brief
+   combat                verbose
+> options earmuff events all=on
+> options combat tactics attitude=offensive
+.EI
+
+.SH See also
+.SP 5 5
+term, parser, earmuffs, verbose, editor, cols, rows, colours, accents,
+tactics
+.EP

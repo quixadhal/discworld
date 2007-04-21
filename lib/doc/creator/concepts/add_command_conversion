@@ -1,0 +1,119 @@
+.DT
+add_command_conversion
+Discworld Creator Help
+add_command_conversion
+
+.SH Name
+.SI 5
+Taffyd's Guide to Converting from add_action()
+.EI
+
+.SH Syntax
+.SI 5
+It varies.  See the text.
+.EI
+
+.SH Description
+.SP 5 5
+
+Quick and Easy(TM) add_action removal
+
+Having seen the multitude of files that have got add_actions in them, I
+thought that the following 'upgrade guide' might be of some use if people are
+having troubles with it.
+
+The first thing to do is to look for the add_action, usually in the init()
+routine. It might look something like this (although usually priority is
+ommitted):
+.EP
+
+add_action("do_lick", "lick", 100);
+
+.SP 5 5
+In order to convert this into an add_command, you need to have a look through
+the do_lick function and see exactly how it processes the arguments.
+
+Here's a "typical" add_action implementation:
+.EP
+
+int do_lick(string str) {
+    string victim, type;
+    object who;
+
+    if (sscanf(str, "%s %s", victim, type) != 2) {
+        notify_fail("Syntax: lick <person> <type>");
+        return 0;
+    }
+        
+    who = find_living(victim);
+    /* Extra junk done to who. */
+    return 1;
+}
+
+.SP 5 5
+There are two parameters here, one is a string that is converted into a
+living, and the other one is just a string.
+
+Thus this can simply be converted into an add_command with the following
+line:
+.EP
+
+add_command("lick", "<indirect:distant-living'person'> <string'type'>", 
+   (: do_lick($1[0], $4[1]) :));
+
+.SP 5 5
+The function pointer at the end of the add_command() is used to override the
+normal function paramaters (object *indirect_obs, string dir_match, string
+indir_match, mixed *args, string pattern), and makes a function much simpler.
+
+Note that if you use the function pointer, you must have a function prototype
+preceeding the pointer... at the top of the file is a good place.
+
+Using add_command is great because it means that you don't have sscanf or
+find_living etc to process the arguments, this is all done for you. It also
+means that there is a standard method for handling actions, in case something
+is drastically changed or removed in a later driver release. (ie... no
+add_action :P)
+
+The implementation for our new add_command could simply be as follows:
+.EP
+
+int do_lick(object who, string type) {
+    add_succeeded_mess("$N lick$s $I " + type + ".\n", ({ who }));
+    return 1;
+} /* do_lick() */
+
+.SP 5 5
+add_succeeded_mess() is another advantage to using add_command(), as it allows
+you to use handy little symbols such as $N and $D, and often means you can
+combine 2 or 3 tell_room/tell_object's into one line.
+
+Using add_command() means that your function can be used with the 'syntax'
+command, meaning that you don't have to manually display a syntax message when
+the command fails. add_failed_mess() superceeds notify_fail() for returning
+failure messages, so it's probably a good idea to use this.
+
+I've used the add_command simulefuns here, which greatly reduce typing. They
+can only be used in non-living objects, if you are going to use add_command in
+a living object then you need to write it out in full like:
+.EP
+
+this_player()->add_command("lick", this_object(), "<pattern>", 
+   (: function :));
+
+.SP 5 5 
+The same applies to add_succeeded_mess() and add_failed_mess().
+.EP
+
+.SH For more info:
+.SP 5 5
+I'm usually happy to answer questions regarding add_command (it excites me
+:P)
+
+Taffyd, is actually waiting for lunch time at work so he can actually log on.
+.EP
+
+.SH See Also
+.SI 5
+add_command, add_action
+.EI

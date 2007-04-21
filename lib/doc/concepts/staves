@@ -1,0 +1,53 @@
+.DT
+staves
+Discworld concepts help
+staves
+
+.SH Name
+.SP 5 5
+staves - Magical artifacts.
+.EP
+
+.SH Syntax
+.SP 5 5
+invoke <staff>
+.EP
+
+.SH Description
+.SP 5 5
+Magic staves do a variety of things to an area or to the contents of
+that area.  Each staff has one purpose (e.g. the staff of light raises
+the light level of a room a little, the staff of exit detections finds
+hidden or secret exits from a location, etc.) but it is not always
+obvious what this is - there are means to identify artifacts and if you
+are sufficiently adept you will come to automatically recognise a
+particular artifact with time.
+
+In order to be able to invoke a staff, you must be holding it and your
+level in "magic.items.held.staff" must be sufficiently high for that
+staff.  Every time a staff is used successfully (or it backfires...) one
+charge is taken away.
+
+There are also means to recharge staves, but this is generally a hazardous
+pastime unless you are very careful.  There are other objects in staff
+form that are not artifacts in the sense above, i.e. they do not use
+charges or necessarily have a required level for successful use; an example
+of such an object is the wizard's staff (with a knob on the end) which is
+largely a spell storage device.
+.EP
+
+.SH Example
+.SI 5
+> hold staff
+You hold the staff in your left hand and right hand.
+> invoke staff
+You invoke the staff.
+It seems brighter here now.
+> unhold staff
+You put down the staff.
+.EI
+
+.SH See also
+.SP 5 5
+cast, commands, spells, rings, wands.
+.EP

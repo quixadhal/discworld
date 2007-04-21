@@ -1,0 +1,1 @@
+({({"<string> <indirect:any-living>","<indirect:any-living> <string>","<indirect:any-living>",}),0,({({"You cuddle $hcname$.","$mcname$ cuddles $hcname$.","$mcname$ cuddles you.",0,0,0,}),({"You cuddle $hcname$ $arg$.","$mcname$ cuddles $hcname$ $arg$.","$mcname$ cuddles you $arg$.",({"close","affectionately","cutely","happily","sadly","comfortingly","madly","#",}),0,0,}),}),})

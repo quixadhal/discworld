@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),0,({0,({"You tackle $hcname$ in the $arg$.","$mcname$ tackles $hcname$ in the $arg$.","$mcname$ tackles you in the $arg$.",({"chest","leg","arm","nose","knee","head","foot","toe","finger","#",}),0,0,}),}),})

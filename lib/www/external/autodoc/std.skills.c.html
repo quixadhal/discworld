@@ -1,0 +1,318 @@
+<html><head><title>File skills.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/skills.c</h2>
+This is the skills handler.  It controls all the skills currently in
+the game and keeps track of their various properties.<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.language.h.html">/include/language.h</a> and <a href="include.skills.h.html">/include/skills.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_skill_ignored"><b>is_skill_ignored</b></a>(string)<dd>
+This method returns 1 if the skill being asked about should be ignored.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_children"><b>query_all_children</b></a>(string)<dd>
+This method returns all the children of the specified skill.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_allowed_to_teach"><b>query_allowed_to_teach</b></a>(string)<dd>
+This method checks to see if this particular skill is allowed to be
+taught to people.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_children"><b>query_children</b></a>(mixed *, string)<dd>
+This method returns the children of the specified skill chunk.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_immediate_children"><b>query_immediate_children</b></a>(string)<dd>
+This method returns the immediate children of the specified skill.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_no_bonus"><b>query_no_bonus</b></a>(string)<dd>
+This method checks to see if the specified skill has no bonus associated
+with it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_only_leaf"><b>query_only_leaf</b></a>(string)<dd>
+This method determines if only leaf skills can be increased in this
+skill tree.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_only_show_if_non_zero"><b>query_only_show_if_non_zero</b></a>(string)<dd>
+This method checks to see if the skill should only be shown on the
+skill list if it is non-zero.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_reg_skills"><b>query_reg_skills</b></a>()<dd>
+This method returns the all of the skills with their children and the
+number of children in a nice mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_related_skills"><b>query_related_skills</b></a>(string)<dd>
+This method also returns all the children of a skill.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill"><b>query_skill</b></a>(string *)<dd>
+This method attempts to figure out the path of a skill from an array
+of bits.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill_cost"><b>query_skill_cost</b></a>(string)<dd>
+This method returns the cost of the specified skill.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill_depth"><b>query_skill_depth</b></a>(string *)<dd>
+This method returns the skill depth for teaching calculations.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill_path"><b>query_skill_path</b></a>(string)<dd>
+This method returns the path to skill.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill_stat"><b>query_skill_stat</b></a>(string)<dd>
+This method returns the stats that effect the skill.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill_tree"><b>query_skill_tree</b></a>(string)<dd>
+This method returns the skill and all of its parents leading up to
+it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skills"><b>query_skills</b></a>()<dd>
+This method returns the raw unfluffed skill array.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="is_skill_ignored">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_skill_ignored</b></a><pre>
+int is_skill_ignored(string skill)
+</pre><dd>
+This method returns 1 if the skill being asked about should be ignored.
+An ignored skill means that up to this point the fact it is this deep
+is ignored.  For example,if 'crafts' is ignored then 'crafts.smithing'
+would count as if it was a top level skill.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>skill - the skill to check
+
+</dl>
+
+<dt><a name="query_all_children">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_children</b></a><pre>
+string * query_all_children(string skill)
+</pre><dd>
+This method returns all the children of the specified skill.
+This does a deep children finding exercise, returing all the children
+as it goes lower and lower into the array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>skill - the skill to get the children of
+<dt><b>Returns:</b>
+<dd>all the children
+<dt><b>See also:</b>
+<dd><a href="#query_related_skills">query_related_skills()
+</a></dl>
+
+<dt><a name="query_allowed_to_teach">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_allowed_to_teach</b></a><pre>
+int query_allowed_to_teach(string str)
+</pre><dd>
+This method checks to see if this particular skill is allowed to be
+taught to people.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the skill to check
+<dt><b>Returns:</b>
+<dd>1 if they are not allowed to teach it, 0 if they are
+
+</dl>
+
+<dt><a name="query_children">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_children</b></a><pre>
+string * query_children(mixed * arr,
+                        string path)
+</pre><dd>
+This method returns the children of the specified skill chunk.
+You need to pass into this array a skill chunk as taken from the
+skill array.  It is recursive and returns all the internal children
+as well.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arr - the skill chunk
+<dd>path - the skill bit leading up to this section
+<dt><b>Returns:</b>
+<dd>the children of the skill chunk
+
+</dl>
+
+<dt><a name="query_immediate_children">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_immediate_children</b></a><pre>
+string * query_immediate_children(string skill)
+</pre><dd>
+This method returns the immediate children of the specified skill.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>skill - the skill to get the children of
+<dt><b>Returns:</b>
+<dd>the immediate children of the skill
+
+</dl>
+
+<dt><a name="query_no_bonus">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_no_bonus</b></a><pre>
+int query_no_bonus(string str)
+</pre><dd>
+This method checks to see if the specified skill has no bonus associated
+with it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the skill to check
+<dt><b>Returns:</b>
+<dd>1 if there is no bonus, 0 if there is a bonus
+
+</dl>
+
+<dt><a name="query_only_leaf">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_only_leaf</b></a><pre>
+int query_only_leaf(string str)
+</pre><dd>
+This method determines if only leaf skills can be increased in this
+skill tree.  This is used for the other skill tree, to avoid increasing
+all the other skills at the same time.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the skill tree to check
+<dt><b>Returns:</b>
+<dd>1 if the tree is only leaf, 0 if not
+
+</dl>
+
+<dt><a name="query_only_show_if_non_zero">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_only_show_if_non_zero</b></a><pre>
+int query_only_show_if_non_zero(string str)
+</pre><dd>
+This method checks to see if the skill should only be shown on the
+skill list if it is non-zero.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the skill to check
+<dt><b>Returns:</b>
+<dd>1 if should only show non-zero skills, 0 if show any skill
+
+</dl>
+
+<dt><a name="query_reg_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_reg_skills</b></a><pre>
+mapping query_reg_skills()
+</pre><dd>
+This method returns the all of the skills with their children and the
+number of children in a nice mapping.  The key of the mapping is the name
+of the skill, the value is an array of two elements.  The first is an
+array of all the children and the second is the number of children
+of the skill.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mapping as described above
+
+</dl>
+
+<dt><a name="query_related_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_related_skills</b></a><pre>
+string * query_related_skills(string skill)
+</pre><dd>
+This method also returns all the children of a skill.  It preforms
+exactly the same action as query_all_children()<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>skill - the skill to get the children of
+<dt><b>Returns:</b>
+<dd>the children of the skill
+
+</dl>
+
+<dt><a name="query_skill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill</b></a><pre>
+string query_skill(string * bits)
+</pre><dd>
+This method attempts to figure out the path of a skill from an array
+of bits.  It verifies that the skill actually exists on the way.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bits - the skill to check
+<dt><b>Returns:</b>
+<dd>the path of the skill
+
+</dl>
+
+<dt><a name="query_skill_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill_cost</b></a><pre>
+int query_skill_cost(string skill)
+</pre><dd>
+This method returns the cost of the specified skill.  This is the
+the number of children it has.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>skill - the skill to check the cost of
+<dt><b>Returns:</b>
+<dd>the costof the skill
+
+</dl>
+
+<dt><a name="query_skill_depth">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill_depth</b></a><pre>
+int query_skill_depth(string * skill)
+</pre><dd>
+This method returns the skill depth for teaching calculations.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>skill - the skill to get the depth of
+<dt><b>Returns:</b>
+<dd>the skill depth
+
+</dl>
+
+<dt><a name="query_skill_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill_path</b></a><pre>
+string * query_skill_path(string skill)
+</pre><dd>
+This method returns the path to skill.  This is essentially the skill
+name broken up on '.'s and returned as an array.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the skill path, or 0 if the skill does not exist
+
+</dl>
+
+<dt><a name="query_skill_stat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill_stat</b></a><pre>
+string query_skill_stat(string skill)
+</pre><dd>
+This method returns the stats that effect the skill.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>skill - the skill to check
+<dt><b>Returns:</b>
+<dd>the stats that effect the skill
+
+</dl>
+
+<dt><a name="query_skill_tree">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill_tree</b></a><pre>
+string * query_skill_tree(string skill)
+</pre><dd>
+This method returns the skill and all of its parents leading up to
+it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>skill - the skill to get the tree of
+<dt><b>Returns:</b>
+<dd>the skill tree of the skill
+
+<dt><b>Example:</b>
+<dd><pre>query_skill_tree("magic.methods.physical.binding")
+Returns: ({
+ "magic.methods.physical.binding",
+ "magic.methods.physical",
+ "magic.methods",
+ "magic"
+})</pre></dl>
+
+<dt><a name="query_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skills</b></a><pre>
+mixed * query_skills()
+</pre><dd>
+This method returns the raw unfluffed skill array.  This is the same
+as the skill array defined in /include/skills.h plus the language skills
+and other dynamic skills added.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the skills array
+<dt><b>See also:</b>
+<dd>/include/skills.h
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 04:20:41 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

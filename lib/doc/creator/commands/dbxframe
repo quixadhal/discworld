@@ -1,0 +1,59 @@
+.DT
+dbxframe
+Discworld creator help
+dbxframe
+
+.SH Name
+.SI 5
+dbxframe - Print error context based on an error trace.
+.EI
+
+.SH Syntax
+.SI 5
+dbxframe [<player>] <frame>
+.EI
+
+.SH Description
+.SP 5 5
+dbxframe can be used to look at the context of the function call in a line of
+an error trace.  You can use it on yourself (the default) or on
+<player>.  The <frame> argument is the line number in the error trace which
+you got when you used dbxwhere.  The line which contains the function call is
+prepended with '=>' and is highlighted, if you have a terminal capable of
+doing that.  It will also mention the arguments to the function and its local
+variables.  An example will make things clearer, I guess.
+.EP
+
+.SH Example
+.SI 5
+> dbxwhere
+*Error in loading object '/secure/cmds/creator/ta_il'
+Object: /secure/command at line 146
+Arguments were: (void)
+Locals were: none.
+
+
+'drunk_check' in /global/lord#1132 (global/psoul.c) at line 232
+'cmdAll' in /global/lord#1132 (global/command.c) at line 27
+'GetCommand' in /secure/command at line 146
+> dbxframe 2
+------global/command.c:27 - cmdAll("tail /log/EFFECT_WOBBLE")
+locals: NULL
+----------------------------------------------------------------
+  class command verb;
+  mixed tmp;
+
+  verb = new(class command);
+  verb->args = args;
+=>  if( !((int)CMD_D->GetCommand(verb, SearchPath)) ) {
+    return 0;
+  }
+  if (CMD_D->IsGRCommand(verb->filepart) &&
+      !this_object()->query_known_command(verb->verb))
+    return 0;
+.EI
+
+.SH See also
+.SI 5
+dbxwhere
+.EI

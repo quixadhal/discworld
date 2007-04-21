@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),({({"You go 'Zonke zonke zonke'.","$mcname$ go$s$ 'Zonke zonke zonke'.",0,}),0,}),({({"You zonk $hcname$ on the nose.","$mcname$ zonk$s$ $hcname$ on the nose.","$mcname$ zonk$s$ you on the nose.",0,0,0,}),0,}),})

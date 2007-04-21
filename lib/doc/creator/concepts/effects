@@ -1,0 +1,572 @@
+.DT
+effects
+Discworld Creator Help
+effects
+
+
+.SH Name
+.SI 5
+Documentation on "effects"
+(Ember, 16-Feb-94)
+.EI
+
+.SH Description
+
+ 
+.SH Preamble
+.SH --------
+.SP 5 5
+Unfortunately 'effect' is a somewhat overused term on the mud.  There are spell
+effects, potion space effects, and now just plain "effects".
+
+I classify effects as a handling system for additions to the /std/living/living
+object (including players of course).  Thus anything that adds a shadow to the 
+player object, or over a period of time alters the player object, should use
+the effects system.
+.EP
+
+.SH Why use the effects system?
+.SH ---------------------------
+
+.SP 5 5
+So why did I write effects, and why should you use them?
+
+I was sitting down writing potions one fine day.  Eventually I got around to trying
+to write a poison.  Now, I wanted the poison to act on the player over a period
+of time, occasionally printing messages to the player telling them how awful they
+felt, and taking hit points off every now and then.  After a few minutes it should
+go away.  I _also_ wanted to be able to cure the poison in a generic way, or at
+least enable the player to diagnose themselves.  And, it should not be affected
+by quitting and resuming.  Effects handle all of these parameters in a fairly
+simple way.  Probably the single most important reason why you the creator MUST
+write your player-modifiers as effects is so that they can be assessed and removed
+in a systematic and generic way.  Plus, effects do a lot of the rest of your work
+for you, and should be easier to maintain.  They also make for a highly space and
+time efficient way of keeping track of periodic events.
+.EP
+
+.SH History
+.SH -------
+
+.SP 5 5
+The original effects system was written in mid 93, and basically was limited to
+a single heart beat frequency upon which everything else was driven.  The current
+system which I will document was written on 15-Feb-94, and supercedes completely
+the old system, so I will not bother to document the older system.  The new system
+should run old effects however.
+.EP
+
+.SH Terminology & Abbreviations
+.SH ---------------------------
+
+
+"effect" has been covered in the preamble.  Examples of effects include the berzerk
+state, priest shield spells, poisoning, curses, diseases etc.
+
+"effect object" contains a few simple functions which determine how effects 
+function.  The effect objects are never cloned, but merely used as code resources.
+
+"effect shadow".  Frequently the actual functioning of an effect will be made 
+possible by the use of a shadow.  An effect can be inherently linked to an
+effect shadow.  This means that an effect will often consist of an effect object 
+and a separate shadow object.  See documentation elsewhere for what shadows do.
+
+"eff" common abbreviation for effect in the effects code.
+
+"effect event".  This is a timed event occurring during the lifetime of the
+effect.  You can specify an arbitrary number of either once off or repeating
+effect events.  This is used to drive the temporal progression of the effect.
+
+"ee" abbreviation for "effect event"
+
+"eeq" the queue of effect events kept in the /std/living/living object
+
+"arg" 'argument'.  An arbitrary piece of data associated with a specific 
+invocation of an effect.  This can contain whatever state information you may
+need.  It is passed to the effect object in every function call, and can be
+set at any time.
+
+"classification".  This is a string associated with each effect.  By
+convention a dot-separated series of words describing (classifying) the
+effect.  The 'left most' word is the most general - describing the origin of
+the effect.  The 'right most' word is the most specific - a name describing
+the effect.  Some examples:  "magic.priest.minor-shield", "poison.green", 
+"mentalstate.berzerk".  This classification is used for things like "cure poison",
+which would go through and try to remove all effects starting with "poison",
+etc.  Hopefully when we get lots of effects we can start having three levels.
+
+"tt" - termination time.  Time til effect is expected to terminate.
+
+.SH Issues to think about
+.SH ---------------------
+
+"doubling up"
+
+.SP 5 5
+You should think carefully about the possibility of having an effect added
+twice.  The default action is just to double-up ... both effects will add
+their shadows and have their effect events actioned simultaneously.  This
+is not in general the best situation.  You should think carefully about
+the alternatives:
+.EP
+
+a) ensuring the effect can never be activated twice.
+.SP 5 5
+This can be done
+by checking the sizeof(player->effects_matching(your_classification)) from 
+whatever is doing the add_effect ... eg. the "berzerk" command.
+.EP
+
+b) adding the "merge_effect" function to your effect_object.
+
+.SP 5 5
+This is 
+passed the arg from add_effect.  It should in some way combine the existing
+effect's potency/duration with the new add_effect.
+Note that in general it's not possible to ensure the effect won't be applied
+multiple times, so you should always have a merge_effect() function.
+.EP
+
+"negative effects"
+
+.SP 5 5
+For negative effects (poisons, diseases, curses, etc) make sure that the
+"end()" function always is the "You recover" bit.  Remember that any effect
+may end unexpectedly due to a "cure" spell, so try and make it fit.  For a
+curse or something which is "invariably fatal if untreated", _don't_ do the
+death in end() ... do it in another effect event handling function.  In this
+case, end() should _still_ do the "you feel better" bit because of the
+possibility of someone curing them.
+Along the same lines, if end() prints a "You feel better" message, it may be
+wise to check to make sure the player is not dead!  Unfortunately there is
+no automatic way to stop the messages after they die.  Remember that unless
+you specifically put in a "survive_death() { return 1; }" function in your
+effect object, the very first thing that will happen upon the  player dieing
+will be all the end() messages.  It may, however, be quite apt for people to
+"feel better" once they are dead.  Just something to think about.
+.EP
+
+"removing effects"
+
+.SP 5 5
+Always add a test_remove() function that will allow the effect to be removed
+by players in some fashion.  It is important to give the players some
+recourse for altering effects on them.  An outline of how skill_remove()
+works is given here to demonstrate how to think about how to deal with
+.EP
+
+test_remove;
+   spell "cure poison":
+      skill_bonus = this_player()->query_bonus("faith.spells.curing.self");
+      this_player()->skill_remove("poison",skill_bonus);
+
+.SP 5 5
+now, in skill_remove:
+.EP
+   
+      /* keeping in context ... names are of course different */
+      poison_effs = effects_matching("poison");
+      for (i = sizeof(poison_effs) - 1; i >= 0; i--) {
+         effnum = poison_effs[i];
+         if (effs[i][EFF_OB_NAME]->test_remove(
+             this_object(), effs[i][EFF_ARG], effs[i][EFF_ID], skill_bonus)) {
+            delete_effect(i);
+         }
+      }
+
+- - - - - - - - - - - - - 
+
+.SP 5 5
+so, in test_remove you will get some sort of relevant skill bonus.  What you
+need  to do is make some judgement as to what skill bonuses will 
+.EP
+
+a) have no impact 
+b) have some impact 
+c) remove the effect completely
+
+.SP 5 5
+
+Complex, high-level-created effects will take a much higher skill bonus than
+simple ones.  On the other hand, any such "dispel"/"cure" should have _some_
+effect, even if only small, unless the skill bonus is 0 or close to it.
+
+In _calling_ skill_remove, as from the hypothetical cure poison spell above,
+you should adjust the skill bonus depending on generality of the spell.
+The above spell is _very_ general, as it cures all poisons, so their really
+should be a fairly severe skill penalty (like halving it ... seriously!).
+If it was a more specific cure, like "cure cyanide poisoning", it would _only_
+affect effects with a classification of "poison.cyanide", but it would have
+no skill bonus penalty (possibly even a boost).  This is one reason why I want
+more levels in the classification string.  Something like
+.EP
+
+.SI 5
+poison.snake.dugite
+poison.snake.rattlesnake
+poison.snake.tigersnake
+poison.spider.funnelweb
+poison.spider.redback
+poison.heavymetal.caesium
+poison.heavymetal.cadmium
+disease.cancer.lung
+disease.cancer.skin
+disease.cancer.liver
+disease.infectious.cholera
+disease.infectious.typhoid
+disease.infectious.tuberculosis
+disease.radiation
+curse.pyramid.tutenkhamon
+curse.pyramid.akhenaton
+curse.witch.frog
+curse.witch.blindness
+mentalstate.berzerk
+mentalstate.meditation
+mentalstate.calm
+mentalstate.panic
+magic.priest.shield
+magic.priest.bless
+magic.wizard.*
+.EI
+
+.SH Making an effect object
+.SH -----------------------
+
+.SP 5 5
+Effect objects consist of a set of passive "informative" functions, and
+a set of active functions.  The informative functions include:
+.EP
+
+query_secs_between_hb() [obsolete]
+   Was used to give the interval of time between the standard effect_heart_beat
+   calls.
+
+query_classification() [obligatory]
+   returns the dotted classification string.  MUST BE THERE!!!!
+
+survive_death() [optional]
+   return non-zero from this function if you want this effect to survive the
+   players death.  Most effects should not survive.
+
+query_indefinite() [optional]
+   it is quite possible to add an effect to the player object which has no
+   effect events associated with it.  In this case, there is the possibility
+   that the effect may _never_ be removed (including the shadow).  As a 
+   safeguard, if the effects system detects that there are no effect events
+   pending for this effect, it will check "query_indefinite" to make sure
+   that this is what was intended.  What this means is if you make an 
+   effect that may remain active indefinitely, put this function in the
+   effect returning non-zero.
+
+query_shadow_ob() [optional]
+   if you are going to use an effect shadow, return the path name in this
+   function.  It will be cloned and attached to the player object automatically
+   upon adding the effect, and upon the player resuming after quitting.
+
+.SP 5 5
+The active functions include:
+.EP
+
+void merge_effect(object player, mixed old_arg, mixed new_arg, int id)
+{
+   if this function is defined in the effect object, it will be called
+   when the effect is "doubled up" instead of (by default) installing
+   an additional instance of that effect.
+}
+
+int test_remove(object player, mixed arg, int id, int skill_bonus)
+{
+   this is called when a player tries to remove matching effects.
+   (via "cure poison", "dispel magic", "cure disease", "remove curse" etc).
+   The skill_bonus is the bonus for relevant skill.  Returning non-zero
+   will cause the effect to be deleted (calling "end()") immediately.
+   Returning zero will mean nothing further happens ... but you are quite
+   able to modify the effects potency/longevity (printing whatever
+   messages seem appropriate if any) from here.
+}
+
+[mixed/void] beginning(object player, mixed arg, int id)
+{
+   this is called immediately following the call to player->add_effect().
+   "arg" is what was passed to add_effect as the second parameter.
+   "id" is a unique handle for referring to yourself and your shadow ...
+        you probably will not need to use it in many cases
+   "player" of course is the player or monster that the effect is acting upon.
+
+   In "beginning" you would normally do some message printing to let the
+   player (and everyone else) know that the effect is beginning.
+
+   Here is also where you would generally submit your effect event 
+   schedule ... more on this later.
+   
+   If you return something from this function, that will become this effects
+   new "arg".  If you return 0 (ie don't return anything), the original "arg"
+   is kept.
+}
+
+void end(object player, mixed arg, int id)
+{
+   parameters as for beginning.
+
+   This is _always_ called when the effect is removed, be it due to an effect
+   event removing it, or an external agent.
+
+   Here is where you would print typical "Effect is ending" messages.
+}
+
+[mixed/void] effect_heart_beat(object player, hbn, arg, id)
+{
+   this is the obsolete "official heart beat function" from the first
+   version of effects.  don't use.
+}
+
+void effect_event_handlers(object player, mixed arg, int id)
+{
+   the name of these functions is arbitrary, but the format of the
+   arguments is the same (as for beginning).  These are the functions
+   called from the effect events.
+}
+
+void saving(object player, mixed ard, int id)
+{
+   parameters as for begining
+
+   This is called when a player saves and the effects on the player
+   are forced to save.
+}
+
+void quiting(object player, mixed arg, int id)
+{
+   parameters as for begining
+
+   This is called when a player quits and the effects on the player
+   are forced to end.  This is only called on effects on the player
+   itself.
+}
+
+
+.SH Support Functions
+.SH -----------------
+
+.SP 5 5
+Functions you call on the player ...
+.EP
+
+(void)player->submit_ee(string function_name, int/int *interval_spec, int flags);
+
+.SP 5 5
+This submits an effect event schedule.  It will call "function name" in your
+effect object after the interval specified in interval_spec, with behaviour
+modified by flags.
+interval_spec can be one of:
+.EP
+
+   n                  - time in seconds
+   ({ m, n })         - minimum time m seconds, maximum time n seconds,
+                        simple random distribution
+   ({ m, n, r })      - as for the ({ m, n }) case, except the random factor
+                        is effectively "rolled" r times ... the higher r is,
+                        the more likely the interval is to be close to (m + n)/2.
+
+flags may be:
+   EE_REMOVE          - remove the effect from the player after the function call
+   EE_CONTINUOUS      - do it repeatedly.  Default (EE_ONCE) is to only occur
+                        once.
+
+.SP 5 5
+These defines are in /include/effect.h
+
+Only one EE_REMOVE can be in place at a time.  Subsequent EE_REMOVEs will wipe
+previous ones.
+
+NB:  submit_ee can ONLY be called from the effect object itself in the course of
+a beginning/handler/end call, or from the effect shadow.
+
+.EP
+
+(void)player->add_effect(string effect_ob_name, mixed arg);
+
+This is the call to install an effect on a player.  "arg" is passed directly
+to "beginning".
+
+
+(void)player->effect_freeze();
+
+This stops the internal effect call_out ... thus freezing all effects.  It
+also ensures that the interval for the immediately pending effect is correct.
+
+
+(void)player->effect_unfreeze();
+
+This restarts the internal call_out.
+
+
+(int)player->sid_to_enum(int id);
+
+This returns the "effect number" given the "effect id".  The effect number is
+an internal handle needed by the "delete_effect", "arg_of", "set_arg_of"
+functions.  "id" is as passed to beginning/end/effect_even_handlers.
+
+
+(void)player->delete_effect(int enum);
+
+This removes an effect from the player.  Enum is as returned from "sid_to_enum".
+
+
+(mixed)player->arg_of(int enum);
+
+Returns the effect's "arg".  Enum is as returned from "sid_to_enum".
+
+
+(void)player->set_arg_of(int enum, mixed arg);
+
+Sets the effect's "arg".  Enum is as returned from "sid_to_enum".
+
+
+(int *)player->effects_matching(string classification);
+
+Returns an array of enums which match the (partial) classification.
+
+
+(int)player->expected_tt();
+Returns the time til any EE_REMOVE is expected to occur.
+
+(mixed *)query_eeq()
+(mixed *)query_effs()
+(mixed *)query_effect_shadows()
+
+These return the internal tables which keep effects running.
+
+.SH Effect shadow support
+.SH ---------------------
+
+.SP 5 5
+Effect shadows should inherit "/std/effect_shadow".  This has a few support
+functions to handle installing/removing the shadow cleanly, as well as a
+local "arg()" function which returns the effect's arg simply.
+.EP
+
+.SH Examples
+.SH --------
+
+.SP 5 5
+Most effects on the mud at the moment are still old style.  The only updated
+one to date is the priest's shield_effect.  Have a look at the spell (where
+it works out how to add it) /std/spells/priest/minor_shield.c, the effect 
+object in /std/effects/priest/shield_effect.c, and the shadow in 
+/std/shadows/priest/shield_shadow.c.
+
+Here are a few partial example effects:
+.EP
+
+***************************************
+
+/* a simple "they make silly noises every 10-30 seconds for a while" curse */
+/* no shadow attached */
+/* to use: */
+/* ;player->add_effect("/std/curses/blib_curse", length_of_time_to_curse) */
+
+#include <effect.h>
+
+string query_classification() { return "curse.blib"; }
+
+void merge_effect(object player, mixed old_arg, mixed new_arg)
+{
+   int tt;
+
+   tt = (int)player->expected_tt();
+    /* changed to 'player->submit_ee() - Manshoon */
+   player->submit_ee(0, new_arg * 2 / 3 + tt, EE_REMOVE);
+}
+
+void beginning(object player, mixed arg)
+{
+/* general intro messages ... */
+   tell_object(player, "You feel a blib starting!\n");
+   tell_room(environment(player), player->short() + " looks like " + 
+      "a blib is taking over " + player->query_possessive() + " mind.\n", player);
+   
+/* set up ee's */
+   player->submit_ee("make_noise", ({ 10, 30 }), EE_CONTINUOUS);
+   player->submit_ee(0, arg, EE_REMOVE);	
+/* doesn't need a function ... EE_REMOVE will happen after arg seconds,
+   and end() will be called then whether it calls another function or not */
+}
+
+void make_noise(object player)	/* if parameters are not used, don't put them in */
+{
+   tell_object(player, "You make a silly noise.\n");
+   tell_room(environment(player), player->short() + " makes a silly noise.\n", player);
+}
+
+void end(object player)
+{
+   tell_object(player, "What a relief!  You feel less blibby now.\n");
+   tell_room(environment(player), player->short() + " looks more collected now.\n",
+                player);
+}
+
+
+
+*****************************************
+/* this is basically from the priest shield effect
+ * to use this,
+ * ;player->add_effect("/std/effects/priest/shield_effect", percent_damage_reduced
+ * it lasts for a constant 60 seconds */
+
+#include <effect.h>
+
+string query_classification() { return "magic.priest.shield"; }
+
+string query_shadow_ob() { return "/std/shadows/priest/shield_shadow"; }
+
+void beginning(object player)
+{
+   tell_object(player, "You are magically shielded.\n");
+
+   player->submit_ee("weakening_warning", 50, EE_ONCE);
+   player->submit_ee(0, 60, EE_REMOVE);
+}
+
+void weakening_warning(object player)
+{
+   tell_object(player, "Your shield is weakening.\n");
+}
+
+void end(object player)
+{
+   tell_object(player, "Your shield has failed.\n");
+}
+
+--------------------------------------------
+
+/* this is the outline for the shield_shadow used above */
+inherit "/std/effect_shadow";
+
+int adjust_hp(int deltahp)
+/* we shadow adjust_hp, and if deltahp is negative we 
+   reduce it by arg% */
+/* NB: this is probably not the 'nicest' way of doing this ...
+   would be good to investigate how armour works.  This shields
+   _all_ damage, whereas it would be more interesting if it only
+   shielded certain attacks, cf D&D shield spell */
+{
+   if (deltahp >= 0)
+   {
+      player->adjust_hp(deltahp);
+      return 1;    // has to return an int - Manshoon
+   }
+
+   deltahp = ((100 - arg()) * deltahp) / 100;
+   player->adjust_hp(deltahp);
+   return 1;
+}
+
+**********************************************
+
+.EP
+
+.SH See Also
+.SI 5
+help effects_tutorial
+.EI

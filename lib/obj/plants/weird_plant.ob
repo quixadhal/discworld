@@ -1,0 +1,20 @@
+#
+# Weird plant, as found in the Basilisk's Nest
+# 
+# Taken from the clone-onna-fly original by Sin
+# by Carmine, 27 January 2003
+# 
+::#Class:: "/obj/food.c"
+::Name:: "plant"
+::Short:: "weird plant"
+::Long:: "This is a weird looking plant.  Ten long, sand-coloured stems splay "
+   "out from the root.  At the end of each stem a tiny sickly flower cowers "
+   "amid its drooping petals.  An oily nectar is secreted by the flower and "
+   "gives off a noxious smell.\n"
+::Adjective:: ({ "weird" })
+::Plural:: "plants"
+::Main Plural::"weird plants"
+::$set_medium_alias:: "WeirdPlant"
+::$add_eat_effect::"/std/effects/ingested/cum_poison", 100
+::Weight::4
+::$add_property::"repellent", 2

@@ -1,0 +1,37 @@
+.DT
+set_liquid
+DW_wibble creator help
+set_liquid
+
+.SH Name
+.SP 5 5
+set_liquid -  This changes the food object into a liquid.
+.EP
+
+.SH Syntax
+.SI 5
+void set_liquid()
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This changes the food object into a liquid.  Liquids are
+automatically a 'continuous' medium, which means it will
+combine with other liquids of the same type.
+
+
+This will automatically set the decay speed to 0. Liquids do not decay. 
+.EP
+
+.SH See also
+.SP 5 5
+reset_liquid(), set_decay_speed(), /obj/cont_medium->set_continuous()
+
+.EP
+

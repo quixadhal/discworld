@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: ken_mangle.c,v 1.1 1998/01/06 04:02:57 ceres Exp $
+ * $Log: ken_mangle.c,v $
+ * Revision 1.1  1998/01/06 04:02:57  ceres
+ * Initial revision
+ * 
+*/
 string *replace_matrix;
 mapping trans;
 

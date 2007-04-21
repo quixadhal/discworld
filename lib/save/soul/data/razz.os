@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),0,({({"You stick your thumb on your nose and razz $hcname$.","$mcname$ stick$s$ $mposs$ thumb on $mposs$ nose and razz$s$ $hcname$.","$mcname$ stick$s$ $mposs$ thumb on $mposs$ nose and razz$s$ you.",0,0,0,}),0,}),})

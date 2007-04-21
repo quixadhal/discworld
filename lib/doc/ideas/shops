@@ -1,0 +1,83 @@
+The following notes form an outline of how player operated and owned
+shops could work.
+
+1. Shop Options
+
+If buying an item would overstock the shop on a certain item, should
+the shop buy it and then try to sell it to another shop or just refuse
+to buy the item?
+
+Guild discounts, for sales, and bonuses, for purchases, could be set
+up, should the owner wish to favour a particular guild.
+
+The owner should be able to set the amount and quality of advertising
+for the shop (more on this below).
+
+Obvious options to set are upper and lower limits on prices for an
+item to be bought by the shop.
+
+Other options would include either percentages of profits or certain
+amounts per day to go to various guilds: the money going to the thieves'
+guild would be in lieu of getting burgled; the money to the fighters'
+guild would be for mercenaries and guards; the money to the wizards'
+guild would be for anti-theft spells. In other words, these are options
+to deal with being shoplifted.
+
+2. Shop Success
+
+Sales and purchases to and from a shop by players are unlikely to
+keep a shop afloat (and interesting!) so there needs to be a system
+to multiply up what players do and take into account the options that
+the owner has set. A purchase or sale by a player would be taken as
+representative of a whole chunk made by the city's inhabitants. The
+city's hospital could buy items from a shop with which to outfit the
+NPCs which it generates, recycling items to save on memory as well
+as making trade for the shop. Advertising by shops would induce passing
+NPCs to enter and buy something. Better or more adverts would give
+more purchases and a better chance of entering the shop.
+
+3. Operating versus Owning
+
+There are two possibilities for shops, like housing. They could be
+rented from the merchants' guild, given a deposit, weekly rent and
+percentage of the profits, or they could be bought outright. Given
+the monopoly and interests of the merchants' guild, only members
+or suitably influential citizens (i.e. high level players) could
+actually own a shop. The rent for a shop could be dependent on
+the average number of users on the mud, reflecting how much trade
+the guild thinks the shop ought to be generating. If the shop is
+rented, it comes with a guild approved clerk as part of the lease;
+if the shop is owned, such a clerk would have to be separately
+employed. Either way, the storeroom for the shop is actually a
+container that saves its inventory, being accessible from behind
+the counter.
+
+4. Phases of Development
+
+Phase 1: Code a sample shop that uses a container with saved inventory
+         as the storeroom. Connect the shop's transactions to the owner's
+         bank account and log transations in the shop's ledger.
+[This phase has actually been carried out, although more work needs to
+be done on the logging aspects, given what has been learnt from coding
+Tarnach's. Creators can see it the results of this first phase at
+/d/guilds/merchants/Ankh-Morpork/heroes/shop_front.]
+
+Phase 2: Build in the options except advertising and burglary related
+         stuff.
+
+Phase 3: Work out mechanism for representative sales, and connect to
+         the city's hospital.
+
+Phase 4: Code the merchants' guild leasing system so that players can
+         rent shops.
+
+Phase 5: Add advertising.
+
+Phase 6: Work out the burglary related stuff that occurs automatically,
+         on a semi-random basis.
+
+Phase 7: Hook "shoplift" into the shop burglary system so that players
+         can now be involved in meeting a shop's lease holder's victim
+         quota.
+
+Phase 8: Allow players to buy shops.

@@ -1,0 +1,496 @@
+Tue Feb 17 13:11:44 1998  Marcus Meissner  <marcus@tanis>
+
+	* display/vt320.java: argl, ESC  wasn't replaced
+
+	* display/vt320.java: ARGH. unEscape did not work
+
+Mon Feb  9 10:22:18 1998  Matthias L. Jugel  <leo@tanis>
+
+	* socket/TelnetIO.java, telnet.java, display/CharDisplay.java:
+	*** empty log message ***
+
+	* telnet.java: download for executables
+
+Tue Dec 16 11:04:15 1997  Matthias L. Jugel  <leo@tanis>
+
+	* socket/TelnetIO.java, telnet.java: *** empty log message ***
+
+	* socket/TelnetIO.java, modules/BSXModule.java:
+	a new module, back from the very first version of the telnet ;-)
+
+	* display/CharDisplay.java: *** empty log message ***
+
+	* telnet.java: BSX has been added to the modules list for compiling
+
+	* modules/ButtonBar.java: *** empty log message ***
+
+Fri Nov  7 16:50:54 1997  Marcus Meissner  <marcus@tanis>
+
+	* display/vt320.java: ESC [ G  added
+
+	* display/vt320.java: ESC [ d implemented
+
+Tue Nov  4 12:22:52 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/ButtonBar.java:
+	ButtonBar text input field accept the return key now!
+
+Mon Nov  3 17:34:55 1997  Marcus Meissner  <marcus@tanis>
+
+	* display/vt320.java: some more originmode fixes
+
+	* display/SoftFont.java: added 0x2666 , BLACK DIAMOND?
+
+	* display/vt320.java: ESC M fixed
+	scrollregions/cursorpositioning fixed
+	didn't scroll when in last line... fixed
+
+Mon Nov  3 10:25:57 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/Script.java: Script now includes dialog popup support
+
+	* display/vt320.java: documentation for F-keys
+
+Fri Oct 31 16:04:29 1997  Marcus Meissner  <marcus@tanis>
+
+	* display/SoftFont.java, display/vt320.java:
+	ESC [ P fixed (vanishing text in vi I think),
+	ESC [ @ added (cmdline editing bash),
+	statusline handling removed again (too broken for good),
+	misc characterset fixes
+
+Thu Oct 30 16:00:52 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/Script.java:
+	Included support for Dialog prompting, after an idea from
+	-> albert s boyers <boyers@minniemouse.cemax.com>
+
+	* display/CharDisplay.java: *** empty log message ***
+
+	* telnet.java: My version of index.html got corrupted.
+	I have removed the output of module names from telnet.java.
+
+Wed Oct 15 17:35:11 1997  Marcus Meissner  <marcus@tanis>
+
+	* display/vt320.java: hmm, don't need CSI Pn $ - ?
+
+Wed Oct 15 14:52:40 1997  Matthias L. Jugel  <leo@tanis>
+
+	* display/CharDisplay.java, display/vt320.java:
+	First try on a status line.
+
+Tue Oct 14 07:27:36 1997  Matthias L. Jugel  <leo@tanis>
+
+	* display/CharDisplay.java: *** empty log message ***
+
+Mon Oct 13 16:04:57 1997  Marcus Meissner  <marcus@tanis>
+
+	* display/vt320.java: prelim statusline support
+
+	* display/CharDisplay.java:
+	windowBase doesn't belong into calc. of the X cursorposition, Leo!!!
+
+Fri Oct 10 12:58:44 1997  Matthias L. Jugel  <leo@tanis>
+
+	* display/CharDisplay.java: scrollback buffer bug fixed
+
+Wed Oct  8 08:05:05 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/ButtonBar.java: Switched back to FlowLayout.
+
+Tue Oct  7 14:28:03 1997  Marcus Meissner  <marcus@tanis>
+
+	* display/CharDisplay.java: selectionend underflows fixed too
+
+Tue Sep 30 11:40:19 1997  Marcus Meissner  <marcus@tanis>
+
+	* display/vt320.java: 8 bit CSI was wrong
+	RI added
+
+	* display/CharDisplay.java:
+	fix selection overflows when resizing on Win*
+
+Fri Sep  5 20:20:44 1997  Marcus Meissner  <marcus@tanis>
+
+	* display/vt320.java: a bit more debugoutput
+
+Fri Sep  5 12:34:12 1997  Matthias L. Jugel  <leo@tanis>
+
+	* socket/TelnetWrapper.java: *** empty log message ***
+
+Fri Sep  5 11:35:52 1997  Marcus Meissner  <marcus@tanis>
+
+	* socket/TimedOutException.java: new file by George Ruban
+
+	* socket/TelnetIO.java: George Ruban added available
+
+Sat Aug 30 20:15:20 1997  Marcus Meissner  <marcus@tanis>
+
+	* display/SoftFont.java:
+	square root, black square added. one char fixed
+
+	* display/CharDisplay.java:
+	colors by default darker so brightness works better ;)
+
+	* display/vt320.java:
+	fixed focus problem in NS4 by using display.requestFocus instead of just requestFocus
+
+Fri Aug 29 23:11:38 1997  Marcus Meissner  <marcus@tanis>
+
+	* display/vt320.java: debuyg off
+
+	* display/vt320.java:
+	report chars >0x100, where no softfont is present.
+	fixed 1 character, added DARK SHADE, BLACK SQUARE, SQUARE ROOT
+
+Mon Aug 18 11:22:08 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/ButtonBar.java: *** empty log message ***
+
+	* modules/ButtonBar.java: GridLayout error
+
+	* modules/ButtonBar.java: changing the configuration...
+
+	* display/CharDisplay.java:
+	small bugfix, setting the font only once in paint()
+
+	* telnet.java:
+	First attempts to ease module configuration (configuration file)
+
+Sun Aug 17 23:02:20 1997  Marcus Meissner  <marcus@tanis>
+
+	* display/vt320.java: @ can now be generated on german keyboards
+
+Thu Aug  7 12:27:39 1997  Marcus Meissner  <marcus@tanis>
+
+	* display/vt320.java: added origin mode (vor ESC [ .. H).
+	fixed tabsetting.
+	(two vttest problems)
+
+	* display/CharDisplay.java:
+	deleteLine fixed... was copying one line too many
+
+Sat Aug  2 18:04:01 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java: gr mapping broken
+
+Fri Jul 25 15:08:57 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java:
+	basic charset handling fixed, charset G2/G3 switchers added. (still lacking)
+
+Thu Jul 24 13:32:47 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/ButtonBar.java: gridLayout for ButtonBar
+
+	* modules/ButtonBar.java: *** empty log message ***
+
+	* display/CharDisplay.java:
+	I have fixed the scrollBar bug. Expect a strange looking scrollbar under
+	Windows 95!, but it works as expected!
+
+	* telnet.java, appWrapper.java:
+	There is a bug I cannot explain, when using the "startButton" with
+	appWrapper. The telnet window will black out when iconizing the
+	browser window. However, resizing the telnet window redisplays its
+	contents.
+
+Mon Jul 21 22:18:46 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java: changed bare ESC to \u001b
+
+Thu Jul 10 00:07:20 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java: --debugoutput
+
+	* display/CharDisplay.java:
+	deleteLine: in case of a specified scroll area, deleteLine's bottom was 1 too less (second part of emacs ^K bug)
+
+Wed Jul  9 23:59:22 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java: debug off
+
+Wed Jul  9 20:12:05 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/TextLabel.java: a simple applet to display text labels
+
+Wed Jul  9 19:53:34 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java:
+	CSI Pn M was deleting one less line than desired.... one part of emacs ^K problem fixed
+
+Tue Jul  8 09:34:41 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/ButtonBar.java, appWrapper.java:
+	reattaching applet when clicking on the space on the web browser
+
+	* modules/ButtonBar.java, appWrapper.java, frame.java, telnet.java:
+	Closing the frame of a detached window destroys it!
+
+Fri Jul  4 11:09:09 1997  msmeissn  <msmeissn@tanis>
+
+	* display/SoftFont.java: decreased memory usage...
+
+	* display/vt320.java:
+	use 8bit control chars only when not using ibmcharset...
+
+	* display/SoftFont.java: *** empty log message ***
+
+	* display/SoftFont.java:
+	speed up for softfonts by directly specifying fillrects (not complete)
+
+Tue Jul  1 15:39:55 1997  Matthias L. Jugel  <leo@tanis>
+
+	* telnet.java, appWrapper.java: *** empty log message ***
+
+	* modules/ButtonBar.java:
+	When no parent window was created, destroy applet window.
+
+	* appWrapper.java: *** empty log message ***
+
+Tue Jul  1 12:11:11 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java:
+	oops, some TSTATE_xxx weren't switching back to TSTATE_DATA
+
+Mon Jun 30 09:55:49 1997  Matthias L. Jugel  <leo@tanis>
+
+	* appWrapper.java: added more documentation, more changes to come
+
+Sun Jun 29 19:26:30 1997  Matthias L. Jugel  <leo@tanis>
+
+	* appWrapper.java:
+	The appWrapper can now only display a button to launch the applet
+
+Sun Jun 29 17:22:21 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java: use 8bit control chars even when using ibmcharset
+
+	* display/SoftFont.java: *** empty log message ***
+
+	* display/vt320.java:
+	use cp431 (doslatin1us) instead of cp850 (doslatin1) ... most bbs systems
+	seem to use this.
+
+	* display/CharDisplay.java: - added softfont capability.
+	  CharDisplay is now able to display softfonts (rendered by SoftFont) and
+	  standard fonts so the loss of speed should be marginal.
+	- some cleanups in paint()
+
+	* display/SoftFont.java:
+	a softfont emulator capable to display usually missing UNICODE characters
+	(currently used for line and boxdrawings in the IBM PC charset)
+
+Mon Jun  9 15:08:34 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java:
+	don't handle chars as bit-8-set VT sequences when using the IBM charset
+
+Sun Jun  8 17:48:56 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java:
+	hmm, telnet linefeed string changed from \r\0 to \r\n (CR LF?) (RFC 1123)
+
+Tue May 27 14:51:01 1997  Matthias L. Jugel  <leo@tanis>
+
+	* display/CharDisplay.java: there was a nullpointer bug
+
+	* tools/proxy.java: added date and time logging
+
+Tue May 27 11:46:43 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java:
+	a lot of additions and fixes done by "Ray Whitmer <raywhitmer@itsnet.com>"
+	- key handling (esp. function key, return etc.)
+	- Emulation fixes (a lot of them)
+	- VMS additions
+
+Tue May 27 11:39:19 1997  Matthias L. Jugel  <leo@tanis>
+
+	* socket/TelnetIO.java, display/vt320.java, appWrapper.java, telnet.java:
+	included version information for online retrieval
+
+Tue May 27 10:52:08 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java: *** empty log message ***
+
+Tue May 27 09:56:28 1997  Matthias L. Jugel  <leo@tanis>
+
+	* display/CharDisplay.java: documentation for setScrollbar()
+
+Mon May 26 11:10:55 1997  Matthias L. Jugel  <leo@tanis>
+
+	* display/CharDisplay.java, display/vt320.java:
+	moved the scrollbar to the character display
+
+Tue May 20 19:52:47 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java: changed VTibmcharset to VTcharset
+
+	* display/vt320.java: added docu
+
+	* display/vt320.java: - scratch any \r input from terminal
+	- ibm charset mapping added
+
+Thu May  8 19:56:39 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java:
+	added restore default color (fore and background) in ESC [ Pn* m
+
+Tue May  6 15:47:44 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java: fixed insertmode ESC [ 4 l/h
+
+Mon May  5 16:03:30 1997  Matthias L. Jugel  <leo@tanis>
+
+	* display/CharDisplay.java: some more documentation
+
+	* display/CharDisplay.java:
+	implemented colors: bright + black reveals as dark gray (foreground only)
+
+	* display/CharDisplay.java, display/vt320.java:
+	added a border to the character display
+	cursorposition is now set and retrieved by setCursorPos() and getCursorPos()
+	necessary for future adaption to JDK 1.1
+
+Tue Apr 29 20:48:42 1997  msmeissn  <msmeissn@tanis>
+
+	* telnet.java:
+	return now sends \r\n to the terminal and \r\0 to the server.
+
+Fri Apr 18 21:29:04 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java: ESC [ L fixed ... messed up 'vi' o command
+
+Tue Apr 15 12:38:17 1997  Matthias L. Jugel  <leo@tanis>
+
+	* tools/proxy.java:
+	the connecting client gets a message when the remote host is
+	not available.
+
+Mon Apr 14 10:18:25 1997  Matthias L. Jugel  <leo@tanis>
+
+	* telnet.java: telnet will not connect if no host is given as parameter
+
+	* tools/proxy.java: the proxy does not exit when a host is unavailable
+
+	* socket/TelnetIO.java:
+	bugfix: lost connection is now detected immediately
+
+	* modules/MudConnector.java: 3D-status bar and info Button
+
+	* display/CharDisplay.java: rudimentary support for copy&paste
+
+	* telnet.java: added compilation of MudConnector to Makefile
+
+Thu Apr 10 20:46:01 1997  msmeissn  <msmeissn@tanis>
+
+	* display/CharDisplay.java:
+	deleteLine ... nicht size.height, sondern bottom.
+	fixt ein 'vim' Problem
+
+Fri Apr  4 18:47:04 1997  Matthias L. Jugel  <leo@tanis>
+
+	* telnet.java: telnet.java does not exit when no destination is given.
+
+	* modules/ButtonBar.java, modules/MudConnector.java:
+	MudConnector is a new module designed for Andrew Cowans www.mudconnect.com
+	It loads a file of muds plus addresses to connect to. WOrks only in
+	connection with a proxy server!
+
+Fri Apr  4 13:21:01 1997  msmeissn  <msmeissn@tanis>
+
+	* socket/TelnetIO.java: SGI problem fixed.
+
+	* socket/TelnetIO.java: *** empty log message ***
+
+Mon Mar 24 14:55:19 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/Script.java, modules/ButtonBar.java, modules/Module.java:
+	module interface changed: receive() now returns a String or null
+
+	* telnet.java:
+	removed the script module from testpage and changed the module interface
+	slightly
+
+Wed Mar 19 14:23:07 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/Module.java, modules/Script.java, modules/ButtonBar.java:
+	Modules are now notified of connect() and disconnect()
+
+	* telnet.java:
+	added notification of modules upon connect and disconnect
+
+Wed Mar 19 14:09:33 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java:
+	delete left frtom cursor was leaving out 1 element
+
+	* display/vt320.java: use enough tabs....
+
+Tue Mar 18 15:14:48 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java: total reformatiert auf zweier spaces
+
+Tue Mar 18 15:06:16 1997  Matthias L. Jugel  <leo@tanis>
+
+	* display/CharDisplay.java: fixed a bug when resizing the screen
+
+Tue Mar 18 14:26:50 1997  msmeissn  <msmeissn@tanis>
+
+	* display/vt320.java: layout(0 statt display.resize9)
+
+	* display/vt320.java: und nochnmal
+
+	* display/vt320.java: ESC [ nr P added
+	first try at 132/80 resize
+
+Tue Mar 18 13:47:22 1997  Matthias L. Jugel  <leo@tanis>
+
+	* display/CharDisplay.java: *** empty log message ***
+
+	* modules/ButtonBar.java:
+	It seems that \27 != ^[ (escape). Now the \e escape should work.
+
+	* display/vt320.java:
+	Don't initialize, when a character display exists.
+	This should fix the detaching problem, where the screen was blank after
+	it was added to the external frame.
+
+Mon Mar 17 13:45:52 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/ButtonBar.java: added documentation for the \e character
+
+Thu Mar 13 12:27:29 1997  Matthias L. Jugel  <leo@tanis>
+
+	* display/vt320.java: fixed bug in documentation VTrows default is 24
+
+Wed Mar 12 15:16:45 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/ButtonBar.java: fixed bug in send text from input field
+
+	* telnet.java: minor changes
+
+Wed Mar  5 17:04:27 1997  Matthias L. Jugel  <leo@tanis>
+
+	* modules/Script.java, modules/ButtonBar.java, display/vt320.java:
+	added documentation
+
+	* modules/ButtonBar.java:
+	moved the documentation from index.html to this source file
+
+	* telnet.java: fixed bug in connect
+
+	* modules/ButtonBar.java: port number bug
+
+	* display/vt320.java: documentation changes
+
+	* CharDisplayTest.java, IOtest.java, appWrapper.java, display/CharDisplay.java, display/Terminal.java, display/TerminalHost.java, display/vt320.java, modules/ButtonBar.java, modules/Module.java, modules/Script.java, socket/StatusPeer.java, socket/TelnetIO.java, telnet.java, tools/proxy.java:
+	Initial CVS Registering
+
+	This is the java(tm) Telnet Applet
+
+
+	* CharDisplayTest.java, IOtest.java, appWrapper.java, display/CharDisplay.java, display/Terminal.java, display/TerminalHost.java, display/vt320.java, modules/ButtonBar.java, modules/Module.java, modules/Script.java, socket/StatusPeer.java, socket/TelnetIO.java, telnet.java, tools/proxy.java:
+	Initial revision
+

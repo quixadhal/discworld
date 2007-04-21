@@ -1,0 +1,1 @@
+({({}),({({"You win the game!  You don't need to hassle creators now.","$mcname$ win$s$ the game!",0,}),0,}),0,})

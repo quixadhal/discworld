@@ -1,0 +1,43 @@
+.DT
+convert_message
+Discworld living help
+convert_message
+
+Name
+.SI 5
+convert_message - processes observer-dependent messages
+.EI
+
+Syntax
+.SI 5
+string convert_message( string words )
+.EI
+
+Description
+.SP 5 5
+This is a utility function provided as a means to process a message
+from the point of view of the observer.  This processing occurs
+automatically when the message is used in write, say, tell_object or
+tell_room, but if the message is to be stored, it needs to be processed
+before being stored.  It does not process ANSI colour codes and will
+not handle indentation or paging if those codes are in the message.
+.EP
+
+Examples
+.SI 5
+> call a_short() beggar
+*** function on 'poor beggar' found in /std/basic/desc ***
+Returned: "$a_short:/obj/monster#4074$"
+> call convert_message( "$a_short:/obj/monster#4074$" ) me
+*** function on 'Deutha' found in /global/events ***
+Returned: "a poor beggar"
+> exec return this_player()->convert_message( query_multiple_short(
+all_inventory( environment( this_player() ) ) ) );
+Returns: "a poor beggar, a fighter, a woman (hiding) and you"
+.EI
+
+See also
+.SI 5
+write, say, tell_object, tell_room
+a_short, the_short, one_short, poss_short
+.EI

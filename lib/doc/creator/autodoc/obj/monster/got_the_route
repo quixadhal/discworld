@@ -1,0 +1,42 @@
+.DT
+got_the_route
+DW_wibble creator help
+got_the_route
+
+.SH Name
+.SP 5 5
+got_the_route -  This method is called by the move_me_to function after the route handler has successfuly discovered the route to follow.
+.EP
+
+.SH Syntax
+.SI 5
+void got_the_route(string * route,
+                   int delay,
+                   string dest)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^route%^RESET%^ - the route to follow
+%^BOLD%^delay%^RESET%^ - the delay to follow it with
+%^BOLD%^dest%^RESET%^ - route destination
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called by the move_me_to function after the
+route handler has successfuly discovered the route to follow.
+.EP
+
+.SH See also
+.SP 5 5
+move_me_to()
+
+.EP
+

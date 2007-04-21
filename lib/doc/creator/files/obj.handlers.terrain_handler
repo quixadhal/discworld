@@ -1,0 +1,203 @@
+.DT
+terrain_handler
+Discworld Creator help
+terrain_handler
+
+Name
+.SI 5
+/obj/handlers/terrain_handler.c - Handler for <desc>
+.EI
+
+Description
+
+.SP 5 5
+This is the skeletal help for the terrain_handler handler.
+
+<description missing>
+.EP
+
+Functions
+
+.SI 5
+void setup()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string member_cloned_locations( int *co_ords )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string member_fixed_locations( int *co_ords )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed *member_floating_locations( int *co_ords )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string top_floating_location( int *co_ords )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void init_data( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int get_data_file( string word )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+void save_data_file( string word, int backup )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mapping query_cloned_locations( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mapping query_fixed_locations( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed *query_floating_locations( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed *query_co_ord( string word1, string word2 )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_connection( string word1, int *co_ords, string word2 )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_connected( string word1, int *co_ords )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int add_fixed_location( string word1, string word2, int *co_ords )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int add_connection( string word1, int *co_ords, string word2, string word3 )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int add_floating_location( string word1, string word2, int *co_ords,
+      int number )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int modify_fixed_location( string word1, string word2, int *co_ords )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int delete_cloned_location( string word1, string word2 )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int delete_fixed_location( string word1, string word2 )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int delete_floating_location( string word1, string word2, int *co_ords )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void clear_cloned_locations( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void clear_connections( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void recalc_coordinates( string word1, string word2 )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int right_co_ords( int *new_co_ords, int *co_ords, int delta,
+      int *vector )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int get_room_size( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void add_exit( object place, string direc, string dest )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void calculate_exits( object place, int *co_ords )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+object find_location( string word, int *numbers )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void setup_location( object place, string word )
+.EI
+.SP 10 5
+.EP
+ 

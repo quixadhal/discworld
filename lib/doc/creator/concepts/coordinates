@@ -1,0 +1,73 @@
+.DT
+Coordinates
+Discworld Creator Help
+Coordinates
+
+Name
+.SI 5
+Coordinates - The way to see where you are and how far you are from
+everything else.
+.EI
+
+Description
+.SP 5 5
+Every room has coordinates in an xyz system centered on the drum in
+Ankh-Morpork where x is east-west, y is north-south and z is up-down. The units are scaled in feet and are normally calculated from the size of the room and the coordinates of the neighbouring rooms. This makes it very important to get the sizes right so rooms link up correctly.
+.EP
+.SP 5 5
+The calculations are based on the idea that the coordinates give the center
+of the room, and the size gives the distance from the center to the
+walls.  This has the consequence that rooms only hook up at the middle of
+the walls, and at the corners, making the following possible:
+.EP
+.SI 10
++-----+      +-----+  +---+
+|15   +---+  |15   |  |10 |
+|     |10 |  |     |  |   |
+|         |  |     |  |   \
+|     |   |  |     |  +--\ \--+
+|     +---+  |     |      \10 |
++-----+      ++- -++      |   |
+              |10 |       |   |
+              |   |       +---+
+              |   |
+              +---+
+.EI
+.SP 5 5
+and these impossible :(
+.EP
+.SI 10
++-----+        +-----+  +---+
+| 15  +-----+  | 15  |  |10 |
+|     | 15  |  |     |  |   |
+|           |  |     |  |   \
+|     |     |  |     |  +-+\ \+
+|     |     |  |     |    |10 |
++-----+     |  +- -+-+    |   |
+      +-----+  |10 |      |   |
+               |   |      +---+
+               |   |
+               +---+
+.EI
+.SP 5 5
+Note that rooms can also be rectanguloid, but that doesn't change the way
+rooms hook up with each other, only their size, eg.:
+.EP
+.SI 10
++-------+
+| 20x15 +---+
+|       |10 |  +-----+  +---+
+|           |  |10x15|  |   |<-5x10
+|       |   |  |     |  +--\ \--+
+|       +---+  |     |      \10 |
++-------+      ++- -++      |   |
+                |10 |       |   |
+                |   |       +---+
+                |   |
+                +---+
+.EI
+
+See also
+.SI 5
+set_room_size, query_room_size, query_co_ord, calc_co_ord, set_co_ord
+.EI

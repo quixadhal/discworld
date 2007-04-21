@@ -1,0 +1,35 @@
+.DT
+command_override
+DW_wibble creator help
+command_override
+
+.SH Name
+.SP 5 5
+command_override -  Use this function to set a function that is called with the NPCs input before command() gets it, return 1 from the function if the input needs no further parsing (ie the command is handled) 
+.EP
+
+.SH Syntax
+.SI 5
+void command_override(function func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^func%^RESET%^ - = function in the players environment to call.
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Use this function to set a function that is called with the NPCs input
+before command() gets it, return 1 from the function if the
+input needs no further parsing (ie the command is handled)
+
+.EP
+

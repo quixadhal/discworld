@@ -1,0 +1,89 @@
+#include "path.h"
+void setup() {
+  set_short("virtual rooms with .vrc extension");
+  set_light(100);
+  set_long("Virtual rooms with a .vrc extension\n"
++"Any file with a .vrc extension has the following restrictions:\n"
++" * It may not inherit anything.\n"
++" * It must define a setup()\n"
++" * It may not define create() or dest_me().\n"
++" * It may have other functions, but they will only be called from setup()\n"
++"   and after setup() executes, this_object() will be removed from memory.\n"
++" * It may also #define and #include files, with respect to the above.\n"
++"\nThis is how it works:\n"
++"This .vrc file is appended to a file which has the code to create and clone "
++"a room.  It is given a .c extension, and then loaded into memory.  The new "
++"object clones a room, refered to as 'this_room()' and defines a bunch of "
++"functions which just translate over to the room.  The object executes your "
++"setup() and then promptly removes itself from memory, leaving only the "
++"cloned room.  In this manner, we can use older 'inherit' code with only "
++"minor modifications to make it virtual.  In addition it allows us to write "
++"virtual rooms without any extra learning.  Most of the room functions have "
++"been defined in this object, but if you need one that hasn't you can call "
++"it with 'this_room()->func(args ... )'.\nA note and a function list.\n");
+
+add_item("function list",({"long","It can be read.\n","read",
+"The following functions have code which is re-directed:\n"
++"  add_item, set_short, set_long, add_property\n"
++"  set_zone, modify_exit, and add_exit.\n"
++"If there is another function that is not listed, it can be refered to by "
++"the code:  this_room()->func().\n"
++"Some extra functions added in VirtualRoom.h are:\n"
++"  add_reset_obj, add_reset_func, add_dest_func, \n"
++"  add_death_func, add_enter_func, add_exit_func \n\n\n"}));
+
+add_item("note",({"long","It can be read.\n","read",
+"Ok, more details.  The code for this stuff is in /global/virtual/setup_"
++"compiler/ there are a few files of interest:\n"
++"Room.c    This is your standard room with a few extra functions.\n"
++"UWater.c  This is your standard underwater room, with the same extras.\n"
++"Outside.c This is your standard outside room, with the same extras.\n"
++"Room.inc  This is the file included by all of the above that contains\n"
++"          all of the extra's i have been talking about.\n"
++"VirtualRoom.h  This file will be included in the .c file generated, it \n"
++"               contains all of the function re-directions, so that you\n"
++"               don't have to do this_room()-> infront of all your calls.\n\n"
++"If you don't want to inherit /std/room through Room.c ( the deafult ) you "
++"can #define CLONEFILE \"/d/am/hell/MyStandardRoomInHell.c\" if you want.  "
++"Furthermore, if you want you can define functions in that file that any "
++"or all of it's virtual copies of can call through add_item or modify_exit.  "
++"Instead of useing the this_object(), use this_room().  Your StandardRoom "
++"should inherit the Room.c, if it dosn't then there will be many 'undefined' "
++"functions refered to in VirtualRoom.h\nPlease read note2.\n" }));
+
+
+add_item("note2",({"long","It can be read.\n","read",
+"Since there is no reset function you can re-define, the Room.c has a "
++"function: add_reset_obj( string filename ), which addes to an array of "
++"objects that should be cloned on reset and dested when the room is dested.  "
++"Hopefully the object is virtual, but that is not necessary.  If you don't "
++"want to do that, you can use another function:\n"
++"add_reset_func(string file_where_the_function_can_be_found, string func)\n "
++"Note that this file, should not be a file with a .v?c extension.  It should "
++"be a file that is loaded into memory.  The function will be called when "
++"this_room() resets.  If you want to know which room, you should use "
++"previous_object() to find out.  Since a way to access reset has been "
++"facilitated, a way to be notified when dest_me() is called on this_room() "
++"is also provided, add_dest_func(string file, string func).  Again the same "
++"rules apply.\nGo on to note3.\n"}));
+
+add_item("note3",({"long","It can be read.\n","read",
+"Well, we have reset, dest_me.  How about some events?  Ok. The following "
++"events have been added: add_death_func, add_enter_func, add_exit_func.  "
++"the functions first argument is the file, the second argument is the "
++"function to be called on that file.  The argument passed to the funcion is "
++"the object that the event happened to.  And the room that it happened in "
++"is returned by previous_object().  The only last topic to discuss is "
++"add_item and modify_exit.  The only thing to say is that the functions "
++"that it calls CANNOT be in the .v?c file.  They must be in either the "
++"inherited object, and then can be referenced with this_room(), or they "
++"can be in another c-file that is loaded.  I would put a whole slew of "
++"functions in a single file if I was going to make an entire path virtual.  "
++"I hope every thing works well.  Happy virtual rooms.\n" }));
+
+add_exit("north",MAIN,"door");
+add_exit("east",ROOM+"virtual/basic_room.vrc","door");
+add_exit("west",ROOM+"virtual/basic_room.r","door");
+}
+
+

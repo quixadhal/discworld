@@ -1,0 +1,43 @@
+.DT
+test_add
+DW_wibble creator help
+test_add
+
+.SH Name
+.SP 5 5
+test_add -  This method stops the container being added when it is  closed.
+.EP
+
+.SH Syntax
+.SI 5
+int test_add(object ob,
+             int flag)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object being added
+%^BOLD%^flag%^RESET%^ - the addition flag
+.EI
+
+.SH Defined in
+.SI 5
+/obj/container.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method stops the container being added when it is 
+closed.  It also handles the same flags as the liing
+object.  We assume this is not the same
+as the default containers used
+by things like item rooms and such.
+.EP
+
+.SH See also
+.SP 5 5
+/std/basic/move.c
+
+.EP
+

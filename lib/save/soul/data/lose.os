@@ -1,0 +1,1 @@
+({({}),({({"You lose the game!  There's no point in whinging now.","$mcname$ lose$s$ the game!",0,}),0,}),0,})

@@ -1,0 +1,40 @@
+.DT
+query_current_page_clone
+DW_wibble creator help
+query_current_page_clone
+
+.SH Name
+.SP 5 5
+query_current_page_clone -  This function makes sure the page actually exists.
+.EP
+
+.SH Syntax
+.SI 5
+object query_current_page_clone()
+.EI
+
+.SH Returns
+.SI 5
+the object of the current page
+.EI
+
+.SH Defined in
+.SI 5
+/std/book.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function makes sure the page actually
+exists.  If it does not exist, then it will clone one
+up for us.  This one should be used as you will not end up with the
+base object in this case.  If you are planning to modify the page,
+then use this call.
+.EP
+
+.SH See also
+.SP 5 5
+query_current_page()
+.EP
+

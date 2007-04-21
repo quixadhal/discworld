@@ -1,0 +1,5 @@
+class bing {
+}
+
+class bing {
+}

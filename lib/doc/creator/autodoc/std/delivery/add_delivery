@@ -1,0 +1,53 @@
+.DT
+add_delivery
+DW_wibble creator help
+add_delivery
+
+.SH Name
+.SP 5 5
+add_delivery -  This method adds a new item to the delivery mapping for the specified  recipient.
+.EP
+
+.SH Syntax
+.SI 5
+void add_delivery(mixed who,
+                  mixed sender,
+                  object item,
+                  int delay)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^who%^RESET%^ - the person to receive the item. 
+%^BOLD%^sender%^RESET%^ - the person sending the file. 
+%^BOLD%^item%^RESET%^ - the item to be sent
+%^BOLD%^delay%^RESET%^ - how many seconds to wait before delivering item on the next
+login.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/delivery.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a new item to the delivery mapping for the specified 
+recipient.  This should always be used instead of set_delivery(), as it
+makes sure that all the data structures have been configured correctly.
+
+.EP
+
+.SH Example 1
+.SI 5
+     add_delivery(this_player(), "taffyd", frog, 360);
+.EI
+
+.SH See also
+.SP 5 5
+check_delivery()
+
+.EP
+

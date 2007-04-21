@@ -1,0 +1,40 @@
+.DT
+check_delivery
+DW_wibble creator help
+check_delivery
+
+.SH Name
+.SP 5 5
+check_delivery -  This method is called by the login handler every time someone logs  on to the Disc.
+.EP
+
+.SH Syntax
+.SI 5
+void check_delivery(mixed person,
+                    string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^person%^RESET%^ - the name of the person logging on
+%^BOLD%^type%^RESET%^ - the type of login event
+
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/delivery.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called by the login handler every time someone logs 
+on to the Disc.  It handles the delivery of items and all sorts of 
+nifty things.
+
+
+
+.EP
+

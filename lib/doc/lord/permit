@@ -1,0 +1,84 @@
+.DT
+permit
+Discworld lord help
+permit
+
+
+.SH Name
+.SI 5
+permit - Administer and grant file access permissions.
+.EI
+
+.SH Syntax
+.SI 5
+permit <permission> <euid> <path> 
+permit summary <string> 
+permit summary 
+permit tidy 
+permit help 
+
+.EI
+
+.SH Description
+.SP 5 5
+The permit command acts as an interface to the file permission system.  You can 
+use this command to query the permissions of creators and to permit/revoke 
+access if you have the appropriate access yourself to do so.
+
+'permit summary <creator>' will allow you to query the access rights of a particular
+creator.  'permit summary' by itself will return all access rights.  This is likely
+to be an exceptionally large list.
+
+'permit tidy' will make an attempt to tidy up access permissions for all creators.  
+This means that creators with write to /d/ and /d/forn will have their write access 
+to /d/forn removed since the access to /d/ supercedes that access.
+
+'permit help' will give some more information on what can be done with the command.
+
+The base command 'permit <permission> <euid> <path>' is used to grant or revoke
+a particular permission to a particular creator.  Valid permissions are:
+
+.SH Read
+.SP 5 5
+Read permission only.  The creator can only read the file.  Unless FTP 
+restrictions have been lifted, they also cannot download the file.
+.EP
+
+.SH Write
+.SP 5 5
+Write permission only.  Note, write access does not imply read access.  When 
+granted to a directory, creators can write to all files in that directory and
+create others.  When granted to a particular file, the creator can only change
+and delete that file.
+.EP
+
+.SH Grant
+.SP 5 5
+Grant permission.  Allows the creator to grant read or write access themselves.
+Note again that this does not imply read or write access.
+.EP
+
+.SH Noread
+.SP 5 5
+Revoke previous read permissions for a creator.
+.EP
+
+.SH Nowrite
+.SP 5 5
+Revoke previous write permissions for a creator.
+.EP
+
+.SH Nogrant
+.SP 5 5
+Revoke previous grant permissions for a creator.
+.EP
+
+.SH Examples:
+.SI 5
+
+> permit write dtest /d/forn/
+Added write permision for dtest to /d/forn.
+
+.SH See also
+.SP 5 5
+.EP

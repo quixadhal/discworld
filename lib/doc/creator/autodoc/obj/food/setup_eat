@@ -1,0 +1,42 @@
+.DT
+setup_eat
+DW_wibble creator help
+setup_eat
+
+.SH Name
+.SP 5 5
+setup_eat -  This sets up the eat object and function.
+.EP
+
+.SH Syntax
+.SI 5
+void setup_eat(string ob,
+               string func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - The object to use.
+%^BOLD%^func%^RESET%^ - The function to use.
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets up the eat object and function.  This is used when
+the food is eaten.  The eat function is called on the eat
+object.  If successful the eat message is added to the player.
+
+.EP
+
+.SH See also
+.SP 5 5
+set_eat_object(), set_eat_func()
+.EP
+

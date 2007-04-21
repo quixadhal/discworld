@@ -1,0 +1,49 @@
+.DT
+authorise
+Discworld lord help
+authorise
+
+
+.SH Name
+.SI 5
+authorise - Authorise a player from a banned IP
+.EI
+
+.SH Syntax
+.SI 5
+authorise enable <player> <address> 
+authorise disable <player> <address> 
+authorise <player> 
+
+.EI
+
+.SH Description
+.SP 5 5
+The authorise command can be used to allow players to login from banned
+IP addresses.  When used in its simplest form 'authorise <player>', it 
+will add the 'authorised player' property to the appropriate player.  If
+the player does not exist, you will be asked if you wish to create them...
+ this is a useful way of allowing a player to login from an IP banned for
+new characters.
+
+Using the 'enable' syntax allows you to add an IP address that a player 
+is permitted to log on from.  Using the 'disable' syntax allows you to 
+remove a previous IP from the list of authorised IP addresses.
+.EP
+
+.SH Examples:
+.SI 5
+> authorise DrakkosII
+DrakkosII does not exists.  Do you wish to create them?
+
+> authorise enable dtest 127.0.0.1
+Dtest is now allowed to login from 127.0.0.1.
+
+> authorise disable dtest 127.0.0.1
+Dtest is now not allowed to login from 127.0.0.1.
+
+
+.SH See also
+.SP 5 5
+access
+.EP

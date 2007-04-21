@@ -1,0 +1,42 @@
+.DT
+do_eat
+DW_wibble creator help
+do_eat
+
+.SH Name
+.SP 5 5
+do_eat -  This is the eat command call.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int do_eat(int no_mess)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^no_mess%^RESET%^ - don't use success messages
+.EI
+
+.SH Returns
+.SI 5
+Return 1 on success, 2 on success + last bit eaten and return 0 on failure..EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the eat command call.  This is setup with add_command()
+and does the actual eating.
+.EP
+
+.SH See also
+.SP 5 5
+/global/new_parse->add_command(), /global/new_parse->add_succeeded_mess(), set_eat_mess()
+
+.EP
+

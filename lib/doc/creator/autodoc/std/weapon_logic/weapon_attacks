@@ -1,0 +1,48 @@
+.DT
+weapon_attacks
+DW_wibble creator help
+weapon_attacks
+
+.SH Name
+.SP 5 5
+weapon_attacks -  This function returns 0 or more attacks for this weapon against the given target.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * weapon_attacks(int percent,
+                       object target)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^percent%^RESET%^ - the attack percentage
+%^BOLD%^target%^RESET%^ - who is being hit
+
+.EI
+
+.SH Returns
+.SI 5
+an array of 0 or more attacks. This array is indexed by the
+AT_ macros defined in combat.h
+.EI
+
+.SH Defined in
+.SI 5
+/std/weapon_logic.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function returns 0 or more attacks for this weapon against the
+given target.
+
+.EP
+
+.SH See also
+.SP 5 5
+combat.h
+
+.EP
+

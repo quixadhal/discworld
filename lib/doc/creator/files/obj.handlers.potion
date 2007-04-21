@@ -1,0 +1,75 @@
+.DT
+potion
+Discworld Creator help
+potion
+
+Name
+.SI 5
+/obj/handlers/potion.c - Handler for <desc>
+.EI
+
+Description
+
+.SP 5 5
+This is the skeletal help for the potion handler.
+
+<description missing>
+.EP
+
+Functions
+/*
+**  potion.c - potion information handler.
+**
+**  This will handle all the information related to potions: the skill
+**  required, the failure result, etc. (more to be added as necessary).
+**  Each potion will be an object in itself (generally a virtual object).
+**  There will be an index file which gives the pathname of the object
+**  for each potion "title".  This will be loaded into a mapping on
+**  creation of the handler.  The actual potion objects will be created
+**  as they are referenced (assuming they're in the index) and stored
+**  as the value of another mapping.
+**
+**  Written by Jeremy, ?/?/95
+*/
+.SI 5
+void create()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_min_level(string s)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_chant(string s)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+object query_potion(string s)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed clone_reagent(string potion)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mapping query_paths()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mapping query_potions()
+.EI
+.SP 10 5
+.EP
+

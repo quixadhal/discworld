@@ -1,0 +1,45 @@
+.DT
+cd
+Discworld creator help
+cd
+
+.SH Name
+.SI 5
+cd - Change directory
+.EI
+
+.SH Syntax
+.SI 5
+cd [directory | object]
+.EI
+
+.SH Description
+.SP 5 5
+cd is used to change your current directory.  If the directory to change to
+is not specified, you will change into your homedir that is specified with the
+homedir command.  Directories can be specified relative to your current
+or absolutely from the root dir.  Two special directories exist, '.' and '..'
+which have the meanings current dir, and next dir up, respectively.  For more
+information on this have a look at /doc/general/filesystem.
+
+You may also specify an object, which will be located using wiz_present.
+See 'help wiz_present' for the targets this knows.  If you specify an object,
+your current directory will be set to the directory which contains the file
+for that object.
+.EP
+
+.SH Examples
+.SI 5
+cd /
+cd /w/furball
+cd
+cd ..
+cd examples
+cd here
+cd (pinkfish)
+.EI
+
+.SH See also
+.SP 5 5
+homedir, mkdir, rmdir, ls, pushd, popd, wiz_present
+.EP

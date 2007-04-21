@@ -3,29 +3,38 @@ lsay
 Discworld player help
 lsay
 
-Name
-.SI 5
-lsay - loud say
-.EI
-
-Syntax
-.SI 5
-lsay <string>
-.EI
-
-Description
+.SH Name
 .SP 5 5
-Something in between say and shout. You might need it for subtle effect maybe.
+lsay - Loud say.
 .EP
 
-Example
+.SH Syntax
+.SP 5 5
+"[#lang] <string>
+lsay [#lang] <string>
+"[#'lang'] <string>
+lsay [#'lang'] <string>
+.EP
+
+.SH Description
+.SP 5 5
+Something in between say and shout.  You might need it for subtle effect maybe.
+
+The # can be used to speak in different specific language. 
+You can use partial matching for a language, so for example
+#dj will make you speak in djelian.  You may also put the language name
+in quotes after the # to speak in languages which have spaces in them.
+.EP
+
+.SH Example
 .SI 5
 > lsay Excuse me, but I am a frog not a guppy.
 You say loudly: Excuse me, but I am a frog not a guppy.
 Pinkfish says loudly: Excuse me, but I am a frog not a guppy.
 .EI
 
-See also:
-.SI 5
-say, shout, tell
-.EI
+.SH See also
+.SP 5 5
+emote, frimble, say, sayto, shout, remote, tell.
+.EP
+

@@ -1,0 +1,39 @@
+.DT
+sar
+Discworld creator help
+sar
+
+.SH Name
+.SI 5
+sar - Search and replace.
+.EI
+
+.SH Syntax
+.SI 5
+sar <string> <string> [file(s)]
+sar !<search string>! !<replace string>! <files>
+.EI
+
+.SH Description
+.SP 5 5
+Sar is used to search and replace every occurence of <search string> with 
+<replace string>, in <files>.  The first usage requires for there to be no
+spaces in either of the strings.  The second usage allows for spaces.  The !
+can be replaced by any other character, as long as it does not occur in either
+string (if ! is in either string, another character would have to be
+used).  You can have carriage returns in either of the strings (handy for
+inserting whole new lines) by representing them by ^M (that's caret M,
+not control M).  The files can be specified using wildcards.
+.EP
+
+.SH Examples
+.SI 5
+> sar MYPATH ROOM /w/bill/*
+> sar ^Pinkfish likes Wombles^ ^Bill likes Aardvarks^ /global/pla*
+> sar #set_zone( "Fog" );# #set_zone( "Fog" );^Mset_zone( "alley" )# *.c
+.EI
+
+.SH See also
+.SP 5 5
+ed, le, more, grep, cat
+.EP

@@ -3,34 +3,49 @@ advance
 Discworld player help
 advance
 
-Name
+.SH Name
 .SI 5
 advance - Skill advancement
 .EI
 
-Syntax
+.SH Syntax
 .SI 5
-%^BOLD%^advance%^BOLD%^ <skill> [by <num>] [to <num>]
+advance <skill> [by <num>] [to <num>]
 .EI
 
-Description
+.SH Description
 .SP 5 5
-This is the command used to advance your skills.  This is how you increase
-your ability at certain skills.  Horriblely useful command and I am not sure
-how to write this.  Well, we shall see how it turns out.  Please direct
-all critism to whoever happens to be on at the time.  You can advance your
-skills by a certain number of levels or to a certain level (assumeing
-you have the xp of course).  If you do not specify which level you are
-adavanceing to or a number to advance by, it assumes you are advanceing by
-1 level.  To specify advanceing different skills down the heiracy you
-seperate the things by .'s.  So fighting.points or fighting.melee.combat.sharp.
-You can also go for the best match.  So f.p will work too.  Hope this doesn't
-confuse you too much.  You can advance in any guild up to 5th level in
-all skills.  At this point (or before) you must make a descision about
-which guild to join.
+This is the command used to advance your skills.  This command will only
+work in certain rooms in your guild, these rooms should be obvious.  In
+these rooms the command 'cost' can be used to show you how much
+advancing certain skills will be.  You can also learn skills off other
+players, they can teach you skills without costing you money (learning
+skills in a guild will cost money and experience).
+
+This command is used to increase your ability at certain skills using
+experience you have gained through adventuring.  Another method of
+advancing your skills is the Task Master system, which will automatically
+advance your skills as you use them.
+
+You can advance your skills by a
+certain number of levels or to a certain level (assuming you have enough
+experience points of course).  If you do not specify which level you are advancing
+to or a number to advance by, it assumes you are advancing by 1
+level.
+
+Skills are represented in a tree, the top levels being things like
+'fighting', 'covert'...  Under these skills are sub skills, like
+'fighting.combat', the sub skill is separated from its parent by a
+'.'.  So 'fighting.combat.melee.sharp' is the sharp skill in the
+melee subtree in the combat subtree of the fighting base tree.  See
+the 'skills' command and the output of that for more information on
+skills and sub skills.
+
+You can specify a skill based on best match, so you only partly specify
+the skill name, Eg: f.p will expand to fighting.points.
 .EP
 
-Examples
+.SH Examples
 .SI 5
 > advance fighting
 You advance your skill in fighting from 0 to 1.
@@ -44,7 +59,7 @@ You advance your skill in fighting.points from 6 to 7.
 You advance your skill in fighting.points from 7 to 8.
 .EI
 
-See also
+.SH See also
 .SI 5
-skills, cost.
+advancing, skills, cost, teach, learn
 .EI

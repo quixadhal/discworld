@@ -1,276 +1,408 @@
-#include "config.h"
+#include "spec.h"
+
+#include "op_spec.c"
 /*
  * This file specifies types and arguments for efuns.
  * An argument can have two different types with the syntax 'type1 | type2'.
  * An argument is marked as optional if it also takes the type 'void'.
  *
- * Look at the end for the list of functions that are optionally available.
- * If you don't want them, simply comment out them. All other functions must
- * remain defined.
+ * Comment out the efuns that you do not want.  Be careful not to comment
+ * out something that you need.
+ *
+ * The order in which the efuns are listed here is the order in which opcode
+ * #'s will be assigned.  It is in your interest to move the least frequently
+ * used efuns to the bottom of this file (and the most frequently used
+ * ones to the top).  The opcprof() efun could help you find out which
+ * efuns are most often and least often used.  The reason for ordering
+ * the efuns is that only the first 255 efuns are represented using
+ * a single byte.  Any additional efuns require two bytes.
  */
 
-/*
-   put all the #ifdef'd efuns at the bottom because the preprocessor
-   on HPUX machines seems to have problems.
-*/
-string *regexp(string *, string);
-void add_action(string, void|string, void|int);
-#ifdef OLD_ADD_ACTION
-void add_verb(string);
-void add_xverb(string);
+#ifdef NO_BUFFER_TYPE
+#define OR_BUFFER
+#else
+#define OR_BUFFER | buffer
 #endif
-void add_worth(int, void|object);
-object *all_inventory(object default: F_THIS_OBJECT);
-mixed *allocate(int);
-void break_point();
-unknown call_other(object|string|object *, string, ...);
-void call_out(string, int, ...);
-mixed *call_out_info();
+
+/* These next few efuns are used internally; do not remove them.
+ * The leading _ is used to keep track of which efuns should exist,
+ * but not be added to the identifier lookup table.
+ * These names MUST exist, and may either be real efuns, or aliases
+ * for another efun.  For example, one could remove clone_object
+ * above, and change the internal one to:
+ *
+ * object _new(string, ...);
+ */
+/* used by X->f() */
+unknown _call_other(object | string | object *, string | mixed *,...);
+/* used by (*f)(...) */
+mixed _evaluate(mixed, ...);
+/* default argument for some efuns */
+object _this_object();
+/* used for implicit float/int conversions */
+int _to_int(string | float | int OR_BUFFER);
+float _to_float(string | float | int);
+/* used by new() */
+object _new(string, ...);
+
+unknown call_other _call_other(object | string | object *, string | mixed *,...);
+mixed evaluate _evaluate(mixed, ...);
+#ifdef COMPAT_32
+mixed funcall _evaluate(mixed, ...);
+#endif
+object this_object _this_object();
+int to_int _to_int(string | float | int OR_BUFFER);
+float to_float _to_float(string | float | int);
+object clone_object _new(string, ...);
+
+function bind(function, object);
+object this_player(int default: 0);
+object this_interactive this_player( int default: 1);
+object this_user this_player( int default: 0);
+mixed previous_object(int default: 0);
+object *all_previous_objects previous_object(int default: -1);
+mixed *call_stack(int default: 0);
+int sizeof(mixed);
+int strlen sizeof(string);
+#ifdef USE_ICONV
+int strwidth(string);
+#else
+int strwidth sizeof(string);
+#endif
+void destruct(object default: F__THIS_OBJECT);
+string file_name(object default: F__THIS_OBJECT);
 string capitalize(string);
-int cat(string, void|int, void|int);
-string clear_bit(string, int);
-object clone_object(string);
-int clonep(mixed);
+string *explode(string, string);
+mixed implode(mixed *, string | function, void | mixed);
+#ifdef CALLOUT_HANDLES
+int call_out(string | function, int,...);
+#else
+void call_out(string | function, int,...);
+#endif
+int member_array(mixed, string | mixed *, void | int, void | int);
+int input_to(string | function,...);
+int random(int);
+
+#ifndef NO_ENVIRONMENT
+object environment(void | object);
+object *all_inventory(object default: F__THIS_OBJECT);
+object *deep_inventory(object default: F__THIS_OBJECT);
+object first_inventory(object|string default: F__THIS_OBJECT);
+object next_inventory(object default: F__THIS_OBJECT);
+void say(string, void | object | object *);
+void tell_room(object | string, string | object | int | float, void | object | object *);
+object present(object | string, void | object);
+void move_object(object | string);
+#endif
+
+#ifndef NO_ADD_ACTION
+void add_action(string | function, string | string *, void | int);
+string query_verb();
 int command(string);
-string crypt(string, string|int);	/* An int as second argument ? */
-string ctime(int);
-mixed debug_info(int, mixed|void, ...);
-object *deep_inventory(object);
-int destruct(object);
+int remove_action(string, string);
+int living(object default: F__THIS_OBJECT);
+mixed *commands();
 void disable_commands();
 void enable_commands();
-object environment(void|object);
-int exec(object, object);
-string *explode(string, string);
-string extract(string, void|int, void|int);
-string file_name(object default: F_THIS_OBJECT);
-int file_size(string);
-mixed filter_array(mapping|mixed *, string, object|string, void|mixed);
-int find_call_out(string);
-object find_living(string);
-mixed *localtime(int);
-object find_object(string);
-object find_player(string);
-string function_exists(string, object default: F_THIS_OBJECT);
-string implode(string *, string);
-mixed *keys(mapping);
-mixed *values(mapping);
-#ifdef EACH
-mixed *each(mapping);
-#endif
-void input_to(string, ...);
-int interactive(object default: F_THIS_OBJECT);
-int intp(mixed);
-int living(object);
-void log_file(string, string);
-string lower_case(string);
-string *get_dir(string, int default: F_CONST0);
-mixed *map_array(mixed *, string, object|string, void|mixed);
-int member_array(mixed, mixed *, int|void);
-int mkdir(string);
-void move_object(object|string, void|object|string);
-void notify_fail(string);
-int objectp(mixed);
-int pointerp(mixed);
-object present(object|string, void|object);
-object previous_object();
-string process_string(string);
-string query_host_name();
-int query_idle(object);
-string query_ip_name(void|object);
-string query_ip_number(void|object);
-string query_load_average();
-object query_snoop(object);
-string query_verb();
-int random(int);
-string read_bytes(string, void|int, void|int);
-string read_file(string, void|int, void|int);
-int remove_call_out(string);
-string replace_string(string, string, string);
-int restore_object(string);
-int rm(string);
-void rmdir(string);
-void save_object(string);
-#ifdef ALLOW_SAYS_SHOUTS
-/* Everything bar tell_object is obsolete. */
-void say(string, void|object|object *);
-void shout(string);
-void tell_room(object|string, string|object|int, void|object *);
-void write(mixed);
-#endif
-string set_bit(string, int);
-int set_heart_beat(int);
-void set_hide(int);
-int set_light(int);
 void set_living_name(string);
-#ifndef NO_SHADOWS 
-object shadow(object, int);
-#endif
-void shutdown(void|int);
-int sizeof(int|mapping|mixed *);
-object snoop(void|object, void|object);
-mixed *sort_array(mixed *,string,object|string default: F_THIS_OBJECT);
-int stringp(mixed);
-int strlen(string);
-void swap(object);		/* Only used for debugging */
-void tail(string);
-void tell_object(object, string);
-int test_bit(string, int);
-object this_object();
-object this_player(void|int);
-void throw(mixed);
-int time();
-int trace(int);
-string traceprefix(string|int);
-mixed *unique_array(mixed *, string, void|mixed);
-object *users();
-string version();
-int write_bytes(string, int, string);
-int write_file(string, string);
-void dump_file_descriptors(void);
-string *deep_inherit_list(object default: F_THIS_OBJECT);
-string *inherit_list(object default: F_THIS_OBJECT);
-
-#if defined(PRINTF)
-void printf(string, ...);
-string sprintf(string, ...);
-#endif
-
-void enable_wizard();
-object next_living(object);
-int mapp(mixed);
-mixed *stat(string, int default: F_CONST0);
-object new(string);
-#ifdef DISCWORLD
-int remove_action(string, object);
+object *livings();
+object find_living(string);
+object find_player(string);
+void notify_fail(string | function);
 #else
-int remove_action(string, string);
+void set_this_player(object | int);
+void set_this_user set_this_player(object | int);
 #endif
-mapping allocate_mapping(int);
-void map_delete(mapping,mixed);
+
+string lower_case(string);
+string replace_string(string, string, string,...);
+int restore_object(string, void | int);
+int save_object(string, void | int);
+string save_variable(mixed);
+mixed restore_variable(string);
+object *users();
+mixed *get_dir(string, int default: 0);
+int strsrch(string, string | int, int default: 0);
+#ifdef COMPAT_32
+int strstr strsrch(string, string | int, int default: 0);
+#endif
+
+/* communication functions */
+
+void write(mixed);
+void tell_object(object, string);
+void shout(string);
+void receive(string OR_BUFFER);
+void message(mixed, mixed, string | string * | object | object *,
+                  void | object | object *);
+
+/* the find_* functions */
+
+    object find_object(string, int default: 0);
+    object load_object find_object(string, int default: 1);
+#ifdef CALLOUT_HANDLES
+    int find_call_out(int|string);
+#else
+    int find_call_out(string);
+#endif
+
+/* mapping functions */
+
+    mapping allocate_mapping(int | mixed *, void | mixed);
+    mixed *values(mapping);
+    mixed *keys(mapping);
+#ifdef COMPAT_32
+    mapping map_delete(mapping, mixed);
+    mapping m_delete map_delete(mapping, mixed);
+    mixed *m_values values(mapping);
+    mixed *m_indices keys(mapping);
+#else
+    void map_delete(mapping, mixed);
+#endif
+
+    mixed match_path(mapping, string);
+
+/* all the *p() type functions */
+
+    int clonep(mixed default: F__THIS_OBJECT);
+    int intp(mixed);
+    int undefinedp(mixed);
+    int nullp undefinedp(mixed);
+    int floatp(mixed);
+    int stringp(mixed);
+    int virtualp(object default: F__THIS_OBJECT);
+    int functionp(mixed);
+#ifdef COMPAT_32
+    int closurep functionp(mixed);
+#endif
+    int pointerp(mixed);
+    int arrayp pointerp(mixed);
+    int objectp(mixed);
+    int classp(mixed);
+    string typeof(mixed);
+
+#ifndef NO_BUFFER_TYPE
+    int bufferp(mixed);
+    buffer allocate_buffer(int);
+#endif
+
+    int inherits(string, object default: F__THIS_OBJECT);
+    void replace_program(string);
+
+    mixed regexp(string | string *, string, void | int);
+    mixed *reg_assoc(string, string *, mixed *, mixed | void);
+    mixed *allocate(int, void | mixed);
+    mixed *call_out_info();
+
+/* 32-bit cyclic redundancy code - see crc32.c and crctab.h */
+    int crc32(string OR_BUFFER);
+
+/* commands operating on files */
+
+#ifndef NO_BUFFER_TYPE
+    mixed read_buffer(string | buffer, void | int, void | int);
+    int write_buffer(string | buffer, int, string | buffer | int);
+#endif
+    int write_file(string, string, void | int);
+    int rename(string, string);
+    int write_bytes(string, int, string);
+
+    int file_size(string);
+    string read_bytes(string, void | int, void | int);
+    string read_file(string, void | int, void | int);
+    int cp(string, string);
+
+#ifndef LATTICE
+    int link(string, string);
+#endif
+    int mkdir(string);
+    int rm(string);
+    int rmdir(string);
+
+/* the bit string functions */
+
+    string clear_bit(string, int);
+    int test_bit(string, int);
+    string set_bit(string, int);
+    int next_bit(string, int);
+
+    string crypt(string, string | int);
+    string oldcrypt(string, string | int);
+   
+    string ctime(int|void);
+    int exec(object, object);
+    mixed *localtime(int);
+    string function_exists(string, void | object, void | int);
+
+    object *objects(void | string | function);
+    string query_host_name();
+    int query_idle(object);
+    string query_ip_name(void | object);
+    string query_ip_number(void | object);
+#ifndef NO_SNOOP
+    object snoop(object, void | object);
+    object query_snoop(object);
+    object query_snooping(object);
+#endif
+#ifdef CALLOUT_HANDLES
+    int remove_call_out(int | void | string);
+#else
+    int remove_call_out(void | string);
+#endif
+    void set_heart_beat(int);
+    int query_heart_beat(object default:F__THIS_OBJECT);
+    void set_hide(int);
+
+#ifndef NO_RESETS
+    void set_reset(object, void | int);
+#endif
+
+#ifndef NO_SHADOWS
+    object shadow(object, int default: 1);
+    object query_shadowing(object);
+#endif
+    mixed *sort_array(mixed *, int | string | function, ...);
+    void throw(mixed);
+    int time();
+    mixed *unique_array(mixed *, string | function, void | mixed);
+    mapping unique_mapping(mixed *, string | function, ...);
+    string *deep_inherit_list(object default:F__THIS_OBJECT);
+    string *shallow_inherit_list(object default:F__THIS_OBJECT);
+#ifdef COMPAT_32
+    string *inherit_list deep_inherit_list(object default:F__THIS_OBJECT);
+#else
+    string *inherit_list shallow_inherit_list(object default:F__THIS_OBJECT);
+#endif
+    void printf(string,...);
+    string sprintf(string,...);
+    int mapp(mixed);
+    mixed *stat(string, int default: 0);
 
 /*
  * Object properties
  */
-int userp(object);
-int wizardp(object);
-int in_edit(object default : F_THIS_OBJECT);
-int in_input(object default : F_THIS_OBJECT);
-#ifdef OLD_ADD_ACTION
-mixed *commands();
+    int interactive(object default:F__THIS_OBJECT);
+    int has_mxp(object default:F__THIS_OBJECT);
+    string in_edit(object default:F__THIS_OBJECT);
+    int in_input(object default:F__THIS_OBJECT);
+    int userp(object);
+#ifdef COMPAT_32
+    int query_once_interactive userp(object);
 #endif
 
-/*
- * Globally scoped functions
- */
-object master();
-
-
-/*
- * mudlib statistics
- */
-mapping domain_stats(void|string);
-void set_author(string);
-mapping author_stats(void|string);
-
-int rename(string, string);
-int export_uid(object);
-string geteuid(object default: F_THIS_OBJECT);
-string getuid(object default: F_THIS_OBJECT);
-int seteuid(string|int);
-
-object first_inventory(object|string default: F_THIS_OBJECT);
-object next_inventory(object default: F_THIS_OBJECT);
-
-/*
- * New functions for MudOS
- */
-int cp(string, string);
-int link(string, string);
-void get_char(string, void|int);
-string mud_name();
-object *children(string);
-/* LEaving thes two in cause I want to rn the basis mudlib */
-void message(string, string, string|string *|object|object *,
-             void|object|object *);
-int receive(string);
-#ifndef ALLOW_SAYS_SHOUTS
-#endif
-int undefinedp(mixed);
-int nullp(mixed);
-
-/*
- * socket efuns
- */
-int socket_create(int, string, string|void);
-int socket_bind(int, int);
-int socket_listen(int, string);
-int socket_accept(int, string, string);
-int socket_connect(int, string, string, string);
-int socket_write(int, mixed, string|void);
-int socket_close(int);
-int socket_release(int, object, string);
-int socket_acquire(int, string, string, string);
-string socket_error(int);
-string socket_address(int);
-void dump_socket_status(void);
-
-/*
- * parser 'magic' functions, turned into efuns
- */
-
-void malloc_status();
-void dumpallobj(string|void);
-void mud_status(int default : F_CONST0);
-
-int uptime();
-
-int strcmp(string, string);
-
-#if (defined(RUSAGE) || defined(TIMES))
-mapping rusage();
-#endif /* RUSAGE */
-
-#ifdef ED
-void ed(string|void, string|void, int|void);
+#ifndef NO_WIZARDS
+    void enable_wizard();
+    void disable_wizard();
+    int wizardp(object);
 #endif
 
-#if (defined(DEBUGMALLOC) && defined(DEBUGMALLOC_EXTENSIONS))
-void debugmalloc(string,int);
-void set_malloc_mask(int);
+    object master();
+
+/*
+ * various mudlib statistics
+ */
+    int memory_info(object | void);
+    mixed get_config(int);
+
+#ifdef PRIVS
+/* privledge functions */
+    string query_privs(object default:F__THIS_OBJECT);
+    void set_privs(object, int | string);
+#endif                          /* PRIVS */
+
+    int get_char(string | function,...);
+    object *children(string);
+
+    void reload_object(object);
+
+    void error(string);
+#ifdef COMPAT_32
+    void raise_error error(string);
+#endif
+    int uptime();
+    int strcmp(string, string);
+
+#ifndef WIN32
+#if (defined(RUSAGE) || defined(GET_PROCESS_STATS) || defined(TIMES)) || defined(LATTICE)
+    mapping rusage();
+#endif                          /* RUSAGE */
 #endif
 
-#ifdef DEBUG_MACRO
-void set_debug_level(int);
-#endif
+    void flush_messages(void | object);
 
-#ifdef OPCPROF
-void opcprof(string|void);
+#ifdef OLD_ED
+    void ed(string | void, string | void, string | int | void, int | void);
+#else
+    string ed_start(string | void, int | void);
+    string ed_cmd(string);
+    int query_ed_mode();
 #endif
 
 #ifdef CACHE_STATS
-void cache_stats();
+    string cache_stats();
 #endif
 
+    mixed filter(string | mixed * | mapping, string | function, ...);
+    mixed filter_array filter(mixed *, string | function, ...);
+    mapping filter_mapping filter(mapping, string | function, ...);
+
+    mixed map(string | mapping | mixed *, string | function, ...);
+    mapping map_mapping map(mapping, string | function, ...);
+    mixed *map_array map(mixed *, string | function, ...);
 /*
- * MIRE efuns
+ * parser 'magic' functions, turned into efuns
  */
+    string malloc_status();
+    string mud_status(int default: 0);
+    void dumpallobj(string | void);
 
-#ifdef MIRE
-int *editor_list (string, int);
-int remove_editor_list (string);
-string *fetch_article (int);
-void doppel_mod (string, string, int);
-mixed *find_keywords (string);
-void init_mire();
+    string dump_file_descriptors();
+    string query_load_average();
+
+#ifndef NO_LIGHT
+/* set_light should die a dark death */
+    int set_light(int);
 #endif
 
-/*
- * Discworld efuns.
- */
-#ifdef DISCWORLD
-void event(object|object *, string, ...);
-int file_length(string);
-string pluralize(string);
-mixed *actions_defined(object|void|int, object|void|int, int|void);
+    string origin();
+
+/* the infrequently used functions */
+
+    int reclaim_objects();
+
+    int set_eval_limit(int);
+    int reset_eval_cost set_eval_limit(int default: 0);
+    int eval_cost set_eval_limit(int default: -1);
+    int max_eval_cost set_eval_limit(int default: 1);
+#ifdef COMPAT_32
+    int get_eval_cost set_eval_limit(int default: -1);
 #endif
+
+#ifdef DEBUG_MACRO
+    void set_debug_level(int|string);
+    mapping debug_levels();
+    void clear_debug_level(string);
+#endif
+
+#if defined(OPCPROF) || defined(OPCPROF_2D)
+    void opcprof(string | void);
+#endif
+
+#ifdef PROFILE_FUNCTIONS
+    mapping *function_profile(object default:F__THIS_OBJECT);
+#endif
+
+    int resolve(string, string|function);
+#ifdef USE_ICONV
+    int set_encoding(string);
+    string to_utf8(string, string);
+    string utf8_to(string, string);
+    int *str_to_arr(string);
+    string arr_to_str(int *);
+#endif
+    void act_mxp();
+    void request_term_type();
+    void start_request_term_type();
+    void request_term_size();
+/* shutdown is at the end because it is only called once per boot cycle :) */
+    void shutdown(void | int);

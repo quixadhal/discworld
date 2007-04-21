@@ -1,0 +1,68 @@
+.DT
+talker
+Discworld player help
+talker
+
+Description
+.SP 5 5 
+The talker is a wonderfull small stick that lets you communicate with
+people all over the disc.  You can chat messages into the talker and
+everyone on the channel you are talking on will hear it.  
+.EP
+
+.SP 5 5 
+You can buy or exchange a voucher for a talker on Cockbill street near the 
+docks, or from the magic shop on Filigree Street near the Drum.
+.EP
+
+.SP 5 5
+For the following commands don't type chat in front. If you type 
+"chat talker list" you probably won't get what you wanted, everyone else
+will hear you chat "talker list" and people will grin at you a lot.
+.EP
+
+.SO 5 25 45
+	talker help	Gives a shorter and less detailed help file.
+
+	talker on	Turns your talker on so you can hear and send messages.  Also lets you then change channels.
+
+	talker off	Turns your talker off so you don't get any messages.  Useful if you want some peace and quiet.
+
+	talker brief/verbose	These change how you see the talker messages from others.  Brief makes the messages short and verbose makes them longer but the basic message stays the same in either form.
+
+	talker channels	Shows you what channels you can be on and what channels you are currently on.  What channels are available to you depends on who you are and what you have done.  Channel "one" is available to everyone and is 
+		generally the most popular but there are other channels for guilds, religons, organisations and other things.
+
+	talker (channel)	This lets you listen to and chat on (channel name).  You must type the channel name as it's shown on "talker channels", e.g.  "talker wizards".
+
+	talker delete (channel)	Takes you off (channel). You have to use the channel name as it's shown on talker channels here too.  
+		e.g. "talker delete priests" or "talker delete one".
+
+	talker list	Shows who has a talker and what channels they are on.  Anyone shown as (asleep) has their talker off.
+
+	talker history (channel)	Shows you the last few chats on a channel.  Once again you must type the channel name with capitals if "talker channels" has it that way.
+
+	talker echo on/off	Turn the local echo on or off.  If it's "on" you can see your own chats.
+
+	talker colour on	Turns colour support on for your talker.
+	talker colour off	Turns colour support off for your talker.
+	talker colour reset	Resets talker colours to their default settings.
+	talker colour (channel) (colour)	Sets a channel to a specific colour. You need to have set your terminal to support colour for this to work though. See "help term". The colour parameter specifies what colour the channel will be. Valid colours are magenta, red, yellow, green, blue, cyan and white.  You can also use bold to make the colour bold. The channel name "default" is used to set the colour for any other channels you have.
+.EO
+
+.SP 5 5
+These commands are for sending messages and don't have talker in front:
+.EP
+
+.SO 5 25 45
+	(channel) (message)	Type the channel name in *lower case* to send a message to everyone on that channel.  You need to be on a channel before you can talk on it. 
+		e.g. Froggy types "two I am a blue frog!" Everyone else will see - 
+		(Two) Froggy's wispy voice comes from the small stick saying : I am a blue frog!
+
+
+ 	chat (message)	Will send (message) to channel one if you are on it.  
+
+ 	(channel) :(emote)	Will send (emote) to the channel. 
+		e.g. Froggy types "two :is a blue frog!" Everyone else will see - 
+		(Two) Froggy wisps that he is a blue frog!
+.EO

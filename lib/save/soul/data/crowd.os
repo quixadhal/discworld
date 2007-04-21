@@ -1,0 +1,1 @@
+({({"<indirect:any-living> [into] <string>","<string> <indirect:any-living>","<indirect:any-living>","<string>",}),({0,({"The crowd goes $arg$.","The crowd goes $arg$.",0,({"wild","#",}),}),}),({0,({"You crowd $hcname$ into $arg$.","$mcname$ crowds $hcname$ into $arg$.","$mcname$ crowds you into $arg$.",({"a corner","#",}),0,0,}),}),})

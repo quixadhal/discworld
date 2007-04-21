@@ -1,3 +1,26 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: print_object.c,v 1.1 1998/01/06 03:59:10 ceres Exp $
+ * $Log: print_object.c,v $
+ * Revision 1.1  1998/01/06 03:59:10  ceres
+ * Initial revision
+ * 
+*/
+/**
+ * This class prints out an object in a useful format.
+ * Mostly used for debugging.  The resuls of this can mostly be
+ * acheived using <code>sprintf("%O", ob)</code>.
+ */
+
+/**
+ * This method returns the value of the variable in 
+ * useful format.  This can mostly be emulated with the
+ * use of <code>sprintf("%O", ob)</code>.
+ * @param ob the variable to print out info for
+ * @param off the current depth offset
+ * @return a nice string
+ */
 varargs string print_object(mixed ob, int off) {
   int i;
 
@@ -32,4 +55,4 @@ varargs string print_object(mixed ob, int off) {
     return "pointer";
   }
   return "oh dear";
-}
+} /* print_object() */

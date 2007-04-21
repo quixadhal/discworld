@@ -1,0 +1,311 @@
+::Quote::
+class item_data {
+    string skill;
+    int    difficulty;
+    string *season;
+    mixed  quant;
+    string ob;
+}
+
+::Data:: mapping of class item_data
+
+::item "floppy madman"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(3) + 3 :)
+::->ob:: "/obj/plants/floppy_madman.ob"
+
+::item "pink clover"::
+::->skill:: ""
+::->difficulty:: 0
+::->season:: ({ "spring", "summer" })
+::->quant:: (: random(4) + 5 :)
+::->ob:: "/obj/plants/pink_clover.ob"
+
+::item "white clover"::
+::->season:: ({ "spring" })
+::->quant:: (: random(2) + 3 :)
+::->ob:: "/std/plant"
+
+::item "green grass"::
+::->season:: ({ "spring", "summer", "autumn" })
+::->quant:: (: random(6) + 20 :)
+::->ob:: "/obj/plants/grass.ob"
+
+::item "yarrow"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(3) + 3 :)
+::->ob:: "/obj/plants/yarrow.ob"
+
+::item "comfrey"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(3) + 3 :)
+::->ob:: "/obj/plants/comfrey.ob"
+
+::item "sage"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(3) + 3 :)
+::->ob:: "/obj/plants/sage.ob"
+
+::item "parsley"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(3) + 3 :)
+::->ob:: "/obj/plants/parsley.ob"
+
+::item "basil"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(3) + 3 :)
+::->ob:: "/obj/plants/basil.ob"
+
+::item "rosemary"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(3) + 3 :)
+::->ob:: "/obj/plants/rosemary.ob"
+
+::item "eyebright"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(3) + 3 :)
+::->ob:: "/obj/plants/eyebright.ob"
+
+::item "fennel seeds"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: 15 + random( 15 ) :)
+::->ob:: "/obj/plants/fennel_seed.ob"
+
+::item "oregano"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: 15 + random( 15 ) :)
+::->ob:: "/obj/plants/oregano.ob"
+
+::item "ivy seeds"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(4) + 2 :)
+::->ob:: "/obj/plants/ivy_seed.ob"
+
+::item "thyme"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/plants/thyme.ob"
+
+::item "foxglove"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/plants/foxglove.ob"
+
+::item "violets"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/violet.ob"
+
+::item "stinking mayweed"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(3) + 3 :)
+::->ob:: "/obj/plants/stinking_mayweed.ob"
+
+::item "Klatchian fleabane"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(3) + 3 :)
+::->ob:: "/obj/plants/klatchian_fleabane.ob"
+
+::item "wild garlic"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/plants/wild_garlic.ob"
+
+::item "convolvus"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/plants/convolvus.ob"
+
+::item "Golden Disagreeable apple"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(1)+3 :)
+::->ob:: "/obj/food/fruits/golden_disagreeable.food"
+
+::item "Lancre Blackheart apple"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(1)+2 :)
+::->ob:: "/obj/food/fruits/blackheart_apple.food"
+
+::item "Green Billet apple"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/fruits/green_billet.food"
+
+::item "Blackglass Peachface apple"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(1)+1 :)
+::->ob:: "/obj/food/fruits/peachface_apple.food"
+
+::item "Gammer Smith apple"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(1)+1 :)
+::->ob:: "/obj/food/fruits/gammer_smith.food"
+
+::item "Gytha Ogg apple"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(1)+2 :)
+::->ob:: "/obj/food/fruits/ogg_apple.food"
+
+::item "cabbage"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/vegetables/cabbage.food"
+
+::item "potato"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/vegetables/dirty_potato.food"
+
+::item "tomato"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/vegetables/tomato.food"
+
+::item "small radish"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/vegetables/small_radish.food"
+
+::item "celery"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/vegetables/celery.food"
+
+::item "carrot"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/vegetables/carrot.food"
+
+::item "small onion"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/vegetables/small_onion.food"
+
+::item "lettuce"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/vegetables/lettuce.food"
+
+::item "rhubarb"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/vegetables/rhubarb.food"
+
+::item "parsnip"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/vegetables/parsnip.food"
+
+::item "foxglove"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 100
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/foxglove.ob"
+
+::item "bryony"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 100
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/bryony.ob"
+
+::item "wormwood"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 100
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/wormwood.ob"
+
+::item "monkshood"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 100
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/monkshood.ob"
+
+::item "hemlock"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 100
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/hemlock.ob"
+
+::item "belladonna"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 100
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/belladonna.ob"
+
+::item "hellebore"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 100
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/hellebore.ob"
+
+::item "cereus"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 100
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/cereus.ob"
+
+::item "clematis"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 100
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/clematis.ob"
+
+::item "skullcap"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 100
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/skullcap.ob"
+
+::item "angel's trumpet"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 100
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/angels_trumpet.ob"
+
+::item "achorion mould"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 120
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/achorion.ob"
+
+::item "tyler weed"::
+::->skill:: "crafts.hunting.foraging"
+::->difficulty:: 100
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/tyler_weed.ob"
+
+::item "wheat"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random(3) + 3 :)
+::->ob:: "/obj/plants/wheat.ob"
+
+::item "garlic"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/spices/m_garlic.food"
+
+::item "delphinium"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: (: random( 3 ) + 3 :)
+::->ob:: "/obj/plants/delphinium.ob"
+
+# Just for fun
+
+::item "jelly orange"::
+::->season:: ({ "spring", "summer", "autumn", "winter" })
+::->quant:: 1
+::->ob:: "/obj/food/fruits/jelly_orange.food"
+

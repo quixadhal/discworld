@@ -3,37 +3,52 @@ say
 Discworld player help
 say
 
-Name
-.SI 5
-say - Say something to people in the room.
-.EI
-
-Syntax
-.SI 5
-say <text>
-'<text>
-.EI
-
-Description
+.SH Name
 .SP 5 5
-Say takes the text that is provided and gives it to all people in the same room
-as you in the following format.  If you are Furball, and typed 'say hello', all
-people in the room would recieve.
+say - Say something to people in the room.
+.EP
+
+.SH Syntax
+.SI 5
+say [#lang] [@adverb] <text>
+'[#lang] [@adverb] <text>
+say [#'lang'] [@adverb] <text>
+'[#'lang'] [@adverb] <text>
+.EI
+
+.SH Description
+.SP 5 5
+Say sends the message to all of the people in the room.  If you were in a
+room and Furball had said 'hello' then you would see:
 
 Furball says: hello
 
 This is the main method of communicating on the mud.
+
+The # and @ can be used to use a specific language and an adverb to the
+message.  You can use partial matching for a language, so for example
+#dj will make you speak in djelian.  You may also put the language name
+in quotes after the # to speak in languages which have spaces in them.
+
+There is an option to do with accents that allows you to see the text
+mangled, or a short string saying what the accent is.  Use the option
+output accent to set the behaviour.
 .EP
 
-Examples
+.SH Examples
 .SI 5
 > say hello
 > 'hello
 > say I am pleased to meet you.
 > 'I am pleased to meet you.
+> say @happily I found my frog!
+> say #djelian @happily This is in djelian.
+> say #'djelian' @happily This is in djelian.
+> say #dj @happily This is in djelian.
+> options output accent=mangle
 .EI
 
-See also
-.SI 5
-emote, lsay, shout, tell, whisper.
-.EI
+.SH See also
+.SP 5 5
+frimble, languages, lsay, sayto, shout, tell, whisper.
+.EP

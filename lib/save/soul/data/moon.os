@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),0,({({"You drop your pants and moon $hcname$.","$mcname$ drop$s$ $mposs$ pants and moons $hcname$.","$mcname$ drop$s$ $mposs$ pants and moons you.",0,0,0,}),0,}),})

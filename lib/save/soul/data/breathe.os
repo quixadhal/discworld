@@ -1,0 +1,1 @@
+({({"<string>",}),({0,({"You breathe $arg$.","$mcname$ breathe$s$ $arg$.",0,({"quickly","seductively","painfully","nastily","slowly","once","heavily","carefully","heatedly","deeply","#",}),}),}),0,})

@@ -1,0 +1,68 @@
+.DT
+pawn shop
+Discworld room help
+pawn shop
+
+.SH Name
+.SI 5
+pawn shop - buys items but gives you a chance to reclaim them for a price.
+.EI
+
+.SH Syntax
+.SI 5
+pawn <object>
+reclaim <receipt>
+
+buy <object>
+list <object>
+list [all]
+browse <object>
+.EI
+
+.SH Description
+.SP 5 5
+This is a room help file.
+
+Pawn shops will buy items from you, usually only ones over a certain
+reasonably high price.  However, the difference between a pawn shop
+and a general store is that the pawn shop will give you a chance to
+get your item back.  They're useful if you need money fast in the
+short term.
+
+You use the pawn command to pawn your item to the shop.  Your item
+will be exchanged for its value, and a Pawned Item Receipt.  This
+receipt is very important - don't lose it, as it's the only thing
+that can get you your item back!
+
+The shop will give you a time limit, by which time your item must
+be reclaimed.  If you do not collect it by that time, your receipt
+will expire and become useless, and the shop will sell your precious
+item to recoup its costs.
+
+Use the reclaim command to get your item back.  You will need to be
+in the pawn shop that you pawned the item at, and have the receipt
+and appropriate currency to the value of the item in your inventory.
+The shop will also charge a percentage to return your item; this is
+usually 20% of the value of the item on top of the amount loaned, but
+will generally be on display somewhere in the shop.
+
+Expired items appear in the shop's inventory.  It works just like a
+general store, and you can list, browse and buy objects.  The only
+thing you can't do is sell objects; pawn shops only accept objects
+for pawn.  They don't buy them.
+.EP
+
+.SH Example
+.SI 5
+> pawn silver necklace
+> reclaim receipt
+> buy silver necklace
+> browse silver necklace
+> list
+> list all
+.EI
+
+.SH See also
+.SP 5 5
+shop, item_shop
+.EP

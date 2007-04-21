@@ -1,0 +1,148 @@
+.DT
+Data Initializer
+Discworld Creator Help
+Data Initializer
+
+Name
+.SP 5 5
+data - Universal data initialization handler
+.EP
+
+Description
+.SP 5 5
+The data initializer can be used to initialize databases for use in other
+handlers.  The database is defined in a user-provided text file, with
+a format similar to the virtual object compiler.  The input file is
+converted to a temporary object, which allows fairly complicated
+expressions to be used as data values.  The initializer can handle
+arrays and mappings (nested to any level (theoretically)), with a base
+element of any type, including mixed and classes.
+.EP
+
+Usage
+.SP 5 5
+To initialize a variable, assign it the value returned by
+compile_data() in the initializer.  compile_data() takes an array of
+filenames as its only argument.  For example,
+.EP
+
+.SI 10
+mixed data;
+data = "/obj/handlers/data"->compile_data(({ "/save/file1.dat",
+     "/save/file2.dat" }));
+.EI
+
+.SP 5 5
+This will catenate the two files into one, translate it, and return
+the data.  Of course, someone has to create the data files also.
+.EP
+
+File format
+.SP 5 5
+The data file uses the following keywords.  Each keyword is followed
+by the required data.  The data can be spread over multiple lines,
+following the same rules as for LPC code, but the keywords must be at
+the beginning of the line (preceded by optional whitespace).
+.EP
+
+.SI 5
+::data:: < array | mapping > [ of ] ... < base >
+.EI
+.SP 10 5
+This keyword defines the structure of the data.  The word "of" is
+optional.  "array" and "mapping" may be repeated as many times as
+desired.  "base" is the base type of the data.  For classes, it would
+be of the form "class <classname>".  For types other than classes,
+the base isn't really
+used at this time, but something needs to be there to keep the parser
+in line.  Some examples:
+.EP
+
+.SI 10
+::data:: array of mapping of array of int
+::data:: mapping of mapping of mixed
+::data:: mapping of array of class myclass
+.EI
+
+.SP 10 5
+There should only be one ::data:: keyword in the list of files passed
+to compile_data().  Also, note that classes need to be defined before
+this statement.  This can be done either with ::quote:: or
+::#include::.
+.EP
+
+.SI 5
+::item <index> [,] ... :: [ value ]
+.EI
+.SP 10 5
+This keyword defines the value for one item of the data.  <index> is
+repeated as often as necessary, given the structure declared in the
+::data:: statement.  For mappings, the index can be any valid mapping key.
+For arrays, the index can be either a number, or the strings i, i++,
+or ++i, for current index, current index (incrementing afterwards), or
+next index.  The value can (and probably should) be omitted for
+classes, with the field values specified with the "->" keyword below.
+Examples (corresponding to the three ::data:: examples above):
+.EP
+
+.SI 10
+::item 0, "item 1", 2:: 42
+::item "a", "b":: ({ 1, "fred", ({ 2, 3 }) })
+::item "x" i++::
+.EI
+
+.SI 5
+::-><field>:: <value>
+.EI
+.SP 10 5
+This allows the fields of items of type class to be assigned
+individually.  In general, the preceding ::item:: keyword should not
+have been given a value.  The class must have been defined previously,
+either with an ::#include:: directive, or with the ::quote:: keyword.
+Examples:
+.EP
+
+.SI 10
+::Quote::
+class item_data {
+    string *season;
+    mixed  quant;
+    string ob;
+}
+
+::Data:: mapping of class item_data
+
+:item "white clover"::
+::->season:: ({ "spring" })
+::->quant:: ({ 3, 4 })
+::->ob:: "/std/plant"
+.EI
+
+.SP 10 5
+These statements set the season, quant, and ob fields of the mapping
+element indexed by "white clover".
+.EP
+
+.SI 5
+::quote:: <LPC code>
+.EI
+.SP 10 5
+This keyword allows specific LPC statements to be inserted in the
+object that creates the database.  To use this effective requires a
+little understanding of the translation process.  First, all lines
+associated with a given keyword are folded into one line.  This means
+that using the "//" comment delimiter in a ::quote:: will cause the
+remainder of the quoted statements to be ignored.  Second, the
+prototype of the function that returns the data isn't written until
+the ::data:: keyword is encountered.  Therefore, any "global"
+statements (such as class definitions) should be included or quoted
+before the ::data:: line.  The easiest way to see what's going on is
+to try a few examples and look at the resulting .c file (which is the
+first data file name with ".c" stuck on the end).
+.EP
+
+Bugs
+.SP 5 5
+Probably many.  For starters, the error handling isn't very robust.  I
+haven't thoroughly checked all the features, either.
+.EP

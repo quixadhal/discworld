@@ -1,0 +1,56 @@
+.DT
+queue_command
+DW_wibble creator help
+queue_command
+
+.SH Name
+.SP 5 5
+queue_command -  This method allows you to control the npc and get it to do actions where they are queued as for players.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int queue_command(string words,
+                          int interval)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^words%^RESET%^ - the action to perform
+%^BOLD%^interval%^RESET%^ - to wait before processing another command.
+If omitted defaults to 2 seconds as per players
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method allows you to control the npc and get it to do
+actions where they are queued as for players.  If there are no
+commands pending the command is executed immediately.  This function
+is 100% compatible with delay_command() and init_command().
+.EP
+
+.SH Example 1
+.SI 5
+ob = clone_object(NICE_HAIRY_APE);
+ob->queue_command("'I am a hairy ape!");
+ob->queue_command("emote apes around the room.",5);
+ob->queue_command("get banana",10);
+ob->delay_command("emote get apple.",3);
+Right away it says "I am a hairy ape",
+2 seconds later it apes around the room,
+5 seconds after that it gets a banana
+and 13 seconds (10+3) after that it gets an apple.
+
+.EI
+
+.SH See also
+.SP 5 5
+delay_command(), query_queued_commands(), init_command(), do_command()
+.EP
+

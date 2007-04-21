@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: basic.c,v 1.1 1998/01/06 04:06:18 ceres Exp $
+ * $Log: basic.c,v $
+ * Revision 1.1  1998/01/06 04:06:18  ceres
+ * Initial revision
+ * 
+*/
 #include "potion_attrs.h"
 
 int x1, x2, y1, y2;
@@ -22,6 +31,7 @@ int *query_coordinate()
    return ({ (x1 + x2) / 2, (y1 + y2) / 2 });
 }
 
+#pragma no_warnings
 mixed *query_attrs(int *coord)
 /*
  * return attrs@coord.  attrs is an array with elements as defined in

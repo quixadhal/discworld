@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: upper_case.c,v 1.1 1998/01/06 04:02:57 ceres Exp $
+ * $Log: upper_case.c,v $
+ * Revision 1.1  1998/01/06 04:02:57  ceres
+ * Initial revision
+ * 
+*/
 #include "path.h"
 #define MY_NAME "UPPER CASE"
 
@@ -52,7 +61,7 @@ int destruct_curse(string str) {
     my_player->destruct_curse(str);
 } /* destruct_curse() */
 
-static string upper_case(string str) {
+protected string upper_case(string str) {
   string ret;
   int i;
 

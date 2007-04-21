@@ -1,0 +1,55 @@
+.DT
+new shop owner
+Discworld shop help
+new shop owner
+
+
+.SH Black listing people
+.SP 5 5
+You can deny people complete access to your shop if you, so they have no
+ability to either buy or sell items.  To do this you use the black list
+control in the shop.  Black listing is checked before everything else and
+overrides everything.
+
+To add someone to your black list go 'approve black list add <person>'
+and to remove someone from your black list go 'approve black list remove <person>'.
+You can also add all the people from your ignore list to the black list if
+you wish by going 'approve black list add ignore'.
+
+You can see the current people in your black list using the 'approve status'
+command.
+.EP
+
+.SH Examples
+.SI 5
+> approve black list add brighid
+You add brighid to the black list.
+> approve status
+People allowed to change the shop are lanfear.
+People denied access to the shop are brighid
+
+The current percentage to automatically add to the buy price is: 20%
+Automatically approve sales less than       : 50p.
+Automatically accept sales by               : none.
+Automatically accept sales to the categories:
+     Sex Aids             max value A$100
+     Healing Aids         max value A$3
+Automatically accept sales of               :
+     business card        max value A$3
+
+Limits on what can be sold.
+Maximum number of items allowed in the shop : 100.
+Maximum number of items allowed per player  : 20.
+Automatically queue sales more than         : A$100.
+Automatically deny sales more than          : disabled.
+Limits set per player.
+   Name            Max Sellable    Approve Limit        Deny limit (per item)
+   pinkfish        10              A$10                 A$10
+   brighid         25              A$5                  A$20
+
+Current money spent A$262.15 and money made A$118.49.
+> approve black list remove brighid
+You remove brighid from the black list.
+> appove black list add ignore
+You add brighid, lanfear and yukk to the black list.
+.EI

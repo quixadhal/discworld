@@ -1,0 +1,309 @@
+.DT 
+newbie_creator
+Discworld creator help 
+newbie_creator
+Name
+.SI 5
+newbie_creator - Commands and helpful hints for newbie creators.
+.EI
+Description
+.SP 5 5
+The new creator will be able to see the basic commands required for everyday useage, and refer to it whenever needed.
+.EP
+.SC
+***WELCOME***
+.EC
+.SP 5 5 
+Now you have joined the ranks of creators?  You probably are thinking ok..what am I allowed to do, not allowed to do, who do I talk to, and what should I do first, right?  I know I did. 
+.EP
+.SP 5 5
+YOUR FIRST QUESTION WILL BE: HOW do I get rid of this spam?  'earmuffs on', 'earmuff intercre', 'earmuff intergossip'. 
+.EP
+.SP 5 5
+You get these books that don't quite make sense yet, you get told to read the boards, and you get 'new creator documents' in your mail.  All these are helpful, and will eventually make sense, but its these  first few days that seem overwhelming and make you wonder if it will  all make sense. I'm going to try and cover the basic DOs and DON'Ts and help you get started, and to hopefully cover the who and why as well. 
+.EP
+.SC
+**The DOs **
+.EC
+.SP 5 5
+Talk to the lord of the domain you were hired for as soon as possible.  IF you have not alot of coding experience, check out the rooms in the domain.  'Goto' a room, type 'more here', and see what the code looks like.  When talking to the lord of the domain, explain what you do know, and what you don't know.  They will try to make it easier for you, and spend time with you when they can. 
+.EP
+.SP 5 5
+Do read the boards, all them at first, then 'killfile' the ones you don't want/don't pertain to you.  I will explain the basic commands further on.  When 'killfile'ing a board, take into consideration that most of the creator boards are there for your information and boards such as 'flame' and 'alt.fan.pratchett' aren't neccessary to read, but 'commonroom', domain boards should be read in order to keep informed. 
+.EP
+.SP 5 5
+Do take time to walk through your domain thoroughly, as there may be areas that you didn't explore as a player.  Know where things are, so that when you do need an example of this, you will know where to begin looking.  You may find that this time is precious depending on your net accessibility, and we all know you are excited about being a cre.  Tell your friends, hey, I'm kinda busy, let me get adjusted, and then we can talk.  Make them understand that you need to learn as much as you can as soon as you can and you aren't ignoring them, you are just overwhelmed.  They should understand.  If you are going to be away for extended periods of time, make sure to let the lord of your domain know. 
+.EP
+.SP 5 5
+Not all domain lords have the same procedures and methods of doing things, and they will explain their ways of doing things individually.  Many of the domains have Domain Deputies, who are responsible for helping to co-ordinate the domain.  These creators would be next for you to contact if the domain lord isn't online at the time you have a question. 
+.EP
+.SC
+**The DON'Ts**
+.EC
+.SP 5 5
+Listed here are the things you should not be doing: 
+.EP
+.SP 5 5
+*completing quests that interfer with the playing of the game.  Meaning that, if you want to complete a quest,  you are alone in the room, update the room when you are finished, and making sure it is not disrupting normal play. 
+.EP
+.SP 5 5
+*adding skills or commands to players. 
+.EP
+.SP 5 5
+*giving directions/quest information to players. 
+.EP
+.SP 5 5
+*giving lives, money, items and anything else to players. 
+.EP
+.SP 5 5
+*transing players to places. 
+.EP
+.SP 5 5
+*interacting with players in a manner that affects the game (ie killing npcs).  If you need to test something, ask a playtester to help, that is what they are there for.  Or create a test character, making sure they have the no score property so that their skill lvls will not affect the game. To add the 'no score property', use the following call: call add_property("no score", 1)<name>.  If you want to kill a npc, clone that npc into your room so it does not interfer with players. 
+.EP
+.SP 5 5
+*making calls on a creator/creator's test characters without their permission. 
+.EP
+.SP 5 5
+The above mentioned DON'Ts are punishable offenses which could lead to dismissal and/or banishment.  You are here to code, and to still enjoy the game, but 'goofing' around and messing with players will not be tolerated.  IF a player has a problem and asks you for help, direct them to a liaison...that is what they are there for.  It is not suggested that you not help the player, but the liaisons are there to help alieviate the pressure of having to deal with the players, and liaisons are aware of what can and cannot be done for players. 
+.EP
+.SP 5 5
+This whole document is meant for all creators, but liaisons, you also have a further set of standards to follow in 'help liaisons'. 
+.EP
+.SC
+**Etiquette** 
+.EC
+.SP 5 5
+IT IS NOT acceptable to trans players to your room without their permission and should not be done because they want to escape something.  It is not a 'don't do it' thing, it is one that is not something you should be doing without a just reason.  Transing to a creator without asking first if it is ok to do so is just good manners.  Many times a creator will be busy and may not be able to speak with you just then.  Asking if a creator is busy before bombing them with questions is also preferred as they may be editing a file, idle or just plain busy. 
+.EP
+.SP 5 5
+What is said to you, talked about in the cre channel, posted about on the boards etc is confidential.  It is acceptable to discuss these with other creators, but what you see and hear stays there, not public discussion with players. 
+.EP
+.SC
+**Basic Commands**
+.EC
+.SI 5
+*'summary'  This will give you a list of all the new messages on the boards available to you. 
+.EI
+.SI 25
+example: >summary 
+.EI
+.SI 34
+>Commonroom board has 5 new messages. 
+.EI
+.SI 35
+Frog board has 7 new messages. 
+.EI
+.SI 35
+Liaison board has 2 new messages. 
+.EI 
+.SI 35
+Flame board has 1 new message. 
+.EI
+.SI 5
+*'new'  This will bring up the first board and how many unread messages. 
+.EI
+.SI 25
+example: >new 
+.EI 
+.SI 34
+>Commonroom board has 5 new messages. 
+.EI
+.SI 5
+*'r'  This will allow you to read them one at a time. 
+.EI
+.SI 5
+*'board <boardname>'  This allows you to change to a different board. 
+.EI
+.SI 25
+example: >board playerhelp 
+.EI
+.SI 34
+>Ok, changed to board playerhelp. 
+.EI
+.SI 5
+*'goto <name>'  transing to another person. 
+.EI
+.SI 25 
+example: >goto laurana 
+.EI
+.SI 5
+*'trans <name>'  trans's them to you. 
+.EI
+.SI 25
+example: >trans laurana 
+.EI
+.SP 5 5
+*'newbie <message>'  Remember that one from when you were a newbie, but also bear in mind, its a help channel only and try to keep help messages to a minimum.  This command is not an automatic thing, you need to add it to your list of known commands.  To do this you need to type: call add_known_command("newbie")me .  This call will give you access to it. 
+.EP
+.SP 5 5
+*'cre <message>'  This allows you to talk to all cres online.  cre@ is the emote, cre? tells you what creators are online, and hcre allows you to see the history of the cre channel. 
+.EP
+.SI 25
+examples: >cre@cackles insanely. 
+.EI
+.SI 35 
+>(cre)Laurana cackles insanely. 
+.EI
+.SI 35
+>cre? 
+.EI
+.SI 35
+>On line: Lyam, Laurana, Pinkfish and Midnite. 
+.EI
+.SP 5 5
+*'killfile <boardname>'  This allows you to 'kill the board'.  When you type summary that board no longer shows there, and when you use the new command to read them, it does not bring that board up for you.  You can still read it using board <boardname>.  In the future if you wish to have it back in your summary, using 'unkillfile'. 
+.EP
+.SI 25
+example: >killfile assassinsguild 
+.EI
+.SI 34
+>Board assassinsguild killed. 
+.EI
+.SI 25
+example: >unkillfile assassinguild 
+.EI
+.SI 34
+>Board assassinsguild unkilled. 
+.EI
+.SP 5 5
+*'clone'  This little helpful command allows you to clone objects into your inventory. 
+.EP
+.SI 25
+example: >clone /obj/misc/torch 
+.EI
+.SI 34
+>Ok.  Object obj/misc/torch#33150 cloned and put in you. 
+.EI
+.SP 25 5
+note: when cloning an item from someone's inventory, the brackets, the # and the numbers following the # are not needed. 
+.EP
+.SI 5
+*'ls'  ls will allow you to see the contents of a dir. 
+.EI
+.SI 25
+example: >ls /w/<yourname> 
+.EI
+.SI 34
+>ls /obj/misc 
+.EI
+.SI 5
+*'more'  When you see a file you want to see the code for, more the path. 
+.EI
+.SI 25
+examples: >more /w/<yourname>/workroom. 
+.EI
+.SI 35
+>more priestess 
+.EI
+.SI 35 
+>more /open/boards/<boardname> 
+.EI
+.SP 5 5
+*'more here'  If you are in a room, and want to see the code, looking for the way it works, 'more here' will show it. 
+.EP
+.SP 5 5
+*'dup'  Many items are /std/objects and the room they come from dictates what they become.  Sometimes its just easier to dup the item.  dup <item> will put it into your inventory. 
+.EP
+.SI 25
+example: >dup sword 
+.EI
+.SI 34
+>Ok. Sword duplicated and put into you. 
+.EI
+.SP 34 5
+This will make an EXACT duplication, so if you are 'dup'ing a weapon, if it is in poor condition, the one you dup will also be in poor condition.  If you dup vials, and they are empty, they will also be empty. 
+.EP
+.SP 5 5
+*'inv'  This will show you your inventory with path names.  If you have it alias'd from when you were a player, unalias it now. 
+.EP
+.SI 25 example:
+>inv laurana 
+.EI
+.SI 34
+>violet evening dress (/obj/armour#1975) 
+.EI
+.SI 35
+pair of silver earrings (/obj/armour#1901) 
+.EI
+.SI 35
+Presto's wand (/obj/misc/wand#1849) 
+.EI
+.SI 35
+red badge (/obj/clothing#1773) 
+.EI
+.SP 5 5
+*'cp'  This allows you to copy files to and from directories.  If you had this alias'd when you were a player, unalias it now as well. 
+.EP
+.SI 25
+examples:  >cp /obj/misc/torch.c /w/<yourname>/ 
+.EI
+.SI 35
+>cp /obj/misc/torch.c ~  
+.EI
+.SI 35
+note:  the '~' refers to your home directory. 
+.EI
+.SP 5 5
+*'review'  This command that lets you see your entry/exit messages.  To make these lovely messages, read help setmmin, setmmout, setmin, and setmout.  Review only shows you what they look like once completed. 
+.EP
+.SI 25
+example: >review 
+.EI
+.SI 34
+>Entry  : $N emerge$s from $F dragging her broom behind her. 
+.EI
+.SP 34 5
+Exit   : Trailing her broom behind her, sparks emitting from it, $N leave$s $T. 
+.EP
+.SP 34 5
+MEntry : As you turn to look at the rather loud noise behind you, you are consumed by a large cloud of black smoke and sparks, followed by a large *KABOOM*.  $N emerges from the smoke coughing and spluttering dragging her scorched broom behind her. 
+.EP
+.SP 34 5
+MExit  : Soft muttering is heard as $N whispers to her broom, and then she hops back on it and heads off cackling. 
+.EP
+.SP 5 5
+*'pathof'  This allows you to see the path of where things are, and if they are loaded.  Its helpful when you are making npcs, and need to know where to look. 
+.EP
+.SI 25 
+example: >pathof detritus 
+.EI
+.SI 34
+>Path of Constable Detritus in Mended Drum: 
+.EI
+.SI 37
+/d/am/chars/detritus 
+.EI
+.SP 5 5
+*'mail'  As a creator you have access to your mail from anywhere you are on the Disc, with the exception of receiving parcels.  In which case, you will have to pick them up the normal way, at the PO they were sent from.  The commands are the same as they are at the PO, and typing 'mail' will bring up the mailer. 
+.EP
+.SP 5 5
+*'update'  This command 'updates' the room if you have made coding changes, or have done something to the room that would interfer with players. 
+.EP
+.SI 25
+examples: >update here 
+.EI
+.SI 36
+>Updated Laurana's study (/w/laurana/study). 
+.EI
+.SI 35
+>update /w/laurana/* 
+.EI
+.SI 35
+>Updated Laurana's study (/w/laurana/study). 
+.EI
+.SI 36
+Updated Laurana's space (/w/laurana/space). 
+.EI
+.SI 36
+Updated Laurana's bedroom (/w/laurana/bedroom). 
+.EI
+.SP 5 5
+*'<soul> creators'  When you enter or leave, you can <soul> creators and those creators that have not got multiple souls earmuffed, will get it.  This is not to be abused though. 
+.EP
+.SP 5 5
+I hope this info will make things a little less overwhelming and if you can think of other things that I should add, let me know.  It has been awhile since I was a newbie cre, but not so long that I don't remember what it was like.  Good luck, and congratulations. 
+.EP
+.SC
+Laurana 
+.EC

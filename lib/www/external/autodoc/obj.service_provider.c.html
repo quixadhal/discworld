@@ -1,0 +1,119 @@
+<html><head><title>File service_provider.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/service_provider.c</h2>
+The service provider object.  It is designed to be similar to
+the peddler object, only instead of selling objects, it sells
+services instead.
+<p>Written by Furcifer
+
+March 2000
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.monster.c.html">/obj/monster.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.armoury.h.html">/include/armoury.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.money.h.html">/include/money.h</a> and <a href="include.move_failures.h.html">/include/move_failures.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_service"><b>add_service</b></a>(string, string, string, int, string *)<dd>
+This method adds a service to the list of services on offer.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_busy"><b>check_busy</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_browse"><b>do_browse</b></a>(mixed, string, string, string *)<dd>
+The main entrance to the browse for things command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list"><b>do_list</b></a>()<dd>
+The main entrance to the list stuff command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_request"><b>do_request</b></a>(mixed, string, string, string *)<dd>
+The main entrance to the buy things command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_service"><b>remove_service</b></a>(string)<dd>
+This method removes a service.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_busy"><b>reset_busy</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_busy"><b>set_busy</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_service">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_service</b></a><pre>
+varargs int add_service(string service,
+                        string browse_info,
+                        string func,
+                        int cost,
+                        string * aliases)
+</pre><dd>
+This method adds a service to the list of services on offer.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>service - the name of the service
+<dd>cost - what it costs
+<dd>the - function which controls
+<dd>*aliases - an array of aliases for this service.
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="check_busy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_busy</b></a><pre>
+varargs int check_busy(object player)
+</pre>
+<dt><a name="do_browse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_browse</b></a><pre>
+int do_browse(mixed indirect_obs,
+              string dir_match,
+              string indir_match,
+              string * words)
+</pre><dd>
+The main entrance to the browse for things command.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list</b></a><pre>
+int do_list()
+</pre><dd>
+The main entrance to the list stuff command.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_request">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_request</b></a><pre>
+int do_request(mixed indirect_obs,
+               string dir_match,
+               string indir_match,
+               string * words)
+</pre><dd>
+The main entrance to the buy things command.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="remove_service">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_service</b></a><pre>
+int remove_service(string service)
+</pre><dd>
+This method removes a service.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>string - service to be removed
+<dt><b>Returns:</b>
+<dd>1 on successful removal, 0 on failure
+
+</dl>
+
+<dt><a name="reset_busy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_busy</b></a><pre>
+void reset_busy()
+</pre>
+<dt><a name="set_busy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_busy</b></a><pre>
+void set_busy()
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 29 Oct 2003 14:37:49 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,48 @@
+<html><head><title>File book_dir.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/book_dir.c</h2>
+Make a book with all the files in a dir.
+<p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.book.c.html">/std/book.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.nroff.h.html">/include/nroff.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language"><b>query_language</b></a>()<dd>
+Returns the language of the book
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_book_dir"><b>set_book_dir</b></a>(string)<dd>
+Sets the directory to look for the book pages in.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language</b></a><pre>
+string query_language()
+</pre><dd>
+Returns the language of the book
+<p>
+
+<dt><a name="set_book_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_book_dir</b></a><pre>
+void set_book_dir(string dir)
+</pre><dd>
+Sets the directory to look for the book pages in.  It scans every
+file in this dir to get the pages for the book.
+This sets the default paper to /obj/misc/nroff_paper.c<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory in which to search
+<dt><b>See also:</b>
+<dd><a href="obj.misc.nroff_paper.c.html">/obj/misc/nroff_paper.c</a><dt><b>Example:</b>
+<dd><pre>inherit "/std/book_dir";
+
+void setup() {
+   ...
+   set_book_dir("/save/books/dead/dead_page");
+   ...
+} /* setup() */
+</pre></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 02:27:28 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

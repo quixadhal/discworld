@@ -1,7 +1,7 @@
 #include "potion_attrs.h"
 #include "library.h"
 inherit "/std/object";
-#define MY_ROOM "/d/sur/PLAIN/for/picnic"
+#define MY_ROOM "/d/sur/Sto_Plains/n_caravan/picnic_area"
 
 object *demons, cauldron, coin;
 
@@ -18,7 +18,6 @@ void setup() {
 }
 
 void init() {
-  ::init();
   this_player()->add_command("blow", this_object());
 }
 
@@ -31,64 +30,70 @@ int do_blow(object *indir, string s1, string s2, string prep) {
   }
   if (file_name(environment(this_player())) == MY_ROOM)
     return finish_quest();
-  write("You blow the "+short(0)+" and make a horrible noise.\n");
-  say(this_player()->query_cap_name()+" blows into a "+short(0)+" and makes a horrible noise.\n");
+  add_succeeded_mess("$N $V $D and make$s a horrible noise.\n");
   return 1;
 }
 
 int finish_quest() {
-  object *obs, *obs2, *obs3, ob, fish, frisbee, ladel;
+  object *obs, *obs2, *obs3, ob, fish, frisbee, ladle;
   mixed *attrs;
   string failure;
   int i, j;
 
   write("The "+short(0)+" blows amazing loudly.\n");
-  say(this_player()->query_cap_name()+" blows the "+short(0)+
+  say(this_player()->one_short()+" blows the "+short(0)+
       " amazingly loudly.\n");
   if (demons) {
     write("Demons glare at you.\n");
-    say("Demons glare at "+this_player()->query_cap_name()+".\n");
+    say("Demons glare at "+this_player()->one_short()+".\n");
     return 1;
   }
   obs = all_inventory(environment(this_player()));
   obs3 = obs;
   obs = map_array(obs, "bingle_bit", this_object());
-  if ((i=member_array("ladel", obs)) == -1)
-    failure = "no ladel";
-  else
-    ladel = obs3[i];
-  if ((i=member_array("frisbee", obs)) == -1)
+  if ((i=member_array("ladle", obs)) == -1) {
+    failure = "no ladle";
+  } else {
+    ladle = obs3[i];
+  }
+  if ((i=member_array("frisbee", obs)) == -1) {
     failure = "no frisbee";
-  else
+  } else {
     frisbee = obs3[i];
-  if ((i=member_array("cauldron", obs)) == -1)
+  }
+  if ((i=member_array("cauldron", obs)) == -1) {
     failure = "no caldron";
-  else {
+  } else {
     cauldron = obs3[i];
-    obs2 = find_match("cauldrons", environment(this_player()));
+      obs2 = match_objects_for_existence("cauldrons", environment(this_player()));
     for (i=0;i<sizeof(obs2);i++) {
       if ((int)obs2[i]->query_volume() < 100 ||
           (int)obs2[i]->query_volume() < (int)obs2[i]->query_max_volume() / 2) continue;
       attrs = (mixed *)obs2[i]->query_misc_attrs();
       if (pointerp(attrs)) attrs = attrs[POTION_NAMES];
-      if (pointerp(attrs) && sizeof(attrs) && attrs[0][0] == "yucky ankh water")
+      if (pointerp(attrs) && sizeof(attrs) && attrs[0][0] == "yucky ankh water") {
         j++;
+      }
     }
-    if (!j)
+    if (!j) {
       failure = "no cauldron full of anhk river water";
+    }
   }
-  if ((i = member_array("coin", obs)) == -1)
+  if ((i = member_array("coin", obs)) == -1) {
     failure = "no coin";
-  else
+  } else {
     coin = obs3[i];
-  if ((i=member_array("fish", obs)) == -1)
+  }
+  if ((i=member_array("fish", obs)) == -1) {
     failure = "no fish";
-  else
+  } else {
     fish = obs3[i];
-  obs2 = find_match("toadstools", environment(this_player()));
+  }
+      obs2 = match_objects_for_existence("toadstools", environment(this_player()));
   obs2 = filter_array(obs2, "bongle_array", this_object());
-  if (sizeof(obs2) < 4)
+  if (sizeof(obs2) < 4) {
     failure = "not enough toadstools to sit on";
+  }
   if (failure) {
     write("A bunch of hungry looking demons show up.\n");
     write("They look around the clearing.\n");
@@ -97,7 +102,7 @@ int finish_quest() {
     say("A bunch of hungry looking demons show up.\n");
     say("They look around the clearing.\n");
     say("Mutter to themselves about there being "+failure+".\n");
-    say("Demon glares at "+this_player()->query_cap_name()+".\n");
+    say("Demon glares at "+this_player()->one_short()+".\n");
     return 1;
   }
   demons = allocate(4);
@@ -113,11 +118,11 @@ int finish_quest() {
   coin->reset_get();
   cauldron->reset_get();
   fish->dest_me();
-  ladel->move(demons[2]);
+  ladle->move(demons[2]);
   frisbee->move(demons[1]);
   say("The demons grab the fish and stick it into the cauldron.  "+
         "They then put the frisbee on the top of the cauldron as a "+
-        "lid.  One of the demons grabs the label and stirs the "+
+        "lid.  One of the demons grabs the ladle and stirs the "+
         "mixture around a bit whilst the other demons blow on "+
         "cauldron to heat it up.\n");
   call_out("do_finish_it", 10);
@@ -136,14 +141,14 @@ void do_finish_it() {
   say("The soup is obviously hot now, and all the demons sit down "+
         "on their toadstools to enjoy the meal.  After finishing the "+
         "meal, they smile happily.  You hear one of the say on the "+
-        "way out, \"Great way to get a meal, It works every time\".\n"+
-        "The demons leave takeing the table, cauldron and ladel with them.\n");
+        "way out, \"Great way to get a meal, it works every time\".\n"+
+       "The demons leave taking the table, cauldron and ladle with them.\n");
   write("The soup is obviously hot now, and all the demons sit down "+
         "on their toadstools to enjoy the meal.  After finishing the "+
         "meal, they smile happily and leave.  You hear one of the "+
         "demons say on the "+
-        "way out, \"Great way to get a meal, It works every time\".\n"+
-        "The demons leave takeing the table, cauldron and ladel with them.\n");
+        "way out, \"Great way to get a meal, it works every time\".\n"+
+       "The demons leave taking the table, cauldron and ladle with them.\n");
   cauldron->dest_me();
   coin->dest_me();
   obs = all_inventory(environment(demons[0]));

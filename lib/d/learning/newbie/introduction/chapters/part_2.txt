@@ -1,0 +1,490 @@
+A Brief Introduction to LPC  -  Data Types
+Ae First Rough Draft
+
+Drakkos - 2/12/2000
+
+N.B     -       This is a work in project... a living document if
+                you like.  If it appears to be dead when you view
+                it, don't worry.  It's most likely just playing
+                possum.
+
+==========================================================================
+Concepts still to be covered:
+
+Not sure... perhaps nothing.
+==========================================================================
+
+Most objects have a need to store data from time to time... this is done 
+through the use of containers within the object that are called 'variables'.  
+As the name suggests, these containers hold information that can change from 
+time to time... each container has a label of sorts allowing the creator to 
+refer to the data within.  
+
+Each of these variables is initialised by declaring the 'type' of the 
+variable, and the name of the variable itself.  For example, to declare an 
+integer variable called 'Bing', you would use the following line:
+
+        int bing;
+        
+Easy!  This means that you can then refer to the information within that 
+variable by using the name 'bing'.  You can add to bing,  subtract from it... 
+multiply, divide, calculate exponentially... anything you could do with a  
+normal integer value, you can do with bing.
+
+The following basic data types are available within LPC: int, string, float, 
+and object.  We'll take each of these and discuss them a little more.
+
+Int
+===
+
+An int is a variable of the integer data type.  Integers are whole numbers
+such as 1, 10, 50, -24, etc, etc.   The range of values that an integer 
+variable can hold range from the extremes of -2147483648 to 2147483647... 
+any whole number between these values is suitable for the integer data type.
+
+We can add, subtract, multiply, and divide variables of the integer data type 
+just as if they were real, concrete numbers.  For example:
+
+    int bing, bong;
+    
+    bing = 2 + 2;
+    bong = bing + 5;
+    
+Which would set bing as 4 and bong as 9.
+
+We can increment the value of an integer data type by one using the ++
+incrementation operator:
+
+    bing = 4;
+    
+    bing++;    
+    
+At which point bing would equal five.  It also possible to do ++bing, but
+as far as the example above goes, they are equivilent.  We will perhaps
+have cause to return to ++bing and bing++ in another chapter.
+
+We can also use the division (/) and multiplication (*) operators on our
+variable:
+
+    int bing, bong;
+    
+    bing = 4;
+    
+    bing = bing * 5;
+    bong = bing / 4;
+    
+This would make bing equal (4 * 5 = 20) twenty, and bong equal to (20 / 4) 
+five.  
+    
+                           
+Float
+=====
+
+Floating point numbers are decimal numbers between two Very Large extremes.  
+These extremes vary from MUD to MUD.  Both positive and negative numbers can 
+be represented by a float, so it's suitable for values such as 2.42, 3.141, 
+-2.76, -35.321, and so on.  We use floats in a similar way to ints:
+
+    float bing, bong;
+    
+    bing = -2.045;    
+    bong = bing + 1.34;
+    
+Note however, that you cannot use ++bong or bong++ to increase a float
+value by one whole number. 
+            
+                        
+String
+======
+
+Strings are sequences of alphadecimal characters enclosed in quotation marks. 
+Strings can also contain 'control codes' that determine the formatting of a 
+string.  A string could be, for example, "This is a string", or "This is a 
+longer string!".  The '\n' control code puts text on a 'new line', so the 
+line: "This is a string!\nThis is a string on another line." would produce:
+                        
+    This is a string!
+    This is a string on another line.
+    
+As above, we declare a string variable like so:
+
+    string bing, bong, bang;
+    
+Then we assign it to a text value.  Please note that you must enclose the text
+in quotation marks:
+
+    bing = "This is a string!\n";
+    bong = "This is a longer string!\n";
+    
+Again, we manipulate strings in a similar way.  We can add two strings together
+using the + operator:
+
+    bang = bing + bong;
+    
+Which would make bang equal to "This is a string!\nThis is a longer string!\n".
+However, we cannot use the - operator to subtract from a string.  There are
+a number of specialised efuns that can be used to manipulate strings, however,
+such as sscanf, strsrch, and strlen.  Each of these have help files 
+assosciated.  But don't worry about that at the moment... we may have cause 
+to return to manipulating strings later.
+
+                            
+Object
+======
+
+A variable of the object data type is simply a 'pointer' to an object loaded 
+in memory.  Rather than making a direct copy of the object, a variable of of 
+the object data type simply contains the memory location of the object.  Sound 
+complicated?  Maybe... but you don't really need to understand the specifics 
+of what this means. Essentially, when you a create a variable of type object, 
+then assign it to a specific object, you can then access the reference of 
+that object using your variable... think of it as a tracking signal you can 
+use to home in on any object on the MUD  For example:
+                        
+    object ob;
+    ob = find_player ("drakkos");
+                        
+Find_player() is an efun (more on this later) that checks through all the 
+interactive objects on the MUD until it finds one with the name 'drakkos',  
+It then makes the variable 'ob' point to that object.  So you could then use:
+                        
+    tell_object (ob, "Your pants are on fire!\n");
+                        
+tell_object() is another efun (again, more on this later), and this specific 
+piece of code would print the string "Your pants are on fire!" on the screen 
+of the object pointed to by 'ob'... in this case, the player called Drakkos.
+
+Note that we cannot use mathematical operators on object variables.  
+
+                         
+Mixed
+=====
+
+This is a general, all purpose data type that can deal with any of the data 
+that the other data types cannot.  It must be stressed, however, that using 
+a mixed data type when another is more appropriate is Bad Form, and should be 
+avoided... the driver spends a fair bit of time trying to work out exactly 
+what data a 'mixed' variable contains, which has an obvious negative effect on 
+the efficiency of your code.
+
+For example, all of the following are valid mixed assignments:
+
+    mixed bing;
+    
+    bing = "Bong!\n";
+    bing = 1;
+    bing = 2.453;
+    bing = find_player ("drakkos");
+    
+Where applicable, we can perform mathematical operators on mixed variables.  
+So if our variable contained an integer, we could use +, -, /, and * on it
+as normal.  Likewise, we would get a parse error if we attempted to use these
+operators on a mixed variable containing an object reference.
+
+        
+                                                                        
+Advanced Data Types
+===================
+                                                                                                                        
+There are other data types available within LPC, although these are a little
+more complicated than the above basic data types.  These are:  arrays,
+mappings, functions, and classes.  Again, we'll go into these in a little
+more depth.
+
+Array
+=====
+
+All of the above basic data types can be placed into lists which are known as 
+arrays.  An array is simply a contextually linked sequence of a particular data 
+type.  For example, it is possible to declare an array of integers, so that a 
+single variable can refer to that list of numbers.  For example:
+                        
+    int *bing = ({ 1 , 5,  10,  20 });
+                        
+The int *bing means that you wish to create an array of type integer called 
+'bing'.  The ({ })  braces are used to link the values together, and simply 
+mean that the array bing contains the values 1, 5, 10, and 20.
+                        
+Once values have been entered into the array, they can be accessed through 
+the use of an index value, which determines which member of the array you 
+are interested in.  In LPC, as with C, the numbering for an array begins
+at 0, so the first element of the array is referred to with index 0.  This 
+seems complicated, but will eventually come naturally.  The index value of 
+an array is referenced using a pair of square brackets after the variable 
+name:
+                        
+    bing [0]        (represents the value 1)
+    bing [1]        (represents the value 5)
+    bing [2]        (represents the value 10)
+    bing [3]        (represents the value 20)
+                        
+Arrays are very useful for dealing with large amounts of contextual 
+information... for example, an array of objects may refer to all the players
+standing in a current room, and then each element of the array can be stepped 
+through to allow for information to be gathered or code to be executed on 
+each player.
+                        
+You can add to arrays using the += operator... if I wanted to add the value 
+'50' to the end of the array 'bing', I would use:
+                        
+    bing += ({50});      
+    
+Note that what we are actually doing is adding an array containing only the
+value 50 to our original array.  Attempting to simply add the integer 50 to
+the array will give a parse error.
+                                
+Likewise, members of an array can be deleted using the -= operator:
+                        
+    bing -= ({50});
+    
+We can add arrays together in this way, also:
+
+    int *bing = ({ 1, 5,  10,  20 });
+    int *bong = ({ 2, 3, 4 });
+    
+    bing += bong;
+    
+Which would leave bing containing ({1, 2, 3, 4, 5, 10, 20}).    
+                                
+Finally, an efun (see the later section on functions) exists that will give 
+you the current number of elements in an array... this is called sizeof(), 
+and can be used:
+
+    int *bing = ({ 1 , 5,  10,  20 });
+                            
+    int elements;
+                                
+    elements = sizeof(bing);
+                                
+The variable 'elements' would then contains an integer value equal to the 
+current number of elements in the array.  In this case, elements would
+be equal to 4.                                                                                                                          
+                        
+                        
+Mappings
+========
+
+LPC also provides a data type called a 'mapping'.  Essentially, it is a 
+more specialised type of array composed of 'values', and 'keys'.  Each
+key may have a specific value, and this value is indexed using the key rather 
+than an integer value.  This all sounds very complex, but is very simple to 
+use in practise.  For example:
+                        
+    mapping myMap = ([
+        "Sojan"         :       "Bing!",
+        "Pinkfish"      :       "Fluff!",
+        "Turrican"      :       "Frog!",
+        "Saffra"        :       "Womble!",
+    ]);
+                                
+The values on the left hand side of the ':' are the 'keys' of the mapping.  
+The values on the right hand side are the 'values'.  The key 'Sojan', for 
+example, has the value "Bing!". If we wanted the value of the key 'Turrican', 
+we would refer to it as:
+                                
+    string value;
+    value = myMap ["Turrican"];
+                        
+Value would then equal 'Frog!'.
+                                
+Mappings are very powerful data types, but this power comes at an expense in 
+CPU and memory cost... mapping data types are of type 'mixed' by default, and 
+so keys and values can be of any type all the way through the array (although,
+for the sake of programming style, you should really only use one type unless 
+entirely necessary).
+
+We can also use the + operator on a pair of mappings to produce a single 
+mapping containing all elements:
+
+    myMap = myMap + ([ "Drakkos"    :   "Wibble!"]);
+
+Would make myMap equal:
+
+        "Sojan"         :       "Bing!",
+        "Pinkfish"      :       "Fluff!",
+        "Turrican"      :       "Frog!",
+        "Saffra"        :       "Womble!",
+        "Drakkos"       :       "Wibble!"
+
+We cannot use the - operator to remove entries from the mapping, but we can use
+the map_delete() efun:
+
+    map_delete(myMap, "Drakkos");
+    
+Which would return myMap to the state it was before we added Drakkos.    
+         
+                                                                                   
+Functions
+=========
+
+There is a data type in LPC called 'function', and as you can probably imagine,
+ is used to reference to a function.  The use of functions as a data type is a 
+little complex to explain, and the chances are you will not really need to do 
+so until you have much more experience as a creator... so for the  moment, it 
+is enough to know that it exists.
+                        
+
+Classes
+=======
+
+A class in LPC is much like a database record containing numerous pieces of 
+information.  For example, a database of player names, their guilds, and 
+their levels.  One way to do it would be to have an array for each piece of 
+information, accessed by a common index value:
+                        
+    string *names = ({"bert", "fred", "john"});
+    string *guilds = ({"wizard", "priest", "warrior"});
+    int *levels = ({111, 222, 333});
+                        
+If we assume that the player referred to by names[x]  is equivalent to the 
+player referred to by guilds[x],  which is equivalent to the player referred 
+to by levels[x], then we can make use of a database like query to reference 
+the information.
+                        
+However, this is a rather clunky way of doing it... a much better way would 
+be to define the information in a 'class', and set the information 
+contextually:
+                        
+    class player_details {
+    string  name;
+    string  guild;
+    int     level;
+    }
+                                
+Essentially, what you are doing is creating a custom data-type of your very 
+own which you can then use in the same way you would use an int or a float.  
+The class declaration shown above is just that... a declaration that the name
+'player_details' can be used to create variables of that type.  Please note 
+that you have not actually created a variable yet... you have just outlined 
+the form any variables of type 'player_details' will take.  You can use 
+classed in conjunction with arrays and mappings, meaning that you can have an 
+array of classes (which is suitable for a database), or a class could be a 
+value in a mapping... this makes the combination of such data types extremely 
+powerful.  
+
+We declare a variable of our player_details class by using the 'new' 
+operator, passing in the values of the variables contained within:
+
+    class player_details one_player;
+        
+    one_player = new(class player_details, name: "fred", 
+                guild : "priest",
+                level : 222
+                );
+
+We can then access the details in the 'one_player' variable using -> to
+access the data member:
+
+    string name = one_player->name;
+    
+Which would set the variable 'name' as 'fred'.
+                                
+To declare an array of your new class, you would use a statement similar to:
+                        
+    class player_details *player_database = ({ });
+                        
+This creates an array of 'player_details' classes called 'player_database', 
+and initialises it so that it is empty (the = ({ }) part of the statement).
+You can then access individual elements of the array with the [] index 
+as above.
+                                                
+A full tutorial into how classes can be created and utilised is beyond the 
+scope of this initial document... again, it is sufficient to realise that the 
+data type exists, and that you understand what the data type is for if you 
+see it in an object.
+         
+
+Variable Scope
+==============     
+                                    
+Now that we've covered the data types available in LPC, we can talk a little 
+about how they work within an object.  
+
+Each variable in an object has a 'scope'... a sphere of influence, if you like, 
+where the variable holds true.  Variables are either 'global', or 'local' 
+within an object.  If they are global, it means that the variable can be used 
+anywhere in that object... global declaration of variables is normally done 
+at the top of the code.
+
+Local variables can only be used in the function in which they are defined.  
+We'll talk more about functions a little later, but for now let's see an 
+example:
+
+
+    /*
+        Example of scope
+    */
+
+    int bing;
+
+    int function_one() {
+        int bong;
+        return bong;
+    }
+
+    int function_two() {
+        return bing;
+    }
+
+    int function_three() {
+        return (bing + bong);
+    }
+        
+
+'bing' is a object variable... it is defined outside of any of the functions, 
+and therefore can be used in any of them.
+
+'bong' is a local function... it can only be used within the function it is 
+defined... in this case, function_one().
+
+function_one() can access the variable bong, because it is declared locally 
+within that function.  Function_two can access 'bing', because 'bing' is an 
+object variable, and therefore all functions can access it.
+
+Function_three(), however, will not work.  Although the function has access to 
+the variable 'bing', it has no idea what 'bong' refers to... 'bong' is outside 
+the 'scope' of function_three() since it is only defined locally in 
+function_one().
+
+
+Chapter Summary
+===============
+
+After reading this chapter, you should hopefully feel comfortable with data 
+types, how to declare them, and how to utilise them.  You should also 
+hopefully understand the concept of variable scope, and how this can affect
+the way your code operates.
+
+-   Basic data types are declared by giving first the type of variable, and
+    then the label for that variable.
+-   Integer variables hold whole numbers, and can be manipulated 
+    mathematically the same way as normal numbers can be.
+-   The mathematical operators are + (addition), - (subtraction), / 
+    (division), and * (multiplication).
+-   Float variables contain real numbers rather than natural numbers.
+-   String variables hold alphanumerical values, and can be used to hold blocks
+    of text.
+-   Object variables are references to the memory location of loaded objects.
+    Essentially a pointer to where the object exists in the memory of the 
+    MUD.  
+-   Mixed data types can contain any of other data types, but because of the
+    associated CPU overhead, they should only be used when genuinely 
+    required.        
+-   Arrays are conceptually linked lists of information, and are initialised
+    by prefacing the name of the variable with a *.
+-   Individual members of an array are accessed by using the name of the 
+    variable and the index of the variable enclose in []. 
+-   Arrays begin counting from 0, so the first element of the array is at index
+    0.
+-   Mappings are associative arrays composed of keys and values.  Each key 
+    indexes a specific value.  
+-   Mappings are of typed 'mixed' by default, and so can contain any type of
+    data.
+-   Classes can be used to create database-like data types containing 
+    collections of related data.
+-   Variables have a scope when initialised.  If initialised outside of a 
+    function, their scope is the whole object.  If initialised within a 
+    function, they are known as local variables and may only be used within
+    that function.
+    
+    

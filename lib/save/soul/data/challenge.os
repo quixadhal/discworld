@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),0,({({"Make your own challenges to $hcname$.","$mcname$ turn$s$ $hcname$ into a fish.","$mcname$ turn$s$ $hcname$ into a fish.",0,0,0,}),0,}),})

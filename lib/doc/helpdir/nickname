@@ -3,46 +3,62 @@ nickname
 Discworld player help
 nickname
 
-Name
-.SI 5
-nickname - Give a person a nickname.
-.EI
+.SH Name
+.SP 5 5
+nickname - Give an object a nickname.
+.EP
 
-Syntax
+.SH Syntax
 .SI 5
-nickname
-nickname <nickname> <name>
+nickname 
+nickname sorted 
+nickname <nickname> <realname> 
+nickname <nickname> 
 dnickname <nickname>
 .EI
 
-Description
+.SH Description
 .SP 5 5
-Nicknames are used to refer to people by a nickname.  To use it, you just set
-up a nickname for a person by typing "nickname lyn lynscar" or whatever.  To
-use the nickname, just put the nickname in any command where you would normally
-put the entire persons name.  Dnickname is used to delete a nickname.  Nickname
-with no parameters will list the currently defined nicknames.
+Nicknames are used to refer to objects by a nickname.  To use it, you just 
+setup a nickname for any object by typing "nickname lyn lynscar" or whatever.
+To use the nickname, just put the nickname in any command where you would 
+normally put the object's entire name.  "dnickname" is used to delete a 
+nickname.  "nickname" with no parameters will list all the nicknames you
+have currently defined.
 .EP
 
-Examples
+.SH Caution
+.SP 5 5
+Nicknames are quite often the cause for commands, spells and rituals
+to stop working the way they should.  For instance, a "nickname red
+redjack" will make it impossible to cast any spells or rituals that require
+you to have a red candle.  Likewise, "nickname an annabel" will mess
+up (amongst many other things) Pragi's Fiery Gaze because you need
+an eye to cast that spell.  Always consider if a nickname could cause
+problems.
+.EP
+
+.SH Examples
 .SI 5
 > nickname pf pinkfish
-Ok.
+Added nickname pf for pinkfish.
 > nickname furry furball
-Ok.
+Added nickname furry for furball.
 > nickname mar marriard
-Ok.
+Added nickname mar for marriad.
 > nickname al alyssa
-Ok.
-> tell pf you are a frog.
-You tell Pinfish: You are a frog.
+Added nickname al for alyssa.
+> tell pf You are a frog.
+You tell Pinkfish: You are a frog.
 > smile furry
 You smile at Furball.
-> smile pf,al
-You smile at Furball and Alyssa.
+> tell pf,al Bing!
+You tell Pinkfish and Alyssa: Bing!
+> dnickname pf
+Deleted nickname : pf
 .EI
 
-See also
-.SI 5
-alias, history.
-.EI
+.SH See also
+.SP 5 5
+alias, history, mail, qalias.
+.EP

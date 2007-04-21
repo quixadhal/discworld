@@ -1,0 +1,275 @@
+<html><!-- #BeginTemplate "/Templates/Body Text.dwt" -->
+<head>
+<title> Discworld Documentation </title>
+</head>
+<body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">
+<table width="75%" border="0">
+  <tr>
+    <td><font face="arial,helvetica"><img align=left src="http://discworld.imaginary.com/external//pics/dw4.gif"></font></td>
+    <td><font face="arial,helvetica">
+      <h2>Discworld Documentation:</h2>
+      <h2>LPC for Dummies</h2>
+      </font> 
+      <p><font size="+1"><!-- #BeginEditable "Title" --><font size="+1"><b>Chapter One: 
+  Overview of LPC</b></font><!-- #EndEditable --></font></p>
+      <p><i>N.B - This is a work in progress... a living document if you like. 
+        If it appears to be dead when you view it, don't worry. It's most likely 
+        just playing possum.</i></p>
+      <p>Comments on these chapters and tutorials can be e-mailed to <a href="mailto:drakkos@cableinet.co.uk">Drakkos.</a></p>
+    </td>
+  </tr>
+</table>
+<br>
+<!-- #BeginEditable "Body" --> <p><b>Introduction</b></p><p> LPC is an interpreted MUD language created by Lars Pensjoe for his LPMUD, 
+  an interactive multi-user environment. LPC is suitable for many purposes, but 
+  is especially suited to the creation of games such as Multi User Dungeons. Since 
+  its first appearance in 1988, the sophistication and popularity of the language 
+  has increased dramatically.</p>
+<p> LPC is like the programming language C in certain respects. It isn't quite 
+  as free-form as C, but it does offer a development environment extremely well 
+  suited to creating multi-user dungeons. Here is where you, as a creator, come 
+  in.</p>
+<p>When writing a program for a computer, it is necessary to convert the language 
+  being used into the primitive grunts and whistles that the machine itself understands. 
+  Computers, at the lowest levels, understand only binary (1s and 0s). Obviously, 
+  coding a complicated program in binary would be extremely time-consuming and 
+  thoroughly mind-bending... and so, programming languages were created to allow 
+  for computers to be programmed in a language that was easier to learn. </p>
+<p><b>High and Low Level Languages</b></p>
+<p>Low level languages, such as Assembler, aren't all that incredibly different 
+  from the signals the computer itself understands. Coding in a low level language 
+  takes time and a good understanding of how the internals of a computer work.</p>
+<p> An assembler program may look something like the following example. Don' t 
+  worry about understanding it... you won't need to comprehend how this works... 
+  it is included merely as an example:</p>
+<blockquote> 
+  <div align="center"> 
+    <div align="left"> <code>mov ax,0006</code></div>
+  </div>
+  <div align="center"> 
+    <div align="left"> <code>mov bx,0002</code></div>
+  </div>
+  <div align="center"> 
+    <div align="left"> <code>add ax,bx </code></div>
+  </div>
+</blockquote>
+<p>What this program does is move the value 0006 into the register the computer 
+  understands as 'ax', then moves the value 0002 into the register the computer 
+  understands as 'bx'. It then adds the contents of registers 'ax' and 'bx' together. 
+</p>
+<p>As you can see, coding in assembler requires quite a bit of work to just add 
+  two numbers together.</p>
+<p> High Level languages, on the other hand, are written using languages somewhat 
+  more similar to the language we speak. Mainly they use english syntax to build 
+  complex instructions for the computer. A very well known example of a high level 
+  language is BASIC (Beginners All-Purpose Symbolic Instruction Code).</p>
+<p> An example of adding two numbers together in a high level language would simply 
+  be: </p>
+<blockquote> 
+  <p><code>value = 6 + 2</code></p>
+</blockquote>
+<p> As you can see, this is much easier to follow, and does not require any knowledge 
+  of how the computer is accomplishing the task at a machine level.</p>
+<p> Languages such as C and Pascal fall a little between these two extremes, and 
+  so are often referred to as Mid Level languages. In order for the computer to 
+  understand a high level language, it is necessary for the code to be converted 
+  into machine language. This occurs in two main ways.</p>
+<p> <b>Compilation, and Interpretation.</b></p>
+<p>In compiled languages, you type up some source code in the high level syntax, 
+  then 'compile' it. The compiler takes your code, and converts it into machine 
+  language, producing an executable file at the end. You then run this file, and 
+  if it works, great! If not, you need to re-edit the source code, and then recompile.</p>
+<p> Interpreted languages, on the other hand, work by converting the code into 
+  machine language as it is executed. This is obviously much slower than with 
+  a compiled language, but does allow for changes to be made without requiring 
+  the whole file to be recompiled. Statements are executed one after another, 
+  and then forgotten about.</p>
+<p> Well... this isn't entirely true in the case of LPC. LPC is an 'object orientated' 
+  language... each piece of code you write is potentially an object. Put simply, 
+  an object is a program that has been loaded into memory. The first time an object 
+  is loaded, it becomes the 'master object'. When this master object is created, 
+  it is translated from high level LPC into an intermediate language suitable 
+  for speedy interpretation when the game is running. All 'clones' of this object 
+  are then made from this master object.</p>
+<p> Take the following example: </p>
+<p>There is a file, 'Monster', which contains all the code necessary for creating 
+  your very own critter. When the 'monster' object is loaded, it becomes the 'master' 
+  object for monster, and is semi-compiled by the driver (more on the driver later). 
+  When you create your own monster, it makes a copy of the master object, and 
+  gives your new monster a chunk of the computer's memory to deal with the new 
+  object. We will explain why this is necessary later on when we come to talk 
+  about data types.</p>
+<p> <b>The Driver and the Mudlib </b></p>
+<p>Before we do that, we need to cover what exactly we mean by the terms 'mudlib', 
+  and 'driver'. You'll come across these terms rather often as a creator, so it 
+  is necessary to make sure you fully understand them now. </p>
+<p>Essentially, the driver is a piece of very low level code that deals with all 
+  the things necessary to keep the mud running. For example, the driver deals 
+  with the network connections when people log on to the MUD, and makes sure the 
+  proper login connections are made. It also deals with creating new objects, 
+  and destroying objects when they are no longer being used. It is the driver 
+  that interprets your LPC code to make all sorts of groovy things happen. The 
+  driver also provides a library of functions called 'efuns' which are very useful 
+  when coding. We will discuss these in more detail when we start to talk about 
+  LPC functions. All you really need to understand about the driver is that it's 
+  somewhat like a mini-operating system for the MUD.</p>
+<p> The mudlib, on the other hand, is simply the collection of LPC objects that 
+  make up the basic environment of the MUD. On Discworld, this is essentially 
+  all code outside of /w/ and /d/. For example, the objects that make up rooms, 
+  monsters, and weapons all belong to the mudlib.</p>
+<p> The relationship between the mudlib and the driver can be summed up as: The 
+  mudlib knows what to do, but has no idea how to do it. The driver knows how 
+  to do it, but has no idea what to do. The mudlib and driver are co-dependant, 
+  and from the combination of the two comes the basic structure of the MUD itself. 
+</p>
+<p><b>The Preprocessor.</b></p>
+<p> The preprocessor is not actually a part of LPC. What it is is a clever string 
+  substituter that is run before an object actually compiles. If you have a look 
+  at some of the code we have on Discworld, you'll see many of them are peppered 
+  with lines that begin with the symbol '#'. These are not actually LPC statements. 
+  Instead, they are 'preprocessor directives'... secretive instructions that are 
+  handled before an object ever compiles.</p>
+<p> You won't need to think too much about how this works. Just so long as you 
+  know that it happens. You will need, however, to understand how two of the most 
+  common directives are used. </p>
+<p>The first of these is #include. This does exactly what it says it does... it 
+  simply dumps a copy of a file in place of the #include line. Generally these 
+  files are called 'header files', and are denoted with a .h extension to the 
+  filename. The filename will need to be enclosed in either quotation marks (""), 
+  or angle braces (<>). The difference here is purely in which order the preprocessor 
+  will look for the file. If you enclose it in quotation marks, it will look in 
+  the current directory for the file. If it doesn't find it, it then looks in 
+  the standard include directory (On Discworld, this is /include/). If enclosed 
+  in angle braces, it will search in the opposite order... first in /include/, 
+  and if it doesn't find it there, then in the current working directory. </p>
+<p>For example: </p>
+<blockquote> 
+  <p><code>#include "my_header.h" </code></p>
+</blockquote>
+<p>Will search the current directory for a file called 'my_header.h'. If it doesn't 
+  find it there, it will then search /include/ for a file called 'my_header.h'. 
+  If it finds the file, it will then replace the #include line with the contents 
+  of it.</p>
+<p> The next preprocessor directive you are likely to come across is the #define 
+  directive, and this takes the form:</p>
+<blockquote> 
+  <p> <code>#define NAME "drakkos" </code></p>
+</blockquote>
+<p>When the preprocessor comes to this line, it will search through the code for 
+  any occurrence of the text NAME, and replace it with the text "drakkos". This 
+  is extremely useful for defining things such as filenames, since it means a 
+  filename which is used throughout your code can be changed simply by altering 
+  the #define.</p>
+<p> #include files are often used mainly as a collection of related #defines... 
+  think of it as a collection of shortcuts that can be used instead of the real 
+  values or file-names.</p>
+<p> Now, let's take a look at the preprocessor in action on a small piece of code. 
+  Let's say we have a header file, my_header.h, that consists of the following 
+  code:</p>
+<blockquote> 
+  <div align="left"> <code>#define NAME "drakkos" </code></div>
+  <code>#define MUD "Discworld" </code> 
+  <div align="left"> <code>#define VALUE "10</code>"</div>
+</blockquote>
+<p> And say we have a piece of code such as the following: </p>
+<blockquote> 
+  <p><code>#include "my_header.h" </code></p>
+  <div align="left"><code>write("My name is " + NAME);</code></div>
+  <div align="left"><code>write("I am a creator on " + MUD);</code></div>
+  <div align="left"><code>write("I am " + VALUE + " years old."); </code></div>
+</blockquote>
+<p>Now, let's look in stages at what the preprocessor does. First, it comes to 
+  the line #include "my_header.h". So it looks in our current directory for the 
+  file, and lo and behold, there it is. So it dumps this file in place of the 
+  #include statement:</p>
+<blockquote> 
+  <div align="left"> <code>#define NAME "drakkos" </code></div>
+  <div align="left"><code>#define MUD "Discworld" </code></div>
+  <div align="left"><code>#define VALUE "10" </code> </div>
+  <div align="left"><code><br>
+    write("My name is " + NAME);</code></div>
+  <div align="left"><code> write("I am a creator on " + MUD);</code></div>
+  <div align="left"><code> write("I am " + VALUE + " years old."); </code></div>
+</blockquote>
+<p>It then comes to the first #define statement. It searches through the code 
+  for occurrences of NAME, and replaces it with "drakkos":</p>
+<blockquote> 
+  <div align="left"><code>#define NAME "drakkos" </code></div>
+  <div align="left"><code>#define MUD "Discworld" </code></div>
+  <div align="left"><code>#define VALUE "10"</code></div>
+  <div align="left"><code><br>
+    write("My name is " + "drakkos"); </code></div>
+  <div align="left"><code>write("I am a creator on " + MUD);</code></div>
+  <div align="left"><code> write("I am " + VALUE + " years old.");</code></div>
+</blockquote>
+<p> Then the next define, where it replaces MUD with "Discworld": </p>
+<blockquote> 
+  <div align="left"><code>#define NAME "drakkos"</code></div>
+  <div align="left"><code> #define MUD "Discworld"</code></div>
+  <div align="left"><code> #define VALUE "10"</code></div>
+  <div align="left"><code> <br>
+    write("My name is " + "drakkos");</code></div>
+  <div align="left"><code> write("I am a creator on " + "Discworld");</code></div>
+  <div align="left"><code> write("I am " + VALUE + " years old.");</code></div>
+</blockquote>
+<p> And then VALUE with "10": </p>
+<blockquote> 
+  <div align="left"><code><font face="Courier New, Courier, mono">#define NAME 
+    "drakkos" </font></code></div>
+  <div align="left"><font face="Courier New, Courier, mono"><code>#define MUD 
+    "Discworld"</code></font></div>
+  <div align="left"><font face="Courier New, Courier, mono"><code> #define VALUE 
+    "10&quot;</code></font></div>
+  <div align="left"><font face="Courier New, Courier, mono"><code> <br>
+    write("My name is " + "drakkos"); </code></font></div>
+  <div align="left"><font face="Courier New, Courier, mono"><code>write("I am 
+    a creator on " + "Discworld"); </code></font></div>
+  <div align="left"><font face="Courier New, Courier, mono"><code>write("I am 
+    " + "10" + " years old."); </code></font></div>
+</blockquote>
+<p>There are other directives that have not been discussed here... these are much 
+  rarer and generally you will not have cause to use them in day to day creating. 
+  As long as you understand how #define and #include work, you're well on your 
+  way to appreciating what the preprocessor does. </p>
+<p><b>Chapter Summary</b></p>
+<p> In this chapter, you should hopefully be comfortable with the difference between 
+  the mudlib and the driver, and compiled/interpreted languages. You should also 
+  be comfortable with the use of #include and #define in objects, and how these 
+  can be used to develop portable and easily modified code.</p>
+<ul>
+  <li> <font face="Courier New, Courier, mono">High level languages are used to 
+    abstract code away from the machine details of implementation.</font></li>
+  <li><font face="Courier New, Courier, mono">Compiled languages are compiled 
+    into machine code before execution.</font></li>
+  <li><font face="Courier New, Courier, mono"> Interpreted languages are executed 
+    statement by statement without ever being compiled.</font></li>
+  <li><font face="Courier New, Courier, mono"> LPC is a semi-interpreted language. 
+    Master objects are compiled into an intermediate language and then interpreted 
+    from there.</font></li>
+  <li><font face="Courier New, Courier, mono"> The driver is what interprets LPC 
+    code. It can be thought of as a mini- operating system for the MUD.</font></li>
+  <li><font face="Courier New, Courier, mono"> The mudlib comprises of the code 
+    used to create the environment of the MUD. Generally all the code outside 
+    of /w/ and /d/</font></li>
+  <li><font face="Courier New, Courier, mono"> The preprocessor is a clever string 
+    substitution routine that runs before a master object is compiled. </font></li>
+  <li><font face="Courier New, Courier, mono">Preprocessor directives are prefaced 
+    with a '#' symbol.</font></li>
+  <li><font face="Courier New, Courier, mono"> #include dumps the contents of 
+    a file in place of the directive.</font></li>
+  <li><font face="Courier New, Courier, mono">#define allows for all occurrences 
+    of the defined text to be replaced with another value..</font></li>
+  <li><font face="Courier New, Courier, mono">Header files (.h files) can be used 
+    as a collection of conceptually related #defines, allowing for all objects 
+    to share common #defines. </font></li>
+</ul>
+<!-- #EndEditable --> 
+<p>
+<hr>
+<center><font size="-1"><a href="/login.html">Discworld MUD</a>'s world wide web pages.<br>brought to you by<br>
+  <strong>Cut Me Own Throat Dibbler's <a href="/sausages.html">Sensational Sausages</a>;&nbsp;buy 
+  one while they are hot.</strong> <br>
+<hr>Lost?  Try Discworld's <a href="/">home page</a>.</font></center><font size="-1"><i><a href="mailto:drakkos@cableinet.co.uk"><font size="-2">Mail Drakkos!</font></a></i>
+</font>
+</body>
+<!-- #EndTemplate --></html>

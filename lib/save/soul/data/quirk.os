@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),({({"You quirk one eyebrow.","$mcname$ quirk$s$ one eyebrow.",0,}),0,}),({({"You quirk one eyebrow at $hcname$.","$mcname$ quirk$s$ one eyebrow at $hcname$.","$mcname$ quirk$s$ one eyebrow at you.",0,0,0,}),0,}),})

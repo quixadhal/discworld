@@ -1,0 +1,303 @@
+.DT
+magic_spell
+Discworld Creator help
+magic_spell
+
+Name
+.SI 5
+/std/effects/magic/magic_spell.c - Inherited by all magis spells.
+.EI
+
+Description
+
+.SP 5 5
+This is the skeletal help for magic_spell .
+
+<description missing>
+.EP
+
+Functions
+
+.SI 5
+int query_fixed_time()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_fixed_time( int number )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_learn_lvl()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_learn_lvl( int number )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_teach_lvl()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_teach_lvl( int number )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_point_cost()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_point_cost( int number )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_power_level()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_power_level( int number )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_directed()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_directed( int number )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_casting_time()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_casting_time( int number )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_name()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_name( string word )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_info()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_info( string word )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_spell_type()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_spell_type( string word )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_skill_used()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_skill_used( string word )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string *query_consumables()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_consumables( string *words )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string *query_needed()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_needed( string *words )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed *query_ritual()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_ritual( mixed *args )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void create()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int check_components()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int cast_spell( string words )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int consume_components( string *words, object person, object *targets )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int check_disabilities( string word, object person )
+.EI
+.SP 10 5
+.EP
+ 
+string expand_spell_message( string message, object thing,
+.SI 5
+      object *things, int to_whom )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void beginning( object person, mixed *args, int id )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void spell_stage( object person, mixed *args, int id )
+.EI
+.SP 10 5
+.EP
+  
+.SI 5
+void end( object person, mixed *args, int id )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void spell_aborted( object person, object *targets, int bonus, int stage )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void spell_failed( object person, object *targets, int bonus )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_classification()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_shadow_ob()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_indefinite()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_magic_spell()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int help()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int teach( object thing, string word )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int scale_by_race( int amount, object thing )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void create_lost_spell()
+.EI
+.SP 10 5
+.EP
+ 

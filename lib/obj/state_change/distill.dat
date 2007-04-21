@@ -1,0 +1,62 @@
+## Water just boils off ##
+::item "distill:Water"::
+::->result:: "/obj/reagents/water.ob"
+::->factor:: 1.0
+::->func:: ({})
+
+## Achorion purple ##
+::item "distill:UndistilledAchorionPurple"::
+::->result:: "/obj/reagents/achorion_purple.ob"
+::->factor:: 0.01
+::->func:: ({ (: $2->add_eat_effect( "/std/effects/poisons/hp_new",
+    to_int( $3->query_skill_bonus( "covert.items.poisons" ) ) ) :) })
+
+## Unheated Achorion purple ##
+::item "distill:UnheatedAchorionPurple"::
+::->result:: "/obj/reagents/achorion_purple.ob"
+::->factor:: 0.01
+::->func:: ({ (: $2->add_eat_effect( "/std/effects/poisons/hp_new",
+    to_int( $3->query_skill_bonus( "covert.items.poisons" ) / 5 ) ) :) })
+
+## Fight Club Poison ##
+::item "distill:UndistilledFightClubPoison"::
+::->result:: "/obj/reagents/angry_poison.ob"
+::->factor:: 0.01
+::->func:: ({ (: $2->add_eat_effect( "/std/effects/poisons/angry",
+    to_int( $3->query_skill_bonus( "covert.items.poisons" ) ) ) :) })
+
+## Hallucinogen Poison ##
+::item "distill:UndistilledHallucinogenPoison"::
+::->result:: "/obj/reagents/hallucinogen_poison.ob"
+::->factor:: 0.01
+::->func:: ({ (: $2->add_eat_effect( "/std/effects/ingested/hallucination",
+    to_int( $3->query_skill_bonus( "covert.items.poisons" ) * 10 ) ) :) })
+
+## Spider poison ##
+
+::item "distill:UndistilledSpiderPoison"::
+::->result:: "/obj/reagents/spider_poison.ob"
+::->factor:: 0.5
+::->func:: ({ (: $2->add_eat_effect( "/std/effects/poisons/spider_venom",
+    to_int( $3->query_skill_bonus( "covert.items.poisons" ) * 10 ) ) :) })
+
+## Blowfish poison ##
+
+::item "distill:UndistilledBlowfishPoison"::
+::->result:: "/obj/reagents/bloat.ob"
+::->factor:: 0.5
+::->func:: ({ (: $2->add_eat_effect( "/std/effects/poisons/bloat",
+    to_int( $3->query_skill_bonus( "covert.items.poisons" ) * 1.5 ) ) :) })
+
+## Snake poison ##
+
+::item "distill:UndistilledSnakePoison"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 1.0
+::->func:: ({
+      (: $2->set_name( "snake_poison" ) :),
+      (: $2->set_short( "thick white liquid" ) :),
+      (: $2->add_adjective( ({ "thick", "white", "liquid" }) ) :),
+      (: $2->set_long( "This is $amount_size$ of some thick white liquid.\n" ) :),
+      (: $2->set_medium_alias( "DistilledSnakePoison" ) :),
+    })

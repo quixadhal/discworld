@@ -1,0 +1,386 @@
+Introduction To LPC - Exercise Answers
+======================================
+
+QUESTION ONE:
+    
+"A plural for objects is automatically created when the object is setup.   
+We've already looked at how set_main_plural() can be used to change the 
+default way the mud pluralises our object.  Using add_plural(), demonstrate 
+how we can add further plurals to an NPC."
+    
+Add plural can be used in the same way we've already seen with add_adjective.
+We simply pass in the plural, or an array containing multiple plurals, in
+the setup of our npc.  So if we wanted to add, say, porridges and greys as
+plurals (which we wouldn't, unless we speak like Gollum, my preciousss),
+we would use the line:
+
+    add_plural(({"greys", "porridges"})).
+
+We would mainly use add_plural when we're coding an item that may have several
+correct pluralisations.  Since the MUD will only add one plural as standard,
+we use add_plural() to make sure all the bases are covered. 
+
+
+QUESTION TWO:
+
+"It's possible to make an NPC auto attack any players who enter the room.  
+Using set_aggressive(), how would we do this?"
+
+Set_aggressive takes a single integer argument of one, two or zero.  If we 
+pass in one as an argument, then the NPC becomes aggressive and will attack all
+players who enter its environment.  If we pass it in as two, then the NPC will
+attack all players, and all NPCs who enter the environment.  Passing in zero
+as an argument will make the NPC passive.  So to make our NPC attack players,
+we use the line:
+
+    set_aggressive(1);
+    
+In the setup of the NPC.
+
+
+QUESTION THREE:
+
+"We can provide our NPC with some cash by using the adjust_money() command.  
+How would we do this to provide our NPC with two Ankh-Morpork dollars and 
+fifty Ankh-Morpork pence?"
+
+Adjust money allows us to modify the NPC's purse.  It takes two arguments,
+the first being the number of coins, and the second being the type of
+coins.  We can get a list of valid types of coin by doing 
+'call query_valid_types() /obj/handlers/money_handler'.   Somewhere
+in the list that appears are the two types of coin we're interested in:
+
+    "Ankh-Morpork pence",
+    "Ankh-Morpork dollar",
+
+So, we want to give our NPC two dollars:
+
+    adjust_money(2, "Ankh-Morpork dollar");
+    
+And fifty pence:
+
+    adjust_money(50, "Ankh-Morpork pence");
+    
+We put this wherever we want our NPC to get the money.  In most cases, 
+we'll put it into the setup() of our NPC.    
+
+
+QUESTION FOUR:
+
+"Discworld being a magical place, it's not unusual for areas to have high 
+levels of background magic.  How would you use the set_background_enchant() 
+function to give a room some ambient, residual magic?"
+
+The function set_background_enchant takes a single integer as an argument,
+and sets the ambient background magic of the room as that value.  The line
+in setup would look like:
+
+    set_background_enchant (100);
+    
+Which would give the background magic level to those who can sense octarine
+as: 
+
+    There is the residual taste of magic in this place    
+    
+Higher values, obviously, mean a greater level of background magic.
+
+
+QUESTION FIVE:    
+
+"Add_alias() can also be used on rooms to add additional labels for exits.
+Demonstrate how you can alias exits to synonyms using this function."
+
+Add_alias takes two arguments.  The first being the alias, or aliases
+to apply to an exit, the second being the exit itself.  For example:
+
+    add_exit ("north", "/oh/some/room", "road");
+
+We can then allow people to go north by typing 'Bing' or 'Bong' by
+using:
+
+    add_alias ("bing", "north");
+    add_alias ("bong", "north");
+    
+Or combining the two into one call by passing in an array as the first
+argument:
+
+    add_alias (({"bing", "bong"}), "north");
+    
+We can use add_alias to make odd exits somewhat more forgiving, as well
+as to be flexible with regards to conventional exits.             
+    
+    
+QUESTION SIX:    
+    
+"Some rooms are, obviously, larger than others.  Demonstrate how we can make 
+a room larger or smaller using the set_room_size() function."
+
+Inside rooms have a default size of ten cubic units, a unit being roughly
+equivalent to a foot.  So a normal inside room will be 10' by 10' by 10'.
+
+We can change the size of a room by using the set_room_size() function.
+This takes a single argument, which may either be an integer specifying
+the size of the room, or an array consisting of the three dimensions.  If 
+the argument is a single value, then the dimensions are assumed to be
+equal in all directions... in other words, the room is cubic.  If we
+pass in an array, it takes the form ({north-south radius, east-west radius,
+up-down radius}).  So we could use:
+
+    set_room_size (20);
+    
+To make a room of twenty cubic units, or:
+
+    set_room_size (({20, 10, 10}));
+    
+To make a room that has a radius of 20 going north to south, a radius of
+10 going from east to west, and a radius of 10 going up and down.
+
+
+
+QUESTION SEVEN:
+   
+"load_chat() allows for special character strings to be passed in which are 
+later expanded.  The help file for expand_string() details the codes for 
+this.  If passing in a command as 'emote swings $mposs$ hips.' will be 
+expanded as 'The grey blob swings his hips.', what would we pass in to get:
+        
+a)  The capitalised name of a random living object in the room
+b)  The pronoun (he/she/it) of an object attacking our NPC
+c)  The short description of a random object in the NPC's inventory."
+
+We enclose our special case string between two $ symbols.  This indicates
+to the output processing code that we want to treat the text between the
+symbols as special.  
+
+The first character after the first dollar determines which object we're
+referring to:
+    
+    m   -   The NPC itself
+    l   -   A random living object in the NPC's room
+    o   -   A random object in the inventory of the NPC
+    a   -   A random object in the NPC's attacker list, if one exists.
+    
+We then follow this immediately with the information we want to access about
+the object:
+
+    name    -   We want the name of the object
+    cname   -   We want the capitalised name
+    gender  -   We want the gender string
+    poss    -   We want the possessive string
+    obj     -   We want the objective string
+    pronoun -   We want the pronoun string
+    gtitle  -   We want the guild title
+    
+We also have ashort, possshort, theshort, and oneshort, and these call the
+relevant short() function on the NPC.
+
+So, for the cases we have above, we want:
+
+a)  $lcname$    
+    (l - random living, cname - capitalised name)
+b)  $apronoun$  
+    (a - random attacker, pronoun - pronoun string)
+c)  $ooneshort$ 
+    (o - random object, oneshort - the short of the object)    
+    
+These functions can be used in load_chat and load_a_chat in place of a 
+specific reference, for example:
+
+    load_chat(20,({ 
+        1 , ": fiddles with $ooneshort$.",
+    }) );
+        
+
+QUESTION EIGHT:
+        
+"If we pass in an array as action to be executed as a part of 
+add_respond_to_with(), the NPC will randomly perform one of the commands.  
+How would you write an add_respond_to_with to make an NPC say either 'bing' 
+or 'bong' when the player says hello?"
+
+When the action to be performed as a result of an add_respond_to_with is
+an array, then the NPC will randomly pick one of the elements of the array
+to execute.  Again, these elements take the form of commands to be executed
+by the NPC, so we'd have:
+
+    add_respond_to_with(({ "@say",({"hello"}),
+        }), ({"say Bing.", "say Bong"}));
+        
+Which would give two random reactions to a player saying hello.        
+
+
+QUESTION NINE:
+
+"An NPC will execute a story of sorts it a load_chat action is passed in as 
+an array.  How would we define a load_chat to make our NPC perform three 
+actions, one after the other, in order?"
+
+Again, we can achieve this simply by passing in the command as an array.
+Unlike add_respond_to_with, the load_chat() will execute each of these
+commands in turn, at intervals dictated by the chat frequency.  
+
+So if we had:
+
+    load_chat(20,({ 2, ({"' Hello.", "' There.", "' I'm talking in.",
+        "'Slow.", "'Motion"}),
+        1, "' Bwah-ha-ha!",
+    }) );
+
+And our leetle NPC executed the first action (the story array), we'd get:
+
+    Our NPC says: Hello.
+    Our NPC says: There.
+    Our NPC says: I'm talking in.
+    Our NPC says: Slow.
+    Our NPC says: Motion.
+    
+Each element of the story array would be executed before the NPC performed
+any other random chats.
+
+
+QUESTION TEN:
+
+"We've shown above how to move an object into a room.  If we had a physical 
+object, such as a sword or a chest, how would it be possible to add the 
+object to a room without it appearing in the inventory line?  
+Add_hidden_object() may prove useful."
+
+Add_hidden_object() adds an object as hidden to a room.  Pretty obvious
+stuff, yes!  But it still bears some further explanation.   It takes a
+single object argument, the argument being the object reference we want
+to add to the room.  It moves the object to the room and makes it invisible
+with regards to the inventory line of the room.  It can still be looked at,
+touched, smelled, kissed, fondled, etc, etc, as normal.  Any commands 
+associated with the item can still be used as if the item was there 
+normally.  The only difference is that the item will not be shown along
+with any other physical objects in the room.
+
+To take an example, let's say we have an item located at 
+/w/your_name/clever_item.  We want to move this into our room, so
+we do:
+
+    object ob = clone_object ("/w/your_name/clever_item");
+    ob->move (this_object());
+    
+And then we enter our room, to see:
+
+    This is a very cool room, with lots of cool things.  More cool things
+    than you could shake a particularly cool stick at!
+    There are two obvious exits: east and southwest.
+    A clever item is here.
+    
+    > look clever item
+    It's very clever!
+    
+But say we don't want that... we want our item to be invisible.  So instead,
+we do:
+
+    object ob = clone_object ("/w/your_name/clever_item");
+    add_hidden_object (ob);
+    
+And we get: 
+
+    This is a very cool room, with lots of cool things.  More cool things
+    than you could shake a particularly cool stick at!
+    There are two obvious exits: east and southwest.
+    
+    >look clever item
+    It's very clever!
+    
+So although our item does not appear in the inventory line, it is still in the
+room.         
+    
+
+
+QUESTION ELEVEN
+
+"Modify exit is an extremely useful function in room coding,  Have a read of 
+the helpfile and see if you can work out the code to
+        
+    a)  Change the exit message of a player so that it would appear as 
+        "<name> staggers off to the <direction>".
+    b)  Change an exit so that it does not appear in the list of obvious exits
+        in a room."
+        
+We've already discussed modify exit a little in tutorial four.  This is just
+an expansion of what we discussed there.  In this case, for the first we use
+the "exit mess" type.  The value we pass in after that uses the special 
+character code $N, which is replaced by the name of the object taking the
+exit.  $F and $T are replaced with the from direction, and the to direction
+respectively.  So we'd use a modify exit that looks like:
+
+    modify_exit("east", ({"exit mess", "$N stagger$s off to the $T."}));
+    
+Remember the stagger$s thing is a pluralisation code... it will appear as
+'staggers' for one object taking the exit, and 'stagger' if two objects
+take the exit:
+
+    Drakkos Wyrmstalker staggers off to the east.
+    Drakkos Wyrmstalker and Draktest stagger off to the east.
+    
+The second part of this exercise is achieved by using the "obvious" type.  
+Again, we use it as above.  We pass in a 1 if we want the exit to be
+obvious... in other words, we want it to appear in the list of obvious
+exits.  We pass in a 0 if we want it to be hidden:
+
+    modify_exit("east", ({"obvious", 0}));
+    
+Remember that we can combine all of our modify_exit statements into a single
+line of code, like so:
+
+    modify_exit("east", ({"exit mess", "$N stagger$s off to the $T.", 
+        "obvious", 0}));            
+
+Which is equivalent to both of the previous modify_exits.
+
+
+QUESTION TWELVE
+
+"We can give NPCs access to guild commands using the add_known_command 
+function.  Using this and an add_combat_action, show how we can make an NPC 
+crush and strike at an enemy, should they have an appropriate weapon."
+
+Add_known_command takes a single string as an argument, and that string is
+the name of the command.  The command must exist as a part of /cmds/guild-race,
+however, or it will not be added.  In our setup(), we would have the following
+lines to provide our NPC with access to the crush and strike commands:
+
+    add_known_command ("crush");
+    add_known_command ("strike");
+    
+Then, we add a combat action to our NPC as we've done before:
+
+    add_combat_action(25, "beat_them",(: do_whack :));    
+    
+And then a function to handle the actual crushing or striking:
+
+    void do_whack(object attacker, object target) {
+        
+        if (target == this_object()) {
+            return;
+        }
+        
+        if (sizeof (this_object()->query_holding())) {
+            switch (random (2)) {
+                case 0:
+                    do_command ("crush " + target->query_name() + 
+                        " with weapon");
+                break;
+                default:
+                    do_command ("strike " + target->query_name() + 
+                        " with weapon");
+                break;
+            }
+        }                
+}    
+
+
+Then, we give our NPC an appropriate weapon in its setup(), and tell it to
+hold it:
+
+    ARMOURY->request_item ("sledgehammer", 100);
+    init_equip();
+    
+And voila!  We have an NPC ready to beat some excrement out of its foes wif
+a big hammer.  Whee!    
+

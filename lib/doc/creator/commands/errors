@@ -1,0 +1,68 @@
+.DT
+errors
+Discworld creator help
+errors
+
+.SH Name
+.SI 5
+errors - the command to handle error reports.
+.EI
+
+.SH Syntax
+.SI 5
+errors [recursive]
+errors mine
+errors dir [recursive] <string>
+errors id <number>
+errors assigned <person>
+errors by <person>
+.EI
+
+.SH Description
+.SP 5 5
+This command is used to manipulate the errors stored in the sql
+database.  The different options to the command allow different sets of
+errors to be selected.  You can find all the errors assigned to you with
+the 'mine' clause, all the errors assigned to other people with the
+'assigned' clause.  You can specify a specific directory and recursively
+check if needed.  You can also find all the bug reports made by a specific
+person with the 'by' clause.
+.EP
+.SP 5 5
+When run, the command will show the first report in the your
+current query results.
+At which time you have a lot of nice
+commands of which the most important is "s" which will change the
+status of the bug and send a reply to the person who made the bug.
+.EP
+.SP 5 5
+If you can see the bugreport has been made incorrectly and really belongs in
+another dirctory, you can forward it with the "f" command.
+.EP
+
+.SH Commands
+.SO 5 10 -20
+	f n	Forward and delete error to directory n.
+	s <status> <cat>	Change the status of the bug.  The basic use of this command is: s FIXED, or s DENIED, or s THANKS.  This will change the status of the bug correctly and send a standard message to the recpient.  You can send a custom message by going: s FIXED custom.  You can send no message at all by going: s FIXED none.  There are short forms for all the types used in this command, they are: f -> fixed, d -> denied, t -> thanks, n -> none, u -> custom, c -> considering, i -> fixing.  So you can do: s f n, to set the status to fixed and not send a message.
+	t <type>	Update the type of the bug, this allows you to change the bug to be an IDEA, TYPO or BUG.  ie: t TYPO
+	a <person>	Assign the bug to the specific person.
+	o <category>	Updates the category of the bug.  The category is the thing it was attached to.  Eg: c ROOM
+	i, l	List the bugs in columns, similar to the web page.
+	v	Redisplay the current bug.
+	c	Comment on the bug.
+	n/+	Next error.
+	p/-	Previous error.
+	g	Goto to error.
+	q	Quit.
+	h/?	This help file.
+.EO
+
+.SH Examples
+.SI 5
+errors
+.EI
+
+.SH See also
+.SP 5 5
+finderrors, printerrors
+.EP

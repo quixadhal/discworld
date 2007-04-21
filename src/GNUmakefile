@@ -1,188 +1,186 @@
-#################################################
-# GNUmakefile for MudOS driver                  #
-# 	- requires gnu make in order to use it      #
-#################################################
-
-###########################
-# setup and configuration #
-###########################
-
-# Note: this Makefile may need modified depending upon which type of machine
-# you are to compile the driver.  In particular, if you are using an HP,
-# Sequent, or RS/6000, be sure to search the Makefile for all comments
-# pertaining to your machine.
-
-# note: Edit options.h to further configure the driver for your particular mud.
-# Also, be sure to look at the EXTRALIBS macro later in the Makefile.
-# Some machines require it to be set to a specific value.
-
-# Set INSTALL_DIR to the directory where you want to install the executables.
-INSTALL_DIR = ../bin
-
-# Change this if you wish the driver binary to be named something other than
-# driver.
-DRIVER_BIN = driver
-
-# uncomment RESOLV if your machine has libresolv.a in /lib or /usr/lib
-#RESOLV=-lresolv
-
-# uncomment one MALLOC if you wish to use BSD malloc or Smalloc.
-# Both of these require the sbrk() system call.  Be sure to read the
-# comments in the bsdmalloc.c file before deciding on BSDMALLOC.
-# note: These mallocs may not work correctly on the NeXT or other systems
-# that don't fully support sbrk().  It is okay not to use either of these
-# two mallocs in which case you will get system malloc (read the comments
-# in options.h for choices on malloc statistics and debugging).
+MAKE=gmake
+SHELL=/bin/sh
+OBJDIR=obj
+DRIVER_BIN=driver
+PROOF=
+STRFUNCS=
+INSTALL=install -c
+INSTALL_DIR=../bin
+OPTIMIZE=
+CPP=gcc -E
+CFLAGS=-D__USE_FIXED_PROTOTYPES__ -g -O3
+CC=gcc34
+YACC=bison -d -y
+RANLIB=ranlib
+A=a
+O=o
+# YOU DO NOT NEED TO CONFIGURE ANYTHING IN THIS FILE.
 #
-# uncomment this line for BSD Malloc.
-#MALLOC=bsdmalloc.c
-# uncomment this line for Smalloc (not generally recommended)
-# Warning: smalloc seems not to return memory to the system upon reboot
-# of the driver on some systems (so far only noticed this on HP Snakes).
-#MALLOC=smalloc.c
-
-# uncomment STR if your machine is missing memcpy(), memset(), strtol(),
-# and strcspn().
-#STRFUNCS=strfuncs.c
-
-# uncomment UALARM if your machine is missing ualarm()
-#UALARM=ualarm.c
-
-# RS/6000 AIX: use this OSFLAGS line (required).
-#OSFLAGS=-D_BSD
-
-# If you don't have strchr() and strrchr(), uncomment following STR line
-#STR=-Dstrchr=index -Dstrrchr=rindex
-
-#Enable warnings from the compiler, if wanted.
-#WARN=-Wall
-
-# define profiling if you want it
-# note: the gmon.out file will likely be written in the mudlib dir
-#PROFIL=-pg -DPROFILING
-
-# define optimizing flags if desired.
-# *WARNING* using high levels of optimization (e.g. -O3) can cause some
-# compilers to produce incorrect code.  If the driver is behaving
-# inexplicably, try using a lower level of optimization (or none).
-#OPTIMIZE=-O
-
-# MIRE stuff
-# you can ignore this, it's for erik's custom use
-#MIRE=-DMIRE
-#MIRE_C=mire.c
-#MIRELIBS=-ltext libDtype.a libeditor.a libdoppelganger.a -ldsys -lndcommon -lndclient -lorwant
-
-# uncomment DEBUG to enable run time debugging.
-DEBUG=-g -DDEBUG
-# uncomment DEBUG_MACRO to compile in debug() macro code
-DEBUG_MACRO=-DDEBUG_MACRO
-# prevent -DDEBUG from abort()'ing the driver (when in -DDEBUG mode)
-#DEBUG_NON_FATAL=-DDEBUG_NON_FATAL
-
-# if you use gcc (including NeXT cc) and have lots of RAM, try uncommenting
-#  this for speedier compiles:
-#PIPE=-pipe
-
-CFLAGS=$(OSFLAGS) $(WARN) $(OPTIMIZE) $(PROFIL) $(DEBUG) $(DEBUG_MACRO) \
-  $(DEBUG_NON_FATAL) $(STR) $(PIPE) $(MIRE)
-
-# set CC=cc on a NeXT (or gcc if you have a newer version than the NeXT
-# comes with) and to gcc on other machines (if possible)
-# Note: at this time gcc (2.2.2) for HP doesn't implement varargs properly;
-# if you have problems compiling on an HP, try using cc instead of gcc.
-CC=gcc
-
-# define this to be bison if you have it, and yacc otherwise
-YACC=yacc
-YFLAGS = -d
-
-# Add extra libraries here.
-
-# RS/6000 AIX: use this EXTRALIBS line (required).
-#EXTRALIBS=-lbsd
-
-# HP-UX: use this EXTRALIBS line for HP-UX (required)
-#EXTRALIBS=-lBSD
-
-# NeXT: malloc debugging tools on the NeXT (optional)
+# RUN THE SHELL SCRIPT ./build.MudOS to generate the Makefiles, and follow
+# its instructions.
+#
+############################################################################
+#
+# **** TARGETS AND THEIR CORRECT USAGE ****
+#
+# COMPILATION TARGETS:
+# 
+# all:		compile all the files
+#
+# install:	make all, then move the files to the correct directories
+#
+# remake: 	remove the object files and generated files, and recompile
+# 		     NO reconfiguration is done, etc.
+#
+# depend:	automatically create dependency info
+#
+#
+# 'CLEAN' TARGETS:
+#
+# neat: 	remove object files and generated files (used by remake)
+#
+# clean:	in addition to neat, also remove .orig and .rej files,
+#		cores, lint files, emacs backups, tag files, yacc debug
+#		files, generated Makefiles, generated binaries, and
+#		generated dependency info
+#
+# spotless:	make clean, then remove ALL CONFIGURATION AND CUSTOMIZATION
+#		     useful for creating distributions
+#
+# ---- REALLY COMPLEX OPTIONS YOU PROBABLY DON'T WANT TO TOUCH -----
+#
+# NeXT: link with MallocDebug if you have a NeXT with NeXTOS 2.1 or later and
+# you wish to search for memory leaks (see /NextDeveloper/Apps/MallocDebug).
+# Note: linking with MallocDebug will cause the virtual size of the
+# driver process to reach appoximately 40MB however the amount of real memory
+# used will remain close to normal.
 #EXTRALIBS=-lMallocDebug -lsys_s
+#
+# ---- DO NOT EDIT ANYTHING BELOW HERE UNLESS YOU KNOW ALOT ABOUT HOW
+#      MUDOS WORKS INTERNALLY ----
 
-# Sequent DYNIX/ptx: use this EXTRALIBS line (required).
-#EXTRALIBS=-lsocket -linet -lnsl -lseq
+OVERRIDES=$(MAKEOVERRIDES)
 
-# System V Release 4 (386/486)
-#EXTRALIBS=-lsocket -lnsl
+# **************************************************************************
+# **** NOTE: If you add something here, also add it to the OBJ= rule below,
+# **** or non-GNU makes will die
+# **************************************************************************
+SRC=grammar.tab.c lex.c main.c rc.c interpret.c simulate.c file.c object.c \
+  backend.c array.c mapping.c comm.c ed.c regexp.c buffer.c crc32.c \
+  malloc.c mallocwrapper.c class.c efuns_main.c efuns_port.c \
+  call_out.c otable.c dumpstat.c stralloc.c hash.c \
+  port.c reclaim.c parse.c simul_efun.c sprintf.c program.c \
+  compiler.c avltree.c icode.c trees.c generate.c scratchpad.c \
+  socket_efuns.c socket_ctrl.c qsort.c eoperators.c socket_err.c md.c \
+  disassembler.c binaries.c ualarm.c $(STRFUNCS) \
+  replace_program.c master.c function.c \
+  debug.c crypt.c applies_table.c add_action.c eval.c fliconv.c
 
-# don't change this line.  Define EXTRALIBS before this line if you
-# wish to add any libraries.
-LIBS=-lm $(EXTRALIBS) $(MIRELIBS)
+all: $(OBJDIR) cc.h main_build
+main_build2: $(DRIVER_BIN) addr_server portbind
 
-SRC=lang.tab.c lex.c main.c rc.c interpret.c simulate.c file.c object.c \
-  array.c mapping.c comm.c ed.c regexp.c mudlib_stats.c swap.c malloc.c \
-  call_out.c otable.c dumpstat.c stralloc.c hash.c port.c \
-  access_check.c parse.c simul_efun.c sprintf.c backend.c \
-  socket_efuns.c efunctions.c eoperators.c socket_ctrl.c qsort.c \
-  socket_errors.c md.c uid.c $(MIRE_C) \
-  $(UALARM) $(STRFUNCS) $(MALLOC)
-
-# define this to be where you want the compiled files to go
-OBJDIR = obj
-
-#################################################
-# the meat of things                            #
-# don't change anything below this section      #
-#################################################
-
+main_build: files
+	$(MAKE) main_build2
 
 VPATH = $(OBJDIR)
 
 OBJ=$(addprefix $(OBJDIR)/,$(subst .c,.o,$(SRC)))
 
-all: $(DRIVER_BIN) addr_server
+$(OBJDIR)/%.o: %.c $(OBJDIR)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -o $@ -c $<
 
-$(DRIVER_BIN): $(OBJDIR) $(OBJ)
-	-mv $(DRIVER_BIN) $(DRIVER_BIN).old
-	$(CC) $(CFLAGS) $(OBJ) -o $(DRIVER_BIN) $(LIBS)
+$(OBJDIR)/lex.o: lex.c preprocess.c cc.h grammar.tab.c
 
-depend:
-	-rm Dependencies
-	touch Dependencies
-	for i in *.c; do echo -n $(OBJDIR)/ >> Dependencies; $(CC) -E -MM $$i >> Dependencies; done
-
-addr_server:  $(OBJDIR)/addr_server.o addr_server.h $(OBJDIR)/socket_ctrl.o $(OBJDIR)/port.o
-	$(CC) $(CFLAGS) $(OBJDIR)/addr_server.o $(OBJDIR)/socket_ctrl.o $(RESOLV) -o addr_server $(EXTRALIBS)
+$(OBJDIR)/grammar.tab.o: grammar.tab.c opcodes.h
 
 $(OBJDIR):
-	mkdir $(OBJDIR)
+	mkdir -p $(OBJDIR)
 
-$(OBJDIR)/%.o: %.c
-	$(CC) -I$(OBJDIR) $(CFLAGS) -o $@ -c $<
+which_makefile:
+	echo MakeIsGNU
 
-%.tab.c: %.y
-	$(YACC) $(YFLAGS) $<
-	-mv y.tab.c $@
-	-mv y.tab.h $*.tab.h
+grammar.tab.c: grammar.y
+	$(YACC) grammar.y
+	-rm -f grammar.tab.*
+	sed "s/y.tab.c/grammar.tab.c/g" y.tab.c  > grammar.tab.c
+	-mv y.tab.h grammar.tab.h
 
-list_funcs:
-	@$(CC) -E $(CFLAGS) func_spec.c
+packages/packages.a: packages/parser.c packages/contrib.c
+	$(MAKE) -C packages 'CC=$(CC)' 'CFLAGS=$(CFLAGS) $(OPTIMIZE)' 'OBJDIR=../$(OBJDIR)' 'RANLIB=$(RANLIB)' 'A=$(A)' 'O=$(O)'
 
-make_func: make_func.tab.c
-	$(CC) $< -DFUNC_SPEC=\"$(MAKE)\ list_funcs\" -o make_func
+$(DRIVER_BIN): packages/packages.a $(OBJ)
+	-mv -f $(DRIVER_BIN) $(DRIVER_BIN).old
+	$(PROOF) $(CC) $(CFLAGS) $(OPTIMIZE) $(OBJ) -o $(DRIVER_BIN) packages/packages.a $(EXTRALIBS) `cat system_libs`
 
-make_malloc: $(OBJDIR)/make_malloc.o
-	$(CC) -Iobj $(OBJDIR)/make_malloc.o -o make_malloc
+addr_server: files $(OBJDIR)/addr_server.o $(OBJDIR)/socket_ctrl.o $(OBJDIR)/port.o addr_server.h
+	$(CC) $(CFLAGS) $(OPTIMIZE) $(OBJDIR)/socket_ctrl.o $(OBJDIR)/addr_server.o $(OBJDIR)/port.o \
+	-o addr_server `cat system_libs`
 
-malloc.c: config.h make_malloc
-	./make_malloc
+portbind: $(OBJDIR)/portbind.o
+	$(CC) $(CFLAGS) $(OPTIMIZE) $(OBJDIR)/portbind.o -o portbind `cat system_libs`
+
+
+remake: neat all
+
+customize:
+	-cp ../local_options .
+	-cp ../system_libs .
+	-cp ../configure.h .
+
+depend: opcodes.h grammar.tab.c cc.h efunctions.h efun_defs.c configure.h
+	-rm tmpdepend
+	for i in *.c; do $(CC) -MM -DDEPEND $$i >>tmpdepend; done
+	sed -e "s!^[^ ]!$(OBJDIR)/&!" <tmpdepend >Dependencies
+	-rm tmpdepend
+
+cc.h: GNUmakefile
+	rm -f cc.h
+	echo "/* this file automatically generated by the Makefile */" > cc.h
+	echo '#define COMPILER "$(CC)"' >> cc.h
+	echo '#define OPTIMIZE "$(OPTIMIZE)"' >> cc.h
+	echo '#define CFLAGS   "$(CFLAGS) $(OPTIMIZE)"' >> cc.h
+	echo '#define OBJDIR   "$(OBJDIR)"' >> cc.h
+
+# the touches here are necessary to fix the modification times; link(2) does
+# 'modify' a file
+files: edit_source sysmalloc.c smalloc.c bsdmalloc.c debugmalloc.c wrappedmalloc.c options.h op_spec.c func_spec.c packages/Makefile.pre packages/GNUmakefile.pre configure.h grammar.y.pre
+	./edit_source -options -malloc -build_func_spec '$(CPP) $(CFLAGS)' \
+	              -process grammar.y.pre
+	./edit_source -process packages/Makefile.pre
+	./edit_source -process packages/GNUmakefile.pre
+	./edit_source -build_efuns -build_applies
+	touch mallocwrapper.c
 	touch malloc.c
-	$(CC) $(CFLAGS) -c malloc.c -o $(OBJDIR)/malloc.o
+	touch files
 
-lang.y efun_defs.c: malloc.c func_spec.c make_func prelang.y \
-		postlang.y config.h
-	./make_func > efun_defs.c
+make_func.tab.c: make_func.y cc.h
+	$(YACC) $(YFLAGS) make_func.y
+	-rm -f make_func.tab.c
+	mv y.tab.c make_func.tab.c
 
-config.h: options.h
+configure.h: edit_source build.MudOS
+	-if test \( ! -r configure.h \) -o \( ! -r configuration \); then \
+	    rm -f configuration; \
+	    touch configuration; \
+	fi
+	if test "Machine `uname -a` Configure version 5" = "`cat configuration`"; then \
+	    echo "Skipping configuration ..."; \
+	else \
+	    ./edit_source -configure; \
+	    echo "Machine `uname -a` Configure version 5" > configuration; \
+	fi
+
+$(OBJDIR)/edit_source.o: edit_source.c preprocess.c cc.h
+
+edit_source: $(OBJDIR)/edit_source.o $(OBJDIR)/hash.o $(OBJDIR)/make_func.tab.o
+	$(CC) $(CFLAGS) $(OBJDIR)/edit_source.o $(OBJDIR)/hash.o $(OBJDIR)/make_func.tab.o -o edit_source
+
+# don't optimize these two
+$(OBJDIR)/edit_source.o: edit_source.c
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+$(OBJDIR)/make_func.tab.o: make_func.tab.c
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 tags: $(SRC)
 	ctags $(SRC)
@@ -190,14 +188,56 @@ tags: $(SRC)
 TAGS: $(SRC)
 	etags $(SRC)
 
-install: $(DRIVER_BIN) addr_server
-	install -c $(DRIVER_BIN) $(INSTALL_DIR)/$(DRIVER_BIN)
-	install -c addr_server $(INSTALL_DIR)/addr_server
+install: all
+	-mkdir $(INSTALL_DIR)
+	$(INSTALL) $(DRIVER_BIN) $(INSTALL_DIR)
+	$(INSTALL) addr_server $(INSTALL_DIR)
+	$(INSTALL) portbind $(INSTALL_DIR)
 
-clean:
-	-rm -rf obj *.o mon.out gmon.out *.tab.c *.tab.h *.orig *.rej
-	-rm -f lang.h lang.y efun_defs.c *.ln tags *~ TAGS
-	-rm -f efunctions.h base.h efun_protos.h
-	-rm -f addr_server make_func $(DRIVER_BIN) $(DRIVER_BIN).old make_malloc
+Makefiles: Makefile.in NMakefile.in
 
-include Dependencies	# include dependencies generated by gmake depend
+Makefile.in: edit_source Makefile.in.pre Makefile.master
+	./edit_source -process Makefile.in.pre
+
+NMakefile.in: edit_source NMakefile.in.pre Makefile.master
+	./edit_source -process NMakefile.in.pre
+
+nothing:
+
+# remove local configuration
+spotless: clean
+	-rm -f configure.h local_options system_libs configuration
+	-rm -f options_incl.h
+	-rm -f *.diffs
+	-find . -name "*~" -print | xargs rm
+
+# get ready for recompile
+neat:
+	-(cd packages; $(MAKE) "A=$(A)" "O=$(O)" clean)
+	-rm -rf $(OBJDIR) *.$(O) *.tab.c *.tab.h
+	-rm -f efun_defs.c option_defs.c
+	-rm -f opcodes.h efunctions.h opc.h efun_protos.h
+	-rm -f malloc.c mallocwrapper.c
+	-rm -f func_spec.cpp applies.h applies_table.c files
+	-rm -f grammar.y comptest* a.out
+	-rm -f packages/Makefile packages/GNUmakefile packages/packages
+
+# remove everything except configuration
+clean: neat
+	-rm -f Makefile.MudOS GNUmakefile.MudOS
+	-rm -f cc.h edit_source
+	-rm -f core y.output testsuite/core testsuite/tmp/*
+	-rm -f testsuite/OPCPROF.* testsuite/opc.*
+	-rm -rf testsuite/binaries testsuite/single/swapfile.*
+	-rm -f testsuite/OBJ_DUMP* testsuite/test_file testsuite/testfile
+	-rm -f testsuite/tmp_eval_file.c testsuite/sf.o testsuite/ed_test
+	-rm -f testsuite/log/log testsuite/log/debug.log testsuite/log/compile
+	-find . -name "*~" -print | xargs rm
+	-find . -name "*.orig" -print | xargs rm
+	-find . -name "*.rej" -print | xargs rm
+	-rm -f *.ln tags TAGS
+	-rm -f $(DRIVER_BIN) $(DRIVER_BIN).old addr_server portbind
+	-rm -f Dependencies tmpdepend
+	-touch Dependencies
+
+include Dependencies

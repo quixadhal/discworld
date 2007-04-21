@@ -1,0 +1,39 @@
+.DT
+set_max_weight
+DW_wibble creator help
+set_max_weight
+
+.SH Name
+.SP 5 5
+set_max_weight -  This method sets the maximum weight of the container.
+.EP
+
+.SH Syntax
+.SI 5
+void set_max_weight(int i)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^i%^RESET%^ - the maxium weight of the container
+.EI
+
+.SH Defined in
+.SI 5
+/obj/container.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the maximum weight of the container.  This also sets
+the maximum volume of the container to 10 times its maximum weight.
+(If there is no current maximum volume).
+.EP
+
+.SH See also
+.SP 5 5
+set_max_volume(), add_weight()
+
+.EP
+

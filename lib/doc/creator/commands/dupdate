@@ -1,0 +1,38 @@
+.DT
+dupdate
+Discworld Creator help
+dupdate
+
+.SH Name
+.SI 5
+dupdate - Performs a deep update updating the objects in memory copy,
+reloading the object and all files it inherits.
+.EI
+
+.SH Syntax
+.SI 5
+dupdate <object specification> [<depth object>]
+.EI
+
+.SH Description
+.SP 5 5
+This command works just like update except that it causes the entire
+inheritance tree to be reloaded.
+
+Since this can take some time dupdate takes an optional second
+parameter that is the object in the inheritance tree that dupdate
+should stop at.
+.EP
+
+.SH Examples
+.SI 5
+> dupdate /w/furball/test/*.c
+> dupdate /global/player.c /std/living/living.c
+> dupdate test.c
+> dupdate liv*.c
+.EI
+
+.SH See also
+.SP 5 5
+clone, load, discard, update
+.EP

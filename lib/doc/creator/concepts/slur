@@ -1,0 +1,45 @@
+.DT
+slur
+Discworld creator help
+slur
+
+.SH Summary
+.SP 5 5
+SLUR (short for Scripting Language Useful for Rooms) is a utility created
+to take large amounts of grunt-work coding out of making "plays" or
+"routines" for the players.  Additionally, these scripts are designed from
+the very start to allow for branching or otherwise non-linear progression
+through the script.  Nothing is as delightful to a player than to discover
+something new and exciting about a boring old task he had to do out of
+necessity, even if it does mean that his character loses a finger.  Of
+course, you don't have to tell the players that you just added in a random
+or skill-based possibility of hitting the Lose-A-Finger routine just the
+other day when they weren't looking.
+.EP
+.SP 5 5
+Slur is designed to look and behave a bit like a cousin of Lisp whose mother drank during the pregnancy.
+.EP
+.SH Organization
+.SP 5 5
+In order that I not bog you down with too much information at once, this
+help page is divided into multiple pages.
+.SO 5 20 -40
+	slur_spec	Specification in non-code terms of how the SLUR interpretor is supposed to work and interface with various directives.
+	slur_convention	Conventions of how to name directives, error flags, and some of the necessities of writing custom directives
+	slur_interpretor	The functions inherant in the interpretor and what they mean to you.
+	slur_basic	A manual of the basic functions that are at the bottom of most things
+	slur_compare	A manual to the comparison operators
+	slur_delay	A manual to the interface for call_out
+	slur_list	A manual to the implementation of lists and functions that do things with lists
+	slur_logic	A manual to the logical operators
+	slur_math	A manual to the implemented math functions
+	slur_object	A manual to the directives necessary to work with objects and make pretty noises for the players
+	slur_signal	A manual to the SIGNAL directive, which holds on to a hunk of script until a signal is sent to the interpretor
+	slur_skills	A manual to the interface for the Taskmaster system
+.EO
+.EP
+
+.SH See also
+.SI 5
+/obj/handlers/data (useful for separating script from code)
+.EI

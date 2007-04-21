@@ -1,0 +1,3 @@
+int bing() {
+    return "hi";
+}

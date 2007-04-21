@@ -1,0 +1,35 @@
+.DT
+printerrors
+Discworld creator help
+printerrors
+
+.SH Name
+.SI 5
+printerrors - write all bugreports in a series of directories.
+.EI
+
+.SH Syntax
+.SI 5
+printerrors <directory>
+.EI
+
+.SH Description
+.SP 5 5
+This command will collect all error reports in <directory> and all
+subdirectories of it, and write them to /w/<creator>/print_errors.txt
+.EP
+.SP 5 5
+Since it's coded to be nice to the other players, it will take a while to
+check all directories if there are a lot of them, and will tell you when
+it's finished.
+.EP
+
+.SH Examples
+.SI 5
+printerrors /d/am    (this will take a long time:)
+.EI
+
+.SH See also
+.SP 5 5
+errors, finderrors
+.EP

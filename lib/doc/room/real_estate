@@ -1,0 +1,56 @@
+.DT
+real estate agent
+Discworld room help
+real estate agent
+
+.SH Name
+.SI 5
+real estate agent
+.EI
+
+.SH Syntax
+.SI 5
+list
+browse <item>
+bid <amount> {on} <item>
+bid <item> {for} <amount>
+claim
+request [agreement]
+.EI
+
+.SH Description
+.SP 5 5
+The real estate agents auction house, player housings, flats and other properties, both personal and business.   Properties are made available for
+rental or purchase (indicated on the lot itself).
+
+As a property becomes available, it is put on the market.  Offers
+are made by bidding, and the winner of the auction receives the
+property.
+
+Houses and other property of a personal nature will currently only be available for rent, while shops will only be available for purchase.
+
+If the house was up for rental the winning bid becomes the (Discworld)
+monthly rent and that rent is automatically deducted from their bank
+account every month.  If the house was up for purchase the winning bid
+is a one-time cost.
+
+Once you have won an auction you must come back and 'claim' your
+house.  When you claim it is when you own the house.  You will pay
+your first months rent in advance.
+
+You may request a replacement housing rental or ownership agreement
+with the request command if you've lost your original copy.
+.EP
+
+.SH Example
+.SI 5
+> bid 10 dollars on d
+> collect all
+> request agreement
+You are not renting any houses.
+.EI
+
+.SH See also
+.SP 5 5
+auction house, player housing
+.EP

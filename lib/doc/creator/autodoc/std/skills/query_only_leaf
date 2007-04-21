@@ -1,0 +1,38 @@
+.DT
+query_only_leaf
+DW_wibble creator help
+query_only_leaf
+
+.SH Name
+.SP 5 5
+query_only_leaf -  This method determines if only leaf skills can be increased in this skill tree.
+.EP
+
+.SH Syntax
+.SI 5
+int query_only_leaf(string str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the skill tree to check
+.EI
+
+.SH Returns
+.SI 5
+1 if the tree is only leaf, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/std/skills.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method determines if only leaf skills can be increased in this
+skill tree.  This is used for the other skill tree, to avoid increasing
+all the other skills at the same time.
+.EP
+

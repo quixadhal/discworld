@@ -1,0 +1,438 @@
+.DT
+deity_handler
+Discworld Creator help
+deity_handler
+
+Name
+.SI 5
+/obj/handlers/deity_handler.c - This is the handler for deities.
+.EI
+
+Description
+
+.SP 5 5
+This handler keeps track of all information for the deities, such as
+priests, non-priest worshippers, rituals and commands given, highpriest etc.
+.EP
+
+Functions
+
+.SI 5
+int query_deity( string deity_name )
+.EI
+.SP 10 5
+Returns 1 if deity_name is the name of a known deity.
+.EP
+ 
+.SI 5
+void set_al_lower( string deity_name, int number )
+.EI
+.SI 5
+int query_al_lower( string deity_name )
+.EI
+.SI 5
+void set_al_upper( string deity_name, int number )
+.EI
+.SI 5
+int query_al_upper( string deity_name )
+.EI
+.SP 10 5
+Set and query the lower (good) and upper (evil) alignment limits for followes.
+.EP
+
+.SI 5
+int query_al_middle( string deity_name )
+.EI
+.SP 10 5
+Return the average of the upper (evil) and lower (good) alignment limits for
+the deity deity_name.
+.EP
+
+.SI 5
+int random_al( string deity_name )
+.EI
+.SP 10 5
+Returns a random alignment that is within the limits of this deity.
+.EP
+
+.SI 5
+int query_valid_al( string deity_name, int number )
+.EI
+.SP 10 5
+Check if the alignment is allowed, return 0 if it's a valid alignment, -1 if
+it's too low (good), 1 if it's too high (evil).
+.EP
+ 
+.SI 5
+void set_gender( string deity_name, int number )
+.EI
+.SI 5
+int query_gender( string deity_name )
+.EI
+.SP 10 5
+Set and query the gender of the deity.  0 for neuter, 1 for male, 2 for
+female.
+.EP
+ 
+.SI 5
+string query_pronoun( string deity_name )
+.EI
+.SI 5
+string query_objective( string deity_name )
+.EI
+.SI 5
+string query_possessive( string deity_name )
+.EI
+.SP 10 5
+These three functions returns the pronoun(It, He, She), objective(It, Him,
+Her) and possessive(Its, His, Her) for this deity.
+.EP
+ 
+.SI 5
+int query_points( string deity_name )
+.EI
+.SI 5
+void set_points( string deity_name, int number )
+.EI
+.SI 5
+int adjust_points( string deity_name, int number )
+.EI
+.SP 10 5
+These functions set, queries and adjusts the points of this deity.  The
+points are a measure of the total amount of prayer that has been directed to
+the deity. 
+(Currently unused, but it's planned to have meaning later)
+.EP
+ 
+.SI 5
+int query_rating( string deity_name )
+.EI
+.SI 5
+void set_rating( string deity_name, int number )
+.EI
+.SI 5
+void adjust_rating( string deity_name, int number )
+.EI
+.SP 10 5
+I don't know why these are here, I haven't seen them used.
+.EP
+ 
+.SI 5
+string query_high_priest( string deity_name )
+.EI
+.SI 5
+void set_high_priest( string deity_name, string priest_name )
+.EI
+.SP 10 5
+These queries and sets who the high priest is.
+.EP
+ 
+.SI 5
+string query_info( string deity_name )
+.EI
+.SI 5
+void set_info( string deity_name, string text )
+.EI
+.SP 10 5
+These queries and sets the information for the deity.
+.EP
+ 
+.SI 5
+string query_title( string deity_name )
+.EI
+.SI 5
+void set_title( string deity_name, string word2 )
+.EI
+.SP 10 5
+These queries and sets the deity's title.
+.EP
+ 
+.SI 5
+string query_aka( string deity_name )
+.EI
+.SI 5
+void set_aka( string deity_name, string word2 )
+.EI
+.SP 10 5
+These functions queries and sets an alternate deity as the recipient for
+points and such. (like the Tsortian God of Thunder is really Blind Io, with
+a false beard and another hammer)
+.EP
+ 
+.SI 5
+mapping query_worshippers( string deity_name )
+.EI
+.SI 5
+void set_worshippers( string deity_name, mapping map )
+.EI
+.SP 10 5
+Queries and sets the mapping of non-priest worshippers, the keys are the
+names, the values are the number of rituals learnable.
+.EP
+ 
+.SI 5
+int query_worshipper( string deity_name, string worshipper_name )
+.EI
+.SI 5
+void add_worshipper( string deity_name, string worshipper_name,
+     int number )
+.EI
+.SI 5
+void set_worshipper( string deity_name, string worshipper_name,
+     int number )
+.EI
+.SI 5
+int delete_worshipper( string deity_name, string worshipper_name )
+.EI
+.SP 10 5
+Query, adjust, set or delete a non-priest worshipper, the number returned,
+added or det is the number of rituals learnable by this worshipper, -1 is
+returned by query_worshipper() if worshipper_name isn't a worshipper.
+.EP
+ 
+.SI 5
+mixed *query_worshipper_quests( string deity_name )
+.EI
+.SI 5
+void set_worshipper_quests( string deity_name, mixed *quest_list )
+.EI
+.SI 5
+void recheck_worshipper( string player_name )
+.EI
+.SP 10 5
+These functions queries and sets the list of worshipper quests, this is an
+array consisting of pairs of quest_title and number if rituals given if the
+quest has been done.
+.EP
+.SP 10 5
+The function recheck_worshipper checks if the player is a worshipper, and in
+that case, it'll calculate the number of rituals taught based on the quests
+done.
+.EP
+
+.SI 5
+mapping query_commands( string deity_name )
+.EI
+.SI 5
+int add_command( string deity_name, string command_name,
+    int number )
+.EI
+.SI 5
+int delete_command( string deity_name, string command_name )
+.EI
+.SP 10 5
+These functions query, adds to, and deletes from the commands given to
+priests, the number is the level at which the command is taught.
+command_name is the name as used by the known_command system.
+.EP
+.SP 10 5
+See also add_known_command
+.EP
+  
+.SI 5
+mapping query_highpriest_commands( string deity_name )
+.EI
+.SI 5
+int add_highpriest_command( string deity_name, string word2,
+     int number )
+.EI
+.SI 5
+int delete_highpriest_command( string deity_name, string word2 )
+.EI
+.SP 10 5
+Same as the previous, but defines the extra commands given to the high priest.
+.EP
+ 
+.SI 5
+mapping query_prayers( string deity_name )
+.EI
+.SI 5
+int add_prayer( string deity_name, string ritual_name,
+    string file_name, int number, string skill_name )
+.EI
+.SI 5
+int delete_prayer( string deity_name, string ritual_name )
+.EI
+.SP 10 5
+These functions query, adds to and deletes from the rituals given by this
+deity, ritual_name is the name the ritual will be known as to the caster,
+file_name is the name of the file defining the ritual, number is the level
+the caster should have the skill named skill_name before getting the ritual.
+.EP
+ 
+.SI 5
+mapping query_highpriest_prayers( string deity_name )
+.EI
+.SI 5
+int add_highpriest_prayer( string deity_name, string ritual_name,
+    string file_name, int number, string skill_name )
+.EI
+.SI 5
+int delete_highpriest_prayer( string deity_name,
+    string ritual_name )
+.EI
+.SP 10 5
+Same as the previous, but defines the extra rituals given to the high priest.
+.EP
+ 
+.SI 5
+mapping query_priesthood( string deity_name )
+.EI
+.SP 10 5
+This returns a mapping, the keys of which are the names of the priesthood,
+the values are the priests rating.
+.EP
+ 
+.SI 5
+string *query_priests( string deity_name )
+.EI
+.SP 10 5
+This returns a list of the priests who worship this deity.
+.EP
+ 
+.SI 5
+int query_priest( string deity_name, string priest_name )
+.EI
+.SI 5
+int add_priest( string deity_name, string priest_name )
+.EI
+.SI 5
+int delete_priest( string deity_name, string priest_name )
+.EI
+.SP 10 5
+These functions query whether a priest is in the priest hood, adds the pries
+and deletes the priest from the priesthood.
+.EP
+ 
+.SI 5
+int query_priest_rating( string deity_name, string priest_name )
+.EI
+.SI 5
+int adjust_priest_rating( string deity_name, string priest_name,
+    int number1, int number2 )
+.EI
+.SP 10 5
+These functions queries and adjusts the priests rating.  When adding,
+number1 is the amoung to adjust the rating, number2 is the level of the
+priest, the rating can have values between 0 and level*2.
+.EP
+ 
+.SI 5
+int check_priesthood( string deity_name )
+.EI
+.SP 10 5
+This runs through the priesthood, checking whether the priest still exists
+as a player, a priest and a follower.
+.EP
+ 
+.SI 5
+void check_worshippers( string deity_name )
+.EI
+.SP 10 5
+This runs through the worshippers, checking whether the player still exists
+as a player and a follower.
+.EP
+ 
+.SI 5
+string *query_voted( string deity_name )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int set_vote( string deity_name, string word2, string word3 )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mapping query_election( string deity_name )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void make_announcement( string words )
+.EI
+.SP 10 5
+This posts announcements to the priestsguild board.
+.EP
+ 
+.SI 5
+void elect_high_priest( string deity_name )
+.EI
+.SP 10 5
+This function starts the election process to get a new highpriest.
+.EP
+ 
+.SI 5
+void end_election( string deity_name )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int valid_priest( string priest )
+.EI
+.SP 10 5
+This one checks if the player named is a valid priest player character. 
+Among the tests are whether it's actually a player, it that player worships
+the deity loaded and if it's actually a priest.
+.EP
+ 
+.SI 5
+int valid_high_priest( string priest )
+.EI
+.SP 10 5
+This one checks if the player named can be high priest. 
+Among the tests are whether it's actually a player, it that player worships
+the deity loaded, if it's actually a priest and that it's neither a creator
+nor a creator test character.
+.EP
+ 
+.SI 5
+int test_user( string name )
+.EI
+.SI 5
+int test_creator( string name )
+.EI
+.SI 5
+int test_level( string name )
+.EI
+.SI 5
+string test_guild( string name )
+.EI
+.SI 5
+string test_deity( string name )
+.EI
+.SI 5
+mixed test_property( string name, string prop )
+.EI
+.SP 10 5
+These are used internally to get various informations about players whether
+they are logged on or not.
+.EP
+  
+.SI 5
+void init_data( string deity_name )
+.EI
+.SP 10 5
+This function sets up the values for a deity that has no savefile.
+.EP
+ 
+.SI 5
+int get_data_file( string deity_name )
+.EI
+.SI 5
+void save_data_file( string deity_name )
+.EI
+.SP 10 5
+Restore and save the deity.
+.EP
+ 
+.SI 5
+mixed *stats()
+.EI
+.SP 10 5
+.EP
+

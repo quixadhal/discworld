@@ -1,0 +1,116 @@
+.DT
+Terrains
+Discworld Creator Help
+Terrains
+
+Name
+.SI 5
+Terrains - Collections of cloned and unique locations making areas
+.EI
+
+Description
+.SP 5 5
+A terrain is an area in the game that is managed by the terrain handling
+system.  Terrains are generally areas for which large portions are similar
+such as deserts, forests, mountains, caves and swamps; towns and cities
+should have every location unique and so are not suited to being managed
+by the terrain handler.
+.EP
+
+Locations
+.SP 5 5
+The locations that form a terrain come in two types, fixed and
+floating.  Fixed locations are unique rooms while floating locations
+are cloned to make portions of the area.  For example, suppose you have
+a swamp with an island of dry ground in it: the island would be a fixed
+location, since it is unique and special, whereas the other swamp locations
+would all be clones of a single room and are floating locations.  This
+splitting of locations into fixed and floating types frees the creator from
+having to struggle to describe many very similar rooms, allowing time
+and energy to be devoted to the unique places - it's a rare player who
+will complain that each tree in a forest isn't given its own, special
+description.  For the purpose of providing a hook to the terrain handler,
+fixed locations must have a set_terrain() in their setup() code; this
+is so that when such a location is loaded, either by someone entering
+through an exit or by logging into that location, it can notify the
+terrain handler.  Floating locations do not need this call, since they
+are cloned by the terrain handler, and hence the handler is already
+aware of their existence.
+.EP
+
+Coordinates
+.SP 5 5
+The terrain handling system relies heavily on coordinates.  Before any
+data can be given to the handler, therefore, the terrain must be planned on
+paper so that all coordinates are known in advance.  Fixed locations
+require a single set of three coordinates to specify where they are to be
+found, while floating locations either require a single set of three
+coordinates or a set of six coordinates specifying a rectanguloid, the first
+three being the most negative coordinates of the rectanguloid (i.e. one
+corner) and the other three being the most positive coordinates of the
+rectanguloid (i.e. the diametrically opposed corner).  The locations need
+not all have the same room size, although they all should have a size that
+is a multiple of 5, which means that all differences between location
+coordinates must be multiples of 10 (or, to simplify things, make all
+coordinates multiples of 10).  Room sizes need to be explicitly set using
+set_room_size() in the actual code for that object; inheriting the room
+size from a parent is not enough, since the terrain handler will not
+load an unloaded room, grepping instead to ascertain the room size.
+.EP
+
+Priorities
+.SP 5 5
+When a location, fixed or floating, is put into use by the terrain handler,
+its exits are calculated and added.  Once exits have been calculated for
+a given location (or, more specifically, for a given coordinate), the
+connection information is written to a file and then that file is read
+for the data the next time that location needs to be given exits.  When
+an exit is first calculated, the terrain handler looks for possible
+locations at coordinates along the line of that exit with displacement
+steps of 10 units (the sum of the room sizes for the location being
+assigned exits and the possible destination must be equal to the
+displacement currently being considered), making the connection to the
+first valid destination.  When the handler looks for a location at a
+particular set of coordinates, it first looks at the fixed locations and
+then it looks at the floating locations.  There should only be one fixed
+location for a given coordinate, but there can be more than one possible
+floating location type for a given coordinate, so floating locations
+have priority levels.  For example, in the case of the swamp above, you
+might want the locations nearer the island to have descriptions and room
+items that reflect their proximity to it; you could therefore have a smaller
+block of "near island" floating locations around the island and inside the
+bigger block of main swamp locations, and with a higher priority level than
+the main swamp locations.  If the location of highest priority is
+supposedly a clone of "nothing", no location will actually be put in
+at that position; this is useful to define the interior of a structure,
+where the rooms inside, say, a hollow rock or tree are coded conventionally,
+with one way in from the outside, so the terrain handler should not try to
+fill the interior with other locations.
+.EP
+
+Terrain Room
+.SP 5 5
+The terrain room (/d/admin/room/terrain) is a utility for managing
+terrains.  Typing "help room" gives you the list of commands, which are
+as follows.  "terrain" sets the current terrain for the room and must
+be used before any of the other commands can be used. "list" lets you
+see either the floating or the fixed locations for the terrain, while
+"member" lets you see what fixed location is at a particular coordinate
+or what floating locations, with what levels, are at a particular
+coordinate.  "add" lets you add a new fixed or floating location - a
+fixed location needs the file name and three coordinates while a floating
+locations needs the file name, three or six coordinates and a priority
+level.  "remove" lets you remove a fixed or floating location - a fixed
+location can be removed with just the file name while a floating location
+also needs the relevant coordinates for removal.  Finally "clear" wipes
+the terrain handlers current list of clones for the terrain and, more
+importantly, deletes all the connection data files for the terrain - this
+should be used whenever a location is added to or removed from that
+terrain.
+.EP
+
+See also
+.SI 5
+coordinates, set_room_size
+dungeons
+.EI

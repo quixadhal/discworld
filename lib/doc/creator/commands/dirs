@@ -1,0 +1,44 @@
+.DT
+dirs
+Discworld creator help
+dirs
+
+.SH Name
+.SI 5
+dirs - Peoples current directorys.
+.EI
+
+.SH Syntax
+.SI 5
+dirs [name]
+.EI
+
+.SH Description
+.SP 5 5
+The Dirs command is used to gain information about the other players on the
+MUD. Use the optional <player> arguement to get info on only one player.
+
+If you specify some letters after the dirs command it will only show you
+the people whos names begin with the string
+
+This function is now tied in with the set command and can be set to anything
+you want.  this is just what it defaults to.
+
+.EP
+.SI 5
+Field:-
+ (1) Name - prefixed by a '*' means editing.
+ (2) Current directory.
+ (3) Location filename and euid.
+.EI
+
+.SH Example
+.SI 5
+dirs
+dirs p
+.EI
+
+.SH See also
+.SP 5 5
+finger, people, netstat, terms, qpeople, who
+.EP

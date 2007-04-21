@@ -1,0 +1,48 @@
+.DT
+wands
+Discworld concepts help
+wands
+
+.SH Name
+.SP 5 5
+wands - magical artifacts.
+.EP
+
+.SH Syntax
+.SI 5
+zap <wand> at <object>
+zap <object> with <wand>
+.EI
+
+.SH Description
+.SP 5 5
+Magic wands do a variety of things to a specific target.  Each wand
+has one purpose (e.g. the wand of healing heals the target a little, the
+wand of striking does some damage to the target, etc.) but it is
+not always obvious what this is - there are means to identify
+artifacts and if you are sufficiently adept you will come to
+automatically recognise a particular artifact with time.  In order
+to be able to zap a wand, you must be holding it and your level in
+"magic.items.held.wand" must be sufficiently high for that wand - there
+are rumours of wands of artifact probing which tell the wielder the
+level of an artifact and how many charges it has remaining.  Every
+time a wand is used successfully (or it backfires...) one charge is
+taken away.  There are also means to recharge wands, but this is
+generally a hazardous pastime unless you are very careful.
+.EP
+
+.SH Example
+.SI 5
+> hold wand
+You hold the wand in your left hand.
+> zap wand at deutha
+You zap the wand at yourself.
+You feel a lot better.
+> unhold wand
+You put down the wand.
+.EI
+
+.SH See also
+.SP 5 5
+cast, commands, spells.
+.EP

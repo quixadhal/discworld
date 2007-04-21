@@ -1,0 +1,158 @@
+.DT
+set_wall
+Discworld room help
+set_wall
+
+Name
+.SI 5
+set_wall - sets information relating to walls
+.EI
+
+Syntax
+.SI 5
+void set_wall( mixed *args );
+.EI
+
+Description
+.SP 5 5
+All locations can have walls which can be climbed up, down or across to
+reach other locations.  This function can be used to set the relevant
+parameters for the wall, including destinations, climbing difficulties,
+climbing messages, locations below this location (locations through
+which things fall if they fall from this location) the location
+at the bottom (the location where things end up when they fall) and the
+message they get if they are unfortunate enough to die from falling.  The
+elements of the mixed args array are paired, as for modify_exit, with
+the first a string to indicate what information is being set and the
+second a mixed variable containing the information.
+
+As with modify_exit, more than one option can be passed to set_wall at
+a time.
+
+The indicating strings and the corresponding information variables are as follows.
+.EP
+
+"below"
+.SP 5 5
+The information variable is a string array consisting of the locations
+through which something would fall on its route to the bottom, but not
+including the location at the bottom.  Each element is the file name
+of one of these locations.
+.EP
+
+"bottom"
+.SP 5 5
+There are a number of possibilities for the information variable in
+this case.  If it is an array containing a single string, it is the
+file name of the location to which things fall.  If it is an array
+containing two elements, then the first element is the file name of
+the location to which things fall.  If the second element of this
+array is also a string, then it is the name of a function which is
+called on the bottom location, with arguments of what is falling and
+whence it fell, and the string that the function returns is the message
+(using $N and verb$s) which is present to people already at the bottom
+when the falling thing arrives.  If the second element is an integer,
+then it is the percentage of blunt damage done to the falling thing if
+it is living based on how far it fell and its total weight.
+.EP
+
+"death_mess"
+.SP 5 5
+Simple enough.  The information variable must be a string or 0.  
+Normally the death_mess variable (which this information variable 
+controls) has a value of 0, and if it's 0 when they die, the default 
+message of "You hit the ground with a sickening crunch.\n" is sent. 
+If, however, death_mess is anything else, death_mess itself will be 
+sent.  This means that if you don't want a death message you can set 
+this to "".  And you can make the information variable 0 if you want 
+the default message to be sent.  Note that this is the message given
+when the player falls to his death *from the room in which the variable
+was set*.  I.e. if a player falls to his death from a room, and the
+death_mess was not set up via set_wall() in that room, they will get
+the default message.
+.EP
+
+"ghost_action"
+.SP 5 5
+This option controls the action taken when ghosts attempt to climb.
+It can be either 0, 1, a string containing a path, or an
+array containing a string containing a path and a string array
+containing three move messages.
+
+If this is set to 0, as it is by default, the ghost will be able
+to climb the wall with no skill check, succeeding every time.
+
+If it is set to 1, the ghost will always fail, since ghosts can't
+climb.
+
+If it is set to a string, the ghost will be moved to the room whose
+path is in the string, with some default messages.
+
+If it is set to an array, the ghost will be moved to the room whose
+path is in the first cell of the array.  The second cell of the array
+will be taken to contain a string array with the move messages that
+are to be used - the first for the player, the second for the room
+they are arriving in, and the third for the room they are leaving.
+The move messages do not need to be terminated with newlines.
+.EP
+
+"move"
+.SP 5 5
+The information variable is a mixed array consisting of four
+elements.  The first is a string, which is the direction, typically
+"up" or "down", for the move. The second is an integer, which is
+the base difficulty (to be compared against a skill bonus) for the
+climb if the climber is not carrying anything.  The third is a
+string, being the file name of the destination location and the
+fourth is a string which is the message (using $N and verb$s) which
+is presented to people already in the destination location when the
+climber arrives.
+.EP
+
+"no_drop"
+.SP 5 5
+This option is used in combination with the "bottom" option.  If
+set to 0, which is the default, items will fall down to the bottom
+of your wall.  If set to 1, they won't.
+.EP
+
+Examples
+.SI 5
+In wall_bottom:
+
+set_wall( ({ "move", ({ "up", 50, PATH +"wall_side",
+      "$N climb$s up from below to join you." }) }) );
+set_wall( ({ "no_drop", 0 }) ); /* not required */      
+
+In wall_side:
+
+set_wall( ({ "bottom", ({ PATH +"wall_bottom", 50 }) }) );
+set_wall( ({ "move", ({ "down", 50, PATH +"wall_bottom",
+      "$N climb$s down from above to join you." }) }) );
+set_wall( ({ "move", ({ "up", 150, PATH +"wall_ledge",
+      "$N climb$s up from below to join you." }) }) );
+set_wall( ({ "death_mess", "You splat into the pavement, "
+      "throwing a few guts everywhere.\n" }) );
+set_wall( ({ "no_drop", 1 }) );
+
+In wall_ledge:
+
+set_wall( ({ "bottom", ({ PATH +"wall_bottom", 50 }),
+      "below", ({ PATH +"wall_side" }) }) );
+set_wall( ({ "move", ({ "down", 100, PATH +"wall_side",
+      "$N climb$s down from above to join you." }) }) );
+set_wall( ({ "death_mess", "You splat into the pavement, "
+      "throwing lots of guts everywhere.\n" }) );
+      
+Anywhere on the wall:
+
+set_wall( ({ "ghost_action", 1 }) );
+set_wall( ({ "ghost_action", "/w/vashti/rooms/target.c" }) );
+set_wall( ({ "ghost_action", ({
+      "/w/vashti/rooms/target.c", ({
+          "You fall through the wall.  Ow.",
+          "$N dives through the wall and rolls painfully on "
+              "the floor.",
+          "$N takes a flying leap at the wall and disappears "
+              "into it." }) }) }) );
+.EI

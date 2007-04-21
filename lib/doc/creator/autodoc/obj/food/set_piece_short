@@ -1,0 +1,50 @@
+.DT
+set_piece_short
+DW_wibble creator help
+set_piece_short
+
+.SH Name
+.SP 5 5
+set_piece_short -  This is the description used in the short for the pieces.
+.EP
+
+.SH Syntax
+.SI 5
+void set_piece_short(string short)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - The short to use for the 'piece' when cut into
+pieces.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the description used in the short for the pieces.
+When the object is cut up this is used as part of the
+short description.  For example, it can change
+'piece of cake' to 'slice of cake', 'piece of chocolate'
+to 'square of chocolate', and so on.  If this the piece
+short has not been set it is set to the default which is
+simply "piece".
+
+.EP
+
+.SH Example 1
+.SI 5
+set_piece_short("slice");
+
+.EI
+
+.SH See also
+.SP 5 5
+query_in_pieces(), set_piece_description(), set_piece_plural(), set_piece_substance()
+.EP
+

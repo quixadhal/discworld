@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: creator_file.c,v 1.1 1998/01/06 05:12:03 ceres Exp $
+ * $Log: creator_file.c,v $
+ * Revision 1.1  1998/01/06 05:12:03  ceres
+ * Initial revision
+ * 
+*/
 /*
  * I ain't touching THIS one.. *quiver* // Z
  */
@@ -15,10 +24,15 @@ varargs mixed creator_file(string file, int author) {
        return "ims";
    case "global" :
    case "std" :
+   case "cmds" :
    case "room" :
      return get_bb_uid();
    case "net" :
-     return "Network stuff";
+     return "Network";
+  case "www" :
+    if (sizeof(str) > 2 && str[1] == "secure")
+      return "Root";
+    return "WWW";
    case "tmp" :
      if (str[1] != "mon-shad")
        return 0;
@@ -28,12 +42,13 @@ varargs mixed creator_file(string file, int author) {
    case "d" :
      if (sizeof(str) < 3)
        return 0;
-     if (!author)
+     if (!author || member_array(query_domains(), str) == -1)
        return capitalize(str[1]);
      return ("/d/"+str[1]+"/master")->author_file(str);
    case "w" :
      if (sizeof(str) < 3)
-       if (str[1] == "common" || str[1] == "development" || str[1] == "meeting")
+       if (str[1] == "common" || str[1] == "development" ||
+           str[1] == "meeting")
          return "womble-frog";
        else
          return 0;

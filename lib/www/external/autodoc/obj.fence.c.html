@@ -1,0 +1,144 @@
+<html><head><title>File fence.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.monster.c.html">/obj/monster.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.money.h.html">/include/money.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.shops.bank.h.html">/include/shops/bank.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_hist_offer"><b>hist_offer</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_offer"><b>offer</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#attack_by"><b>attack_by</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#busy"><b>busy</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_place"><b>calc_place</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_cont"><b>check_cont</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cost_str"><b>cost_str</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cost_string"><b>cost_string</b></a>(object, string, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_fence"><b>do_fence</b></a>(object *, string, string, mixed, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_no"><b>do_no</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_yes"><b>do_yes</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_exit"><b>event_exit</b></a>(object, string, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#give_back"><b>give_back</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#judge_value"><b>judge_value</b></a>(object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cont"><b>query_cont</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cost"><b>query_cost</b></a>(object, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_offer"><b>query_current_offer</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_item_type"><b>query_item_type</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#scaled_value"><b>scaled_value</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_fence_type"><b>set_fence_type</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#whisper"><b>whisper</b></a>(object, string)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="attack_by">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>attack_by</b></a><pre>
+int attack_by(object ob)
+</pre>
+<dt><a name="busy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>busy</b></a><pre>
+int busy()
+</pre>
+<dt><a name="calc_place">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_place</b></a><pre>
+string calc_place()
+</pre>
+<dt><a name="check_cont">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_cont</b></a><pre>
+void check_cont()
+</pre>
+<dt><a name="cost_str">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cost_str</b></a><pre>
+string cost_str(int amt)
+</pre>
+<dt><a name="cost_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cost_string</b></a><pre>
+string cost_string(object thing,
+                   string place,
+                   object buyer)
+</pre>
+<dt><a name="do_fence">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_fence</b></a><pre>
+int do_fence(object * in_dir,
+             string direct,
+             string indirect,
+             mixed args,
+             string format)
+</pre>
+<dt><a name="do_no">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_no</b></a><pre>
+void do_no(object player)
+</pre>
+<dt><a name="do_yes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_yes</b></a><pre>
+void do_yes(object person)
+</pre>
+<dt><a name="event_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_exit</b></a><pre>
+void event_exit(object ob,
+                string message,
+                object to)
+</pre>
+<dt><a name="give_back">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>give_back</b></a><pre>
+void give_back()
+</pre>
+<dt><a name="judge_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>judge_value</b></a><pre>
+int judge_value(object ob,
+                string type)
+</pre>
+<dt><a name="query_cont">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cont</b></a><pre>
+object query_cont()
+</pre>
+<dt><a name="query_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cost</b></a><pre>
+int query_cost(object thing,
+               object buyer)
+</pre>
+<dt><a name="query_current_offer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_offer</b></a><pre>
+string query_current_offer()
+</pre>
+<dt><a name="query_item_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_item_type</b></a><pre>
+string query_item_type(object ob)
+</pre>
+<dt><a name="scaled_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>scaled_value</b></a><pre>
+int scaled_value(int n)
+</pre>
+<dt><a name="set_fence_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_fence_type</b></a><pre>
+void set_fence_type(string str)
+</pre>
+<dt><a name="whisper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>whisper</b></a><pre>
+void whisper(object ob,
+             string message)
+</pre>
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_hist_offer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hist_offer</b></a><pre>
+class hist_offer {
+                   object ob;
+                   int old_offer;
+                   int value;
+}
+
+</pre>
+<dt><a name="class_offer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>offer</b></a><pre>
+class offer {
+              object who;
+              int amount;
+              int offer_time;
+              object * objects;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 14 Oct 2003 16:36:07 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

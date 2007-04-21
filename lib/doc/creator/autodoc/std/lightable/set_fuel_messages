@@ -1,0 +1,50 @@
+.DT
+set_fuel_messages
+DW_wibble creator help
+set_fuel_messages
+
+.SH Name
+.SP 5 5
+set_fuel_messages -  This function is used to set the different messages shown depending on how much fuel is left in the lightable.
+.EP
+
+.SH Syntax
+.SI 5
+void set_fuel_messages(mixed msgs)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^msgs%^RESET%^ - A mixed array of either strings or string, int pairs
+.EI
+
+.SH Defined in
+.SI 5
+/std/lightable.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function is used to set the different messages shown
+depending on how much fuel is left in the lightable.
+The fuel messages should be on a form suitable to be
+appended to the_short() +" is lit/not lit.  "
+The argument msgs can either be an array of strings or an
+array of string, int pairs.  In the first case, the fuel
+messages will be evenly spaced.  In the second case, the
+int is a percentage (fuel_left*100/max_fuel) below which
+the string will be used.  If no message for 100 is given,
+it will default to the last string element in the array.
+
+.EP
+
+.SH Example 1
+.SI 5
+    set_fuel_messages( ({ "There is almost no fuel left.", 10
+                          "It is more than halfway empty.", 50,
+                          "It is not yet halfway empty.", 80,
+                          "It is almost full.", 100 }) );
+
+.EI
+

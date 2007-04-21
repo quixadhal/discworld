@@ -1,0 +1,176 @@
+.DT
+Dwclone
+Discworld Creator Help
+Dwclone
+
+.SH Name
+.SI 5
+Dwclone - A clone of discworld for creator use only.
+.EI
+
+.SH Description
+.SP 5 5
+Coding creators have to deal with two problems beyond bugs in their code
+and learning new methods: distractions from their coding and
+worrying about what damage their code might do to players.
+.EP
+.SP 5 5
+This is where dwclone comes in: it is an almost perfect clone of
+discworld, with some very important differences:
+.EP
+.SP 5 5
+1. There are no players.  This means that you can test
+code there that might crash the mud without fear of
+burdening the liaisons with the cleanup for your snafus.
+However, that also means that if you want to test something
+on a player, you have to create you own test players.
+.EP
+.SP 5 5
+2.  Certain debugging features have been enabled in the mud
+driver, to make it easier to catch some types of problems.
+These features will make their presence known through 
+slightly different error and warning messages when your
+code runs.  In fact, it could very well be that some of
+your code that will run without complainct on the real mud
+will produce warnings on the clone: don't ignore those
+warnings, they more than likely indicate bugs that will be very hard
+to track down on the live discworld.
+.EP
+.SP 5 5
+3.  Many fixed limits have been lowered, sometimes significantly,
+in order to make careless code break faster.  One prime
+example is the size of an array (or mapping): on both the
+live mud and on dwclone, there is a maximum number of
+elements that an array (or mapping) may contain.  If you
+exceed that size, the whole mud will crash.  These sizes are
+available to your code, and you should check them at run
+time.  This was the cause of the infamous "grep in
+/logs" bug.  This size has been lowered on the dwclone,
+so if your code doesn't check for that occurrance, and 
+properly handle it, it will crash.
+.EP
+.SP 5 5
+4.  The boards and mailer don't work.  Actually, they work just fine, but
+some index files are wrong, so you'll see things like a message
+saying there are 30 new messages on the board, but
+find them all blank.  You can still test things that
+use the boards or mailer, but just be aware of this screwiness.
+.EP
+
+.SH Where is dwclone?
+.SP 5 5
+Dwclone has been known to change it's IP address on a highly
+irregular basis.  At any time, you can find its current
+IP address by logging into discworld and using 'mudlist dwclone'.
+This command will list out all the current information
+about dwclone.  Dwclone rarely changes IP address unnanounced, however.
+If you can't get on to dwclone, your first step is to log on
+to discworld, and issue the above mudlist command.
+.EP
+
+.SH How to get more help
+.SP 5 5
+Updates on dwclone were previously posted to the development
+board.  Now they are posted to the dwclone club board.  This is where
+all known outages, IP address changes, and other updates will be
+posted.  If you have a dwclone account, it's in your best
+interests to read dwclone board on a regular basis.
+.EP
+.SP 5 5
+If you need more help, ask one of the dwclone managers online.
+The managers are listed when you 'finger dwclone'.
+These managers are all empowered with complete access to
+dwclone, and can do anything needed to get dwclone fixed up, or
+pass out information as they see fit.  Of course, these managers
+are creators in their own rights, and have duties outside
+of being a dwclone manager.  If they're busy when you approach
+them, then they're busy.  Try again significantly later,
+or ask one of the other managers.
+.EP
+
+.SH How to get an account
+.SP 5 5
+Before you can use dwclone, you have to get an account on it.
+The process is similar to getting your first account on discworld,
+with some special differences.
+.EP
+.SP 5 5
+Since you're reading this, you're a creator here on discworld.
+Your character on dwclone _must_ have the same name as your
+creator here.
+.EP
+.SP 5 5
+Log on some time and catch one of the dwclone managers online.
+Tell him that you want a dwclone account.  If he's not busy
+he'll get your current IP address, and open up dwclone so you can
+create a new character with that same name.  You'll start off
+just like when you were a newbie charcter, in the newbie area.
+You'll need to complete the womble's brooch quest before
+we can proceed.  Then the manager (who will be logged into the clone
+during this time) will employ you.  You must then log out and
+log back in.  Poof!  Now you're a dwclone creator.  If you want
+any test characters, you'll have to create them right then and
+age them so they don't autodelete.  Within 24 hours of
+getting your dwclone account, you will no longer be able
+to create new characters, without asking one of the dwclone
+managers for help.
+.EP
+.SP 5 5
+You'll notice that creating a new character depends on the
+manager knowing your IP address.  Some of you connect to
+the Internet using ISPs who only assign dynamic IP addresses,
+so you have a different IP address every time you log in.  This
+isn't a problem as long as you remember to keep your connection
+going from the time that you ask a dwclone manager for an account
+and the time that you create your characters.  Once you
+have created your characters, you can log in from any IP address.
+.EP
+
+.SH Synchronization and File Transfer
+.SP 5 5
+The clone is automatically synchronized every Sunday night (PST).
+When the synchronization occurs, every file on discworld that is
+newer than the same file on the clone will be replaced.  The
+exception is that none of the files in /w or /logs are
+synchronized, and only some of the files in /save are
+synchronized.  There are also some files which, while being subject
+are synchronization, are necessarily different on the clone as
+compared to the real discworld.  These files get automatically
+patched with every synchronization.
+.EP
+.SP 5 5
+If you want to synchronize files in your home directory, you'll have
+to do it by hand.  FTP works to the clone just as it works to discworld,
+and you can FTP all your files to or from the clone as you
+would expect.  Of course, you need an account on the
+clone to FTP to it.  See above.
+.EP
+.SH Rules
+.SP 5 5
+Access to dwclone is only given to _current_ discworld creators:
+if you lose your discworld account, you lose your dwclone
+account.
+.EP
+.SP 5 5
+All rules that apply to creators on discworld also apply to them on
+dwclone.
+The one exception, of course, is that you can be much more free about
+code that might crash the mud.
+.EP
+.SP 5 5
+The access you have on dwclone is the same as the access you have
+on discworld.  If you want to have more access on dwclone, get your
+domain lord to ask a dwclone manager for permission.  In any case, the
+extra access will only last until the next Sunday night synchronization.
+If you need your access beyond that time, ask again.
+.EP
+
+.SH See also
+.SP 5 5
+finger,
+mudlist,
+ftp,
+create,
+security,
+get_config()
+.EP

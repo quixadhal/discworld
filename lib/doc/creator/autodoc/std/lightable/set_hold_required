@@ -1,0 +1,39 @@
+.DT
+set_hold_required
+DW_wibble creator help
+set_hold_required
+
+.SH Name
+.SP 5 5
+set_hold_required - 
+.EP
+
+.SH Syntax
+.SI 5
+void set_hold_required(int hands)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^hands%^RESET%^ - The number of hands required to hold the object when lit
+Any non-zero value will cause the ho_ld command to be executed,
+so use set_no_limbs( 2 ) as usual for two-handed weapons.
+I guess what I'm really trying to say is that a 0 will not require
+the object to be held and any other value will.
+
+In winter darkness<br>
+Gruper lights a cheerful flame<br>
+It smells like honey<br>
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/lightable.c
+.EI
+
+.SH Description
+.SP 5 5
+
+.EP
+

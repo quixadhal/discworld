@@ -1,0 +1,5 @@
+void bing() {
+}
+
+void bing() {
+}

@@ -1,0 +1,216 @@
+.DT
+style
+Discworld creator help
+style
+
+.SH Description
+.SP 5 5
+All code that creators write for Discworld should follow certain
+conventions so that future generations who may have to work with your
+code are able to do so easily.  The most important convention is that
+of double spacing: every piece of text to which players have access
+should be written with two spaces between each sentence.  This simply
+makes the text easier to read, especially on room descriptions as
+players move about.  It goes without saying that all sentences should be
+correctly capitalised and punctuated.
+.EP
+
+.SH Layout
+.SI 5
+includes
+defines
+inherits
+variables
+setup (if appropriate)
+other functions
+.EI
+.SP 5 5
+The above is the recommended layout for a file.  Includes (that is,
+lines beginning with #include) are the first things evaluated, followed
+by defines (lines beginning with #define).  Then the parents are
+inherited, and the code's own variables declared.  If the code has a
+setup function, usually if it's going to be an object with descriptions,
+then this should come first so that it becomes quickly apparent what
+this thing is that you have coded (besides which, if a player leaves a
+bug report for it, most of the time the bugs will concern something in
+setup); other functions follow (if the object uses autoloading or has
+the stat function, these are generally put at the end).
+.EP
+
+.SH Names
+.SP 5 5
+For clarity, quantities from a #define should use all capital letters
+while names of variables should use lower case letters.  Similarly,
+files included from the local directory (the same directory as contains
+the file itself) should be written in quotes, e.g. #include "path.h" ,
+while those to be included from /include/ should be written in angle
+brackets, e.g. #include <money.h> .  Function names and variable names
+are generally unrestricted, although it is recommended that you use
+names that reflect what the function does or the variable stores.
+.EP
+
+.SH Indentation
+.SP 5 5
+Possibly the most important aspect of putting code into a file is the
+indentation of the lines.  Indentation is important not just for
+making the code legible but it can also help with debugging, tracking
+down missing (or extra) brackets for example.  The standard on
+Discworld is to indent with two spaces.  Additionally you must break lines
+at less that 80 characters length, going over this limit makes the code very hard to read on an 80 character display.  When you have to break a line, usually
+in something like a write or set_long, you should line up the continuation
+with what is being continued.
+.EP
+.SI 5
+
+void setup() {
+  ...
+  set_long("You are on the Street of Small Gods just northeast "
+           "of the Temple of Gufnork and southwest of the Temple of "
+           "Sandelfon.  The street continues southwest and east, "
+           "where there is a junction with a side road.\n");
+  ...
+}
+.EI
+
+.SH Spacing
+.SP 5 5
+
+Just as putting spaces between words and blank lines between paragraphs makes this piece of text easier
+to read, putting spaces into your code helps anyone reading it.  Use
+spaces to group operators and sections that go together.  You should
+put spaces around the operator that separates the left hand side from
+the right hand side, and put spaces between function
+parameters.
+
+A blank line should be left between each code section.  This groups
+together sections of your functions making them easier to read.
+
+For example, the following piece of code uses these
+conventions:
+
+.EP
+.SI 5
+
+void list_elections() {
+  int i;
+  string text, *deities;
+
+  if(!m_sizeof(elections)) {
+    write("There are no elections in progress.\n");
+    return;
+  }
+
+  deities = m_indices(elections);
+  if(sizeof(deities) > 1)
+    write("There are elections in progress for high priests "
+          "of:\n");
+  else
+    write("There is an election in progress for the high "
+          "priest of:\n");
+
+  text = "";
+  for(i=0; i<sizeof(deities); i++)
+    text += " * " + deities[i] + ": candidates are " +
+            query_multiple_short(elections[deities[i]][0]) +
+            "; voting closes at "+
+            ctime(elections[deities[i]][1]) + ".\n";
+
+  printf("%-=*s", (int)this_player()->query_cols(), text);
+  return;
+}
+.EI
+
+.SH Comments
+.SP 5 5
+Good use of comments can greatly improve the readability and
+maintainability of your code.  LPC supports both the single and
+multi-line C++ style comments.
+.EP
+
+.SI 5
+/*
+ * This is a multiline comment.
+ */
+
+// This is a single line comment.
+.EI
+
+.SP 5 5
+When writing comments explain what the
+code is attempting to do.  For example this is a bad comment because
+all it does is explain what anyone familiar with LPC can see from the
+code:
+.EP
+
+.SI 5
+// Sum the values of x
+for(i=0; i<sizeof(x); i++)
+  total += x[i];
+.EI
+
+.SP 5 5
+The following is a good example because it explains what is not
+necessarily clear from the code:
+.EP
+
+.SI 5
+// Calculate the total XP to be given so we can give that to the player.
+for(i=0; i<sizeof(x); i++)
+  total += x[i];
+.EI
+
+.SH Debugging
+.SP 5 5
+While developing your code you'll probably need to add some lines to
+tell you what it's doing to aid the debugging process.  Discworld
+provides two functions (tell_creator and debug_printf) to assist you
+in this.  In addition the use of a #define can allow you to turn on
+and turn off your debugging as you require. For example:
+.EP
+
+.SI 5
+#define DEBUG
+
+void list_elections() {
+  int i;
+  string text, *deities;
+
+  if(!m_sizeof(elections)) {
+    write("There are no elections in progress.\n");
+#ifdef DEBUG
+    debug_printf("No elections in progress.");
+#endif
+    return;
+  }
+
+  deities = m_indices(elections);
+#ifdef DEBUG
+  debug_printf("Total of %d elections.", deities);
+#endif
+  if(sizeof(deities) > 1)
+    write("There are elections in progress for high priests "
+          "of:\n");
+  else
+    write("There is an election in progress for the high "
+          "priest of:\n");
+
+  text = "";
+  for(i=0; i<sizeof(deities); i++)
+    text += " * " + deities[i] + ": candidates are " +
+            query_multiple_short(elections[deities[i]][0]) +
+            "; voting closes at "+
+            ctime(elections[deities[i]][1]) + ".\n";
+
+#ifdef DEBUG
+  debug_printf("Output: %-=*s", 80, text);
+#endif
+
+  printf("%-=*s", (int)this_player()->query_cols(), text);
+  return;
+}
+.EI
+
+.SH See also
+.SI 5
+setup, debug
+.EI

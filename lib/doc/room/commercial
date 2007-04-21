@@ -1,0 +1,67 @@
+.DT
+commercial
+Discworld room help
+commercial
+
+.SH Name
+.SI 5
+commercial - the base inherit for the commercial properties
+.EI
+
+.SH Syntax
+.SI 5
+collect royalties
+royalty
+measure property
+
+Owner commands:
+royalty list
+collect royalties of <amount>
+status room
+status room hint
+name property <name>
+set sign <ob>
+set use expression <expr>
+remove sign
+purchase stuff
+
+add room function <function> as <expression>
+remove room function <function>
+functions room help <function name>
+functions room internal
+functions room help list
+functions room
+functions room hints
+.EI
+
+.SH Description
+.SP 5 5
+This is a player house that allows a player to add commercial properties
+and elements to it.  You can make people have entry fees, run commercial
+enterprises.
+
+Commercial enterprises will have different commercial objects in them.
+The commercial objects will all have their own help associatd with them.
+
+The use expression controls the access to all the elements in the commercial
+property.  It will be called with a specified 'type' which can be used to
+turn on and off various elements of the shop.
+
+User defined functions can also be enabled in the room.
+
+The 'purchase' stuff command makes an npc turn up that you can then buy
+equipment for your commercial property off.
+
+The commercial property can be 'terminated' at any time using your
+housing agreement.  This will put the property up for auction again.
+.EP
+
+.SH Example
+.SI 5
+> help blackjack
+.EI
+
+.SH See also
+.SP 5 5
+None
+.EP

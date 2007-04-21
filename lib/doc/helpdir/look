@@ -3,37 +3,41 @@ look
 Discworld player help
 look
 
-Name
-.SI 5
-look - give a long description of the object
-.EI
-
-Syntax
-.SI 5
-look [at <item>]
-examine <item>
-.EI
-
-Description
+.SH Name
 .SP 5 5
-Look is the command you use to get information on the things around you.
-Look on its own gives you the description of your current location.  If you
-type look at something, you will get an in depth description of that item.
-If there is a more detailed description of that item, you can get it by using
-examine item.  Usually however the look at item and examine item will be the
-same.
+look - Give a long description of the object.
 .EP
 
-Examples:
+.SH Syntax
+.SI 5
+look
+look [at] <object>
+look <direction>
+look around
+.EI
+
+.SH Description
+.SP 5 5
+Look is the command you use to get information on the things in your
+environment and in your inventory.  On its own, it gives you the
+description of your environment, that is, the location where you are.  If
+you look at an object, you are given the long description for that
+object.  You can also look into locations that are adjacent to your
+current location, assuming that there are no obstacles such as closed
+doors in the way, and in some places, like an open square, you can look
+around to look at many neighbouring locations at once.
+.EP
+
+.SH Examples
 .SI 5
 > look
 > look at lynscar
 > look at second sword
-> look at head of troll
-> examine head of troll
+> look north
+> look around
 .EI
 
-See also
-.SI 5
-glance
-.EI
+.SH See also
+.SP 5 5
+examine, glance, inventory, show, weigh.
+.EP

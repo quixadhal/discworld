@@ -1,5 +1,5 @@
 #include "path.h"
-inherit "/std/room";
+inherit "/std/room/basic_room";
 
 object floor, sign;
 string log_bing, chair;
@@ -42,7 +42,8 @@ void reset() {
     return ;
   floor = clone_object("/std/object");
   floor->set_name("floor");
-  floor->set_short("The floor");
+  floor->set_short( "floor" );
+  floor->add_property( "determinate", "the " );
   floor->set_long(
 "This is the floor of the meeting.  It gives you the right to speak "+
 "during the meeting.  Please give this to the next person to speak "+
@@ -58,8 +59,9 @@ void init() {
  * You did what?
  * I banged my gavel and did the "order in the court thing"
  */
-  if ("/secure/master"->high_programmer((str=(string)this_player()->query_name()))
-      || str == chair) {
+  str = previous_object()->query_name();
+  if (interactive(previous_object()) && (previous_object()->query_lord()
+      || str == chair)) {
     add_action("appoint", "appoint");
     add_action("bang", "bang");
     add_action("recover", "recover"); /* recovers the floor in case of
@@ -80,10 +82,10 @@ int appoint(string str) {
     return 0;
   }
   chair = str;
-  say(this_player()->query_cap_name()+" just appointed "+str+" as the "+
+  say(this_player()->one_short()+" just appointed "+str+" as the "+
         "chair of the meeting.\n", ob);
   write("Ok, "+str+" is now the chair of the meeting.\n");
-  tell_object(ob, this_player()->query_cap_name()+
+  tell_object(ob, this_player()->one_short()+
         " just appointed you the chair of the meeting.\n");
   if (environment(ob) == this_object())
     ob->move(this_object());
@@ -97,7 +99,7 @@ int bang(string str) {
     return 0;
   }
   tell_room(this_object(),
-            this_player()->query_cap_name()+" bangs the gavel loudly.  STOP "+
+            this_player()->one_short()+" bangs the gavel loudly.  STOP "+
             "STOP!\n");
   return 1;
 }
@@ -107,7 +109,7 @@ int recover() {
     reset();
   floor->move(this_player());
   write("Floor recovered.\n");
-  say(this_player()->query_cap_name()+" has recovered the floor.\n");
+  say(this_player()->one_short()+" has recovered the floor.\n");
   return 1;
 }
 

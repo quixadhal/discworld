@@ -1,0 +1,557 @@
+A Brief Introduction to LPC  -  Putting It All Together 2
+Ae First Rough Draft
+
+Drakkos - 29/09/2000
+
+N.B     -       This is a work in project... a living document if
+                you like.  If it appears to be dead when you view
+                it, don't worry.  It's most likely just playing
+                possum.
+
+==========================================================================
+Concepts still to be covered:
+
+Not sure... perhaps nothing.
+==========================================================================
+
+Okay, so now we've coded our first NPC and made it do some nifty things.  
+Now we need a place for it to live, so we're gonna spend this tutorial
+coding up a nice room for our blob to live in.  You should be familiar
+with what room code looks like... if you're in your workroom, you can
+use 'more here' to see what the code for your own little slice of the
+Disc looks like.  Otherwise, 'more /w/insert_your_name_here/workroom.c'
+will show you the code.
+
+
+Comments And Inherits Revisited
+===============================
+
+But we're going to extend the limits of your creator empire here by
+adding a new room leading off to the lair of our blob.  First things
+first, like with an NPC, we should comment the file.  When something 
+goes wrong, this is very useful for later Assigning Blame:
+
+/*
+    This is a basic room!
+    Written by Drakkos.
+    
+    29/09/2000
+*/  
+
+Okay, now what?  Well, if you look at the code for your workroom, you'll
+see that like our NPC, we need to inherit a file.  The file we inherit
+for a basic room is /std/room.   There are some later specialisations
+of this inheritable, allowing for outside rooms and so, but for now we'll
+just stick to the basics:
+
+    inherit "/std/room";
+
+
+And Setup Revisted Too!
+=======================
+
+And we also need a nice setup function to deal with setting up the room.
+Unlike our NPC example, you'll notice there is no 'set_name' in the
+setup for a room.  This is because players will not be directly
+manipulating a room, and so do not need a name with which to access
+the object.   We do have the familiar set_short() and set_long(), however.
+Set_short will set the text that appears when a player does a 'glance' or
+is walking around in brief mode.  The long description is the nice block
+of text that will appear when they do a look and are in verbose mode.  
+
+In your workroom, you'll see a function call add_property ("determinate",
+"the ").  Add_property allows a particular value to be stored on an object,
+referenced by a particular property label.  Other code may check for
+this property and deal differently with an object depending on its
+presence.  In this case, we're adding a property called 'determinate' with
+a value of 'the '.  What this does is set the prefix to the short of the 
+room as 'the'.  So instead of just seeing 'workroom of <creator>' when you
+glance in the room, you see 'the workroom of <creator>'.  Properties are
+very powerful when used properly... however, they are also very difficult
+to regulate, so please don't go overboard with them.  We'll discuss 
+properties in more depth later.
+
+We also need a set_light() in our room.  Unsurprisingly, this sets
+how bright (or dark) the room is.  A room without this function call
+will be permanently in the dark.
+
+Right, so let's put what we've got together so far to create a very
+basic room:
+
+    void setup() {
+        set_short("blobby lair");
+        set_long("This is where the grey blob lives.  All around lie "
+            "frogs, and wombles, and strange oozy things.  It's a "
+            "very nice lair, as lairs go.\n");
+        add_property("determinate", "a ");
+        set_light(50);
+    }
+
+
+Adding Basic Items And Exits!
+=============================
+
+And there we have a very, very basic room that will load, but it 
+won't let us do very much.  'look frog', for example, will return a
+depressing 'you do not think that the frog is here'.  And there are
+no exits... we're stick in this depressing, empty room forever.  Help!
+
+Well, since we're gonna be here for a while, let's make the place a
+little more interesting.  The next function we're going to learn is
+add_item.  add_item adds an object that people can 'look' at when
+in the room.  This adds flavour and realism... you should have an
+add_item for every object mentioned in your long, and for every
+item mentioned in the text of each item.  Obviously, you don't want
+to go to silly lengths with this, but not being able to look at objects
+in a room should be an exception, and not a rule.
+
+Anyway, add_item works by first passing in a label that can be looked at,
+then passing in the text to be returned.  Well... that's not entirely
+true.  Add_item is much cleverer than that, but we'll take that as a
+starting base.  So, we would do:
+
+    add_item("frog", "The frogs are very nice.  Very froggy.");
+    add_item("womble", "It's Uncle Bulgaria!");
+    add_item("strange oozy things", "Ewww!");
+
+Which would give us some stuff to look at while we're in the room.  We'll
+look at add_item in more depth later on in this tutorial, but for now that's all 
+we need to know.  
+
+Note that the third add_item has multiple words for a label.  This allows for
+adjectives within an add_item... so you can look at 'things', 'strange 
+things', 'oozy things', and 'strange oozy things'.  Cool!
+
+While we're here, it would be nice if we were able to leave the room and go
+someplace else... so let's stick an add_exit in here.  Add_exit() takes three
+arguments.  The first is the direction the exit lies in:  'east', for example.
+The second is the filename of the room the exit takes us to, and the third
+argument is the type of exit it is.  So, let's try:
+
+    add_exit("east", "/w/your_name/workroom", "road");
+
+Update the room, and hey presto, we're in a lovely leetle room with an exit
+and things to look at!
+
+So let's try out our new exit.  We type 'east', and sure enough, we get moved
+to the workroom.  But there's something wrong... we can't actually go 'west'
+to the room we just coded.  So we have to add an exit in our workroom that
+leads back to the lair.  Assuming your lair room is called 'lair.c', in your 
+workroom.c file, you add the line:
+
+    add_exit("west", "/w/your_name/lair", "road");
+
+And update.  Whee, now we have two rooms we can wander between!
+
+So let's look at the setup code to date:
+
+
+    void setup() {
+        set_short("blobby lair");
+        set_long("This is where the grey blob lives.  All around lie "
+            "frogs, and wombles, and strange oozy things.  It's a "
+            "very nice lair, as lairs go.\n");
+        add_property("determinate", "a ");
+        set_light(50);
+
+        add_item("frog", "The frogs are very nice.  Very froggy.");
+        add_item("womble", "It's Uncle Bulgaria!");
+        add_item("strange oozy things", "Ewww!");
+
+        add_exit("east", "/w/your_name/workroom", "road");
+
+    }
+
+Now we have a nice working room, with things we can look at.  But aside from
+that, it doesn't do much.  For one thing, despite being a lair for the grey
+blob, the blob itself is conspicuous only by its absence.  We could manually
+clone the blob there every time we load the room... but that's far too
+much work!  So instead, we set the room to do it for us.
+
+
+Moving Our Blob Into The Room
+=============================
+
+Every so often, Discworld's driver calls the function reset() on every
+loaded object on the MUD.  You can therefore define a function called
+'reset()' that will do nifty things in the room when it is called.  Generally
+this is used to regenerate any NPCs or objects that room may contain.  Reset()
+is also called when a room is first created, so we'll use it to clone our NPC
+into the lair.  
+
+First thing we have to do is check to see if our NPC already exists somewhere.
+If he already does, we don't want to clone him again or we may end up being
+over-run by the buggers.  So the first line of code is to declare an object
+variable, and then use the find_object() efun to see if we have a version
+of our friend loaded already:
+
+    object ob = find_object("/w/your_name/simple_npc");
+
+Then, if we do, we want to check if he actually exists in the game and isn't
+just stranded in the firament around Discworld.  We can do this by checking
+environment(), which returns the object the NPC is currently in.  So we're 
+doing a couple of checks here.  One is to make sure that our variable 'ob'
+points to an object.  If it doesn't, we want to load the NPC and move it 
+into the room.  If it does, we want to check the environment() of that
+object to make sure it is in the game.
+
+If the NPC exists, but has no environment, we can just move the NPC into
+the room without needing to load it.  If the NPC doesn't exist, we need to
+load it, then move it into the room:
+
+        // if (!ob) will return true if ob is 0... in other words, it
+        // didn't find an object with find_object().
+        
+        if(!ob) {
+        
+            // There's no object with that filename loaded, so we load it
+            // and then move it into this_object()... which in the case of
+            // this example, is the room we just coded.  
+            
+            ob = load_object("/w/your_name/simple_npc");
+            ob->move(this_object(), "$N appear$s with a wet squelch.\n");
+        }
+        
+        // if (!environment(ob)) will return true if ob returns 0 for 
+        // environment... in other words, it's loaded, but located in 
+        // null-space.
+        
+        else if (!environment(ob)) {
+            ob->move(this_object(), "$N appear$s with a wet squelch.\n");
+        }
+    
+    
+So our final reset() function looks like:
+
+    void reset() {
+    
+        object ob = find_object("/w/your_name/simple_npc");    
+    
+        // if (!ob) will return true if ob is 0... in other words, it
+        // didn't find an object with find_object().
+        
+        if (!ob) {
+        
+            // There's no object with that filename loaded, so we load it
+            // and then move it into this_object()... which in the case of
+            // this example, is the room we just coded.  
+            
+            ob = load_object("/w/your_name/simple_npc");
+            
+            // For information on how the move() function works, you 
+            // can check out 'help move'.  But briefly, the first argument
+            // is where the object is to be moved to... the second is the
+            // message that objects in the destination get when the object
+            // enters.  $N will be replaced with the short of the object.
+            // 'appear$s' is a pluralisation code... it will change to 
+            // 'appear' when more than one object enters at the same time,
+            // and 'appears' when only one enters.
+            
+            ob->move(this_object(), "$N appear$s with a wet squelch.");
+        }
+        
+        // if (!environment(ob)) will return true if ob returns 0 for 
+        // environment... in other words, it's loaded, but located in 
+        // null-space.
+        
+        else if (!environment(ob)) {
+            ob->move (this_object(), "$N appear$s with a wet squelch.");
+        }
+            
+    }
+
+Hurrah!  Our room updates, and the Blob is indeed present.  But we didn't get
+the neat message about him appearing with a wet squelch.  We will on subsequent
+resets, but not when we first load the room.  This is fixed by changing our
+function around a little.  If we rename our current reset() function to 
+after_reset (to take an example), we can then use reset() to call after_reset()
+after a small delay using the call_out efun.  This efun takes the name of a
+function as the first argument, and the number of seconds to wait before 
+executing it.  If your function has arguments, these are passed in after
+the delay:
+
+    void reset() {
+        call_out("after_reset", 3);
+    }
+
+
+So, now our room looks like:
+
+
+    /*
+        This is a basic room!
+        Written by Drakkos.
+        
+        29/09/2000
+    */  
+    
+    inherit "/std/room";
+    
+    void setup() {
+        set_short("blobby lair");
+        set_long("This is where the grey blob lives.  All around lie "
+            "frogs, and wombles, and strange oozy things.  It's a "
+            "very nice lair, as lairs go.\n");
+        add_property("determinate", "a ");
+        set_light(50);
+    
+        add_item("frog", "The frogs are very nice.  Very froggy.");
+        add_item("womble", "It's Uncle Bulgaria!");
+        add_item("strange oozy things", "Ewww!");
+    
+        add_exit("east", "/w/your_name/workroom", "road");
+    
+    }        
+    
+    void reset() {
+        call_out("after_reset", 3);
+    }
+    
+    void after_reset() {
+    
+        object ob = find_object("/w/your_name/simple_npc");    
+    
+        // if(!ob) will return true if ob is 0... in other words, it
+        // didn't find an object with find_object().
+        
+        if(!ob) {
+        
+            // There's no object with that filename loaded, so we load it
+            // and then move it into this_object()... which in the case of
+            // this example, is the room we just coded.  
+            
+            ob = load_object("/w/your_name/simple_npc");
+            
+            // For information on how the move() function works, you 
+            // can check out 'help move'.  But briefly, the first argument
+            // is where the object is to be moved to... the second is the
+            // message that objects in the destination get when the object
+            // enters.  $N will be replaced with the short of the object.
+            // 'appear$s' is a pluralisation code... it will change to 
+            // 'appear' when more than one object enters at the same time,
+            // and 'appears' when only one enters.
+            
+            ob->move(this_object(), "$N appear$s with a wet squelch.");
+        }
+        
+        // if (!environment(ob)) will return true if ob returns 0 for 
+        // environment... in other words, it's loaded, but located in 
+        // null-space.
+        
+        else if (!environment(ob)) {
+            ob->move(this_object(), "$N appear$s with a wet squelch.");
+        }
+            
+    }    
+
+
+So, neato... our room now loads, has stuff in it to look at, and clones our
+leetle NPC into it when loaded.  But it still doesn't do an awful lot.  So
+let's look at a few more clever things we can do with our room code.
+
+
+Being Clever With Add Items
+===========================
+
+First, let's have a look at add_item some more.  Remember how I told you
+that add_item was much cleverer than just letting you create stuff you can
+look at?  Well, it is!  For one very simple example, it's possible to make
+the same text be returned for multiple different labels simply by passing 
+the first argument of add_item in as an array of synonyms:
+
+    add_item(({"frog", "pinkfish", "toad"}), "The frogs are very nice.  "
+        "Very froggy.");
+
+So 'look frog', 'look pinkfish', and 'look toad' will all produce the text
+'The frogs are very nice.  Very froggy.'  You can use this to create lists
+of logical synonyms for items in your room so people don't have to type
+exactly what you have in the description.
+
+Likewise, if you pass in an array as the second argument of add_item, you
+can start to do really clever things.  If you do this, you must follow the
+format of ({"flag", "value"}).  The basic flags are 'long', which is
+the long description of the item you get when looking at it.  'position',
+which lets you set items so people can sit, lie, etc, on them,  and 'gather',
+which is used by the gathering code (we won't look at that in this tutorial),
+
+Now, say we want to make it so we can sit on the frog.  Poor leetle frogses!
+But nonetheless, we want to sit on them.  So we change our add_item to:
+
+    add_item(({"frog", "pinkfish", "toad"}),({"long", "The frogs are very "
+        "nice.  Very froggy.", "position", "one of the poor leetle frogs."}));
+    
+The second argument to the position flag is the string attached to the
+position.  So if I now 'sit on frog', people who enter our room will see:
+
+    Drakkos Wyrmstalker is sitting on one of the poor leetle frogs.
+
+Whee!  We can do this for all our add_items if you like, but let's just
+victimise the frogs for now.  Poor leetle frogses!
+
+Ahem.
+
+Anyway, now we get to some more clever stuff of add_item.  It is possible
+to define simple commands to perform on the item that return pieces of
+text.  So say we wanted to make it possible to pet the womble.  All we need
+to do is:
+
+    add_item(({"womble", "uncle bulgaria"}),({"long", "It's Uncle "
+        "Bulgaria!", "pet", "You pet Uncle Bulgaria.  He growls and chews "
+        "the nails off your hand.\n"}));
+    
+Whee!  So now we can add all sorts of functionality to these items using our
+neat add_item function.  If we want to add more commands to perform, we just
+add them to the end of the array:
+
+    add_item(({"womble", "uncle bulgaria"}),({"long", "It's Uncle Bulgaria!",
+        "pet", "You pet Uncle Bulgaria.  He growls and chews the nails off "
+        "your hand.\n", "snuggle", "Uncle Bulgaria gnaws on your teeth.\n"}));
+
+Neato!
+
+And there's more!  Much more!  Add_item also allows add_commands and functions 
+to be embedded, so you can do really, really clever things with it.  But don't
+worry, that's a little too advanced for this stage.  For now, let's confine
+ourselves to what we've just discussed.
+
+
+Moving NPCs, and Zoning Permits
+===============================
+
+By now, you've probably noticed that our leetle blob isn't moving anywhere.
+You'd think he'd be interested in stretching his legs a little, even if his
+lair is very nice and pretty.  Perhaps we should let him wander around when
+he's bored?
+
+We can do this by using add_zone.  By doing this, we can define a 'zone' for
+both an NPC and a room to have.  NPCs will only move between rooms with zones
+that they also have a zone for.  So if we add the line:
+
+    add_zone("my rooms");
+
+To the setup of our workroom and the lair, then add the line:
+
+    add_move_zone ("my rooms"); 
+    
+To our blob, then the NPC will then have permission to wander between the 
+workroom and the lair when feeling bored.  But we also need a 
+set_move_after() in our NPC that will determine how often the NPC moves.  
+set_move_after takes an integer value that is the fixed time in seconds 
+before the NPC can move, and a second argument that is the random amount 
+of time before it will move:
+
+    set_move_after(60, 30);
+
+With this line, the NPC will make a move after 60 + random (30) seconds.  We
+add that to our NPC's setup, and update him (and the lair and the workroom).  
+Lo an behold, sometime after a minute, our NPC gets bored and wanders off to
+the workroom.  
+
+
+Atmospherics!  Room Chats And You!
+==================================
+
+So, what else do we want to do to our room?  Well... now our NPC is off 
+wandering around our workroom, it's a little quiet in here without him.  
+It would be nice if there was a way to provide output every now and again to
+add to the atmosphere of the place when our blob is out there in the
+Big Bad World.
+
+Well, of course, there is!  The function is called room_chat(), and is used
+in the following way:
+
+    room_chat(({120,240,({
+        "A thick blob of goo oozes over one of the frogs.",
+        "The womble bings quietly.",
+        "The frogs ribbit in abstract contemplation.",
+    })}));
+
+room_chat() takes a mixed array as an argument type.  The first argument
+of that array is the minimum time between chats, the second is the 
+maximum.  The third argument is an array of strings that represent the
+chats themselves... these will be randomly printed to the screen at a 
+time between the minimum and maximum values.  So, we put this into our
+room, and after a few moments, we get the following printed to our
+screen:
+
+    The womble bings quietly.
+    
+Woohoo.  Remember when using room chats, however, that they can get very
+repetitive if you only have a small number, and especially if you set the
+minimum and maximum times too low.  Always err on the side of caution in
+this respect.
+
+
+Signing Off!
+============
+
+Now, let's finish up with a little sign letting everyone know that this
+is where we keep our pet blob.  We do this with the function add_sign.  
+add_sign takes five arguments, although all but the first two are optional
+since the function is varags (please read the chapter on functions if you 
+are unfamiliar with this):
+
+    add_sign("This is a nice sign.\n", "Do Notte Feed Thee Blob!",
+        "nice sign", "sign", "common");
+
+So what does all that mean?  Well, the first argument is the long description
+of the sign... what you see what you look at it.  The second argument is the
+read message... what you see when you read it.  The third argument is the
+short of the sign... if you pass in this argument, the sign will be cloned
+into the room and appear in the inventory line of the room (along with
+monsters and objects lying around).  If you don't specify this argument,
+the sign will be invisible unless looked at or read.  The fourth argument
+is the 'name' of the sign... so if I wanted a plaque instead of a sign,
+I would change this to "plaque" and could:
+
+    look plaque
+
+And
+
+    read plaque
+    
+Instead of 'look sign' and read sign'.    
+
+The final argument is the language the sign is written in... in this case, 
+it's written in common.  If you choose another of the Disc's languages... for
+example, Djelian, what you get returned when reading the sign will be determined
+by your competence in the language.  Whee!  
+   
+   
+Chapter Summary
+===============
+
+And that's it for the second part of our tutorial.  We now know how to build
+rooms containing interactive items, and we also know how to make our NPC 
+appear in the room when it is loaded.  We've also seen how to make our
+NPC wander around our little empire.  But we've still got some ground left
+to cover, and we'll do so in the next tutorial.  :-)
+
+-   Basic inside rooms will inherit "/std/room".
+-   Like NPCs, rooms need a setup() function.  However, unlike NPCs, we do 
+    not need to use set_name(), since the room will never be directly 
+    manipulated by any players, NPCs, or creators.
+-   The set_light() function sets the default level of light in the room.
+-   The add_item() function allows you to add items to your room that can
+    be looked at.  You can also use add_item to specify items can be 
+    positioned on, and define simple commands to return the specificed
+    text.
+-   Every so often, the driver will call the function reset() in all loaded 
+    objects.  You can therefore define a reset() function to execute code
+    within your room whenever the call is made by the driver.
+-   In order for NPCs to move through your rooms, both the room, and the NPC
+    must have a common zone defined.  We define what zones are applicable
+    using the add_zone() function.    
+-   The room_chat() function can be used to add atmospheric messages to your
+    room, much like with load_chat() in our NPC.
+-   The add_sign() function can be used to add readable signs to your rooms.
+    These signs can either be hidden, or displayed as objects in the room
+    depending on what arguments you pass in. 
+             
+    
+Support Files
+=============
+
+/d/learning/newbie/introduction/examples/simple_room.c 
+
+         

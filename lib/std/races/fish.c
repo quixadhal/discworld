@@ -1,41 +1,61 @@
-inherit "/std/races/standard";
+inherit "/std/races/fish_base";
 
 void setup() {
-   set_long("Fish,  yes.  A fish.  Nice generic standard fish thing.\n");
-   set_name("fish");
-   /* throw away human bits and replace totally */
-   bits = ({ 
-"head", 0, ({ 0, 2, 0, "left eye", "right eye", "left gill", "right gill" }),
-"left eye", "eye", ({ "head", 1, 0 }),
-"right eye", "eye", ({ "head", 1, 0 }),
-"left gill", "gill", ({ "head", 1, 0 }),
-"right gill", "gill", ({ "head", 1, 0 }),
-"torso", "guts", ({ 0, 400, 0, "heart", "liver", "left kidney",
-    "right kidney", "spleen" }),
-"heart", "", ({ "guts", 10, 0 }),
-"liver", "", ({ "guts", 5, 0 }),
-"left kidney", "kidney", ({ "guts", 5, 0 }),
-"right kidney", "kidney", ({ "guts", 5, 0 }),
-"spleen", "", ({ "guts", 5, 0 }),
-"genitals", "", ({ 0, 5, 0 }),  /* sex ????  ohhh yes*/
-"left petral fin", "fin", ({ 0, 5, 0, }),
-"right petral fin", "fin", ({ 0, 5, 0, }),
-"dorsal petral fin", "fin", ({ 0, 5, 0 }),
-"tail", 0, ({ 0, 5, 0 }),
-});
-}
+   set_name( "fish" );
+   set_long( "Fish,  yes.  A fish.  Nice generic standard fish thing.\n" );
+   set_height( 15 );
+   set_weight( 40 );
+   set_desc( "a fish, the kind with fins" );
 
-string query_desc(object ob) {
-   return "A fish, the type with fins.\n";
-}
+   set_stats( ({ -2, 14, -4, -4, -6 }) );
+} /* setup() */
 
-/*
- * Need to create a shadow to handle multipleing the armour class by
- * an obscene value when underwater...
- */
-void start_player(object ob2) {
-  object ob;
+void check_water( object player ) {
+   if( !environment( player )->query_water() )
+      call_out( "do_drown", 4, player );
+} /* check_water() */
 
-  ob = clone_object("/std/races/shadows/fish_shadow");
-  ob->init_shadow(ob2);
-}
+void do_drown( object player ) {
+   int i;
+
+   if( environment( player )->query_water() )
+      return;
+
+   tell_room( environment( player ) , player->one_short() + " gasps for "
+      "air.\n" );
+
+   i = player->query_max_hp() / 5;
+   if( i < 20 ) i = 20;
+   player->adjust_hp( -i );
+
+   call_out( "do_drown", 4, player );
+} /* do_drown() */
+
+void start_player( object thing ) {
+   ::start_player( thing );
+
+   thing->add_property( "gills", 1 );
+   thing->add_property("lives in water", 1);
+   thing->add_enter_commands( (: check_water :) );
+   thing->set_default_position( ({ "lying" }) );
+   thing->return_to_default_position( 0 );
+} /* start_player() */
+
+void set_unarmed_attacks( object thing ) {
+   int number;
+
+   number = (int)thing->query_skill_bonus( "fighting.combat.melee.unarmed" );
+   number = 4 + sqrt( number ) / 2;
+
+   thing->remove_attack( "hands" );
+   thing->remove_attack( "feet" );
+
+   thing->remove_attack( "bite" );
+
+   thing->add_attack( "bite", 100, ({ 2 * number, 5, number }),
+      "pierce", "unarmed", 0 );
+
+   thing->tactics( "response dodge" );
+} /* set_unarmed_attacks() */
+
+int lives_in_water() { return 1; }

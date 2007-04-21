@@ -1,0 +1,156 @@
+.DT
+terrain_map_example
+Discworld Creator Help
+terrain_map_example
+
+.SH Overview
+.SP 5 5
+This is a very simple, but complete, example of the terrain map system in 
+action. It creates a small field, of eleven locations, bounded by a fence, 
+and with a path running through it. This example has been set up in the
+Learning Domain - to take a look, simply: 
+.EP
+.SP 5 5
+goto /d/learning/examples/terrain_map/basic/entrance
+.SP 5 5
+
+.SH Example Map: 'field.map'
+------------------------
+.SP 5 5
+A simple terrain map. We have one room types, '.', one road type ',' and one 
+obstacle '*' which is used to create a boundary round the area.
+.EP
+
+******
+**..,*
+*..,.*
+*.,.**
+**,***
+
+
+.SH Example Handler: 'field_handler.c'
+----------------------------------
+#include <terrain_map.h>
+
+inherit TERRAIN_MAP_HANDLER_BASE;
+
+// For the purposes of this example, the map is called 'field.map',
+// and is located in the same directory as this file.
+string query_map_file() { return __DIR__ + "field"; }
+
+void  setup_handler()
+
+{
+   // Setup our 'obstacle'. We put in the description to be seen in
+   // adjacent locations, and an add_item to make it consistent.
+   add_obstacle_type("*", "A tall fence blocks your way to the $D.",
+                "fence", "A tall, unclimable wooden fence.");
+   
+   // Setup the standard field room - simply maps the '.' characters
+   // onto the filename.
+   add_room_type(".", __DIR__ + "field");
+   
+   // Setup the standard field road - maps the ',' characters
+   // onto the filename. We also need the description to be seen in
+   // adjacent locations, and details for an add_item entry in
+   // said adjacent locations.
+   add_road_type(",", __DIR__ + "path",
+            "The path meanders $D.",
+            "A small path meanders its way across the field to the $D.",
+            "path",
+            "The path has been trampled down by the hooves of time.");
+   
+   // To make this a little more interesting, let's add a feature.
+   add_feature("bigtree", 4, 1, 1, 1, 4, 
+                ({ "A giant tree towers over you to the $D.",
+                   "A little way to the $D, you can see a huge tree.",
+                   "You can just make out a large tree, a way off in an "
+                   "$Derly direction." }), 
+                   "tree", "A fairly large, and quite beautiful tree." );
+
+   // And to make it even more interesting, let's give the tree some chats.
+   set_feature_chats("bigtree", 
+                     ({ "The branches on the tree to the $D "
+                        "sway slightly in the breeze." }) );
+
+   // Finally, we add our exit from the terrain map
+   add_exit_at(2, 0, "south", __DIR__ + "entrance", "road");
+}
+
+
+
+.SH Example Room: 'field.c'
+-----------------------
+#include <terrain_map.h>
+
+inherit TERRAIN_MAP_OUTSIDE_BASE;
+
+// Important that we return the pathname to our handler.
+string query_handler_path() { return __DIR__ + "field_handler"; }
+
+// A standard room setup.
+void setup()
+
+{
+  set_short("grassy field");
+  set_long("This is a large grassy field.\n");
+
+  add_item("field", "Large and grassy.");
+  add_item("grass", "It's green, which should come as no surprise at all.");
+}
+
+
+
+.SH Example Room: 'path.c'
+----------------------
+#include <terrain_map.h>
+
+inherit TERRAIN_MAP_OUTSIDE_BASE;
+
+// Important that we return the pathname to our handler.
+string query_handler_path() { return __DIR__ + "field_handler"; }
+
+// A standard room setup.
+void setup()
+
+{
+  set_short("trampled path");
+  set_long("This path meanders through a large grassy field.\n");
+
+  add_item("path", "Trampled down by the hooves of time.");
+  add_item("field", "Large and grassy.");
+  add_item("grass", "It's green, which should come as no surprise at all.");
+}
+
+
+.SH Example Room: 'entrance.c'
+----------------------
+#include <terrain_map.h>
+
+inherit TERRAIN_MAP_OUTSIDE_BASE;
+
+// Important that we return the pathname to our handler.
+string query_handler_path() { return __DIR__ + "field_handler"; }
+
+// A standard room setup.
+void setup()
+
+{
+  set_short("field entrance");
+  set_long("You are at the entrance to a large grassy field. "
+           "A small path meanders off to the north.\n");
+
+  add_item("path", "Trampled down by the hooves of time.");
+  add_item("field", "Large and grassy.");
+  add_item("grass", "It's green, which should come as no surprise at all.");
+  
+  // And here's our way of getting into the terrain map. Simple, no?
+  add_exit("north", __DIR__ + "path:2:0", "road");
+}
+
+
+.SH See also
+.SP 5 5
+terrain_map_intro terrain_map_handler terrain_map_outside terrain_map_inside
+.EP
+

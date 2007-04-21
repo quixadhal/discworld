@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: potion_space.c,v 1.1 1998/01/06 05:03:33 ceres Exp $
+ * $Log: potion_space.c,v $
+ * Revision 1.1  1998/01/06 05:03:33  ceres
+ * Initial revision
+ * 
+*/
 #define SAVE_FILE "/save/potion_space"
 
 /* ok guys, gals and geeks, this is the potion space handler
@@ -13,25 +22,23 @@
 
 mixed *effect_vols;
 
-create()
-{
-   restore_object(SAVE_FILE);
+void create() {
+  seteuid("Room");
+  unguarded((: restore_object, SAVE_FILE :));
 }
 
-add_effect(ob, x1, x2, y1, y2)
-{
+int add_effect(string ob, int x1, int x2, int y1, int y2) {
    if (!stringp(ob)) {
       tell_object(this_player(), "Effect object must be a string.\n");
       return 0;
    }
    effect_vols = ({ ob, x1, x2, y1, y2 }) + effect_vols;
 /* backwards so we get 'masking' */
-   save_object(SAVE_FILE);
+   unguarded((: save_object, SAVE_FILE :));
    return 1;
 }
 
-remove_effect(ob)
-{
+int remove_effect(object ob) {
    int i;
 
    for (i = 0; i < sizeof(effect_vols); i+=5)
@@ -40,12 +47,11 @@ remove_effect(ob)
          break;
       }
 
-   save_object(SAVE_FILE);
+   unguarded((: save_object, SAVE_FILE :));
    return 1;
 }
 
-query_effect_at(coord)
-{
+string *query_effect_at(int *coord) {
    int i;
    string *obs;
 
@@ -59,8 +65,7 @@ query_effect_at(coord)
    return obs;
 }
 
-query_attrs_at(coord)
-{
+mixed *query_attrs_at(int *coord){
    string *effects;
    int sum, i, pass_through;
    mixed *attrs, *temp_attrs;
@@ -87,8 +92,7 @@ query_attrs_at(coord)
    return attrs;
 }
 
-potion_drunk(ob, coord, quantity)
-{
+void potion_drunk(mixed ob, int *coord, int quantity) {
    string *effects;
    int i, pass_through;
    
@@ -102,8 +106,7 @@ potion_drunk(ob, coord, quantity)
    return;
 }
 
-potion_touch(ob, coord, quantity)
-{
+void potion_touch(mixed ob, int *coord, int quantity) {
    string *effects;
    int i, pass_through;
    
@@ -117,8 +120,7 @@ potion_touch(ob, coord, quantity)
    return;
 }
 
-potion_smell(ob, coord, quantity)
-{
+void potion_smell(mixed ob, int *coord, int quantity) {
    string *effects;
    int i, pass_through;
    
@@ -132,8 +134,7 @@ potion_smell(ob, coord, quantity)
    return;
 }
 
-potion_create(ob, coord, quantity)
-{
+void potion_create(mixed ob, int *coord, int quantity) {
    string *effects;
    int i, pass_through;
    
@@ -147,18 +148,18 @@ potion_create(ob, coord, quantity)
    return;
 }
 
-query_effect_vols()
-{
+mixed *query_effect_vols() {
    return effect_vols + ({ });
 }
 
+/* Dangerous fucntion....
 reset_effect_vols()
 {
    effect_vols = ({ });
-   save_object(SAVE_FILE);
+   unguarded((: save_object, SAVE_FILE :));
 }
+ */
 
-neutral_coordinate()
-{
+int *neutral_coordinate() {
    return ({ 0, 0 });
 }

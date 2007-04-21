@@ -1,0 +1,62 @@
+.DT
+map
+Discworld command help
+map
+
+.SH Name
+.SI 5
+map - shows your surroundings in a terrain environment
+.EI
+
+.SH Syntax
+.SI 5
+map
+.EI
+
+.SH Description
+.SP 5 5
+The map command will show your surroundings while you're travelling in a terrain environment.  These are areas where you can 'walk' or 'journey' in certain directions.  These are all explained in 'help terrain room'.
+
+Symbols are used to represent different terrain, such as roads, forest and plains, which will correlate with what you see by looking around you.  The map is centred on your location, marked with a %^YELLOW%^yellow%^RESET%^ symbol.  The map will only show what is in your line of sight at the time.
+.EP
+
+.SH Discworld Atlases
+.SP 5 5
+Maps of Discworld and the cities within it are available online, courtesy of a number of players.  They aren't hosted by Discworld MUD, and we're not responsible for maintaining them.  These maps may be found by following the "MUD Atlas" link on the Discworld homepage:
+
+http://discworld.imaginary.com
+.EP
+
+.SH Examples
+.SI 5
+The north end of Short Street outside the Mended Drum [e,w,s,n].
+> map
+You can only do this in a terrain.
+
+%^CYAN%^Later that day...%^RESET%^
+
+A Skund Forest road [journey west,journey northeast].
+> map 
+                     
+           fff       
+     f ffff--        
+----------%^YELLOW%^-%^RESET%^f         
+     f fffff         
+
+> ne
+A Skund Forest road [journey east,journey southwest].
+> map
+                     
+         fffff f     
+         f%^YELLOW%^-%^RESET%^----------
+        --ffff f     
+       fff           
+
+.EI
+
+
+
+.SH See also
+.SI 5
+terrain_room, godmother
+.EI

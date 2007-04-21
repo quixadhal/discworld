@@ -1,0 +1,45 @@
+.DT
+busy
+Discworld creator help
+busy
+
+.SH Name
+.SI 5
+busy - Set the busy flag
+.EI
+
+.SH Syntax
+.SI 5
+busy on
+busy off
+busy player
+.EI
+
+.SH Description
+.SP 5 5
+This command sets the busy flag for the liaison or lord.  It will tell players
+and creators who tell you that you are currently busy with someone else and
+that you have the message and will get back to them.  It will also
+tell you every time you use tell that you have the busy flag set.  So you
+hopefully cannot forget.  Every incoming tell will also be flaged with
+the busy keyword.
+
+If you set yourself as busy with a certain player then tells from
+them will not be marked with the busy flag, but tells from other
+people will be.
+.EP
+
+.SH Examples
+.SI 5
+> busy on
+You set the busy flag to on.
+> busy off
+You set the busy flag to off.
+> busy allana
+You set youself as busy with Allana.
+.EI
+
+.SH See also
+.SP 5 5
+tell, htell
+.EP

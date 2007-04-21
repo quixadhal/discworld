@@ -1,0 +1,36 @@
+.DT
+event_fight_in_progress
+DW_wibble creator help
+event_fight_in_progress
+
+.SH Name
+.SP 5 5
+event_fight_in_progress -  This event is called when a fight is in progress.
+.EP
+
+.SH Syntax
+.SI 5
+void event_fight_in_progress(object me,
+                             object him)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^me%^RESET%^ - the person initiating the attack
+%^BOLD%^him%^RESET%^ - the person being attacked
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This event is called when a fight is in progress.  It will
+be used for things like joining into currently running
+fights and initiating combat with spell casters.
+.EP
+

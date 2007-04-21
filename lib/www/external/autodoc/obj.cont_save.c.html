@@ -1,0 +1,81 @@
+<html><head><title>File cont_save.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/cont_save.c</h2>
+A container that will save it's contents in a nice happy way.  The
+container will not allow stuff in or out until it has finished loading.<p>Written by Ceres
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.baggage.c.html">/obj/baggage.c</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_find_match_recurse_into"><b>can_find_match_recurse_into</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_load"><b>do_load</b></a>(object)<dd>
+Loads the data for the saved container from the save file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_save"><b>do_save</b></a>()<dd>
+This method saves the data to the save file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_can_recurse"><b>query_can_recurse</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_file"><b>query_save_file</b></a>()<dd>
+This method returns the current save file for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_can_recurse"><b>set_can_recurse</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_file"><b>set_save_file</b></a>(string, object)<dd>
+This method sets the save file for the item and then does a load.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="can_find_match_recurse_into">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_find_match_recurse_into</b></a><pre>
+int can_find_match_recurse_into(object looker)
+</pre>
+<dt><a name="do_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_load</b></a><pre>
+varargs void do_load(object thing)
+</pre><dd>
+Loads the data for the saved container from the save file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the person to report errors to
+
+</dl>
+
+<dt><a name="do_save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_save</b></a><pre>
+void do_save()
+</pre><dd>
+This method saves the data to the save file.
+<p>
+
+<dt><a name="query_can_recurse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_can_recurse</b></a><pre>
+int query_can_recurse()
+</pre>
+<dt><a name="query_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_file</b></a><pre>
+string query_save_file()
+</pre><dd>
+This method returns the current save file for the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current save file
+
+</dl>
+
+<dt><a name="set_can_recurse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_can_recurse</b></a><pre>
+void set_can_recurse(int recurse_flag)
+</pre>
+<dt><a name="set_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_file</b></a><pre>
+varargs void set_save_file(string file,
+                           object thing)
+</pre><dd>
+This method sets the save file for the item and then does a load.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>file - the file name to set the save object to
+<dd>thing - the thing to set as the person to report errors to
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 18 Sep 2003 18:07:52 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

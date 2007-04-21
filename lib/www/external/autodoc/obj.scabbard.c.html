@@ -1,0 +1,86 @@
+<html><head><title>File scabbard.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.container.c.html">/std/container.c</a> and <a href="std.basic.wearable.c.html">/std/basic/wearable.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.virtual.h.html">/include/virtual.h</a> and <a href="include.move_failures.h.html">/include/move_failures.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#no_types_in_long"><b>no_types_in_long</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_scabbard"><b>query_scabbard</b></a>()<dd>
+This method determines if the object is a scabbard or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_types"><b>query_types</b></a>()<dd>
+This method returns the types of weapons that can be sheathed in the
+scabbard.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_types_in_long"><b>set_no_types_in_long</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_types"><b>set_types</b></a>(string *)<dd>
+This method sets the types of weapons that can be sheathed in the
+scabbard.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_scabbard"><b>setup_scabbard</b></a>(int)<dd>
+This method sets up the scabbards current condition.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_type_ok"><b>test_type_ok</b></a>(object, int)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="no_types_in_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>no_types_in_long</b></a><pre>
+int no_types_in_long()
+</pre>
+<dt><a name="query_scabbard">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_scabbard</b></a><pre>
+int query_scabbard()
+</pre><dd>
+This method determines if the object is a scabbard or not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns 1 for a scabbard
+
+</dl>
+
+<dt><a name="query_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_types</b></a><pre>
+string * query_types()
+</pre><dd>
+This method returns the types of weapons that can be sheathed in the
+scabbard.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the types that can be sheathed
+
+</dl>
+
+<dt><a name="set_no_types_in_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_types_in_long</b></a><pre>
+int set_no_types_in_long(int val)
+</pre>
+<dt><a name="set_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_types</b></a><pre>
+void set_types(string * words)
+</pre><dd>
+This method sets the types of weapons that can be sheathed in the
+scabbard.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the array of types that can be sheathed
+
+</dl>
+
+<dt><a name="setup_scabbard">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_scabbard</b></a><pre>
+void setup_scabbard(int number)
+</pre><dd>
+This method sets up the scabbards current condition.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the current condition fo the scabbard
+
+</dl>
+
+<dt><a name="test_type_ok">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_type_ok</b></a><pre>
+int test_type_ok(object thing,
+                 int flag)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 29 Oct 2003 14:29:59 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

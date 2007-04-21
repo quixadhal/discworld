@@ -1,0 +1,48 @@
+.DT
+set_move_after
+DW_wibble creator help
+set_move_after
+
+.SH Name
+.SP 5 5
+set_move_after -  This method sets the speed at which the npc will randomly wander around.
+.EP
+
+.SH Syntax
+.SI 5
+void set_move_after(int after,
+                    int rand)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^after%^RESET%^ - the fixed amount of time
+%^BOLD%^rand%^RESET%^ - the random amount of time
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the speed at which the npc will randomly
+wander around.  The npc will wander at the speed:
+.EP
+.SP 5 5
+speed = after + random(rand)
+.EP
+.SP 5 5
+This is called every time the npc sets up for its next move. 
+
+The move zones control which areas the npcs will wander into, a move zone is set on the room and the npcs will only enter rooms which have a matching move zone. If there is no move zone, then the npc will enter any room.
+.EP
+
+.SH See also
+.SP 5 5
+remove_move_zone(), query_move_zones(), add_move_zone()
+
+.EP
+

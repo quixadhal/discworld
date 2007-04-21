@@ -3,51 +3,58 @@
    options have been moved into the options.h file.
 */
 
-#include "port.h"
-#include "options.h"
+#ifndef _CONFIG_H_
+#define _CONFIG_H_
+
+#include "include/runtime_config.h"
 
 /*
  * runtime config strings.  change these values in the runtime configuration
  * file (config.example)
  */
 
-#define MUD_NAME                get_config_str(0)
-#define MUD_LIB                 get_config_str(1)
-#define BIN_DIR                 get_config_str(2)
-#define SWAP_FILE               get_config_str(3)
-#define CONFIG_DIR              get_config_str(4)
-#define LOG_DIR                 get_config_str(5)
-#define MASTER_FILE             get_config_str(6)
-#define ACCESS_FILE             get_config_str(7)
-#define ACCESS_LOG              get_config_str(8)
-#define INCLUDE_DIRS            get_config_str(9)
-#define SIMUL_EFUN              get_config_str(10)
-#define ADDR_SERVER_IP          get_config_str(11)
-#define DEFAULT_ERROR_MESSAGE   get_config_str(12)
-#define DEFAULT_FAIL_MESSAGE   get_config_str(13)
+#define CONFIG_STR(x)           config_str[(x) - BASE_CONFIG_STR]
+#define CONFIG_INT(x)           config_int[(x) - BASE_CONFIG_INT]
+
+#define MUD_NAME                CONFIG_STR(__MUD_NAME__)
+#define ADDR_SERVER_IP          CONFIG_STR(__ADDR_SERVER_IP__)
+#define MUD_LIB                 CONFIG_STR(__MUD_LIB_DIR__)
+#define BIN_DIR                 CONFIG_STR(__BIN_DIR__)
+#define LOG_DIR                 CONFIG_STR(__LOG_DIR__)
+#define INCLUDE_DIRS            CONFIG_STR(__INCLUDE_DIRS__)
+#define SAVE_BINARIES           CONFIG_STR(__SAVE_BINARIES_DIR__)
+#define MASTER_FILE             CONFIG_STR(__MASTER_FILE__)
+#define SIMUL_EFUN              CONFIG_STR(__SIMUL_EFUN_FILE__)
+#define SWAP_FILE               CONFIG_STR(__SWAP_FILE__)
+#define DEBUG_LOG_FILE          CONFIG_STR(__DEBUG_LOG_FILE__)
+#define DEFAULT_ERROR_MESSAGE   CONFIG_STR(__DEFAULT_ERROR_MESSAGE__)
+#define DEFAULT_FAIL_MESSAGE    CONFIG_STR(__DEFAULT_FAIL_MESSAGE__)
+#define GLOBAL_INCLUDE_FILE     CONFIG_STR(__GLOBAL_INCLUDE_FILE__)
+#define MUD_IP                  CONFIG_STR(__MUD_IP__)
 
 /*
  * runtime config ints
  */
 
-#define TIME_TO_CLEAN_UP        get_config_int(0)
-#define TIME_TO_SWAP            get_config_int(1)
-#define TIME_TO_RESET	        get_config_int(2)
-#define	ALLOWED_ED_CMDS         get_config_int(3)
-#define MAX_BITS                get_config_int(7)
-#define MAX_COST                get_config_int(9)
-#define MAX_ARRAY_SIZE          get_config_int(10)
-#define MAX_MAPPING_SIZE        get_config_int(11)
-#define MAX_LOG_SIZE            get_config_int(13)
-#define READ_FILE_MAX_SIZE      get_config_int(14)
-#define MAX_STRING_LENGTH       get_config_int(15)
-#define ADDR_SERVER_PORT        get_config_int(16)
-#define MAX_BYTE_TRANSFER       get_config_int(17)
-#define PORTNO                  get_config_int(18)
-#define RESERVED_SIZE           get_config_int(19)
-#define	HTABLE_SIZE             get_config_int(21)
-#define OTABLE_SIZE             get_config_int(22)
-#define INHERIT_CHAIN_SIZE      get_config_int(23)
+#define PORTNO                  CONFIG_INT(__MUD_PORT__)
+#define ADDR_SERVER_PORT        CONFIG_INT(__ADDR_SERVER_PORT__)
+#define TIME_TO_CLEAN_UP        CONFIG_INT(__TIME_TO_CLEAN_UP__)
+#define TIME_TO_RESET           CONFIG_INT(__TIME_TO_RESET__)
+#define TIME_TO_SWAP            CONFIG_INT(__TIME_TO_SWAP__)
+#define MAX_COST                CONFIG_INT(__MAX_EVAL_COST__)
+#define MAX_BITS                CONFIG_INT(__MAX_BITFIELD_BITS__)
+#define MAX_ARRAY_SIZE          CONFIG_INT(__MAX_ARRAY_SIZE__)
+#define MAX_BUFFER_SIZE         CONFIG_INT(__MAX_BUFFER_SIZE__)
+#define MAX_MAPPING_SIZE        CONFIG_INT(__MAX_MAPPING_SIZE__)
+#define MAX_STRING_LENGTH       CONFIG_INT(__MAX_STRING_LENGTH__)
+#define READ_FILE_MAX_SIZE      CONFIG_INT(__MAX_READ_FILE_SIZE__)
+#define MAX_BYTE_TRANSFER       CONFIG_INT(__MAX_BYTE_TRANSFER__)
+#define RESERVED_SIZE           CONFIG_INT(__RESERVED_MEM_SIZE__)
+#define HTABLE_SIZE             CONFIG_INT(__SHARED_STRING_HASH_TABLE_SIZE__)
+#define OTABLE_SIZE             CONFIG_INT(__OBJECT_HASH_TABLE_SIZE__)
+#define INHERIT_CHAIN_SIZE      CONFIG_INT(__INHERIT_CHAIN_SIZE__)
+#define FD6_PORT		CONFIG_INT(__FD6_PORT__)
+#define FD6_KIND		CONFIG_INT(__FD6_KIND__)
 
 #ifdef USE_POSIX_SIGNALS
 #define sigblock(m) port_sigblock(m)
@@ -59,98 +66,16 @@
 #define SETJMP(x) setjmp(x)
 #define LONGJMP(x,y) longjmp(x,y)
 
-/*
- * RS/6000 needs this.
- */
-#ifdef _AIX
-#pragma alloca
-#endif /* _AIX */
-
-#if defined(SYSV) || defined(SVR4)
+#ifndef HAS_UALARM
 #define SYSV_HEARTBEAT_INTERVAL  ((HEARTBEAT_INTERVAL+999999)/1000000)
 #endif
 
-#ifndef INLINE
-#if defined(__GNUC__) && !defined(__STRICT_ANSI__) && !defined(lint)
-#define INLINE inline
-#else
-#define INLINE
-#endif
-#endif
-
-#ifdef HAS_UNSIGNED_CHAR
-#define EXTRACT_UCHAR(p) (*(unsigned char *)p)
-#else
-#define EXTRACT_UCHAR(p) (*p < 0 ? *p + 0x100 : *p)
-#endif /* HAS_UNSIGNED_CHAR */
-
 #define APPLY_CACHE_SIZE (1 << APPLY_CACHE_BITS)
 
-/*
-   define MALLOC, FREE, REALLOC, and CALLOC depending upon what malloc
-   package is is used.  This technique is used because overlaying system malloc
-   with another function also named malloc doesn't work on most machines
-   that have shared libraries.  It will also let us keep malloc stats even 
-   when system malloc is used.
-*/
+#define NUM_CONSTS 5
 
-#ifdef GMALLOC
-#define MALLOC(x)  gmalloc(x)
-#define FREE(x)    gfree(x)
-#define REALLOC(x,y) grealloc(x,y)
-#define CALLOC(x,y)   gcalloc(x,y)
+#define NULL_MSG "0"
+
+extern int config_int[NUM_CONFIG_INTS];
+extern char *config_str[NUM_CONFIG_STRS];
 #endif
-
-#ifdef WRAPPEDMALLOC
-#define MALLOC(x)  wrappedmalloc(x)
-#define FREE(x)    wrappedfree(x)
-#define REALLOC(x,y) wrappedrealloc(x,y)
-#define CALLOC(x,y)   wrappedcalloc(x,y)
-#endif
-
-#ifdef SYSMALLOC
-#define MALLOC(x)  malloc(x)
-#define FREE(x)    free(x)
-#define REALLOC(x,y) realloc(x,y)
-#define CALLOC(x,y)   calloc(x,y)
-#endif
-
-#ifdef DEBUGMALLOC
-#define MALLOC(x)  debugmalloc(x,0,(char *)0)
-#define DMALLOC(x,tag,desc)  debugmalloc(x,tag,desc)
-#define XALLOC(x) debugmalloc(x,0,(char *)0)
-#define DXALLOC(x,tag,desc) debugmalloc(x,tag,desc)
-#define FREE(x)    debugfree(x)
-#define REALLOC(x,y) debugrealloc(x,y,0,(char *)0)
-#define DREALLOC(x,y,tag,desc) debugrealloc(x,y,tag,desc)
-#define CALLOC(x,y)   debugcalloc(x,y,0,(char *)0)
-#define DCALLOC(x,y,tag,desc)   debugcalloc(x,y,tag,desc)
-#else
-#define XALLOC(x) xalloc(x)
-#define DXALLOC(x,tag,desc) xalloc(x)
-#define DMALLOC(x,tag,desc)  MALLOC(x)
-#define DREALLOC(x,y,tag,desc) REALLOC(x,y)
-#define DCALLOC(x,y,tag,desc)   CALLOC(x,y)
-#endif
-
-#ifndef MALLOC
-#define MALLOC(x) puts("You need to specify a malloc package in options.h")
-#define FREE(x) puts("You need to specify a malloc package in options.h")
-#define REALLOC(x) puts("You need to specify a malloc package in options.h")
-#define CALLOC(x) puts("You need to specify a malloc package in options.h")
-#endif
-
-#ifndef DISCWORLD
-#define OLD_ADD_ACTION
-#define ALLOW_SAYS_SHOUTS
-#endif
-
-
-/*
- * The hashing function used for pointers to shared strings.
- * The >> shift is because pointers are often aligned to multiples of 4.
- */
-#define PTR_HASH(ptr, num)\
-    ( ( (((unsigned short *) &(ptr))[0] >> 2) ^ \
-        (((unsigned short *) &(ptr))[1] >> 2) ) \
-      % (num) )

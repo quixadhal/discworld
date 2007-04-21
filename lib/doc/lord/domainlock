@@ -1,0 +1,42 @@
+.DT
+domainlock
+Discworld lord help
+domainlock
+
+
+.SH Name
+.SI 5
+dinfo - Lock or unlock your domain to creator applications
+.EI
+
+.SH Syntax
+.SI 5
+domainlock <domain> off 
+domainlock <domain> on 
+domainlock list 
+.EI
+
+.SH Description
+.SP 5 5
+The domainlock command acts as an interface to the Patrician's palace in AM, 
+and allows you to set whether your domain is open or closed to applications.
+'domainlock <domain> off' will switch off the lock for a particular domain,
+allowing players to apply in the palace.  'domainlock <domain> on' will 
+lock the domain, meaning no players can apply.  You will be prompted for a 
+reason if you do this.
+
+'domainlock list' will list the current domains and whether or not they are 
+accepting applications.
+.EP
+
+.SH Examples:
+.SI 5
+
+> domainlock forn on
+Enter the reason for locking the domain.
+? I have enough applicants
+Domain forn = I have enough applicants
+
+.SH See also
+.SP 5 5
+.EP

@@ -1,0 +1,49 @@
+.DT
+rot13
+Discworld player help
+rot13
+
+.SH Name
+.SI 5
+rot13 - Transform text with the rot13 algorithm.
+.EI
+
+.SH Syntax
+.SI 5
+rot13 <string>
+.EI
+
+.SH Description
+In the words of the Jargon File (online version 4.3.1):
+
+[...] The simple Caesar-cypher encryption that replaces each
+English letter with the one 13 places forward or back along
+the alphabet, so that "The butler did it!" becomes "Gur ohgyre
+qvq vg!" [...]  It is used to enclose the text in a sealed wrapper
+that the reader must choose to open -- e.g., for posting things
+that might offend some readers, or spoilers.  A major advantage
+of rot13 over rot(N) for other N is that it is self-inverse, [...].
+
+</quote> 
+
+Please note that this command should not be used as an excuse to
+post things that would normally be against the rules.
+
+.SP 5 5
+
+.EP
+
+.SH Examples
+.SI 5
+> rot13 foo
+You rot: "sbb".
+> rot13 sbb
+You rot: "foo".
+> rot13 The butler did it.
+You rot: "Gur ohgyre qvq vg.".
+.EI
+
+.SH See also
+.SI 5
+coffee table, rules
+.EI

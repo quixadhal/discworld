@@ -1,0 +1,32 @@
+## Water does bugger all ##
+
+::item "steep:Water"::
+::->result:: "/obj/reagents/water.ob"
+::->factor:: 1.0
+::->func:: ({})
+
+## Cereus ##
+
+::item "steep:CereusTea"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 1.0
+::->func:: ({
+      (: $2->set_name( "liquid" ) :),
+      (: $2->set_short( "darker milky acrid liquid" ) :),
+      (: $2->add_adjective( ({ "darker", "milky", "acrid", "liquid" }) ) :),
+      (: $2->set_long( "This is $amount_size$ of some darker milky acrid liquid.\n" ) :),
+      (: $2->set_medium_alias( "SteepedCereus" ) :),
+    })
+
+## Skullcap ##
+
+::item "steep:SkullcapTea"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 1.0
+::->func:: ({
+      (: $2->set_name( "liquid" ) :),
+      (: $2->set_short( "dark azure liquid" ) :),
+      (: $2->add_adjective( ({ "dark", "azure", "liquid" }) ) :),
+      (: $2->set_long( "This is $amount_size$ of some dark azure liquid.\n" ) :),
+      (: $2->set_medium_alias( "SteepedSkullcap" ) :),
+    })

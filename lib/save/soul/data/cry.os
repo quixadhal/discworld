@@ -1,0 +1,1 @@
+({({"<string> [on] <indirect:any-living>","[on] <indirect:any-living> <string>","<indirect:any-living>","<string>",}),({({"Wahhhhhh.","$mcname$ cries loudly.",0,}),0,}),({0,({"You cry on $mhcname$ $arg$.","$mcname$ cries on $mhcname$ $arg$.","$mcname$ cries on your $arg$.",({"shoulder","chest","breast",}),0,0,}),}),})

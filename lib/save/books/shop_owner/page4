@@ -1,0 +1,62 @@
+.DT
+new shop owner
+Discworld shop help
+new shop owner
+
+
+.SH Money Handling
+.SP 5 5
+The very important bit of the shop, how do you get paid?  Well, the money
+system uses the standard royalties system used in other craft shops around
+the place.  You come into the shop and use the command 'collect royalties'
+to collect your royalties.  The same goes for people who are selling items
+in your shop.  Once you approve an item from them, the money goes into
+their royalties box.
+
+If items are setup for autoapproval then the person selling the item
+immediately gets the money they should get and your royalties in the
+shop are deducted.  If your royalties go below 0 then you need to
+use 'approve pay deficit' to pay off your deficit before you can
+do any other manipulations on the shop.
+
+You can set the percentage that is added onto any item the player sells to
+the shop (your profit) using the 'approve percentage <number>' command.
+
+You can tell what your current percentage (and any auto approval rules)
+from using the command 'approve status'
+.EP
+
+.SH Example
+.SI 5
+> collect royalties
+You collect A$20000 in royalties.
+> approve pay deficit
+You pay off A$20 in deficit.
+> approve percentage 100
+You will add 100% to the price of any item sold to the shop.
+> approve status
+People allowed to change the shop are lanfear.
+Noone is denied access to the shop.
+
+The current percentage to automatically add to the buy price is: 20%
+Automatically approve sales less than       : 50p.
+Automatically accept sales by               : none.
+Automatically accept sales to the categories:
+     Sex Aids             max value A$100
+     Healing Aids         max value A$3
+Automatically accept sales of               :
+     business card        max value A$3
+
+Limits on what can be sold.
+Maximum number of items allowed in the shop : 100.
+Maximum number of items allowed per player  : 20.
+Automatically queue sales more than         : A$100.
+Automatically deny sales more than          : disabled.
+Limits set per player.
+   Name            Max Sellable    Approve Limit        Deny limit (per item)
+   pinkfish        10              A$10                 A$10
+   brighid         25              A$5                  A$20
+
+Current money spent A$262.15 and money made A$118.49.
+The owner current has a cash float of A$25.92.
+.EI

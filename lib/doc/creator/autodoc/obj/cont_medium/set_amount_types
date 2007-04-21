@@ -1,0 +1,41 @@
+.DT
+set_amount_types
+DW_wibble creator help
+set_amount_types
+
+.SH Name
+.SP 5 5
+set_amount_types -  This method sets the sizes of the piles and their names.
+.EP
+
+.SH Syntax
+.SI 5
+void set_amount_types(mapping map)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^map%^RESET%^ - the amount types mapping
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/cont_medium.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the sizes of the piles and their names.  The
+argument is a mapping which contains the name of the pile and
+value is an array, the first element is the amount needed for
+the name and the second element is the plural of the pile name.
+.EP
+
+.SH Example 1
+.SI 5
+set_amount_types( ([ "pinch": ({ 1, "pinches" }),
+                 "handful": ({ 50, "handfuls" }) ]));
+.EI
+

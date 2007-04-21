@@ -1,0 +1,56 @@
+.DT
+query_throw_out
+DW_wibble creator help
+query_throw_out
+
+.SH Name
+.SP 5 5
+query_throw_out -  This method returns the current throw out array.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * query_throw_out()
+.EI
+
+.SH Returns
+.SI 5
+the throw out array
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current throw out array.
+The array consists of
+({
+.EP
+.SP 5 5
+  hps,
+.EP
+.SP 5 5
+  chance,
+.EP
+.SP 5 5
+  their_mess,
+.EP
+.SP 5 5
+  everyone_mess
+.EP
+.SP 5 5
+})
+.EP
+.SP 5 5
+The parameters are the same as used in the set_throw_out function.
+.EP
+
+.SH See also
+.SP 5 5
+set_throw_out()
+.EP
+

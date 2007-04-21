@@ -1,0 +1,85 @@
+Exit functions are functions that are connected to exits that are
+called before someone goes through them; apart from whatever else
+gets put in the function, they also dictate whether the person may
+proceed or not, depending on whether they return 1 or 0, respectively.
+An exit function is usually "attached" to the exit in a modify_exit()
+that follows after an add_exit() . For example:
+
+   add_exit( "south", CLIMB +"1g", "door" );
+   modify_exit( "south", ({ "function", "query_assassin" }) );
+
+   add_exit( "south", PATH +"guild", "door" );
+   modify_exit( "south", ({ "function", "check_gappic" }) );
+
+The function is called with three arguments, which are a string, being
+the direction taken (so for both examples above, it would be "south"),
+an object (which is the thing moving through the exit) and another
+string, which is either the message given to the destination room
+when the person arrives (if that has been defined, again via modify_exit() ,
+or 0 if it hasn't) _or_ the string "none" if the person is sneaking.
+The most important of these three is the second, the object, and this
+must be used to refer to the person moving because
+
+   IT WILL NOT BE THE SAME AS this_player() !!
+
+This is very important. As a consequence of this, write() and say()
+must not be used, because they depend on this_player() which may not
+be what you think it is, so you must use tell_object() and tell_room() .
+For example, this is how _not_ to use an exit function:
+
+int query_assassin(string str, object ob, string special) {
+  string s;
+  if((string)this_player()->query_guild_ob() == "/std/guilds/assassin")
+    return 1;
+  if(secretary && !secretary->query_visible(this_object()))
+      return 1;
+
+  notify_fail("You hear a click, and feel a terrible pain as a "+
+              "crossbow bolt hits you full in the chest.\n");
+  say(this_player()->short()+" attempts to go further into "+
+      "the guild.  You hear a click and see a crossbow bolt come "+
+      "flying out from somewhere....\n");
+  call_out("do_poison",5);
+  return 0;
+}
+
+This will actually let a non-assassin follow an assassin through,
+because even when the non-assassin is going through, this_player()
+still points to the assassin. Similarly, if a non-assassin was
+controlling another living object, be it an assassin or not, and
+sent that controlled object through the exit, the controlling
+non-assassin would end up being shot and poisoned, even if they
+were miles away. The following, then, is an example of how an
+exit function should be used:
+
+int check_gappic( string verb, object thing, string special ) {
+   if ( (string)thing->query_deity() == "gapp" )
+      switch ( DEITY->query_valid_al( "gapp", (int)thing->query_al() ) ) {
+         case -1 :
+            tell_object( thing, "You get the distinct feeling that you're "+
+                  "too nice...\n" );
+            break;
+         case 1 :
+            tell_object( thing, "You get the distinct feeling that you're "+
+                  "not nice enough...\n" );
+            break;
+         default :
+            return 1;
+      }
+   tell_object( thing, "The silk-robed door swings shut in your face.\n" );
+   tell_room( this_object(), "The silk-robed door swings shut in "+
+         (string)thing->the_short() +"'s face.\n", thing );
+   call_door( "south", "set_closed", 1 );
+   ( PATH +"guild" )->call_door( "north", "set_closed", 1 );
+   ( PATH +"guild" )->tell_door( "north", "The silk-robed door swings "+
+      "shut.\n", thing );
+   return notify_fail( "" );
+} /* check_gappic() */
+
+The reason that it uses notify_fail( "" ) , is because the message
+contained in a notify_fail() always goes to this_player() , and so
+it must be "" (not 0) in order that the person who is actually
+this_player() doesn't get an inappropriate message when the person
+who is the local object variable thing is prevented from going through.
+The notify_fail() is actually needed, otherwise there could be spurious
+cases of "What?" sometimes.

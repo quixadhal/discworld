@@ -1,0 +1,34 @@
+.DT
+load
+Discworld creator help
+load
+
+.SH Name
+.SI 5
+load - Loads an object into memory.
+.EI
+
+.SH Syntax
+.SI 5
+load <file>
+.EI
+
+.SH Description
+.SP 5 5
+Load is used to take LPC objects that are files on disk, but not loaded in
+memory and load them into memory.  This is done by calling a dummy function on
+the object, forcing the mud to load the object.
+.EP
+
+.SH Examples
+.SI 5
+load fish.c
+load f*.c
+load fish
+load f*
+.EI
+
+.SH See also
+.SP 5 5
+update, discard
+.EP

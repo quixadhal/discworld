@@ -1,0 +1,41 @@
+.DT
+make_unique
+DW_wibble creator help
+make_unique
+
+.SH Name
+.SP 5 5
+make_unique -  This method returns whether or not it is time to regenerate a unique NPC.
+.EP
+
+.SH Syntax
+.SI 5
+int make_unique(mixed who)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^who%^RESET%^ - this is the name or object reference of the NPC
+.EI
+
+.SH Returns
+.SI 5
+1 if it is time to make the unique NPC, or 0 if it is not.
+.EI
+
+.SH Defined in
+.SI 5
+/std/hospital.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns whether or not it is time to regenerate a
+unique NPC. The regeneration time is controlled by the REGEN_TIME
+#define.
+
+
+
+.EP
+

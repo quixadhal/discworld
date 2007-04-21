@@ -1,0 +1,31 @@
+.DT
+regen_after_death
+DW_wibble creator help
+regen_after_death
+
+.SH Name
+.SP 5 5
+regen_after_death -  This method is called by the npc.
+.EP
+
+.SH Syntax
+.SI 5
+void regen_after_death(object dead_npc)
+.EI
+
+.SH Defined in
+.SI 5
+/std/hospital.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called by the npc.death effect after an NPC that is handled
+by the hospital has died. It tells the room where it was generated to
+make a new NPC and to all sorts of funky things.
+
+
+This is not fully implemented yet. 
+.EP
+

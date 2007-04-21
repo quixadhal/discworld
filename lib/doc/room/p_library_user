@@ -1,0 +1,75 @@
+.DT
+player library
+Discworld player help
+player library
+
+.SH Name
+.SI 5
+player library - This is a place where librarian players can add any books 
+they see fit, for other players to subsequently borrow.
+.EI
+
+.SH Syntax - User Commands
+.SI 5
+view catalogue by {author|title}
+view catalogue by {author|title} from <letter> to <letter>
+view works by <author>
+view works titled <title>
+
+borrow <id>
+return <item>
+status
+pay fine
+report <id> as {lost|damaged}
+
+.EI
+
+.SH Description
+.SP 5 5
+This is a place where librarian players can add any books they see fit, for
+other players to subsequently borrow.
+
+You can browse the catalogue using the commands described above to find the
+item you want. When you borrow an item, you are told when it must be returned
+by before you start being charged. You will not be able to borrow more items
+whilst you have outstanding fines.
+
+Remember this is a community run library with finite resources. It can only lend
+as many copies of an item that other librarian players have added. 
+
+Normally you have to be explicitly allowed to use the library by one of the 
+librarians, so you should approach them if you do not have access to use it.
+
+You can report lost or damaged books with the 'report' command. You will
+be charged a set amount and the loan will be cleared. The library will not be
+able to get that copy of the item back, so librarians won't be happy if
+you lose too many books.
+
+.EP
+
+.SH Example
+.SI 5
+> view catalogue by author from e to j
+ Id    Author              Title            Copies  On Loan
+  1   Hartly JR          Flyfishing           3        1
+
+> borrow 1
+You have until 9:43am, Sunday 25th Sektober to return it.
+You borrow 'Flyfishing' by Hartly JR
+
+> status
+Account status for Aquilo.
+Loaned items:
+ Id              Item                   Due back       Overdue 
+  1    'Flyfishing' by Hartly JR   6:08am, Sunday 25th         
+                                        Sektober
+Fines Due:     nothing
+
+> return book
+You return the closed thin book.
+.EI
+
+.SH See also
+.SP 5 5
+help p_library_librarian
+.EP

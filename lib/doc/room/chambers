@@ -1,0 +1,67 @@
+.DT
+council chambers
+Discworld room help
+council chambers
+
+.SH Name
+.SI 5
+council chambers - where rules are made
+.EI
+
+.SH Syntax
+.SI 5
+vote {yes|no|abstain} for <motion id>
+list
+list rule <rule id>
+list motions
+list motions {brief|verbose}
+list motion <motion id>
+
+Magistrate only:
+amend motion <motion id>
+comment on <motion id>
+motion remove rule <rule id>
+motion amend rule <rule id>
+motion create new rule <type>
+motion move rule <rule id> to <type>
+.EI
+
+.SH Description
+.SP 5 5
+This is a room help file.
+
+This room is the heart of the rule control system for the game.  It allows
+people to list rules, and vote on new rules.
+
+The rule id and the motion id's can be found by listing the rules and
+motions respectively.
+
+The allowed types for the rules are 'general', 'citizen' and 'immutable'. 
+All rules of the type 'immutable' cannot be changed or added to.
+
+Rules of the type 'citizen' will only apply to citizens, 'general' rules
+apply to everyone in the city.
+
+Amendments are changes to the actual rules, if you make an amendment
+to a rule then the amendment becomes a clarification of the rule.  Comments
+can only be made by magistrates and they are removed when the motion is
+opened up for voting by the citizens.
+
+Motions go through three stages: 1) magistrate discussion, 2) magistrate
+voting and 3) citizen voting.  For a motion to be passed it must be passed
+by both the magistrates and the citizens.  A motion can only have amendments
+made to it while it is in the magistrate discussion period.  Comments
+can be added up till the end of the magistrate voting period.
+.EP
+
+.SH Example
+.SI 5
+> list
+> list motions
+> vote yes for 2
+.EI
+
+.SH See also
+.SP 5 5
+None
+.EP

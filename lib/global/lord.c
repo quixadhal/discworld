@@ -1,154 +1,196 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: lord.c,v 1.15 2002/03/03 23:18:01 ceres Exp $
+ */
+/**
+ * This is the lord player object and contains any needed bits to
+ * handle lord specific commands and things.
+ * @author Pinkfish
+ */
 /* this is the lord player object */
+
+/* support added for automatically mailing docs to new cre's upon */
+/* being employd - Funtime, 24/5/95 */
+#define CREATOR_DOC "/doc/creator/concepts/creator_doc.txt"
+//#define PROJECT_STYLE "/doc/creator/concepts/project_style.txt"
+
+#include <command.h>
+#include <mail.h>
 
 inherit "/global/wiz_file_comm";
 
-string *allowed;
+protected int do_dismiss(string str, string reason);
+protected int employ(string str);
+protected int new_domain(string dom, string director);
+private int do_heart_beat();
+protected int do_qsnoop(object *obs);
+protected int bulk_delete( string word );
+protected int clean_up_files( string word );
+protected int do_hexec(string);
 
 void create() {
   ::create();
-  creator = 1;
-  app_creator = 1;
-  allowed = ({ });
 } /* create() */
 
-void move_player_to_start(string bong, int bing, string c_name) {
+/** @ignore yes */
+void move_player_to_start(string bong, int bing, string c_name, string ident,
+                          int go_invis) {
+  ::move_player_to_start(bong, bing, c_name, ident, go_invis);
   cat("doc/CREATORNEWS");
-  cat("doc/LORDNEWS");
-  creator = 1;
-  app_creator = 1;
-  ::move_player_to_start(bong, bing, c_name);
-  if(query_invis())
-    tell_object(this_object(), "===> You are currently INVISIBLE! <===\n");
-  add_action("visible", "vis");
-  add_action("invisible", "invis");
-  add_action("promote", "promote");
-  add_action("do_demote", "demote");
-  add_action("new_domain", "new_domain");
-  add_action("do_heart_beat", "heart_beat");
-  add_action("do_allow", "allow");
-  add_action("do_disallow", "disallow");
+  cat("doc/DIRECTORNEWS");
+#ifndef NEW_DRIVER
+  enable_wizard();
+#endif
+   switch ( query_invis() ) {
+      case 3 :
+         tell_object( this_object(),
+               "===> You are currently Trustee invisible! <===\n" );
+         break;
+      case 2 :
+         tell_object( this_object(),
+               "===> You are currently Director invisible! <===\n" );
+         break;
+      case 1:
+         tell_object( this_object(),
+               "===> You are currently invisible! <===\n" );
+         break;
+   }
+  add_command("qsnoop", this_object(), "<indirect:player>", (: do_qsnoop($1)
+                                                             :));
+  add_command("qsnoop", this_object(), "", (: do_qsnoop :));
+  add_command("employ", this_object(), "<word>", (: employ($4[0]) :));
+  add_command("dismiss", this_object(), "<word> <string>", (: do_dismiss($4[0], $4[1]) :));
+  add_command("new_domain", this_object(), "<word> <word>",
+              (: new_domain($4[0], $4[1]) :) );
+  add_command("heart_beat", this_object(), "", (: do_heart_beat() :) );
+  add_command("bulk_delete", this_object(),
+              "{a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z}",
+              (: bulk_delete($4[0]) :) );
+  add_command("clean_up_files",  this_object(), "<word>",
+              (: clean_up_files($4[0]) :) );
+  AddSearchPath(({ DIR_LORD_CMDS, DIR_SECURE_LORD_CMDS }));
 } /* move_player_to_start() */
 
-int do_heart_beat() {
+/**
+ * No priorities etc anymore, so directors get there own very small
+ * process_input parser(tm)
+ */
+
+protected mixed process_input(string input){
+  if(input == "end_it_all")
+    shutdown(0); 
+  if(input[0..4] == "hexec")
+    return do_hexec(input[5..]);
+  return ::process_input(input);
+}
+
+/**
+ * Very fast shutdown.
+ * @return always returns 1
+ */
+protected int end_it_all() {
+  shutdown(0);
+  return 1;
+} /* end_it_all() */
+
+/**
+ * This method runs the heart beat once on command.
+ */
+private int do_heart_beat() {
   heart_beat();
   return 1;
 } /* do_heart_beat() */
 
-string short(int dark) {
-  if (query_invis() == 2) return 0;
-  if (query_verb() == "dest")
-    return ""+this_object();
-  if (query_invis())
-    if(!this_player() || this_player()->query_creator())
-      return ::short(dark) + " (invis)";
-    else
+/** @ignore yes */
+int query_creator() {
+  return 1;
+} /* query_creator() */
+
+nomask int query_director() {
+  return 1;
+}
+
+nomask int query_lord() {
+  return 1;
+} /* query_lord() */
+
+/**
+ * This method is called when a director  attempts to employ
+ * someone in their domain.
+ * @param str the player to employ
+ * @return 1 on success, 0 on failure
+ */
+protected int employ(string str) {
+  string doc;
+
+  if (GetForced()) {
+    return 0;
+  }
+/*  set up mail to send to employeee */
+/* added by FUntime, 24/5/1995 */
+  /*
+   * Change by pinkfish so it actually checks the return value of the
+   * promotion code first.
+   */
+  switch (master()->employ_creator( lower_case(str) )) {
+    case 2 :
+      if(file_size(CREATOR_DOC) > 0) {
+        /* load up file into 'doc' */
+        doc = read_file(CREATOR_DOC);
+        /* and post it on */
+        AUTO_MAILER->auto_mail(lower_case(str), this_player()->query_name(),
+          "Documents for new creators", "", doc, 0, 0);
+      }
+    
+     /* if(file_size(PROJECT_STYLE)>0) {
+        doc = read_file(PROJECT_STYLE);
+        AUTO_MAILER->auto_mail(lower_case(str), this_player()->query_name(),
+          "Documents for new creators", "", doc, 0, 0);
+      } */
+      return 1;
+    case 1 :
+      return 1;
+    default :
       return 0;
-  else
-    return ::short(dark);    
-  return 0;
-} /* short() */
+  }
+} /* employ() */
 
-string long(string name, int dark) {
-  if(query_invis())
-    return 0;
-  else
-    return ::long(name, dark);
-} /* long() */
-
-static int visible() {
-  if(!query_invis()) {
-    notify_fail("You are already visible.\n");
+/**
+ * This method is called when the director attempts to dismiss
+ * a creator who is currently working (or not working
+ * if they are being dimissed I guess).
+ * @param str the creator to dismiss
+ * @return 1 on success, 0 on failure
+ */
+protected int do_dismiss(string str, string reason) {
+  if (GetForced()) {
     return 0;
   }
-  write("You appear.\n");
-  invis = 0;
-  return 1;
-} /* visible() */
+   return (int)master()->dismiss_creator( str + " " + reason);
+} /* do_dismiss() */
 
-static int invisible(string str) {
-  if(query_invis()) {
-    notify_fail("You are already invisible.\n");
+/**
+ * This method is used to create a new domain.
+ * @param str the input parameters
+ * @return 1 on success, 0 on failure
+ */
+protected int new_domain(string dom, string director) {
+
+  if (GetForced()) {
     return 0;
   }
-  write("You disappear.\n");
-  if (str)
-    invis = 2;
-  else
-    invis = 1;
-  return 1;
-} /* invisible() */
-
-int query_creator() { return 1; }
-int query_lord() { return 1; }
-
-static int promote(string str) {
-  if (this_player(1) != this_object())
-    return 1;
-  if (!str) {
-    notify_fail("Usage: promote <person>\n");
-    return 0;
-  }
-  return (int)"/secure/master"->create_creator(str);
-} /* promote() */
-
-static int do_demote(string str) {
-  if (this_player(1) != this_player())
-    return 0;
-  if (!str) {
-    notify_fail("Syntax: demote <person> <reason>\n");
-    return 0;
-  }
-  return (int)"/secure/master"->demote_creator(str);
-} /* do_demote() */
-
-static int new_domain(string str) {
-  string s1, s2;
-  if (this_player(1) != this_object())
-    return 1;
-  notify_fail("Usage: new_domain <domain> <lord>\n");
-  if (!str)
-    return 0;
-  if (sscanf(str, "%s %s", s1, s2) != 2)
-    return 0;
-  return (int)"/secure/master"->create_domain(s1, s2);
+  return (int)master()->create_domain(dom, director);
 } /* new_domain() */
 
-int query_creator_playing() { return 0; }
-
-/*
-void dest_me() {
-  if (!this_player(1) || (this_player(1) != this_object() &&
-      !this_player(1)->query_lord())) {
-    write("You can't do that!\n");
-    return ;
-  }
-  ::dest_me();
-} /* dest_me() */
-
-string *parse_command_id_list() {
-  if (query_invis() == 2)
-    return ({ });
-  return ::parse_command_id_list();
-} /* parse_command_id_list() */
-
-string *parse_command_adjectiv_id_list() {
-  if (query_invis() == 2)
-    return ({ });
-  return ::parse_command_adjectiv_id_list();
-} /* parse_command_id_list() */
-
-string *parse_command_plural_id_list() {
-  if (query_invis() == 2)
-    return ({ });
-  return ::parse_command_plural_id_list();
-} /* parse_command_id_list() */
-
-string query_object_type() {
-  if ("/secure/master"->high_programmer(geteuid(this_object())))
-    return "H";
-  return "L";
+/** @ignore yes */
+string query_object_type(object) {
+  if (master()->query_trustee(geteuid(this_object())))
+    return "T";
+  return "D";
 } /* query_object_type() */
 
+/** @ignore yes */
 void event_enter(object me, string s1, object from) {
   if ((!s1 || s1 == "") && interactive(me)) {
     if (environment() == environment(me))
@@ -161,6 +203,7 @@ void event_enter(object me, string s1, object from) {
   ::event_enter(me, s1, from);
 } /* event_enter() */
 
+/** @ignore yes */
 void event_exit(object me, string s1, object from) {
   if ((!s1 || s1 == "") && interactive(me)) {
     if (environment() == environment(me))
@@ -173,62 +216,80 @@ void event_exit(object me, string s1, object from) {
   ::event_exit(me, s1, from);
 } /* event_exit() */
 
-static int do_allow(string name) {
-  string *names;
-  int i;
-
-  if (!name) {
-    write("Currently allowed people are: "+implode(allowed, ", ")+"\n");
-    write("Syntax: allow <name> [name] ...\n");
-    return 1;
-  }
-  names = explode(name, " ");
-  for (i=0;i<sizeof(names);i++)
-    if (!"/secure/login"->test_user(names[i])) {
-      write("User "+names[i]+" does not exist.\n");
-      names = delete(names, i, 1);
-      i--;
-    }
-  if (!sizeof(names)) {
-    write("No one is added.\n");
-  } else
-    write(implode(names, ", ")+" have been added to the allowed array.\n");
-  allowed += names;
-  return 1;
-} /* do_allow() */
-
-static int do_disallow(string name) {
-  string *names;
-  int i;
-
-  if (!name) {
-    notify_fail("Syntax: disallow <name> [name] ...\n");
+/** @ignore yes */
+protected int do_hexec(string junk) {
+  if (GetForced()) {
     return 0;
   }
-  names = explode(name, " ");
-  for (i=0;i<sizeof(names);i++)
-    if (member_array(names[i], allowed) == -1) {
-      write("User "+names[i]+" not in the allowed array, you can you "+
-            "remove them?\n");
-      names = delete(names, i, 1);
-      i--;
-    }
-  if (!sizeof(names))
-    write("No one removed from the array.\n");
-  else
-    write(implode(names, ", ")+" has been removed from the array thingy.\n");
-  allowed = allowed - names;
+  write_file("/w/"+query_name()+"/exec_thing.c", "void create() { "+junk+"; }");
+  catch(("/w/"+query_name()+"/exec_thing")->bingle());
+  destruct(find_object("/w/"+query_name()+"/exec_thing"));
+  rm("/w/"+query_name()+"/exec_thing.c");
   return 1;
-} /* do_disallow() */
+} /* do_hexec() */
 
-string *query_allowed() { return allowed; }
-
-void dest_me() {
-  if (this_player() && this_player() != this_object()) {
-    event(users(), "inform", this_player()->query_cap_name()+
-                             " dests "+this_object()->query_cap_name(), "dest");
-    tell_object(this_object(), "You were dested by "+
-                     this_player()->query_cap_name()+".\n");
+/** @ignore yes */
+varargs int adjust_xp(int number, int shared) {
+  if (objectp(previous_object())) {
+    event_inform(previous_object(),
+                 (string)previous_object()->query_name() + " (" +
+                 file_name(previous_object()) +") gives you " +
+                 number + " xp", "xp");
   }
-  ::dest_me();
-} /* dest_me() */
+  return ::adjust_xp(number, shared);
+} /* adjust_xp() */
+
+
+/**
+ * This method forces a bulk delete on a certain letter.
+ * This letter will then be checked to see if any of
+ * those players have timed out and should be deleted.
+ * @param word the letter to bulk delete
+ * @return 0 on falure and 1 on success
+ */
+protected int bulk_delete( string word ) {
+  if (GetForced()) {
+    return 0;
+  }
+  word = lower_case(word);
+  return (int)"/secure/bulk_delete"->delete_files(word);
+} /* bulk_delete() */
+
+/**
+ * This method forces the clean up of certain file son the
+ * bulk deleter.  This cleans up all the files associated with
+ * the given player.
+ * @param word the name of the player to clean up
+ * @return 1 on success, 0 on failure
+ */
+protected int clean_up_files( string word ) {
+  if (GetForced()) {
+    return 0;
+  }
+  return (int)"/secure/bulk_delete"->clean_up_files(word);
+} /* clean_up_files() */
+
+/**
+ * This method is used to do a quiet snoop on a player.
+ * @param str the player to snoop
+ * @return 1 on success, 0 on failure
+ */
+protected int do_qsnoop(object *obs) {
+  object targ;
+
+  if (GetForced()) {
+    return 0;
+  }
+  if (!obs || !sizeof(obs)) {
+    snoop(this_object(), 0);
+    write("Ok, qsnoop cancelled.\n");
+    return 1;
+  }
+  targ = obs[0];
+  if(!snoop(this_object(), targ)) {
+    notify_fail("You fail to qsnoop " + targ->query_cap_name() + ".\n");
+    return 0;
+  }
+  write("Ok, qsnooping "+targ->query_cap_name() + ".\n");
+  return 1;
+} /* do_qsnoop() */

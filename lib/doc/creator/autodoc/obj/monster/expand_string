@@ -1,0 +1,143 @@
+.DT
+expand_string
+DW_wibble creator help
+expand_string
+
+.SH Name
+.SP 5 5
+expand_string -  This method is used to expand the message strings used in the npc messages.
+.EP
+
+.SH Syntax
+.SI 5
+string expand_string(string in_str,
+                     object on)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^in_str%^RESET%^ - the input string
+%^BOLD%^on%^RESET%^ - the object to use for the 'o' matching
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to expand the message strings used in the
+npc messages.  It is used for chat strings and such things like
+that.  The strings it expands are of the form:
+.EP
+.SP 5 5
+$lname$, $mname$, $aname$, ...
+.EP
+.SP 5 5
+The first letter determines the type of object being referenced. They are: 
+.EP
+.SP 5 5
+m 
+.EP
+.SP 8 5
+Me! The npc itself. 
+.EP
+.SP 5 5
+l 
+.EP
+.SP 5 5
+A living object, choose a random living object in the npcs environment. 
+.EP
+.SP 5 5
+a 
+.EP
+.SP 8 5
+Chooses a random attacker from those attacking the npc. 
+.EP
+.SP 5 5
+o 
+.EP
+.SP 8 5
+Choose a random object in the inventory of the npc. 
+.EP
+.SP 5 5
+After the first letter is a type of information being request. 
+.EP
+.SP 8 5
+name 
+.EP
+.SP 11 5
+The name of the selected object. 
+.EP
+.SP 8 5
+cname 
+.EP
+.SP 11 5
+The capitalised name of the selected object. 
+.EP
+.SP 8 5
+gender 
+.EP
+.SP 11 5
+The gender string of the selected object (male, female, neuter). 
+.EP
+.SP 8 5
+poss 
+.EP
+.SP 11 5
+The possessive string of the selected object. 
+.EP
+.SP 8 5
+obj 
+.EP
+.SP 11 5
+The objective string of the selected object. 
+.EP
+.SP 8 5
+pronoun 
+.EP
+.SP 11 5
+The pronoun string of the selected object. 
+.EP
+.SP 8 5
+gtitle 
+.EP
+.SP 11 5
+The guild title of the selected object (only useful on livings). 
+.EP
+.SP 8 5
+ashort 
+.EP
+.SP 11 5
+The a_short() call. 
+.EP
+.SP 8 5
+possshort 
+.EP
+.SP 11 5
+The poss_short() call. 
+.EP
+.SP 8 5
+theshort 
+.EP
+.SP 11 5
+The the_short() call. 
+.EP
+.SP 8 5
+oneshort 
+.EP
+.SP 11 5
+The one_short() call. 
+.EP
+.SP 5 5
+
+.EP
+
+.SH See also
+.SP 5 5
+set_chat_string(), expand_mon_string()
+.EP
+

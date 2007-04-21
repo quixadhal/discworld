@@ -1,0 +1,67 @@
+#include <top_ten_tables.h>
+
+inherit "/std/object";
+
+nosave string table_name;
+
+void setup() {
+   table_name = 0;
+   set_name( "table" );
+   set_short( "top ten table" );
+   add_adjective( ({ "top", "ten", "score" }) );
+   reset_get();
+   add_property( "there", "in one corner" );
+   add_property( "survive fire", 1 );
+} /* setup() */
+
+string query_table_name() { return table_name; }
+
+void set_table_name( string word ) { table_name = word; }
+
+string convert_age( int number ) {
+   if ( number > 86400 )
+      return ( number / 86400 ) +"D";
+   if ( number > 3600 )
+      return ( number / 3600 ) +"h";
+   if ( number > 60 )
+      return ( number / 60 ) +"m";
+   return number +"s";
+} /* convert_age() */
+
+string generate_list( mixed *args ) {
+   int i, number;
+   string format, list;
+   if ( table_name )
+      format = "  %2d. %-13s: rating %6d, level %4d  %5s";
+   else
+      format = "  %2d. %-23s: rating %6d, level %4d  %5s";
+   format += "\n";
+   list = "";
+   number = sizeof( args );
+   for ( i = 0; i < number; i++ )
+      list += sprintf( format, i + 1, capitalize( args[ i ][ TOP_TEN_NAME ] ),
+            args[ i ][ TOP_TEN_RATING ], args[ i ][ TOP_TEN_LEVEL ],
+            convert_age( args[ i ][ TOP_TEN_AGE ] ) );
+   return list;
+} /* generate_list() */
+
+string long( string words, int number ) {
+   string long;
+   mixed *args;
+   long = "  High Score Table: ";
+   args = (mixed *)TOP_TEN_HANDLER->query_ordered_table( table_name );
+   if ( !table_name ) {
+      long += "All Players";
+      if ( !sizeof( args ) )
+         return long +": There is no overall top ten at present.\n";
+   } else {
+      if ( file_size( "/std/guilds/"+ table_name +".c" ) < 0 )
+         return "*Barf!* Can't find /std/guilds/"+ table_name +".\n";
+      long += capitalize( (string)( "/std/guilds/"+ table_name )->query_name() )
+            +"' Guild";
+      if ( !sizeof( args ) )
+         return long +": There is no top ten for this guild at present.\n";
+   }
+   long += " -=- "+ ctime( time() ) +"\n\n";
+   return long + generate_list( args ) +"\n";
+} /* long() */

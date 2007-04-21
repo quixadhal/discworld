@@ -1,0 +1,9 @@
+lowest_cond = map["lowest cond"];
+cond = map["cond"];
+if (map["worn"]) {
+  held_in = map["worn"]-1;
+  call_out("player_wear",0);
+}
+wear_effect = map[ "effect" ];
+if ( map[ "immune" ] )
+  immune_to = map[ "immune" ];

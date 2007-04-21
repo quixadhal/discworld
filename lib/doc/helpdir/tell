@@ -3,17 +3,20 @@ tell
 Discworld player help
 tell
 
-Name
+.SH Name
 .SI 5
 tell - Tell another player something.
 .EI
 
-Syntax
+.SH Syntax
 .SI 5
-tell <player> <text>
+tell <player> [@adverb] <message>
+tell reply [@adverb] <message>
+tell replylock <names>
+tell replylock remove
 .EI
 
-Description
+.SH Description
 .SP 5 5
 Tell is used to tell someone something who is not in the room with you.  It
 will tell the player the message in the following manner.  If you are Pinkfish
@@ -23,18 +26,49 @@ Pinkfish tells you: bing
 
 This is the main way of communicating with people not in the same room as you
 on the mud or in real life :)
+
+The reply option to tell allows you to reply to the last person 
+(or persons) to tell you something.  The people that told you is
+remembered for 15 minutes.  Please remember that this is a very
+dangerous way to chat and it is way open to mischats from someone
+dropping in a random tell to you on the way.  This can be got around with
+"tell replylock", which will lock a person (or persons) into the people you
+send a tell reply to.
+
+The @ can be used to use a specific adverb to the tell.  For example using
+tell ceres @happily Hello will cause the recipient to be told that you tell
+them 'happily'.
+
+Note that '#<language>' cannot be used with this command, since tells are
+out-of-character communication, and hence language-independent.
 .EP
 
-Examples
+.SH Examples
 .SI 5
 > tell pinkfish frog
 
 > tell ben We are all going to Subiaco to buy some coke.  Back soon.
 
 > tell ember fix it, fix it.
+
+> tell pinkfish,bil I am older than macaroni.
+
+> tell reply fluff in space!
+
+> tell ceres @happily This is happily.
+
+> tell replylock sasquatch,ceres
+You lock in sasquatch and ceres in your reply list.
+Womble tells you: Hi
+> tell reply Bing
+You tell Sasquatch and Ceres: Bing
+
+>tell replylock remove
+You remove any possible reply locks.
+
 .EI
 
-See also
+.SH See also
 .SI 5
-say, lsay, shout, whisper, htell.
+say, lsay, shout, whisper, htell, sayto.
 .EI

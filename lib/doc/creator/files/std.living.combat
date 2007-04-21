@@ -1,0 +1,28 @@
+int attack_by(object ob)
+		Called when you are attacked by the given object.  This
+		adds the object into the attacker list so that we start
+		attacking him next heart_beat.
+		Returns 1 if put into the list 0 on failure.
+int attack_ob(object ob)
+		Puts the object ob into our attack list.
+		Returns 1 if put into the list 0 on failure.
+int stop_fight(object ob)
+		Stops you fighting the object ob.  This takes the object
+		out of the attacker list or the hunting list.
+		Returns 1 if taken out of the list 0 on failure
+object *query_attacker_list()
+		Returns the current object we are attacking.
+object *query_call_outed()
+		Returns the objects we are hunting.
+object make_corpse()
+		Makes a corpse of the object.
+void do_death(object killer)
+		Does the death experiance.  passed the person or monster
+		that killed them.
+int wield(string str)
+		The wield function we all learn to hate.
+object query_weapon()
+		Returns the current weapon the monster or player is
+		wielding.
+void set_weapon(object weapon)
+		Sets the objects weapon to weapon.

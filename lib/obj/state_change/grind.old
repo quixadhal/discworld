@@ -1,0 +1,431 @@
+# $Locker: allana $
+#
+# $Id: grind.dat,v 1.10 1999/05/10 03:33:45 jeremy Exp allana $
+#
+# $Log: grind.dat,v $
+# Revision 1.10  1999/05/10 03:33:45  jeremy
+# I think I fixed up the version problem.
+#
+# Revision 1.9  1999/04/17 14:07:26  allana
+# Changed the factors of a few items to 1.0 to make their
+# weight when ground the same as when whole. Much more sane.
+#
+# Revision 1.8  1999/04/13 14:50:16  allana
+# Changed medium alias of wild garlic - Alllananana!
+#
+# Revision 1.7  1999/02/16 17:01:09  allana
+# Added ordinary garlic and removed decay speed from wild garlic.
+#
+# Revision 1.6  1998/12/04 19:48:24  allana
+# updated wild_garlic to have garlic breath effect and a decay speed.
+#
+# Revision 1.5  1998/10/22 19:25:39  tape
+# Aye Teste
+#
+# Revision 1.4  1998/09/25 06:41:00  macchirton
+# Added cabbage. Yum
+#
+# Revision 1.3  1998/09/23 08:14:25  macchirton
+# Addedall theScrogdenstuff
+#
+# Revision 1.1  1998/08/27 21:27:24  jeremy
+# Initial revision
+#
+#
+::item "grind:Clover"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+      (: $2->set_name( "clover" ) :),
+      (: $2->set_short( "ground plant" ) :),
+      (: $2->add_alias( "plant" ) :),
+      (: $2->add_adjective( "ground" ) :),
+      (: $2->set_long( "This is some ground plant material.  It looks "
+            "like it might have been clover.\n" ) :),
+      (: $2->set_medium_alias( "GroundClover" ) :),
+      (: $2->set_decay_speed( 0 ) :)
+   })
+   
+::item "grind:CoffeeBean"::
+::->result:: "/obj/reagents/coffee.ob"
+::->factor:: 5.0
+::->func:: ({ })
+
+::item "grind:Yarrow"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("yarrow") :),
+        (: $2->set_short("ground plant") :),
+        (: $2->add_alias("plant") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground plant material.  It looks "
+                    "like it might've been yarrow.\n") :),
+        (: $2->set_medium_alias("GroundYarrow") :),
+        (: $2->add_eat_effect("/std/effects/ingested/cum_poison", 12) :),
+        (: $2->add_eat_effect("/std/effects/ingested/basic_healing", 2) :),
+        (: $2->set_decay_speed(0) :)
+    })
+
+   
+::item "grind:Comfrey"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("comfrey") :),
+        (: $2->set_short("ground plant") :),
+        (: $2->add_alias("plant") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground plant material.  It looks "
+                    "like it might've been comfrey.\n") :),
+        (: $2->set_medium_alias("GroundComfrey") :),
+        (: $2->add_eat_effect("/std/effects/ingested/cum_poison", 16) :),
+        (: $2->add_eat_effect("/std/effects/ingested/basic_healing", 4) :),
+        (: $2->set_decay_speed(0) :)
+    })
+
+
+::item "grind:FloppyMadman"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 1.0
+::->func:: ({
+   (: $2->set_name( "mushroom" ) :),
+   (: $2->set_short( "ground mushroom" ) :),
+   (: $2->add_alias( "madman" ) :),
+   (: $2->add_adjective( "ground" ) :),
+   (: $2->set_long( "This is some ground mushroom.  Judging from the "
+      "green tint, it looks like it might've been Floppy Madman.\n" ) :),
+   (: $2->set_medium_alias( "GroundFloppyMadman" ) :)
+   })
+   
+   
+::item "grind:KlatchianFleabane"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("fleabane") :),
+        (: $2->set_short("ground plant") :),
+        (: $2->add_alias("plant") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground plant material.  It looks "
+                    "like it might've been Klatchian fleabane.\n") :),
+        (: $2->set_medium_alias("GroundKlatchianFleabane") :),
+        (: $2->set_decay_speed(0) :)
+    })
+
+::item "grind:GroundKlatchianFleabane"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 1.2
+::->func:: ({
+        (: $2->set_name("fleabane") :),
+        (: $2->set_short("powdered plant") :),
+        (: $2->add_alias("plant") :),
+        (: $2->add_adjective(({"powdered", "lavender"})) :),
+        (: $2->set_long("This is some powdered plant material.  It has "
+                    "a slight lavender hue with specs of orange.\n") :),
+        (: $2->set_medium_alias("PowderedKlatchianFleabane") :),
+        (: $2->set_decay_speed(0) :)
+    })
+
+::item "grind:StinkingMayweed"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("mayweed") :),
+        (: $2->set_short("ground plant") :),
+        (: $2->add_alias("plant") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground plant material.  It looks "
+                    "like it might've been stinking mayweed.\n") :),
+        (: $2->set_medium_alias("GroundStinkingMayweed") :),
+        (: $2->set_decay_speed(0) :)
+    })
+
+::item "grind:GroundStinkingMayweed"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 1.2
+::->func:: ({
+        (: $2->set_name("mayweed") :),
+        (: $2->set_short("powdered plant") :),
+        (: $2->add_alias("plant") :),
+        (: $2->add_adjective(({"powdered", "lavender"})) :),
+        (: $2->set_long("This is some powdered plant material.  It has "
+                    "a brownish green color, as well as a very strong "
+                    "odor.\n") :),
+        (: $2->set_medium_alias("PowderedStinkingMayweed") :),
+        (: $2->set_decay_speed(0) :)
+    })
+    
+::item "grind:Walnut"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+      (: $2->set_name( "walnut" ) :),
+      (: $2->set_short( "ground walnut" ) :),
+      (: $2->add_adjective( "ground" ) :),
+      (: $2->add_plural( "walnuts" ) :),
+      (: $2->set_long( "This is a pile of ground walnut.\n" ) :),
+      (: $2->set_medium_alias( "GroundWalnut" ) :),
+   })
+
+
+::item "grind:WildGarlic"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+      (: $2->set_name( "garlic" ) :),
+      (: $2->set_short( "ground garlic" ) :),
+      (: $2->add_alias( "garlic" ) :),
+      (: $2->add_adjective( "wild", "ground" ) :),
+      (: $2->set_long( "This is some ground plant material.  Judging from the "
+         "smell, it must have been wild garlic.\n" ) :),
+       (: $2->set_medium_alias( "GroundGarlic" ) :),
+      (: $2->add_eat_effect("/std/effects/ingested/garlic_breath", 200) :),
+      (: $2->set_decay_speed(0) :)
+   })
+::item "grind:Parsley"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("parsley") :),
+        (: $2->set_short("ground parsley") :),
+        (: $2->add_alias("plant") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground plant material.  It smells "
+                    "like it might've been parsley.\n") :),
+        (: $2->set_medium_alias("GroundParsley") :),
+        (: $2->add_eat_effect("/std/effects/ingested/breath_fresh", 2) :),
+        (: $2->set_decay_speed(0) :)
+    })
+
+::item "grind:Sage"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("sage") :),
+        (: $2->set_short("ground sage") :),
+        (: $2->add_alias("plant") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground plant material.  It smells "
+                    "like it might've been sage.\n") :),
+        (: $2->set_medium_alias("GroundSage") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Rosemary"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("rosemary") :),
+        (: $2->set_short("ground rosemary") :),
+        (: $2->add_alias("plant") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground plant material.  It smells "
+                    "like it might've been rosemary.\n") :),
+        (: $2->set_medium_alias("GroundRosemary") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Thyme"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("thyme") :),
+        (: $2->set_short("ground thyme") :),
+        (: $2->add_alias("plant") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground plant material.  It smells "
+                    "like it might've been thyme.\n") :),
+        (: $2->set_medium_alias("GroundThyme") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Basil"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("basil") :),
+        (: $2->set_short("ground basil") :),
+        (: $2->add_alias("plant") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground plant material.  It smells "
+                    "like it might've been basil.\n") :),
+        (: $2->set_medium_alias("GroundBasil") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Eyebright"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("eyebright") :),
+        (: $2->set_short("ground eyebright") :),
+        (: $2->add_alias("plant") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground plant material.  It looks "
+                    "like it might've been eyebright.\n") :),
+        (: $2->set_medium_alias("GroundEyebright") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Spider"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 10.0
+::->func:: ({
+        (: $2->set_name("spider") :),
+        (: $2->set_short("ground arachnid") :),
+        (: $2->add_alias("arachnid") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground arachnid.  It looks "
+                    "very chitinous.\n") :),
+        (: $2->set_medium_alias("GroundSpider") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Fennel"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("fennel") :),
+        (: $2->set_short("ground seeds") :),
+        (: $2->add_alias(({"seed", "seeds"})) :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground seeds.  It smells "
+                    "like it might've been fennel.\n") :),
+        (: $2->set_medium_alias("GroundFennel") :),
+        (: $2->set_decay_speed(0) :)
+    })
+
+
+
+::item "grind:Carrot"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 10.0
+::->func:: ({
+        (: $2->set_name("carrot") :),
+        (: $2->set_short("ground carrot") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground carrot.  It looks "
+                    "very orange.\n") :),
+        (: $2->set_medium_alias("GroundCarrot") :),
+        (: $2->set_decay_speed(0) :)
+    })
+
+
+::item "grind:BunnyEyeball"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 10.0
+::->func:: ({
+        (: $2->set_name("eye") :),
+          (: $2->add_alias("eyes") :),
+        (: $2->set_short("ground eyes") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground eyes.  It looks "
+                    "very bloody.\n") :),
+        (: $2->set_medium_alias("GroundBunnyEyeball") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:MolassesCookie"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 20.0
+::->func:: ({
+        (: $2->set_name("crumbs") :),
+        (: $2->set_short("molasses cookie crumbs") :),
+        (: $2->add_adjective(({"molasses", "cookie"})) :),
+        (: $2->set_long("This is some cookie crumbs.  Yum.\n") :),
+        (: $2->set_medium_alias("GroundMolassesCookie") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Radish"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 10.0
+::->func:: ({
+        (: $2->set_name("radish") :),
+        (: $2->set_short("ground radish") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground radish.  It looks "
+                    "very orange.\n") :),
+        (: $2->set_medium_alias("GroundRadish") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Parsnip"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 10.0
+::->func:: ({
+        (: $2->set_name("parsnip") :),
+        (: $2->set_short("ground parsnip") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground parsnip.  It looks "
+                    "a bit like a pile of pine sawdust.\n") :),
+        (: $2->set_medium_alias("GroundParsnip") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Oregano"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("oregano") :),
+        (: $2->set_short("ground oregano") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground oregano.  It looks "
+                    "very Genuan.\n") :),
+        (: $2->set_medium_alias("GroundOregano") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Foxglove"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("foxglove") :),
+        (: $2->set_short("ground foxglove") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground foxglove.  You can tell by the "
+             "little purple flowers scattered in with the green stuff.\n") :),
+        (: $2->set_medium_alias("GroundFoxglove") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Violet"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("violet") :),
+        (: $2->set_short("ground violet") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground violets.  It looks very, well, "
+             "violet.\n") :),
+        (: $2->set_medium_alias("GroundViolet") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Cabbage"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 10.0
+::->func:: ({
+        (: $2->set_name("cabbage") :),
+        (: $2->set_short("shredded cabbage") :),
+        (: $2->add_adjective("shredded") :),
+        (: $2->set_long("This is some shredded cabbage.  "
+             "Hopefully, not a sentinent one.\n") :),
+        (: $2->set_medium_alias("GroundCabbage") :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Garlic"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("garlic") :),
+        (: $2->set_short("ground garlic") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is some ground plant material.  Judging from "
+           "the smell, it must have been garlic.\n" ) :),
+        (: $2->set_medium_alias( "GroundGarlic" ) :),
+        (: $2->add_eat_effect("/std/effects/ingested/garlic_breath", 200) :),
+        (: $2->set_decay_speed(0) :)
+    })
+::item "grind:Farlic"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 1.0
+::->func:: ({
+        (: $2->set_name("farlic") :),
+        (: $2->set_short("ground farlic") :),
+        (: $2->add_adjective("ground") :),
+        (: $2->set_long("This is what was once farlic.  A lesser-known "
+           "relative of garlic.\n") :),
+       (: $2->set_medium_alias( "GroundFarlic") :),
+        (: $2->add_eat_effect("/std/effects/ingested/garlic_breath", 200) :).
+        (: $2->set_decay_speed(0) :),
+        (: $2->set_weight_unit( ({ 200, 1 }) ) :)
+   })

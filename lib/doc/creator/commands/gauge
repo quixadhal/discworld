@@ -1,0 +1,37 @@
+.DT
+gauge
+Discworld creator help
+gauge
+
+.SH Name
+.SI 5
+gauge - How long does this command take?
+.EI
+
+.SH Syntax
+.SI 5
+gauge <command>
+.EI
+
+.SH Description
+.SP 5 5
+This command is useful for testing commands to see how CPU-friendly or
+unfriendly they are. It returns the evaluation cost measured in CPU cycles.
+It is more useful for administrators, but could be useful if you are unsure
+of the most efficient way to program something in.
+
+The gauge command itself takes about 1500 cycles and this is not included
+in the message it gives you. This means you should not use gauge too much,
+as it is in itself a CPU user.
+.EP
+
+.SH Examples
+.SI 5
+> gauge look
+> gauge get all from corpse
+.EI
+
+.SH See also
+.SP 5 5
+data, dump
+.EP

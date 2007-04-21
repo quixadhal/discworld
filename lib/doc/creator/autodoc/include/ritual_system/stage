@@ -1,0 +1,45 @@
+.DT
+stage
+DW_wibble creator help
+stage
+
+.SH Name
+.SP 5 5
+stage -  Each ritual has one or more stages.
+.EP
+
+.SH Definition
+.SI 5
+class stage {
+              int key;
+              string * messages;
+              string skill;
+              int level;
+              string * materials;
+              string * consumables;
+              int pause;
+              int time_modifier;
+              function success_func;
+              string prayer;
+              int imbue_source;
+}
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/ritual_system.h
+.EI
+
+.SH Description
+.SP 5 5
+
+Each ritual has one or more stages.
+Each stage must have messages for both the player and external parties.
+Each stage can optionally have a skill check.
+Each stage can optionally have items which can be consumed.
+Each stage can be optionally lengthened, this will then be modified by 
+other factors. [alignment and skill]. This defaults to 1 if not entered.
+
+.EP
+

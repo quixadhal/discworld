@@ -1,0 +1,117 @@
+.DT
+club control room
+Discworld room help
+club control room
+
+.SH Name
+.SI 5
+club control room - allows you to control various aspect of clubs
+.EI
+
+.SH Syntax
+.SI 5
+create club called <name>
+list clubs
+list clubs with member <name>
+list club <name>
+vote <person> for <position> in <club>
+nominate <person> for <position> in <club>
+disband <name>
+change <name> to elected
+change <name> option {secret|open}
+replace <number> insignia for <name>
+replace insignia for <name>
+recruiter add <member> for <club>
+recruiter remove <member> for <club>
+financials <name>
+financials <name> account <account name>
+description of club <name>
+announce for club <name>
+discuss [open] {description|add position|change position name|memo|secret|remove member|no confidence|remove position|create account} in <club name>
+discuss committee {description|add position|change position name|memo|secret|remove member|no confidence|remove position|create account} in <club name>
+withdraw <money> from <name> for <reason>
+withdraw <money> from <name> account <account name> for <reason>
+transfer <money> from <name> account <account> to <account> for <reason>
+election force in <name>
+balance [of] <club>
+balance [of] <club> account <account name>
+deposit <money> to <club>
+deposit <money> to <club> for <reason>
+deposit <money> to <club> account <account name>
+deposit <money> to <club> account <account name> for <reason>
+.EI
+
+.SH Description
+.SP 5 5
+This is a room help file.
+
+This place allows you to control all of the aspects of your club.  It
+allows you to create clubs, disband clubs, add and remove recruiters,
+set your description and all the financial activities.
+
+Club insignias are the badges that people can wear which have all their
+club related commands on them.  The cost of an insignia is taken from
+the players current money, not from the club's coffers.
+
+If the club goes into remission for 2 pay periods then the club will
+be disbanded.  If the club is not touched for 8 real weeks then
+the club will be disbanded.  A club is considered touched if a
+member is added or removed, if an election is held or nominations
+are added, money is deposited into the account.
+
+Clubs default to being founder controlled clubs, this means the
+founder has all the control of the club.  Once a club gets over
+members it can change to an elected club, in this mode the
+committee members of the club are elected to their positions.  Once
+a club gets over  30  it must
+become an elected club.  A
+new election will be forced by the Patrician every 2 Discworld
+years and an election can be forced 1/2 a Discworld year after the
+last election.
+
+If the founder of a founder base club leaves the mud or is idle is
+for 8 real weeks then the club will be disbanded.
+.EP
+
+.SH Basic Commands
+.SO 5 12 -22
+	list	This command allows  you to see all the clubs, all the clubs that a certain person is a member of and detailed information about one club.
+	create	Allows the creation of the club itself.  It will start off life as a personal club.  Please note that the case of the name you use when you create the club is the case that will be used in all references to the club.
+	disband	This will close down the club and remove itself from the records.
+	recruiter	To add or remove recruiters from the club.
+	change	Allows you to change some options of the club and the type that the club is.
+	description	Allows you to change the description of the club.
+	replace	Allows you to create new club insignias.
+.EO
+
+.SH Financial Commands
+.SO 5 12 -22
+	balance	Shows you the balance of all the club accounts.
+	deposit	Allows you to deposit money into one of the clubs accounts.
+	withdraw	Allows you to withdraw money from one of the clubs accounts (if you have permission to do so).
+	transfer	Allows you to transfer money between different accounts in the club.  The main account is called 'default'.
+	financials	Shows you detailed information about the transactions to and from the clubs accounts.
+.EO
+
+.SH Voting commands
+.SO 5 12 -22
+	nominate	Allows you to nominate people for a club wide election process.
+	vote	Allows you to vote for a person in a club for a club wide election.
+	announce	Announces a message to all the members of the club.
+	discuss	Adds a discussion item to the club.  (This is also how to add a position to the club: "discuss add position in <club>")
+.EO
+
+.SH Example
+.SI 5
+> create club called Blue Jungle Fever
+> recruiter add blue for fruitloops
+> recruiter add jungle for fruitloops
+> description of blue jungle fever
+> transfer $20 in we care from default to fluff for caring about trees
+> discuss add position in blue jungle fever
+.EI
+
+.SH See also
+.SP 5 5
+family_control_room
+.EP

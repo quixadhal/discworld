@@ -1,0 +1,47 @@
+.DT
+set
+Discworld creator help
+set
+
+.SH Name
+.SI 5
+set - Variable setting.
+.EI
+
+.SH Syntax
+.SI 5
+set <var> <value>
+set help
+.EI
+
+.SH Description
+.SP 5 5
+This command is used to set up your current variables.  The only variable
+currently available are the ones used to customise your people, netstat
+and so on commands.
+
+If you specify the help command it will show you the list of one letter
+abbreviations for the fields.
+
+The format of each field is fairly simple.  If it starts with a % it
+is interpreted as a special sequence.  Anything that does not start with
+a % is inserted directly as a string.  If the % is followed by a | the
+text in that field with be centered, if it is followed by a - it is
+right justified.
+
+So....
+.EP
+.SI 5
+%-12n%|3T%|6G %|10g
+.EI
+.SP 5 5
+For example, will print the lowercased name in 12 characters, the type
+centered in three characters.  (The type is a C, L, H, or whatever).
+The Gender centered in 6 characters and the guild centered in 10
+characters.  I hope this confuses your day.
+.EP
+
+.SH See also
+.SI 5
+review
+.EI

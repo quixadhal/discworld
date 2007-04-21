@@ -1,0 +1,87 @@
+Introduction to using RCS on Discworld.
+
+RCS is a revision control system. It does two very valuable things for
+us on Discworld. Firstly it locks files so that only one person at a
+time can edit them, hence no more 'who overwrote my changes?'
+messages. The second thing it does is to keep a record of every change 
+made to a file so that you can see who changed what and when they did
+it.
+
+Now to the demo.
+
+First cd to /d/learning/rcs_demo. There you will find a file called
+demo.txt This file has been placed under RCS control.
+
+If you type 'ed demo.txt' you'll find that it is read-only. If however,
+you check out demo.txt the file will be locked for your exclusive
+use. You, and only you, will then be able to edit the file.
+
+To checkout the file type 'rcsout demo.txt'. You will see something like:
+
+  /d/learning/rcs_demo/RCS/demo.txt,v  -->  /d/learning/rcs_demo/demo.txt
+  revision 1.1 (locked)
+  done
+
+This indicates that RCS has locked the file for your use. Now edit the 
+file and save your changes.
+
+After you have edited demo.txt and saved it, use 'rcsin demo.txt' to check 
+the file back into RCS. rcsin will prompt you for a comment to explain 
+what the changes you made were. It will then display something like:
+
+  /d/learning/rcs_demo/RCS/demo.txt,v  <--  /d/learning/rcs_demo/demo.txt
+  new revision: 1.2; previous revision: 1.1
+  done
+
+Notice that the revision number has gone up by 1. This is because RCS
+keeps track of every previous version of the file.
+
+If you now more the file you will see something like:
+
+  /*
+   * $Locker:  $
+   * $Id: demo.txt,v 1.2 1998/01/06 08:53:36 ceres Exp $
+   *
+   * $Log: demo.txt,v $
+   * Revision 1.2  1998/01/06 08:53:36  ceres
+   * A_demonstration_revision
+   *
+   * Revision 1.1  1998/01/06 08:51:02  ceres
+   * Initial revision
+   *
+   */
+
+These strings are maintained by RCS and show who has the file locked,
+what its name is and what edits have been made to it.
+
+Now we'll use rcsdiff to see the changes made between revisions of the 
+demo.txt file. Use: rcsdiff -r1.1 -r1.2 demo.txt to see what I changed 
+when I checked the file out, edited it and then returned it.
+
+Often it is useful to find out who, if anyone has a file locked. The
+command rcslog will do this for us. rcslog -h demo.txt will show the
+history of the file and who, if anyone, has it locked.
+
+It will look something like this:
+
+  RCS file: /d/learning/rcs_demo/RCS/demo.txt,v
+  Working file: /d/learning/rcs_demo/demo.txt
+  head: 1.2
+  branch:
+  locks: strict
+  access list:
+  symbolic names:
+  keyword substitution: kv
+  total revisions: 2
+  =============================================================================
+
+rcslog can also be used to show just the files which are currently
+locked. Try rcslog -Lh demo.txt when you don't have demo.txt locked and
+again when you do. Don't forget to release your lock (using rcsin)
+when you're finished or noone else will be able to edit the file!
+
+
+To add your own files to RCS simply use rcscreate <filename> and bingo
+they'll be added to RCS. 
+
+Ceres

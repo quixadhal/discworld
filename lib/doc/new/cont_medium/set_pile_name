@@ -1,0 +1,56 @@
+.DT
+set_pile_name
+Discworld cont_medium help
+set_pile_name
+
+Name
+.SI 5
+set_pile_name - The name of a pile of the stuff.
+.EI
+
+Syntax
+.SI 5
+void set_pile_name(string name);
+.EI
+
+Description
+.SP 5 5
+What name to give a bunch of the stuff.  Like a 'pile of comfrey' the
+pile name would be 'pile'.  A 'puddle of honey' the pile name would
+be 'puddle'.
+.EP
+
+Example
+.SI 5
+/* Food inherits cont_medium */
+inherit "/obj/food";
+ 
+void setup() {
+   set_name("rice");
+   set_long(
+"Little oval shaped hard nuggets, they are made almost totally "
+"of starch.\n");
+ 
+   /* Make it a continuous object */
+   set_continuous();
+   /* Set an alias to the medium so that it can be connected correctly */
+   set_medium_alias("RiceStuff");
+   /* How much of the stuff we have here */
+   set_amount(100);
+   /* 200 bits of rice weighs 1 weight unit */
+   set_weight_unit( ({ 1, 200 }) );
+   /* The name of a pile of them */
+   set_pile_name("pile");
+   /* The size of each of the amounts */
+   set_amount_types( ([ "pinch" : ({ 1, "pinches" }),
+                        "handful" : ({ 100, "handfuls" }),
+                        "bucket" : ({ 10000, "buckets" }) ]) );
+   /* The name for each of the sizes of piles */
+   set_pile_types(({ 400, "small", 800, "medium", 1600, "large", "huge" }) );
+} /* setup() */
+.EI
+
+See also
+.SI 5
+query_pile_name
+.EI

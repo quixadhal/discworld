@@ -1,0 +1,38 @@
+.DT
+get_next_route_direction
+DW_wibble creator help
+get_next_route_direction
+
+.SH Name
+.SP 5 5
+get_next_route_direction -  This method gets the next direction to go in the route which is currently being followed.
+.EP
+
+.SH Syntax
+.SI 5
+string get_next_route_direction()
+.EI
+
+.SH Returns
+.SI 5
+the next direction to go down.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method gets the next direction to go in the route which is
+currently being followed.  It will remove this direction off the
+array.
+.EP
+
+.SH See also
+.SP 5 5
+query_last_route_direction(), query_following_route(), do_route_move()
+
+.EP
+

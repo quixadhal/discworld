@@ -1,0 +1,42 @@
+.DT
+add_ac
+Discworld creator help
+add_ac
+
+Name
+.SI 5
+add_ac - This function gives an object an armour class, etc.
+.EI
+
+Syntax
+.SI 5
+int add_ac( string ac_name, string ac_type, mixed ac_arg );
+.EI
+
+Description
+.SP 5 5
+The add_ac function is used when you want to give an object (usually armour)
+the actual ability to protect against something.  Here's a brief breakdown
+of it: If you take a look at the Syntax above, there are three parts to the
+function.  String ac_name is the armour class name.  This can be anything,
+but please use something meaningful.  String ac_type is the attack type.
+Various and sundry attack types are listed in /doc/create/attack_types. The
+mixed ac_arg is the actual armour class.  The higher this is, the better the
+armour will protect you. If the argument is a number, the ac will be
+random( number ).  If the argument is a 1 element array, the ac will be
+that element.  With a 2 element array, ac will be the first element + random(
+second element ). With a 3 element array, it will be first + second D third.
+.EP
+
+Examples:
+.SI 5
+add_ac( "standard_blunt", "blunt", 50 );
+add_ac( "standard_pierce", "pierce", ({ 50 }) );
+add_ac( "standard_sharp", "sharp", ({ 25, 50 }) );
+add_ac( "fire", "fire", ({ 20, 4, 10 }) );
+.EI
+
+See also
+.SP 5 5
+armour
+.EP

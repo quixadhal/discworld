@@ -1,0 +1,306 @@
+.DT
+liaison_policy
+Discworld creator help
+liaison_policy
+
+
+     This document is a list of liaison policies.  It includes the rules
+of liaising and some tips and suggestions to help you be more effective in
+your job.  Remember that people are there to help you, and if you can't
+solve something, asking or posting and telling the player you're looking
+into it is usually enough.  Also, if you don't know what to do, ask a more
+experienced liaison if one is on. 
+
+
+.SH General Player Interactions
+
+   The cardinal rule of being a liaison is not to interfere in the game if
+you can possibly avoid it.  This means if a player can fix something for
+themselves, let them do that unless there are extenuating circumstances.
+
+Some "do nots" of being a liaison:
+
+.SI 5
+*Do not give directions.  
+
+*Do not manipulate their inventory on request. 
+
+*Do not hold things for players or transfer items between players.  If you
+find a player's inventory, do not collect it and give it back to them at a
+later date. 
+
+*Do not give out money or items, with the exception of replacements
+(covered later) or liaison toys (suggested to be given out only as a thank
+you for service to the mud or as a reward). 
+
+*Do not update rooms or quests for players unless there is a bug involved. 
+
+*Do not teach or learn skills from players. 
+
+*Do not lose your temper and yell or swear at a player.  If a situation
+starts looking bad, keep your temper and try and end it as quickly and
+civilly as possible.  You can always tell the player that the discussion
+is getting too heated and you are going to cool off before rediscussing
+it.
+
+*Do not hide from players or go invis unless it is truly important. 
+Liaisons are important public figures in the player-character interaction,
+and part of your job is being easily accessible to players. 
+.EI
+
+   The less interference in the game, the fewer charges of favoritism and
+the more self-sufficient (and, one hopes, happy) the players will be. 
+
+.SH Privacy
+
+   As a liaison creator, you have access to information about players that
+normal players do not.  Do not give out any personal information you know
+due to your creator status.  This includes who a player is, email
+addresses, and IP addresses.  This applies to player characters of other
+creators, too. 
+
+.SH Access to Information 
+   
+    As a liaison creator, you also have access to information about
+Discworld in general that normal players do not.  Do not give out any
+information you know from creator boards or the creator channel.  Do not
+give out information you know simply because of your creator status unless
+it is supposed to be given out as part of your duties.
+
+.SH Multiplaying
+
+   If you are unfamiliar with the DiscWorld rules on multiplaying, read
+help multiplaying and help multiplechars. 
+
+.SI 5 The basics are:  
+
+*A player can have more than one character, but they can never be logged
+on at the same time.  This applies even if one character is netdead, or
+one character is a newbie. 
+
+*Allowing a friend to play one of your characters is not allowed- one
+player per character, please.  
+
+*Exchanging any information, money, or items between characters owned by
+the same person is not allowed, no matter how it is done (via mail,
+physically handing it from one character to another, or passing it from
+one character to a friend and then having that friend give it to a
+person's other character). 
+.EI
+
+   If you suspect multiplaying, first check the email addresses of the
+suspected characters.  If they are the same, inform the player of the
+rules, do a showhelp multiplechars, and stat both characters for a "read
+multiplay" property.
+   
+   If one character has a "read multiplay" property set, add both to the
+multiplayer handler (by typing "multiplayer <playername>"), make them log
+off down to one character, and warn them that they will be suspended for
+three days. 
+   
+   If neither character has a "read multiplay" property, please add it to
+both (call add_property("read multiplay",1)<playername>), make them log
+one character off, warn them that future multiplaying will result in
+suspension, and add all the involved characters to the multiplayer
+handler. 
+   
+   If one or both of the characters' email addresses are not set, send a
+tell to the character asking them to please use the 'chfn' command to set
+their email.  If they ask why, explain that it is standard procedure to
+request that if another character is coming in on the same IP address.
+Try to avoid telling them which other player to keep irl locations
+of other players confidential.  
+   
+   Make sure you ask them if they are familiar with the multiplaying
+rules, and tell them which help files to read, generally in a
+non-confrontational manner.  (One possible tell would be: "You are
+familiar with our multiplaying rules, aren't you?  If not, please read
+help multiplaying and help multiplechars now.")  If you suspect they did
+not read them, do a showhelp multiplechars on them.  If they are upset at
+the insinuation that they are multiplaying, explain that it is standard
+procedure to make sure everyone knows those rules and not an attack. 
+   
+   Once both emails are set, check them against each other.  If you are
+still suspicious, you can either use the arcane instrument to compare
+their idle times to help you decide, or you may choose to simply ask, "Are
+you multiplaying?"  
+   
+   For those without the "read multiplay" property, please do the
+following: For the first offense, give them a firm warning, make sure they
+have read "help multiplechars", add the "read multiplay"  property, post,
+and add them to the handler as stated above.  For a second offense, make
+them log off down to one character, tell them they face suspension, and
+post on liaison the details and request a suspension by an admin.  Any
+offenses after the second one may result in banishment by admin.
+   
+   For those with the "read multiplay" property, skip directly to the
+directions for the second offense.
+
+.SH Replacements
+
+   Liaisons are often asked to replace items for players.  If the player
+has receipts, ask them to please hand you the receipts.  Then stat the
+receipt and see what pathname it gives you.  If it is an item on Presto's
+wand (read the wand), simply 'replace (item) for (name).  
+   
+   If it is not, try searching the appropriate directories for the item. 
+(For example: /obj/weapons/old/slingshot is the pathname.  ls /obj/weapons
+and look for what you think it would be under... then ls
+/obj/weapons/misc... there it is under /obj/weapons/misc/slingshot). 
+   
+   Clone that item and give it to the player.  Then dest the receipts.  If
+you cannot find the file, feel free to ask others where it might be.  If
+you still cannot find it, explain to the player that you cannot find it
+and return the receipt, saying you can look again for it at some later
+date in case it was moved.  You do not need to post about replacements for
+receipts. 
+   
+   For items without receipts (for example, a player telling you that when
+they logged off they had their sarilak and now they do not), ask them for
+the specific circumstances.  If they have a log proving it was a bug,
+that's wonderful.  Replace it.  If not, make sure you understand the
+circumstances and try to figure out what could have happened.  
+   
+   Check the player's inventory and the inventories of any containers they
+are carrying (inv player and inv backpack in player, for example).  If you
+can't find it, check their level.  
+   
+   If it is a non-quest item that they can easily retrieve, politely tell
+them that it is easy to replace and comfort them and apologise for the
+loss, but do not replace it.  If it is an item that is difficult to gain,
+take their level into account. 
+   
+   If they are middle or high level, they can get another one without your
+interference. If they are low level, do not have one in their inventory,
+have done the appropriate quest (pquests player is the command to check
+this), and have a plausible story that you honestly believe and do not
+have a history of lying, replace the item and apologise and then post
+about what was replaced. Please remember to check if the player is pk in
+case the item was stolen. 
+   
+   If you replace anything without a receipt, post on the playerhelp board
+that you did so.  Include the player's name, what you replaced, and the
+circumstances around it.  Even if it is a tiny amount, post so we can keep
+track and notice if someone seems to be abusing the system. 
+
+.SH Gagging, Meteoring, and Calling Quit
+
+   Gagging, meteoring and calling quit on a player are some of the last
+commands to which you resort.  You should always warn a player and explain
+what is wrong with their behavior before gagging them, and gag them only
+if they continue.  Then have a talk with them and explain why you did it. 
+   
+   Once you've secured their understanding and they know they cannot
+continue, remove the gag and tell them that if they continue, you will gag
+them again.  Do not leave a player gagged indefinitely.  If a player seems
+to constantly be a problem, then a discussion about what to do to solve
+the problem can be held.
+   
+   Calling quit is used when a player does not respond to repeated
+requests to stop offensive actions or if a player's character is stuck
+somehow and they cannot su or do any commands (including quit).  It may
+also be used in cases of multiplaying to get the player down to one
+character if they will not or can not log their characters off of their
+own accord. 
+   
+   Meteoring is used to prove a point about a player's actions.  It is
+used to stop offensive actions after repeated requests to do so.  Keep in
+mind that many people do things merely for the attention, and in many
+cases simply calling quit achieves the same means without giving them the
+attention they are seeking. 
+   
+   All three of these are powerful commands.  Do not use them as a joke or
+for fun. 
+
+.SH The Newbie Channel
+
+   All liaison creators should have the newbie command, but they are not
+responsible for handing it out.  If a player asks you for the newbie
+command, tell them you will ask for them and then ask or mail the lord of
+liaison and let him or her decide.
+
+Some rules for using newbie:
+
+.SI 5
+*General banter on the newbie channel should be discouraged.  If it is
+being used to chat, gently remind people that the channel is for newbie
+questions only and that it needs to be kept that way for optimum
+effectiveness.  Alert them to the existence of the talker stick, and
+suggest they read the voucher that should be in their inventory for more
+information on obtaining a talker. 
+   
+*If someone asks a guild-specific question, you can either answer very
+generally and thus keep it a newbie question (for example: "How do I get
+steal?"  response: "Commands can be learned from guild npcs and other
+players if you have the necessary skills.") or direct their question to
+guild members (Suggest that they type who <guild> or get a talker and ask
+over the guild line, since guild-specific questions are really not newbie
+questions).
+   
+*If someone says they are lost, suggest help am-map, exploring and
+mapping, and the cheap-looking book in their inventory. 
+   
+*If they ask something that they can figure out on their own or that is
+located in a help file, give them a push in the right direction and try to
+encourage them to work it out on their own.  For example: Someone asks how
+to use something that is labelled with how to use it.  Response: "Often
+the first step to figuring something out is looking at it."  (You haven't
+told them how, but you have given them an inkling and an important lesson
+in how to survive the disc.)  If they can't figure it out after several
+hints, telling them is okay. 
+   
+*If the information can be found in a help file, direct them to the
+appropriate help file rather than just telling them the command.  A player
+familiar with using help files will be more self-sufficient and more
+likely to check help file possibilities the next time. 
+   
+*It is a good idea not to give specifics on how to join a guild,
+especially the assassins' guild.  Try telling people that once they have
+chosen a guild to join, they should look around for an obvious place to
+learn more about that guild and explore it thoroughly. 
+
+*If the question is how to join the assassins' guild, say that we do not
+help people join the guild because it is very difficult, and figuring out
+how to join it is good practice for what they'll face later in assassins'
+guild training. 
+.EI
+   
+   Basically, try to keep your information broad but helpful, and always
+be polite and as warm as possible.  Do not make fun of new players.  Also
+remember that you can always talk to a person in tells if it looks like it
+could be a spammy conversation full of questions.
+
+.SH General Tips on Liaising
+
+.SI 5 
+*Follow and be active on the guild & domain boards, helping to keep the
+ideas and discussions flowing.
+
+*Take down the best ideas in a well-organized and developed file for the
+lords and creators to read. This is especially important if there is no
+lord of the domain or if the lord doesn't log in very often.
+
+*Continuously keep in contact with the:  
+.EI
+
+.SI 10
+-Lord (chat or mail) on the developments and projects in the domain. 
+Check if there's anything you can help with, such as surveys, etc. (not
+bug/typo fixing, unless you want to). 
+
+-Creators' projects.  Keep them happy and enthused and give ideas and 
+comments on their work.
+.EI
+
+.SI 5
+*Continuously keep in contact with the players in the guild (and domain) 
+collecting ideas, comments and suggestions.
+
+*Walk around and play (preferably with a player char) in the
+domains/guilds you're assigned to, especially if you have no or very
+little experience with them.  It's important that you know how it all is,
+how the quests work (to know if something is a bug or not), etc.
+
+*If your lord does not assign you something to do, take the initiative and
+ask for projects. 
+

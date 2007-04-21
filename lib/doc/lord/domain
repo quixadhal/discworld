@@ -1,0 +1,74 @@
+.DT
+domain
+Discworld lord help
+domain
+
+
+.SH Name
+.SI 5
+domain - Administer your domain from the comfort of your own crypt
+.EI
+
+.SH Syntax
+.SI 5
+domain project <creator> <domain> <project> 
+domain info <domain> [by] {n|name|p|project|l|login} 
+domain add <creator> <domain> 
+domain delete <creator> <domain> 
+domain list <list> 
+domain info <domain> 
+domain info 
+.EI
+
+.SH Description
+.SP 5 5
+The domain command allows you to query and set various pieces of information
+about your domain, and query various pieces of information about other 
+domains.
+
+'domain project' allows you to set the project of a creator in your domain.  
+Note that if you set the project as $project$ then your master object will 
+query the project management handler for the list of this creator's projects.
+
+'domain info' by itself will go through the members of each domain and check
+to see if they are creators and if they have a directory.  NOTE:  This is very
+CPU intensive!  Don't do this in anger.
+
+You can use the specialised 'domain info <domain>' commands to see the list 
+of domain members sorted by name, project or last login.  This is useful to 
+see which members of your domain have been gone for a long time.  The last online
+times are colour coded so you can tell at a glance which creators are worthy of
+a red last login time.
+
+'domain add' allows you to add a creator to your domain.  Please note, this will
+not employ them.
+
+'domain delete' removes a creator from your domain.  Please note, this will not
+dismiss them.
+
+'domain list' will list the members and projects of a particular domain.
+.EP
+
+.SH Notes
+.SP 5 5
+The commands in here have duplicates in your domain common room and in the
+domain control room (/d/admin/room/domain_control).  The command is the most
+versatile of these.
+
+
+.SH Examples:
+.SI 5
+> domain project drakkos forn Domain Dominatrix
+Project for Drakkos set to Domain Dominatrix in the domain forn.
+
+> domain add dtest forn
+Creator Dtest now added to domain forn.
+
+> domain delete dtest forn
+Member Dtest removed from domain forn.
+
+
+.SH See also
+.SP 5 5
+dinfo, employ
+.EP

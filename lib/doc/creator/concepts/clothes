@@ -1,0 +1,88 @@
+.DT
+Discworld creator help
+clothes
+Discworld creator help
+
+.SH Name
+.SI 5
+clothes - the damage values and chances for clothes
+.EI
+
+.SH Description
+.SP 5 5
+These are the numbers to calculate the setup of a clothing garment 
+(anything that falls under the .clo category).  Please note that some
+items are exempted from the typical damage chance (please look at the
+end of this document).
+
+%^BOLD%^Type of Garment%^RESET%^
+.EP
+
+.SO 5 17 16 16 -59
+ 	 	Small Sized	Medium Sized	Large Sized
+ 	 	-----------	------------	-----------
+	Shirt	1000	1200	1400
+	Skirt	800	1000	1200
+	Trousers	1400	1600	1800
+	Apron	1100	3000	5000
+	Dress	1800	2200	2600
+	Underwear	100	100	100
+	Belts	100	100	100
+	Boots	1000	1500	2000
+	Shoes	500	700	900
+	Coats	1500	3500	5500
+	Containers	500	800	1000
+	Corsets	800	800	800
+	Costumes	200	200	200
+	Gloves	80-200	80-200	80-200
+	Hats	700	800	900
+	Masks/Wigs/Misc	50-1000	50-1000	50-1000
+	Robes	1800	2200	2600
+	Socks	100	150	200
+	Towels	100	150	200
+.EO
+
+
+.SO 5 20 15 20 -60
+	Type of Material	Bonus	Damage Chance
+	----------------	-----	-------------
+	Silk	50-150	30
+	Cotton	150-300	28
+	Wool    250-350 26
+	Synthetics	300-450	25
+	Linen	450-600	22
+	Rubber	600-750	20
+	Leather	750-1000	17
+.EO
+
+.SP 5 5
+ITEMS THAT ARE EXEMPTED FROM TYPICAL DAMAGE CHANCE (BUT NOT SETUP):
+.EP
+.SP 5 5
+Socks: Damage chance of 1.
+Underwear: Damage chance of 2 (note: corsets included).
+Backpacks: Damage chance of 5 (note: satchels not included).
+Masks/Wigs/Misc: Damage change of 4 (note: scarves not included).
+.EP
+
+
+.SP 5 5
+VALUES:
+.EP
+.SP 5 5
+Values are subjective.
+.EP
+
+.SH Example
+.SI 5
+You wish to make a dress.
+The setup number in a typical dress.clo file would be calculated as 
+follows:
+Is the dress a small, mini type one? Yes. Then the basic setup is 1800.
+What material is this dress? Linen. Then 1800+500=2300 is the dress's
+setup. 
+So you set :  ::Setup::2300
+The damage change for linen is 22.
+So you set :  ::Damage Chance::22
+
+.EI

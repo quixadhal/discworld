@@ -1,0 +1,1217 @@
+<html><head><title>File food.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/food.c</h2>
+<BR>
+This is the main inheritable for food objects.  It allows you to
+create food and drink.  Virtual files may also be coded if given
+the *.food extention.  There are many examples of these virtual
+food files in the /obj/food directory.  Food does the following
+things.
+<BR><BR>
+  - It can be eaten or drunk.
+<BR>
+  - Food can be changed from solid to liquid with set_liquid(),
+and changed from liquid to solid with reset_liquid().
+<BR>
+  - The weight of each bite can be set with set_weight_per_bite().
+<BR>
+  - Effects can be added to the player when they are splashed with the food,
+get food rubbed on them, or get food applied to them with
+add_external_effect.
+<BR>
+  - Splashing, applying, and rubbing can be pk-checked with
+set_external_pk_check()
+<BR>
+  - Splashing can be activated with set_splashable()
+<BR>
+  - Splashing can be deactivated with unset_splashable()
+<BR>
+  - Applying can be activated with set_applicable()
+<BR>
+  - Applying can be deactivated with unset_applicable()
+<BR>
+  - Effects can be added to the player when they consume the food
+with add_eat_effect().
+<BR>
+  - Functions can be added to be carried out when the food is
+consumed with add_eat_func().  This function can be stored
+on another object if the set_eat_object() is used.
+<BR>
+  - An eat message can be set with set_eat_mess().
+<BR>
+  - Food can be cut up into pieces with sharp weapons.
+<BR>
+  - The description of the new 'pieces' can be set using
+set_piece_description(), set_piece_short(), set_piece_plural(),
+and set_piece_substance().
+<BR>
+  - Non-liquid food decays and will eventually crumble to dust.
+<BR>
+  - The decay speed can be set with set_decay_speed().
+<BR>
+  - Food can be 'pickled' to prevent decay using do_cure().
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.virtual_update.c.html">/std/basic/virtual_update.c</a> and <a href="obj.cont_medium.c.html">/obj/cont_medium.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.bits_controller.h.html">/include/bits_controller.h</a>, <a href="include.drinks.h.html">/include/drinks.h</a>, <a href="include.playtesters.h.html">/include/playtesters.h</a> and <a href="include.weapon.h.html">/include/weapon.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_eat_effect"><b>add_eat_effect</b></a>(mixed, int)<dd>
+This adds an eat effect to the food.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_external_effect"><b>add_external_effect</b></a>(string, int)<dd>
+This adds an external effect to the food.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_for_container"><b>check_for_container</b></a>()<dd>
+This checks the outside of us for a container and then destroys ourselves
+if it is not a container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_sharp"><b>check_sharp</b></a>(object)<dd>
+This checks to see if a weapon is sharp.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#consume"><b>consume</b></a>(object, int, string)<dd>
+This consumes some of the food.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_apply"><b>do_apply</b></a>(object *)<dd>
+This handles applying things
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_cure"><b>do_cure</b></a>()<dd>
+This is called by the pickling stick.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_cut"><b>do_cut</b></a>(int)<dd>
+This cuts the food up into bits.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_drink"><b>do_drink</b></a>()<dd>
+This gives the appropriate message for drinking things.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_dry"><b>do_dry</b></a>()<dd>
+This method dries the food.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_eat"><b>do_eat</b></a>(int)<dd>
+This is the eat command call.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_mince"><b>do_mince</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_quaff"><b>do_quaff</b></a>()<dd>
+This gives the appropriate message for quaffing things.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_splash"><b>do_splash</b></a>(object *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_applicable"><b>query_applicable</b></a>(object, object)<dd>
+This queries applicability of the food.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bites_gone"><b>query_bites_gone</b></a>()<dd>
+This returns the number of bites that have been taken out
+of the food object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cured"><b>query_cured</b></a>()<dd>
+This returns the cured state of the bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_decay_divisor"><b>query_decay_divisor</b></a>()<dd>This tells us the current divisor used to determine decay.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_decay_level"><b>query_decay_level</b></a>()<dd>
+This returns the level of the decay.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_decay_speed"><b>query_decay_speed</b></a>()<dd>
+This returns the decay speed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_decays"><b>query_decays</b></a>()<dd>
+This query tells us whether the food decays.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dried"><b>query_dried</b></a>()<dd>
+This returns the dried state of the bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_eat_effects"><b>query_eat_effects</b></a>()<dd>
+The eat effects of the food.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_eat_func"><b>query_eat_func</b></a>()<dd>
+This returns the name of the eat function to carry out
+when the object is eaten.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_eat_mess"><b>query_eat_mess</b></a>()<dd>
+This returns the eat message of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_eat_object"><b>query_eat_object</b></a>()<dd>
+This returns the eat object on which the eat function
+of the food of the food is stored.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_edible"><b>query_edible</b></a>()<dd>
+This tells us if the food is edible (ie.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_external_effects"><b>query_external_effects</b></a>()<dd>
+The external (splash,apply,rub) effects of the food.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_food_object"><b>query_food_object</b></a>()<dd>
+This method returns 1 if the item is a food object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_in_pieces"><b>query_in_pieces</b></a>()<dd>
+If the food has been cut up (using the 'cut' command)
+then this will return true.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_liquid"><b>query_liquid</b></a>()<dd>
+This function returns one if the food is a liquid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_long_decay_level"><b>query_long_decay_level</b></a>()<dd>
+This method returns the decay level for the object as a string, 
+it is used in the long() function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_long_eat_level"><b>query_long_eat_level</b></a>()<dd>
+This method returns how much of the item has been nibbled on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_piece_description"><b>query_piece_description</b></a>()<dd>
+This returns the long description of the food object when
+it is cut up into pieces.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rotten"><b>query_rotten</b></a>()<dd>This tells us if the food has started to rot
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_short_rotten_adjective"><b>query_short_rotten_adjective</b></a>()<dd>
+This method returns the current rotten adjective that's used 
+in the short description for decaying objects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_splashable"><b>query_splashable</b></a>(object, object)<dd>
+This queries splashability of the food.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_weight_per_bite"><b>query_weight_per_bite</b></a>()<dd>
+This sets the weight of each bite of the food object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_eat_effect"><b>remove_eat_effect</b></a>(string)<dd>
+This removes the eat effect of the given name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_external_effect"><b>remove_external_effect</b></a>(string)<dd>
+This removes the external effect of the given name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_liquid"><b>reset_liquid</b></a>()<dd>
+This changes the food object into a solid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_applicable"><b>set_applicable</b></a>()<dd>
+This sets it so the food can be applied.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bites_gone"><b>set_bites_gone</b></a>(int)<dd>
+This sets the number of bites gone.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_decay_level"><b>set_decay_level</b></a>(int)<dd>
+This sets the decay level.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_decay_speed"><b>set_decay_speed</b></a>(int)<dd>
+This sets the speed at which a food object decays.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_eat_effects"><b>set_eat_effects</b></a>(mapping)<dd>
+This sets all the eat effects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_eat_func"><b>set_eat_func</b></a>(string)<dd>
+This sets the eat function of the food.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_eat_mess"><b>set_eat_mess</b></a>(mixed)<dd>
+This sets the eat function of the food.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_eat_object"><b>set_eat_object</b></a>(string)<dd>
+This sets the object on which the eat function is stored.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_external_effects"><b>set_external_effects</b></a>(mapping)<dd>
+This sets all the external effects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_external_pk_check"><b>set_external_pk_check</b></a>()<dd>
+This makes the external effects pk checked.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_in_pieces"><b>set_in_pieces</b></a>(int)<dd>
+This sets the in_pieces flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_liquid"><b>set_liquid</b></a>()<dd>
+This changes the food object into a liquid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_piece_description"><b>set_piece_description</b></a>(string)<dd>
+This sets the long description of the food when it is has
+'cut' into pieces.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_piece_plural"><b>set_piece_plural</b></a>(string)<dd>
+This plural description used for the pieces.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_piece_short"><b>set_piece_short</b></a>(string)<dd>
+This is the description used in the short for the pieces.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_piece_substance"><b>set_piece_substance</b></a>(string)<dd>
+This sets a new description for what there are pieces of.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_splashable"><b>set_splashable</b></a>()<dd>
+This sets it so the food can be splashed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_weight_per_bite"><b>set_weight_per_bite</b></a>(int)<dd>
+This sets weight of each bite of the food object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_eat"><b>setup_eat</b></a>(string, string)<dd>
+This sets up the eat object and function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_eat_piece_messages"><b>setup_eat_piece_messages</b></a>(mixed, mixed, mixed)<dd>
+This sets up the eat messages for pieces and stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#unset_applicable"><b>unset_applicable</b></a>()<dd>
+This sets it so the food cannot be applied.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#unset_external_pk_check"><b>unset_external_pk_check</b></a>()<dd>
+This makes the external effects not pk checked.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#unset_splashable"><b>unset_splashable</b></a>()<dd>
+This sets it so the food cannot be splashed.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_eat_effect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_eat_effect</b></a><pre>
+int add_eat_effect(mixed word,
+                   int number)
+</pre><dd>
+This adds an eat effect to the food.  This will be added to
+the player or NPC when the food is eaten.
+<p>
+The effect is added with a number as the argument.  The number
+is based on the amount which is eaten (in weight units), and
+usually represents the strength of the effect.
+If the object is continuous, the weight is calculated from
+the amount and weight_unit array...
+<p>
+<br>
+<code>
+eff_num = (amount * number * weight_unit[0]) / weight_unit[1]
+</code>
+<p>
+...where the number is passed into the add_eat_effect() function.
+If the effect already exists, then the number is added onto
+the existing number.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The file name of the effect to add.
+<dd>number - The number to set to the effect to.
+<dt><b>Returns:</b>
+<dd>The current value of the effect in the mapping
+
+<dt><b>See also:</b>
+<dd><a href="obj.cont_medium.c.html#set_weight_unit">/obj/cont_medium->set_weight_unit()</a> and <a href="#remove_eat_effect">remove_eat_effect()</a></dl>
+
+<dt><a name="add_external_effect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_external_effect</b></a><pre>
+int add_external_effect(string word,
+                        int number)
+</pre><dd>
+This adds an external effect to the food.  This will be added to
+the player or NPC when the liquid is splashed, applied, or rubbed on them.
+<p>
+The effect is added with a number as the argument.  The number
+is based on the amount which is splashed (in weight units), and
+usually represents the strength of the effect.
+If the object is continuous, the weight is calculated from
+the amount and weight_unit array...
+<p>
+<br>
+<code>
+eff_num = (amount * number * weight_unit[0]) / weight_unit[1]
+</code>
+<p>
+...where the number is passed into the add_external_effect() function.
+If the effect already exists, then the number is added onto
+the existing number.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The file name of the effect to add.
+<dd>number - The number to set to the effect to.
+<dt><b>Returns:</b>
+<dd>The current value of the effect in the mapping
+
+<dt><b>See also:</b>
+<dd><a href="obj.cont_medium.c.html#set_weight_unit">/obj/cont_medium->set_weight_unit()</a>, <a href="#set_splashable">set_splashable()</a>, <a href="#unset_splashable">unset_splashable()</a>, <a href="#set_applicable">set_applicable()</a>, unset_applicable.c, <a href="#remove_external_effect">remove_external_effect()</a> and <a href="#set_external_pk_check">set_external_pk_check()</a></dl>
+
+<dt><a name="check_for_container">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_for_container</b></a><pre>
+int check_for_container()
+</pre><dd>
+This checks the outside of us for a container and then destroys ourselves
+if it is not a container.
+<p>
+
+<dt><a name="check_sharp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_sharp</b></a><pre>
+int check_sharp(object weapon)
+</pre><dd>
+This checks to see if a weapon is sharp.  This is used later
+to determine whather an object can be cut up with the weapon.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>weapon - The weapon to check to see if it is sharp.
+<dt><b>Returns:</b>
+<dd>Return 1 if it is sharp, or 0 otherwise.
+
+</dl>
+
+<dt><a name="consume">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>consume</b></a><pre>
+varargs void consume(object consumer,
+                     int amount,
+                     string type)
+</pre><dd>
+This consumes some of the food.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>consumer - The person doing the consumption.
+<dd>amount - The amount being consumed.
+<dd>type - Use "splash" or "apply" or "external" to use external
+ effects, anything else for eat effects.
+
+
+</dl>
+
+<dt><a name="do_apply">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_apply</b></a><pre>
+int do_apply(object * things)
+</pre><dd>
+This handles applying things
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if it succeeded, or return 0 if it failed.
+
+<dt><b>See also:</b>
+<dd><a href="#set_applicable">set_applicable()</a> and consume(*).c</dl>
+
+<dt><a name="do_cure">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_cure</b></a><pre>
+int do_cure()
+</pre><dd>
+This is called by the pickling stick.  It stops the food
+object decaying.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>returns 1 for suceess and 0 for failure.
+
+<dt><b>See also:</b>
+<dd><a href="#set_decay_speed">set_decay_speed()</a></dl>
+
+<dt><a name="do_cut">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_cut</b></a><pre>
+varargs int do_cut(int num_pieces)
+</pre><dd>
+This cuts the food up into bits.  This is the command called
+with add_command() and does the actual cutting up into bits.  If
+the num_pieces parameter is undefined, the food is cut in half.
+If the food is continuous, the cutting is handled by
+the state_change handler (all continuous objects must be cut this
+way).
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num_pieces - The number of pieces to cut the food into.
+<dt><b>Returns:</b>
+<dd>1 if it succeeded, 0 if not.
+
+<dt><b>See also:</b>
+<dd><a href="#set_piece_description">set_piece_description()</a>, <a href="#query_in_pieces">query_in_pieces()</a>, <a href="#query_piece_short">query_piece_short()</a>, <a href="#query_piece_plural">query_piece_plural()</a> and <a href="#query_piece_substance">query_piece_substance()</a></dl>
+
+<dt><a name="do_drink">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_drink</b></a><pre>
+int do_drink()
+</pre><dd>
+This gives the appropriate message for drinking things.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if it succeeded, or return 0 if it failed.
+
+<dt><b>See also:</b>
+<dd><a href="#do_eat">do_eat()</a>, consume(*).c and <a href="#set_liquid">set_liquid()</a></dl>
+
+<dt><a name="do_dry">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_dry</b></a><pre>
+int do_dry()
+</pre><dd>
+This method dries the food.  Dried food no longer decays.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>returns 1 for suceess and 0 for failure.
+
+<dt><b>See also:</b>
+<dd><a href="#set_decay_speed">set_decay_speed()</a></dl>
+
+<dt><a name="do_eat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_eat</b></a><pre>
+varargs int do_eat(int no_mess)
+</pre><dd>
+This is the eat command call.  This is setup with add_command()
+and does the actual eating.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>no_mess - don't use success messages
+<dt><b>Returns:</b>
+<dd>Return 1 on success, 2 on success + last bit eaten and return 0 on failure.
+<dt><b>See also:</b>
+<dd><a href="global.new_parse.c.html#add_command">/global/new_parse->add_command()</a>, <a href="global.new_parse.c.html#add_succeeded_mess">/global/new_parse->add_succeeded_mess()</a> and <a href="#set_eat_mess">set_eat_mess()
+</a></dl>
+
+<dt><a name="do_mince">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_mince</b></a><pre>
+varargs int do_mince()
+</pre>
+<dt><a name="do_quaff">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_quaff</b></a><pre>
+int do_quaff()
+</pre><dd>
+This gives the appropriate message for quaffing things. Its
+rather like drinking but a lot of it gets splashed on you.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if it succeeded, or return 0 if it failed.
+
+<dt><b>See also:</b>
+<dd><a href="#do_eat">do_eat()</a>, consume(*).c and <a href="#set_liquid">set_liquid()</a></dl>
+
+<dt><a name="do_splash">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_splash</b></a><pre>
+int do_splash(object * things)
+</pre>
+<dt><a name="query_applicable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_applicable</b></a><pre>
+int query_applicable(object applier,
+                     object appliee)
+</pre><dd>
+This queries applicability of the food. (rubbing on someone)
+Note that the food can only be applied when
+set_applicable() has been called<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>applier - - Who applies it
+<dd>appliee - - Who it is applied to.
+<dt><b>Returns:</b>
+<dd>1 if it can be applied, 0 if it can't
+<dt><b>See also:</b>
+<dd><a href="#set_applicable">set_applicable(), unset_applicable(), set_external_pk_check()
+</a></dl>
+
+<dt><a name="query_bites_gone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bites_gone</b></a><pre>
+int query_bites_gone()
+</pre><dd>
+This returns the number of bites that have been taken out
+of the food object.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The number of bites which have been taken from
+the object.
+<dt><b>See also:</b>
+<dd><a href="#set_bites_gone">set_bites_gone()</a> and <a href="#set_weight_per_bite">set_weight_per_bite()
+</a></dl>
+
+<dt><a name="query_cured">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cured</b></a><pre>
+int query_cured()
+</pre><dd>
+This returns the cured state of the bit.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is cured, 0 if not
+
+</dl>
+
+<dt><a name="query_decay_divisor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_decay_divisor</b></a><pre>
+float query_decay_divisor()
+</pre><dd>This tells us the current divisor used to determine decay.  This can
+ be modified with set_decay_speed.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>float the divisor
+<dt><b>See also:</b>
+<dd><a href="#set_decay_speed">set_decay_speed()</a>, <a href="#query_decay_speed">query_decay_speed()</a>, <a href="#set_decay_level">set_decay_level()</a> and <a href="#query_decay_level">query_decay_level()
+</a></dl>
+
+<dt><a name="query_decay_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_decay_level</b></a><pre>
+int query_decay_level()
+</pre><dd>
+This returns the level of the decay.  This will be a number
+between 1 and 6.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The level of decay, which is between 1 and 6.
+
+<dt><b>See also:</b>
+<dd><a href="#set_decay_speed">set_decay_speed()</a></dl>
+
+<dt><a name="query_decay_speed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_decay_speed</b></a><pre>
+int query_decay_speed()
+</pre><dd>
+This returns the decay speed.  If this is 0 then the object
+is not decaying.  This is the length of time it takes
+for the whole object to decay.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The decay speed.
+
+<dt><b>See also:</b>
+<dd><a href="#set_decay_speed">set_decay_speed()</a></dl>
+
+<dt><a name="query_decays">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_decays</b></a><pre>
+int query_decays()
+</pre><dd>
+This query tells us whether the food decays.  All objects
+which decay should have this function on them.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if the object decays.
+<dt><b>See also:</b>
+<dd><a href="#set_decay_speed">set_decay_speed()
+</a></dl>
+
+<dt><a name="query_dried">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dried</b></a><pre>
+int query_dried()
+</pre><dd>
+This returns the dried state of the bit.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is dried, 0 if not
+
+</dl>
+
+<dt><a name="query_eat_effects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_eat_effects</b></a><pre>
+mapping query_eat_effects()
+</pre><dd>
+The eat effects of the food.  The mapping contains a set of
+strings (the effect) and a number associated with the
+effect.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>A mapping containing the eat effects.
+
+<dt><b>See also:</b>
+<dd><a href="#add_eat_effect">add_eat_effect()</a></dl>
+
+<dt><a name="query_eat_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_eat_func</b></a><pre>
+string query_eat_func()
+</pre><dd>
+This returns the name of the eat function to carry out
+when the object is eaten.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>A string which is the name of the eat function.
+
+<dt><b>See also:</b>
+<dd><a href="#set_eat_object">set_eat_object()</a>, <a href="#set_eat_func">set_eat_func()</a> and <a href="#set_eat_mess">set_eat_mess()</a></dl>
+
+<dt><a name="query_eat_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_eat_mess</b></a><pre>
+string query_eat_mess()
+</pre><dd>
+This returns the eat message of the object.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>A string of text which is the eat message.
+
+<dt><b>See also:</b>
+<dd><a href="#set_eat_object">set_eat_object()</a>, <a href="#set_eat_func">set_eat_func()</a> and <a href="#set_eat_mess">set_eat_mess()</a></dl>
+
+<dt><a name="query_eat_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_eat_object</b></a><pre>
+string query_eat_object()
+</pre><dd>
+This returns the eat object on which the eat function
+of the food of the food is stored.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>A string which is the the name of the eat object.
+
+<dt><b>See also:</b>
+<dd><a href="#set_eat_object">set_eat_object()</a>, <a href="#set_eat_func">set_eat_func()</a> and <a href="#set_eat_mess">set_eat_mess()</a></dl>
+
+<dt><a name="query_edible">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_edible</b></a><pre>
+int query_edible()
+</pre><dd>
+This tells us if the food is edible (ie. can be
+consumed using 'eat' instead of 'drink'.  If it is
+edible then it is not a liquid.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if the food is a liquid, and return 0 if it is not.
+
+<dt><b>See also:</b>
+<dd><a href="#set_liquid">set_liquid()</a> and <a href="#query_liquid">query_liquid()
+</a></dl>
+
+<dt><a name="query_external_effects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_external_effects</b></a><pre>
+mapping query_external_effects()
+</pre><dd>
+The external (splash,apply,rub) effects of the food.  The
+mapping contains a set of strings (the effect) and a number
+associated with the effect.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>A mapping containing the external effects.
+
+<dt><b>See also:</b>
+<dd><a href="#set_splashable">set_splashable(), set_applicable()</a></dl>
+
+<dt><a name="query_food_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_food_object</b></a><pre>
+int query_food_object()
+</pre><dd>
+This method returns 1 if the item is a food object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 when it is a food object
+
+</dl>
+
+<dt><a name="query_in_pieces">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_in_pieces</b></a><pre>
+int query_in_pieces()
+</pre><dd>
+If the food has been cut up (using the 'cut' command)
+then this will return true.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if it is in pieces, and return 0 otherwise.
+
+<dt><b>See also:</b>
+<dd><a href="#do_cut">do_cut()</a></dl>
+
+<dt><a name="query_liquid">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_liquid</b></a><pre>
+int query_liquid()
+</pre><dd>
+This function returns one if the food is a liquid.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if the food is a liquid, and return 0 if it is not.
+
+</dl>
+
+<dt><a name="query_long_decay_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_long_decay_level</b></a><pre>
+string query_long_decay_level()
+</pre><dd>
+This method returns the decay level for the object as a string, 
+it is used in the long() function.
+<p>
+
+<dt><a name="query_long_eat_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_long_eat_level</b></a><pre>
+string query_long_eat_level()
+</pre><dd>
+This method returns how much of the item has been nibbled on. <p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a string used in long().
+
+</dl>
+
+<dt><a name="query_piece_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_piece_description</b></a><pre>
+string query_piece_description()
+</pre><dd>
+This returns the long description of the food object when
+it is cut up into pieces.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>A string of text which is the piece description.
+
+<dt><b>See also:</b>
+<dd><a href="#set_piece_description">set_piece_description()</a> and <a href="#query_in_pieces">query_in_pieces()</a></dl>
+
+<dt><a name="query_rotten">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rotten</b></a><pre>
+int query_rotten()
+</pre><dd>This tells us if the food has started to rot
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if the food has started to rot, 0 otherwise.
+
+<dt><b>See also:</b>
+<dd><a href="#set_decay_speed">set_decay_speed()</a>, <a href="#query_decay_speed">query_decay_speed()</a>, <a href="#set_decay_level">set_decay_level()</a>, <a href="#query_decay_level">query_decay_level()</a> and <a href="#query_decay_divisor">query_decay_divisor()
+</a></dl>
+
+<dt><a name="query_short_rotten_adjective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_short_rotten_adjective</b></a><pre>
+string query_short_rotten_adjective()
+</pre><dd>
+This method returns the current rotten adjective that's used 
+in the short description for decaying objects.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a string like slightly rotten, mostly rotten, etc.
+
+</dl>
+
+<dt><a name="query_splashable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_splashable</b></a><pre>
+int query_splashable(object splasher,
+                     object splashee)
+</pre><dd>
+This queries splashability of the food.
+Note that the food can only be splashed when liquid and when
+set_splashable() has been called<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>splasher - - Who splashes.
+<dd>splashee - - Who is splashed.
+<dt><b>Returns:</b>
+<dd>1 if it can splash, 0 if it can't
+<dt><b>See also:</b>
+<dd><a href="#set_splashable">set_splashable(), unset_splashable(), set_liquid(),
+set_external_pk_check()
+</a></dl>
+
+<dt><a name="query_weight_per_bite">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_weight_per_bite</b></a><pre>
+int query_weight_per_bite()
+</pre><dd>
+This sets the weight of each bite of the food object.
+This is used along with the total weight of the object
+to calculate how many bites of the food can be taken.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The weight of each bite.
+
+<dt><b>See also:</b>
+<dd><a href="std.basic.misc.c.html#set_weight">/std/basic/misc->set_weight()</a>, <a href="#set_weight_per_bite">set_weight_per_bite()</a> and weight.c</dl>
+
+<dt><a name="remove_eat_effect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_eat_effect</b></a><pre>
+void remove_eat_effect(string word)
+</pre><dd>
+This removes the eat effect of the given name.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The name of the effect to delete.
+<dt><b>See also:</b>
+<dd><a href="#add_eat_effect">add_eat_effect()
+</a></dl>
+
+<dt><a name="remove_external_effect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_external_effect</b></a><pre>
+void remove_external_effect(string word)
+</pre><dd>
+This removes the external effect of the given name.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The name of the effect to delete.
+<dt><b>See also:</b>
+<dd><a href="#add_external_effect">add_external_effect()
+</a></dl>
+
+<dt><a name="reset_liquid">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_liquid</b></a><pre>
+void reset_liquid()
+</pre><dd>
+This changes the food object into a solid.  Solids are not
+'continuous' and the decay speed will be set back to the
+default.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_liquid">set_liquid()</a> and <a href="#set_decay_speed">set_decay_speed()
+</a></dl>
+
+<dt><a name="set_applicable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_applicable</b></a><pre>
+void set_applicable()
+</pre><dd>
+This sets it so the food can be applied.
+Note this is the default case.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#unset_applicable">unset_applicable()
+</a></dl>
+
+<dt><a name="set_bites_gone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bites_gone</b></a><pre>
+void set_bites_gone(int number)
+</pre><dd>
+This sets the number of bites gone.  This helps determine
+the total weight of the object.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - The number of bites gone.
+
+<dt><b>See also:</b>
+<dd><a href="#set_weight_per_bite">set_weight_per_bite()</a></dl>
+
+<dt><a name="set_decay_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_decay_level</b></a><pre>
+void set_decay_level(int level)
+</pre><dd>
+This sets the decay level.  This should be anumber
+between 1 and 6.  It lets you make a food object seem
+as though it is already decaying.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>level - The new decay level.
+
+<dt><b>See also:</b>
+<dd><a href="#query_decay_level">query_decay_level()</a> and <a href="#set_decay_speed">set_decay_speed()</a></dl>
+
+<dt><a name="set_decay_speed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_decay_speed</b></a><pre>
+void set_decay_speed(int decay)
+</pre><dd>
+This sets the speed at which a food object decays.  The
+speed is set in seconds and is the total amount of time
+before the food decays.
+<p>
+If the decay speed is set to 0, then the object will never decay.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>speed - The speed at which the object will decays.
+<dt><b>See also:</b>
+<dd><a href="#set_decay_level">set_decay_level()</a> and <a href="#query_decay_speed">query_decay_speed()</a><dt><b>Example:</b>
+<dd><pre>/* This will make the object decay totaly in 30 minutes */
+set_decay_speed(1800);
+
+/* This will stop the object from ever decsaying */
+set_decay_speed(0);
+</pre></dl>
+
+<dt><a name="set_eat_effects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_eat_effects</b></a><pre>
+void set_eat_effects(mapping map)
+</pre><dd>
+This sets all the eat effects.  This function should NOT
+be used.  Please use add_eat_effect.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>map - The eat effects mapping.
+
+</dl>
+
+<dt><a name="set_eat_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_eat_func</b></a><pre>
+void set_eat_func(string word)
+</pre><dd>
+This sets the eat function of the food.  This is called when
+the food is eaten.
+<p>
+If the eat object is set, then the eat function needs to be
+set as well. If the function is not set then setting the
+object has no effect.
+<p>
+The function will be called with two parameters, the first being the
+object being eaten and the second being the person eating the object.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The function to set as the eat function.
+<dt><b>See also:</b>
+<dd><a href="#set_eat_object">set_eat_object()</a> and <a href="#set_eat_mess">set_eat_mess()</a><dt><b>Example:</b>
+<dd><pre>See the example for set_eat_object()
+</pre></dl>
+
+<dt><a name="set_eat_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_eat_mess</b></a><pre>
+void set_eat_mess(mixed word)
+</pre><dd>
+This sets the eat function of the food.  The function is
+carried out when the food is consumed.  The eat message,
+set with set_eat_mess(), is displayed when this function
+is carried out.
+<p>
+The eat mess should be treated exactly the same as a
+add_succeeded_mess(), as it is processed later as
+add_succeeded_mess(eat_mess, ({ }));
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The string or array to be used as
+the add_succeeded_mess() when eating the food.
+
+<dt><b>See also:</b>
+<dd><a href="#set_eat_object">set_eat_object()</a>, <a href="#set_eat_func">set_eat_func()</a> and <a href="global.new_parse.c.html#add_succeeded_mess">/global/new_parse->add_succeeded_mess()</a></dl>
+
+<dt><a name="set_eat_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_eat_object</b></a><pre>
+void set_eat_object(string word)
+</pre><dd>
+This sets the object on which the eat function is stored.
+<p>
+If the eat object is set, then the eat function needs to
+be set as well.  If the function is not set then setting
+the object has no effect.
+<p>
+The function will be called with two parameters, the first
+being the object being eaten and the second being the
+person eating the object.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The object containing the eat function.
+<dt><b>See also:</b>
+<dd><a href="#set_eat_object">set_eat_object()</a> and <a href="#set_eat_mess">set_eat_mess()</a><dt><b>Example:</b>
+<dd><pre>void create_food() {
+  object food;
+  food = clone_object("/obj/food/apple.food");
+  food->set_eat_object(this_object());
+  food->set_eat_func("eat_apple");
+} /* create_food() */
+
+void eat_apple(object food, object eater) {
+  /* Do something wonderful! */
+} /* eat_rabbit() */
+</pre></dl>
+
+<dt><a name="set_external_effects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_external_effects</b></a><pre>
+void set_external_effects(mapping map)
+</pre><dd>
+This sets all the external effects.  This function should NOT
+be used.  Please use add_external_effect.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>map - The external effects mapping.
+
+</dl>
+
+<dt><a name="set_external_pk_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_external_pk_check</b></a><pre>
+void set_external_pk_check()
+</pre><dd>
+This makes the external effects pk checked.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_external_effect">add_external_effect(), set_applicable(), set_splashable()</a> and <a href="#unset_external_pk_check">unset_external_pk_check()
+</a></dl>
+
+<dt><a name="set_in_pieces">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_in_pieces</b></a><pre>
+void set_in_pieces(int number)
+</pre><dd>
+This sets the in_pieces flag.  This allows you to make the
+food seem as though it has already been cut into pieces.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - The number of pieces.
+<dt><b>See also:</b>
+<dd><a href="#query_in_pieces">query_in_pieces()</a>, <a href="#set_piece_description">set_piece_description()</a>, <a href="#set_piece_short">set_piece_short()</a>, <a href="#set_piece_plural">set_piece_plural()</a> and <a href="#set_piece_substance">set_piece_substance()
+</a></dl>
+
+<dt><a name="set_liquid">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_liquid</b></a><pre>
+void set_liquid()
+</pre><dd>
+This changes the food object into a liquid.  Liquids are
+automatically a 'continuous' medium, which means it will
+combine with other liquids of the same type.
+<p>
+This will automatically set the decay speed to 0.  Liquids
+do not decay.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#reset_liquid">reset_liquid()</a>, <a href="#set_decay_speed">set_decay_speed()</a> and <a href="obj.cont_medium.c.html#set_continuous">/obj/cont_medium->set_continuous()
+</a></dl>
+
+<dt><a name="set_piece_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_piece_description</b></a><pre>
+void set_piece_description(string word)
+</pre><dd>
+This sets the long description of the food when it is has
+'cut' into pieces.
+<p>
+If this is set then the short of the object is changed
+to 'piece of cake'.  If the piece description is not
+set the short description of the object is not changed.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The long description to use when cut into pieces.
+<dt><b>See also:</b>
+<dd><a href="#query_in_pieces">query_in_pieces()</a>, <a href="#set_piece_short">set_piece_short()</a>, <a href="#set_piece_plural">set_piece_plural()</a> and <a href="#set_piece_substance">set_piece_substance()</a><dt><b>Example:</b>
+<dd><pre>set_piece_description("The brown, soft, moist cake looks "
+  "totally wonderful.\n");
+</pre></dl>
+
+<dt><a name="set_piece_plural">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_piece_plural</b></a><pre>
+void set_piece_plural(string plural)
+</pre><dd>
+This plural description used for the pieces.  It is only
+really of use if the piece short pluralises in an unusual
+manner.  If it is not set the piece plural is set to what
+the pice short has been set to with an "s" stuck on the
+end, for example, slice to slices.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The plural used for the 'pieces' when cut into
+pieces.
+<dt><b>See also:</b>
+<dd><a href="#query_in_pieces">query_in_pieces()</a>, <a href="#set_piece_description">set_piece_description()</a>, <a href="#set_piece_short">set_piece_short()</a> and <a href="#set_piece_substance">set_piece_substance()</a><dt><b>Example:</b>
+<dd><pre>set_piece_plural("slices");
+</pre></dl>
+
+<dt><a name="set_piece_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_piece_short</b></a><pre>
+void set_piece_short(string short)
+</pre><dd>
+This is the description used in the short for the pieces.
+When the object is cut up this is used as part of the
+short description.  For example, it can change
+'piece of cake' to 'slice of cake', 'piece of chocolate'
+to 'square of chocolate', and so on.  If this the piece
+short has not been set it is set to the default which is
+simply "piece".
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The short to use for the 'piece' when cut into
+pieces.
+<dt><b>See also:</b>
+<dd><a href="#query_in_pieces">query_in_pieces()</a>, <a href="#set_piece_description">set_piece_description()</a>, <a href="#set_piece_plural">set_piece_plural()</a> and <a href="#set_piece_substance">set_piece_substance()</a><dt><b>Example:</b>
+<dd><pre>set_piece_short("slice");
+</pre></dl>
+
+<dt><a name="set_piece_substance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_piece_substance</b></a><pre>
+void set_piece_substance(string substance)
+</pre><dd>
+This sets a new description for what there are pieces of.
+For example, if you want the short of the food before it
+is cut up to be 'bar of chocolate', without the piece
+substance being set, when it is cut up it will become
+'a piece of bar of chocolate'.  If you set this in enables
+you to change that unwieldly description to 'a piece of
+chocolate'.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The description of what the 'piece' is of.
+<dt><b>See also:</b>
+<dd><a href="#query_in_pieces">query_in_pieces()</a>, <a href="#set_piece_description">set_piece_description()</a>, <a href="#set_piece_short">set_piece_short()</a> and <a href="#set_piece_plural">set_piece_plural()</a><dt><b>Example:</b>
+<dd><pre>set_piece_substance("goat cheese");
+</pre></dl>
+
+<dt><a name="set_splashable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_splashable</b></a><pre>
+void set_splashable()
+</pre><dd>
+This sets it so the food can be splashed.
+Note that the food can only be splashed when liquid in any case.
+Note this is NOT the default case.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#unset_splashable">unset_splashable(), set_applicable(), unset_applicable(),
+add_external_effect()
+</a></dl>
+
+<dt><a name="set_weight_per_bite">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_weight_per_bite</b></a><pre>
+void set_weight_per_bite(int number)
+</pre><dd>
+This sets weight of each bite of the food object.  This is
+used along with the total weight of the object to calculate
+how many bites of the food can be taken.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - The weight each bite should be.
+
+<dt><b>See also:</b>
+<dd><a href="std.basic.misc.c.html#set_weight">/std/basic/misc->set_weight()</a> and weight.c</dl>
+
+<dt><a name="setup_eat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_eat</b></a><pre>
+void setup_eat(string ob,
+               string func)
+</pre><dd>
+This sets up the eat object and function.  This is used when
+the food is eaten.  The eat function is called on the eat
+object.  If successful the eat message is added to the player.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - The object to use.
+<dd>func - The function to use.
+
+<dt><b>See also:</b>
+<dd><a href="#set_eat_object">set_eat_object()</a> and <a href="#set_eat_func">set_eat_func()</a></dl>
+
+<dt><a name="setup_eat_piece_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_eat_piece_messages</b></a><pre>
+void setup_eat_piece_messages(mixed piece,
+                              mixed amt,
+                              mixed last)
+</pre><dd>
+This sets up the eat messages for pieces and stuff.  The amount message
+will replace the $amt$ string in the message with the amount_string().  <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>piece - the eat piece message. This can be either a string or an
+array, it is passed to add_succeeded_mess().
+<dd>amt - the amount messages
+<dd>last - the message to print out when the last bit gets eaten
+
+</dl>
+
+<dt><a name="unset_applicable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>unset_applicable</b></a><pre>
+void unset_applicable()
+</pre><dd>
+This sets it so the food cannot be applied.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_applicable">set_applicable()
+</a></dl>
+
+<dt><a name="unset_external_pk_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>unset_external_pk_check</b></a><pre>
+void unset_external_pk_check()
+</pre><dd>
+This makes the external effects not pk checked.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_external_effect">add_external_effect(), set_applicable(), set_splashable()</a> and <a href="#set_external_pk_check">set_external_pk_check()
+</a></dl>
+
+<dt><a name="unset_splashable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>unset_splashable</b></a><pre>
+void unset_splashable()
+</pre><dd>
+This sets it so the food cannot be splashed.
+Note that the food can only be splashed when liquid in any case.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_splashable">set_splashable()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 14 Oct 2003 16:44:13 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

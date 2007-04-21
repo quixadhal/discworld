@@ -1,0 +1,106 @@
+.DT
+Inhumation handler
+Discworld creator help
+Inhumation handler
+
+Name
+.SP 5 5
+inhumation_handler - Handler for assassins inhumation
+.EP
+
+Description
+.SP 5 5
+The inhumation handler deals with the setting up, tracking and removal of
+contracts put out by the assassins guild.  The handler is called by the
+inhumation room in the guild, the login handler and by the combat system
+when someone dies.
+.EP
+
+Process
+.SP 5 5
+The process a contract goes through is as follows:
+
+.SP 5 5
+Request
+.EP
+
+.SP 10 5
+Someone goes to the guild and requests a contract.  A few initial checks are made, then the system waits for the inhumee to login.  At this time the contract is in the "Requested" state.
+.EP
+
+.SP 5 5
+Validation
+.EP
+
+.SP 10 5
+When the inhumee logs in the handler performs a number of checks and from this determines the eligibility and cost of a contract.  The contract then enters "Validated" state.
+.EP
+
+.SP 5 5
+Inform
+.EP
+
+.SP 10 5
+Next time the requestor logs in they will be told that the contract is ready for payment, or that it has been denied and why.  The contract enters "Informed" state.
+.EP
+
+.SP 5 5
+Active
+.EP
+
+.SP 10 5
+When the requestor goes and pays for the contract it enters the "Active" state where assassins may go and fulfil it.  The contract will remain in this state until it is collected or the contractee hasn't logged in for 28 days.  This means that contracts on active players may stay indefinitely while those on inactive players will expire and not clutter things up.
+.EP
+
+.SP 5 5
+Once the contract has been fullfilled it goes into the collection phase.  The assassin must simply go to the inhumation office to receive her payment.  Uncollected payments will expire if the assassin hasn't logged in for 28 days.
+.EP
+
+Functions
+.SP 5 5
+The system should require little creator intervention, however a few functions have been provided to allow creators to change things should the need arise.
+.EP
+
+.SI 5
+void clear_contract(string player)
+.EI
+
+.SP 10 5
+This allows a creator to clear (remove) a contract on a given player.  If the string is "all" then all contracts will be deleted.
+.EP
+
+.SI 5
+int query_contract(string who)
+.EI
+
+.SP 10 5
+This function returns the status of the contract (if any) on the given player.  If there is no contract on the player -1 is returned.
+.EP
+
+.SI 5
+string query_all_contracts()
+.EI
+
+.SP 10 5
+This function returns a string listing all the currently active contracts.  For creators it adds additional information giving all the contracts (not only the active ones) and also when they were requested, their status etc.
+.EP
+
+Configuration
+
+.SP 5 5
+The following macros may be used to change the configuration of the handler.
+.EP
+
+.SO 5 20 -30
+	EXP_TIME	This is the time for expiry of contracts
+	TAXES	The percentage cut the guild takes of payments
+	MIN_LEVEL	The minimum level a player must be before a contract will be issued on her
+	PK_MULT	How much more a contract on a non-PK costs. A value of 0 disallows contracts on non-PKs
+	COST_MULT	How much (per level) a contract costs
+.EO
+
+Files
+.SI 5
+/log/INHUME
+/save/new_inhume.o
+.EI

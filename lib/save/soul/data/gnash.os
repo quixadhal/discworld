@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),({({"You gnash your teeth.","$mcname$ gnash$s$ $mposs$ teeth.",0,}),0,}),({({"You gnash your teeth at $hcname$.","$mcname$ gnash$s$ $mposs$ teeth at $hcname$.","$mcname$ gnash$s$ $mposs$ teeth at you.",0,0,0,}),0,}),})

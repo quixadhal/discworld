@@ -1,17 +1,35 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: crash.c,v 1.3 2003/03/25 20:02:49 wodan Exp $
+ */
 void crash(string crash_mess, object command_giver, object current_object) {
-  int i;
-  object *obs;
+  object thing, *things;
+  string crashtxt;
 
-  log_file("CRASH", ctime(time())+" ");
+  reset_eval_cost();
+  log_file("CRASH", "\n"+ ctime(time()) +":\n");
   if (current_object)
-    log_file("CRASH", "cur_ob:"+file_name(current_object)+" ");
+    log_file("CRASH", "current object: "+ file_name(current_object) +
+             " ("+ current_object->query_name() +")\n");
   if (command_giver)
-    log_file("CRASH", "Command_giver:"+command_giver->query_cap_name());
-  log_file("CRASH", " Reason: "+crash_mess+"\n");
-  "/simul_efun/simul_efun"->shout("Pinkfish shouts: Oh no! I have to crash "+
-                                  "the driver now.\n");
-/* Want to make sure we dont go and bomb in here. */
-  obs = users();
-  for (i=0;i<sizeof(obs);i++)
-    obs[i]->do_force_on_me("quit");
+    log_file("CRASH", "command giver: "+ file_name(command_giver) +
+             " ("+ (string)command_giver->query_name() +")\n");
+  if (query_verb())
+    log_file("CRASH", "command given: "+ query_verb() +"\n");
+  log_file("CRASH", "crash reason: "+ crash_mess +"\n");
+  things = users();
+  log_file("CRASH", "["+ implode((string *)things->query_name(), ", ") +
+           "]\n");
+  flush_log_files();
+  crashtxt = "Wodan "+({"says: I wonder what this button does...",
+                        "says: Ceres, look out for that wire....",
+                        "says: Wow, look at the uptime.",
+                        "whispers: I don't think we should be doing this on my desk..",
+                        "shouts: Look at all that xp!"})[random(5)];
+  foreach (thing in things) {
+    reset_eval_cost();
+    efun::tell_object(thing, crashtxt + "\n("+ crash_mess +")\n");
+    catch(thing->quit());
+  }
 } /* crash() */

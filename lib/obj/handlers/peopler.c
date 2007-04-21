@@ -1,108 +1,16 @@
-#define NAME 0
-#define C_NAME 1
-#define STRING 2
-#define GENDER 3
-#define IP_NUMBER 4
-#define IP_NAME 5
-#define TYPE 6
-#define AGE 7
-#define GUILD 8
-#define RACE 9
-#define LEVEL 10
-#define TERMINAL 11
-#define ROWS 12
-#define COLS 13
-#define ROOM 14
-#define EUID 15
-#define UID 16
-#define CFILE 17
-#define CUR_DIR 18
-#define CENTER 128
-#define RIGHT 64
-#define MASK (RIGHT+CENTER)
-#define ABBREV ({ \
-          "n", \
-          "N", \
-          "", \
-          "G", \
-          "#", \
-          "I", \
-          "T", \
-          "A", \
-          "g", \
-          "R", \
-          "L", \
-          "t", \
-          "r", \
-          "c", \
-          "O", \
-          "E", \
-          "U", \
-          "F", \
-          "/", \
-        })
-#define DE_NAMES ({ \
-          "Name", \
-          "Name", \
-          "", \
-          "Gender", \
-          "IP Number", \
-          "IP Name", \
-          "Type", \
-          "Age", \
-          "Guild", \
-          "Race", \
-          "Level", \
-          "Terminal type", \
-          "Rows", \
-          "Cols", \
-          "Room", \
-          "Euid", \
-          "Uid", \
-          "Creator file", \
-          "Current dir", \
-        })
+/*  -*- LPC -*-  */
+/*
+ * $Id: peopler.c,v 1.5 2000/09/07 01:04:11 ceres Exp $
+ */
 
-/* This is the default people listing thingy. */
-#define P_DEFAULT ({ \
-          NAME, 12, \
-          TYPE|CENTER, 3, \
-          GENDER|CENTER, 6, \
-          STRING, " ", \
-          GUILD|CENTER, 10, \
-          STRING, " ", \
-          LEVEL|RIGHT, 3, \
-          STRING, " ", \
-          AGE, 4, \
-          ROOM, 30 \
-        })
-#define QP_DEFAULT ({ \
-          AGE|RIGHT, 4, \
-          STRING, " ", \
-          NAME, 30, \
-        })
-#define T_DEFAULT ({ \
-          NAME, 12, \
-          ROWS|CENTER, 5, \
-          STRING, " ", \
-          COLS|CENTER, 5, \
-          STRING, " ", \
-          TERMINAL, 20, \
-        })
-#define N_DEFAULT ({ \
-          NAME, 12, \
-          STRING, " ", \
-          IP_NUMBER, 16, \
-          STRING, " ", \
-          IP_NAME, 30, \
-        })
-#define D_DEFAULT ({ \
-          NAME, 12, \
-          STRING, " ", \
-          CUR_DIR, 25, \
-          STRING, " ", \
-          ROOM, 40, \
-        })
+/**
+ * This prints out nicely formated lists of information.  It ius used
+ * by the people, finger etc commands.
+ * @author Pinkfish
+ */
+#include <peopler.h>
+
+#define MULTIPLAYER "/obj/handlers/multiplayer"
 
 string *de_names,
        *abbrev,
@@ -117,40 +25,34 @@ void create() {
       "people",
       "qpeople",
       "terms",
+      "netdups",
     });
 } /* create() */
 
+/**
+ * This method returns the list of people using the 'str' as a 
+ * constraint.  So it only shows the people who match with the
+ * str.
+ * @param str the constraint string
+ * @return the array of people
+ */
 object *get_people(string str) {
   object *ob;
-  int i, cr, hl;
+  int i;
   string s1;
 
   ob = users();
-  cr = (int)previous_object()->query_creator();
-  hl = (int)"/secure/master"->high_programmer(geteuid(previous_object()));
-  for (i=0; i < sizeof(ob); i++) {
-    switch (ob[i]->query_invis()) {
-      case 1 :
-        if (!cr) {
-          ob = delete(ob, i--, 1);
-          continue;
-        }
-        break;
-      case 2 :
-        if (!hl) {
-          ob = delete(ob, i--, 1);
-          continue;
-        }
-        break;
+  
+  for(i = 0; i<sizeof(ob); i++) {
+    if (str && (sscanf(ob[i]->query_name(),str+"%s", s1) != 1)) {
+      ob = ob[0..i - 1] + ob[i+1..];
+      i--;
     }
-    if (str)
-      if(sscanf(ob[i]->query_name(),str+"%s", s1) != 1)
-        ob = delete(ob, i--, 1);
   } 
   return ob;
 } /* get_people() */
 
-string create_title(mixed *bits) {
+private string create_title(mixed *bits) {
   int i, pos;
   string str;
 
@@ -177,12 +79,12 @@ string create_title(mixed *bits) {
   return str;
 } /* create_title() */
 
-string review_thingy(mixed *bing) {
+private string review_thingy(mixed *bing) {
   int i;
   string str;
 
   str = "";
-  for (i=0;i<sizeof(bing);i+=2) {
+  for (i = 0; i < sizeof(bing); i += 2) {
     if (bing[i] == STRING) {
       str += bing[i+1];
     } else {
@@ -191,7 +93,7 @@ string review_thingy(mixed *bing) {
           str += "%|"+bing[i+1]+abbrev[bing[i]&~MASK];
           break;
         case RIGHT :
-          str += "%-"+bing[i+1]+abbrev[bing[i]&~MASK];
+          str += "%"+bing[i+1]+abbrev[bing[i]&~MASK];
           break;
         default :
           str += "%-"+bing[i+1]+abbrev[bing[i]&~MASK];
@@ -202,18 +104,27 @@ string review_thingy(mixed *bing) {
   return str;
 } /* review_thingy() */
 
-/*
+/**
+ * This method prints out the entries given the input pattern.
  * Ok, the method for doing the format is...
  *    ({ type, width,  ... })
  * With strings the width is the string...
  */
-void print_entrys(object *obs, mixed *format) {
-  int i, age, j;
-  object g;
-  string form, str;
+private void print_entrys(object *obs, mixed *format, int with_dups,
+                          string constraint) {
+  int age, j;
+  mixed g;
+  string form, str, mess, *not_allowed;
+  object ob, env, *dups;
+  mapping per_ip;
 
-  printf("%s\n", create_title(format));
-  for (i=0;i<sizeof(obs);i++) {
+  reset_eval_cost();
+
+  if (with_dups) {
+    per_ip = unique_mapping(obs, (: query_ip_number($1) :));
+  }
+  mess = sprintf("%s\n", create_title(format));
+  foreach(ob in obs) {
     str = "";
     for (j=0;j<sizeof(format);j+=2) {
       switch (format[j]&MASK) {
@@ -233,178 +144,167 @@ void print_entrys(object *obs, mixed *format) {
           str += format[j+1];
           break;
         case C_NAME :
-          str += sprintf(form+"s",
-                         obs[i]->query_cap_name());
+          str += sprintf(form+"s", capitalize( (string)ob->query_name() ) );
           break;
         case GENDER :
-          str += sprintf(form+"s",
-                         obs[i]->query_gender_string());
+          str += sprintf(form+"s", ob->query_gender_string());
           break;
         case NAME :
-          str += sprintf(form+"s",
-                         (obs[i]->query_in_editor()?"*":"")+
-                         obs[i]->query_name());
+          str += sprintf(form+"s", (ob->query_in_editor()?"*":"")+
+              ( ob->query_invis() ? "("+ (string)ob->query_name() +")" :
+              (string)ob->query_name() ) );
           break;
         case GUILD :
-          str += sprintf(form+"s",
-                         ((g=(object)obs[i]->query_guild_ob())?
-                          g->query_name():"No guild"));
+          if(ob)
+            str += sprintf(form+"s",
+                           ((g=(object)ob->query_guild_ob())?
+                            g->query_name():"No guild"));
+          else
+            str += sprintf(form+"s", "Broken guild");
           break;
         case LEVEL :
-          str += sprintf(form+"d",
-                         obs[i]->query_level());
+          str += sprintf(form+"s", ""+ ob->query_level());
           break;
         case ROWS :
-          str += sprintf(form+"d",
-                         obs[i]->query_rows());
+          str += sprintf(form+"s", ""+ ob->query_rows());
           break;
         case COLS :
-          str += sprintf(form+"d",
-                         obs[i]->query_cols());
+          str += sprintf(form+"s", ""+ ob->query_cols());
           break;
         case TERMINAL :
           str += sprintf(form+"s",
-                         obs[i]->query_term_name());
+                         ((g = ob->query_term_name()) ?
+                          g + (g == "network" ? " (" +
+                               ob->query_cur_term() + ")" : "") : ""));
           break;
         case IP_NUMBER :
-          str += sprintf(form+"s",
-                         query_ip_number(obs[i]));
+          str += sprintf(form+"s", query_ip_number(ob));
           break;
         case IP_NAME :
           str += sprintf(form+"s",
-                         query_ip_name(obs[i]));
+                           (query_ident(ob)?query_ident(ob)+"@":"")+
+                           query_ip_name(ob));
           break;
         case TYPE :
-          str += sprintf(form+"s",
-                         obs[i]->query_object_type());
+          str += sprintf(form+"s", ob->query_object_type()+"");
           break;
         case AGE :
-          age = (int)obs[i]->query_time_on();
+          age = (int)ob->query_time_on();
           if (age < -86400)
-            str += sprintf(form+"s",
-                           (age/-86400)+"D");
+            str += sprintf(form+"s", (age/-86400)+"D");
           else if (age < -3600)
-            str += sprintf(form+"s",
-                           (age/-3600)+"h");
+            str += sprintf(form+"s", (age/-3600)+"h");
           else if (age < -60)
-            str += sprintf(form+"s",
-                           (age/-60)+"m");
+            str += sprintf(form+"s", (age/-60)+"m");
           else
-            str += sprintf(form+"s",
-                           age+"s");
+            str += sprintf(form+"s", (age/-1)+"s");
           break;
         case ROOM :
-          str += sprintf(form+"s",
-                         (environment(obs[i])?
-                                       file_name(environment(obs[i]))
-                                       :"No environment"));
+          env = environment(ob);
+          str += sprintf(form+"s",env?file_name(env):"No environment");
           break;
         case EUID :
-          str += sprintf(form+"s",
-                         (environment(obs[i])?geteuid(environment(obs[i]))
-                                       :"No environment"));
+          env = environment(ob);
+          str += sprintf(form+"s",env?geteuid(env):"No environment");
           break;
         case UID :
-          str += sprintf(form+"s",
-                         (environment(obs[i])?getuid(environment(obs[i]))
-                                       :"No environment"));
+          env = environment(ob);
+          str += sprintf(form+"s",env?getuid(env):"No environment");
           break;
         case CFILE :
-          str += sprintf(form+"s",
-                         (environment(obs[i])?"/secure/master"->creator_file(
-                                            environment(obs[i]))
-                                       :"No environment"));
+          env = environment(ob);
+          str += sprintf(form+"s",env?"/secure/master"->creator_file(env)
+                         :"No environment");
           break;
         case CUR_DIR :
-          str += sprintf(form+"s", (obs[i]->query_current_path()?
-                          obs[i]->query_current_path():"No dir"));
+          str += sprintf(form+"s", (ob->query_current_path()?
+                                    ob->query_current_path():"No dir"));
+          break;
+        case ND_ALLOWED :
+          dups = per_ip[query_ip_number(ob)] - ({ ob });
+          not_allowed = MULTIPLAYER->check_allowed(ob, dups);
+          str += sprintf(form+"s", (sizeof(not_allowed) ?
+                                    query_multiple_short(not_allowed) :
+                                    ""));
           break;
       }
     } /* for j... */
-    printf("%s\n", str);
+    if(!constraint || strsrch(str, constraint) != -1)
+      mess += sprintf("%s\n", str);
   } /* for i... */
+  this_player()->more_string( mess );
 } /* print_entrys() */
 
-int do_people(string str) {
-  mixed *bing;
-  object *obs;
+/**
+ * This method is the main access point to the peopler.  It prints out
+ * the commands.  The optional sort function allows you to sort on 
+ * somethign other than the name of the player.
+ * <p>
+ * The format of the pattern string is an array with every second element
+ * being the type and the other element being the width of the printable
+ * string.
+ * <pre>
+ *    ({ type, width,  ... })
+ * </pre>
+ * With strings the width is the string...
+ * @param pattern the pattern to print with
+ * @param constraint All the names should start with this, 0 fo rnone
+ * @param sort_func the function to sort with (optional)
+ * @param only_duplicates only print entries whicxh are the same (using the
+ *         sort_func
+ * @return 0 on failure, 1 on success
+ * @see help::people
+ * @see help::netstat
+ * @see help::snetstat
+ * @see help::netdups
+ * @see help::terms
+ * @see help::dirs
+ */
+int do_command(mixed *pattern, string constraint, function sort_func,
+               int only_duplicates) {
+   object *obs;
+   object *tmpobs;
+   int i;
 
-  bing = (mixed *)this_player()->query_property("people list");
-  if (!bing)
-    bing = P_DEFAULT;
-  obs = get_people(str);
-  if (!sizeof(obs)) {
-    notify_fail("Nobody seems to start with "+str+", sorry.\n");
-    return 0;
-  }
-  print_entrys(obs, bing);
-  return 1;
-} /* do_people() */
+   obs = get_people("");
+   if (!sizeof(obs)) {
+      notify_fail("Nobody seems to start with '" + constraint + "'.\n");
+      return 0;
+   }
+   if (!sort_func) {
+      sort_func = (: strcmp($1->query_name(), $2->query_name()) :);
+   }
 
-int do_terms(string str) {
-  mixed *bing;
-  object *obs;
+   obs = sort_array(obs, sort_func);
 
-  bing = (mixed *)this_player()->query_property("term list");
-  if (!bing)
-    bing = T_DEFAULT;
-  obs = get_people(str);
-  if (!sizeof(obs)) {
-    notify_fail("Nobody seems to start with "+str+", sorry.\n");
-    return 0;
-  }
-  print_entrys(obs, bing);
-  return 1;
-} /* do_terms() */
+   if (only_duplicates) {
+      tmpobs = ({ });
+      for (i = 1; i <sizeof(obs); i++) {
+         if (!evaluate(sort_func, obs[i - 1], obs[i])) {
+            if (member_array(obs[i - 1], tmpobs) == -1) {
+               tmpobs += obs[i - 1..i];
+            } else {
+               tmpobs += ({ obs[i] });
+            }
+         }
+      }
+      if (!sizeof(tmpobs)) {
+         notify_fail("Unable to find any duplicates.\n");
+         return 0;
+      }
+      obs = tmpobs;
+   }
+   print_entrys(obs, pattern, only_duplicates, constraint);
+   return 1;
+} /* do_command() */
 
-int do_dirs(string str) {
-  mixed *bing;
-  object *obs;
-
-  bing = (mixed *)this_player()->query_property("dir list");
-  if (!bing)
-    bing = D_DEFAULT;
-  obs = get_people(str);
-  if (!sizeof(obs)) {
-    notify_fail("Nobody seems to start with "+str+", sorry.\n");
-    return 0;
-  }
-  print_entrys(obs, bing);
-  return 1;
-} /* do_dirs() */
-
-int do_netstat(string str) {
-  mixed *bing;
-  object *obs;
-
-  bing = (mixed *)this_player()->query_property("netstat list");
-  if (!bing)
-    bing = N_DEFAULT;
-  obs = get_people(str);
-  if (!sizeof(obs)) {
-    notify_fail("Nobody seems to start with "+str+", sorry.\n");
-    return 0;
-  }
-  print_entrys(obs, bing);
-  return 1;
-} /* do_dirs() */
-
-int do_qpeople(string str) {
-  mixed *bing;
-  object *obs;
-
-  bing = (mixed *)this_player()->query_property("qpeople list");
-  if (!bing)
-    bing = QP_DEFAULT;
-  obs = get_people(str);
-  if (!sizeof(obs)) {
-    notify_fail("Nobody seems to start with "+str+", sorry.\n");
-    return 0;
-  }
-  print_entrys(obs, bing);
-  return 1;
-} /* do_qpeople() */
-
+/**
+ * The review command.  Prints out the current settings for
+ * the commands.
+ * @param str the player name restriction string
+ * @return 0 if it failed, 1 if it succeeded
+ * @see help::review
+ */
 int review() {
   mixed *bing;
 
@@ -428,15 +328,19 @@ int review() {
   if (!bing)
     bing = D_DEFAULT;
   write("Dirs   : "+review_thingy(bing)+"\n");
+  bing = (mixed *)this_player()->query_property("netdup list");
+  if (!bing)
+    bing = ND_DEFAULT;
+  write("Netdups: "+review_thingy(bing)+"\n");
 } /* review() */
 
-mixed *create_review(string str) {
+private mixed *create_review(string str) {
   string *bits, rest;
   int i, bing, width, tmp;
   mixed *ret;
 
   bits = explode("$"+str, "%");
-  bits[0] = bits[0][1..1000];
+  bits[0] = bits[0][1..];
   if (!strlen(bits[0]))
     ret = ({ });
   else
@@ -446,10 +350,10 @@ mixed *create_review(string str) {
     rest = bits[i];
     if (rest[0] == '|') {
       bing = CENTER;
-      rest = rest[1..1000];
+      rest = rest[1..];
     } else if (rest[0] == '-') {
       bing = 0;
-      rest = rest[1..1000];
+      rest = rest[1..];
     }
     if (sscanf(rest, "%d%s", width, rest) == 2) {
       tmp = member_array(rest[0..0], abbrev);
@@ -458,7 +362,7 @@ mixed *create_review(string str) {
         return 0;
       }
       ret += ({ tmp+bing, width });
-      rest = rest[1..1000];
+      rest = rest[1..];
       if (strlen(rest))
         ret += ({ STRING, rest });
     } else {
@@ -468,15 +372,20 @@ mixed *create_review(string str) {
   return ret;
 } /* create_review() */
 
-void list_matches() {
+private void list_matches() {
   int i;
 
   for (i=0;i<sizeof(de_names);i++) {
     if (i == STRING) continue;
-    write(abbrev[i]+": "+de_names[i]+"\n");
+    printf("%s: %s\n", abbrev[i], de_names[i]);
   }
 } /* list_matches() */
 
+/**
+ * Sets a variable.  Sets the variable to the specified value.
+ * @param the name and arg of the varible
+ * @return 0 on failure, 1 on success
+ */
 int set_var(string str) {
   string name, type;
   mixed *bing;
@@ -493,14 +402,15 @@ int set_var(string str) {
     return 0;
   }
   if (member_array(name, var_names) == -1) {
-    notify_fail("You cannot set the var "+name+" has to be one of "+
-                implode(var_names, ", ")+".\n");
+    notify_fail("You cannot set the var "+name+", it has to be one of "+
+                implode(var_names[0..<2], ", ")+" or " + var_names[<1] +
+                ".\n");
     return 0;
   }
   bing = create_review(type);
   if (!bing)
     return 1;
-  previous_object()->add_property(name+" list", bing);
+  this_player( 1 )->add_property( name +" list", bing );
   write("Ok, set var "+name+" to "+type+".\n");
   return 1;
 } /* set_var() */

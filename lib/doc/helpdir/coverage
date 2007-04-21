@@ -1,0 +1,60 @@
+.DT
+coverage
+Discworld player help
+coverage
+
+.SH Name
+.SI 5
+coverage - check what parts of your body are covered by armour or clothing
+or what parts would be covered by certain items
+.EI
+
+.SH Syntax
+.SI 5
+coverage
+coverage [by] <thing(s)>
+coverage of <body part(s)>
+coverage unprotected
+.EI
+
+.SH Description
+.SP 5 5
+This command lets you know how much of your body you have protected.  With
+no arguments, the command will only check armour and clothing that you are
+wearing.  If you supply a list of body parts, the command will tell you
+what, if anything, is protecting those bits.  You can also check which
+areas of your body would be covered by selected items by specifying the
+items as arguments.  Finally, the "unprotected" syntax will let you know
+which of your bits are flapping in the breeze.
+.EP
+
+.SH Example
+.SI 5
+> coverage
+Your abdomen is protected by the Grflx scale.
+Your back is protected by the Grflx scale.
+Your chest is protected by the Grflx scale.
+
+> coverage shoes
+Your feet could be protected by the pair of blue suede shoes.
+
+> coverage clothes and armours
+Your abdomen is protected by the Grflx scale.
+Your back is protected by the Grflx scale and could be protected by the lamb skin cape.
+Your chest is protected by the Grflx scale.
+Your feet could be protected by the pair of blue suede shoes.
+Your neck could be protected by the lamb skin cape.
+Two club badges don't offer any protection.
+
+> coverage unprotected
+Your head, feet, legs, hands, arms and neck are unprotected.
+
+> coverage of back, neck and feet
+Your back is protected by the Grflx scale.
+Your feet are unprotected.
+Your neck is unprotected.
+
+.SH See also
+.SP 5 5
+vurdere
+.EP

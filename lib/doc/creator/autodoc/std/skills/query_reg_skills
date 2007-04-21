@@ -1,0 +1,35 @@
+.DT
+query_reg_skills
+DW_wibble creator help
+query_reg_skills
+
+.SH Name
+.SP 5 5
+query_reg_skills -  This method returns the all of the skills with their children and the number of children in a nice mapping.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_reg_skills()
+.EI
+
+.SH Returns
+.SI 5
+the mapping as described above
+.EI
+
+.SH Defined in
+.SI 5
+/std/skills.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the all of the skills with their children and the
+number of children in a nice mapping.  The key of the mapping is the name
+of the skill, the value is an array of two elements.  The first is an
+array of all the children and the second is the number of children
+of the skill.
+.EP
+

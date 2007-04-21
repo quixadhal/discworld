@@ -1,0 +1,260 @@
+<html><head><title>File object.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/object.c</h2>
+The basic object.  This pulls together all the bits needed to create
+a basic object.
+<p><b>See also:</b><br>/std/room.c
+<p>Written by Pinkfish<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.extra_look.c.html">/std/basic/extra_look.c</a>, <a href="std.basic.misc.c.html">/std/basic/misc.c</a>, <a href="std.basic.help_files.c.html">/std/basic/help_files.c</a>, <a href="std.basic.id.c.html">/std/basic/id.c</a>, <a href="std.basic.read_desc.c.html">/std/basic/read_desc.c</a>, <a href="std.basic.theft_callback.c.html">/std/basic/theft_callback.c</a>, <a href="std.basic.auto_load.c.html">/std/basic/auto_load.c</a>, <a href="std.basic.effects.c.html">/std/basic/effects.c</a>, <a href="std.basic.property.c.html">/std/basic/property.c</a> and <a href="std.basic.enchant.c.html">/std/basic/enchant.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.cmr.h.html">/include/cmr.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_material"><b>add_material</b></a>(mixed)<dd>
+This method adds a material to the list of current materials.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clean_up"><b>clean_up</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#long"><b>long</b></a>(string, int)<dd>
+The description of an object when someone looks at it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cloned_by"><b>query_cloned_by</b></a>()<dd>
+Who cloned the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_colour"><b>query_colour</b></a>()<dd>
+The colour of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_material"><b>query_material</b></a>()<dd>
+The material of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_materials"><b>query_materials</b></a>()<dd>
+This returns all of the materials of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_objective"><b>query_objective</b></a>()<dd>
+The objective of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_possessive"><b>query_possessive</b></a>()<dd>
+The possessive of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pronoun"><b>query_pronoun</b></a>()<dd>
+The pronoun of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quality"><b>query_quality</b></a>()<dd>
+This method returns the quality of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#replace_long_dollars"><b>replace_long_dollars</b></a>(object, string)<dd>
+This method replaces any colours of materials in the given string
+with the appropriate ccolours or materials for this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_colour"><b>set_colour</b></a>(string)<dd>
+Sets the colour of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_material"><b>set_material</b></a>(mixed)<dd>
+Sets the material of the object, this adds this material to the
+front of the material list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_name"><b>set_name</b></a>(string)<dd>
+Gives the object a name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_player"><b>set_player</b></a>(object)<dd>
+Sets the player associated with the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_quality"><b>set_quality</b></a>(int)<dd>
+This method sets the quality of the object.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_material">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_material</b></a><pre>
+void add_material(mixed material)
+</pre><dd>
+This method adds a material to the list of current materials.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>material - the material to add
+
+</dl>
+
+<dt><a name="clean_up">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clean_up</b></a><pre>
+int clean_up(int inherited)
+</pre>
+<dt><a name="long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>long</b></a><pre>
+string long(string word,
+            int dark)
+</pre><dd>
+The description of an object when someone looks at it.  This handles
+the extra code for messages, colour and material.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the word it was matched on
+<dd>dark - is it dark from the player's perspecitive
+<dt><b>Returns:</b>
+<dd>the long description
+
+</dl>
+
+<dt><a name="query_cloned_by">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cloned_by</b></a><pre>
+string query_cloned_by()
+</pre><dd>
+Who cloned the object.  Used for security reasoin to trace who have
+been cloning up objects for players.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the person who cloned the object
+
+</dl>
+
+<dt><a name="query_colour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_colour</b></a><pre>
+string query_colour()
+</pre><dd>
+The colour of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the colour of the objecy
+
+</dl>
+
+<dt><a name="query_material">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_material</b></a><pre>
+string query_material()
+</pre><dd>
+The material of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the material
+
+</dl>
+
+<dt><a name="query_materials">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_materials</b></a><pre>
+string * query_materials()
+</pre><dd>
+This returns all of the materials of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the materials
+
+</dl>
+
+<dt><a name="query_objective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_objective</b></a><pre>
+string query_objective()
+</pre><dd>
+The objective of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns "it"
+
+</dl>
+
+<dt><a name="query_possessive">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_possessive</b></a><pre>
+string query_possessive()
+</pre><dd>
+The possessive of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns "its"
+
+</dl>
+
+<dt><a name="query_pronoun">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pronoun</b></a><pre>
+string query_pronoun()
+</pre><dd>
+The pronoun of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns "it"
+
+</dl>
+
+<dt><a name="query_quality">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quality</b></a><pre>
+int query_quality()
+</pre><dd>
+This method returns the quality of the object.  The quality is used
+in the crafts system, amongst other things.
+<p>
+
+<dt><a name="replace_long_dollars">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>replace_long_dollars</b></a><pre>
+string replace_long_dollars(object player,
+                            string text)
+</pre><dd>
+This method replaces any colours of materials in the given string
+with the appropriate ccolours or materials for this object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player attempting to check the colour/material.
+<dd>text - the text to replace
+<dt><b>Returns:</b>
+<dd>a new string with the dollar identities expanded.
+
+</dl>
+
+<dt><a name="set_colour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_colour</b></a><pre>
+void set_colour(string word)
+</pre><dd>
+Sets the colour of the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the colour to make the object
+
+</dl>
+
+<dt><a name="set_material">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_material</b></a><pre>
+void set_material(mixed word)
+</pre><dd>
+Sets the material of the object, this adds this material to the
+front of the material list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the material to set it to
+
+</dl>
+
+<dt><a name="set_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_name</b></a><pre>
+void set_name(string word)
+</pre><dd>
+Gives the object a name.  Sets the name to the word and makes it the
+short description  and attempts to create the pural short description
+from it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name to use
+
+</dl>
+
+<dt><a name="set_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_player</b></a><pre>
+void set_player(object thing)
+</pre><dd>
+Sets the player associated with the object.  This is used during the
+autoload sequence.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the player object we belong to
+<dt><b>See also:</b>
+<dd>/global/auto_load.c
+</dl>
+
+<dt><a name="set_quality">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_quality</b></a><pre>
+void set_quality(int quality)
+</pre><dd>
+This method sets the quality of the object.  All objects are by
+default 'normal' quality.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>quality - the quality of the object
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 03:52:12 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

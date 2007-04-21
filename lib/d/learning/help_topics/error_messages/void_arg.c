@@ -1,0 +1,2 @@
+void bing(void x) {
+}

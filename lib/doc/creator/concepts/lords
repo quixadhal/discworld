@@ -1,0 +1,173 @@
+.DT
+Lords
+Discworld concepts
+Lords
+
+Name
+.SI 5
+Lords - those who are here to make sure the creators work
+.EI
+
+Description
+.SP 5 5
+Lords are the administrators of the Discworld MUD.  The job of most creators
+is to write code and to fix bugs and the job of the Lords are to make sure
+this happens.
+
+To administer your domain, you have several commands, some defined in your
+player object (/global/lord) and some in the nice domain control room, 
+/d/admin/room/domain_control, which you use to add creators to your domain,
+remove them from your domain and when they are members of your domain you can
+also define a project, which is the message showing up in their finger
+information.
+
+.EP
+
+The commands defined in /global/lord are:
+.SI 5
+employ <name>
+.EI
+.SP 10 5
+This will make <name> a creator, saving a copy of the save-file, and mailing
+the files /doc/creator/concepts/creator_doc.txt and
+/doc/creator/concepts/project_style.txt to the new creator.
+.EP
+.SP 10 5
+Note that if you get a message about "Player file has already been backed
+up." the player hasn't been employed, and is still a player.  To fix this
+situation you have to delete the file "/save/creators/name.o", then
+use the employ command again.
+.EP
+.SP 10 5
+This is the command to use when a player should become a creator.
+.EP
+
+.SI 5
+dismiss <name> <reason>
+.EI
+.SP 10 5
+This will make the creator <name> into a player, restoring the saved
+save-file, so the player will start at the same place as it was when employed.
+.EP
+.SP 10 5
+This is the command to use when you don't want a creator to be a creator
+anymore, and should not be used if you just want to remove a creator from
+the domain.
+.EP
+
+.SI 5
+Other commands
+.EI
+.SP 10 5
+There are several other commands, but they are reserved for High Lords, and
+should be possible to figure out from /global/lord.c
+.EP
+
+The commands defined in .../domain_control are:
+.SI 5
+list
+.EI
+.SP 10 5
+This will give a list of all domains.
+.EP
+
+.SI 5
+list <domain>
+.EI
+.SP 10 5
+This lists all members of a domain.
+.EP
+
+.SI 5
+create <domain>
+.EI
+.SP 10 5
+This command can be used by a High Lord to create a new domain, with the
+High Lord as Lord.
+.EP
+
+.SI 5
+create <domain> <lord>
+.EI
+.SP 10 5
+This command can be used by a High Lord to create a new domain, with <lord>
+as Lord.
+.EP
+
+.SI 5
+add <creator> <domain>
+.EI
+.SP 10 5
+This command adds <creator> to the domain <domain>.  You have to be High Lord
+or Lord of the domain to do this. 
+.EP
+.SP 10 5
+This is the command to use when the you want to make a creator a member of a
+domain administered by you.
+.EP
+
+.SI 5
+delete <creator> <domain>
+.EI
+.SP 10 5
+This command removes <creator> from the domain <domain>.  You have to be
+High Lord or Lord of the domain to do this. 
+.EP
+.SP 10 5
+This is the command to use when the you want to remove a creator from a
+domain administered by you.  It will not make the creator stop being a
+creator.
+.EP
+
+.SI 5
+project <creator> <domain> <project>
+.EI
+.SP 10 5
+This command specifies the project the finger command shows for <creator>
+in the domain <domain>.
+.EP
+.SP 10 5
+You use this to give others an idea about the state of your domain, and what
+the creators in it is working on.
+.EP
+.SP 5 5
+Please try to keep this relevant and up to date.
+.EP
+
+General guidelines
+.SP 5 5
+You are a Lord to make sure your domain thrives; this means you have to make
+sure that the creators in your domain know what they are supposed to work
+on, and that you should check regularly to see if they have any problems
+getting it done, and that they actually do work on it.
+.EP
+.SP 5 5
+If they don't, it's your duty to check why, and if they aren't going to
+continue working, you should see if it's a general problem or they'd be more
+productive in another domain.  If it's general, you should dismiss the
+creator, otherwise talk to the Lord of the other domain and see it that's a
+solution that will work.
+.EP
+.SP 5 5
+Note that this means that if you have other Lords or High Lords as members of
+your domain, it's your decision if they should continue being members, and
+you should use the same standards to decide as used for creators.
+.EP
+
+Employing newbie creators
+.SP 5 5
+This should only be done by Lords who have projects that are easily done by new
+creators, eg. simple alleys, which checks descriptive powers more that
+coding skills, and only by Lords who have the time to teach coding to the
+new creator.  In practice this currently means that 'am' gets most new
+creators.
+.EP
+.SP 5 5
+NB.  This doesn't include liaison where the creators aren't employed to code,
+but to help players.
+.EP
+
+See also
+.SP 5 5
+finger, liaisons, creators
+.EP

@@ -1,0 +1,1 @@
+({({"[in] <string> [at] <indirect:any-living>","[at] <indirect:any-living> [in] <string>","[at] <indirect:any-living>","[in] <string>",}),({({"You raise one eyebrow.","$mcname$ raise$s$ one eyebrow.",0,}),0,}),({({"You raise one eyebrow at $hcname$.","$mcname$ raise$s$ one eyebrow at $hcname$.","$mcname$ raise$s$ one eyebrow at you.",0,0,0,}),0,}),})

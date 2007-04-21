@@ -3,33 +3,34 @@ test_remove
 Discworld object help
 test_remove
 
-Name
+.SH Name
 .SI 5
 test_remove - Is this object allowed out?
 .EI
 
-Syntax
+.SH Syntax
 .SI 5
-int test_remove(object ob, int flag);
+int test_remove(object ob, int flag, mixed dest);
 .EI
 
-Description
+.SH Description
 .SP 5 5
-This function tests to see whether the object is allowed to be removed
-from the container it is in.  If it returns 1, then leaving is possible
-else it is blocked.  The flag is the value of the move flag as set by
-set_get and reset_get.  This is 1 if reset_drop is called.
+This function tests to see whether the object `ob' is allowed to be removed
+from the container it is in and put in `dest'.  If it returns 1, then leaving
+is possible else it is blocked.  The `flag' is the value of the move flag as
+set by set_get and reset_get.  This is 1 if reset_drop is called.  `dest' is
+either the filename of the destination or the actual destination.
 .EP
 
-Examples:
+.SH Examples:
 .SI 5
-/* This is basicly the test from the living object */
-int test_remove(object ob, int flag) {
-  return !flag;
+/* This is a very simple test */
+int test_remove(object ob, int flag, mixed dest) {
+   return !flag;
 } /* test_remove() */
 .EI
 
-See also
+.SH See also
 .SP 5 5
 test_add, move, set_drop, reset_drop
 .EP

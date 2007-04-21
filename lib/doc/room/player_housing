@@ -1,0 +1,67 @@
+.DT
+player housing
+Discworld room help
+player housing
+
+.SH Name
+.SI 5
+player house - the player housing room
+.EI
+
+.SH Syntax
+.SI 5
+allow list
+allow <person> {room|house}
+deny <person> {room|house}
+place help 
+place help <furniture> 
+place <furniture> {near|at|from|on|beside|against|in} the <location> 
+place <furniture> so it is <verb> {near|at|from|on|beside|against|in} the <location> 
+displace <furniture>
+.EI
+
+.SH Description
+.SP 5 5
+This is a room that players can control the look of.  It allows you to
+place and displace furniture in the room, decorate the walls, floor
+and ceiling and also change the locks.  Only people which are allowed
+to place and displace the furniture can do so.
+.EP
+
+.SH Allow and Deny
+.SP 5 5
+The allow and deny commands enable the home owner to control who is
+permitted to make changes to their home.  These commands typically
+work on a per-room basis, however if you are in the main room of the
+house (usually the one just inside the front door) the commands take
+an extra parameter and enable you to authorise people to control any
+room in the house.
+
+Note that to prevent multiplaying a player must be present in order to
+be allowed to control a room.
+.EP
+
+.SH Placement
+.SP 5 5
+Placing furniture is, by its very nature, somewhat complicated. Using the 'place help <item>' command can assist by telling you the options that are available for a given piece of furniture.
+.EP
+
+.SH Example
+.SI 5
+> allow list
+You are allowed to control this room.
+
+> allow allana
+Allana is allowed to control this room.
+
+> place couch so that it is against the east wall
+You place the couch so that it is against the east wall.
+
+> place painting so that it is lying against the west wall
+You place the painting so that it is lying against the west wall.
+.EI
+
+.SH See also
+.SP 5 5
+real estate, auction house
+.EP

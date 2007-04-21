@@ -1,0 +1,470 @@
+<html><head><title>File book.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/book.c</h2>
+A nice book object.  A book will be a collection of pages.
+You can tear pages out of a book, you can add pages (though adding
+a page isnt overly useful, unless you bind it in of course).
+<p>
+Each page is an object.  Pages that are torn out are handled
+as empty spots in the array.
+<p><p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.player.h.html">/include/player.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_page_after"><b>add_page_after</b></a>(object, int)<dd>
+This method adds a new page in after the selected page.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_default_page_object"><b>create_default_page_object</b></a>()<dd>
+This method creates a new default page object for this book.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_current_page_torn_out"><b>is_current_page_torn_out</b></a>()<dd>
+This method checks to see if the current page is torn out.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_default_page"><b>is_default_page</b></a>(int)<dd>
+This method checks to see if the page is still the default page object
+or if it is something else altogether.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_page_torn_out"><b>is_page_torn_out</b></a>(int)<dd>
+This method checks to see if the specified page is torn out.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_page_blank"><b>make_page_blank</b></a>(int)<dd>
+This method makes the selected page blank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_book"><b>query_book</b></a>()<dd>
+Tells us if this is a book object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_book_num"><b>query_book_num</b></a>()<dd>
+This method returns the current number of the book.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_page"><b>query_current_page</b></a>()<dd>
+Returns the object associated with the current open page.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_page_clone"><b>query_current_page_clone</b></a>()<dd>
+This function makes sure the page actually
+exists.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_default_page_object"><b>query_default_page_object</b></a>()<dd>
+This method returns the default page object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ignore_saved_pages"><b>query_ignore_saved_pages</b></a>()<dd>
+This method returns the current setting of the ignore saved
+pages variable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_num_pages"><b>query_num_pages</b></a>()<dd>
+Queries the number of pages in the book.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_open_page"><b>query_open_page</b></a>()<dd>
+What is the current open page.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pages"><b>query_pages</b></a>()<dd>
+Returns the pages array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player"><b>query_player</b></a>()<dd>
+This method will return  the player associated with the auto loading
+process.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_selected_page"><b>query_selected_page</b></a>(int)<dd>
+This method returns the contents of the selected page.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_selected_page_clone"><b>query_selected_page_clone</b></a>(int)<dd>
+This method returns the contents of the selected page, if a default
+object is returned a real clone for the page is created instead.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#replace_page_with"><b>replace_page_with</b></a>(object, int)<dd>
+This method replaces the selected page with a new page.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_book_num"><b>set_book_num</b></a>(int)<dd>
+This method sets the current number of the book.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_default_page_object"><b>set_default_page_object</b></a>(string)<dd>
+Sets the object to use as the default page.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_ignore_saved_pages"><b>set_ignore_saved_pages</b></a>(int)<dd>
+This method sets the current setting of the ignore saved
+pages variable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_pages"><b>set_no_pages</b></a>(int)<dd>
+Set the number of pages in the book.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_open_page"><b>set_open_page</b></a>(int)<dd>
+Sets the currently open page.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_player"><b>set_player</b></a>(object)<dd>
+This method is called by the auto loading process to set the current
+player on this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#tear_current_page_out"><b>tear_current_page_out</b></a>(object)<dd>
+This method tears the current page out of the book and returns it
+to us.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_page_after">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_page_after</b></a><pre>
+int add_page_after(object page,
+                   int after)
+</pre><dd>
+This method adds a new page in after the selected page.  The pages
+are numbered from 1, so adding a page after page 0 will place a
+page on the start and after the last page onto the end.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>page - the page to add
+<dd>after - the page to add it after
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#query_current_page">query_current_page()</a> and <a href="#query_num_pages">query_num_pages()
+</a></dl>
+
+<dt><a name="create_default_page_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_default_page_object</b></a><pre>
+object create_default_page_object()
+</pre><dd>
+This method creates a new default page object for this book.  THis
+can be used for whatever nefarious purposes you want.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a new default page object
+
+</dl>
+
+<dt><a name="is_current_page_torn_out">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_current_page_torn_out</b></a><pre>
+int is_current_page_torn_out()
+</pre><dd>
+This method checks to see if the current page is torn out.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if torn out, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#query_current_page">query_current_page()</a>, <a href="#query_open_page">query_open_page()</a> and <a href="#is_page_torn_out">is_page_torn_out()
+</a></dl>
+
+<dt><a name="is_default_page">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_default_page</b></a><pre>
+int is_default_page(int num)
+</pre><dd>
+This method checks to see if the page is still the default page object
+or if it is something else altogether.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is the default page object, 0 if not
+
+</dl>
+
+<dt><a name="is_page_torn_out">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_page_torn_out</b></a><pre>
+int is_page_torn_out(int page)
+</pre><dd>
+This method checks to see if the specified page is torn out.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>page - the page number to check
+<dt><b>Returns:</b>
+<dd>1 if it is torn out, - if not
+<dt><b>See also:</b>
+<dd><a href="#is_current_page_torn_out">is_current_page_torn_out()
+</a></dl>
+
+<dt><a name="make_page_blank">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_page_blank</b></a><pre>
+int make_page_blank(int num)
+</pre><dd>
+This method makes the selected page blank.  It defaults it back to a
+default page object as if the book had just been created.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the page to make blank
+<dt><b>See also:</b>
+<dd><a href="#replace_page_with">replace_page_with()</a>, <a href="#add_page_after">add_page_after()</a> and <a href="#add_blank_page_after">add_blank_page_after()
+</a></dl>
+
+<dt><a name="query_book">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_book</b></a><pre>
+int query_book()
+</pre><dd>
+Tells us if this is a book object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns 1
+
+</dl>
+
+<dt><a name="query_book_num">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_book_num</b></a><pre>
+int query_book_num()
+</pre><dd>
+This method returns the current number of the book.  This is assigned
+and used in conjunction with the book handler.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current book number
+
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.book_handler.c.html">/obj/handlers/book_handler.c</a> and /std/print_shop.c</dl>
+
+<dt><a name="query_current_page">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_page</b></a><pre>
+object query_current_page()
+</pre><dd>
+Returns the object associated with the current open page.  If the
+page does not actualy exist yet then the default base object
+is returned.  This object should be handled carefully...  If the
+page is torn out then the next readable page is returned or
+0 is returned.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current page object
+<dt><b>See also:</b>
+<dd><a href="#query_current_page_clone">query_current_page_clone()</a>, <a href="#set_open_page">set_open_page()</a>, <a href="#query_open_page">query_open_page()</a> and <a href="#query_current_page_clone">query_current_page_clone()
+</a></dl>
+
+<dt><a name="query_current_page_clone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_page_clone</b></a><pre>
+object query_current_page_clone()
+</pre><dd>
+This function makes sure the page actually
+exists.  If it does not exist, then it will clone one
+up for us.  This one should be used as you will not end up with the
+base object in this case.  If you are planning to modify the page,
+then use this call.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the object of the current page
+
+<dt><b>See also:</b>
+<dd><a href="#query_current_page">query_current_page()</a></dl>
+
+<dt><a name="query_default_page_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_default_page_object</b></a><pre>
+string query_default_page_object()
+</pre><dd>
+This method returns the default page object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the default page object (as a string)
+
+</dl>
+
+<dt><a name="query_ignore_saved_pages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ignore_saved_pages</b></a><pre>
+int query_ignore_saved_pages()
+</pre><dd>
+This method returns the current setting of the ignore saved
+pages variable.  If this is true then
+the pages form the players auto_load stuff will be ignored totaly
+and only the page creates in setup would be
+used.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current ignore saved page attribute
+
+<dt><b>See also:</b>
+<dd><a href="#set_ignore_saved_pages">set_ignore_saved_pages()</a></dl>
+
+<dt><a name="query_num_pages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_num_pages</b></a><pre>
+int query_num_pages()
+</pre><dd>
+Queries the number of pages in the book.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the number of pages in the book
+<dt><b>See also:</b>
+<dd><a href="#set_no_pages">set_no_pages()
+</a></dl>
+
+<dt><a name="query_open_page">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_open_page</b></a><pre>
+int query_open_page()
+</pre><dd>
+What is the current open page.  Returns 0 if the book is not
+open.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current open page
+<dt><b>See also:</b>
+<dd><a href="#set_open_page">set_open_page()</a> and <a href="#query_current_page">query_current_page()
+</a></dl>
+
+<dt><a name="query_pages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pages</b></a><pre>
+mixed * query_pages()
+</pre><dd>
+Returns the pages array.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array containing the pages information
+
+</dl>
+
+<dt><a name="query_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player</b></a><pre>
+object query_player()
+</pre><dd>
+This method will return  the player associated with the auto loading
+process.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the player in use by the autoloading
+<dt><b>See also:</b>
+<dd><a href="#set_player">set_player()
+</a></dl>
+
+<dt><a name="query_selected_page">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_selected_page</b></a><pre>
+object query_selected_page(int num)
+</pre><dd>
+This method returns the contents of the selected page.  The number
+must be greator than 0.  This will return the exact value of the
+page, it will not search for non-torn out pages.  Becare with
+the return value of this as the default page object might be
+returned if the page does not actually exist.  If you need a
+real object remember to use the clone version.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the page to return
+<dt><b>Returns:</b>
+<dd>0 on failure or if the page is torn out, the object on success
+
+</dl>
+
+<dt><a name="query_selected_page_clone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_selected_page_clone</b></a><pre>
+object query_selected_page_clone(int num)
+</pre><dd>
+This method returns the contents of the selected page, if a default
+object is returned a real clone for the page is created instead.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the page to return
+<dt><b>Returns:</b>
+<dd>0 on failure or if the page is torn out, the object on success
+
+</dl>
+
+<dt><a name="replace_page_with">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>replace_page_with</b></a><pre>
+int replace_page_with(object page,
+                      int num)
+</pre><dd>
+This method replaces the selected page with a new page.  The old page
+is dested if it can be and replaced with a nice shiny new page object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>page - the page to replace with
+<dd>num - the page number to replace
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#add_page_after">add_page_after()
+</a></dl>
+
+<dt><a name="set_book_num">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_book_num</b></a><pre>
+void set_book_num(int num)
+</pre><dd>
+This method sets the current number of the book.  This is assigned
+and used in conjunction with the book handler.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the new book number
+
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.book_handler.c.html">/obj/handlers/book_handler.c</a> and /std/print_shop.c</dl>
+
+<dt><a name="set_default_page_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_default_page_object</b></a><pre>
+void set_default_page_object(string obj)
+</pre><dd>
+Sets the object to use as the default page.  If this is not set the
+the object /obj/misc/paper.c will be used.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to use as the default page
+
+</dl>
+
+<dt><a name="set_no_pages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_pages</b></a><pre>
+void set_no_pages(int no)
+</pre><dd>
+Set the number of pages in the book.  If there are too many pages
+in the book, then pages are removed from the top to create the
+correct size and if there are too few pages then pages are
+added onto the end of the pages array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>no - the number of pages
+<dt><b>See also:</b>
+<dd><a href="#query_pages">query_pages()</a> and <a href="#query_num_pages">query_num_pages()
+</a></dl>
+
+<dt><a name="set_open_page">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_open_page</b></a><pre>
+void set_open_page(int i)
+</pre><dd>
+Sets the currently open page.  This does all the magic needed to make
+the book appear as if it is the currently opened page.  If the open
+page is 0 then the book is closed.  If it is out of the upper
+bound then the book is opened to the last page.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the page to open to
+<dt><b>See also:</b>
+<dd><a href="#query_open_page">query_open_page()</a> and <a href="#query_current_page">query_current_page()
+</a></dl>
+
+<dt><a name="set_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_player</b></a><pre>
+void set_player(object player)
+</pre><dd>
+This method is called by the auto loading process to set the current
+player on this object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player to set
+<dt><b>See also:</b>
+<dd><a href="#query_player">query_player()
+</a></dl>
+
+<dt><a name="tear_current_page_out">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>tear_current_page_out</b></a><pre>
+object tear_current_page_out(object dest)
+</pre><dd>
+This method tears the current page out of the book and returns it
+to us.  This object will be moved into the destination so that it is
+no longer inside us.  If it cannot be moved of the page has already
+been remove then the function will return 0.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dest - the destination to move the page to
+<dt><b>Returns:</b>
+<dd>the torn out page, or 0 on failure
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="set_ignore_saved_pages">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_ignore_saved_pages</b></a><pre>
+void set_ignore_saved_pages(int saved)
+</pre><dd>
+This method sets the current setting of the ignore saved
+pages variable.  If this is true then
+the pages form the players auto_load stuff will be ignored totaly
+and only the page creates in setup would be
+used.  This can only be called from an object
+which inherits this one (hence the protected method).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>saved - the new value of the saved attribute
+<dt><b>See also:</b>
+<dd><a href="#query_ignore_saved_pages">query_ignore_saved_pages()
+</a></dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 02:22:46 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

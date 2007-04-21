@@ -1,0 +1,37 @@
+.DT
+query_selected_page_clone
+DW_wibble creator help
+query_selected_page_clone
+
+.SH Name
+.SP 5 5
+query_selected_page_clone -  This method returns the contents of the selected page, if a default object is returned a real clone for the page is created instead.
+.EP
+
+.SH Syntax
+.SI 5
+object query_selected_page_clone(int num)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^num%^RESET%^ - the page to return
+.EI
+
+.SH Returns
+.SI 5
+0 on failure or if the page is torn out, the object on success
+.EI
+
+.SH Defined in
+.SI 5
+/std/book.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the contents of the selected page, if a default
+object is returned a real clone for the page is created instead.
+.EP
+

@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: ink.c,v 1.1 1998/01/06 04:28:23 ceres Exp $
+ * $Log: ink.c,v $
+ * Revision 1.1  1998/01/06 04:28:23  ceres
+ * Initial revision
+ * 
+*/
 /*
  * Ink defintion file...
  */

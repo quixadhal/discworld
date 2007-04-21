@@ -1,0 +1,54 @@
+.DT
+domainlock
+Discworld creator help
+domainlock
+
+.SH Name
+.SI 5
+domainlock - Lock a domain
+.EI
+
+.SH Syntax
+.SI 5
+domainlock <domain> off 
+domainlock <domain> on 
+domainlock list 
+.EI
+
+.SH Description
+.SP 5 5
+This command lets you see which domains are locked, and to change access
+to a domain.  When locking a domain, you will be prompted for a reason
+for closing the domain.
+.EP
+
+.SP 5 5
+This command interfaces with /d/am/patrician/patrician.c.  Commands here
+can be performed from that room as well.
+.EP
+
+.SH Examples
+.SI 5
+domainlock cwc off
+domainlock am on
+.EI
+
+.SI 5
+>domainlock list
+.EI
+
+.SI 10
+The domain status is:
+Am is currently open for applications.
+Cwc is currently closed for applications.
+Klatch is currently closed for applications.
+Liaison is currently closed for applications.
+Playtesters is currently closed for applications.
+Ram is currently open for applications.
+Sur is currently open for applications.
+.EI
+
+.SH See also
+.SP 5 5
+employ, dismiss
+.EP

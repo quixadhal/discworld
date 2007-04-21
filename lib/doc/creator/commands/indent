@@ -1,0 +1,1866 @@
+.DT
+indent
+Discworld creator help
+indent
+
+.SH Name
+.SP 5 5
+indent \- changes the appearance of a C program by inserting or deleting whitespace.  
+.EP
+
+.SH Syntax
+.SI 5
+indent [options] [input\-files]
+indent [options] [single\-input\-file] [\-o output\-file]
+indent --version
+.EI
+
+.SH Description
+.SP 5 5
+The indent program
+can be used to make code easier to read.  It can also convert from one
+style of writing C to another.  
+
+indent understands a substantial amount about the syntax of C,
+but it also attempts to cope with incomplete and misformed syntax.
+
+In discworld, the discworld style of indenting is the default.
+the default.
+.EP
+
+.SH Options
+.SP 5 5
+-bad, --blank-lines-after-declarations
+.EP
+.SP 10 5
+Force blank lines after the declarations.
+.EP
+.SP 10 5
+See Blank Lines.
+.EP
+
+.SP 5 5
+-bap, --blank-lines-after-procedures
+.EP
+.SP 10 5
+Force blank lines after procedure bodies.
+.EP
+.SP 10 5
+See Blank Lines.
+.EP
+
+.SP 5 5
+-bbb, --blank-lines-before-block-comments
+.EP
+.SP 10 5
+Force blank lines before block comments.
+.EP
+.SP 10 5
+See Blank Lines.
+.EP
+
+.SP 5 5
+-bbo, --break-before-boolean-operator
+.EP
+.SP 10 5
+Prefer to break long lines before boolean operators.
+.EP
+.SP 10 5
+See Breaking Long Lines.
+.EP
+
+.SP 5 5
+-bc, --blank-lines-after-commas
+.EP
+.SP 10 5
+Force newline after comma in declaration.
+.EP
+.SP 10 5
+See Declarations.
+.EP
+
+.SP 5 5
+-bl, --braces-after-if-line
+.EP
+.SP 10 5
+Put braces on line after if, etc.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-bli, --brace-indent
+.EP
+.SP 10 5
+Indent braces  spaces.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-bls, --braces-after-struct-decl-line
+.EP
+.SP 10 5
+Put braces on the line after struct declaration lines.
+.EP
+.SP 10 5
+See Declarations.
+.EP
+
+.SP 5 5
+-br, --braces-on-if-line
+.EP
+.SP 10 5
+Put braces on line with if, etc.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-brs, --braces-on-struct-decl-line
+.EP
+.SP 10 5
+Put braces on struct declaration line.
+.EP
+.SP 10 5
+See Declarations.
+.EP
+
+.SP 5 5
+-bs, --Bill-Shannon, --blank-before-sizeof
+.EP
+.SP 10 5
+Put a space between sizeof and its argument.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-c, --comment-indentation
+.EP
+.SP 10 5
+Put comments to the right of code in column .
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-cbi, --case-brace-indentation
+.EP
+.SP 10 5
+Indent braces after a case label N spaces.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-cd, --declaration-comment-column
+.EP
+.SP 10 5
+Put comments to the right of the declarations in column .
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-cdb, --comment-delimiters-on-blank-lines
+.EP
+.SP 10 5
+Put comment delimiters on blank lines.
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-cdw, --cuddle-do-while
+.EP
+.SP 10 5
+Cuddle while of do {} while; and preceeding `}'.
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-ce, --cuddle-else
+.EP
+.SP 10 5
+Cuddle else and preceeding `}'.
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-ci, --continuation-indentation
+.EP
+.SP 10 5
+Continuation indent of  spaces.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-cli, --case-indentation
+.EP
+.SP 10 5
+Case label indent of  spaces.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-cp, --else-endif-column
+.EP
+.SP 10 5
+Put comments to the right of #else and 
+#endif statements in column .
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-cs, --space-after-cast
+.EP
+.SP 10 5
+Put a space after a cast operator.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-d, --line-comments-indentation
+.EP
+.SP 10 5
+Set indentation of comments not to the right 
+of code to  spaces.
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-bfda, --break-function-decl-args
+.EP
+.SP 10 5
+Align all arguments in a declaration with opening paren.
+.EP
+.SP 10 5
+See Declarations.
+.EP
+
+.SP 5 5
+-di, --declaration-indentation
+.EP
+.SP 10 5
+Put variables in column .
+.EP
+.SP 10 5
+See Declarations.
+.EP
+
+.SP 5 5
+-fc1, --format-first-column-comments
+.EP
+.SP 10 5
+Format comments in the first column.
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-fca, --format-all-comments
+.EP
+.SP 10 5
+Do not disable all formatting of comments.
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-gnu, --gnu-style
+.EP
+.SP 10 5
+Use GNU coding style.  This is the default.
+.EP
+.SP 10 5
+See Common Styles.
+.EP
+
+.SP 5 5
+-hnl, --honour-newlines
+.EP
+.SP 10 5
+Prefer to break long lines at the position of newlines in the input.
+.EP
+.SP 10 5
+See Breaking Long Lines.
+.EP
+
+.SP 5 5
+-i, --indent-level
+.EP
+.SP 10 5
+Set indentation level to  spaces.
+.EP
+.SP 10 5
+See Indentation.
+.EP
+
+.SP 5 5
+-ip, --parameter-indentation
+.EP
+.SP 10 5
+Indent parameter types in old-style function 
+definitions by  spaces.
+.EP
+.SP 10 5
+See Indentation.
+.EP
+
+.SP 5 5
+-kr, --k-and-r-style
+.EP
+.SP 10 5
+Use Kernighan & Ritchie coding style.
+.EP
+.SP 10 5
+See Common Styles.
+.EP
+
+.SP 5 5
+-l, --line-length
+.EP
+.SP 10 5
+Set maximum line length for non-comment lines to .
+.EP
+.SP 10 5
+See Breaking Long Lines.
+.EP
+
+.SP 5 5
+-lc, --comment-line-length
+.EP
+.SP 10 5
+Set maximum line length for comment formatting to .
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-lp, --continue-at-parentheses
+.EP
+.SP 10 5
+Line up continued lines at parentheses.
+.EP
+.SP 10 5
+See Indentation.
+.EP
+
+.SP 5 5
+-lpc
+.EP
+.SP 10 5
+LPC mode, means it handles things like ({ }) amd ([ ]) and (: :).  Treats
+them correctly as assignments for indenting and various other small
+changes.
+.EP
+.SP 10 5
+See Common Styles
+.EP
+
+.SP 5 5
+-lps, --leave-preprocessor-space
+.EP
+.SP 10 5
+Leave space between `#' and preprocessor directive.
+.EP
+.SP 10 5
+See Indentation.
+.EP
+
+.SP 5 5
+-nbad, --no-blank-lines-after-declarations
+.EP
+.SP 10 5
+Do not force blank lines after declarations.
+.EP
+.SP 10 5
+See Blank Lines.
+.EP
+
+.SP 5 5
+-nbap, --no-blank-lines-after-procedures
+.EP
+.SP 10 5
+Do not force blank lines after procedure bodies.
+.EP
+.SP 10 5
+See Blank Lines.
+.EP
+
+.SP 5 5
+-nbbo, --break-after-boolean-operator
+.EP
+.SP 10 5
+Do not prefer to break long lines before boolean operators.
+.EP
+.SP 10 5
+See Breaking Long Lines.
+.EP
+
+.SP 5 5
+-nbc, --no-blank-lines-after-commas
+.EP
+.SP 10 5
+Do not force newlines after commas in declarations.
+.EP
+.SP 10 5
+See Declarations.
+.EP
+
+.SP 5 5
+-nbfda, --dont-break-function-decl-args
+.EP
+.SP 10 5
+Don't put each argument in a function declaration on a seperate line.
+.EP
+.SP 10 5
+See Declarations.
+.EP
+
+.SP 5 5
+-ncdb, --no-comment-delimiters-on-blank-lines
+.EP
+.SP 10 5
+Do not put comment delimiters on blank lines.
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-ncdw, --dont-cuddle-do-while
+.EP
+.SP 10 5
+Do not cuddle } and the while of a do {} while;.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-nce, --dont-cuddle-else
+.EP
+.SP 10 5
+Do not cuddle } and else.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-ncs, --no-space-after-casts
+.EP
+.SP 10 5
+Do not put a space after cast operators.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-nfc1, --dont-format-first-column-comments
+.EP
+.SP 10 5
+Do not format comments in the first column as normal.
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-nfca, --dont-format-comments
+.EP
+.SP 10 5
+Do not format any comments.
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-nhnl, --ignore-newlines
+.EP
+.SP 10 5
+Do not prefer to break long lines at the position of newlines in the input.
+.EP
+.SP 10 5
+See Breaking Long Lines.
+.EP
+
+.SP 5 5
+-nip, --no-parameter-indentation
+.EP
+.SP 10 5
+Zero width indentation for parameters.
+.EP
+.SP 10 5
+See Indentation.
+.EP
+
+.SP 5 5
+-nlp, --dont-line-up-parentheses
+.EP
+.SP 10 5
+Do not line up parentheses.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-npcs, --no-space-after-function-call-names
+.EP
+.SP 10 5
+Do not put space after the function in function calls.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-nprs, --no-space-after-parentheses
+.EP
+.SP 10 5
+Do not put a space after every '(' and before every ')'.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-npsl, --dont-break-procedure-type
+.EP
+.SP 10 5
+Put the type of a procedure on the same line as its name.
+.EP
+.SP 10 5
+See Declarations.
+.EP
+
+.SP 5 5
+-nsaf, --no-space-after-for
+.EP
+.SP 10 5
+Do not put a space after every for.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-nsai, --no-space-after-if
+.EP
+.SP 10 5
+Do not put a space after every if.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-nsaw, --no-space-after-while
+.EP
+.SP 10 5
+Do not put a space after every while.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-nsc, --dont-star-comments
+.EP
+.SP 10 5
+Do not put the `*' character at the left of comments.
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-nsob, --leave-optional-blank-lines
+.EP
+.SP 10 5
+Do not swallow optional blank lines.
+.EP
+.SP 10 5
+See Blank Lines.
+.EP
+
+.SP 5 5
+-nss, --dont-space-special-semicolon
+.EP
+.SP 10 5
+Do not force a space before the semicolon after certain statements.
+Disables `-ss'.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-nut, --no-tabs
+.EP
+.SP 10 5
+Use spaces instead of tabs.
+.EP
+.SP 10 5
+See Indentation.
+.EP
+
+.SP 5 5
+-nv, --no-verbosity
+.EP
+.SP 10 5
+Disable verbose mode.
+.EP
+.SP 10 5
+See Miscellaneous Options.
+.EP
+
+.SP 5 5
+-orig, --original
+.EP
+.SP 10 5
+Use the original Berkeley coding style.
+.EP
+.SP 10 5
+See Common Styles.
+.EP
+
+.SP 5 5
+-npro, --ignore-profile
+.EP
+.SP 10 5
+Do not read `.indent.pro' files.
+.EP
+.SP 10 5
+See Invoking Indent.
+.EP
+
+.SP 5 5
+-pcs, --space-after-procedure-calls
+.EP
+.SP 10 5
+Insert a space between the name of the 
+procedure being called and the `('.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-pi, --paren-indentation
+.EP
+.SP 10 5
+Specify the extra indentation per open parentheses '(' when a
+statement is broken.See Statements.
+.EP
+
+.SP 5 5
+-pmt, --preserve-mtime
+.EP
+.SP 10 5
+Preserve access and modification times on output files.See Miscellaneous Options.
+.EP
+
+.SP 5 5
+-prs, --space-after-parentheses
+.EP
+.SP 10 5
+Put a space after every '(' and before every ')'.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-psl, --procnames-start-lines
+.EP
+.SP 10 5
+Put the type of a procedure on the line before its name.
+.EP
+.SP 10 5
+See Declarations.
+.EP
+
+.SP 5 5
+-saf, --space-after-for
+.EP
+.SP 10 5
+Put a space after each for.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-sai, --space-after-if
+.EP
+.SP 10 5
+Put a space after each if.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-saw, --space-after-while
+.EP
+.SP 10 5
+Put a space after each while.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-sbi, --struct-brace-indentation
+.EP
+.SP 10 5
+Indent braces of a struct, union or enum N spaces.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-sc, --start-left-side-of-comments
+.EP
+.SP 10 5
+Put the `*' character at the left of comments.
+.EP
+.SP 10 5
+See Comments.
+.EP
+
+.SP 5 5
+-sob, --swallow-optional-blank-lines
+.EP
+.SP 10 5
+Swallow optional blank lines.
+.EP
+.SP 10 5
+See Blank Lines.
+.EP
+
+.SP 5 5
+-ss, --space-special-semicolon
+.EP
+.SP 10 5
+On one-line for and while statments, 
+force a blank before the semicolon.
+.EP
+.SP 10 5
+See Statements.
+.EP
+
+.SP 5 5
+-st, --standard-output
+.EP
+.SP 10 5
+Write to standard output.
+.EP
+.SP 10 5
+See Invoking Indent.
+.EP
+
+.SP 5 5
+-T
+.EP
+.SP 10 5
+Tell indent the name of typenames.
+.EP
+.SP 10 5
+See Declarations.
+.EP
+
+.SP 5 5
+-ts, --tab-size
+.EP
+.SP 10 5
+Set tab size to  spaces.
+.EP
+.SP 10 5
+See Indentation.
+.EP
+
+.SP 5 5
+-ut, --use-tabs
+.EP
+.SP 10 5
+Use tabs. This is the default.
+.EP
+.SP 10 5
+See Indentation.
+.EP
+
+.SP 5 5
+-v, --verbose
+.EP
+.SP 10 5
+Enable verbose mode.
+.EP
+.SP 10 5
+See Miscellaneous Options.
+.EP
+
+.SP 5 5
+-version
+.EP
+.SP 10 5
+Output the version number of indent.
+.EP
+.SP 10 5
+See Miscellaneous Options.
+.EP
+
+.SH Examples
+.SI 5
+indent -br test/metabolism.c -l85
+.EI
+
+.SP 5 5
+This will indent the program `test/metabolism.c' using the
+`-br' and `-l85' options, write the output back to
+`test/metabolism.c', and write the original contents of
+`test/metabolism.c' to a backup file in the directory `test'.
+
+Equivalent invocations using long option names for this example would
+be:
+.EP
+
+.SI 5
+indent --braces-on-if-line --line-length185 test/metabolism.c
+
+indent +braces-on-if-line +line-length185 test/metabolism.c
+.EI
+
+.SP 5 5
+If you find that you often use indent with the same options, you
+may put those options into a file named `.indent.pro'.
+.B indent will first look for `.indent.pro' in the current
+directory and use that if found.  Otherwise, indent will search
+your home directory for `.indent.pro' and use that file if it is
+found.  This behaviour is different from that of other versions of
+indent, which load both files if they both exist.
+
+The format of `.indent.pro' is simply a list of options, just as
+they would appear on the command line, separated by white space (tabs,
+spaces, and newlines).  Options in `.indent.pro' may be surrounded by C
+or C++ comments, in which case they are ignored.
+
+Command line switches are handled after processing
+`.indent.pro'.  Options specified later override arguments
+specified earlier, with one exception: Explicitly specified options
+always override background options (See COMMON\ STYLES).  You can
+prevent indent from reading an `.indent.pro' file by
+specifying the `-npro' option.
+.EP
+
+.SH Backup files
+.SP 5 5
+As of version 1.3, GNU indent makes GNU-style backup files, the
+same way GNU Emacs does.  This means that either imple or
+.I numbered backup filenames may be made.
+
+Simple backup file names are generated by appending a suffix to the
+original file name.  The default for this suffix is the
+one-character string `~' (tilde).  Thus, the backup file for
+`python.c' would be `python.c~'.
+
+Instead of the default, you may specify any string as a suffix by
+setting the environment variable SIMPLE_BACKUP_SUFFIX to
+your preferred suffix.
+
+Numbered backup versions of a file `momeraths.c' look like
+`momeraths.c.~23~', where 23 is the version of this particular
+backup.  When making a numbered backup of the file `src/momeraths.c',
+the backup file will be named `src/momeraths.c.~V~', where
+.I V is one greater than the highest version currently existing in
+the directory `src'.  The environment variable VERSION_WIDTH
+controls the number of digits, using left zero padding when necessary.
+For instance, setting this variable to "2" will lead to the backup
+file being named `momeraths.c.~04~'.
+
+The type of backup file made is controlled by the value of the
+environment variable VERSION_CONTROL.  If it is the string
+`simple', then only simple backups will be made.  If its value is
+the string `numbered', then numbered backups will be made.  If its
+value is `numbered-existing', then numbered backups will be made if
+there already exist numbered backups for the file being indented;
+otherwise, a simple backup is made.  If VERSION_CONTROL is not
+set, then indent assumes the behaviour of
+`numbered-existing'.
+
+Other versions of indent use the suffix `.BAK' in naming
+backup files.  This behaviour can be emulated by setting
+SIMPLE_BACKUP_SUFFIX to `.BAK'.
+
+Note also that other versions of indent make backups in the
+current directory, rather than in the directory of the source file as
+GNU indent now does.
+.EP
+
+.SH Common Styles
+.SP 5 5
+In the lpc wrapper to the indent program the style used is.  It is a
+combination of the default gnu options and some overrides specific
+to LPC.
+
+-bap -bc -bli0 -br -brs -cli0 -cdw -cli0 -cs -ce -i3 -saf -sai -saw -sc
+-npcs -nut -bfda -lpc -npsl
+-nbad -nbc -bbo -bl -bls -ncdb  -cs -di2
+-ndj -nfc1 -nfca -hnl -ip5 -lp -nprs -sai
+-nsc -nsob
+
+There are several common styles of C code, including the GNU style, the
+Kernighan & Ritchie style, and the original Berkeley style.  A style may
+be selected with a single background option, which specifies a set
+of values for all other options.  However, explicitly specified options
+always override options implied by a background option.
+
+As of version 1.2, the default style of GNU indent is the GNU
+style.  Thus, it is no longer necessary to specify the option
+`-gnu' to obtain this format, although doing so will not cause an
+error.  Option settings which correspond to the GNU style are:
+
+-nbad -bap -nbc -bbo -bl -bli2 -bls -ncdb -nce -cp1 -cs -di2
+-ndj -nfc1 -nfca -hnl -i2 -ip5 -lp -pcs -nprs -psl -saf -sai
+-saw -nsc -nsob
+
+The GNU coding style is that preferred by the GNU project.  It is the
+style that the GNU Emacs C mode encourages and which is used in the C
+portions of GNU Emacs.  (People interested in writing programs for
+Project GNU should get a copy of "The GNU Coding Standards", which
+also covers semantic and portability issues such as memory usage, the
+size of integers, etc.)
+
+The Kernighan & Ritchie style is used throughout their well-known book
+"The C Programming Language".  It is enabled with the `-kr'
+option.  The Kernighan & Ritchie style corresponds to the following set
+of options:
+
+-nbad -bap -bbo -nbc -br -brs -c33 -cd33 -ncdb -ce -ci4 -cli0
+-cp33 -cs -d0 -di1 -nfc1 -nfca -hnl -i4 -ip0 -l75 -lp -npcs
+-nprs -npsl -saf -sai -saw -nsc -nsob -nss
+
+Kernighan & Ritchie style does not put comments to the right of code in
+the same column at all times (nor does it use only one space to the
+right of the code), so for this style indent has arbitrarily
+chosen column 33.
+
+The style of the original Berkeley indent may be obtained by
+specifying `-orig' (or by specifying `--original', using the
+long option name).  This style is equivalent to the following settings:
+
+-nbad -nbap -bbo -bc -br -brs -c33 -cd33 -cdb -ce -ci4 -cli0
+-cp33 -di16 -fc1 -fca -hnl -i4 -ip4 -l75 -lp -npcs -nprs -psl
+-saf -sai -saw -sc -nsob -nss -ts8
+.EP
+
+.SH Blank Lines
+.SP 5 5
+Various programming styles use blank lines in different places.
+.B indent has a number of options to insert or delete blank lines in
+specific places.
+
+The `-bad' option causes indent to force a blank line after
+every block of declarations.  The `-nbad' option causes
+indent not to force such blank lines.
+
+The `-bap' option forces a blank line after every procedure body.
+The `-nbap' option forces no such blank line.
+
+The `-bbb' option forces a blank line before every boxed comment,
+See COMMENTS. The `-nbbb' option does not force such blank lines.
+
+The `-sob' option causes indent to swallow optional blank
+lines (that is, any optional blank lines present in the input will be
+removed from the output).  If the `-nsob' is specified, any blank
+lines present in the input file will be copied to the output file.
+
+%^BOLD%^"--blank-lines-after-declarations"%^RESET%^
+
+The `-bad' option forces a blank line after every block of
+declarations.  The `-nbad' option does not add any such blank
+lines.
+
+For example, given the input
+.EP
+.SI 5
+char *foo;
+char *bar;
+/* This separates blocks of declarations.  */
+int baz;
+
+indent -bad produces
+
+char *foo;
+char *bar;
+
+/* This separates blocks of declarations.  */
+int baz;
+
+and indent -nbad produces
+
+char *foo;
+char *bar;
+/* This separates blocks of declarations.  */
+int baz;
+.EI
+
+.SP 5 5
+%^BOLD%^"--blank-lines-after-procedures"%^RESET%^
+
+The `-bap' option forces a blank line after every procedure body.
+
+For example, given the input
+
+.SI 5
+int
+foo ()
+{
+  puts("Hi");
+}
+/* The procedure bar is even less interesting.  */
+char *
+bar ()
+{
+  puts("Hello");
+}
+
+indent -bap produces
+
+int
+foo ()
+{
+  puts ("Hi");
+}
+
+/* The procedure bar is even less interesting.  */
+char *
+bar ()
+{
+  puts ("Hello");
+}
+
+and indent -nbap produces
+
+int
+foo ()
+{
+  puts ("Hi");
+}
+/* The procedure bar is even less interesting.  */
+char *
+bar ()
+{
+  puts ("Hello");
+}
+.EI
+
+.SP 5 5
+No blank line will be added after the procedure foo.
+.EP
+
+.SH Comments
+.SP 5 5
+indent formats both C and C++ comments. C comments are begun with
+`/*', terminated with `*/' and may contain newline characters.
+C++ comments begin with the delimiter `//' and end at the newline.
+
+indent handles comments differently depending upon their context.
+indent attempts to distinguish between comments which follow
+statements, comments which follow declarations, comments following
+preprocessor directives, and comments which are not preceded by code of
+any sort, i.e., they begin the text of the line (although not
+neccessarily in column 1).
+
+indent further distinguishes between comments found outside of
+procedures and aggregates, and those found within them.  In particular,
+comments beginning a line found within a procedure will be indented to
+the column at which code is currently indented.  The exception to this a
+comment beginning in the leftmost column;  such a comment is output
+at that column.
+
+indent attempts to leave boxed comments unmodified.  The
+general idea of such a comment is that it is enclosed in a rectangle or
+``box'' of stars or dashes to visually set it apart.  More precisely,
+boxed comments are defined as those in which the initial `/*' is
+followed immediately by the character `*', `=', `_', or
+`-', or those in which the beginning comment delimiter (`/*')
+is on a line by itself, and the following line begins with a `*' in
+the same column as the star of the opening delimiter.
+
+Examples of boxed comments are:
+.EP
+
+.SI 5
+/**********************
+ * Comment in a box!! *
+ **********************/
+
+       /*
+        * A different kind of scent,
+        * for a different kind of comment.
+        */
+.EI
+
+.SP 5 5
+indent attempts to leave boxed comments exactly as they are found
+in the source file.  Thus the indentation of the comment is unchanged,
+and its length is not checked in any way.  The only alteration made is
+that an embedded tab character may be converted into the appropriate
+number of spaces.
+
+If the `-bbb' option is specified, all such boxed comments will be
+preceded by a blank line, unless such a comment is preceded by code.
+
+Comments which are not boxed comments may be formatted, which means that
+the line is broken to fit within a right margin and left-filled with
+whitespace.  Single newlines are equivalent to a space, but blank lines
+(two or more newlines in a row) are taken to mean a paragraph break.
+Formatting of comments which begin after the first column is enabled
+with the `-fca' option.  To format those beginning in column one,
+specify `-fc1'.  Such formatting is disabled by default.
+
+The right margin for formatting defaults to 78, but may be changed with
+the `-lc' option.  If the margin specified does not allow the
+comment to be printed, the margin will be automatically extended for the
+duration of that comment.  The margin is not respected if the comment is
+not being formatted.
+
+If the comment begins a line (i.e., there is no program text to its
+left), it will be indented to the column it was found in unless the
+comment is within a block of code.  In that case, such a comment will be
+aligned with the indented code of that block (unless the comment began
+in the first column).  This alignment may be affected by the `-d'
+option, which specifies an amount by which such comments are moved to
+the left, or unindented.  For example, `-d2' places comments
+two spaces to the left of code.  By default, comments are aligned with
+code, unless they begin in the first column, in which case they are left
+there by default --- to get them aligned with the code, specify `-fc1'.
+
+Comments to the right of code will appear by default in column 33.
+This may be changed with one of three options.  `-c' will specify
+the column for comments following code, `-cd' specifies the
+column for comments following declarations, and `-cp' specifies
+the column for comments following preprocessor directives #else
+and #endif.
+
+If the code to the left of the comment exceeds the beginning column,
+the comment column will be extended to the next tabstop column past
+the end of the code, or in the case of preprocessor directives, to one
+space past the end of the directive.  This extension lasts only for
+the output of that particular comment.
+
+The `-cdb' option places the comment delimiters on blank lines.
+Thus, a single line comment like /* Loving hug */ can be
+transformed into:
+.EP
+
+.SI 5
+/*
+   Loving hug
+ */
+.EI
+
+.SP 5 5
+Stars can be placed at the beginning of multi-line comments with the
+`-sc' option.  Thus, the single-line comment above can be
+transformed (with `-cdb -sc') into:
+.EP
+
+.SI 5
+/*
+ * Loving hug
+ */
+.EI
+
+.SH Statements
+.SP 5 5
+The `-br' or `-bl' option specifies how to format braces.
+
+The `-br' option formats statement braces like this:
+.EP
+
+.SI 5
+if (x > 0) {
+  x--;
+}
+
+The `-bl' option formats them like this:
+
+if (x > 0)
+  {
+    x--;
+  }
+.EI
+
+.SP 5 5
+If you use the `-bl' option, you may also want to specify the
+`-bli' option.  This option specifies the number of spaces by
+which braces are indented.  `-bli2', the default, gives the
+result shown above.  `-bli0' results in the following:
+.EP
+
+/SI 5
+if (x > 0)
+{
+  x--;
+}
+.EI
+
+.SP 5 5
+If you are using the `-br' option, you probably want to also use
+the `-ce' option.  This causes the else in an if-then-else
+construct to cuddle up to the immediately preceding `}'.  For
+example, with `-br -ce' you get the following:
+.EP
+
+.SI 5
+if (x > 0) {
+  x--;
+} else {
+  fprintf (stderr, "...something wrong?\\n");
+}
+
+With `-br -nce' that code would appear as
+
+if (x > 0) {
+  x--;
+}
+else {
+  fprintf (stderr, "...something wrong?\\n");
+}
+.EI
+
+.SP 5 5
+This causes the while in a do-while
+loop to cuddle up to the immediately preceding `}'.  For
+example, with `-cdw' you get the following:
+.EP
+
+.SI 5
+do {
+  x--;
+} while (x);
+
+With `-ncdw' that code would appear as
+
+do {
+  x--;
+}
+while (x);
+.EI
+
+.SP 5 5
+The `-cli' option specifies the number of spaces that case labels
+should be indented to the right of the containing switch
+statement.
+
+The default gives code like:
+.EP
+
+.SI 5
+switch (i)
+  {
+  case 0:
+    break;
+  case 1:
+    {
+      ++i;
+    }
+  default:
+    break;
+  }
+
+Using the `-cli2' that would become:
+
+switch (i)
+  {
+    case 0:
+      break;
+    case 1:
+      {
+        ++i;
+      }
+    default:
+      break;
+  }
+.EI
+
+.SP 5 5
+The indentation of the braces below a case statement can be
+controlled with the `-cbi' option.  For example,
+using `-cli2 -cbi0' results in:
+.EP
+
+.SI 5
+switch (i)
+  {
+    case 0:
+      break;
+    case 1:
+    {
+      ++i;
+    }
+    default:
+      break;
+  }
+.EI
+
+.SP 5 5
+If a semicolon is on the same line as a for or while
+statement, the `-ss' option will cause a space to be placed before
+the semicolon.  This emphasizes the semicolon, making it clear that the
+body of the for or while statement is an empty statement.
+`-nss' disables this feature.
+
+The `-pcs' option causes a space to be placed between the name of
+the procedure being called and the `(' (for example, puts\ ("Hi");.  The `-npcs' option would give puts("Hi");).
+
+If the `-cs' option is specified, indent puts a space after
+a cast operator.
+
+The `-bs' option ensures that there is a space between the
+keyword sizeof and its argument.  In some versions, this is
+known as the `Bill_Shannon' option.
+
+The `-saf' option forces a space between an for
+and the following parenthesis.  This is the default.
+
+The `-sai' option forces a space between an if
+and the following parenthesis.  This is the default.
+
+The `-saw' option forces a space between an while
+and the following parenthesis.  This is the default.
+
+The `-prs' option causes all parentheses to be seperated with
+a space from the what is between them.  For example, using `-prs'
+results in code like:
+.EP
+
+.SI 5
+  while ( ( e_code - s_code ) < ( dec_ind - 1 ) )
+    {
+      set_buf_break ( bb_dec_ind );
+      *e_code++ = ' ';
+    }
+.EI
+
+.SH Declationations
+.SP 5 5
+By default indent will line up identifiers, in the column
+specified by the `-di' option.  For example, `-di16' makes
+things look like:
+.EP
+
+.SI 5
+int             foo;
+char           *bar;
+.EI
+
+.SP 5 5
+Using a small value (such as one or two) for the `-di' option can
+be used to cause the identifiers to be placed in the first available
+position; for example:
+.EP
+
+.SI 5
+int foo;
+char *bar;
+.EI
+
+.SP 5 5
+The value given to the `-di' option will still affect variables
+which are put on separate lines from their types, for example
+`-di2' will lead to:
+.EP
+
+.SI 5
+int
+  foo;
+.EI
+
+.SP 5 5
+If the `-bc' option is specified, a newline is forced after each
+comma in a declaration.  For example,
+.EP
+
+.SI 5
+int a,
+  b,
+  c;
+
+With the `-nbc' option this would look like
+
+int a, b, c;
+.EI
+
+.SP 5 5
+The `-bfda' option causes a newline to be forced after the comma
+separating the arguments of a function declaration.  The arguments will
+appear at the current indention level matching the opening paren.  This 
+is particularly helpful for functions with long argument lists.   For 
+example,
+.EP
+
+.SI 5
+void foo (int arg1, char arg2, int *arg3, long arg4, char arg5);
+
+With the `-bfda' option this would look like
+
+void foo (int arg1,
+          char arg2,
+          int *arg3,
+          long arg4,
+          char arg5);
+.EI
+
+.SP 5 5
+The `-psl' option causes the type of a procedure being defined to
+be placed on the line before the name of the procedure.  This style is
+required for the etags program to work correctly, as well as some
+of the c-mode functions of Emacs.
+
+You must use the `-T'
+option to tell indent the name of all the typenames in your
+program that are defined by typedef.  `-T' can be specified
+more than once, and all names specified are used.  For example, if your
+program contains
+.EP
+
+.SI 5
+typedef unsigned long CODE_ADDR;
+typedef enum {red, blue, green} COLOR;
+.EI
+
+.SP 5 5
+you would use the options `-T CODE_ADDR -T COLOR'.
+
+The `-brs' or `-bls' option specifies how to format braces
+in struct declarations.  The `-brs' option formats braces like
+this:
+.EP
+
+.SI 5
+struct foo {
+  int x;
+};
+
+The `-bls' option formats them like this:
+
+struct foo
+{
+  int x;
+};
+.EI
+
+.SH Indentation
+.SP 5 5
+One issue in the formatting of code is how far each line should be
+indented from the left margin.  When the beginning of a statement such
+as if or for is encountered, the indentation level is
+increased by the value specified by the `-i' option.  For example,
+use `-i8' to specify an eight character indentation for each
+level.  When a statement is broken across two lines, the second line is
+indented by a number of additional spaces specified by the `-ci'
+option.  `-ci' defaults to 0.  However, if the `-lp' option is
+specified, and a line has a left parenthesis which is not closed on that
+line, then continuation lines will be lined up to start at the character
+position just after the left parenthesis.  This processing also applies
+to `[' and applies to `{' when it occurs in initialization
+lists.  For example, a piece of continued code might look like this with
+`-nlp -ci3' in effect:
+.EP
+
+.SI 5
+  p1 = first_procedure (second_procedure (p2, p3),
+     third_procedure (p4, p5));
+
+With `-lp' in effect the code looks somewhat clearer:
+
+  p1 = first_procedure (second_procedure (p2, p3),
+                        third_procedure (p4, p5));
+.EI
+
+.SP 5 5
+When a statement is broken in between two or more paren pairs (...),
+each extra pair causes the indentation level extra indentation:
+.EP
+
+.SI 5
+if ((((i < 2 &&
+        k > 0) || p == 0) &&
+    q == 1) ||
+  n = 0)
+.EI
+
+.SP 5 5
+The option `-ipN' can be used to set the extra offset per paren.
+For instance, `-ip0' would format the above as:
+.EP
+
+.SI 5
+if ((((i < 2 &&
+  k > 0) || p == 0) &&
+  q == 1) ||
+  n = 0)
+.EI
+
+.SP 5 5
+indent assumes that tabs are placed at regular intervals of both
+input and output character streams.  These intervals are by default 8
+columns wide, but (as of version 1.2) may be changed by the `-ts'
+option.  Tabs are treated as the equivalent number of spaces.
+
+The indentation of type declarations in old-style function definitions
+is controlled by the `-ip' parameter.  This is a numeric parameter
+specifying how many spaces to indent type declarations.  For example,
+the default `-ip5' makes definitions look like this:
+.EP
+
+.SI 5
+char *
+create_world (x, y, scale)
+     int x;
+     int y;
+     float scale;
+{
+  . . .
+}
+.EI
+
+.SP 5 5
+For compatibility with other versions of indent, the option `-nip'
+is provided, which is equivalent to `-ip0'.
+
+ANSI C allows white space to be placed on preprocessor command lines
+between the character `#' and the command name.  By default,
+.B indent removes this space, but specifying the `-lps' option
+directs indent to leave this space unmodified.
+.EP
+
+.SH Breaking long lines
+.SP 5 5
+With the option `-l', or `--line-length', it is
+possible to specify the maximum length of a line of C code, not including
+possible comments that follow it.
+
+When lines become longer then the specified line length, GNU indent
+tries to break the line at a logical place.  This is new as of version 2.1
+however and not very intelligent or flexible yet.
+
+Currently there are two options that allows one to interfere with the
+algorithm that determines where to break a line.
+
+The `-bbo' option causes GNU indent to prefer to break
+long lines before the boolean operators && and ||.  The
+`-nbbo' option causes GNU indent not have that
+preference.  For example, the default option `-bbo' (together
+with `--line-length60' and `--ignore-newlines') makes code
+look like this:
+.EP
+
+.SI 5
+  if (mask
+      && ((mask[0] == '\\0')
+          || (mask[1] == '\\0'
+              && ((mask[0] == '0') || (mask[0] == '*')))))
+
+Using the option `-nbbo' will make it look like this:
+
+  if (mask &&
+      ((mask[0] == '\\0') ||
+       (mask[1] == '\\0' &&
+        ((mask[0] == '0') || (mask[0] == '*')))))
+.EI
+
+.SP 5 5
+The default `-hnl', however, honours newlines in the input file by
+giving them the highest possible priority to break lines at.  For example,
+when the input file looks like this:
+.EP
+
+.SI 5
+  if (mask
+      && ((mask[0] == '\\0')
+      || (mask[1] == '\\0' && ((mask[0] == '0') || (mask[0] == '*')))))
+.EI
+
+.SP 5 5
+then using the option `-hnl', or `--honour-newlines',
+together with the previously mentioned `-nbbo' and
+`--line-length60', will cause the output not to be what is given
+in the last example but instead will prefer to break at the positions
+where the code was broken in the input file:
+.EP
+
+.SI 5
+  if (mask
+      && ((mask[0] == '\\0')
+          || (mask[1] == '\\0' &&
+              ((mask[0] == '0') || (mask[0] == '*')))))
+.EI
+
+.SP 5 5
+The idea behind this option is that lines which are too long, but are already
+broken up, will not be touched by GNU indent.  Really messy code
+should be run through indent at least once using the
+`--ignore-newlines' option though.
+.EP
+
+.SH Disabling Formatting
+.SP 5 5
+Formatting of C code may be disabled for portions of a program by
+embedding special control comments in the program.  To turn off
+formatting for a section of a program, place the disabling control
+comment /* *INDENT-OFF* */ on a line by itself just before that
+section.  Program text scanned after this control comment is output
+precisely as input with no modifications until the corresponding
+enabling comment is scanned on a line by itself.  The disabling control
+comment is /* *INDENT-ON* */, and any text following the comment
+on the line is also output unformatted.  Formatting begins again with
+the input line following the enabling control comment.
+
+More precisely, indent does not attempt to verify the closing
+delimiter (*/) for these C comments, and any whitespace on the
+line is totally transparent.
+
+These control comments also function in their C++ formats, namely
+/*INDENT-OFF*/ and /*INDENT-ON*/.
+
+It should be noted that the internal state of indent remains
+unchanged over the course of the unformatted section.  Thus, for
+example, turning off formatting in the middle of a function and
+continuing it after the end of the function may lead to bizarre
+results.  It is therefore wise to be somewhat modular in selecting code
+to be left unformatted.
+.EP
+
+.SH Miscelanous Functions
+.SP 5 5
+To find out what version of indent you have, use the command
+indent -version.  This will report the version number of
+indent, without doing any of the normal processing.
+
+The `-v' option can be used to turn on verbose mode.  When in
+verbose mode, indent reports when it splits one line of input
+into two more more lines of output, and gives some size statistics at
+completion. 
+
+The `-pmt' option causes indent to preserve the access
+and modification times on the output files.  Using this option
+has the advantage that running indent on all source and header
+files in a project won't cause make to rebuild all targets.
+This option is only available on Operating Systems that have the
+POSIX utime(2) function.
+.EP
+
+.SH Bugs
+.SP 5 5
+When indent is run twice on a file, with the same profile,
+it should ever change that file the second time.  With the
+current design of indent, this can not be guaranteed, however,
+and it has not been extensively tested.
+
+indent does not understand C.  In some cases this leads to
+the inability to join lines.  The result is that running a file
+through indent is irreversible, even if the used input
+file was the result of running indent with a given profile
+(`.indent.pro').
+
+While an attempt was made to get indent working for C++, is
+will not do a good job on any C++ source except the very simple.
+
+indent does not look at the given `--line-length' option
+when writing comments to the output file.  This results often in comments
+being put far to the right.  In order to prohibit indent from
+joining a broken line that has a comment at the end, make sure that the
+comments start on the first line of the break.
+
+indent does not count lines and comments (see the `-v'
+option) when indent is turned off with 
+/* *INDENT-OFF* */.
+
+Comments of the form /*UPPERCASE*/ are not treated as comment but as an
+identifier, causing them to be joined with the next line. This renders
+comments of this type useless, unless they are embedded in the code to
+begin with.
+.EP
+
+.SH Copyright
+.SP 5 5
+The following copyright notice applies to the indent program.
+The copyright and copying permissions for this manual appear near the
+beginning of `indent.texinfo' and `indent.info', and near the
+end of `indent.1'.
+.EP
+
+.SI 5
+Copyright (c) 1999 Carlo Wood.
+Copyright (c) 1995, 1996 Joseph Arceneaux.
+Copyright (c) 1989, 1992, 1993, 1994, 1995, 1996 Free Software Foundation
+Copyright (c) 1985 Sun Microsystems, Inc.
+Copyright (c) 1980 The Regents of the University of California.
+Copyright (c) 1976 Board of Trustees of the University of Illinois.
+All rights reserved.
+.EI
+
+.SP 5 5
+Redistribution and use in source and binary forms are permitted
+provided that the above copyright notice and this paragraph are
+duplicated in all such forms and that any documentation,
+advertising materials, and other materials related to such
+distribution and use acknowledge that the software was developed
+by the University of California, Berkeley, the University of Illinois,
+Urbana, and Sun Microsystems, Inc.  The name of either University
+or Sun Microsystems may not be used to endorse or promote products
+derived from this software without specific prior written permission.
+THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.
+.ad
+.EP
+
+.SH Options' Cross Key
+.SP 5 5
+Here is a list of options alphabetized by long option, to help you find
+the corresponding short option.
+.EP
+
+.SI 5
+--blank-lines-after-commas                      -bc             
+--blank-lines-after-declarations                -bad            
+--blank-lines-after-procedures                  -bap            
+--blank-lines-before-block-comments             -bbb            
+--braces-after-if-line                          -bl             
+--brace-indent                                  -bli
+--braces-after-struct-decl-line                 -bls
+--braces-on-if-line                             -br             
+--braces-on-struct-decl-line                    -brs
+--break-after-boolean-operator                  -nbbo
+--break-before-boolean-operator                 -bbo
+--break-function-decl-args                      -bfda
+--case-indentation                              -cli     
+--case-brace-indentation                        -cbi
+--comment-delimiters-on-blank-lines             -cdb            
+--comment-indentation                           -c       
+--continuation-indentation                      -ci      
+--continue-at-parentheses                       -lp             
+--cuddle-do-while                               -cdw
+--cuddle-else                                   -ce             
+--declaration-comment-column                    -cd      
+--declaration-indentation                       -di      
+--dont-break-function-decl-args                 -nbfda
+--dont-break-procedure-type                     -npsl           
+--dont-cuddle-do-while                          -ncdw
+--dont-cuddle-else                              -nce            
+--dont-format-comments                          -nfca           
+--dont-format-first-column-comments             -nfc1           
+--dont-line-up-parentheses                      -nlp            
+--dont-space-special-semicolon                  -nss
+--dont-star-comments                            -nsc            
+--else-endif-column                             -cp
+--format-all-comments                           -fca            
+--format-first-column-comments                  -fc1            
+--gnu-style                                     -gnu            
+--honour-newlines                               -hnl
+--ignore-newlines                               -nhnl
+--ignore-profile                                -npro           
+--indent-level                                  -i       
+--k-and-r-style                                 -kr             
+--leave-optional-blank-lines                    -nsob           
+--leave-preprocessor-space                      -lps
+--line-comments-indentation                     -d       
+--line-length                                   -l       
+--no-blank-lines-after-commas                   -nbc            
+--no-blank-lines-after-declarations             -nbad           
+--no-blank-lines-after-procedures               -nbap           
+--no-blank-lines-before-block-comments          -nbbb           
+--no-comment-delimiters-on-blank-lines          -ncdb           
+--no-space-after-casts                          -ncs            
+--no-parameter-indentation                      -nip            
+--no-space-after-for				-nsaf
+--no-space-after-function-call-names            -npcs           
+--no-space-after-if				-nsai
+--no-space-after-parentheses                    -nprs
+--no-space-after-while				-nsaw
+--no-tabs                                       -nut
+--no-verbosity                                  -nv             
+--original                                      -orig
+--parameter-indentation                         -ip      
+--paren-indentation                             -pi
+--preserve-mtime				-pmt
+--procnames-start-lines                         -psl            
+--space-after-cast                              -cs             
+--space-after-for				-saf
+--space-after-if				-sai
+--space-after-parentheses                       -prs
+--space-after-procedure-calls                   -pcs            
+--space-after-while				-saw
+--space-special-semicolon                       -ss             
+--standard-output                               -st             
+--start-left-side-of-comments                   -sc             
+--struct-brace-indentation                      -sbi
+--swallow-optional-blank-lines                  -sob            
+--tab-size                                      -ts      
+--use-tabs                                      -ut
+--verbose                                       -v              
+.EI
+
+.SH Authors
+.SI 5
+Carlo Wood
+Joseph Arceneaux
+Jim Kingdon
+LPC messing by David Bennett
+.EI
+
+.SH History
+.SI 5
+Derived from the UCB program "indent".
+.EI
+
+.SH Copying
+.SI 5
+Copyright (C) 1989, 1992, 1993, 1994, 1995, 1996 Free Software Foundation, Inc.
+Copyright (C) 1995, 1996 Joseph Arceneaux.
+Copyright (C) 1999 Carlo Wood.
+.EI
+
+.SP 5 5
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+.EP

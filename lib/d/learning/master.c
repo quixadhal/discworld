@@ -1,114 +1,99 @@
-#define LORD "sulam"
+#define LORD "taffyd"
 #define DOMAIN "learning"
-int query_prevent_shadow() { return 1; }
 
-/* beware editing this file.
- * Make sure you know what you are doing.  stuffing this up could be
+/*
+ * Beware editing this file.
+ * Make sure you know what you are doing.  Stuffing this up could be
  * fatal in some ways.
  */
-mixed members;
 
-void create() {
-  int i;
-  mapping map;
+inherit "/std/dom/base_master";
 
-  members = ([ ]);
-  seteuid((string)"/secure/master"->creator_file(file_name(this_object())));
-  restore_object(file_name(this_object()));
-  if (pointerp(members)) {
-    map = ([ ]);
-    for (i=0;i<sizeof(members);i++)
-      map[members[i]] = "newbie";
-    members = map;
-  }
-} /* create() */
+string info = "";
 
-void save_me() {
-  seteuid((string)"/secure/master"->get_root_uid());
-  save_object(file_name(this_object()));
-  seteuid((string)"/secure/master"->creator_file(file_name(this_object())));
-} /* save_me() */
+string query_lord() {
+  return LORD;
+}
 
-string query_lord() { return LORD; }
+string author_file(string *path) {
+  return capitalize(DOMAIN);
+}
 
-int valid_read(string *path, string euid, string funct) {
-  int i;
-
-/* to make this house open... Uncomment the next line
- * return 1;
- */
-  if (euid == "Dom: "+DOMAIN) return 1;
+int check_permission(string euid, string *path, int mask) {
   if (euid == query_lord())
     return 1;
-  return (members[euid] != 0);
-} /* valid_read() */
+  return ::check_permission(euid, path, mask);
+}
+
+/* Allow ftp downloads and copies with only read permission */
+int copy_with_read(string path, string euid, string func) {
+  return 1;
+}
+
+/*
+ * By default, use the valid_read()/valid_write() functions defined in the
+ * inherited file /std/dom/base_master.c.
+ * These default to reading allowed for everyone, writing only allowed
+ * for independent creators and the domain lord.
+ * This is all overridden by the check_permission() function
+ * which is called first, which should be used instead.
+
+int valid_read(string *path, string euid, string funct);
 
 int valid_write(string *path, string euid, string funct) {
-  int i;
-  
-  if (euid == query_lord())
-    return 1;
-  if (path[2] == "master" || path[2] == "master.c" || path[2] == "master.o")
+  if ((sizeof(path) >= 3) && (path[2] == "master.c" || path[2] == "master.o" ||
+                              path[2] == "master")){
     return 0;
-  if (euid == "Dom: "+DOMAIN) return 1;
+  }
+  
+  if(path[2] == "cutnpaste" && master()->query_senior(euid)){
+    return 1;
+  }
+  
   return (members[euid] != 0);
-} /* valid_write() */
+}
+*/
 
-void dest_me() {
-  destruct(this_object());
-} /* dest_me() */
-
-/* please note the + ({ })... this is for security reasons.
- * If you don't do this the members of your house can be changed at will
- * by any other wizard.
+/*
+ * By default only the lord of the domain can add/remove members, or
+ * change the projects of the members.
+ * This is a bit contrictive, but handy as a default.
+ * Change this if you want.
  */
-string *query_members() { return keys(members) + ({ }); }
-
 int add_member(string name) {
-/* only the lord of the domain can add members to it.
- * BTW... change this if you want, it is a bit constrictive but handy as
- * a start point
- */
-  if(geteuid(this_player(1)) != query_lord()) return 0;
-  if(members[name]) return 0;
-  members[name] = "newbie";
-  save_me();
-  return 1;
-} /* add_member() */
+  if (geteuid(this_player(1)) != query_lord())
+    return 0;
+  return ::add_member(name);
+}
 
 int remove_member(string name) {
-  int i;
-/* see above comment...
- */
-  if(geteuid(this_player(1)) != query_lord()) return 0;
-  if(!members[name]) return 0;
-  members = m_delete(members, name);
-  save_me();
-  return 1;
-} /* remove_member() */
+  if (geteuid(this_player(1)) != query_lord())
+    return 0;
+  return ::remove_member(name);
+}
 
 int set_project(string name, string pro) {
-  if(geteuid(this_player(1)) != query_lord()) return 0;
-  if(!members[name]) return 0;
-  if(!pro || pro == "") pro = "project unset";
-  members[name] = pro;
-  return 1;
-} /* set_project() */
-
-string query_project(string name) {
-  if (!members[name])
-    return "project unset";
-  return members[name];
-} /* query_project() */
+  if (geteuid(this_player(1)) != query_lord())
+    return 0;
+  return ::set_project(name, pro);
+}
 
 int query_member(string name) {
   return !undefinedp(members[name]) || name == LORD;
 } /* query_member() */
 
-void smart_log(string error, string where) {
-  write_file("d/"+DOMAIN+"/player_reports", error);
-} /* smart_log() */
-
 string log_who(string where) {
-  return LORD;
+   return LORD;
 } /* log_who() */
+
+/* Please change this to a text describing the domain, it will be used
+   on the WWW pages and in finger info. */
+
+void set_info( string words ) {
+  info = words;
+  save_me();
+} /* query_info() */
+
+string query_info() {
+  return info;
+} /* query_info() */

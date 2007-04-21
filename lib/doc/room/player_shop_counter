@@ -1,0 +1,40 @@
+.DT
+Counter
+Player-run shop help
+Counter
+
+.SH Name
+.SI 5
+Player-run shop counter
+.EI
+
+.SH Syntax
+
+calc <num> {+|-|*|/} <num>
+log shop {bought|sold} <number> <item(s)> for <amount>
+correction shop {bought|sold} <number> <item(s)> for <amount>
+.SI 5
+.EI
+
+.SH Description
+
+.SP 5 5
+This is the area behind the counter, accessible to employees only.
+
+The cash register is located here, along with the sales log.  All
+money added to or removed from the register is logged automatically.
+The log should be used whenever a transaction takes place, so that the
+supervisors and managers can easily tell what is being bought & sold,
+and for how much.
+
+If a mistake is made when logging, you may make a correction to the log.
+Try to make a correction as soon as possible so it appears next to the
+original entry.
+.EP
+
+.SH Examples
+
+log shop bought 10 gizmos for 20p
+log shop sold 13 wotsits for $1.20
+correction shop sold 13 wotsits for $1.30
+.EP

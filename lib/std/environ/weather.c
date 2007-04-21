@@ -1,3 +1,16 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: weather.c,v 1.2 2000/06/27 00:25:57 pinkfish Exp $
+ * $Log: weather.c,v $
+ * Revision 1.2  2000/06/27 00:25:57  pinkfish
+ * Fix up the mended drum reference.
+ *
+ * Revision 1.1  1998/01/06 04:23:53  ceres
+ * Initial revision
+ * 
+*/
+#include <config.h>
 inherit "std/object";
  
 #include "climate.h"
@@ -102,10 +115,8 @@ int query_day(object env) {
   int bing, bit;
  
   if (!env) {
-    env = find_object("/d/am/am/mendedrum");
-    if (!env)
-      call_other("/d/am/am/mendeddrum", "??");
-    env = find_object("/d/am/am/mendeddrum");
+    load_object(CONFIG_START_LOCATION);
+    env = find_object(CONFIG_START_LOCATION);
   }
 /* make it change... but not very quickly... */
   bing = timeofday - (DAY/4) -

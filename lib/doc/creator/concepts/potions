@@ -1,0 +1,186 @@
+NOTE!  Please stay away from this, it's dangerous to your sanity. Olorin
+
+POTIONS
+-------
+
+(Ember's mad raving insane potion stuff)
+
+Ok.  Potions are somewhat complicated, so listen closely.
+
+General concept
+---------------
+You can pour liquid into any container, however some containers leak
+somewhat.  This is why all the liquid handling junk is done in
+/obj/container.c.
+
+I needed liquids to have the following properties:
+1) Magical effects must be in a 'continuous' spectrum and basically
+infinitely variable (ie, no 'single state' liquids)
+2) Players should be able to play with liquids in any normal way
+(eg mixing, drinking, smelling etc)
+3) Descriptions must be somewhat sensible, and dependent partially
+on what the potion does (so that players will have some reference
+point based on the properties of the liquid to indicate what effect
+the potion will have)
+
+Thinking about this I thought that in a simple model a potion will
+have two parts to it - the 'active' part which varies depending on
+what the effect is, and the 'inactive' part which is constant.
+So, potions have a 'misc volume' (misc kind of being
+'miscellaneous') and a 'water volume'.  The misc volume has a set
+of attributes describing the inactive bits of the liquid, the water
+volume has a 'potion space coordinate' which has attributes
+(derived from the potion space handler) related to its 'magical'
+active part.
+
+The misc volume would be used for things like 'chunky soup' which
+have no potion effects, but definitely some properties that are
+related to its chunky-soupiness.  It would in all probability have
+a proportion of 'water' in it (say something like 1/2 water), and
+this could be used by a witch to brew a healing potion.  In this
+case the water volume would take on the properties of a healing
+potion, but the misc volume would remain constant and retain its
+chunky soup attributes.
+
+Now the 'potion space' is an arbitrary, continuous space with
+'regions' that have certain effects attached.  The potion space
+handler keeps track of the regions, and has functions to return the
+effect object and attributes at a particular coordinate.  At the
+moment the potion space is 2 dimensional with 0,0 being the neutral
+coordinate.  The 'distance' from 0,0 should be roughly equivalent
+to 'level of power/difficulty'.  Thus a potion with a coord of (50,50)
+[theoretically being roughly equiv to level 70], should only be able
+to be made by a witch of level 70 or greater, and have effects 
+equivalent of a priest (or whatever) spell of level 70.
+
+Ok, so what does this mean for the hapless creator?
+
+Well, if the effect you want already exists, life is fairly simple. 
+All you need to do is to use /obj/container, set it up properly with
+a coordinate you get from the effect (described later). 
+
+If the effect does not exist, then you will need to write the effect
+and get it installed in the potion space.  This is more complicated
+because I (that is Ember) want to vet all effects added to the
+potion space handler, and I will give you coordinates for the effect
+to reside at.
+
+Making a standard potion
+------------------------
+
+#include "potion_attrs.h"
+
+object heal_pot;
+
+reset()
+{
+   mixed *misc_attrs;
+
+   if (environment(heal_pot) != wherever) {
+      heal_pot = clone_object("/obj/container");
+      heal_pot->set_leak_rate(0);
+      heal_pot->set_water_volume(100);
+/* if you don't need any misc attrs/vol leave this out */
+      misc_attrs = allocate(POTION_ATTRS_SIZE);
+      misc_attrs[POTION_CONSISTENCY] = 50;
+      misc_attrs[POTION_TRANSPARENCY] = 50;
+      misc_attrs[POTION_NAMES] = ({ });
+      misc_attrs[POTION_COLOURS] = ({
+         ({ "green", 60 }), ({ "blue", 40 })
+      });
+      misc_attrs[POTION_FLAVOURS] = ({
+         ({ "bacon", 70 }), ({ "cheese", 60 })
+      });
+      misc_attrs[POTION_SMELLS] = ({
+         ({ "bacon", 80 }), ({ "cheese", 60 }), ({ "toast", 40 })
+      });
+      heal_pot->set_misc_attrs(misc_attrs, 100);
+      heal_pot->set_max_volume(250);
+      heal_pot->set_max_weight(100);
+      
+      /* now ... volume stuff all done, just set the effect */
+      
+      heal_pot->set_ps_coord_quantity(
+         (int *)"/std/effects/healing/weak_hp"->query_coordinate(),
+         100);
+      
+      heal_pot->move(wherever);
+   }
+}
+
+you want an explanation for all of that?  How rude :)
+
+First a few thingies:
+Liquid is measured in mls (millilitres).
+Weight is measured in 20ths of kgs (don't ask me)
+
+set_leak_rate(n) 
+   sets the amount of liquid lost per 10 heart beats
+
+set_water_volume(n)
+   sets the active volume to n mls
+
+set_misc_attrs(attrs, misc_vol)
+   sets the misc attrs and misc volume.  The 'attrs' array has
+elements as defined in /include/potion_attrs.h.  This can be a
+constant array, but it is clearer if an intermediate local
+array is used.
+
+set_max_volume(n)
+   set the maximum total volume (ie water + misc) to n
+
+set_max_weight(n)
+   as per normal.  Note that volume is traded off linearly with
+weight, but you can have objects in the container as well as liquid.
+
+set_ps_coord_quantity(coord, quantity)
+   sets the potion space coordinate of the potion to coord, and the
+active quantity to quantity.  The active quantity is a measure of
+how 'concentrated' the potion is (basically the effect of the potion
+is scaled by the quantity).  'Normal' concentration is when the
+ps_quantity is equal to the water volume.
+   Effects have a function 'query_coordinate' on them which will
+return a standard coordinate which can be used to produce normal
+effects.
+
+Attributes
+----------
+
+The attributes array has several components:
+CONSISTENCY:
+   integer range from 0 to 100.
+   0 = watery consistency
+   100 = solid
+   50 = like honey
+
+TRANSPARENCY:
+   integer range from 0 to 100.
+   0 = opaque
+   100 = clear
+   50 = milky
+
+NAMES:
+   particular names like 'chunky soup' or 'ankh river water'
+   has standard component form of:
+   ({ "name1", intens1 }), ({ "name2", intens2 }) ... 
+   where each intensity is a 0..100 range, with 100 being very
+   intense.
+
+COLOURS:
+   standard component form
+
+FLAVOURS:
+   standard component form
+
+SMELLS:
+   standard component form
+
+COLOURS:
+   standard component form
+
+
+Making an effect
+----------------
+Please make sure before you start writing an effect that you check to
+see if there is already an effect that does what you want
+standardly.

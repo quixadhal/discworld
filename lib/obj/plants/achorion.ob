@@ -1,0 +1,17 @@
+::#Class:: "/obj/food.c"
+::Name:: "achorion"
+::Short:: "achorion mould"
+::Long:: "This is $pile_size$ of achorion mould, $amount_size$.\n"
+::Adjective:: ({ "some", "mould" })
+::Alias:: "mould"
+::Property:: "determinate", "some "
+::Plural:: "achorion"
+::$set_medium_alias:: "AchorionMould"
+::$set_amount_types:: ([ "sprig": ({ 1, "sprigs" }),
+                         "bunch": ({ 50, "bunches" }) ])
+::Adjective:: ({ "sprig", "sprigs", "bunch", "bunches", "of" })
+::$set_pile_types:: ({ 50, "small", 100, "medium", "large" })
+::$add_eat_effect::"/std/effects/ingested/cum_poison", 600
+::$set_amount:: 1
+::$set_continuous::
+::$set_weight_unit:: ({ 1, 10 })

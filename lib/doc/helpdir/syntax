@@ -1,0 +1,77 @@
+.DT
+syntax
+Discword player help
+syntax
+
+.SH Name
+.SI 5
+syntax - Show the patterns available for a certain command
+.EI
+
+.SH Syntax
+.SI 5
+syntax <verb>
+.EI
+
+.SH Description
+.SP 5 5
+This command allow you to see what syntaxes are allowed for a certain
+command.  The syntaxes are the patterns which are matched when a
+particular command is attempted.
+
+.SH Example
+.EP
+.SI 10
+> syntax read
+The syntaxes available for the command 'read':
+read <object>
+> syntax bow
+The syntaxes available for the command 'bow':
+bow
+bow [to] <any-living>
+bow <string>
+bow <string> [to] <any-living>
+>
+
+.EI
+.SP 5 5
+What do all these things mean?  Well, they all specify how the command
+will be parsed.  The things inside '<' and '>' are special matching
+specifiers.  They can be one of the following below:
+.EP
+.SO 5 20 -30
+	object	Any object in your inventory or on the ground.
+	any-living	Any living person anywhere in the game, this allows you to deal with people not in the same room with you.
+	distant-living	Any living object that is not in the same room as you.
+	living	Any living person in the same room with you.
+	preposition	A preposition is a sort of joining word.  They are things like 'on', 'from', 'under', just put in what feels most comfortable to you.
+	string	A collection of words.  Will match 1 or more words.
+	word	A single word.
+	number	A number, the number must be in numerical format.  It does not handle numbers as words (currently).
+	fraction	A special sort of number, it is specified as something like 12/2, or whatever.
+.EO
+.SP 5 5
+
+If the words are enclosed in '{' and '}' then it is a list of required
+words.  For instance if there was a {bing|red|blue} in the pattern string,
+then the pattern would match either bing, red or blue in that place.  One
+of these words MUST be there for the pattern to match.
+
+If the words are enclosed in '[' and ']' then it is a list of optional
+words.  It is parsed the same as the list above, except this parameter
+is optional and you do not need to fill it in.
+
+Inside the '[', ']'
+something may be specified in '<', '>'.  They have the same meaning
+as in the '<', '>' table shown above, except they are optional.
+
+If there is nothing enclosing the words.  Then they are required
+parameter and they must be typed in as shown.
+
+Good luck! - Pinkfish.
+.EP
+
+.SH See also
+.SI 5
+Any other command. :)
+.EI

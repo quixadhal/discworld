@@ -1,0 +1,40 @@
+.DT
+set_race_ob
+DW_wibble creator help
+set_race_ob
+
+.SH Name
+.SP 5 5
+set_race_ob -  This method sets the race object associated with the npc.
+.EP
+
+.SH Syntax
+.SI 5
+void set_race_ob(mixed r)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^r%^RESET%^ - the new race object
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the race object associated with the npc.
+This will probably not do what you expect and cannot be used
+in conjucton with set_level to set the race.  It is called
+by /std/race.c when set_level() is called.
+.EP
+
+.SH See also
+.SP 5 5
+set_level(), set_race(), /std/race.c
+.EP
+

@@ -1,0 +1,33 @@
+.DT
+query_ok_turn_off_heart_beat
+DW_wibble creator help
+query_ok_turn_off_heart_beat
+
+.SH Name
+.SP 5 5
+query_ok_turn_off_heart_beat -  This method returns 1 if it is ok to turn of the npc's heart beat.
+.EP
+
+.SH Syntax
+.SI 5
+int query_ok_turn_off_heart_beat()
+.EI
+
+.SH Returns
+.SI 5
+1 if the heart beat should go off, 0 if it should stay on
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns 1 if it is ok to turn of the npc's heart beat.
+THis can be overridden for times when the heart beat needs to be
+kept on for some reason.
+.EP
+

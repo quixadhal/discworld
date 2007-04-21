@@ -1,0 +1,39 @@
+.DT
+load_a_chat
+DW_wibble creator help
+load_a_chat
+
+.SH Name
+.SP 5 5
+load_a_chat -  This method loads up the set of chat strings to use while in combat.
+.EP
+
+.SH Syntax
+.SI 5
+void load_a_chat(int chance,
+                 mixed * c_s)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^chance%^RESET%^ - the chance of the chat occuring
+%^BOLD%^c_s%^RESET%^ - the chat string to use
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method loads up the set of chat strings to use while in combat.
+.EP
+
+.SH See also
+.SP 5 5
+load_chat(), query_achat_chance(), query_achat_string()
+
+.EP
+

@@ -1,0 +1,1 @@
+({({"<indirect:any-living>","<string>",}),({0,({"You wake $arg$.","$mcname$ wake$s$ up.",0,({"up","up and smell the cat food","the dead","the wombles of the world up",}),}),}),({({"You wake up $hcname$.","$mcname$ wake$s$ up $hcname$.","$mcname$ wake$s$ you up.",0,0,0,}),0,}),})

@@ -1,0 +1,35 @@
+.DT
+query_medium_alias
+DW_wibble creator help
+query_medium_alias
+
+.SH Name
+.SP 5 5
+query_medium_alias -  This method returns the medium alias.
+.EP
+
+.SH Syntax
+.SI 5
+string query_medium_alias()
+.EI
+
+.SH Returns
+.SI 5
+the medium alias
+.EI
+
+.SH Defined in
+.SI 5
+/obj/cont_medium.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the medium alias.  This should be a unique alias
+for the medium, it is used when joining to see if we can join or not
+It it used for identification - choose something with
+capitals (e.g. "ChalkDust") so players can't
+use it as a valid alias by accident.
+.EP
+

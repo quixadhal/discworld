@@ -1,0 +1,34 @@
+.DT
+set_list_item_mess
+DW_wibble creator help
+set_list_item_mess
+
+.SH Name
+.SP 5 5
+set_list_item_mess -  Overrides the default chat of listing a stock item's price and stock
+.EP
+
+.SH Syntax
+.SI 5
+void set_list_item_mess(string s)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^s%^RESET%^ - the chat to replace the default with.  Must include $num_left$,
+$display$ and $cost$, which will be replaced by the appropriate
+strings.
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/peddler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Overrides the default chat of listing a stock item's price and stock
+.EP
+

@@ -1,0 +1,68 @@
+.DT
+set_pile_types
+Discworld cont_medium help
+set_pile_types
+
+Name
+.SI 5
+set_pile_types - The name of different sized piles.
+.EI
+
+Syntax
+.SI 5
+void set_pile_types(mixed *types);
+.EI
+
+Description
+.SP 5 5
+Returns an array consisting of paired numbers/names.  The numbers
+and names refer to the name to give to the size of the pile of the
+medium based on how much of it is there.
+
+The size of the array will be odd, the last element being the name
+to give to any larger size of pile.
+
+Eg: ({ 50, "small", 100, "medium", 150, "large", "huge" }).  This
+would mean that up to 50 of the things would be a small pile, up
+to 100 would be a medium file, up to 150 would be a large pile
+and anything larger would be a huge pile.
+
+Eg: ({ 50, "small", "huge" }).  This would mean anything smaller
+than 50 would be a small pile and anything else would be a huge
+pile.
+.EP
+
+Example
+.SI 5
+/* Food inherits cont_medium */
+inherit "/obj/food";
+ 
+void setup() {
+   set_name("rice");
+   set_long(
+"Little oval shaped hard nuggets, they are made almost totally "
+"of starch.\n");
+ 
+   /* Make it a continuous object */
+   set_continuous();
+   /* Set an alias to the medium so that it can be connected correctly */
+   set_medium_alias("RiceStuff");
+   /* How much of the stuff we have here */
+   set_amount(100);
+   /* 200 bits of rice weighs 1 weight unit */
+   set_weight_unit( ({ 1, 200 }) );
+   /* The name of a pile of them */
+   set_pile_name("pile");
+   /* The size of each of the amounts */
+   set_amount_types( ([ "pinch" : ({ 1, "pinches" }),
+                        "handful" : ({ 100, "handfuls" }),
+                        "bucket" : ({ 10000, "buckets" }) ]) );
+   /* The name for each of the sizes of piles */
+   set_pile_types(({ 400, "small", 800, "medium", 1600, "large", "huge" }) );
+} /* setup() */
+.EI
+
+See also
+.SP 5 5
+query_pile_types, pile_name, set_amount, query_amount, adjust_amount
+.EP

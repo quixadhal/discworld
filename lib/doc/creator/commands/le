@@ -1,0 +1,50 @@
+.DT
+le
+Discworld creator help
+le
+
+.SH Name
+.SI 5
+le - Line editor.
+.EI
+
+.SH Syntax
+.SI 5
+le <file>
+.EI
+
+.SH Description
+.SP 5 5
+le is a last resort line editor.  It was put after we blew up ed.  Due to a
+small bug, whenever we ran ed, the mud would crash.  Consequently, there now
+exists an editor that requires no call outs.
+
+Commands:
+.EP
+.SO 5 10 -20
+	d - delete current line
+	/<text>	search
+	><text>	insert text
+	<n>	goto line number
+	r <file>	read file
+	w [<file>]	write file
+	N	initialise le
+	+	forwards a line
+	-	backwards a line
+	z	display 20 lines
+.EO
+
+.SH Examples
+.SI 5
+le /std/object.c
+le 93
+le d
+le i frog
+le w
+le I
+.EI
+
+.SH See also
+.SP 5 5
+ed, more, cat, grep
+.EP

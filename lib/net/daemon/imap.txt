@@ -1,0 +1,28 @@
+Just some imap experimental stuff:
+
+
+Parsing 000O SELECT "inbox/".
+Done parsing
+Parsing 000P UID FETCH 1:* (BODY.PEEK[HEADER.FIELDS (References X-Ref X-Priority X-MSMail-Priority Newsgroups)] ENVELOPE RFC822.SIZE UID FLAGS INTERNALDATE)
+
+* 1 FETCH (UID 151 BODY[HEADER.FIELDS ("REFERENCES" "X-REF" "X-PRIORITY" "X-MSMAIL-PRIORITY" "NEWSGROUPS")] {48}
+References:  <398C967A.B962B9E6@innovyx.com>
+
+ ENVELOPE ("Sat, 5 Aug 2000 17:29:27 -0700 (PDT)" "Re: You there?" ((NIL NIL "sinster" "darkwater.com")) ((NIL NIL "sinster" "darkwater.com")) ((NIL NIL "sinster" "darkwater.com")) ((NIL NIL "derek" "atuin.net")) NIL NIL "<398C967A.B962B9E6@innovyx.com> (message from Derek Harding on Sat, 05 Aug 2000 15:34:34 -0700)" "<m13LEJj-000yE8C@scintilla.balltech.net>") RFC822.SIZE 2319 FLAGS (\Seen \Answered) INTERNALDATE " 5-Aug-2000 17:29:21 -0700")
+* 2 FETCH (UID 153 BODY[HEADER.FIELDS ("REFERENCES" "X-REF" "X-PRIORITY" "X-MSMAIL-PRIORITY" "NEWSGROUPS")] {120}
+References: <398C967A.B962B9E6@innovyx.com> <m13LEJj-000yE8C@scintilla.balltech.net> <398CB988.76DFD797@innovyx.com>
+
+ ENVELOPE ("Sat, 5 Aug 2000 18:51:38 -0700 (PDT)" "Re: You there?" ((NIL NIL "sinster" "darkwater.com")) ((NIL NIL "sinster" "darkwater.com")) ((NIL NIL "sinster" "darkwater.com")) ((NIL NIL "derek" "innovyx.com")) NIL NIL "<398CB988.76DFD797@innovyx.com> (message from Derek Harding on Sat, 05 Aug 2000 18:04:08 -0700)" "<m13LFbG-000yE8C@scintilla.balltech.net>") RFC822.SIZE 2197 FLAGS (\Seen \Answered) INTERNALDATE " 5-Aug-2000 23:37:00 -0700")
+* 3 FETCH (UID 255 BODY[HEADER.FIELDS ("REFERENCES" "X-REF" "X-PRIORITY" "X-MSMAIL-PRIORITY" "NEWSGROUPS")] {2}
+
+ ENVELOPE ("Mon, 21 Aug 2000 15:57:54 -0700" "Tripwire Security Software !" (("Rod Carlson" NIL "rcarlson" "tripwiresecurity.com")) (("Rod Carlson" NIL "rcarlson" "tripwiresecurity.com")) (("Rod Carlson" NIL "rcarlson" "tripwiresecurity.com")) (("derek harding" NIL "derek" "atuin.net")) NIL NIL NIL "<200008212307.QAA10653@igor.atuin.net>") RFC822.SIZE 191213 FLAGS (\Seen) INTERNALDATE "21-Aug-2000 16:07:33 -0700")
+* 4 FETCH (UID 278 BODY[HEADER.FIELDS ("REFERENCES" "X-REF" "X-PRIORITY" "X-MSMAIL-PRIORITY" "NEWSGROUPS")] {2}
+
+ ENVELOPE ("Fri, 25 Aug 2000 10:18:49 -0700 (PDT)" "Speakeasy Network Security Information Center Newsletter #1" (("Network Abuse Reporting" NIL "abuse" "speakeasy.net")) ((NIL NIL "owner-users" "lists.speakeasy.org")) ((NIL NIL "support" "speakeasy.net")) ((NIL NIL "users" "lists.speakeasy.net")) NIL NIL NIL "<Pine.LNX.4.21.0008251018180.22705-100000@grace.speakeasy.org>") RFC822.SIZE 7560 FLAGS (\Seen) INTERNALDATE "25-Aug-2000 11:01:43 -0700")
+* 5 FETCH (UID 280 BODY[HEADER.FIELDS ("REFERENCES" "X-REF" "X-PRIORITY" "X-MSMAIL-PRIORITY" "NEWSGROUPS")] {2}
+
+ ENVELOPE ("Fri, 25 Aug 2000 18:00:03 -0700" "igor 08/25/00:18.00 ACTIVE SYSTEM ATTACK!" (("root" NIL "root" "igor.atuin.net")) (("root" NIL "root" "igor.atuin.net")) (("root" NIL "root" "igor.atuin.net")) ((NIL NIL "derek" "igor.atuin.net")) NIL NIL NIL "<200008260100.SAA22761@igor.atuin.net>") RFC822.SIZE 69729 FLAGS () INTERNALDATE "25-Aug-2000 18:00:03 -0700")
+* 6 FETCH (UID 281 BODY[HEADER.FIELDS ("REFERENCES" "X-REF" "X-PRIORITY" "X-MSMAIL-PRIORITY" "NEWSGROUPS")] {2}
+
+ ENVELOPE ("Fri, 25 Aug 2000 19:00:02 -0700" "igor 08/25/00:19.00 system check" (("root" NIL "root" "igor.atuin.net")) (("root" NIL "root" "igor.atuin.net")) (("root" NIL "root" "igor.atuin.net")) ((NIL NIL "derek" "igor.atuin.net")) NIL NIL NIL "<200008260200.TAA22881@igor.atuin.net>") RFC822.SIZE 184775 FLAGS (\Recent) INTERNALDATE "25-Aug-2000 19:00:03 -0700")
+000P OK UID FETCH completed

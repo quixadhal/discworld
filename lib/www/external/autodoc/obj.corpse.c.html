@@ -1,0 +1,305 @@
+<html><head><title>File corpse.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/corpse.c</h2>
+This method returns the id associated with the corpse.<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.container.c.html">/std/container.c</a>, <a href="std.living.carrying.c.html">/std/living/carrying.c</a> and <a href="std.basic.virtual_quit_control.c.html">/std/basic/virtual_quit_control.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.corpse.h.html">/include/corpse.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.bit.h.html">/include/bit.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_bit_gone"><b>add_bit_gone</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_find_match_recurse_into"><b>can_find_match_recurse_into</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_decay"><b>do_decay</b></a>()<dd>
+This is called to decay the corpse.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_inv_match"><b>find_inv_match</b></a>(string, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get"><b>get</b></a>(mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#give_permission"><b>give_permission</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_dynamic_arg"><b>init_dynamic_arg</b></a>(mapping, )<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#long"><b>long</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_bit"><b>make_bit</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_bits"><b>make_bits</b></a>(string *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move_or_destruct"><b>move_or_destruct</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_armours"><b>query_armours</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bit_left"><b>query_bit_left</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bit_left_pl"><b>query_bit_left_pl</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bits_gone"><b>query_bits_gone</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bits_left"><b>query_bits_left</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_corpse"><b>query_corpse</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_corpse_id"><b>query_corpse_id</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_decay"><b>query_decay</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dynamic_auto_load"><b>query_dynamic_auto_load</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_edible_bits_left"><b>query_edible_bits_left</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_holding"><b>query_holding</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_name"><b>query_name</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_owner"><b>query_owner</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_permitted"><b>query_permitted</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_race_name"><b>query_race_name</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_race_ob"><b>query_race_ob</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_data"><b>query_save_data</b></a>()<dd>
+This is used by the corpse handler to get the data used to save
+the corpse.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_static_auto_load"><b>query_static_auto_load</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_weapon"><b>query_weapon</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_wearing"><b>query_wearing</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_armour"><b>remove_armour</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_array_parts"><b>remove_array_parts</b></a>(string *, string *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_creator_corpse"><b>remove_creator_corpse</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_armours"><b>set_armours</b></a>(object *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bits_gone"><b>set_bits_gone</b></a>(string *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_decay"><b>set_decay</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_decay_messages"><b>set_decay_messages</b></a>()<dd>
+This method sets up the various 'states; of the corpse to show 
+how decayed it is.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_hold"><b>set_hold</b></a>(object, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_holding"><b>set_holding</b></a>(object *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_owner"><b>set_owner</b></a>(string, object)<dd>
+This method initially sets up the corpse object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_race_name"><b>set_race_name</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_race_ob"><b>set_race_ob</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_unhold"><b>set_unhold</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_weapon"><b>set_weapon</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_corpse_from_save"><b>setup_corpse_from_save</b></a>(string, string, int)<dd>
+This method is called by the corpse handler to setup the corpse
+properly after it loads.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_remove"><b>test_remove</b></a>(object, int, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#unwield_weapon"><b>unwield_weapon</b></a>(object)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_bit_gone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_bit_gone</b></a><pre>
+mixed * add_bit_gone(string bit)
+</pre>
+<dt><a name="can_find_match_recurse_into">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_find_match_recurse_into</b></a><pre>
+int can_find_match_recurse_into(object player)
+</pre>
+<dt><a name="do_decay">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_decay</b></a><pre>
+void do_decay()
+</pre><dd>
+This is called to decay the corpse.  It is done in a continuous
+call out loop until all of the decay has been completed.
+<p>
+
+<dt><a name="find_inv_match">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_inv_match</b></a><pre>
+varargs object * find_inv_match(string s,
+                                object looker)
+</pre>
+<dt><a name="get">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get</b></a><pre>
+int get(mixed dest)
+</pre>
+<dt><a name="give_permission">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>give_permission</b></a><pre>
+void give_permission(string words)
+</pre>
+<dt><a name="init_dynamic_arg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_dynamic_arg</b></a><pre>
+void init_dynamic_arg(mapping map,
+                       object)
+</pre>
+<dt><a name="long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>long</b></a><pre>
+string long(string words,
+            int dark)
+</pre>
+<dt><a name="make_bit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_bit</b></a><pre>
+object make_bit(string which_bit)
+</pre>
+<dt><a name="make_bits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_bits</b></a><pre>
+object * make_bits(string * what_bits)
+</pre>
+<dt><a name="move_or_destruct">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move_or_destruct</b></a><pre>
+int move_or_destruct(object dest)
+</pre>
+<dt><a name="query_armours">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_armours</b></a><pre>
+object * query_armours()
+</pre>
+<dt><a name="query_bit_left">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bit_left</b></a><pre>
+string query_bit_left(string s)
+</pre>
+<dt><a name="query_bit_left_pl">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bit_left_pl</b></a><pre>
+string * query_bit_left_pl(string s)
+</pre>
+<dt><a name="query_bits_gone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bits_gone</b></a><pre>
+string * query_bits_gone()
+</pre>
+<dt><a name="query_bits_left">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bits_left</b></a><pre>
+string * query_bits_left()
+</pre>
+<dt><a name="query_corpse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_corpse</b></a><pre>
+int query_corpse()
+</pre>
+<dt><a name="query_corpse_id">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_corpse_id</b></a><pre>
+int query_corpse_id()
+</pre>
+<dt><a name="query_decay">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_decay</b></a><pre>
+int query_decay()
+</pre>
+<dt><a name="query_dynamic_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dynamic_auto_load</b></a><pre>
+mapping query_dynamic_auto_load()
+</pre>
+<dt><a name="query_edible_bits_left">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_edible_bits_left</b></a><pre>
+string * query_edible_bits_left()
+</pre>
+<dt><a name="query_holding">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_holding</b></a><pre>
+object * query_holding()
+</pre>
+<dt><a name="query_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_name</b></a><pre>
+string query_name()
+</pre>
+<dt><a name="query_owner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_owner</b></a><pre>
+string query_owner()
+</pre>
+<dt><a name="query_permitted">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_permitted</b></a><pre>
+string * query_permitted()
+</pre>
+<dt><a name="query_race_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_race_name</b></a><pre>
+string query_race_name()
+</pre>
+<dt><a name="query_race_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_race_ob</b></a><pre>
+string query_race_ob()
+</pre>
+<dt><a name="query_save_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_data</b></a><pre>
+string query_save_data()
+</pre><dd>
+This is used by the corpse handler to get the data used to save
+the corpse.
+<p>
+
+<dt><a name="query_static_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_static_auto_load</b></a><pre>
+mapping query_static_auto_load()
+</pre>
+<dt><a name="query_weapon">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_weapon</b></a><pre>
+object query_weapon()
+</pre>
+<dt><a name="query_wearing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_wearing</b></a><pre>
+object * query_wearing()
+</pre>
+<dt><a name="remove_armour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_armour</b></a><pre>
+void remove_armour(object arm)
+</pre>
+<dt><a name="remove_array_parts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_array_parts</b></a><pre>
+string * remove_array_parts(string * a1,
+                            string * a2)
+</pre>
+<dt><a name="remove_creator_corpse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_creator_corpse</b></a><pre>
+void remove_creator_corpse(object ob)
+</pre>
+<dt><a name="set_armours">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_armours</b></a><pre>
+void set_armours(object * things)
+</pre>
+<dt><a name="set_bits_gone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bits_gone</b></a><pre>
+void set_bits_gone(string * bits)
+</pre>
+<dt><a name="set_decay">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_decay</b></a><pre>
+void set_decay(int dec)
+</pre>
+<dt><a name="set_decay_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_decay_messages</b></a><pre>
+void set_decay_messages()
+</pre><dd>
+This method sets up the various 'states; of the corpse to show 
+how decayed it is.
+<p>
+
+<dt><a name="set_hold">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_hold</b></a><pre>
+int * set_hold(object ob,
+               int pos)
+</pre>
+<dt><a name="set_holding">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_holding</b></a><pre>
+void set_holding(object * hold)
+</pre>
+<dt><a name="set_owner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_owner</b></a><pre>
+void set_owner(string words,
+               object thing)
+</pre><dd>
+This method initially sets up the corpse object.  Generally
+speaking words should be 0 and the 'thing' variable should be
+set to the object which just died.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the owner of the object
+<dd>thing - the object to get the ownership data from
+
+</dl>
+
+<dt><a name="set_race_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_race_name</b></a><pre>
+void set_race_name(string str)
+</pre>
+<dt><a name="set_race_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_race_ob</b></a><pre>
+void set_race_ob(string s)
+</pre>
+<dt><a name="set_unhold">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_unhold</b></a><pre>
+int * set_unhold(object ob)
+</pre>
+<dt><a name="set_weapon">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_weapon</b></a><pre>
+void set_weapon(object wpn)
+</pre>
+<dt><a name="setup_corpse_from_save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_corpse_from_save</b></a><pre>
+void setup_corpse_from_save(string str_data,
+                            string name,
+                            int id)
+</pre><dd>
+This method is called by the corpse handler to setup the corpse
+properly after it loads.
+<p>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+<dt><a name="test_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_remove</b></a><pre>
+int test_remove(object thing,
+                int flag,
+                mixed dest)
+</pre>
+<dt><a name="unwield_weapon">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>unwield_weapon</b></a><pre>
+void unwield_weapon(object wpn)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 14 Oct 2003 16:22:03 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

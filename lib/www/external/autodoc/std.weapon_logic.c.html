@@ -1,0 +1,190 @@
+<html><head><title>File weapon_logic.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/weapon_logic.c</h2>
+This class has alkl the stuff for anything which can damage something
+else, this is included into living and weapons.<p>Written by Pinkfish.
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.weapon.h.html">/include/weapon.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_attack"><b>add_attack</b></a>(string, int, int *, string, string, mixed, mixed, mixed)<dd>
+This method adds an attack onto the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_attack_message"><b>add_attack_message</b></a>(string, string, string *)<dd>
+This method adds a special attack message set onto the weapon.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#attack_function"><b>attack_function</b></a>(string, int, object, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_attack"><b>calc_attack</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#modify_damage"><b>modify_damage</b></a>(int, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_attack_data"><b>query_attack_data</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_attack_message"><b>query_attack_message</b></a>(string, string)<dd>
+This method returns the attack message associated with the
+type and name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_attack_names"><b>query_attack_names</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_attack_types"><b>query_attack_types</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_special_messages"><b>query_special_messages</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_weapon_type"><b>query_weapon_type</b></a>()<dd>
+This method attempts to work out what type of weapon this is.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_attack"><b>remove_attack</b></a>(string)<dd>
+This method removes the attack of the given name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#weapon_attacks"><b>weapon_attacks</b></a>(int, object)<dd>
+This function returns 0 or more attacks for this weapon against the
+given target.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_attack">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_attack</b></a><pre>
+varargs int add_attack(string a_name,
+                       int chance,
+                       int * damage,
+                       string type,
+                       string skill,
+                       mixed func,
+                       mixed bogus_1,
+                       mixed bogus_2)
+</pre><dd>
+This method adds an attack onto the object.  The name of the attack
+must be unique on each object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>a_name - attack name
+<dd>change - the chance of it occuring
+<dd>damage - the damage it will do
+<dd>type - the type of the attack
+<dd>skill - the skill used by the attack
+<dd>func - the special function
+<dd>bogus_1 - errrr.
+<dd>bogus_2 - frog.
+<dt><b>See also:</b>
+<dd><a href="#remove_attack">remove_attack()
+</a></dl>
+
+<dt><a name="add_attack_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_attack_message</b></a><pre>
+void add_attack_message(string name,
+                        string type,
+                        string * data)
+</pre><dd>
+This method adds a special attack message set onto the weapon.  The type
+and name are around this way to correspond
+to the parameters to add_attack.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the attack (0 for none)
+<dd>type - the type of attack
+<dd>data - the attack data
+<dt><b>See also:</b>
+<dd>/obj/handlers/attack_messages
+.c and <a href="#query_special_message">query_special_message()</a><dt><b>Example:</b>
+<dd><pre>inherit "/obj/weapon";
+
+void setup() {
+  ...
+  add_attack_message("gumboot", "blunt", ({
+    0, "$N gumboot$s at $I with $D",
+   20, "$N lightly gumboot$s $I in the $z with $D",
+   60, "$N gumboot$s $I in the $z with $D",
+ 5000, "$N heavily gumboot$s $I in the $z with $D" }));
+  ...
+} /* setup() */
+</pre></dl>
+
+<dt><a name="attack_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>attack_function</b></a><pre>
+void attack_function(string a_name,
+                     int damage,
+                     object attack_ob,
+                     object attack_by)
+</pre>
+<dt><a name="calc_attack">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_attack</b></a><pre>
+int calc_attack(int number,
+                int percent)
+</pre>
+<dt><a name="modify_damage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>modify_damage</b></a><pre>
+int modify_damage(int damage,
+                  string attack_name)
+</pre>
+<dt><a name="query_attack_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_attack_data</b></a><pre>
+mixed * query_attack_data()
+</pre>
+<dt><a name="query_attack_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_attack_message</b></a><pre>
+mixed * query_attack_message(string name,
+                             string type)
+</pre><dd>
+This method returns the attack message associated with the
+type and name.  The type and name are around this way to correspond
+to the parameters to add_attack.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the attack
+<dd>type - the type of the attack
+<dt><b>Returns:</b>
+<dd>the attack message array, 0 for none
+
+</dl>
+
+<dt><a name="query_attack_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_attack_names</b></a><pre>
+string * query_attack_names()
+</pre>
+<dt><a name="query_attack_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_attack_types</b></a><pre>
+string * query_attack_types()
+</pre>
+<dt><a name="query_special_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_special_messages</b></a><pre>
+mapping query_special_messages()
+</pre>
+<dt><a name="query_weapon_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_weapon_type</b></a><pre>
+string query_weapon_type()
+</pre><dd>
+This method attempts to work out what type of weapon this is.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the weapon type
+
+</dl>
+
+<dt><a name="remove_attack">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_attack</b></a><pre>
+void remove_attack(string a_name)
+</pre><dd>
+This method removes the attack of the given name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>a_name - the name of the attack to remove
+<dt><b>See also:</b>
+<dd><a href="#add_attack">add_attack()
+</a></dl>
+
+<dt><a name="weapon_attacks">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>weapon_attacks</b></a><pre>
+mixed * weapon_attacks(int percent,
+                       object target)
+</pre><dd>
+This function returns 0 or more attacks for this weapon against the
+given target.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>percent - the attack percentage
+<dd>target - who is being hit
+
+<dt><b>Returns:</b>
+<dd>an array of 0 or more attacks. This array is indexed by the
+AT_ macros defined in combat.h
+
+<dt><b>See also:</b>
+<dd>combat.h
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 04:40:51 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

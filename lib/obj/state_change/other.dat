@@ -1,0 +1,33 @@
+# $Locker:  $
+# 
+# $Id: other.dat,v 1.2 1999/05/09 12:38:34 macchirton Exp $
+#
+# $Log: other.dat,v $
+# Revision 1.2  1999/05/09 12:38:34  macchirton
+#  Forcibly unlocked by gerbil
+#
+# Revision 1.1  1998/08/27 21:28:35  jeremy
+# Initial revision
+#
+#
+::item "freeze:Water"::
+::->result:: "/std/object"
+::->factor:: 1.1
+::->func:: ({
+        (: $2->set_name("ice") :),
+        (: $2->set_short("ice") :),
+        (: $2->set_long("This is a chunk of ice.\n") :)
+    })
+
+
+::item "peel:Potato"::
+::->result:: "/obj/food"
+::->factor:: 0.9
+::->func:: ({
+      (: $2->set_name( "potato" ) :),
+      (: $2->set_short( "peeled potato" ) :),
+      (: $2->add_adjective("peeled") :),
+      (: $2->set_long( "This is a raw, peeled potato, ready for what next you do.\n" ) :),
+      (: $2->set_medium_alias( "PeeledPotato" ) :),
+      (: $2->set_decay_speed( 0 ) :)
+   })

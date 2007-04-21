@@ -3,112 +3,86 @@
  * description: handle all file based efuns
  */
 
-#include <sys/types.h>
-#if (defined(_SEQUENT_) || defined(hpux))
-#include <sys/sysmacros.h>
-#endif
-#include <sys/stat.h>
-#include <sys/dir.h>
-#include <fcntl.h>
-#include <setjmp.h>
-#include <string.h>
-#include <errno.h>
-#include <stdio.h>
-#include <memory.h>
-#if defined(sun)
-#include <alloca.h>
-#endif
-#if defined(M_UNIX) || defined(_SEQUENT_)
-#include <dirent.h>
-#endif
-#if defined(SVR4)
-#include <dirent.h>
-#include <sys/filio.h>
-#include <sys/sockio.h>
-#include <sys/mkdev.h>
-#endif
-#include <ctype.h>
-
-#include "config.h"
-#include "lint.h"
-#include "lang.tab.h"
-#include "interpret.h"
-#include "object.h"
-#include "sent.h"
-#include "exec.h"
+#include "std.h"
+#include "file.h"
 #include "comm.h"
+#include "lex.h"
+#include "md.h"
+#include "port.h"
+#include "master.h"
 
-extern int errno;
-extern int comp_flag;
-extern int max_array_size;
-
-char *inherit_file;
-
-#ifndef NeXT
-extern int readlink PROT((char *, char *, int));
-extern int symlink PROT((char *, char *));
-#ifdef MSDOS
-#define lstat stat
-#else
-#if !defined(hpux) && !defined(SVR4)
-extern int lstat PROT((char *, struct stat *));
+/* Removed due to hideousness: if you want to add it back, note that
+ * we don't want redefinitions, and that some systems define major() in
+ * one place, some in both, etc ...
+ */
+#if 0
+#ifdef INCL_SYS_SYSMACROS_H
+/* Why yes, this *is* a kludge! */
+#  ifdef major
+#    undef major
+#  endif
+#  ifdef minor
+#    undef minor
+#  endif
+#  ifdef makedev
+#    undef makedev
+#  endif
+#  include <sys/sysmacros.h>
 #endif
 #endif
-#endif /* NeXT */
 
-#if !defined(hpux)
-extern int fchmod PROT((int, int));
-#endif /* !defined(hpux) */
+int legal_path (const char *);
 
-extern int legal_path PROT((char *));
-
-extern int d_flag;
-
-struct object *current_object;      /* The object interpreting a function. */
-struct object *command_giver;       /* Where the current command came from. */
-struct object *current_interactive; /* The user who caused this execution */
+static int match_string (char *, char *);
+static int copy (const char *from, const char *to);
+static int do_move (const char *from, const char *to, int flag);
+static int CDECL pstrcmp (CONST void *, CONST void *);
+static int CDECL parrcmp (CONST void *, CONST void *);
+static void encode_stat (svalue_t *, int, char *, struct stat *);
 
 #define MAX_LINES 50
 
 /*
  * These are used by qsort in get_dir().
  */
-static int pstrcmp(p1, p2)
-    struct svalue *p1, *p2;
+static int CDECL pstrcmp (CONST void * p1, CONST void * p2)
 {
-    return strcmp(p1->u.string, p2->u.string);
-}
-static int parrcmp(p1, p2)
-    struct svalue *p1, *p2;
-{
-    return strcmp(p1->u.vec->item[0].u.string, p2->u.vec->item[0].u.string);
+    svalue_t *x = (svalue_t *)p1;
+    svalue_t *y = (svalue_t *)p2;
+    
+    return strcmp(x->u.string, y->u.string);
 }
 
-static void encode_stat(vp, flags, str, st)
-struct svalue *vp;
-int flags;
-char *str;
-struct stat *st;
+static int CDECL parrcmp (CONST void * p1, CONST void * p2)
 {
-   if (flags == -1) {
-      struct vector *v = allocate_array(3);
+    svalue_t *x = (svalue_t *)p1;
+    svalue_t *y = (svalue_t *)p2;
+    
+    return strcmp(x->u.arr->item[0].u.string, y->u.arr->item[0].u.string);
+}
 
-      v->item[0].type = T_STRING;
-      v->item[0].subtype = STRING_MALLOC;
-      v->item[0].u.string = string_copy(str);
-      v->item[1].type = T_NUMBER;
-      v->item[1].u.number =
-        ((st->st_mode & S_IFDIR) ? -2 : st->st_size);
-      v->item[2].type = T_NUMBER; 
-      v->item[2].u.number = st->st_mtime;
-      vp->type = T_POINTER;
-      vp->u.vec = v;
+static void encode_stat (svalue_t * vp, int flags, char * str, struct stat * st)
+{
+    if (flags == -1) {
+        array_t *v = allocate_empty_array(3);
+
+        v->item[0].type = T_STRING;
+        v->item[0].subtype = STRING_MALLOC;
+        v->item[0].u.string = string_copy(str, "encode_stat");
+        v->item[1].type = T_NUMBER;
+        v->item[1].u.number =
+            ((st->st_mode & S_IFDIR) ? -2 : st->st_size);
+        v->item[2].type = T_NUMBER;
+        v->item[2].u.number = st->st_mtime;
+        vp->type = T_ARRAY;
+        vp->u.arr = v;
     } else {
-		vp->type = T_STRING;
-		vp->subtype = STRING_MALLOC;
-		vp->u.string = string_copy(str);
-	}
+        vp->type = T_STRING;
+        vp->subtype = STRING_MALLOC;
+        vp->u.string = string_copy(str, "encode_stat");
+    }
 }
+
 /*
  * List files in directory. This function do same as standard list_files did,
  * but instead writing files right away to user this returns an array
@@ -128,212 +102,213 @@ struct stat *st;
  * of strings, the function will return an array of arrays about files.
  * The information in each array is supplied in the order:
  *    name of file,
- *    last update of file,
- *    size of file (-2 means file doesn't exist).
+ *    size of file,
+ *    last update of file.
  */
+/* WIN32 should be fixed to do this correctly (i.e. no ifdefs for it) */
 #define MAX_FNAME_SIZE 255
 #define MAX_PATH_LEN   1024
-struct vector *get_dir(path, flags)
-    char *path;
-    int flags;
+array_t *get_dir (const char * path, int flags)
 {
-    struct vector *v;
+    array_t *v;
     int i, count = 0;
+#ifndef WIN32
     DIR *dirp;
+#endif
     int namelen, do_match = 0;
-#if defined(_AIX) || defined(M_UNIX) || defined(_SEQUENT_) || defined(SVR4)
+
+#ifndef WIN32
+#ifdef USE_STRUCT_DIRENT
     struct dirent *de;
 #else
     struct direct *de;
 #endif
+#endif
     struct stat st;
     char *endtemp;
-	char temppath[MAX_FNAME_SIZE + MAX_PATH_LEN + 2];
-	char regexp[MAX_FNAME_SIZE + MAX_PATH_LEN + 2];
+    char temppath[MAX_FNAME_SIZE + MAX_PATH_LEN + 2];
+    char regexppath[MAX_FNAME_SIZE + MAX_PATH_LEN + 2];
     char *p;
 
+#ifdef WIN32
+    struct _finddata_t FindBuffer;
+    long FileHandle, FileCount;
+#endif
+
     if (!path)
-	return 0;
+        return 0;
 
     path = check_valid_path(path, current_object, "stat", 0);
 
     if (path == 0)
-	return 0;
+        return 0;
 
-    if (strlen(path)<2) {
-	temppath[0]=path[0]?path[0]:'.';
-	temppath[1]='\000';
-	p = temppath;
+    if (strlen(path) < 2) {
+#ifndef LATTICE
+        temppath[0] = path[0] ? path[0] : '.';
+#else
+        temppath[0] = path[0];
+#endif
+        temppath[1] = '\000';
+        p = temppath;
     } else {
-	strncpy(temppath, path, MAX_FNAME_SIZE + MAX_PATH_LEN + 2);
-	/*
-	 * If path ends with '/' or "/." remove it
-	 */
-	if ((p = strrchr(temppath, '/')) == 0)
-	    p = temppath;
-	if (p[0] == '/' && ((p[1] == '.' && p[2] == '\0') || p[1] == '\0'))
-	  *p = '\0';
+        strncpy(temppath, path, MAX_FNAME_SIZE + MAX_PATH_LEN + 1);
+        temppath[MAX_FNAME_SIZE + MAX_PATH_LEN + 1] = '\0';
+
+        /*
+         * If path ends with '/' or "/." remove it
+         */
+        if ((p = strrchr(temppath, '/')) == 0)
+            p = temppath;
+        if (p[0] == '/' && ((p[1] == '.' && p[2] == '\0') || p[1] == '\0'))
+            *p = '\0';
     }
 
     if (stat(temppath, &st) < 0) {
-	if (*p == '\0')
-	    return 0;
-	if (p != temppath) {
-	    strcpy(regexp, p + 1);
-	    *p = '\0';
-	} else {
-	    strcpy(regexp, p);
-	    strcpy(temppath, ".");
-	}
-	do_match = 1;
+        if (*p == '\0')
+            return 0;
+        if (p != temppath) {
+            strcpy(regexppath, p + 1);
+            *p = '\0';
+        } else {
+            strcpy(regexppath, p);
+#ifndef LATTICE
+            strcpy(temppath, ".");
+#else
+            strcpy(temppath, "");
+#endif
+        }
+        do_match = 1;
     } else if (*p != '\0' && strcmp(temppath, ".")) {
-	if (*p == '/' && *(p + 1) != '\0')
-	    p++;
-	v = allocate_array(1);
+        if (*p == '/' && *(p + 1) != '\0')
+            p++;
+        v = allocate_empty_array(1);
         encode_stat(&v->item[0], flags, p, &st);
-	return v;
+        return v;
     }
-
+/*#ifdef LATTICE
+        if (temppath[0]=='.') temppath[0]=0;
+#endif*/
+#ifdef WIN32
+    FileHandle = -1;
+    FileCount = 1;
+/*    strcat(temppath, "\\*"); */
+    strcat(temppath, "/*");
+    if ((FileHandle = _findfirst(temppath, &FindBuffer)) == -1) return 0;
+#else
     if ((dirp = opendir(temppath)) == 0)
-	return 0;
+        return 0;
+#endif
 
     /*
-     *  Count files
+     * Count files
      */
-    for (de = readdir(dirp); de; de = readdir(dirp)) {
-#if defined(M_UNIX) || defined(_SEQUENT_) || defined(SVR4)
-	namelen = strlen(de->d_name);
+#ifdef WIN32
+    do {
+        if (!do_match && (!strcmp(FindBuffer.name, ".") ||
+                          !strcmp(FindBuffer.name, ".."))) {
+            continue;
+        }
+        if (do_match && !match_string(regexppath, FindBuffer.name)) {
+            continue;
+        }
+        count++;
+        if (count >= max_array_size) {
+            break;
+        }
+    } while (!_findnext(FileHandle, &FindBuffer));
+    _findclose(FileHandle);
 #else
-	namelen = de->d_namlen;
+    for (de = readdir(dirp); de; de = readdir(dirp)) {
+#ifdef USE_STRUCT_DIRENT
+        namelen = strlen(de->d_name);
+#else
+        namelen = de->d_namlen;
 #endif
-	if (!do_match && (strcmp(de->d_name, ".") == 0 ||
-			  strcmp(de->d_name, "..") == 0))
-	    continue;
-	if (do_match && !match_string(regexp, de->d_name))
-	    continue;
-	count++;
-	if (count >= max_array_size)
-	    break;
+        if (!do_match && (strcmp(de->d_name, ".") == 0 ||
+                          strcmp(de->d_name, "..") == 0))
+            continue;
+        if (do_match && !match_string(regexppath, de->d_name))
+            continue;
+        count++;
+        if (count >= max_array_size)
+            break;
     }
+#endif
+
     /*
      * Make array and put files on it.
      */
-    v = allocate_array(count);
+    v = allocate_empty_array(count);
     if (count == 0) {
-	/* This is the easy case :-) */
-	closedir(dirp);
-	return v;
+        /* This is the easy case :-) */
+#ifndef WIN32
+        closedir(dirp);
+#endif
+        return v;
     }
+#ifdef WIN32
+    FileHandle = -1;
+    if ((FileHandle = _findfirst(temppath, &FindBuffer)) == -1) return 0;
+    endtemp = temppath + strlen(temppath) - 2;
+    *endtemp = 0;
+/*    strcat(endtemp++, "\\"); */
+    strcat(endtemp++, "/");
+    i = 0;
+    do {
+        if (!do_match && (!strcmp(FindBuffer.name, ".") ||
+                          !strcmp(FindBuffer.name, ".."))) continue;
+        if (do_match && !match_string(regexppath, FindBuffer.name)) continue;
+        if (flags == -1) {
+            strcpy(endtemp, FindBuffer.name);
+            stat(temppath, &st);
+        }
+        encode_stat(&v->item[i], flags, FindBuffer.name, &st);
+        i++;
+    } while (!_findnext(FileHandle, &FindBuffer));
+    _findclose(FileHandle);
+#else                           /* WIN32 */
     rewinddir(dirp);
     endtemp = temppath + strlen(temppath);
-    strcat(endtemp++, "/");
-    for(i = 0, de = readdir(dirp); i < count; de = readdir(dirp)) {
-#if defined(M_UNIX) || defined(_SEQUENT_) || defined(SVR4)
+
+#ifdef LATTICE
+    if (endtemp != temppath)
+#endif
+        strcat(endtemp++, "/");
+
+    for (i = 0, de = readdir(dirp); i < count; de = readdir(dirp)) {
+#ifdef USE_STRUCT_DIRENT
         namelen = strlen(de->d_name);
 #else
-	namelen = de->d_namlen;
+        namelen = de->d_namlen;
 #endif
-	if (!do_match && (strcmp(de->d_name, ".") == 0 ||
-			  strcmp(de->d_name, "..") == 0))
-	    continue;
-	if (do_match && !match_string(regexp, de->d_name))
-	    continue;
-	de->d_name[namelen] = '\0';
+        if (!do_match && (strcmp(de->d_name, ".") == 0 ||
+                          strcmp(de->d_name, "..") == 0))
+            continue;
+        if (do_match && !match_string(regexppath, de->d_name))
+            continue;
+        de->d_name[namelen] = '\0';
         if (flags == -1) {
-           /* We'll have to .... sigh.... stat() the file to
-              get some add'tl info.  */
-           strcpy(endtemp, de->d_name);
-           stat(temppath, &st);  /* We assume it works. */
+            /*
+             * We'll have to .... sigh.... stat() the file to get some add'tl
+             * info.
+             */
+            strcpy(endtemp, de->d_name);
+            stat(temppath, &st);/* We assume it works. */
         }
         encode_stat(&v->item[i], flags, de->d_name, &st);
-	i++;
+        i++;
     }
     closedir(dirp);
+#endif                          /* OS2 */
+
     /* Sort the names. */
-#ifdef _SEQUENT_
-    qsort((void *)v->item, count, sizeof v->item[0],
-          (int (*)())((flags == -1) ? parrcmp : pstrcmp));
-#else
-    qsort((char *)v->item, count, sizeof v->item[0],
+    qsort((void *) v->item, count, sizeof v->item[0],
           (flags == -1) ? parrcmp : pstrcmp);
-#endif
     return v;
 }
 
-int tail(path)
-    char *path;
-{
-    char buff[1000];
-    FILE *f;
-    struct stat st;
-    int offset;
- 
-    path = check_valid_path(path, current_object, "tail", 0);
-
-    if (path == 0)
-        return 0;
-    f = fopen(path, "r");
-    if (f == 0)
-	return 0;
-    if (fstat(fileno(f), &st) == -1)
-	fatal("Could not stat an open file.\n");
-    offset = st.st_size - 54 * 20;
-    if (offset < 0)
-	offset = 0;
-    if (fseek(f, offset, 0) == -1)
-	fatal("Could not seek.\n");
-    /* Throw away the first incomplete line. */
-    if (offset > 0)
-	(void)fgets(buff, sizeof buff, f);
-    while(fgets(buff, sizeof buff, f)) {
-	add_message("%s", buff);
-    }
-    fclose(f);
-    return 1;
-}
-
-int print_file(path, start, len)
-    char *path;
-    int start, len;
-{
-    char buff[1000];
-    FILE *f;
-    int i;
-
-    if (len < 0)
-	return 0;
-
-    path = check_valid_path(path, current_object, "print_file", 0);
-
-    if (path == 0)
-        return 0;
-    if (start < 0)
-	return 0;
-    f = fopen(path, "r");
-    if (f == 0)
-	return 0;
-    if (len == 0)
-	len = MAX_LINES;
-    if (len > MAX_LINES)
-	len = MAX_LINES;
-    if (start == 0)
-	start = 1;
-    for (i=1; i < start + len; i++) {
-	if (fgets(buff, sizeof buff, f) == 0)
-	    break;
-	if (i >= start)
-	    add_message("%s", buff);
-    }
-    fclose(f);
-    if (i <= start)
-	return 0;
-    if (i == MAX_LINES + start)
-	add_message("*****TRUNCATED****\n");
-    return i-start;
-}
-
-int remove_file(path)
-    char *path;
+int remove_file (const char * path)
 {
     path = check_valid_path(path, current_object, "remove_file", 1);
 
@@ -344,337 +319,395 @@ int remove_file(path)
     return 1;
 }
 
-void log_file(file, str)
-    char *file, *str;
-{
-    FILE *f;
-    char file_name[100];
-    struct stat st;
-
-    sprintf(file_name, "%s/%s", LOG_DIR, file);
-    if (file_name[0] == '/')
-      strcpy (file_name, file_name+1);
-    if (stat(file_name, &st) != -1 && st.st_size > MAX_LOG_SIZE) {
-      char file_name2[sizeof file_name + 4];
-      sprintf(file_name2, "%s.old", file_name+1);
-      rename(file_name+1, file_name2);	/* No panic if failure */
-    }
-    f = fopen(file_name, "a");	/* Skip leading '/' */
-    if (f == 0)
-      return;
-    fwrite(str, strlen(str), 1, f);
-    fclose(f);
-}
-
 /*
  * Check that it is an legal path. No '..' are allowed.
  */
-int legal_path(path)
-    char *path;
+int legal_path (const char * path)
 {
-    char *p;
+    const char *p;
 
-    if (path == NULL || strchr(path, ' '))
-	return 0;
+    if (path == NULL)
+        return 0;
     if (path[0] == '/')
         return 0;
-	/* disallowing # seems the easiest way to solve a bug involving
-	   loading files containing that character
-	*/
-	if (strchr(path, '#')) {
-		return 0;
-	}
-#ifdef MSDOS
-    if (!valid_msdos(path)) return(0);
-#endif
-    for(p = strchr(path, '.'); p; p = strchr(p+1, '.')) {
-	if (p[1] == '.')
-	    return 0;
-	if (p[1] == '/') /* disallow paths like /data/./mail/buddha-mbox.o */
-	    return 0;
+    /*
+     * disallowing # seems the easiest way to solve a bug involving loading
+     * files containing that character
+     */
+    if (strchr(path, '#')) {
+        return 0;
     }
-#ifdef AMIGA /* I don't know what the proper define should be, just leaving
-		an appropriate place for the right stuff to happen here 
-		- Wayfarer */
-    /* fail if there's a ':' since on AmigaDOS this means it's a
-       logical device! */
+    p = path;
+    while (p) {                 /* Zak, 930530 - do better checking */
+        if (p[0] == '.') {
+            if (p[1] == '\0')   /* trailing `.' ok */
+                break;
+            if (p[1] == '.')    /* check for `..' or `../' */
+                p++;
+            if (p[1] == '/' || p[1] == '\0')
+                return 0;       /* check for `./', `..', or `../' */
+        }
+        p = (char *)strstr(p, "/.");    /* search next component */
+        if (p)
+            p++;                /* step over `/' */
+    }
+#if defined(AMIGA) || defined(LATTICE) || defined(WIN32)
+    /*
+     * I don't know what the proper define should be, just leaving an
+     * appropriate place for the right stuff to happen here - Wayfarer
+     */
+    /*
+     * fail if there's a ':' since on AmigaDOS this means it's a logical
+     * device!
+     */
+    /* Could be a drive thingy for os2. */
     if (strchr(path, ':'))
-      return 0;
+        return 0;
 #endif
     return 1;
-}
+}                               /* legal_path() */
 
 /*
  * There is an error in a specific file. Ask the MudOS driver to log the
  * message somewhere.
  */
-void smart_log(error_file, line, what, flush)
-     char *error_file, *what;
-     int line, flush;
+void smart_log (const char * error_file, int line, const char * what, int flag)
 {
-  static char *buff[6], *files[6];
-  static int count = 0;
-  int i;
-  
-  if (count > 5)
-    fatal ("Fatal error in smart_log\n");
+    char *buff;
+    svalue_t *mret;
+    extern int pragmas;
 
-  if (count == 5)
-    flush = 1;
+    buff = (char *)
+        DMALLOC(strlen(error_file) + strlen(what) + 
+                ((pragmas & PRAGMA_ERROR_CONTEXT) ? 100 : 40), TAG_TEMPORARY, "smart_log: 1");
 
-  if (error_file) 
-    {
-      /* the +30 is more than is needed, but what the heck? */
-      buff[count] = (char *) MALLOC(strlen(error_file)+strlen(what)+30);
-      files[count] = (char *) MALLOC(strlen(error_file)+1);
-      sprintf (buff[count], "%s line %d:%s\n", error_file, line, what);
-      strcpy (files[count],error_file);
-      count ++;
+    if (flag)
+        sprintf(buff, "/%s line %d: Warning: %s", error_file, line, what);
+    else
+        sprintf(buff, "/%s line %d: %s", error_file, line, what);
+
+    if (pragmas & PRAGMA_ERROR_CONTEXT) {
+        char *ls = strrchr(buff, '\n');
+        unsigned char *tmp;
+        if (ls) {
+            tmp = (unsigned char *)ls + 1;
+            while (*tmp && isspace(*tmp)) tmp++;
+            if (!*tmp) *ls = 0;
+        }
+        strcat(buff, show_error_context());
+    } else strcat(buff, "\n");
+
+    push_malloced_string(add_slash(error_file));
+    copy_and_push_string(buff);
+    mret = safe_apply_master_ob(APPLY_LOG_ERROR, 2);
+    if (!mret || mret == (svalue_t *)-1) {
+        debug_message("%s", buff);
     }
-  if (flush) 
-    {
-      for (i = 0; i < count; i ++)
-	{
-	  push_constant_string(files[i]);
-	  push_constant_string(buff[i]);
-	  apply_master_ob("log_error", 2);
-	  FREE(files[i]);
-	  FREE(buff[i]);
-	}
-      count = 0;
-    }
-}
+    FREE(buff);
+}                               /* smart_log() */
 
 /*
  * Append string to file. Return 0 for failure, otherwise 1.
  */
-int write_file(file, str)
-    char *file;
-    char *str;
+int write_file (const char * file, const char * str, int flags)
 {
     FILE *f;
 
+#ifdef WIN32
+    char fmode[3];
+#endif
+
     file = check_valid_path(file, current_object, "write_file", 1);
     if (!file)
-	return 0;
-    f = fopen(file, "a");
-    if (f == 0)
-	error("Wrong permissions for opening file %s for append.\n", file);
+        return 0;
+#ifdef WIN32
+    fmode[0] = (flags & 1) ? 'w' : 'a';
+    fmode[1] = 't';
+    fmode[2] = '\0';
+    f = fopen(file, fmode);
+#else    
+    f = fopen(file, (flags & 1) ? "w" : "a");
+#endif
+    if (f == 0) {
+        error("Wrong permissions for opening file /%s for %s.\n\"%s\"\n",
+              file, (flags & 1) ? "overwrite" : "append", port_strerror(errno));
+    }
     fwrite(str, strlen(str), 1, f);
     fclose(f);
     return 1;
 }
 
-char *read_file(file,start,len)
-    char *file;
-    int start,len;
-{
+char *read_file (const char * file, int start, int len) {
     struct stat st;
     FILE *f;
-    char *str,*p,*p2,*end,c;
-    int size;
-
-    if (len < 0) return 0;
+    int lastchunk, chunk, ssize, fsize;
+    char *str, *p, *p2;
+    
+    if (len < 0)
+        return 0;
+    
     file = check_valid_path(file, current_object, "read_file", 0);
-
+    
     if (!file)
-	return 0;
-    f = fopen(file, "r");
+        return 0;
+    
+    /*
+     * file doesn't exist, or is really a directory
+     */
+    if (stat(file, &st) == -1 || (st.st_mode & S_IFDIR))
+        return 0;
+
+    f = fopen(file, FOPEN_READ);
     if (f == 0)
-	return 0;
+        return 0;
+    
+#ifndef LATTICE
     if (fstat(fileno(f), &st) == -1)
-	fatal("Could not stat an open file.\n");
-    size = st.st_size;
-    if (size > READ_FILE_MAX_SIZE) {
-	if ( start || len ) size = READ_FILE_MAX_SIZE;
-	else {
-	    fclose(f);
-	    return 0;
-	}
+        fatal("Could not stat an open file.\n");
+#endif
+
+    /* lastchunk = the size of the last chunk we read
+     * chunk = size of the next chunk we will read (always < fsize)
+     * fsize = amount left in file
+     */
+    lastchunk = chunk = ssize = fsize = st.st_size;
+    if (fsize > READ_FILE_MAX_SIZE)
+        lastchunk = chunk = ssize = READ_FILE_MAX_SIZE;
+
+    /* Can't shortcut out if size > max even if start and len aren't
+       specified, since we still need to check for \0, and \r's may pull the
+       size into range */
+
+    if (start < 1) start = 1; 
+    if (len == 0) len = READ_FILE_MAX_SIZE; 
+    
+    str = new_string(ssize, "read_file: str"); 
+    if (fsize == 0) { 
+        /* zero length file */ 
+        str[0] = 0; 
+        fclose(f);
+        return str;
     }
-    if (!start) start = 1;
-    if (!len) len = READ_FILE_MAX_SIZE;
-    str = XALLOC(size + 1);
-    str[size] = '\0';
+
     do {
-	if (size > st.st_size)
-	    size = st.st_size;
-        if (fread(str, size, 1, f) != 1) {
-    	    fclose(f);
-	    FREE(str);
-    	    return 0;
+        /* read another chunk */
+        if (fsize == 0 || fread(str, chunk, 1, f) != 1)
+            goto free_str;
+        p = str;
+        lastchunk = chunk;
+        fsize -= chunk;
+        if (chunk > fsize) chunk = fsize;
+    
+        while (start > 1) {
+            /* skip newlines */
+            p2 = memchr(p, '\n', str + lastchunk - p);
+            if (p2) {
+                p = p2 + 1;
+                start--;
+            } else
+                break; /* get another chunk */
         }
-	st.st_size -= size;
-	end = str+size;
-        for (p=str; ( p2=memchr(p,'\n',end-p) ) && --start; ) p=p2+1;
-    } while ( start > 1 );
-    for (p2=str; p != end; ) {
+    } while (start > 1); /* until we've skipped enough */
+
+    p2 = str;
+    while (1) {
+        char c;
+
+        if (p == str + lastchunk) {
+            /* need another chunk */
+            if (chunk > ssize - (p2 - str))
+                chunk = ssize - (p2 - str); /* space remaining */
+            if (fsize == 0) break; /* nothing left */
+            if (chunk == 0 || fread(p2, chunk, 1, f) != 1)
+                goto free_str;
+            p = p2;
+            lastchunk = chunk + (p2 - str); /* fudge since we didn't
+                                               start at str */
+            fsize -= chunk;
+            if (chunk > fsize) chunk = fsize;
+        }
+
         c = *p++;
-	if ( !isprint(c) && !isspace(c) ) c=' ';
-	*p2++=c;
-	if ( c == '\n' )
-	    if (!--len) break;
-    }
-    if ( len && st.st_size ) {
-	size -= ( p2-str) ; 
-	if (size > st.st_size)
-	    size = st.st_size;
-        if (fread(p2, size, 1, f) != 1) {
-    	    fclose(f);
-	    FREE(str);
-    	    return 0;
+        if (c == '\0') {
+            FREE_MSTR(str);
+            fclose(f);
+            error("Attempted to read '\\0' into string!\n");    
         }
-	st.st_size -= size;
-	end = p2+size;
-        for (; p2 != end; ) {
-	    c = *p2;
-	    if ( !isprint(c) && !isspace(c) ) *p2=' ';
-	    p2++;
-	    if ( c == '\n' )
-	        if (!--len) break;
-	}
-	if ( st.st_size && len ) {
-	    /* tried to read more than READ_MAX_FILE_SIZE */
-	    fclose(f);
-	    FREE(str);
-	    return 0;
-	}
+        if (c != '\r' || *p != '\n') {
+            *p2++ = c;
+            if (c == '\n' && --len == 0)
+                break; /* done */
+        }
     }
-    *p2='\0';
+
+    *p2 = 0;
+    str = extend_string(str, p2 - str); /* fix string length */
     fclose(f);
+    
     return str;
+    
+    /* Error path: unwind allocated resources */
+
+  free_str:
+    FREE_MSTR(str);
+    fclose(f);
+    return 0;
 }
 
-
-char *read_bytes(file,start,len)
-    char *file;
-    int start,len;
+char *read_bytes (const char * file, int start, int len, int * rlen)
 {
     struct stat st;
-
-    char *str,*p;
-    int size, f;
+    FILE *fptr;
+    char *str;
+    int size;
 
     if (len < 0)
-	return 0;
-    if(len > MAX_BYTE_TRANSFER)
-	return 0;
-    file = check_valid_path(file, current_object, 
-				"read_bytes", 0);
+        return 0;
+    file = check_valid_path(file, current_object,
+                            "read_bytes", 0);
     if (!file)
-	return 0;
-    f = open(file, O_RDONLY);
-    if (f < 0)
-	return 0;
-
-    if (fstat(f, &st) == -1)
-	fatal("Could not stat an open file.\n");
+        return 0;
+#ifdef LATTICE
+    if (stat(file, &st) == -1)
+        return 0;
+#endif
+    fptr = fopen(file, "rb");
+    if (fptr == NULL)
+        return 0;
+#ifndef LATTICE
+    if (fstat(fileno(fptr), &st) == -1)
+        fatal("Could not stat an open file.\n");
+#endif
     size = st.st_size;
-    if(start < 0) 
-	start = size + start;
+    if (start < 0)
+        start = size + start;
 
-    if (start >= size) {
-	close(f);
-	return 0;
+    if (len == 0)
+        len = size;
+    if (len > MAX_BYTE_TRANSFER) {
+        fclose(fptr);
+        error("Transfer exceeded maximum allowed number of bytes.\n");
+        return 0;
     }
-    if ((start+len) > size) 
-	len = (size - start);
+    if (start >= size) {
+        fclose(fptr);
+        return 0;
+    }
+    if ((start + len) > size)
+        len = (size - start);
 
-    if ((size = lseek(f,start, 0)) < 0)
-	return 0;
+    if ((size = fseek(fptr, start, 0)) < 0) {
+        fclose(fptr);
+        return 0;
+    }
+    
+    str = new_string(len, "read_bytes: str");
 
-    str = XALLOC(len + 1);
+    size = fread(str, 1, len, fptr);
 
-    size = read(f, str, len);
-
-    close(f);
+    fclose(fptr);
 
     if (size <= 0) {
-	FREE(str);
-	return 0;
+        FREE_MSTR(str);
+        return 0;
     }
-
-    /* We want to allow all characters to pass untouched!
-    for (il=0;il<size;il++) 
-	if (!isprint(str[il]) && !isspace(str[il]))
-	    str[il] = ' ';
-
-    str[il] = 0;
-    */
     /*
      * The string has to end to '\0'!!!
      */
     str[size] = '\0';
 
-    p = string_copy(str);
-    FREE(str);
-
-    return p;
+    *rlen = size;
+    return str;
 }
 
-int write_bytes(file,start,str)
-    char *file, *str;
-    int start;
+int write_bytes (const char * file, int start, const char * str, int theLength)
 {
     struct stat st;
+    int size;
+    FILE *fptr;
 
-    int size, f;
-
-    file = check_valid_path(file, current_object, 
-				"write_bytes", 1);
+    file = check_valid_path(file, current_object, "write_bytes", 1);
 
     if (!file)
-	return 0;
-    if(strlen(str) > MAX_BYTE_TRANSFER)
-	return 0;
-    f = open(file, O_WRONLY);
-    if (f < 0)
-	return 0;
-
-    if (fstat(f, &st) == -1)
-	fatal("Could not stat an open file.\n");
+        return 0;
+    if (theLength > MAX_BYTE_TRANSFER)
+        return 0;
+    /* Under system V, it isn't possible change existing data in a file
+     * opened for append, so it can't be opened for append.
+     * opening for r+ won't create the file if it doesn't exist.
+     * opening for w or w+ will truncate it if it does exist.  So we
+     * have to check if it exists first.
+     */
+    if (stat(file, &st) == -1) {
+      fptr = fopen(file, "wb");
+    } else {
+      fptr = fopen(file, "r+b");
+    }
+    if (fptr == NULL) {
+        return 0;
+    }
+#ifndef LATTICE
+    if (fstat(fileno(fptr), &st) == -1)
+        fatal("Could not stat an open file.\n");
+#endif
     size = st.st_size;
-    if(start < 0) 
-	start = size + start;
-
-    if (start >= size) {
-	close(f);
-	return 0;
+    if (start < 0)
+        start = size + start;
+    if (start < 0 || start > size) {
+        fclose(fptr);
+        return 0;
     }
-    if ((start+strlen(str)) > size) {
-	close(f);
-	return 0;
+    if ((size = fseek(fptr, start, 0)) < 0) {
+        fclose(fptr);
+        return 0;
     }
+    size = fwrite(str, 1, theLength, fptr);
 
-    if ((size = lseek(f,start, 0)) < 0) {
-	close(f);
-	return 0;
-    }
-
-    size = write(f, str, strlen(str));
-
-    close(f);
+    fclose(fptr);
 
     if (size <= 0) {
-	return 0;
+        return 0;
     }
-
     return 1;
 }
 
-int file_size(file)
-    char *file;
+int file_size (const char * file)
 {
     struct stat st;
+    long ret;
+#ifdef WIN32
+    int needs_free = 0, len;
+    char *p;
+#endif
 
     file = check_valid_path(file, current_object, "file_size", 0);
     if (!file)
-	return -1;
+        return -1;
+
+#ifdef WIN32
+    len = strlen(file);
+    p = file + len - 1;
+    if (*p == '/') {
+        needs_free = 1;
+        p = file;
+        file = new_string(len - 1, "file_size");
+        memcpy(file, p, len - 1);
+        file[len-1] = 0;
+    }
+#endif
+
     if (stat(file, &st) == -1)
-	return -1;
-    if (S_IFDIR & st.st_mode)
-	return -2;
-    return st.st_size;
+        ret = -1;
+    else if (S_IFDIR & st.st_mode)
+        ret = -2;
+    else 
+        ret = st.st_size;
+
+#ifdef WIN32
+    if (needs_free) FREE_MSTR(file);
+#endif
+    
+    return ret;
 }
 
 
@@ -684,206 +717,167 @@ int file_size(file)
  * The path is always treated as an absolute path, and is returned without
  * a leading '/'.
  * If the path was '/', then '.' is returned.
- * The returned string may or may not be residing inside the argument 'path',
- * so don't deallocate arg 'path' until the returned result is used no longer.
  * Otherwise, the returned path is temporarily allocated by apply(), which
- * means it will be dealocated at next apply().
+ * means it will be deallocated at next apply().
  */
-char *check_valid_path(path, call_object, call_fun, writeflg)
-    char *path;
-    struct object *call_object;
-    char *call_fun;
-    int writeflg;
+const char *check_valid_path (const char * path, object_t * call_object, const char * const  call_fun, int writeflg)
 {
-    struct svalue *v;
+    svalue_t *v;
 
-    if (call_object == 0 || call_object->flags & O_DESTRUCTED) return 0;
-    push_string(path, STRING_MALLOC);
+    if (call_object == 0 || call_object->flags & O_DESTRUCTED)
+        return 0;
+
+#ifdef WIN32
+    {
+        char *p;
+        
+        for(p=path; *p; p++) if (*p == '\\') *p='/';
+    }
+#endif
+
+    copy_and_push_string(path);
     push_object(call_object);
-    push_string(call_fun, STRING_CONSTANT);
+    push_constant_string(call_fun);
     if (writeflg)
-	v = apply_master_ob("valid_write", 3);
+        v = apply_master_ob(APPLY_VALID_WRITE, 3);
     else
-	v = apply_master_ob("valid_read", 3);
-    if (v && v->type == T_NUMBER && v->u.number == 0)
-	return 0;
+        v = apply_master_ob(APPLY_VALID_READ, 3);
+
+    if (v == (svalue_t *)-1)
+        v = 0;
+    
+    if (v && v->type == T_NUMBER && v->u.number == 0) return 0;
+    if (v && v->type == T_STRING) {
+        path = v->u.string;
+    } else {
+        extern svalue_t apply_ret_value;
+        
+        free_svalue(&apply_ret_value, "check_valid_path");
+        apply_ret_value.type = T_STRING;
+        apply_ret_value.subtype = STRING_MALLOC;
+        path = apply_ret_value.u.string = string_copy(path, "check_valid_path");
+    }
+    
     if (path[0] == '/')
-	path++;
+        path++;
+#ifndef LATTICE
     if (path[0] == '\0')
-	path = ".";
+        path = ".";
+#endif
     if (legal_path(path))
-	return path;
+        return path;
+
     return 0;
 }
 
-int match_string(match, str)
-    char *match, *str;
+static int match_string (char * match, char * str)
 {
     int i;
 
- again:
+  again:
     if (*str == '\0' && *match == '\0')
-	return 1;
-    switch(*match) {
+        return 1;
+    switch (*match) {
     case '?':
-	if (*str == '\0')
-	    return 0;
-	str++;
-	match++;
-	goto again;
+        if (*str == '\0')
+            return 0;
+        str++;
+        match++;
+        goto again;
     case '*':
-	match++;
-	if (*match == '\0')
-	    return 1;
-	for (i=0; str[i] != '\0'; i++)
-	    if (match_string(match, str+i))
-		return 1;
-	return 0;
+        match++;
+        if (*match == '\0')
+            return 1;
+        for (i = 0; str[i] != '\0'; i++)
+            if (match_string(match, str + i))
+                return 1;
+        return 0;
     case '\0':
-	return 0;
+        return 0;
     case '\\':
-	match++;
-	if (*match == '\0')
-	    return 0;
-	/* Fall through ! */
+        match++;
+        if (*match == '\0')
+            return 0;
+        /* Fall through ! */
     default:
-	if (*match == *str) {
-	    match++;
-	    str++;
-	    goto again;
-	}
-	return 0;
+        if (*match == *str) {
+            match++;
+            str++;
+            goto again;
+        }
+        return 0;
     }
 }
 
-/*
- * Credits for some of the code below goes to Free Software Foundation
- * Copyright (C) 1990 Free Software Foundation, Inc.
- * See the GNU General Public License for more details.
- */
-#ifndef S_ISDIR
-#define	S_ISDIR(m)	(((m)&S_IFMT) == S_IFDIR)
-#endif
+static struct stat to_stats, from_stats;
 
-#ifndef S_ISREG
-#define	S_ISREG(m)	(((m)&S_IFMT) == S_IFREG)
-#endif
-
-#ifndef S_ISCHR
-#define	S_ISCHR(m)	(((m)&S_IFMT) == S_IFCHR)
-#endif
-
-#ifndef S_ISBLK
-#define	S_ISBLK(m)	(((m)&S_IFMT) == S_IFBLK)
-#endif
-
-int
-isdir (path)
-     char *path;
+static int copy (const char * from, const char * to)
 {
-  struct stat stats;
+    int ifd;
+    int ofd;
+    char buf[1024 * 8];
+    int len;                    /* Number of bytes read into `buf'. */
 
-  return stat (path, &stats) == 0 && S_ISDIR (stats.st_mode);
-}
-
-void
-strip_trailing_slashes (path)
-     char *path;
-{
-  int last;
-
-  last = strlen (path) - 1;
-  while (last > 0 && path[last] == '/')
-    path[last--] = '\0';
-}
-
-struct stat to_stats, from_stats;
-
-int
-copy (from, to)
-     char *from, *to;
-{
-  int ifd;
-  int ofd;
-  char buf[1024 * 8];
-  int len;			/* Number of bytes read into `buf'. */
-  
-  if (!S_ISREG (from_stats.st_mode))
-    {
-      return 1;
+    if (!S_ISREG(from_stats.st_mode)) {
+        return 1;
     }
-  
-  if (unlink (to) && errno != ENOENT)
-    {
-      return 1;
+    if (unlink(to) && errno != ENOENT) {
+        return 1;
     }
-
-  ifd = open (from, O_RDONLY, 0);
-  if (ifd < 0)
-    {
-      return errno;
+    ifd = open(from, OPEN_READ);
+    if (ifd < 0) {
+        return errno;
     }
-  ofd = open (to, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-  if (ofd < 0)
-    {
-      close (ifd);
-      return 1;
+    ofd = open(to, OPEN_WRITE | O_CREAT | O_TRUNC, 0666);
+    if (ofd < 0) {
+        close(ifd);
+        return 1;
     }
-#ifndef FCHMOD_MISSING
-  if (fchmod (ofd, from_stats.st_mode & 0777))
-    {
-      close (ifd);
-      close (ofd);
-      unlink (to);
-      return 1;
+#ifdef HAS_FCHMOD
+    if (fchmod(ofd, from_stats.st_mode & 0777)) {
+        close(ifd);
+        close(ofd);
+        unlink(to);
+        return 1;
     }
 #endif
-  
-  while ((len = read (ifd, buf, sizeof (buf))) > 0)
-    {
-      int wrote = 0;
-      char *bp = buf;
-      
-      do
-	{
-	  wrote = write (ofd, bp, len);
-	  if (wrote < 0)
-	    {
-	      close (ifd);
-	      close (ofd);
-	      unlink (to);
-	      return 1;
-	    }
-	  bp += wrote;
-	  len -= wrote;
-	} while (len > 0);
-    }
-  if (len < 0)
-    {
-      close (ifd);
-      close (ofd);
-      unlink (to);
-      return 1;
-    }
 
-  if (close (ifd) < 0)
-    {
-      close (ofd);
-      return 1;
+    while ((len = read(ifd, buf, sizeof(buf))) > 0) {
+        int wrote = 0;
+        char *bp = buf;
+
+        do {
+            wrote = write(ofd, bp, len);
+            if (wrote < 0) {
+                close(ifd);
+                close(ofd);
+                unlink(to);
+                return 1;
+            }
+            bp += wrote;
+            len -= wrote;
+        } while (len > 0);
     }
-  if (close (ofd) < 0)
-    {
-      return 1;
+    if (len < 0) {
+        close(ifd);
+        close(ofd);
+        unlink(to);
+        return 1;
     }
-  
+    if (close(ifd) < 0) {
+        close(ofd);
+        return 1;
+    }
+    if (close(ofd) < 0) {
+        return 1;
+    }
 #ifdef FCHMOD_MISSING
-  if (chmod (to, from_stats.st_mode & 0777))
-    {
-      return 1;
+    if (chmod(to, from_stats.st_mode & 0777)) {
+        return 1;
     }
 #endif
 
-  return 0;
+    return 0;
 }
 
 /* Move FROM onto TO.  Handles cross-filesystem moves.
@@ -891,263 +885,321 @@ copy (from, to)
    Return 0 if successful, 1 if an error occurred.  */
 
 #ifdef F_RENAME
-int
-  do_move (from, to, flag)
-char *from;
-char *to;
-int flag;
+static int do_move (const char * from, const char * to, int flag)
 {
-   if (lstat (from, &from_stats) != 0)
-     {
-	error ("%s: lstat failed\n", from);
-	return 1;
-     }
-   
-   if (lstat (to, &to_stats) == 0)
-     {
-#ifndef MSDOS
-	if (from_stats.st_dev == to_stats.st_dev
-	    && from_stats.st_ino == to_stats.st_ino)
+    if (lstat(from, &from_stats) != 0) {
+        error("/%s: lstat failed\n", from);
+        return 1;
+    }
+    if (lstat(to, &to_stats) == 0) {
+#ifdef WIN32
+        if (!strcmp(from, to))
 #else
-	  if (same_file(from,to))
+        if (from_stats.st_dev == to_stats.st_dev
+            && from_stats.st_ino == to_stats.st_ino)
 #endif
-	    {
-	       error ("`%s' and `%s' are the same file", from, to);
-	       return 1;
-	    }
-	
-	if (S_ISDIR (to_stats.st_mode))
-	  {
-	     error ("%s: cannot overwrite directory", to);
-	     return 1;
-	  }
-	
-     }
-   else if (errno != ENOENT)
-     {
-	error ("%s: unknown error\n", to);
-	return 1;
-     }
+        {
+            error("`/%s' and `/%s' are the same file", from, to);
+            return 1;
+        }
+        if (S_ISDIR(to_stats.st_mode)) {
+            error("/%s: cannot overwrite directory", to);
+            return 1;
+        }
+#ifdef WIN32
+        unlink(to);
+#endif
+    } else if (errno != ENOENT) {
+        error("/%s: unknown error\n", to);
+        return 1;
+    }
 #ifdef SYSV
-   if ((flag == F_RENAME) && isdir(from)) {
-      char cmd_buf[100];
-      sprintf(cmd_buf, "/usr/lib/mv_dir %s %s", from, to);
-      return system(cmd_buf);
-   } else
-#endif /* SYSV */      
-     if ((flag == F_RENAME) && (rename(from, to) == 0))
-       return 0;
+    if ((flag == F_RENAME) && file_size(from) == -2) {
+        char cmd_buf[100];
+
+        sprintf(cmd_buf, "/usr/lib/mv_dir %s %s", from, to);
+        return system(cmd_buf);
+    } else
+#endif                          /* SYSV */
+    if ((flag == F_RENAME) && (rename(from, to) == 0))
+        return 0;
 #ifdef F_LINK
-     else if ((flag == F_LINK) && (link(from,to) == 0)) /* hard link */
-       return 0;
+    else if (flag == F_LINK) {
+#ifdef WIN32
+        error("link() not supported.\n");
+#else
+        if (link(from, to) == 0)
+            return 0;
 #endif
-   
-   if (errno != EXDEV) {
-      if (flag == F_RENAME)
-	error ("cannot move `%s' to `%s'", from, to);
-      else
-	error ("cannot link `%s' to `%s'", from, to);
-      return 1;
-   }
-   
-   /* rename failed on cross-filesystem link.  Copy the file instead. */
-   
-   if (flag == F_RENAME) {
-      if (copy (from, to))
-	return 1;
-      if (unlink (from)) {
-	 error ("cannot remove `%s'", from);
-	 return 1;
-      }
-   }
+    }
+#endif
+
+    if (errno != EXDEV) {
+        if (flag == F_RENAME)
+            error("cannot move `/%s' to `/%s'\n", from, to);
+        else
+            error("cannot link `/%s' to `/%s'\n", from, to);
+        return 1;
+    }
+    /* rename failed on cross-filesystem link.  Copy the file instead. */
+
+    if (flag == F_RENAME) {
+        if (copy(from, to))
+            return 1;
+        if (unlink(from)) {
+            error("cannot remove `/%s'", from);
+            return 1;
+        }
+    }
 #ifdef F_LINK
-   else if (flag == F_LINK) {
-      if (symlink(from, to) == 0) /* symbolic link */
-	return 0;
-   }
+    else if (flag == F_LINK) {
+        if (symlink(from, to) == 0)     /* symbolic link */
+            return 0;
+    }
 #endif
-   return 0;
+    return 0;
 }
 #endif
-    
+
+void debug_perror (const char * what, const char * file) {
+    if (file)
+        debug_message("System Error: %s:%s:%s\n", what, file, port_strerror(errno));
+    else
+        debug_message("System Error: %s:%s\n", what, port_strerror(errno));
+}
+
 /*
  * do_rename is used by the efun rename. It is basically a combination
- * of the unix system call rename and the unix command mv. Please shoot
- * the people at ATT who made Sys V.
+ * of the unix system call rename and the unix command mv.
  */
 
+static svalue_t from_sv = { T_NUMBER };
+static svalue_t to_sv = { T_NUMBER };
+
+#ifdef DEBUGMALLOC_EXTENSIONS
+void mark_file_sv() {
+    mark_svalue(&from_sv);
+    mark_svalue(&to_sv);
+}
+#endif
+
 #ifdef F_RENAME
-int
-do_rename(fr, t, flag)
-    char *fr, *t;
-	int flag;
+int do_rename (const char * fr, const char * t, int flag)
 {
-   char *from, *to, tbuf[3];
-   
-   /* important that the same write access checks are done for link()
-      as are done for rename().  Otherwise all kinds of security problems
-      would arise (e.g. creating links to files in protected directories
-      and then modifying the protected file by modifying the linked file).
-      The idea is prevent linking to a file unless the person doing the
-      linking has permission to move the file.
-      */
-   from = check_valid_path(fr, current_object, "do_rename", 1);
-   if(!from)
-     return 1;
-   to = check_valid_path(t, current_object, "do_rename", 1);
-   if(!to)
-     return 1;
-   if(!strlen(to) && !strcmp(t, "/")) {
-      to = tbuf;
-      sprintf(to, "./");
-   }
-   strip_trailing_slashes (from);
-   if (isdir (to))
-     {
-	/* Target is a directory; build full target filename. */
-	char *cp;
-	char newto[MAX_FNAME_SIZE + MAX_PATH_LEN + 2];
-	
-	cp = strrchr (from, '/');
-	if (cp)
-	  cp++;
-	else
-	  cp = from;
-	
-	sprintf (newto, "%s/%s", to, cp);
-	return do_move (from, newto, flag);
-     }
-   else
-     return do_move (from, to, flag);
-}
-#endif /* F_RENAME */
+    const char *from;
+    const char *to;
+    char newfrom[MAX_FNAME_SIZE + MAX_PATH_LEN + 2];
+    int flen;
+    extern svalue_t apply_ret_value;
 
-int copy_file (from, to)
-     char *from, *to;
+    /*
+     * important that the same write access checks are done for link() as are
+     * done for rename().  Otherwise all kinds of security problems would
+     * arise (e.g. creating links to files in protected directories and then
+     * modifying the protected file by modifying the linked file). The idea
+     * is prevent linking to a file unless the person doing the linking has
+     * permission to move the file.
+     */
+    from = check_valid_path(fr, current_object, "rename", 1);
+    if (!from)
+        return 1;
+
+    assign_svalue(&from_sv, &apply_ret_value);
+    
+    to = check_valid_path(t, current_object, "rename", 1);
+    if (!to)
+        return 1;
+
+    assign_svalue(&to_sv, &apply_ret_value);
+    if (!strlen(to) && !strcmp(t, "/")) {
+        to = "./";
+    }
+
+    /* Strip trailing slashes */
+    flen = strlen(from);
+    if (flen > 1 && from[flen - 1] == '/') {
+        const char *p = from + flen - 2;
+        int n;
+        
+        while (*p == '/' && (p > from))
+            p--;
+        n = p - from + 1;
+        memcpy(newfrom, from, n);
+        newfrom[n] = 0;
+        from = newfrom;
+    }
+
+    if (file_size(to) == -2) {
+        /* Target is a directory; build full target filename. */
+        const char *cp;
+        char newto[MAX_FNAME_SIZE + MAX_PATH_LEN + 2];
+
+        cp = strrchr(from, '/');
+        if (cp)
+            cp++;
+        else
+            cp = from;
+
+        sprintf(newto, "%s/%s", to, cp);
+        return do_move(from, newto, flag);
+    } else
+        return do_move(from, to, flag);
+}
+#endif                          /* F_RENAME */
+
+int copy_file (const char * from, const char * to)
 {
-   char buf[128];
-   int from_fd, to_fd;
-   int num_read, num_written;
-   char *write_ptr;
-   
-   from = check_valid_path (from, current_object, "move_file", 0);
-   to = check_valid_path (to, current_object, "move_file", 1);
-   if (from == 0)
-     return -1;
-   if (to == 0)
-     return -2;
-   
-   from_fd = open (from, O_RDONLY, 0777);
-   if (from_fd < 0)
-     return (-1);
-   
-   if (isdir (to))
-     {
-	/* Target is a directory; build full target filename. */
-	char *cp;
-	char newto[MAX_FNAME_SIZE + MAX_PATH_LEN + 2];
-	
-	cp = strrchr (from, '/');
-	if (cp)
-	  cp++;
-	else
-	  cp = from;
-	
-	sprintf (newto, "%s/%s", to, cp);
-	close(from_fd);
-	return copy_file (from, newto);
-     }
-   to_fd = open (to, O_WRONLY|O_CREAT|O_TRUNC, 0777);
-   if (to_fd < 0)
-     {
-	close (from_fd);
-	return (-2);
-     }
-   
-   while ((num_read = read (from_fd, buf, 128)) != 0) {
-      if (num_read < 0) {
-	 perror ("error in read in copy_file()");
-	 close (from_fd);
-	 close (to_fd);
-	 return (-3);
-      }
-      
-      write_ptr = buf;
-      while (write_ptr != (buf + num_read)) {
-	 num_written = write (to_fd, write_ptr, num_read);
-	 if (num_written < 0) {
-	    perror ("error in write in copy_file()");
-	    close (from_fd);
-	    close (to_fd);
-	    return (-3);
-	 }
-	 write_ptr += num_written;
-      }
-   }
-   close (from_fd);
-   close (to_fd);
-   return 1;
+    char buf[128];
+    int from_fd, to_fd;
+    int num_read, num_written;
+    char *write_ptr;
+    extern svalue_t apply_ret_value;
+
+    from = check_valid_path(from, current_object, "move_file", 0);
+    assign_svalue(&from_sv, &apply_ret_value);
+
+    to = check_valid_path(to, current_object, "move_file", 1);
+    assign_svalue(&to_sv, &apply_ret_value);
+
+    if (from == 0)
+        return -1;
+    if (to == 0)
+        return -2;
+
+    if (lstat(from, &from_stats) != 0) {
+        error("/%s: lstat failed\n", from);
+        return 1;
+    }
+    if (lstat(to, &to_stats) == 0) {
+#ifdef WIN32
+        if (!strcmp(from, to))
+#else
+        if (from_stats.st_dev == to_stats.st_dev
+            && from_stats.st_ino == to_stats.st_ino)
+#endif
+        {
+            error("`/%s' and `/%s' are the same file", from, to);
+            return 1;
+        }
+    } else if (errno != ENOENT) {
+        error("/%s: unknown error\n", to);
+        return 1;
+    }
+    
+    from_fd = open(from, OPEN_READ);
+    if (from_fd < 0)
+        return -1;
+
+    if (file_size(to) == -2) {
+        /* Target is a directory; build full target filename. */
+        const char *cp;
+        char newto[MAX_FNAME_SIZE + MAX_PATH_LEN + 2];
+
+        cp = strrchr(from, '/');
+        if (cp)
+            cp++;
+        else
+            cp = from;
+
+        sprintf(newto, "%s/%s", to, cp);
+        close(from_fd);
+        return copy_file(from, newto);
+    }
+    to_fd = open(to, OPEN_WRITE | O_CREAT | O_TRUNC, 0666);
+    if (to_fd < 0) {
+        close(from_fd);
+        return -2;
+    }
+    while ((num_read = read(from_fd, buf, 128)) != 0) {
+        if (num_read < 0) {
+            debug_perror("copy_file: read", from);
+            close(from_fd);
+            close(to_fd);
+            return -3;
+        }
+        write_ptr = buf;
+        while (write_ptr != (buf + num_read)) {
+            num_written = write(to_fd, write_ptr, num_read);
+            if (num_written < 0) {
+                debug_perror("copy_file: write", to);
+                close(from_fd);
+                close(to_fd);
+                return -3;
+            }
+            write_ptr += num_written;
+        }
+    }
+    close(from_fd);
+    close(to_fd);
+    return 1;
 }
 
-void
-dump_file_descriptors() {
+void dump_file_descriptors (outbuffer_t * out)
+{
     int i;
     dev_t dev;
     struct stat stbuf;
 
-    add_message("Fd  Device Number  Inode   Mode    Uid    Gid      Size\n");
-    add_message("--  -------------  -----  ------  -----  -----  ----------\n");
+    outbuf_add(out, "Fd  Device Number  Inode   Mode    Uid    Gid      Size\n");
+    outbuf_add(out, "--  -------------  -----  ------  -----  -----  ----------\n");
 
     for (i = 0; i < FD_SETSIZE; i++) {
-	/* bug in NeXT OS 2.1, st_mode == 0 for sockets */
-	if (fstat(i, &stbuf) == -1)
-	    continue;
+        /* bug in NeXT OS 2.1, st_mode == 0 for sockets */
+        if (fstat(i, &stbuf) == -1)
+            continue;
 
-	if (S_ISCHR(stbuf.st_mode) || S_ISBLK(stbuf.st_mode))
-	    dev = stbuf.st_rdev;
-	else
-	    dev = stbuf.st_dev;
-
-	add_message("%2d", i);
-	add_message("%6x", major(dev));
-	add_message("%7x", minor(dev));
-	add_message("%9d", stbuf.st_ino);
-	add_message("  ");
-
-	switch (stbuf.st_mode & S_IFMT) {
-
-	case S_IFDIR:
-	    add_message("d");
-	    break;
-	case S_IFCHR:
-	    add_message("c");
-	    break;
-	case S_IFBLK:
-	    add_message("b");
-	    break;
-	case S_IFREG:
-	    add_message("f");
-	    break;
-	case S_IFIFO:
-	    add_message("p");
-	    break;
-	case S_IFLNK:
-	    add_message("l");
-	    break;
-#ifdef S_IFSOCK
-	case S_IFSOCK:
-	    add_message("s");
-	    break; 
+#if !defined(LATTICE) && !defined(WIN32)
+        if (S_ISCHR(stbuf.st_mode) || S_ISBLK(stbuf.st_mode))
+            dev = stbuf.st_rdev;
+        else
 #endif
-	default:
-	    add_message("?");
-	    break;
-	}
+            dev = stbuf.st_dev;
 
-	add_message("%5o", stbuf.st_mode & ~S_IFMT);
-	add_message("%7d", stbuf.st_uid);
-	add_message("%7d", stbuf.st_gid);
-	add_message("%12d", stbuf.st_size);
-	add_message("\n");
+        outbuf_addv(out, "%2d", i);
+        outbuf_addv(out, "%13x", dev);
+        outbuf_addv(out, "%9d", stbuf.st_ino);
+        outbuf_add(out, "  ");
+
+        switch (stbuf.st_mode & S_IFMT) {
+
+        case S_IFDIR:
+            outbuf_add(out, "d");
+            break;
+        case S_IFCHR:
+            outbuf_add(out, "c");
+            break;
+#ifdef S_IFBLK
+        case S_IFBLK:
+            outbuf_add(out, "b");
+            break;
+#endif
+        case S_IFREG:
+            outbuf_add(out, "f");
+            break;
+#ifdef S_IFIFO
+        case S_IFIFO:
+            outbuf_add(out, "p");
+            break;
+#endif
+#ifdef S_IFLNK
+        case S_IFLNK:
+            outbuf_add(out, "l");
+            break;
+#endif
+#ifdef S_IFSOCK
+        case S_IFSOCK:
+            outbuf_add(out, "s");
+            break;
+#endif
+        default:
+            outbuf_add(out, "?");
+            break;
+        }
+
+        outbuf_addv(out, "%5o", stbuf.st_mode & ~S_IFMT);
+        outbuf_addv(out, "%7d", stbuf.st_uid);
+        outbuf_addv(out, "%7d", stbuf.st_gid);
+        outbuf_addv(out, "%12d", stbuf.st_size);
+        outbuf_add(out, "\n");
     }
 }

@@ -1,0 +1,90 @@
+.DT
+Taskmaster
+Discworld Creator Help
+Taskmaster
+
+Name
+.SI 5
+/obj/handlers/taskmaster.c - Utility to perform a task calculation
+.EI
+
+Description
+.SP 5 5
+The taskmaster is a utility that can be called to perform a task
+calculation.  It is called with the function:
+.EP
+
+.SI 10
+int attempt_task( int difficulty, int bonus, int upper,
+      mixed extra );
+.EI
+
+.SP 5 5
+and returns values defined in the include file tasks.h according to the
+outcome.
+.EP
+
+Parameters
+.SI 5
+difficulty - the difficulty of the task
+bonus - the bonus of the player attempting the task
+upper - the maximum percentage chance of gaining a level
+extra - optional parameter that can be:
+        integer - the margin is this number
+        integer array - the margin is the first number plus the
+                the second number times sqrt( difficulty )
+        If not specified, it defaults to 3 * sqrt( difficulty ) .
+.EI
+
+Alternate function
+.SP 5 5
+An alternate function, with no upper limit to the bonus at which it can fail
+and therefore also with no upper limit to advancing.  Currently
+used in faith related tasks.
+.EP
+
+.SI 10
+int attempt_task_e( int difficulty, int bonus, int upper, int half );
+.EI
+
+.SP 5 5
+and returns values defined in the include file tasks.h according to the
+outcome.
+.EP
+
+Parameters
+.SI 5
+difficulty - the difficulty of the task
+bonus - the bonus of the player attempting the task
+upper - the maximum percentage chance of gaining a level
+half  - the "half period" of the chance, basically the amount the bonus 
+        need to change, to halve the chance of failure.
+        If not specified, it defaults to 6 * sqrt( difficulty ).
+.EI
+
+Auxiliary Functions
+.SI 10
+void set_control( mixed *args );
+void reset_control();
+.EI
+
+.SP 5 5
+The argument of set_control() is a mixed array, the first element being
+the player undertaking the task and the second being the main skill
+that determines "bonus".  This is automatically called on the
+taskmaster when query_skill_bonus() is called on the player, so it
+is only necessary for the task's code to call it if there could be
+confusion.  The information provided in set_control() is used to adjust
+the chance to gain a level, "upper", according to the stats of the player,
+so that someone with more appropriate stats, or greater inherent ability,
+is more likely to advance than someone with less.  If no such adjustment
+is to be made, reset_control() can be called on the taskmaster just before
+attempt_task() and "upper" will not be changed.  It is expected that in
+almost all applications of the taskmaster, it will not be necessary for
+the task's code to use either function.
+.EP
+
+See also
+.SP 5 5
+tasks
+.EP

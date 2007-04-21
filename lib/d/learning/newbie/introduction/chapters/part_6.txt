@@ -1,0 +1,525 @@
+A Brief Introduction to LPC  -  LPC Operators
+Ae First Rough Draft
+
+Drakkos - 23/10/2000
+
+N.B     -       This is a work in project... a living document if
+                you like.  If it appears to be dead when you view
+                it, don't worry.  It's most likely just playing
+                possum.
+
+==========================================================================
+Concepts still to be covered:
+
+Not sure... perhaps nothing.
+==========================================================================
+
+In the previous chapter, we talked about how we can use various types of 
+structures to alter the flow of execution through your programs.  In each 
+of the previous examples, we used only very simple conditional expressions,
+based only on a single value.  In this chapter, we will discuss how to 
+utilise the various operators available in LPC in order to build more 
+complex conditional expressions.  We will also look at the mathematical
+operators and how these can be used within your code to manipulate constant
+values and variables.
+
+Be warned, this chapter may be a little heavy going at first, so don't be
+discouraged if you don't follow exactly what each of these operators do to
+begin with.  Persevere, and reread the offending sections again, paying
+particular attention to the examples.  It will all become second nature
+eventually, I promise!
+
+
+Mathematical Operators
+======================
+
+Several of the mathematical operators we have already discussed in the section
+on data types.  We will revise what we learned in that section here, and add
+some new operators we may use when developing our code.
+
+The '+' operator is the addition operator.  We may use the + operator on
+ints, floats, strings, mappings and arrays.  In the case of ints and floats,
+the value of the elements are added together and the result returned.  In
+the case of strings, arrays, and mappings, the elements are concatenated
+together:
+
+    int x = 1 + 2;                          // x equals 3
+    float x = 1.02 + 3.3;                   // x equals 4.32
+    string x = "bing" + "bong"              // x equals "bingbong"
+    mapping x = (["bing": "bong"]) +        // x equals ({"bing": "bong",
+                (["wibble" :"wobble"])      //            "wibble":"wobble"])
+    string *x = ({"bing", "bong"}) +        // x equals ({"bing", "bong", 
+                ({"wibble", "wobble"});                   "wibble", "wobble"})
+                
+We can use the + operator to add/concatenate as many different elements as
+required:
+
+    int x = 1 + 2 + 3 + 4 + 5;              // x equals 15.
+    
+The '-' operator is the subtraction operator.  We may use the - operator on
+ints, floats, and arrays.  In the case of ints and floats, the elements are
+subtracted from left to right.  In the case of arrays, the element, if it
+exists, is subtracted from the array from left to right:
+
+    int x = 7 - 5;                          // x equals 2
+    float x = 5.02 - 2.02;                  // x equals 3.00
+    string *x = ({"bing", "bong",           // x equals ({"bing, wibble"})
+                "wibble"}) = ({"bong"})                    
+                
+Again, we can use the - operator to subtract as many different elements as
+required.  This is done left to right:
+
+    int x = 10 - 2 - 3;                     // x equals 5.
+    
+The '*' operator is the multiplication operator, and may be used on ints and
+floats:
+
+    int x = 10 * 8;                         // x equals 80
+    float x = 1.10 * 4.5;                   // x equals 4.95
+    
+Again, this can be used repeatedly, the calculations being performed from left
+to right:
+
+    float x = 1.10 * 4.5 * 10;              // x equals 49.5    
+    
+The '/' operator is the division operator, and may only be used on ints and
+floats:
+
+    int x = 10 / 2;                         // x equals 5
+    float x = 4.4 / 1.1;                    // x equals 4
+    
+The operator precedence is from left to right:
+
+    int x = 10 / 5 / 2                      // x equals 1
+    
+The final mathematical operator is the modulus operator, '%', and returns
+the remainder of the elements.  This will work only with integers:
+
+    int x = 14 % 3;                         // x equals 2.
+    
+In all cases, we can combine different operators in a single expression. 
+The mathematical precedence order of multiplication, division, addition,
+then subtraction is preserved, so if you wish to ensure certain parts of
+the expression are calculated independent, you must enclose them in
+parenthesis:
+
+    int x = 10 + 2 * 5                      // This calculates 5 * 2
+                                            // first, and then adds the
+                                            // result to 10, giving 20.
+    int x = (10 + 2) * 5                    // This will calculate 10 + 2
+                                            // before multiplying the result
+                                            // by 5 to get 60.
+                                            
+Through the combination of these operators, and enforced precedence through
+the use of parenthesis, complicated mathematical expressions can be built 
+up.
+
+
+Incremental and Decremental Operators
+=====================================
+
+The other semi-mathematical operators you are likely to come across as a 
+creator on Discworld are the post and pre-increment/decrement operators.  
+++ and --.  We've already seen them in the section on data types, but we'll 
+take a closer look at them here.
+
+The post increment operator takes the form: x++.  The pre increment takes the
+form ++x.  The difference between the two is the order in which they do 
+things.  The first returns the value of x before the expression is used, and 
+then increments it by one.  The second increments it in one then uses the
+expression:
+
+    int x = 5;                              // x equals 5
+    int y = x++;                            // y equals 5.
+                                            // x equals 6
+    
+    int x = 5;                              // x equals 5
+    int y = ++x;                            // y equals 6.
+                                            // x equals 6.
+                                            
+
+In the first case, we're using the value of x as it stands (at 5), and then
+increasing the value by one.   In the second, we are increasing the value of
+x by one, and returning that to y.
+
+The pre and post decrement operators are of the same form and meaning:
+
+    int x = 5;                              // x equals 5
+    int y = x--;                            // y equals 5
+                                            // x equals 4
+                                            
+    int x = 5;                              // x equals 5
+    int y = --x;                            // y equals 4
+                                            // x equals 4.                                           
+
+
+Assignment Operators
+====================
+
+LPC offers a range operators to abbreviate assignments.  Assignments are 
+usually performed using the assignment '=' operator.  However, if we
+are performing mathematical assignments, such as:
+
+    int x = 5;
+    
+    x = x + 5;
+    
+We can abbreviate the code one of the abbreviation assignment operators.  
+Operators in this category are the additive assignment '+=', the
+subtractive assignment '-=', the mutilative assignment '*=', the
+divisive assignment '/=', and the modular assignment '%='.
+
+We can sum the use of these operators up in the following table:
+
+     ---------------------------------------------------
+    |               |               |                   |
+    |   Operator    |   Expression  |   Equivalent to   |
+    |               |               |                   |  
+     ---------------------------------------------------
+    |               |               |                   |
+    |     +=        |     x += 5    |     x = x + 5     |
+    |     -=        |     x -= 5    |     x = x - 5     |
+    |     *=        |     x *= 5    |     x = x * 5     |
+    |     /=        |     x /= 5    |     x = x / 5     |
+    |     %=        |     x %= 5    |     x = x % 6     |
+    |               |               |                   |
+     ---------------------------------------------------
+     
+We can use these operators on the same types of data we can use the equivalent
+arithmetic operator on.  So we can use += on ints, floats, mappings, arrays and
+strings, whereas we can use %= only on int.     
+    
+
+Equality Operators
+==================
+
+The comparative operators are used to compare the value of one side of the
+operator against the other.  We have three operators that fall under this
+category... the equals operator (==), the does not equal operator (!=), and
+the not operator (!).  We'll look at each of these in turn.
+
+The equals operator is ==.  Note that the two equals signs... = and ==
+mean two entirely different things in LPC.  = is the assignment operator, and
+will make the variable on the left equal to the value on the right.  The 
+== operator, however, will compare the two and return true if they are equal:
+
+    if (x == y) {
+        printf ("X equals Y!\n");
+    }
+    
+Now, let's suppose that we initialise the variables like so:
+
+    int x = 5, y = 10;
+    
+In our if condition, this is evaluated as:
+
+    if (5 == 10)
+    
+Quite obviously 5 does not equal 10, and so the condition is evaluated to 
+false.  The code belonging to the if statement is not executed.  But if we
+initialised the variables as:
+
+    int x = 5, y = 5;
+    
+The the condition would be evaluated as:
+
+    if (5 == 5)
+    
+Which is obviously true, and so will allow the statements belonging to the if
+statement to be executed.
+
+We can compare the value of variables against solid values also:
+
+    int x = 5;
+    
+    if (x == 5) 
+    
+Which would evaluate as:
+
+     if (5 == 5)
+     
+We can use the equals operator on any variable type, provided the comparison 
+is homogeneous... that we don't try and compare one type of variable against 
+another type:
+
+    string x = "bing";                     
+    
+    if (x == "bing") 
+    
+Is fine, while:
+
+    string x = "bing";
+
+    if (x == 5)    
+    
+Will throw out a parse error.  If we are checking to see if the string x 
+contains the alphadecimal character 5, we must enclose the 5 in quotation 
+marks:
+
+    if (x == "5")
+
+If we are interested in the inverse, when a variable does not equal the other,
+we can use the != operator:
+
+    int x = 5, y = 10;
+    
+    if (x != y)
+    
+In this case, we're checking to see if 5 does not equal 10.  Since it doesn't,
+the condition evaluates as true and the code belonging to the if statement is
+executed.  
+
+    int x = 5, y = 5;
+    
+    if (x != y)
+    
+In this case, we're checking to see if 5 does not equal 5.  Unfortunately, it
+does, so the code in the if statement will not be executed.
+
+The final equality operator is the ! operator.  This is used in a slightly
+different way, and returns true if the value the operator is false.  
+Mind bending?  Well, yeah... it sounds that way.  But it's easy in practise.  
+In LPC, any value other than 0 will return true in a conditional expression. 
+All variables that haven't been assigned a value have a 0 value:
+
+    int x, y = 10;
+    
+    if (!x) 
+    
+x has not been assigned here, so the condition evaluates to true.  
+However, since we have assigned y the value of 10, the condition (!y) will
+evaluate as false.  If we have a function that returns either a zero or 
+another value, we can utilise the ! operator to base the condition on that value:
+
+    if (some_function())   
+
+Will evaluate as true if some_function() returns anything other than 0.
+
+    if (!some_function())
+    
+Will evaluate as true if some_function returns 0.  If it returns anything else
+at all, it will evaluate as false.
+
+
+Relational Operators
+====================
+
+The relational operators evaluate in terms of the relation between the 
+conditional elements.  The relational operators are greater than (>),
+less than (<), greater than or equal to (>=), and less than or equal to 
+(<=).
+
+The greater than operator returns true if the first part of the condition
+is greater than the second part:
+
+    int x = 5, y = 10;
+    
+    if (x > y)
+    
+5 is not greater than 10, however, so the condition evaluates as false.  If we
+change the order, however:
+
+    if (y > x)
+    
+10 is indeed greater than 5, so the condition evaluates to true.
+
+The less than operator works the other way around.  If the first element is
+less than the second element, the condition evaluates to true.  Otherwise,
+it evaluates to false:
+
+    int x = 5, y = 10;
+    
+    if (x < y)
+    
+5 is less than 10, so the condition evaluates to true.  
+
+    if (y < x)
+    
+10 is not less than 10, so the condition evaluates to false.
+
+In both cases, if the first element equals the second element, the condition 
+will evaluate as false:
+
+    int x = 5, y = 5;
+    
+    if (x < y)
+    if (y < x)
+    if (x > y)
+    if (y > x)
+    
+All four of these conditions will evaluate as false.
+
+If we wish to provide for the elements being equal to each other, we must use 
+the <= or >= operators.  These work exactly the same as above, except that
+they will also evaluate as true if x is equal to y:
+
+    int x = 5, y = 5;
+    
+    if (x <= y)
+    if (y <= x)
+    if (x >= x)
+    if (y >= y)
+    
+All the above conditions will evaluate as false.  In all other respects, the
+<= and >= behave in exactly the same way as the < and > operators.
+        
+
+Logical Operators
+=================
+
+Now that we've looked at the basic mathematical, equality, and relational 
+operators, let's look a little at the logical operators we can use.  We use 
+these in particular with the conditionals in the structures we discussed in 
+the last chapter, and we use them to join simple expressions into compound
+complex expressions.   
+
+The main logical operators are && (and) || (or).
+
+The && operator is used when both expressions must evaluate to true before
+the condition as a whole evaluates to true:
+
+    int x = 5, y = 10;
+    
+    if (x == 5 && y == 10)
+    
+If both of these equality checks are true, then the condition as a whole will
+evaluate to true.  If either one evaluates to false, then so does the if
+condition.  If both are false, then the condition is again evaluated to false.
+
+We can summarise this in what is known as a truth table.  For two conditions, 
+the truth table looks like so:
+
+         _______________________________________________
+        |               |               |               |
+        |   Expression  |   Expression  |   Condition   |
+        |      One      |      Two      |               |
+         -----------------------------------------------
+        |     False     |     False     |     False     |
+        |     True      |     False     |     False     |
+        |     False     |     True      |     False     |
+        |     True      |     True      |     True      |
+        |               |               |               |
+         -----------------------------------------------       
+
+In other words, one false evaluation will cause the whole condition to 
+evaluate to false.
+
+Note that it is good practise to enclose separate clauses of a condition
+in parenthesis to ensure they are evaluated separately, so we'd write our
+condition as:
+
+    if ((x == 5) && (y == 10))
+    
+In this case, since we assigned 5 to x and 10 to y, the condition does indeed
+evaluate as true.
+
+The || or operator is used similarly to link two simple conditions together,
+but only requires one of the expressions to be true before the whole condition
+evaluates as true:
+
+    if ((x == 5) || (y == 10))
+    
+The if condition would evaluate as true if x was 5, or if y was 10, or if both
+of them were true.  The truth table for this looks like:
+
+
+         _______________________________________________
+        |               |               |               |
+        |   Expression  |   Expression  |   Condition   |
+        |      One      |      Two      |               |
+         -----------------------------------------------
+        |     False     |     False     |     False     |
+        |     True      |     False     |     True      |
+        |     False     |     True      |     True      |
+        |     True      |     True      |     True      |
+        |               |               |               |
+         -----------------------------------------------          
+
+Only if all expressions evaluate as false will the whole condition evaluate to
+false. 
+
+We can combine these two logical operators to create even more complex 
+expressions:
+
+    if (((x == 5) || (y == 10)) && (x > y))
+    
+Expressions are evaluated left to right, and from the inside out... expressions
+within the parenthesis are evaluated first.  So first we evaluate
+
+    ((x == 5) || (y == 10))
+    
+The first of these we evaluate is the left most expression:
+
+    (x == 5)
+    
+And then the next one:
+
+    (y == 10)
+    
+If either of these evaluate to true, then the whole condition within the 
+brackets:
+    
+    ((x == 5) || (y == 10))
+    
+Evaluates as true.  Assuming this is the case, we then attempt to evaluate 
+the second part of the condition:
+
+    (x > y)
+    
+Since we are linking the first compound statement ((x == 5) || (y == 10))
+to the simple statement with an && operator, both conditions have to evaluate
+as true.  Note that anything within parenthesis can be considered a single
+expression with multiple parts.
+
+Don't worry too much if you don't follow how compound logical operations work.
+It will make sense after practise.
+
+
+Chapter Summary
+===============
+
+That's it for this chapter.  We haven't covered all of the operators available
+as part of the LPC environment, but we've covered the ones you're most likely
+to need as a Discworld creator.  The other operators are for much more 
+specialised areas and aren't likely to appear until you have more experience
+as a creator.  The information contained within this document is important to
+learn, so if you don't quite follow it the first time, please make the effort
+to reread and practise until the concepts make sense.
+
+-   The mathematical are *, /, -, + and %.
+-   The mathematical operators are evaluated left to right, unless the 
+    precedence is altered through the use of parenthesis.  
+-   The + operator works on ints, floats, mappings, arrays, and strings.
+-   The - operator works on ints, floats and arrays.
+-   The / and * operators work on ints and floats alone.
+-   The % operator works only on integers.
+-   The assignment operators are =+, -=, *=, /= and %=.
+-   The additional assignment operator x += y is equivalent to x = x + y.
+-   The subtractive assignment operator x -= y is equivalent to x = x - y.
+-   The mutiplative assignment operator x *= y is equivalent to x = x * y.
+-   The divisive assignment operator x /= y is equivalent to x = x / y.
+-   The modular assignment operator x %= y is equivalent to x = x % y.
+-   The equality operators are ==, !=, and !.
+-   The == operator evaluates as true if both sides of the expression are
+    equal.
+-   The != operator evaluates as true if both sides of the expression do not
+    equal each other.
+-   The ! operator evaluates as true if the expression following it evaluates
+    as false.
+-   The relational operators are <, >, <= and >=.
+-   The > operator evaluates as true when the left side of the operator is 
+    greater than the right side.
+-   The < operator evaluates as true when the left side of the operator is
+    less than the right side.
+-   The <= and >= operators are equivalent to < and >, but also evaluate as
+    true when the right side of the operator is equal to the left side.
+-   The logical operators are && and ||, and are used to create compound 
+    conditions from simple conditions.
+-   The && logical operator evaluates as true only if all parts of the 
+    compound condition evaluate as true.
+-   The || logical operator evaluates as true if any part of the compound
+    condition evaluates as true.
+    
+               
+
+        

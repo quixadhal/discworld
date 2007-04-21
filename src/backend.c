@@ -1,54 +1,35 @@
 /* 92/04/18 - cleaned up stylistically by Sulam@TMI */
-#include <stdio.h>
-#include <string.h>
-#include <signal.h>
-#include <setjmp.h>
-#include <ctype.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/times.h>
-#include <math.h>
-#include <memory.h>
-#include "config.h"
-#include "lint.h"
-#include "interpret.h"
-#include "object.h"
-#include "exec.h"
+#include "std.h"
+#include "lpc_incl.h"
+#include "backend.h"
 #include "comm.h"
-#include "debug.h"
+#include "replace_program.h"
+#include "socket_efuns.h"
+#include "call_out.h"
+#include "port.h"
+#include "lint.h"
+#include "master.h"
+#include "eval.h"
 
-jmp_buf	error_recovery_context;
-int error_recovery_context_exists = 0;
+#ifdef WIN32
+#include <process.h>
+void CDECL alarm_loop (void *);
+#endif
+
+error_context_t *current_error_context = 0;
 
 /*
- * The 'current_time' is updated at every heart beat.
+ * The 'current_time' is updated in the call_out cycles
  */
-int current_time;
+long current_time;
 
-int heart_beat_flag = 0;
+object_t *current_heart_beat;
+static void look_for_objects_to_swap (void);
+void call_heart_beat (void);
 
-static void cycle_hb_list PROT((void));
-extern struct object *command_giver, *current_interactive, *obj_list_destruct;
-extern struct object *previous_ob, *master_ob;
-extern int num_user, d_flag;
-
-extern INLINE void make_selectmasks();
-extern int process_user_command();
-
-struct object *current_heart_beat;
-
-void call_heart_beat();
-void sigalrm_handler(), init_user_conn(), init_sockets(),
-    call_out(), destruct2 PROT((struct object *));
-
-extern int user_parser PROT((char *)),
-    call_function_interactive PROT((struct interactive *, char *)),
-    resort_free_list(), swap PROT((struct object *));
-
-extern int t_flag;
-
+#if 0
+static void report_holes (void);
+#endif
 
 /*
  * There are global variables that must be zeroed before any execution.
@@ -61,105 +42,95 @@ extern int t_flag;
  */
 void clear_state()
 {
-  extern struct object *previous_ob;
-  current_object = 0;
-  command_giver = 0;
-  current_interactive = 0;
-  previous_ob = 0;
-  current_prog = 0;
-  error_recovery_context_exists = 1;
-  reset_machine(0);	/* Pop down the stack. */
+    current_object = 0;
+    set_command_giver(0);
+    current_interactive = 0;
+    previous_ob = 0;
+    current_prog = 0;
+    caller_type = 0;
+    reset_machine(0);   /* Pop down the stack. */
+}       /* clear_state() */
+
+#if 0
+static void report_holes() {
+    if (current_object && current_object->name)
+  debug_message("current_object is /%s\n", current_object->name);
+    if (command_giver && command_giver->name)
+  debug_message("command_giver is /%s\n", command_giver->name);
+    if (current_interactive && current_interactive->name)
+  debug_message("current_interactive is /%s\n", current_interactive->name);
+    if (previous_ob && previous_ob->name)
+  debug_message("previous_ob is /%s\n", previous_ob->name);
+    if (current_prog && current_prog->name)
+  debug_message("current_prog is /%s\n", current_prog->name);
+    if (caller_type)
+  debug_message("caller_type is %s\n", caller_type);
 }
-
-void logon(ob)
-     struct object *ob;
-{
-  struct svalue *ret;
-  struct object *save = current_object;
-
-  /*
-   * current_object must be set here, so that the static "logon" in
-   * user.c can be called.
-   */
-  current_object = ob;
-  ret = apply("logon", ob, 0);
-  if(ret == 0){
-    add_message("prog %s:\n", ob->name);
-    fatal("Could not find logon on the user %s\n", ob->name);
-  }
-  current_object = save;
-}
-
-/*
- * Take a user command and parse it.
- * The command can also come from a NPC.
- * Beware that 'str' can be modified and extended !
- */
-int parse_command(str, ob)
-     char *str;
-     struct object *ob;
-{
-	struct object *save = command_giver;
-	int res;
-	/* disallow users to issue commands containing ansi escape codes */
-#ifdef NO_ANSI
-	char *c;
-
-	for (c = str; *c; c++) {
-		if (*c == 27) {
-			*c = ' ';  /* replace ESC with ' ' */
-		}
-	}
 #endif
-	command_giver = ob;
-	res = user_parser(str);
-	command_giver = save;
-	return(res);
-}
 
-#define NUM_COMMANDS MAX_USERS
+void logon (object_t * ob)
+{
+  if(ob->flags & O_DESTRUCTED){
+    return;
+  }
+  /* current_object no longer set */
+  apply(APPLY_LOGON, ob, 0, ORIGIN_DRIVER);
+  /* function not existing is no longer fatal */
+}
 
 /*
  * This is the backend. We will stay here for ever (almost).
  */
-int eval_cost;
 
 void backend()
 {
-  extern fd_set readmask, writemask;
-  extern int MudOS_is_being_shut_down;
-  extern int slow_shut_down_to_do;
   struct timeval timeout;
-  int nb;
-  int i;
-
-  fprintf(stderr,"Setting up IPC on port %d.\n", (int)PORTNO);
-  init_user_conn(); /* initialize user connection socket */
-  init_sockets();   /* initialize efun sockets           */
+  int i, nb;
+  volatile int first_call = 1;
+  int there_is_a_port = 0;
+  error_context_t econ;
+  
+  debug_message("Initializations complete.\n\n");
+  for (i = 0; i < 5; i++) {
+    if (external_port[i].port) {
+      debug_message("Accepting connections on port %d.\n",
+		    external_port[i].port);
+      there_is_a_port = 1;
+    }
+  }
+  
+  if (!there_is_a_port)
+    debug_message("No external ports specified.\n");
+  
+  init_user_conn();   /* initialize user connection socket */
+#ifdef SIGHUP
   signal(SIGHUP, startshutdownMudOS);
-  if(!t_flag)
+#endif
+  clear_state();
+  save_context(&econ);
+  if (SETJMP(econ.context))
+    restore_context(&econ);
+  if (!t_flag && first_call) {
+    first_call = 0;
     call_heart_beat();
-  SETJMP(error_recovery_context);
-  while(1){
-    /*
-     * The call of clear_state() should not really have to be done
-     * once every loop. However, there seem to be holes where the
-     * state is not consistent. If these holes are removed,
-     * then the call of clear_state() can be moved to just before the
-     * while() - statement. *sigh* /Lars
-     */
-    clear_state();
-    eval_cost = 0;
+  }
+  
+  while (1) { 
+    /* Has to be cleared if we jumped out of process_user_command() */
+    current_interactive = 0;
+    set_eval(max_cost);
     
-    remove_destructed_objects();
-
+    if (obj_list_replace || obj_list_destruct)
+      remove_destructed_objects();
+    
     /*
      * shut down MudOS if MudOS_is_being_shut_down is set.
      */
-    if(MudOS_is_being_shut_down)
+    if (MudOS_is_being_shut_down)
       shutdownMudOS(0);
-    if(slow_shut_down_to_do){
+    if (slow_shut_down_to_do) {
       int tmp = slow_shut_down_to_do;
+      
       slow_shut_down_to_do = 0;
       slow_shut_down(tmp);
     }
@@ -167,158 +138,160 @@ void backend()
      * select
      */
     make_selectmasks();
-    if (heart_beat_flag) { /* use zero timeout if a heartbeat is pending. */
-       timeout.tv_sec = 0; /* this should avoid problems with longjmp's too */
-       timeout.tv_usec = 0;
-    } else {
-       /* not using infinite timeout so that we'll have insurance in the
-          unlikely event a heartbeat happens between now and the select().
-          Note that SIGALRMs (for heartbeats) do make select() drop through.
-       */
-       timeout.tv_sec = 60; 
-       timeout.tv_usec = 0;
-    }
-    nb = select(FD_SETSIZE, &readmask, &writemask, (fd_set *)0, &timeout);
+    timeout.tv_sec = 1;
+#ifndef hpux
+    nb = select(FD_SETSIZE, &readmask, &writemask, (fd_set *) 0, &timeout);
+#else
+    nb = select(FD_SETSIZE, (int *) &readmask, (int *) &writemask,
+		(int *) 0, &timeout);
+#endif
     /*
      * process I/O if necessary.
      */
-    if(nb > 0){
+    if (nb > 0) {
       process_io();
     }
     /*
      * process user commands.
      */
-    for(i=0;process_user_command() && i < NUM_COMMANDS;i++);
+    for (i = 0; process_user_command() && i < max_users; i++)
+      ;
+    
     /*
-     * call heartbeat if appropriate.
+     * call outs
      */
-    if(heart_beat_flag){
-      debug(512,("backend: HEARTBEAT\n"));
-      call_heart_beat();
-    }
+    call_out();
   }
-}
+}       /* backend() */
 
-/* 
+
+/*
  * Despite the name, this routine takes care of several things.
- * It will loop through all objects once every 10 minutes.
+ * It will run once every 15 minutes.
  *
- * If an object is found in a state of not having done reset, and the
- * delay to next reset has passed, then reset() will be done.
+ * . It will attempt to reconnect to the address server if the connection has
+ *   been lost.
+ * . It will loop through all objects.
  *
- * If the object has a existed more than the time limit given for swapping,
- * then 'clean_up' will first be called in the object, after which it will
- * be swapped out if it still exists.
+ *   . If an object is found in a state of not having done reset, and the
+ *     delay to next reset has passed, then reset() will be done.
+ *
+ *   . If the object has a existed more than the time limit given for swapping,
+ *     then 'clean_up' will first be called in the object
  *
  * There are some problems if the object self-destructs in clean_up, so
  * special care has to be taken of how the linked list is used.
 */
 static void look_for_objects_to_swap()
 {
-  extern long time_to_swap; /* marion - for invocation parameter */
-  extern long time_to_clean_up;
-  static int next_time;
-  struct object *ob;
-  struct object *next_ob;
-  jmp_buf save_error_recovery_context;
-  int save_rec_exists;
-  struct object *save;
+    static int next_time;
+#ifndef NO_IP_DEMON
+    extern int no_ip_demon;
+    static int next_server_time;
+#endif
+    object_t *ob;
+    VOLATILE object_t *next_ob;
+    error_context_t econ;
 
-  if(current_time < next_time)
-    return;				/* Not time to look yet */
-  next_time = current_time + 15 * 60;	/* Next time is in 15 minutes */
-  memcpy((char *) save_error_recovery_context,
-	 (char *) error_recovery_context, sizeof error_recovery_context);
-  save_rec_exists = error_recovery_context_exists;
-  
-  /* prevent error messages from objects going to whoever happens to
-   * be this_user() (usually this isn't the user of the object).  */
-  save = command_giver;
-  command_giver = (struct object *)0;
-  /* Objects object can be destructed, which means that
-   * next object to investigate is saved in next_ob. If very unlucky,
-   * that object can be destructed too. In that case, the loop is simply
-   * restarted.  */
-  for(ob = obj_list; ob; ob = next_ob){
-    int ready_for_swap;
-
-    eval_cost = 0;
-    if(ob->flags & O_DESTRUCTED)
-      ob = obj_list; /* restart */
-    next_ob = ob->next_all;
-    if(SETJMP(error_recovery_context)){	/* amylaar */
-      extern void clear_state();
-      clear_state();
-      debug_message("Error in look_for_objects_to_swap.\n");
-      continue;
-    }
-    /* Check reference time before reset() is called.
-     */
-    if(current_time < ob->time_of_ref + time_to_swap)
-      ready_for_swap = 0;
-    else
-      ready_for_swap = 1;
-#ifndef LAZY_RESETS
-    /* Should this object have reset(1) called ?
-     */
-    if ((ob->flags & O_WILL_RESET) && (ob->next_reset < current_time)
-		&& !(ob->flags & O_RESET_STATE)) {
-      if(d_flag) {
-          fprintf(stderr, "RESET %s\n", ob->name);
-      }
-      reset_object(ob, 1);
+#ifndef NO_IP_DEMON
+    if (current_time >= next_server_time) {
+  /* initialize the address server.  if it is already initialized, then
+   * this is a nop.  this will cause the driver to reattempt connecting
+   * to the address server once every 15 minutes in the event that it
+   * has gone down.
+   */
+  if (!no_ip_demon && next_server_time)
+      init_addr_server(ADDR_SERVER_IP, ADDR_SERVER_PORT);
+  next_server_time = current_time + 15 * 60;
     }
 #endif
-    if(time_to_clean_up > 0){
-      /* Has enough time passed, to give the object a chance
-       * to self-destruct ? Save the O_RESET_STATE, which will be cleared.
-       *
-       * Only call clean_up in objects that has defined such a function.
-       *
-       * Only if the clean_up returns a non-zero value, will it be called
-       * again.  */
 
-      if (current_time - ob->time_of_ref > time_to_clean_up
-	 && (ob->flags & O_WILL_CLEAN_UP)){
-	int save_reset_state = ob->flags & O_RESET_STATE;
-	struct svalue *svp;
-	      
-	if(d_flag)
-	  fprintf(stderr, "clean up %s\n", ob->name);
-	/* Supply a flag to the object that says if this program
-	 * is inherited by other objects. Cloned objects might as well
-	 * believe they are not inherited. Swapped objects will not
-	 * have a ref count > 1 (and will have an invalid ob->prog
-	 * pointer).  */
+    if (current_time < next_time)
+  return;     /* Not time to look yet */
+    next_time = current_time + 5 * 60; /* Next time is in 5 minutes */
 
-	push_number(ob->flags &	(O_CLONE|O_SWAPPED) ? 0 : ob->prog->p.i.ref);
-	svp = apply("clean_up", ob, 1);
-	if(ob->flags & O_DESTRUCTED)
-	  continue;
-	if(!svp || (svp->type == T_NUMBER && svp->u.number == 0))
-	  ob->flags &= ~O_WILL_CLEAN_UP;
-	ob->flags |= save_reset_state;
-      }
-    }
-    if(time_to_swap > 0){
-      /* At last, there is a possibility that the object can be swapped
-       * out.  */
+    /*
+     * Objects object can be destructed, which means that next object to
+     * investigate is saved in next_ob. If very unlucky, that object can be
+     * destructed too. In that case, the loop is simply restarted.
+     */
+    next_ob = obj_list;
+    save_context(&econ);
+    if (SETJMP(econ.context))
+  restore_context(&econ);
+    
+    while ((ob = (object_t *)next_ob)) {
+  int ready_for_clean_up = 0;
 
-      if(ob->flags & O_SWAPPED || !ready_for_swap)
-	continue;
-      if(ob->flags & O_HEART_BEAT)
-	continue;
-      if(d_flag)
-	fprintf(stderr, "swap %s\n", ob->name);
-      swap(ob);	/* See if it is possible to swap out to disk */
-    }
+  set_eval(max_cost);
+
+  if (ob->flags & O_DESTRUCTED)
+      ob = obj_list;  /* restart */
+  next_ob = ob->next_all;
+
+  /*
+   * Check reference time before reset() is called.
+   */
+  if (current_time - ob->time_of_ref > time_to_clean_up)
+      ready_for_clean_up = 1;
+#if !defined(NO_RESETS) && !defined(LAZY_RESETS)
+  /*
+   * Should this object have reset(1) called ?
+   */
+  if ((ob->flags & O_WILL_RESET) && (ob->next_reset < current_time)
+      && !(ob->flags & O_RESET_STATE)) {
+      debug(d_flag, ("RESET /%s\n", ob->obname));
+      reset_object(ob);
+      if(ob->flags & O_DESTRUCTED)
+        continue;
   }
-  /* restore command_giver to its previous value */
-  command_giver = save;
-  memcpy((char *) error_recovery_context,(char *) save_error_recovery_context,
-	 sizeof error_recovery_context);
-  error_recovery_context_exists = save_rec_exists;
-}
+#endif
+  if (time_to_clean_up > 0) {
+      /*
+       * Has enough time passed, to give the object a chance to
+       * self-destruct ? Save the O_RESET_STATE, which will be cleared.
+       * 
+       * Only call clean_up in objects that has defined such a function.
+       * 
+       * Only if the clean_up returns a non-zero value, will it be called
+       * again.
+       */
+
+      if (ready_for_clean_up && (ob->flags & O_WILL_CLEAN_UP)) {
+    int save_reset_state = ob->flags & O_RESET_STATE;
+    svalue_t *svp;
+
+    debug(d_flag, ("clean up /%s\n", ob->obname));
+
+    /*
+     * Supply a flag to the object that says if this program is
+     * inherited by other objects. Cloned objects might as well
+     * believe they are not inherited. Swapped objects will not
+     * have a ref count > 1 (and will have an invalid ob->prog
+     * pointer).
+     *
+     * Note that if it is in the apply_low cache, it will also
+     * get a flag of 1, which may cause the mudlib not to clean
+     * up the object.  This isn't bad because:
+     * (1) one expects it is rare for objects that have untouched
+     * long enough to clean_up to still be in the cache, especially
+     * on busy MUDs.
+     * (2) the ones that are are the more heavily used ones, so
+     * keeping them around seems justified.
+     */
+
+    push_number(ob->flags & (O_CLONE) ? 0 : ob->prog->ref);
+    svp = apply(APPLY_CLEAN_UP, ob, 1, ORIGIN_DRIVER);
+    if (ob->flags & O_DESTRUCTED)
+        continue;
+    if (!svp || (svp->type == T_NUMBER && svp->u.number == 0))
+        ob->flags &= ~O_WILL_CLEAN_UP;
+    ob->flags |= save_reset_state;
+      }
+  }
+    }
+    pop_context(&econ);
+}       /* look_for_objects_to_swap() */
 
 /* Call all heart_beat() functions in all objects.  Also call the next reset,
  * and the call out.
@@ -333,177 +306,210 @@ static void look_for_objects_to_swap()
  * is shadowed, check the shadowed object if living. There is no need to save
  * the value of the command_giver, as the caller resets it to 0 anyway.  */
 
-struct object *hb_list = 0; /* head */
-struct object *hb_tail = 0; /* for sane wrap around */
+typedef struct {
+    object_t *ob;
+    short heart_beat_ticks;
+    short time_to_heart_beat;
+} heart_beat_t;
 
-static int num_hb_objs = 0;  /* so we know when to stop! */
-static int num_hb_calls = 0; /* stats */
-static float perc_hb_probes = 100.0; /* decaying avge of how many complete */
+static heart_beat_t *heart_beats = 0;
+static int max_heart_beats = 0;
+static int heart_beat_index = 0;
+static int num_hb_objs = 0;
+static int num_hb_to_do = 0;
 
-void call_heart_beat() {
-  struct object *ob;
-  struct object *save_current_object = current_object;
-  struct object *save_command_giver = command_giver;
-  int num_done = 0;
+static int num_hb_calls = 0;  /* starts */
+static float perc_hb_probes = 100.0;  /* decaying avge of how many complete */
 
-  heart_beat_flag = 0;
-
-  signal(SIGALRM, sigalrm_handler);
-#if defined(SYSV) || defined(SVR4)
-  alarm(SYSV_HEARTBEAT_INTERVAL); /* defined in config.h */
-#else
-  ualarm(HEARTBEAT_INTERVAL,0);
+#ifdef WIN32
+void CDECL alarm_loop (void * ignore)
+{
+    while (1) {
+  Sleep(HEARTBEAT_INTERVAL / 1000);
+    }
+}       /* alarm_loop() */
 #endif
 
-  debug(256,("."));
-
-  current_time = get_current_time();
+void call_heart_beat()
+{
+  object_t *ob;
+  heart_beat_t *curr_hb;
+  error_context_t econ;
+  
+#ifdef WIN32
+  static long Win32Thread = -1;
+  if (Win32Thread == -1) Win32Thread = _beginthread(
+						    /* This shouldn't be necessary b/c alarm_loop is already declared as this.
+						       Microsoft lossage? -Beek */
+						    (void (__cdecl *)(void *))
+						    alarm_loop, 256, 0);
+#endif
+  
   current_interactive = 0;
-
-  if(hb_list
-#ifdef OLD_HB_BEHAVIOR
-     && (num_user > 0)
-#endif /* OLD_HB_BEHAVIOR */
-     ){
+  
+  if ((num_hb_to_do = num_hb_objs)) {
     num_hb_calls++;
-    while(hb_list && !heart_beat_flag  && (num_done < num_hb_objs)){
-      int variable_index_offset;
-
-      num_done++;
-      cycle_hb_list();
-      ob = hb_tail; /* now at end */
-      if(!(ob->flags & O_HEART_BEAT))
-	fatal("Heart beat not set in object on heart beat list!");
-      if(ob->flags & O_SWAPPED)
-	fatal("Heart beat in swapped object.\n");
-      /* move ob to end of list, do ob */
-      if(ob->prog->p.i.heart_beat_index == -1)
-	continue;
-      current_prog = ob->prog;
-      if (ob->prog->p.i.heart_beat_prog == -1) {
-        variable_index_offset = 0;
-        current_prog = ob->prog;
-      } else {
-        variable_index_offset = 
-                ob->prog->p.i.inherit[ob->prog->p.i.heart_beat_prog].
-	   variable_index_offset;
-        current_prog =
-                ob->prog->p.i.inherit[ob->prog->p.i.heart_beat_prog].prog;
-      }
-      current_object = ob;
-      current_heart_beat = ob;
-      command_giver = ob;
+    heart_beat_index = 0;
+    save_context(&econ);
+    while (1) {
+      ob = (curr_hb = &heart_beats[heart_beat_index])->ob;
+      DEBUG_CHECK(!(ob->flags & O_HEART_BEAT),
+		  "Heartbeat not set in object on heartbeat list!");
+      /* is it time to do a heart beat ? */
+      curr_hb->heart_beat_ticks--;
+      
+      if (ob->prog->heart_beat != 0) {
+	if (curr_hb->heart_beat_ticks < 1) {
+	  object_t *new_command_giver;
+	  curr_hb->heart_beat_ticks = curr_hb->time_to_heart_beat;
+	  current_heart_beat = ob;
+	  new_command_giver = ob;
 #ifndef NO_SHADOWS
-      while(command_giver->shadowing)
-	command_giver = command_giver->shadowing;
-#endif NO_SHADOWS
-      if(!(command_giver->flags & O_ENABLE_COMMANDS))
-	command_giver = 0;
-      add_heart_beats(&ob->stats, 1);
-      eval_cost = 0;
-/*
-      call_function(ob->prog,
-		    &ob->prog->p.i.functions[ob->prog->p.i.heart_beat]);
- */
-      call_function(current_prog, variable_index_offset,
-               &current_prog->p.i.functions[ob->prog->p.i.heart_beat_index]);
+	  while (new_command_giver->shadowing)
+	    new_command_giver = new_command_giver->shadowing;
+#endif
+#ifndef NO_ADD_ACTION
+	  if (!(new_command_giver->flags & O_ENABLE_COMMANDS))
+	    new_command_giver = 0;
+#endif
+#ifdef PACKAGE_MUDLIB_STATS
+	  add_heart_beats(&ob->stats, 1);
+#endif
+	  set_eval(max_cost);
+	  
+	  if (SETJMP(econ.context)) {
+	    restore_context(&econ);
+	  } else {
+	    save_command_giver(new_command_giver);
+	    call_direct(ob, ob->prog->heart_beat - 1,
+			ORIGIN_DRIVER, 0);
+	    pop_stack(); /* pop the return value */
+	    restore_command_giver();
+	  }
+	  
+	  current_object = 0;
+	}
+      }
+      if (++heart_beat_index == num_hb_to_do)
+	break;
     }
-    if(num_hb_objs)
-      perc_hb_probes = 100 * (float) num_done / num_hb_objs;
+    pop_context(&econ);
+    if (heart_beat_index < num_hb_to_do)
+      perc_hb_probes = 100 * (float) heart_beat_index / num_hb_to_do;
     else
       perc_hb_probes = 100.0;
+    heart_beat_index = num_hb_to_do = 0;
   }
-  current_object = save_current_object;
+  current_prog = 0;
   current_heart_beat = 0;
   look_for_objects_to_swap();
-  call_out();	/* some things depend on this, even without users! */
+#ifdef PACKAGE_MUDLIB_STATS
   mudlib_stats_decay();
-  command_giver = save_command_giver;
-}
+#endif
+}       /* call_heart_beat() */
 
-/* Take the first object off the heart beat list, place it at the end
- */
-static void cycle_hb_list()
+int
+query_heart_beat (object_t * ob)
 {
-  struct object *ob;
-
-  if(!hb_list)
-    fatal("Cycle heart beat list with empty list!");
-  if(hb_list == hb_tail)
-    return; /* 1 object on list */
-  ob = hb_list;
-  hb_list = hb_list->next_heart_beat;
-  hb_tail->next_heart_beat = ob;
-  hb_tail = ob;
-  ob->next_heart_beat = 0;
-}
+    int index;
+    
+    if (!(ob->flags & O_HEART_BEAT))  return 0;
+    index = num_hb_objs;
+    while (index--) {
+  if (heart_beats[index].ob == ob) 
+      return heart_beats[index].time_to_heart_beat;
+    }
+    return 0;
+}       /* query_heart_beat() */
 
 /* add or remove an object from the heart beat list; does the major check...
  * If an object removes something from the list from within a heart beat,
  * various pointers in call_heart_beat could be stuffed, so we must
  * check current_heart_beat and adjust pointers.  */
 
-int set_heart_beat(ob, to)
-     struct object *ob;
-     int to;
+int set_heart_beat (object_t * ob, int to)
 {
-  struct object *o = hb_list;
-  struct object *oprev = 0;
+    int index;
+    
+    if (ob->flags & O_DESTRUCTED) return 0;
 
-  if(ob->flags & O_DESTRUCTED)
-    return(0);
-  if(to)
-    to = 1;
-  while(o && o != ob){
-    if(!(o->flags & O_HEART_BEAT))
-      fatal("Found disabled object in the active heart beat list!\n");
-    oprev = o;
-    o = o->next_heart_beat;
+    if (!to) {
+  int num;
+  
+  index = num_hb_objs;
+  while (index--) {
+      if (heart_beats[index].ob == ob) break;
   }
-  if(!o && (ob->flags & O_HEART_BEAT))
-    fatal("Couldn't find enabled object in heart beat list!");
-  if(to == (ob->flags & O_HEART_BEAT))
-    return(0);
-  if(to){
-    ob->flags |= O_HEART_BEAT;
-    if(ob->next_heart_beat)
-      fatal("Dangling pointer to next_heart_beat in object!");
-    ob->next_heart_beat = hb_list;
-    hb_list = ob;
-    if(!hb_tail)
-      hb_tail = ob;
-    num_hb_objs++;
-    cycle_hb_list();     /* Added by Linus. 911104 */
+  if (index < 0) return 0;
+
+  if (num_hb_to_do) {
+      if (index <= heart_beat_index)
+    heart_beat_index--;
+      if (index < num_hb_to_do)
+    num_hb_to_do--;
   }
-  else{ /* remove all refs */
-    ob->flags &= ~O_HEART_BEAT;
-    if(hb_list == ob)
-      hb_list = ob->next_heart_beat;
-    if(hb_tail == ob)
-      hb_tail = oprev;
-    if(oprev)
-      oprev->next_heart_beat = ob->next_heart_beat;
-    ob->next_heart_beat = 0;
-    num_hb_objs--;
+  
+  if ((num = (num_hb_objs - (index + 1))))
+      memmove(heart_beats + index, heart_beats + (index + 1), num * sizeof(heart_beat_t));
+  
+  num_hb_objs--;
+  ob->flags &= ~O_HEART_BEAT;
+  return 1;
+    }
+    
+    if (ob->flags & O_HEART_BEAT) {
+  if (to < 0) return 0;
+  
+  index = num_hb_objs;
+  while (index--) {
+      if (heart_beats[index].ob == ob) {
+    heart_beats[index].time_to_heart_beat = heart_beats[index].heart_beat_ticks = to;
+    break;
+      }
   }
-  return(1);
+  DEBUG_CHECK(index < 0, "Couldn't find enabled object in heart_beat list!\n");
+    } else {
+  heart_beat_t *hb;
+  
+  if (!max_heart_beats)
+      heart_beats = CALLOCATE(max_heart_beats = HEART_BEAT_CHUNK,
+            heart_beat_t, TAG_HEART_BEAT,
+            "set_heart_beat: 1");
+  else if (num_hb_objs == max_heart_beats) {
+      max_heart_beats += HEART_BEAT_CHUNK;
+      heart_beats = RESIZE(heart_beats, max_heart_beats,
+         heart_beat_t, TAG_HEART_BEAT,
+         "set_heart_beat: 1");
+  }
+  
+  hb = &heart_beats[num_hb_objs++];
+  hb->ob = ob;
+  if (to < 0) to = 1;
+  hb->time_to_heart_beat = to;
+  hb->heart_beat_ticks = to;
+  ob->flags |= O_HEART_BEAT;
+    }
+    
+    return 1;
 }
 
-int heart_beat_status(verbose)
-    int verbose;
+int heart_beat_status (outbuffer_t * ob, int verbose)
 {
-  char buf[20];
+    char buf[20];
 
-  if(verbose){
-    add_message("\nHeart beat information:\n");
-    add_message("-----------------------\n");
-    add_message("Number of objects with heart beat: %d, starts: %d\n",
-		num_hb_objs, num_hb_calls);
-    sprintf(buf, "%.2f", perc_hb_probes);
-    add_message("Percentage of HB calls completed last time: %s\n", buf);
-  }
-  return(0);
-}
+    if (verbose == 1) {
+  outbuf_add(ob, "Heart beat information:\n");
+  outbuf_add(ob, "-----------------------\n");
+  outbuf_addv(ob, "Number of objects with heart beat: %d, starts: %d\n",
+        num_hb_objs, num_hb_calls);
+  
+  /* passing floats to varargs isn't highly portable so let sprintf
+     handle it */
+  sprintf(buf, "%.2f", perc_hb_probes);
+  outbuf_addv(ob, "Percentage of HB calls completed last time: %s\n", buf);
+    }
+    return (0);
+}       /* heart_beat_status() */
 
 /* New version used when not in -o mode. The epilog() in master.c is
  * supposed to return an array of files (castles in 2.4.5) to load. The array
@@ -512,106 +518,154 @@ int heart_beat_status(verbose)
  *
  * The master object is asked to do the actual loading.
  */
-void preload_objects(eflag)
-    int eflag;
+void preload_objects (int eflag)
 {
-    struct vector *prefiles;
-    struct svalue *ret;
-    int ix;
+    VOLATILE array_t *prefiles;
+    svalue_t *ret;
+    VOLATILE int ix;
+    error_context_t econ;
 
-    push_number(eflag);
-    ret = apply_master_ob("epilog", 1);
-    if ((ret == 0) || (ret->type != T_POINTER))
-		return;
-    else
-		prefiles = ret->u.vec;
-    if ((prefiles == 0) || (prefiles->size < 1))
-		return;
-    prefiles->ref++;
-    ix = -1;
-    if (SETJMP(error_recovery_context))
-	{
-		clear_state();
-		add_message("Anomaly in the fabric of world space.\n");
-	}
-    error_recovery_context_exists = 1;
-    while (++ix < prefiles->size)
-	{
-		if (prefiles->item[ix].type != T_STRING)
-			continue;
-		eval_cost = 0;
-		push_string(prefiles->item[ix].u.string, STRING_MALLOC);
-		(void)apply_master_ob("preload", 1);
+    save_context(&econ);
+    if (SETJMP(econ.context)) {
+  restore_context(&econ);
+  pop_context(&econ);
+  return;
     }
-    free_vector(prefiles);
-    error_recovery_context_exists = 0;
-}
+    push_number(eflag);
+    ret = apply_master_ob(APPLY_EPILOG, 1);
+    pop_context(&econ);
+    if ((ret == 0) || (ret == (svalue_t *)-1) || (ret->type != T_ARRAY))
+  return;
+    else
+  prefiles = ret->u.arr;
+    if ((prefiles == 0) || (prefiles->size < 1))
+  return;
+
+    debug_message("\nLoading preloaded files ...\n");
+    prefiles->ref++;
+    ix = 0;
+    /* in case of an error, effectively do a 'continue' */
+    save_context(&econ);
+    if (SETJMP(econ.context)) {
+  restore_context(&econ);
+  ix++;
+    }
+    for ( ; ix < prefiles->size; ix++) {
+  if (prefiles->item[ix].type != T_STRING)
+      continue;
+
+  set_eval(max_cost);
+
+  push_svalue(((array_t *)prefiles)->item + ix);
+  (void) apply_master_ob(APPLY_PRELOAD, 1);
+    }
+    free_array((array_t *)prefiles);
+    pop_context(&econ);
+}       /* preload_objects() */
 
 /* All destructed objects are moved into a sperate linked list,
  * and deallocated after program execution.  */
 
 INLINE void remove_destructed_objects()
 {
-  struct object *ob, *next;
+    object_t *ob, *next;
 
-  for(ob=obj_list_destruct; ob; ob = next){
-    next = ob->next_all;
-    destruct2(ob);
-  }
-  obj_list_destruct = 0;
-}
+    if (obj_list_replace)
+  replace_programs();
+    for (ob = obj_list_destruct; ob; ob = next) {
+  next = ob->next_all;
+  destruct2(ob);
+    }
+    obj_list_destruct = 0;
+}       /* remove_destructed_objects() */
 
 static double load_av = 0.0;
 
 void update_load_av()
 {
-  extern double consts[5];
-  static int last_time;
-  int n;
-  double c;
-  static int acc = 0;
+    static int last_time;
+    int n;
+    double c;
+    static int acc = 0;
 
-  acc++;
-  if(current_time == last_time)
-    return;
-  n = current_time - last_time;
-  if(n < sizeof consts / sizeof consts[0])
-    c = consts[n];
-  else
-    c = exp(- n / 900.0);
-  load_av = c * load_av + acc * (1 - c) / n;
-  last_time = current_time;
-  acc = 0;
-}
+    acc++;
+    if (current_time == last_time)
+  return;
+    n = current_time - last_time;
+    if (n < NUM_CONSTS)
+  c = consts[n];
+    else
+  c = exp(-n / 900.0);
+    load_av = c * load_av + acc * (1 - c) / n;
+    last_time = current_time;
+    acc = 0;
+}       /* update_load_av() */
 
 static double compile_av = 0.0;
 
-void update_compile_av(lines)
-     int lines;
+void
+update_compile_av (int lines)
 {
-  extern double consts[5];
-  static int last_time;
-  int n;
-  double c;
-  static int acc = 0;
+    static int last_time;
+    int n;
+    double c;
+    static int acc = 0;
 
-  acc += lines;
-  if(current_time == last_time)
-    return;
-  n = current_time - last_time;
-  if(n < sizeof consts / sizeof consts[0])
-    c = consts[n];
-  else
-    c = exp(- n / 900.0);
-  compile_av = c * compile_av + acc * (1 - c) / n;
-  last_time = current_time;
-  acc = 0;
-}
+    acc += lines;
+    if (current_time == last_time)
+  return;
+    n = current_time - last_time;
+    if (n < NUM_CONSTS)
+  c = consts[n];
+    else
+  c = exp(-n / 900.0);
+    compile_av = c * compile_av + acc * (1 - c) / n;
+    last_time = current_time;
+    acc = 0;
+}       /* update_compile_av() */
 
 char *query_load_av()
 {
-  static char buff[100];
+    static char buff[100];
 
-  sprintf(buff, "%.2f cmds/s, %.2f comp lines/s", load_av, compile_av);
-  return(buff);
+    sprintf(buff, "%.2f cmds/s, %.2f comp lines/s", load_av, compile_av);
+    return (buff);
+}       /* query_load_av() */
+
+#ifdef F_HEART_BEATS
+array_t *get_heart_beats() {
+  int nob = 0, n = num_hb_objs;
+  heart_beat_t *hb = heart_beats;
+  object_t **obtab;
+  array_t *arr;
+#ifdef F_SET_HIDE
+  int apply_valid_hide = 1, display_hidden = 0;
+#endif
+  
+  obtab = CALLOCATE(n, object_t *, TAG_TEMPORARY, "heart_beats");
+  while (n--) {
+#ifdef F_SET_HIDE
+    if (hb->ob->flags & O_HIDDEN) {
+      if (apply_valid_hide) {
+        apply_valid_hide = 0;
+        display_hidden = valid_hide(current_object);
+      }
+      if (!display_hidden)
+        continue;
+    }
+#endif
+    obtab[nob++] = (hb++)->ob;
+  }
+  
+  arr = allocate_empty_array(nob);
+  while (nob--) {
+    arr->item[nob].type = T_OBJECT;
+    arr->item[nob].u.ob = obtab[nob];
+    add_ref(arr->item[nob].u.ob, "get_heart_beats");
+  }
+  
+  FREE(obtab);
+ 
+  return arr;
 }
+#endif

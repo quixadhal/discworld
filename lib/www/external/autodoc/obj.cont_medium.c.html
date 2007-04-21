@@ -1,0 +1,603 @@
+<html><head><title>File cont_medium.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/cont_medium.c</h2>
+Continuous Medium Object.
+
+amount: current quantity of medium in arbitrary units
+
+continuous: 1 for continuous (default), reset to 0 for normal
+            object behaviour
+
+collective: 1 for collective, 0 for normal behaviour.
+
+weight_unit: ({ a, b }) means that b units have weight a
+
+value_scale (float): if set & continuous, value is ::query_value() * amount
+                     * value_scale; else value is ::query_value()
+
+medium_alias: used for identification - choose something with
+              capitals (e.g. "ChalkDust") so players can't
+              use it as a valid alias by accident
+
+pile_name: "pile", "collection", "puddle", etc.
+
+amount_types: ([ "pinch": ({ 1, "pinches" }),
+                 "handful": ({ 50, "handfuls" }) ])
+
+pile_types: ({ 50, "small", 100, "medium", 150, "large", "huge" });
+
+Added by Jeremy, 4-Nov-95:
+
+ground, longs, shorts, medium_aliases
+
+The above were removed by Jeremy, 18-Jun-97.  Hopefully no one will
+miss them.<p>Written by Jeremy
+
+Additions for collective objects:
+Since "a" and "an" will be replaced with the number of objects, 
+"$a" and "$an" can be used if there should be a non-changing "a" or "an"
+in the long.
+For verbs you can use $V<singular-verb>$<plural-verb>. Example: $Vglows$glow
+If there are any words which should be pluralized, place a $P in front of it,
+like $Pleaf or $Pword
+Finally you can use $A<word> if you want "a word" in for one object and
+"words" for more than one.
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.obj_parser.h.html">/include/obj_parser.h</a>, <a href="include.parse_command.h.html">/include/parse_command.h</a> and <a href="include.move_failures.h.html">/include/move_failures.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_amount"><b>adjust_amount</b></a>(int)<dd>
+This method changes the amount of stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#amount_size"><b>amount_size</b></a>(int)<dd>
+This method returns a string which tells us how much stuff we
+have.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#amount_size_short"><b>amount_size_short</b></a>()<dd>
+This method returns a string which tells us how much stuff we
+have.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#dest_old_env"><b>dest_old_env</b></a>(object)<dd>
+This method destructs the temporary container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_medium_clone"><b>make_medium_clone</b></a>(int)<dd>
+This method makes a duplicate of ourselves at a different size.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#merge"><b>merge</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#merge_criteria"><b>merge_criteria</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#new_collective"><b>new_collective</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#no_env_move"><b>no_env_move</b></a>(object, object)<dd>
+This method checks to see if we are still in our silly little container
+and if we are, moves us back.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#pile_size"><b>pile_size</b></a>()<dd>
+This method returns a string describing how big the pile is.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_amount"><b>query_amount</b></a>()<dd>
+This method returns the amount of the stuff there is.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_amount_types"><b>query_amount_types</b></a>()<dd>
+This method returns the types of the different amounts.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_collective"><b>query_collective</b></a>()<dd>
+This method tests to see if this object is a collective or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_continuous"><b>query_continuous</b></a>()<dd>
+This method tests to see if this object is continuous or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_how_many"><b>query_how_many</b></a>()<dd>
+This returns as an integer 'how many' we have of a particular
+type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_seen"><b>query_max_seen</b></a>()<dd>
+This method returns the maximum number of piles of the
+object that can be seen.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_medium_alias"><b>query_medium_alias</b></a>()<dd>
+This method returns the medium alias.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_merger"><b>query_merger</b></a>()<dd>
+This method returns 1 if the object is available for mergin.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_no_join"><b>query_no_join</b></a>()<dd>
+This method checks to see if we are allowed to join with other
+objects when we encounter them.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_parse_id"><b>query_parse_id</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pile_name"><b>query_pile_name</b></a>()<dd>
+This method returns the name we give the piles of this stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pile_types"><b>query_pile_types</b></a>()<dd>
+This method returns the array of pile types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value"><b>query_value</b></a>()<dd>
+This method returns the value of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value_scale"><b>query_value_scale</b></a>()<dd>
+This method returns the current value scale.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_weight_unit"><b>query_weight_unit</b></a>()<dd>
+This method returns the weight units used for this type
+of unit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_collective"><b>reset_collective</b></a>()<dd>
+This method removes the collective property from the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_continuous"><b>reset_continuous</b></a>()<dd>
+This method removes the continuous property from the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_no_join"><b>reset_no_join</b></a>()<dd>
+This method lets this object joining with other
+objects when we encounter them.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_amount"><b>set_amount</b></a>(int)<dd>
+This method sets the amount of the stuff there is.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_amount_types"><b>set_amount_types</b></a>(mapping)<dd>
+This method sets the sizes of the piles and their names.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_collective"><b>set_collective</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_continuous"><b>set_continuous</b></a>()<dd>
+This method makes the object continuous.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_medium_alias"><b>set_medium_alias</b></a>(string)<dd>
+This method sets the medium alias for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_env_move"><b>set_no_env_move</b></a>(object)<dd>
+This method is for dealing with the object when bits are shaved off.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_join"><b>set_no_join</b></a>()<dd>
+This method stops this object joining with other
+objects when we encounter them.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_pile_name"><b>set_pile_name</b></a>(string)<dd>
+This method returns the name we give the piles of this stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_pile_types"><b>set_pile_types</b></a>(mixed *)<dd>
+This method sets the name of the piles given the different
+amounts of piles available.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_value_scale"><b>set_value_scale</b></a>(float)<dd>
+This method sets the amount by which to scale the value of a
+continuous object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_weight_unit"><b>set_weight_unit</b></a>(int *)<dd>
+This method sets the weight units used for this type
+of stuff.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="adjust_amount">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_amount</b></a><pre>
+void adjust_amount(int number)
+</pre><dd>
+This method changes the amount of stuff.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the amount to change it by
+
+</dl>
+
+<dt><a name="amount_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>amount_size</b></a><pre>
+varargs string amount_size(int exact)
+</pre><dd>
+This method returns a string which tells us how much stuff we
+have.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>string representing the amount of stuff we have
+
+</dl>
+
+<dt><a name="amount_size_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>amount_size_short</b></a><pre>
+string amount_size_short()
+</pre><dd>
+This method returns a string which tells us how much stuff we
+have.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>string representing the amount of stuff we have
+
+</dl>
+
+<dt><a name="dest_old_env">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>dest_old_env</b></a><pre>
+void dest_old_env(object place)
+</pre><dd>
+This method destructs the temporary container.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>place - the object to destroy
+
+</dl>
+
+<dt><a name="make_medium_clone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_medium_clone</b></a><pre>
+object make_medium_clone(int number)
+</pre><dd>
+This method makes a duplicate of ourselves at a different size.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the new size of the object
+<dt><b>Returns:</b>
+<dd>the new object
+
+</dl>
+
+<dt><a name="merge">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>merge</b></a><pre>
+void merge()
+</pre>
+<dt><a name="merge_criteria">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>merge_criteria</b></a><pre>
+int merge_criteria(object ob)
+</pre>
+<dt><a name="new_collective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>new_collective</b></a><pre>
+object new_collective(int number)
+</pre>
+<dt><a name="no_env_move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>no_env_move</b></a><pre>
+void no_env_move(object dest,
+                 object place)
+</pre><dd>
+This method checks to see if we are still in our silly little container
+and if we are, moves us back.  We always dest the old container<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dest - where we are going to
+<dd>place - the temporary container
+
+</dl>
+
+<dt><a name="pile_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>pile_size</b></a><pre>
+string pile_size()
+</pre><dd>
+This method returns a string describing how big the pile is.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the size of this pile of stuff
+
+</dl>
+
+<dt><a name="query_amount">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_amount</b></a><pre>
+int query_amount()
+</pre><dd>
+This method returns the amount of the stuff there is.  This is a
+volume measurement.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the amount of stuff
+
+</dl>
+
+<dt><a name="query_amount_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_amount_types</b></a><pre>
+mapping query_amount_types()
+</pre><dd>
+This method returns the types of the different amounts.
+argument is a mapping which contains the name of the pile and
+value is an array, the first element is the amount needed for
+the name and the second element is the plural of the pile name.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the amount types mapping
+
+</dl>
+
+<dt><a name="query_collective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_collective</b></a><pre>
+int query_collective()
+</pre><dd>
+This method tests to see if this object is a collective or not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is continuous, 0 if not.
+
+</dl>
+
+<dt><a name="query_continuous">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_continuous</b></a><pre>
+int query_continuous()
+</pre><dd>
+This method tests to see if this object is continuous or not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is continuous, 0 if not
+
+</dl>
+
+<dt><a name="query_how_many">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_how_many</b></a><pre>
+int query_how_many()
+</pre><dd>
+This returns as an integer 'how many' we have of a particular
+type.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>int representing the amount of a particular pile.
+
+</dl>
+
+<dt><a name="query_max_seen">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_seen</b></a><pre>
+int query_max_seen()
+</pre><dd>
+This method returns the maximum number of piles of the
+object that can be seen.  Any more than this turns into 'many'.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maximum number of piles that can be seen
+
+</dl>
+
+<dt><a name="query_medium_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_medium_alias</b></a><pre>
+string query_medium_alias()
+</pre><dd>
+This method returns the medium alias.  This should be a unique alias
+for the medium, it is used when joining to see if we can join or not
+It it used for identification - choose something with
+capitals (e.g. "ChalkDust") so players can't
+use it as a valid alias by accident.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the medium alias
+
+</dl>
+
+<dt><a name="query_merger">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_merger</b></a><pre>
+int query_merger()
+</pre><dd>
+This method returns 1 if the object is available for mergin.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if we can merge
+
+</dl>
+
+<dt><a name="query_no_join">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_no_join</b></a><pre>
+int query_no_join()
+</pre><dd>
+This method checks to see if we are allowed to join with other
+objects when we encounter them.  A join will occur if we end up in
+same environment and the medium aliases match.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if they cannot join, 0 if they can
+
+</dl>
+
+<dt><a name="query_parse_id">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_parse_id</b></a><pre>
+object query_parse_id(mixed * args)
+</pre>
+<dt><a name="query_pile_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pile_name</b></a><pre>
+string query_pile_name()
+</pre><dd>
+This method returns the name we give the piles of this stuff.  This
+is the name given to piles of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the pile
+
+</dl>
+
+<dt><a name="query_pile_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pile_types</b></a><pre>
+mixed query_pile_types()
+</pre><dd>
+This method returns the array of pile types.
+The pile types array starts with a number, the number is the
+cut off amount to get the size name in the next array element.
+The numbers and strings alternate and the last element is the
+the default size.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of pile types
+
+</dl>
+
+<dt><a name="query_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value</b></a><pre>
+int query_value()
+</pre><dd>
+This method returns the value of the object.  If the object is
+not continuous, or the value_scale has not been set, the value is
+the value set with set_value(), as usual.  Otherwise, the value is
+scaled by value_scale and multiplied by the current amount.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the value of the object
+<dt><b>See also:</b>
+<dd><a href="#set_value">set_value()</a>, <a href="#set_value_scale">set_value_scale()</a> and <a href="#query_value_scale">query_value_scale()
+</a></dl>
+
+<dt><a name="query_value_scale">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value_scale</b></a><pre>
+float query_value_scale()
+</pre><dd>
+This method returns the current value scale.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the value scale
+<dt><b>See also:</b>
+<dd><a href="#set_value_scale">set_value_scale()</a> and <a href="#query_value">query_value()
+</a></dl>
+
+<dt><a name="query_weight_unit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_weight_unit</b></a><pre>
+int * query_weight_unit()
+</pre><dd>
+This method returns the weight units used for this type
+of unit.  The weight unit is an array ({ a, b }) which means
+that b units of stuff have weight a.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the weight array
+
+</dl>
+
+<dt><a name="reset_collective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_collective</b></a><pre>
+void reset_collective()
+</pre><dd>
+This method removes the collective property from the object.
+<p>
+
+<dt><a name="reset_continuous">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_continuous</b></a><pre>
+void reset_continuous()
+</pre><dd>
+This method removes the continuous property from the object.
+<p>
+
+<dt><a name="reset_no_join">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_no_join</b></a><pre>
+void reset_no_join()
+</pre><dd>
+This method lets this object joining with other
+objects when we encounter them.  A join will occur if we end up in
+same environment and the medium aliases match.
+<p>
+
+<dt><a name="set_amount">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_amount</b></a><pre>
+void set_amount(int number)
+</pre><dd>
+This method sets the amount of the stuff there is.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the amount to set it to
+
+</dl>
+
+<dt><a name="set_amount_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_amount_types</b></a><pre>
+void set_amount_types(mapping map)
+</pre><dd>
+This method sets the sizes of the piles and their names.  The
+argument is a mapping which contains the name of the pile and
+value is an array, the first element is the amount needed for
+the name and the second element is the plural of the pile name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>map - the amount types mapping
+
+<dt><b>Example:</b>
+<dd><pre>set_amount_types( ([ "pinch": ({ 1, "pinches" }),
+                 "handful": ({ 50, "handfuls" }) ]));</pre></dl>
+
+<dt><a name="set_collective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_collective</b></a><pre>
+void set_collective()
+</pre>
+<dt><a name="set_continuous">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_continuous</b></a><pre>
+void set_continuous()
+</pre><dd>
+This method makes the object continuous.
+<p>
+
+<dt><a name="set_medium_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_medium_alias</b></a><pre>
+void set_medium_alias(string word)
+</pre><dd>
+This method sets the medium alias for the object.
+This should be a unique alias
+for the medium, it is used when joining to see if we can join or not
+It it used for identification - choose something with
+capitals (e.g. "ChalkDust") so players can't
+use it as a valid alias by accident.
+& @param word the medium alias
+<p>
+
+<dt><a name="set_no_env_move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_env_move</b></a><pre>
+void set_no_env_move(object dest)
+</pre><dd>
+This method is for dealing with the object when bits are shaved off.
+If it is split up by someone referencing it we are moved into a
+special environment so we do not interfer with the old pile.  The
+property "medium dest" will be used as the place to go, otherwise
+the environment will be used.  This method sticks it into a special
+on the fly created container.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dest - the place to move too  (this will be the "medium dest" or
+the environment()
+
+</dl>
+
+<dt><a name="set_no_join">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_join</b></a><pre>
+void set_no_join()
+</pre><dd>
+This method stops this object joining with other
+objects when we encounter them.  A join will occur if we end up in
+same environment and the medium aliases match.
+<p>
+
+<dt><a name="set_pile_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_pile_name</b></a><pre>
+void set_pile_name(string word)
+</pre><dd>
+This method returns the name we give the piles of this stuff.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the name of the pile
+
+<dt><b>Example:</b>
+<dd><pre>set_pile_name("puddle");</pre></dl>
+
+<dt><a name="set_pile_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_pile_types</b></a><pre>
+void set_pile_types(mixed * args)
+</pre><dd>
+This method sets the name of the piles given the different
+amounts of piles available.  The last pile type in the list is
+the size to use for anything larger.  The pile sizes must be in
+order.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - the pile types
+
+<dt><b>Example:</b>
+<dd><pre>set_pile_types(({ 50, "small", 100, "medium", 150, "large", "huge" }));</pre></dl>
+
+<dt><a name="set_value_scale">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_value_scale</b></a><pre>
+void set_value_scale(float f)
+</pre><dd>
+This method sets the amount by which to scale the value of a
+continuous object.  If not set, the value will be that set with
+set_value().<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>f - the value scale
+<dt><b>See also:</b>
+<dd><a href="#query_value_scale">query_value_scale()</a> and <a href="#query_value">query_value()
+</a></dl>
+
+<dt><a name="set_weight_unit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_weight_unit</b></a><pre>
+void set_weight_unit(int * numbers)
+</pre><dd>
+This method sets the weight units used for this type
+of stuff.  The weight unit is an array ({ a, b }) which means
+that b units of stuff have weight a.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>numbers - the new weight unit
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 18 Sep 2003 18:02:38 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

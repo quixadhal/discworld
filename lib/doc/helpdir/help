@@ -3,47 +3,100 @@ help
 Discworld player help
 help
 
-Name
-.SI 5
-help - The help system
-.EI
+.SH Name
+.SP 5 5
+help - The help system.
+.EP
 
-Syntax
+.SH Syntax
 .SI 5
-help [command]
-help <spell>
-help <command>
+help
+help concepts
+help command_list
+help <topic>
+help [spell|ritual|soul|command] <spell|ritual|soul|command> 
+help here
 help <object>
 .EI
 
-Description
+.SH Description
 .SP 5 5
-This command can be used to get help on commands, spells or objects.
-If you go help by itself it will give you a list of the general help
-available to you.  All spells and commands should also have their own
-help which you can read.  Some objects will also have help and going
-help <object> should give you this help.
-
-To get help explicately on a spell or command assuming they clash with
-something you can put a spell and command in front of the name.  ie
-'help spell calm'.
+Discworld features a rich and sophisticated help system.  Information is
+available on a wide variety of topics and is accessible in many 
+different ways.
 .EP
 
-Example
+.SH Concept Help
+.SP 5 5
+Typing 'help' by itself or 'help concepts' will provide a list of Discworld
+concepts.  An individual concept can be accessed by typing 'help
+<concept>'.
+
+Each concept covers a high-level feature of Discworld and will typically
+refer to any commands or related concepts for further information.
+.EP
+
+.SH Command Help
+.SP 5 5
+Discworld features a wide range of commands.  Some are available all the
+time while others may be specific to a location or item.  The general
+commands can be listed using 'help command_list' and the details of a
+particular command can be viewed using 'help <topic>'.
+
+Spells, rituals and souls also have their own help which you can read with
+'help <spell|ritual|soul>'.
+
+Occasionally there may be a clash between two help topics.  To get help
+explicitly on a spell, ritual, soul or command when there is a class  can
+put use spell, ritual, soul or command in front of the name.
+e.g. 'help spell calm'.
+.EP
+
+.SH Context Sensitive Help
+.SP 5 5
+A new feature that is being added to Discworld is the ability for objects
+and places to have their own help.  To access this information use 'help
+here' or 'help <object>'.  These pages will provide information about the
+specific location or object.  e.g.: typing 'help here' in a shop will show
+the help page for shops and provide information on how to use a shop.
+.EP
+
+.SH Help System Features
+.SP 5 5
+The Discworld help system has a number of advanced features to help you
+find the right files.
+
+Discworld has an extensive list of synonyms.  e.g.: help
+fighters will show the guilds concept help file.  In addition if there is no
+help file for the subject you request Discworld uses a spellcheck algorithm
+to try to identify help files that might be relevant.
+.EP
+
+.SH Caveats
+.SP 5 5
+Note that the help is being written and maintained by overworked and
+stressed creators, so errors may slip in, or things may change without
+being reflected in the help.  If you notice something like this, please
+report the error with the 'bug help <name>' command.
+.EP
+
+.SH Examples
 .SI 5
 > help
-Available options are
+Concepts list, try 'help command_list' for a list of commands.
+ ...list of concepts 
 
-General:
-   soul   alias  idea
+> help faq
+ ...help on Discworld FAQ 
 
-Commands:
-   look   kill   get   put   drop   stop
-> help spell calm
-<Help on calm deleted>
-.EI
+> help smile
+ ...help on the smile soul 
+ 
+> help here
+ ...help on the room  
+.EP
 
-See also
-.SI 5
-none.
-.EI
+.SH See also
+.SP 5 5
+syntax
+.EP

@@ -1,0 +1,39 @@
+.DT
+do_edit
+Discworld Creator Help
+do_edit
+
+Name
+.SI 5
+do_edit - Edits a string using the players neato line editor.
+.EI
+
+Syntax
+.SI 5
+int do_edit(string str, string func, object ob);
+.EI
+
+Description
+.SP 5 5
+Edits the string.  The input string is edited using the editor and the
+function specified in func is call on the object when the function is
+finished.  The edited string is passed into the calling object.
+.EP
+
+Examples:
+.SI 5
+string help() {
+   this_player()->do_edit( "This is a rabbit\nEat it if you can",
+                           "end_wombat_edit", this_object() );
+   return 1;
+} /* help() */
+
+void end_wombat_edit(string str) {
+   write("After editing...  Its " + str + "\n");
+} /* end_wombat_edit() */
+.EI
+
+See also
+.SP 5 5
+more_string, editor
+.EP

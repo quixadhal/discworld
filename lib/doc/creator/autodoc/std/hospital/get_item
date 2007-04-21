@@ -1,0 +1,53 @@
+.DT
+get_item
+DW_wibble creator help
+get_item
+
+.SH Name
+.SP 5 5
+get_item -  This function provides an interface to the armoury, selecting an item at random from the 'items' array and attempting to clone it.
+.EP
+
+.SH Syntax
+.SI 5
+int get_item(object destination,
+             string * items)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^destination%^RESET%^ - where to place the item that is fetched
+from the armoury.
+%^BOLD%^items%^RESET%^ - an array of items, of which one will be selected,
+cloned, and then moved to destination.
+<p>
+.EI
+
+.SH Returns
+.SI 5
+1 if the item was successfully created, 0 if it was not.
+.EI
+
+.SH Defined in
+.SI 5
+/std/hospital.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function provides an interface to the armoury, selecting
+an item at random from the 'items' array and attempting to
+clone it.
+
+
+Any items of jewellery, clothing, weapons, armour or scabbards that are available in the armoury can be accessed using this function. 
+
+
+.EP
+
+.SH See also
+.SP 5 5
+/obj/handlers/armoury
+.EP
+

@@ -1,2 +1,0 @@
-#define BASE F_ACTIONS_DEFINED
-

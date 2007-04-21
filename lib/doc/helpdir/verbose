@@ -3,24 +3,33 @@ verbose
 Discworld player help
 verbose
 
-Name
+.SH Name
 .SI 5
-verbose - Toggle verbose mode
+verbose - verbose mode control
 .EI
 
-Syntax
+.SH Syntax
 .SI 5
-brief
+verbose [type|all]
 .EI
+
+.SH Description
 
 .SP 5 5
-Brief is a toggle that flips between brief and verbose mode.  In brief mode
-you only get short descriptions of the rooms when you walk into them.  In
-verbose mode, you get a long description of the room.  Both modes will list the
-room contents when you enter them.  Verbose performs the identical function.
+The verbose command controls which things you see in brief mode and which in verbose. Typing just 'verbose' will list which items are in which state. Typing 'verbose all' will set all items to verbose mode.
+
+In verbose mode you will get longer descriptions of events depending on which items you have in verbose mode.
 .EP
+
+.SH Examples
+> verbose
+Your settings are: combat (verbose) look (brief) score (verbose) names (verbose)
+> verbose look
+Ok.
+> verbose all
+Ok.
 
 See also
 .SI 5
-verbose.
+brief
 .EI

@@ -7,40 +7,77 @@
 #ifndef _SOCKET_EFUNS_H_
 #define _SOCKET_EFUNS_H_
 
-enum socket_mode { MUD, STREAM, DATAGRAM };
-enum socket_state { CLOSED, UNBOUND, BOUND, LISTEN, DATA_XFER };
+#include "lpc_incl.h"
+#include "network_incl.h"
 
-#define DFAULT_PROTO	0	/* use the appropriate protocol    */
-#define	BUF_SIZE	2048	/* max reliable packet size	   */
-#define CALLBK_BUF_SIZE	64	/* max length of callback string   */
-#define ADDR_BUF_SIZE	64	/* max length of address string    */
-
-struct lpc_socket {
-    int			fd;
-    short		flags;
-    enum socket_mode	mode;
-    enum socket_state	state;
-    struct sockaddr_in	l_addr;
-    struct sockaddr_in	r_addr;
-    char		name[ADDR_BUF_SIZE];
-    struct object *	owner_ob;
-    struct object *	release_ob;
-    char		read_callback[CALLBK_BUF_SIZE];
-    char		write_callback[CALLBK_BUF_SIZE];
-    char		close_callback[CALLBK_BUF_SIZE];
-    char *		r_buf;
-    int			r_off;
-    long		r_len;
-    char *		w_buf;
-    int			w_off;
-    int			w_len;
+enum socket_mode {
+    MUD, STREAM, DATAGRAM, STREAM_BINARY, DATAGRAM_BINARY
 };
 
-#define	S_RELEASE	0x01
-#define	S_BLOCKED	0x02
-#define	S_HEADER	0x04
-#define	S_WACCEPT	0x08
+enum socket_state {
+    STATE_CLOSED, STATE_FLUSHING, STATE_UNBOUND, STATE_BOUND, STATE_LISTEN, STATE_DATA_XFER
+};
 
-int socket_create PROT((enum socket_mode, char *, char *));
+#define BUF_SIZE        2048    /* max reliable packet size        */
+#define ADDR_BUF_SIZE   64      /* max length of address string    */
 
-#endif /* _SOCKET_EFUNS_H_ */
+typedef struct {
+    int fd;
+    short flags;
+    enum socket_mode mode;
+    enum socket_state state;
+    struct sockaddr_in l_addr;
+    struct sockaddr_in r_addr;
+    object_t *owner_ob;
+    object_t *release_ob;
+    union string_or_func read_callback;
+    union string_or_func write_callback;
+    union string_or_func close_callback;
+    char *r_buf;
+    int r_off;
+    long r_len;
+    char *w_buf;
+    int w_off;
+    int w_len;
+} lpc_socket_t;
+
+extern lpc_socket_t *lpc_socks;
+extern int max_lpc_socks;
+
+#define S_RELEASE       0x001
+#define S_BLOCKED       0x002
+#define S_HEADER        0x004
+#define S_WACCEPT       0x008
+#define S_BINARY        0x010
+#define S_READ_FP       0x020
+#define S_WRITE_FP      0x040
+#define S_CLOSE_FP      0x080
+#define S_EXTERNAL      0x100
+#define S_LINKDEAD      0x200
+
+array_t *socket_status (int);
+array_t *socket_status_by_fd (int);
+int check_valid_socket (const char * const, int, object_t *, const char * const, int);
+void socket_read_select_handler (int);
+void socket_write_select_handler (int);
+void assign_socket_owner (svalue_t *, object_t *);
+object_t *get_socket_owner (int);
+void dump_socket_status (outbuffer_t *);
+void close_referencing_sockets (object_t *);
+int get_socket_address (int, char *, int *, int);
+int socket_bind (int, int, const char *);
+int socket_create (enum socket_mode, svalue_t *, svalue_t *);
+int socket_listen (int, svalue_t *);
+int socket_accept (int, svalue_t *, svalue_t *);
+int socket_connect (int, const char *, svalue_t *, svalue_t *);
+int socket_write (int, svalue_t *, const char *);
+int socket_close (int, int);
+int socket_release (int, object_t *, svalue_t *);
+int socket_acquire (int, svalue_t *, svalue_t *, svalue_t *);
+const char *socket_error (int);
+int find_new_socket (void);
+void set_read_callback (int, svalue_t *);
+void set_write_callback (int, svalue_t *);
+void set_close_callback (int, svalue_t *);
+
+#endif                          /* _SOCKET_EFUNS_H_ */

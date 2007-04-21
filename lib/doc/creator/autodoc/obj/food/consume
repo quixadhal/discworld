@@ -1,0 +1,39 @@
+.DT
+consume
+DW_wibble creator help
+consume
+
+.SH Name
+.SP 5 5
+consume -  This consumes some of the food.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void consume(object consumer,
+                     int amount,
+                     string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^consumer%^RESET%^ - The person doing the consumption.
+%^BOLD%^amount%^RESET%^ - The amount being consumed.
+%^BOLD%^type%^RESET%^ - Use "splash" or "apply" or "external" to use external
+ effects, anything else for eat effects.
+
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This consumes some of the food.
+
+.EP
+

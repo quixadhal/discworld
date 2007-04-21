@@ -1,0 +1,150 @@
+.DT
+Lord Points
+Discworld creator help
+Lord Points
+
+.SH Name
+.SI 5
+lord points - scoring system  
+.EI
+
+.SH Description
+.SP 5 5
+Lord points are an interesting facet of being a creator.  They are mysterious...
+elusive.  Granted to the people who have shown talent and exceptional ability
+in the fields of:
+.EP
+
+.SO 5 5 -20
+	a)	creative use of code
+	b)	use of undocumented features in the mudlib and driver
+	c)	inventive interaction between objects
+.EO
+
+.SP 5 5
+We are more interested in these three points than in any of the side effects.
+For example, it doesn't matter if the code works.  It doesn't matter if it
+lags the disc to hell and back.  It doesn't even matter if it crashes the
+Disc.  But there are a number of modifiers that are used to ensure that the
+correct distribution of Lord Points are granted.  
+.EP
+
+
+.SH Scoring Chart
+.SP 5 5
+First, we start with a cumulative scale:
+.EP
+
+.SO 5 7 -20
+	0	Normal code. 
+	1	Code that lags the MUD solid for an hour or two
+	2	Code that breaks something important or commonly used.
+	2	Code that crashes the MUD.
+	3	Code that requires the MUD be shut down RIGHT THIS FREAKING SECOND!!!
+	3	Code that breaks something important enough to make the MUD unplayable
+	4	Code that requires players to be restored from a backup
+	5	Code that requires creators to be restored from a backup
+	6	Code that worked fine while the MUD was running, but broke come the next reboot.
+	6	Code that requires Lords to be restored from a backup
+	7	Code that requires High Lords to be restored from a backup
+	8	Code that requires Pinkfish to be restored from a backup
+	9	Code that requires the whole MUD being restored from a backup
+	10	Code that requires the whole internet being restored from a backup.
+.EO
+
+.SP 5 5
+Note that this is cumulative... so if you wrote code that lagged the MUD solid
+for an hour, then made it crash, you would get 3 lord points.  If you wrote
+code that required the MUD to be shut down instantly, and then required players
+to be restored from backup, you'd get 7 points.  
+.EP
+
+.SH Percentage Modifiers
+.SP 5 5
+Further to this, there are percentage modifiers that are applied to ensure that
+we have a proper method of rewarding creative use of code, rounding up.  These
+are also cumulative:
+.EP
+
+.SO 5 7 -20
+	+25%	If your fix to the code caused another effect that qualifies for lord points. For example, in fixing a crasher, you introduce an effect that lags the MUD for the rest of the day.  Not only to you get the 2 points for the crash, you get another point for lagging the Disc (plus the point for the lag), giving a total of 4 shiny lord points.
+	+25%	If the object you break is required to be in perfect working order before you can fix it.  For example, if a lord breaks his/her domain master object.
+	+50%	If any attempt to reboot the MUD triggered the effect... code in, for example, the player object or the master object is good for this.
+	+50%	If the action you did to get the lord points is entirely inconsistent with the effect... for example, calling move on an object.
+	+50%	If you needed to go begging to someone to get it fixed.
+	+100%	For being very, very, very funny.
+	+100%	If you're already a Lord and no longer require the points.
+	-100%	If the effect was intentional.  You will also be crucified for this.  :-P
+	-100%	If what you did was mind-numbingly irresponsible.
+.EO
+
+.SH Some Instructive Examples:
+.SP 5 5
+
+
+.SP 5 5
+Drakkos breaking the Forn domain master object:
+.EP
+
+.SO 5 7 -20
+	2	Breaking something important
+	3	+25% for not being able to fix it because it was broken
+	5	+50% for having to go begging to Taffyd to fix it
+	10	+100% for already being a lord
+.EO	
+
+.SP 5 5
+Wodan changing simul_efun.c to require itself to load:
+.EP
+
+.SO 5 7 -20
+	6	code that worked fine, but broke the next reboot
+	9	+50% for rebooting the MUD triggering the crash
+	14	+50% for needing a HL to fix it from the shell
+.EO
+
+.SP 5 5
+Arienne using a loophole to crash the mud with a login
+.EP
+
+.SO 5 7 -20
+	2	crashing the MUD
+	0	-100% for being intentional
+	ERR	-100% for being mind-numbingly irresponsible
+.EO
+
+.SP 5 5
+Terano attempting to chat a 'sar' instruction on the cre channel, and missing the all important leading 'cre'.
+.EP
+
+.SO 5 7 -20
+	1	Lagging the MUD to implement fixes
+	3	Breaking every ritual in a nice and interesting way
+	6	+100% for being very, very, funny.
+.EO
+
+
+.SP 5 5
+Gruper Crashing the MUD.
+.EP
+
+.SO 5 7 -20
+	2	crashing the MUD
+	3	+50% for the effect being inconsistent
+	6	+100% for already being a lord
+.EO
+
+.SP 5 5
+Moving /w/common into himself to see what it did:
+.EP
+
+.SP 5 5
+Priceless.
+.EP
+		
+.SH See also
+.SP 5 5
+dismiss   suspend   siteban     banish
+.EP        
+
+

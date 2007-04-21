@@ -1,0 +1,542 @@
+A Brief Introduction to LPC  -  Putting It All Together 4
+Ae First Rough Draft
+
+Drakkos - 15/10/2000
+
+N.B     -       This is a work in project... a living document if
+                you like.  If it appears to be dead when you view
+                it, don't worry.  It's most likely just playing
+                possum.
+
+==========================================================================
+Concepts still to be covered:
+
+Not sure... perhaps nothing.
+==========================================================================
+
+Right, by now we know how to create basic NPCs, rooms and objects.  But 
+there are so many more things we can do with each that we didn't cover
+in the basic tutorial, so we'll cover them here.  This part can be thought
+of as an extension to what you've already learned.  Nothing here is vital
+to the creation of simple rooms, but what's in here can be used to make
+your rooms more interesting and interactive.
+
+
+Outside Rooms, and Day/Night Contextual Code
+============================================
+
+We'll start off nice and easy.  The room we coded previously was an inside
+room, inheriting "/std/room".  We can change this very easily to an outside
+room, complete with weather and all the other properties of an outside room,
+simply by changing this inherit line to "/std/outside".  So let's start 
+a new room now to play with.  We start off, as always, with the comments
+stating what the file is, who coded it, and when:
+
+/*
+    This is a cleverer room
+    Written by Drakkos.
+    
+    15/10/2000
+*/    
+
+And we follow that with the inherit:
+
+    inherit "/std/outside";
+
+We follow this up with setup(), as usual.  But before we start on that, let's
+talk a little about what we're doing with our room.
+
+Say we want to code a room... a market square perhaps, that looks 
+dramatically different at night than it does during the day.  During the 
+day it's full of brightly coloured stalls, milling shoppers and bustling 
+stall keepers.  At night, it is silent and the stalls lie dormant, unused.  To 
+express both of these as a single generic description makes it very difficult 
+to give any kind of flavour to the room.  The best you can manage is to 
+concentrate on the aspects that will always be visible, and ignore the rest.
+
+This does a great disservice to a room that could, potentially, be rather 
+atmospheric.  Wouldn't it be great if there was a way to change the long
+and add_items of a room depending on whether it was day or night?  Well, 
+funny you should ask, but there is a way... and it's extremely easy to 
+do.  
+
+It's done through the use of pairs of day/night longs, day/night add_items,
+and day/night room chats.  Where previously we would just have a single
+set_long in a room, we now need a set_day_long() and a set_night_long().
+
+Likewise, with add_items... at least those we want to behave differently
+during the night, we will use add_day_item and add_night_item to set their
+behaviour.  If the add_item is to behave exactly the same regardless of day
+or night, we can use add_item as we learned before.  We also need to do the
+same with room_chat, which becomes room_day_chat() and room_night_chat().
+
+Please note that the syntaxes of all these functions are identical to the
+ones we learned about before... the only difference is that they will be
+used differently depending on the time of day.  This may seem like you are
+effectively doubling the work you're doing for the same gain, but having rooms
+behave in this manner adds a quantum leap to the realism of your rooms.  Anyway,
+let's have a look at our setup for the marketplace:
+
+void setup() {
+
+    set_short("market square");
+    set_day_long("This is a lovely market square, where people mill about "
+        "doing the kind of things you would expect people to do in a lovely "
+        "market square.  Brightly coloured stalls stand in the corners of "
+        "the market.  They seem to do good business judging by the steady "
+        "stream of consumers ducking under the flaps.  There is a pile of "
+        "broken ceramic shards in the corner of the market.\n");
+    set_night_long("The darkness settles on this market square like a thick "
+        "black blanket.  The stalls, undoubtedly merry and brightly coloured "
+        "during the day, lie dormant and unused.  The silence is "
+        "deafening.  There is a pile of broken ceramic shards in the corner "
+        "of the market.\n");
+        
+    set_light(80);
+    add_zone("my rooms");
+    
+    add_day_item(({"people", "consumers"}), "The people mill around happily, "
+        "browsing the goods and talking with the stall owners.");
+    add_night_item(({"people", "consumers"}), "They're all tucked up in "
+        "bed.  Only crazed reprobates like you are awake at this time of "
+        "night.");
+    add_day_item("stall", "The stalls are brightly coloured and really "
+        "quite merry.");
+    add_night_item("stall", "The stalls lie dormant in the night.  Creepy!");
+    add_item("broken ceramic shards", "Who knows what could be lurking "
+        "underneath these?");
+
+    room_day_chat(({120,240, ({
+        "People mill around happily.",
+        "The brightly coloured stalls attract the eye.",
+    })}));
+    
+    room_night_chat(({120,240, ({
+        "The only sound is the chirping of the crickets.",
+        "The stalls loom ominously in the darkness.",
+    })}));
+    
+    add_exit("east", "/w/drakkos/workroom", "road");
+
+}
+
+
+And with that, we have an outside room that changes according to day or night,
+allowing us greater flexibility in how we choose to describe the location.  
+Nice.  
+
+
+Search Functions
+================
+
+But what about those ceramic shards in both descriptions?  Doesn't that just
+invite someone to come along and search through them in the hope something
+interesting is indeed underneath?  Well, let's hope so, because that's why
+they're there!
+
+At the moment, however, searching will provide absolutely nothing 
+interesting.  Nada.  Zip... regardless of what we'd *like* to be there.  But
+we can change that very easily by adding a do_search() function to our room.
+The search command will check a room for this function, and if it exists, it
+will call that function in response to a player searching.  The search command
+passes in a single string argument, and that is the text that the player has
+chosen to search.  If they have simply typed 'search', then the argument will be 
+empty.  If they typed, for example, 'search shards', then the argument would
+equal 'shards'.  do_search also returns an integer value upon completion.  If
+it returns -1, then the player will simply see the default searching text on
+their screen.   If the function returns 1, then it indicates that the search
+has been successfully dealt with by the do_search() function in the room.  If
+it returns 0, then it indicates that the search command should be dealt with
+via a notify_fail().  
+
+So let's add a do_search() function to our room... nothing complex, just 
+something that appears when someone is adventurous enough to search the
+shards:
+
+    int do_search(string str) {
+
+        // If there is no sizeof the variable str, then it means they're not
+        // searching anything in particular, 
+    
+        if(!sizeof(str)) {
+            return -1;
+        }
+
+        // If str is equal to "shards", they're searching the right thing.  
+        // There are better and more flexible ways to check if the player is 
+        // searching the right thing, but this is sufficient for this example.
+    
+        if(str == "shards") {
+            tell_object(this_player(), "You search through the shards, but "
+                "succeed only in cutting your hand slightly.  Ouch!\n");
+            this_player()->adjust_hp (-100);
+            return 1;
+        }
+        else {
+            notify_fail("Try searching something else, perhaps?\n");
+            return 0;
+        }
+    }
+
+
+So now we have a search function that allows people to search through the
+shards.  Notice how we call adjust_hp() on this_player(), and reduce their
+HPs by 100.  If the player has less than 100 HPs when they search the shards,
+the searching will kill them.  Aren't we mean?  Yes we are... Fnu, isn't it?
+
+
+Death Reasons
+=============
+
+But... this raises a small problem.  Should someone, in fact, die when 
+searching the shards, all creators online get a really ugly death message:
+
+    [drakkos killed by drakkos (with a call)]
+
+Despite being ugly, this is also as informative as a drunken mime giving 
+instruction in Russian pronunciation.  We can make the message somewhat
+more informative and prettier by adding another function to our room. 
+query_death_reason() takes no arguments and simply returns the string we
+will see appended to the [drakkos killed by... ] message:
+
+    string query_death_reason() {
+        return "a nasty cut in the newbie creator tutorial room";
+    }
+    
+    
+We also need to ensure that the MUD knows it was the room that killed our
+leetle player, so we change the do_search to add an attack_by 
+(this_object()) if the player's HPs are less than 0 (in other words, he's
+dead):
+
+    if(str == "shards") {
+        tell_object(this_player(), "You search through the shards, but "
+            "succeed only in cutting your hand slightly.  Ouch!\n");
+        this_player()->adjust_hp (-100);
+        if(this_player()->query_hp () < 0) {
+            this_player()->attack_by (this_object());
+        }
+            
+    return 1;
+    }
+    
+And now, searching the shards at low HPs will give the message:
+
+    [drakkos killed by a nasty cut in the newbie creator tutorial room <room>]
+
+You can, of course, make your messages somewhat funnier than this.  Only 
+creators will see these messages.  Please try and make it somewhat obvious,
+however, what the actual reason of death is in case there is a problem that has
+to be tracked down.
+
+
+Modify Exit
+===========
+
+So now we have a searchable room with day and night context sensitive items,
+long and chats.  Woo!  But there's still more we can do to make our room more
+interesting.  As you can see, we have an exit here back to our original 
+workroom.  That's a simple thing... we've already discussed how add_exit works
+in our second tutorial.  What we'll discuss here, however, is making our
+exit more fnu.  We can do this with a nifty function called 'modify_exit'.
+
+Modify exit can be used to do all sorts of cool things to exits of all kinds.
+It takes two arguments... one is the name of the exit (it will also accept 
+an array of exits), and the second is an array of aspects to modify, and 
+the value to give them.  Common aspects you might want to change would be
+exit and enter messages (the text people see on their screens when people
+use the exits), whether a door is locked or not, and the door long and short 
+(what people see when they look at the door, or manipulate the door). 
+Modify_exit() offers much more than this, however.  The help file on the
+function is very informative, and you should have a read of this now.  Don't
+worry... I'll wait.
+
+<sound of whistling>
+
+Done?  Excellent.  Well, the first thing we're going to change is the look
+message for the exit we have... this is the string a player gets when someone
+attempt to 'look east', for example.  Normally this will be the long 
+description of the next room, but we can over-ride this with modify_exit,
+like so:
+
+    modify_exit("east",({"look", "You get the feeling that peeking into a "
+        "creator's workroom is very rude!"}));
+        
+So now, when we 'look east', we get :
+
+    You get the feeling that peeking into a creator's workroom is very rude!
+    
+Woohoo!  
+
+But we can also be a little more adventurous than this.  Since the second
+argument of the function is an array, we can potentially modify everything
+about the exit with a single function call.  
+
+Speaking of function calls, let's make the exit usable only by creators. 
+Of course, only creators will actually be wandering around your creator rooms
+as a matter of course, but we'll do it anyway.  We can do this by giving our
+exit a function to evaluate whenever anyone attempts to use it.  There is 
+another fine help file on this, accessible by 'help exit_function'.  Anyway,
+we change our modify_exit to:
+
+    modify_exit("east",({"look", "You get the feeling that peeking into a "
+        "creator's workroom is very rude!", "function", "test_creator"}));
+
+This will call the function 'test_creator' whenever someone tries to use
+the exit.  Test_creator() takes three arguments, and returns an integer
+value indicating success or failure.  The first argument is the string for 
+the exit (in this case, it would be "east"), the second is the object
+taking the exit, and the third is the message given to the destination
+room when the object arrives (assuming this hasn't already been overridden
+with enter and exit messages):
+
+    int test_creator(string str, object ob, string special_mess) {
+        if(!ob->query_creator()) {
+            notify_fail ("");
+            tell_object(ob, "You are not a creator!  You may not pass!\n");     
+            return 0;   
+        }
+        else {
+            tell_object(ob, "You feel a tingle down your spine as you "
+                "take the exit.\n");        
+            return 1;
+        }
+    }
+
+If query_creator() returns 0 when ob attempts to use the exit, the function
+will return 0 and the object will be stopped from moving east.  Otherwise,
+the exit can be used normally, although with a nice leetle message to show
+that the exit function is actually working.  We can make this function as
+complicated as we like, to deal with all possible situations.  All you 
+must remember is that a 1 or a 0 must be returned indicating whether the
+object is allowed to use the exit.
+
+Also, please note that this_player() should *not* be used in an exit function, 
+simply because this_player() will not always be the object taking the exit.  
+For example, using this_player() will evaluate only on the first player taking 
+the exit, even if a large group of players is following, for example.  Always 
+use the object reference passed in as the first argument to the function.
+
+It is for this reason we don't use notify_fail() for the fail message in an 
+exit function... the text from notify_fail() will go to this_player(), 
+which may not be the object taking the exit.  We do use notify_fail to
+over-ride the default 'What?' failure message however... we set that to
+an empty string, and the tell_object gives the correct reason for the exit
+not working.  Neat!
+
+
+Linking Rooms Together
+======================
+
+Okay... for this section we're going to need to create a couple more rooms to 
+link  to.  We won't do anything clever with them at all... we'll just make 
+them normal, boring outside rooms.  We'll call them advanced_room_2 and
+advanced_room_3 respectively:
+
+    void setup() {
+        set_short("road to market");
+        add_property("determinate", "");
+        set_day_long("This is a quiet road.  Absolutely nothing of interest "
+            "is here..\n");
+        set_night_long("This is a quiet road.  But at night!.\n");
+        
+        set_light(80);
+        add_zone("my rooms");
+
+        add_item("road", "I *said*, there's nothing interesting at all here.");    
+    
+        add_exit("north", "/d/learning/newbie/introduction/advanced_room_1", "road");    
+
+    }
+    
+Now, wouldn't it be neat if it were possible to see people wandering about the
+road from the market square?  It would, wouldn't it?  I think it would.  For
+one thing, it gives a far more active, and dynamic feel to a location, giving
+it an holistic existence as a market, rather than a collection of otherwise
+unrelated rooms.  And it also demonstrates how the linker works, which is more
+important in the context of this tutorial.  The linker will broadcast 
+entrances, exits, and says to linked rooms, giving a nice, homogeneous feel to
+the area.
+
+The linker works using the set_linker() function call.  This takes four
+arguments.  The first is the array of rooms to link to.  The second is
+the dynamic preposition... in other words, the word to use when someone
+exits or enters a linked room.  The third argument is the static preposition,
+the word to use when someone says something in the room.  These default to
+'into' and 'in' respectively.  The last argument is the name of the area to
+link on.  
+
+So, to our first room (advanced_room_1), we add the following line:
+
+    set_linker(({"/d/learning/newbie/introduction/advanced_room_2", 
+        "/d/learning/newbie/introduction/advanced_room_3"}),
+        "onto", "on", "the newbie creator marketplace");
+        
+To the second room, we add almost the same, but change the filename of the
+first argument:
+
+    set_linker(({"/d/learning/newbie/introduction/advanced_room_1",
+        "/d/learning/newbie/introduction/advanced_room_3"}),
+        "onto", "on", "the newbie creator marketplace");
+
+And to the third room, we add:
+
+    set_linker(({"/d/learning/newbie/introduction/advanced_room_1",
+        "/d/learning/newbie/introduction/advanced_room_2"}),
+        "onto", "on", "the newbie creator marketplace");
+       
+We will also need to add exits to advanced_room_2 and advanced_room_3 from
+advanced_room_1.
+
+Now that we have all this in place, linking the three rooms to each other,
+we can see what the linker does.  If I stand right at the far north of
+our leetle area, and I sent my faithful test character Draktest to the
+far south, and then make Draktest say 'Hello', what I see is:
+
+    On the road to the market, Draktest exclaims: Hello!
+    
+Woo!  And if I make him move north into the market itself, I see:
+
+    Draktest moves north onto the market square.
+    
+And then:
+
+    On the market square, Draktest exclaims: You can hear me, leetle Drakkos!   
+
+And that's it!  Our rooms are all linked up!  Neat!
+
+It's important to remember, tho', that the first argument array of each 
+set_linked call should include *all* rooms linked up, except for the
+current room.  And all rooms with the linker setup should have the same
+arguments for the second, third and fourth parameters... otherwise all
+kinds of weirdness ensues.  
+
+
+Path.h Files
+============
+
+You'll notice that we've had to duplicate a lot of filenames in our 
+linker calls.  Over the three rooms, we've had to reference to 
+/d/learning/newbie/introduction/examples/ in the set_linker call and
+each of the add_exits.  Now, imagine we had to change the directory 
+the files were in... nightmare!  We'd need to change every single reference
+to the directory in every single file. 
+
+To make the chore of changing directories easier, it is common practise to 
+create a 'path.h' file.  The path.h file contains #defines relevant to the
+object.  In this case, we'll #define PATH as 
+"/d/learning/newbie/introduction/examples/".  Remember our section on the 
+preprocessor?  Every occupance of PATH will be replaced with the following
+text.  So we create a separate file, path.h, containing only the line:
+
+#define PATH "/d/learning/newbie/introduction/examples/"
+
+And #include it in all the relevant rooms.  Make sure you press return after
+the line however, otherwise you may get odd errors.  
+
+But now we have our path.h file, we can change our linker and add_exit 
+functions appropriately:
+
+    set_linker(({PATH + "advanced_room_2", PATH + "advanced_room_3"}),
+        "onto", "on", "the newbie creator marketplace");
+        
+And:
+
+    add_exit("north", PATH + "advanced_room_3", "road");
+    
+Whee!  Now if we ever need to change the location of our files, we just
+change the path.h file, and we're done.  It's also a lot less typing!            
+
+
+Climate and Temperature
+=======================
+
+And now we'll finish off with something easy again.  You've done marvelously
+well getting this far, and if you practise the stuff above, you'll be creating
+quality rooms in next to no time!   We'll finish off with a quick way to
+change the climate and heat in your rooms.
+
+You may have noticed that your outside rooms have weather.  Nothing remarkable
+about that... but you didn't tell the room what weather it was to have!  Now,
+perhaps you're happy with what the MUD has decided your climate will be... but
+if you're looking for torrential downpours or warm, temperate sun, you'll want
+to know how to change it to suit your needs.  
+
+We do this using the climate property.  Remember how we discussed properties
+in one of the earlier tutorials?  Well, this is another of them in action.  
+The climate property takes a three part array as its value.  The first
+part of this array is the base temperature of a room.  The second is the cloud
+cover, and the third is the wind speed.  So if we wanted a nice, hot room with
+scattered cloud cover and steady wind speed, we'd use:
+
+    add_property("climate", ({20, 20, 10}));
+
+And that's it!  Play around with these values until you get the weather 
+patterns you are looking for... but remember these are not absolute values, and
+the weather handler will over-ride these depending on seasonal / geographical
+conditions.
+
+Climate is of use only to outdoor rooms, but the second property, 'warmth', can
+be used to adjust the temperature of both inside and outside rooms.  It takes
+a single integer as a value, and this integer is the number of degrees in 
+Celsius to adjust the temperature in a room.  For example:
+
+    add_property("warmth", -5);
+    
+Will reduce the base room heat by five degrees Celsius, while:
+
+    add_property("warmth", 3);
+    
+Will increase the base room heat by three degrees Celsius.
+
+You will find this property of great use when coding rooms such as a smithy, 
+or a forge, or a freezing cold cave out in the mountains.
+
+
+Chapter Summary
+===============
+
+And that's it for this tutorial!  We've covered a lot of ground here, and yet 
+there is still more to learn.  However, as far as rooms go, the rest is a 
+journey you must undertake yourself.  There are many help files that exist
+to help you... 'help modify exit' for example, will cover almost everything that
+the function can do.  In all cases, experimentation and reading the code of
+other people will give great insight into how you can use these functions to
+better your projects.  
+
+-   Outside rooms inherit "/std/outside".  Outside rooms have all the 
+    properties of being outside, such as weather, and light levels
+    adjusted by darkness.
+-   Set_day_long and set_night_long can be used to set the long description of
+    the room during the day and during the night respectively.
+-   add_day_item and add_night_item work like add_item(), except the item will
+    only be present during the day and during the night respectively.
+-   room_day_chat and room_night_chat can be used to give your rooms different
+    atmospheric chats depending on whether it is day or night.
+-   If you want a room to do something special when someone searches in it,
+    you must define a do_search() function in your room.
+-   If there is a chance, however, remote, that someone may die as the result
+    of code contained within your room, you should define a query_death_reason
+    function, and add the room to the list of the player's attackers before
+    death.
+-   The function modify_exit() may be used to change the behaviour of any 
+    exits in your room in a wide variety of ways.
+-   The set_linker() function allows you to set rooms as being linked together.
+    This is useful for large, contextually related suites of rooms such as
+    marketplaces.
+-   Path.h files can be #included in your rooms to provide related #defines.
+    The most useful of these will be a PATH define that points to the 
+    directory your objects exist it.
+-   The climate property influences the weather patterns in an outside room.
+    The value is an array of the form ({temperature, cloud cover, wind speed})
+-   The warmth property can be used to adjust the temperature in your room. 
+    A postive integer increases the temperature of a room by one degree 
+    Celcius.  A negative value reduces it by one degree celcius.
+             
+                
+Support Files
+=============
+
+/d/learning/newbie/introduction/examples/advanced_room_1.c
+/d/learning/newbie/introduction/examples/advanced_room_2.c
+/d/learning/newbie/introduction/examples/advanced_room_3.c

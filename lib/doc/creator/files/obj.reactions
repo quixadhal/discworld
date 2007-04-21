@@ -1,0 +1,103 @@
+.DT
+Reaction File Format
+Discworld Creator Help
+Reaction File Format
+
+Name
+.SP 5 5
+reaction file format - File format for the reaction handler database
+.EP
+
+Description
+.SP 5 5
+The reaction handler loads its database from a collection of files,
+specifically, all files that match /obj/reactions/*.rcn.  Each
+reaction is of the class type specified in /include/reaction.h  The files
+are loaded with the data initializer (/obj/handlers/data); all *.rcn
+files are concatenated onto the file /obj/reactions/base.hdr, which
+contains the #include for reaction.h and ::Data:: statement, so .rcn
+files should only have ::Item:: definitions.
+.EP
+
+Reaction File Format
+.SP 5 5
+When the reaction handler is loaded, it attempts to restore the
+reaction database from all files in /obj/reactions that end with
+'.rcn'.  Each file can contain multiple reactions; this was felt to be
+a good trade-off between having one massive file (which would be
+unwieldy), and requiring a separate file for each reaction (which
+would waste disk space).  The files are read alphabetically, so
+reactions can be overridden (say, for testing) by adding the
+replacement in a file further down the list.
+.EP
+
+.SP 5 5
+The reaction database is a two-level mapping of classes, indexed by
+the medium aliases of the two reagents.  Therefore, the ::Item::
+statements are of the form:
+.EP
+
+.SI 10
+::Item "MediumAlias1" "MediumAlias2"::
+.EI
+
+.SP 5 5
+In order to eliminate redundancy, the database is checked with the
+reagents in alphabetical order; therefore, the reaction MUST be
+defined in the same order.  The convention for the medium alias is to
+capitalize every letter of each "word", eg, "PowderedRedRiverRock".
+.EP
+
+.SP 5 5
+Below are the class fields and their meanings (using the data
+initializer format, ie, as they would appear in the .rcn file).
+.EP
+
+.SO 5 20 -30
+	::->ratio::	This is the required ratio of the ingredients (the ratio of the first to the second).  It can be given as a float, or as an array of two floats (min/max ratio, in which case it tries to do a best-match of the amounts present; this prevents odd pinches and drops of reagents from floating around).
+	::->result::	Path of resulting object.  This can be virtually any object (including a transient), although the vessel will be destroyed if it doesn't fit.
+	::->result_amt:	This a multiplication factor for the total amount (ie, the sum of the query_amount() for the two reagents).  Generally this will be 1.0, meaning that the result amount will be the total of the reagents (which is what one would expect unless they're not in the same units).
+	::->message::	This is a message that is printed out when the reaction takes place.  It can use the pseudo-objects listed below, as well as process_string-type strings (the old "@@" thing).  Since the handler now allows function pointers, this is probably obsolete.
+	::->func::	This is an array of function pointers that are executed after the reaction occurs (ie, after the result is created, but before the reagents' amounts are reduced and the result put in the container).  $1-$5 represent the following objects in the function calls: reagent a, reagent b, result object, the vessel, and the environment of the vessel.  These functions can be used to configure the result on-the-fly, print messages, etc.  For backward compatibility, these can be process_string-type strings instead, but this isn't recommended.
+.EO
+
+.SP 5 5
+For the message field and the func elements (if strings are used
+rather than function pointers), the
+following pseudo-objects may be used to represent the objects involved
+in the reaction.
+.EP
+
+.SO 5 20 -30
+	#env#	This represents the environment of the reagents (i.e., the container).
+	#env2#	This represents the environment of the container.
+	#obj_a#	This represents the first reagent (the one just added to the container).
+	#obj_b#	This represents the second reagent.
+	#obj_x#	This represents the object created by the reaction.
+.EO
+
+.SP 5 5
+For example,
+.EP
+
+.SI 10
+message: @@#obj_x#:short@@ appears in @@#env#:the_short@@.\n
+.EI
+
+.SP 5 5
+would print something like, "Some brown liquid appears in the blue
+bottle."  This could also be done with the following function pointer
+in the func field:
+.EP
+
+.SI 10
+(: tell_room($5, $3->short() + " appears in " + $4->the_short() + ".\n") :)
+.EI
+
+See also
+.SI 5 5
+obj.handlers.reaction
+obj.reagents.transient
+/obj/reactions/*.rcn
+/obj/reactions/base.hdr
+.EI

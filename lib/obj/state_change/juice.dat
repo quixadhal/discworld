@@ -1,0 +1,100 @@
+# $Locker:  $
+# 
+# $Id: juice.dat,v 1.3 2003/03/25 19:13:24 wenda Exp $
+#
+# $Log: juice.dat,v $
+# Revision 1.3  2003/03/25 19:13:24  wenda
+# Forcibly released due to inactivity
+#
+# Revision 1.2  1999/10/24 12:04:54  taffyd
+# Added juicable jelly oranges. :P
+#
+# Revision 1.1  1998/08/27 21:28:18  jeremy
+# Initial revision
+#
+#
+::item "juice:snake left eye"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor::0.5
+::->func:: ({
+  (: $2->set_name("liquid") :),
+  (: $2->set_short("cloudy yellowish liquid") :),
+  (: $2->set_long("This is a cloudy, yellowish liquid, with faint "
+      "traces of red swirls.\n") :),
+  (: $2->add_adjective(({ "cloudy", "yellowish", "yellow" })) :)
+})
+::item "juice:JellyOrange"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 0.5
+::->func:: ({
+  (: $2->set_name( "juice" ) :),
+  (: $2->set_short( "jelly orange juice" ) :),
+  (: $2->add_adjective( ({ "jelly", "orange" }) ) :),
+  (: $2->set_long( "This is a delicious looking juice that "
+      "appears to have been made from juicing up a jelly orange.\n" ) :),
+  (: $2->set_medium_alias( "JellyOrangeJuice" ) :),
+})
+
+::item "juice:Apple"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 1.0
+::->func:: ({
+  (: $2->set_name( "juice" ) :),
+  (: $2->set_short( "apple juice" ) :),
+        (: $2->set_main_plural( "apple juices" ) :),
+        (: $2->add_plural( "juices" ) :),
+  (: $2->add_adjective( "apple" ) :),
+  (: $2->set_long( "This is some transparent golden-brown "
+                  "juice made from apples, "
+                  "$amount_size$.\n" ) :),
+  (: $2->set_medium_alias( "AppleJuice" ) :),
+})
+
+::item "juice:LancreBlackheart"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 1.0
+::->func:: ({
+        (: $2->set_name( "blackheart_juice" ) :),
+        (: $2->set_short( "apple juice" ) :),
+        (: $2->set_main_plural( "apple juices" ) :),
+        (: $2->add_plural( "juices" ) :),
+        (: $2->add_alias( "juice" ) :),
+        (: $2->add_adjective( "apple" ) :),
+        (: $2->set_long( "This is some dark, treacly, "
+                        "sweet-smelling apple juice, "
+                        "$amount_size$.\n" ) :),
+        (: $2->set_medium_alias( "BlackheartJuice" ) :),
+})
+
+::item "juice:GoldenDisagreeable"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 1.0
+::->func:: ({
+        (: $2->set_name( "disagreeable_juice" ) :),
+        (: $2->set_short( "apple juice" ) :),
+        (: $2->set_main_plural( "apple juices" ) :),
+        (: $2->add_plural( "juices" ) :),
+        (: $2->add_alias( "juice" ) :),
+        (: $2->add_adjective( "apple" ) :),
+        (: $2->set_long( "This is some thin and watery "
+                        "sour-smelling apple juice, "
+                        "$amount_size$.\n" ) :),
+        (: $2->set_medium_alias( "DisagreeableJuice" ) :),
+})
+
+::item "juice:GreenBillet"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 1.0
+::->func:: ({
+        (: $2->set_name( "billet_juice" ) :),
+        (: $2->set_short( "apple juice" ) :),
+        (: $2->set_main_plural( "apple juices" ) :),
+        (: $2->add_plural( "juices" ) :),
+        (: $2->add_alias( "juice" ) :),
+        (: $2->add_adjective( "apple" ) :),
+        (: $2->set_long( "This is some evil coloured, "
+                        "bitter-smelling apple juice, "
+                        "$amount_size$.\n" ) :),
+        (: $2->set_medium_alias( "BilletJuice" ) :),
+        (: $2->add_eat_effect( "/std/effects/ingested/nausea", 50 ) :),
+})

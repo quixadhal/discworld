@@ -1,0 +1,83 @@
+.DT
+take
+Discworld player help
+take
+
+.SH Name
+.SI 5
+take - a synonym for 'get'
+.EI
+
+.SH Syntax
+.SI 5
+get <object>
+get <object> from <object>
+.EI
+
+.SH Description
+.SP 5 5
+Get is a basic command that allows you to get objects from your environment
+and from other objects and move them to your inventory.
+.EP
+
+.SH Example
+.SI 5
+> look
+This is a very boring room.
+A red pencil.
+A large elephant.
+
+let's say you want the pencil...
+> take pencil
+You get a pencil.
+
+let's say you want the elephant...
+> take elephant
+You cannot carry that much weight.
+.EI
+
+.SH Example 2
+.SI 5
+> look
+This room is even more boring than the first one.
+A large box.
+
+> l at box
+A large box.
+Box contains:
+A small womble.
+
+> take womble from box
+You get a small womble from the large box.
+.EI
+
+Neat thing
+.SI 5
+> look
+This room is unbearably boring.
+A red marble.
+A green melon.
+A pink glass.
+A piece of paper.
+
+> take all
+You get a red marble, a green melon, a pink glass and a piece of paper from the boring room.
+.EI
+
+.SH One last example:
+.SI 5
+> look
+The last of a series of boring rooms.
+Corpse of a large wombat.
+
+> take all from corpse
+You get a set of teeth, a massive diamond, and a piece of paper from corpse of large wombat.
+
+Simple, no?
+.EI
+
+.SH See  also
+.SP 5 5
+get, drop, put, give
+.EP
+

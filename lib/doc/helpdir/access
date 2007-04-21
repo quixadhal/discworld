@@ -1,0 +1,43 @@
+.DT
+access
+Discworld player help
+access
+
+.SH Name
+.SI 5
+access - Change which sites you can login from
+.EI
+
+.SH Syntax
+.SI 5
+access 
+access enable <address> 
+access disable <address>
+.EI
+
+.SH Description
+.SP 5 5
+This command allows you to setup a list of sites (IP addresses) from which
+your character can login. This can help prevent unauthorised use of your
+character.
+
+When someone tries to login your character the system will check your IP
+address against your allow list. If the address is not on the allow list
+they will not be permitted to login.
+
+Allow lists can be used in two ways.  You can setup a list of addresses
+from which you are allowed to login or you can setup a list of addresses
+from which you are not allowed to login. Removing all addresses will
+disable the access control function.
+.EP
+
+.SH Addresses
+.SP 5 5
+Addresses should be given using dotted quad notation (eg. 127.0.0.1). To
+permit groups of addresses partial addresses may be given (eg. 127.0).
+.EP
+
+.SH See also
+.SI 5
+password
+.EI

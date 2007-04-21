@@ -1,0 +1,38 @@
+.DT
+query_pile_types
+Discworld cont_medium help
+query_pile_types
+
+Name
+.SI 5
+query_pile_types - The name of different sized piles.
+.EI
+
+Syntax
+.SI 5
+mixed *query_pile_types();
+.EI
+
+Description
+.SP 5 5
+Returns an array consisting of paired numbers/names.  The numbers
+and names refer to the name to give to the size of the pile of the
+medium based on how much of it is there.
+
+The size of the array will be odd, the last element being the name
+to give to any larger size of pile.
+
+Eg: ({ 50, "small", 100, "medium", 150, "large", "huge" }).  This
+would mean that up to 50 of the things would be a small pile, up
+to 100 would be a medium file, up to 150 would be a large pile
+and anything larger would be a huge pile.
+
+Eg: ({ 50, "small", "huge" }).  This would mean anything smaller
+than 50 would be a small pile and anything else would be a huge
+pile.
+.EP
+
+See also
+.SP 5 5
+set_pile_types, pile_name, query_amount, set_amount, adjust_amount
+.EI

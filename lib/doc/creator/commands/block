@@ -1,0 +1,45 @@
+.DT
+block
+Discworld creator help
+block
+
+.SH Name
+.SI 5
+block - Block messages from a creator or mud over intermud channels.
+.EI
+
+.SH Syntax
+.SI 5
+block
+block wossname@wossmud
+block wossname
+block wossmud
+.EI
+
+.SH Description
+.SP 5 5
+Block by itself displays information about whether you're blocking
+anything at the moment, and who you're blocking.
+
+Block wossname@wossmud will only block messages from wossname, from
+wossmud.  Block wossname will block messages from wossname from
+any mud. Block wossmud will block messages from any creator at
+wossmud.
+
+NOTE: You will still be able to receive direct tells from
+blocked persons on the intermud channels, as block only
+keeps you from seeing their rubbish on the public channels.
+.EP
+
+.SH Examples
+.SI 5
+> block
+> block Turrican@Dw_private
+> block Dreldragon
+> block Dw_private
+.EI
+
+.SH See also
+.SP 5 5
+unblock
+.EP

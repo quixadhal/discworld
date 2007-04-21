@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: roommak.c,v 1.1 1998/01/06 04:58:17 ceres Exp $
+ * $Log: roommak.c,v $
+ * Revision 1.1  1998/01/06 04:58:17  ceres
+ * Initial revision
+ * 
+*/
 /*
  * Room maker.  Pinkfish version.
  * Started 2-10-92.

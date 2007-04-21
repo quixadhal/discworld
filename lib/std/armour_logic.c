@@ -1,13 +1,12 @@
-inherit "/std/basic/print_object";
 /* Ok armour...
  * This will be nasty...
  */
-#include "weapon.h"
-static mixed ac;
-static mixed armour_types;
+#include "weapon_old.h"
+nosave mapping ac;
+nosave mixed armour_types;
 
 void create() {
-  ac = ({ });
+  ac = ([ ]);
   armour_types = ({ });
 } /* create() */
  
@@ -18,33 +17,51 @@ int add_ac(string name, string type, mixed a_c) {
   if (!stringp(type))
     return 0;
  
-  if ((i=member_array(name,ac)) != -1)
+  if (!ac) ac = ([ ]);
+
+  if (ac[name])
     return 0;
-  ac += ({ name, ({ a_c, type }) });
+
+  ac[name] = ({ a_c, type });
+
   if ((i=member_array(type, armour_types)) == -1)
-    armour_types += ({ type, ({ sizeof(ac)-2 }) });
+    armour_types += ({ type, ({ name }) });
   else
-    armour_types[i+1] += ({ sizeof(ac)-2 });
+    armour_types[i+1] += ({ name });
   return 1;
 } /* add_ac() */
 
 int remove_ac(string name) {
-  int i, j, k;
+  int j, k;
 
-  if ((i=member_array(name, ac)) == -1)
+  if (!ac[name])
     return 0;
-  j = member_array(ac[i+1][1], armour_types);
-  k = member_array(i, armour_types[j+1]);
+
+  j = member_array(ac[name][1], armour_types);
+
+  k = member_array(name, armour_types[j+1]);
   armour_types[j+1] = delete(armour_types[j+1], k, 1);
-  ac = delete(ac, i, 2);
+  if (!sizeof(armour_types[j+1]))
+    armour_types = delete(armour_types, j, 2);
+
+  map_delete(ac, name);
   return 1;
 } /* remove_ac() */
 
 int calc_value(mixed arr) {
   int i, val;
  
-  if (intp(arr))
-    return random(arr);
+  if (intp(arr)) {
+    // this means you're more likely to find an armours weak point
+    // the lower its condition. Full condition armour gives a 10%
+    // chance and it rises from there.
+    //if(random(100) < 140 - ((this_object()->query_cond() /
+    //                  this_object()->query_max_cond()) * 50))
+    if(!random(10))
+      return random(arr);
+    else
+      return arr;
+  }
   if (!pointerp(arr))
     return 0;
   if (sizeof(arr) == 1)
@@ -57,17 +74,30 @@ int calc_value(mixed arr) {
 } /* calc_value() */
  
 /* ok this gets our ac... ;) */
-int query_ac(string type, int dam) {
-  int val,
-      i, j;
- 
-  if ((i=member_array(type, armour_types)) != -1)
-    for (j=0;j<sizeof(armour_types[i+1]);j++)
-      val += calc_value(ac[armour_types[i+1][j]+1][A_AC]);
+varargs int query_ac( string type, int dam, string zone ) {
+  int val, i, j;
+  
+  /* No armour types defined. */ 
+  if ( !armour_types )
+    return 0;
+  
+  /* Find our armour type list in the array */
+  if ((i=member_array(type, armour_types)) != -1) {
+    for ( j = 0; j < sizeof( armour_types[ i + 1 ] ); j++ )
+
+      /* Does the armour name exist? */
+      if ( ac[ armour_types[ i + 1 ][ j ]])
+        /* Is it the correct size? */
+        if ( sizeof( ac[ armour_types[ i + 1 ][ j ] ] ) == A_ARRAY_SIZE )
+          val += calc_value( ac[ armour_types[ i + 1 ][ j ] ][ A_AC ] );
+  }
+
+  val -= (val / 4);
+  
   return val;
 } /* query_ac() */
 
-mixed *query_armour_class() { return ac; }
+mapping query_armour_class() { return ac; }
 
 string calc_string(mixed b) {
   if (intp(b))
@@ -87,14 +117,16 @@ string calc_string(mixed b) {
 } /* calc_string() */
 
 mixed *stats() {
-  int i, j;
+  int i;
   mixed *ret;
+  mixed *stuff;
 
   ret = ({ });
-  for (i=0;i<sizeof(ac);i+=A_ARRAY_SIZE,j++)
-    ret += ({ ({ "ARM"+j+" name", ac[i], }),
-              ({ "     type", ac[i+1][A_TYPE], }),
-              ({ "    class", calc_string(ac[i+1][A_AC]) }),
+  stuff = keys(ac);
+  for (i=0;i<sizeof(stuff);i++)
+    ret += ({ ({ "ARM"+ i +" name", stuff[ i ], }),
+              ({ "     type", ac[stuff[i]][A_TYPE], }),
+              ({ "    class", calc_string(ac[stuff[i]][A_AC]) }),
           });
   return ret;
 } /* stats() */
@@ -105,7 +137,3 @@ void set_ac(mixed *bing) {
   for (i=0;i<sizeof(ac);i+=A_ARRAY_SIZE)
     add_ac(ac[i], ac[i+1][A_TYPE], ac[i+1][A_AC]);
 } /* set_ac() */
-
-mixed *query_init_data() {
-  return ({ "armour class", ac, "set_ac/p" });
-} /* query_init_data() */

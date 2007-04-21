@@ -1,0 +1,16 @@
+::#Class:: "/obj/food.c"
+::Name:: "weed"
+::Short:: "tyler weed"
+::Long:: "This is $pile_size$ of tyler weed, $amount_size$.\n"
+::Adjective:: ({ "some", "tyler" })
+::Property:: "determinate", "some "
+::Plural:: "tyler weed"
+::$set_medium_alias:: "TylerWeed"
+::$set_amount_types:: ([ "stalk": ({ 1, "stalks" }),
+                         "handful": ({ 50, "handfuls" }) ])
+::Adjective:: ({ "stalk", "stalks", "handful", "handfuls", "of" })
+::$set_pile_types:: ({ 50, "small", 100, "medium", "large" })
+::$add_eat_effect::"/std/effects/ingested/cum_poison", 600
+::$set_amount:: 1
+::$set_continuous::
+::$set_weight_unit:: ({ 1, 10 })

@@ -1,0 +1,122 @@
+.DT
+newspaper office
+Discworld room help
+newspaper office
+
+.SH Name
+.SI 5
+news paper office - where exciting news papers are made
+.EI
+
+.SH Syntax
+.SI 5
+
+%^BOLD%^Non Reporter Commands:%^RESET%^
+apply
+submit advert in <category>
+category list
+advert categories
+advert list
+
+%^BOLD%^Reporter Commands:%^RESET%^
+articles [scroll]
+submit [html] <title>
+submit [html] <"title"> as <author>
+retrieve [<article>]
+resign
+status
+edit <file>
+delete <article>
+claim
+title <article> <new title>
+author <article> <new author>
+change type of <article> to {html|plain}
+
+%^BOLD%^Editor Commands:%^RESET%^
+change xp [return] of article <num> to {none|normal}
+change colour of article <num> to {red|blue|green|cyan|magenta|yellow|brown|none}
+add {editor|reporter|setter|sponsor} <person>
+remove {editor|reporter|setter|sponsor} <person>
+log
+log articles
+pay <person> <number> [dollars]
+pay <person> message <message>
+move <article> {up|down}
+postpone <article> {on|off}
+publish with headline <headline>
+advert remove <id>
+profit
+lock articles {on|off}
+lock article <article> {on|off}
+category add <category>
+category remove <category>
+category cost <category> per add <cost>
+category cost <category> per ten characters <cost>
+category {open|close} <category>
+
+%^BOLD%^Owner commands:%^RESET%^
+profit deposit extra <cash>
+.EI
+
+.SH Description
+.SP 5 5
+This is a place in which you can organise and publish a newspaper.  The
+editor has complete control over the paper and can edit and change the
+articles and setup their order.
+
+A reporter can submit new articles and retrieve and remove their old articles.
+You can also change the title and the displayed author for the articles.
+
+To become a reporter you 'apply' to be a reporter.
+
+The 'claim' command allows you to receive a new set of press creditials for
+the paper.
+
+You can only delete and edit your own articles.  The editor can edit and
+delete any articles.
+
+You can change the type of the article to be html or plain.  This does not
+change any of the text of the article, merely how it is displayed.  The
+recognised html tags are: <ul> </ul> <ol> </ol> <dl> <dd> <dt> </dl> <p>
+<li> <br> <pre> </pre> <b> </b> <i> </i> <code> </code> <center> </center>
+
+On publication of an issue all reporters will be rewarded with 60,000xp per
+article they published.  The editors will be rewarded with 120,000xp plus
+10% of the xp awarded to the reporters shared among them.  So one editor
+will get more xp than 2.
+
+When a newspaper is published the index page is generated automatically.
+
+The command 'add reporter' can be used to hire on anyone as a reporter.  They do not
+need to be logged in and they do not need to apply first.  The command
+'remove reporter' can be used to fire the person from being a reporter altogether.
+
+To make someone into an editor you use the command 'promote' and to turn
+things back into a normal reported you use the command 'demote'.
+
+Editors can 'lock' the office so that reporters cannot editor or add
+any new articles or adverts.  This allows the editors to make sure that
+no one messes with things before they go to print.
+
+The logs can be used to view events which have occured in the newspapers
+article history.
+
+The owner can deposit extra money into the pool of money for the reporters
+to be paid out of.  This allows the owner to pay extra money or bonuses from
+their own pocket.
+.EP
+
+.SH Example
+.SI 5
+> claim
+> submit hairy animals
+> title 1 Not Quite so Hairy Animals
+> author 1 Not Hairy Jack
+> delete 1
+> submit "Not Quite so Hairy Animals" as Not Hairy Jack
+.EI
+
+.SH See Also
+.SP 5 5
+None
+.EP

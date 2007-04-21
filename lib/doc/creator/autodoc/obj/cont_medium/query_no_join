@@ -1,0 +1,33 @@
+.DT
+query_no_join
+DW_wibble creator help
+query_no_join
+
+.SH Name
+.SP 5 5
+query_no_join -  This method checks to see if we are allowed to join with other objects when we encounter them.
+.EP
+
+.SH Syntax
+.SI 5
+int query_no_join()
+.EI
+
+.SH Returns
+.SI 5
+1 if they cannot join, 0 if they can
+.EI
+
+.SH Defined in
+.SI 5
+/obj/cont_medium.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if we are allowed to join with other
+objects when we encounter them.  A join will occur if we end up in
+same environment and the medium aliases match.
+.EP
+

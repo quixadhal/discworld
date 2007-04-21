@@ -6,72 +6,45 @@ void setup() {
   set_name("frisbee");
   set_short("black frisbee");
   add_adjective("black");
-  set_long("A small black frisbee.  Looks like you could throw it to "+
+  set_long("This is a small black frisbee.  It looks like you could "
+           "throw it to "
            "people.\n");
   add_property("feeding_frenzy", "frisbee");
-  set_weight(20);
+  set_weight(10);
   set_value(200);
   set_main_plural("black frisbees");
   add_plural("frisbees");
-}
+} /* setup() */
 
 void init() {
-  add_action("throw", "throw");
-  ::init();
-}
+  this_player()->add_command("throw", this_object(),
+                             "<direct:object:me> to <indirect:player>");
+} /* init() */
 
-int throw(string str) {
-  object *from, *dest;
-  int i, j;
-
-  notify_fail("What are you going to throw?\n");
-  if (!str)
+int do_throw(object *in_dir) {
+  /* Make sure there really is someone in that array */
+  if (!sizeof(in_dir))
     return 0;
-  if (sscanf(str, "%s at %s", me, him ) != 2 &&
-      sscanf(str, "%s to %s", me, him ) != 2 &&
-      sscanf(str, "%s the %s", him, me) != 2 &&
-      sscanf(str, "%s %s", me, him) != 2)
-    return 0;
-  him = (string)this_player()->expand_nickname(him);
-  me = (string)this_player()->expand_nickname(me);
-  from = find_match(me, this_player()) +
-         find_match(me, environment(this_player()));
-  dest = find_match(him, this_player()) +
-         find_match(him, environment(this_player()));
-  if (!sizeof(dest))
-    if (!find_living(him))
-      return 0;
-    else
-      dest = ({ find_living(him) });
-  for (i=0;i<sizeof(from);i++)
-    for (j=0;j<sizeof(dest);j++)
-      if (!from[i]->do_throw(dest[j]))
-        write("You cannot throw "+from[i]->short()+".\n");
-  return 1;
-}
 
-int do_throw(object dest) {
-  if (environment() != this_player()) {
-    write("You must have the "+short(0)+" to throw it.\n");
-    return 1;
-  }
-  say(this_player()->query_cap_name()+" throws "+me+" to "+him+"\n",
-      ({ dest, this_player() }));
-  write("You throw the frisbee to "+him+".\n");
-  if (move(dest)) {
-    tell_object(dest, this_player()->query_cap_name()+" throws "+
+  /*
+   * Ok, move it to the destination.  Don't need to a print a message to
+   * this_player as that is done automaticly.
+   */
+  if (move(in_dir[0])) {
+    tell_object(in_dir[0], this_player()->one_short()+" throws "+
                 this_object()->short()+" at you, but it falls on the floor.\n");
-    tell_room(environment(dest), "A frisbee arcs through the air, "+
-              dest->query_name()+" trys to catch it but fails and it "+
-              "fall on the floor", ({ dest, this_player() }) );
-    move(environment(dest));
+    tell_room(environment(in_dir[0]), "A frisbee arcs through the air, "+
+              in_dir[0]->query_name()+" tries to catch it but fails and it "+
+              "falls on the floor.\n", ({ in_dir[0], this_player() }) );
+    move(environment(in_dir[0]));
   } else {
-    tell_object(dest, this_player()->query_cap_name()+" throws a frisbee "+
+    tell_object(in_dir[0], this_player()->one_short()+" throws a frisbee "+
                 "at you, you catch it... just.\n");
-    tell_room(environment(dest), dest->query_cap_name()+
+    tell_room(environment(in_dir[0]), in_dir[0]->one_short()+
           " fumbles the catch of the "+
           short(0)+" but manages to keep hold of it.\n",
-          ({ dest, this_player() }));
+          ({ in_dir[0], this_player() }));
   }
+  this_player()->add_succeeded(in_dir[0..0]);
   return 1;
-}
+} /* do_throw() */

@@ -1,0 +1,38 @@
+.DT
+trace
+Discworld Creator help
+trace
+
+.SH Name
+.SI 5
+trace - Turns on some driver tracing of function calls.
+.EI
+
+.SH Syntax
+.SI 5
+trace [off|call|call_other|return|args|exec|heart_beat|apply|
+       obj_name|numer]
+.EI
+
+.SH Description
+.SP 5 5
+Trace is used as a debugging tool.  It will print a debugging message every
+time the event you specify occurs during the execution of a command that you
+initiated.  To get some idea what is meant by this, try
+
+trace call_other
+
+and then type stat <yourself>.  This will show you all the functions that get
+called using call_other to get the information for the command.
+.EP
+
+.SH Examples
+.SI 5
+> trace call_other
+> trace return
+> trace off
+.EI
+
+.SH See also
+.SP 5 5
+.EP

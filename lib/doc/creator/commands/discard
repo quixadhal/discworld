@@ -1,0 +1,34 @@
+.DT
+discard
+Discworld creator help
+discard
+
+.SH Name
+.SI 5
+discard - Chuck away file.
+.EI
+
+.SH Syntax
+.SI 5
+discard <object(s)>
+.EI
+
+.SH Description
+.SP 5 5
+Discard is used to remove a loaded object from memory.  If you are working on
+an object and are finished with it, you can help the mud reduce the amount of
+memory it is using by discarding the object.  Do not discard objects that are
+going to be used by other people as the mud will then have to load it again.
+.EP
+
+.SH Example
+.SI 5
+discard server.c
+discard test.c
+discard /w/furball/bonus
+.EI
+
+.SH See also
+.SP 5 5
+load, update
+.EP

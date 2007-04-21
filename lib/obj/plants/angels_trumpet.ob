@@ -1,0 +1,16 @@
+::#Class:: "/obj/food.c"
+::Name:: "trumpet"
+::Short:: "angel's trumpet"
+::Long:: "This is $pile_size$ of angel's trumpet, $amount_size$.\n"
+::Adjective:: ({ "some", "angel's" })
+::Property:: "determinate", "some "
+::Plural:: "angel's trumpet"
+::$set_medium_alias:: "AngelsTrumpet"
+::$set_amount_types:: ([ "stalk": ({ 1, "stalks" }),
+                         "handful": ({ 50, "handfuls" }) ])
+::Adjective:: ({ "stalk", "stalks", "handful", "handfuls", "of" })
+::$set_pile_types:: ({ 50, "small", 100, "medium", "large" })
+::$add_eat_effect::"/std/effects/ingested/cum_poison", 600
+::$set_amount:: 1
+::$set_continuous::
+::$set_weight_unit:: ({ 1, 10 })

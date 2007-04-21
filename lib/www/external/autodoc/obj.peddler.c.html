@@ -1,0 +1,330 @@
+<html><head><title>File peddler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/peddler.c</h2>
+This is the peddler object, it acts as a walking talking item
+shop.
+Added event_enter so to stop food from decaying when the peddler
+sells it. Siel, October 2001
+
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.monster.c.html">/obj/monster.c</a> and <a href="std.shops.inherit.clone_on_demand.c.html">/std/shops/inherit/clone_on_demand.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.money.h.html">/include/money.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a>, <a href="include.virtual.h.html">/include/virtual.h</a> and <a href="include.shops.bank.h.html">/include/shops/bank.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cost_string"><b>cost_string</b></a>(object, string, object)<dd>
+This method returns the costs of the item as a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_browse"><b>do_browse</b></a>(mixed, string, string, string *)<dd>
+The main entrace to the browse for things command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_buy"><b>do_buy</b></a>(mixed, string, string, string *)<dd>
+The main entrace to the buy things command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list"><b>do_list</b></a>()<dd>
+The main entrace to the list stuff command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_enter"><b>event_enter</b></a>(object, string, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_exit"><b>event_exit</b></a>(object, string, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cost"><b>query_cost</b></a>(object, object)<dd>
+This method returns the cost of the specified item to the buyer.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#sell_thing"><b>sell_thing</b></a>(object, object)<dd>
+The main entrace to the sell stuff command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_all_out_mess"><b>set_all_out_mess</b></a>(string)<dd>
+Overrides the default chat of the item being out of stock when a player
+tries to buy it
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_busy_mess"><b>set_busy_mess</b></a>(string)<dd>
+Overrides the default chat of the peddler being busy selling
+something already.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_dont_sell_mess"><b>set_dont_sell_mess</b></a>(string)<dd>
+Overrides the default chat of the peddler not selling an item
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_in_combat_mess"><b>set_in_combat_mess</b></a>(string)<dd>
+Overrides the default chat of the peddler being in combat and hence unable
+to sell his wares!
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_list_item_mess"><b>set_list_item_mess</b></a>(string)<dd>
+Overrides the default chat of listing a stock item's price and stock
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_list_mess"><b>set_list_mess</b></a>(string)<dd>
+Overrides the default chat to announcing the stock list
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_missing_punter_mess"><b>set_missing_punter_mess</b></a>(string)<dd>
+Overrides the default chat to the player having wandered off
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_stock_mess"><b>set_no_stock_mess</b></a>(string)<dd>
+Overrides the default reply to having no listable stock
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_none_left_mess"><b>set_none_left_mess</b></a>(string)<dd>
+Overrides the default reply to having none left
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_out_of_item_mess"><b>set_out_of_item_mess</b></a>(string)<dd>
+Overrides the default chat of being out of an item that is browsed
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_show_item_mess"><b>set_show_item_mess</b></a>(string)<dd>
+Overrides the default chat of showing an item to a player
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_too_heavy_mess"><b>set_too_heavy_mess</b></a>(string)<dd>
+Overrides the default chat of the player being too burdened to carry an
+item
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_too_poor_mess"><b>set_too_poor_mess</b></a>(string)<dd>
+Overrides the default chat of the player being too poor to buy an item
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="cost_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cost_string</b></a><pre>
+string cost_string(object thing,
+                   string place,
+                   object buyer)
+</pre><dd>
+This method returns the costs of the item as a string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing to buy
+<dd>place - the money area it is being bought in
+<dd>buyer - the person who is buying the object
+<dt><b>Returns:</b>
+<dd>the string money value
+
+</dl>
+
+<dt><a name="do_browse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_browse</b></a><pre>
+int do_browse(mixed indirect_obs,
+              string dir_match,
+              string indir_match,
+              string * words)
+</pre><dd>
+The main entrace to the browse for things command.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_buy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_buy</b></a><pre>
+int do_buy(mixed indirect_obs,
+           string dir_match,
+           string indir_match,
+           string * words)
+</pre><dd>
+The main entrace to the buy things command.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list</b></a><pre>
+int do_list()
+</pre><dd>
+The main entrace to the list stuff command.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="event_enter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_enter</b></a><pre>
+void event_enter(object ob,
+                 string mess,
+                 object from)
+</pre>
+<dt><a name="event_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_exit</b></a><pre>
+void event_exit(object ob,
+                string message,
+                object to)
+</pre>
+<dt><a name="query_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cost</b></a><pre>
+int query_cost(object thing,
+               object buyer)
+</pre><dd>
+This method returns the cost of the specified item to the buyer.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing to cost
+<dd>buyer - who is buying it
+<dt><b>Returns:</b>
+<dd>the cost of the item
+
+</dl>
+
+<dt><a name="sell_thing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>sell_thing</b></a><pre>
+void sell_thing(object player,
+                object thing)
+</pre><dd>
+The main entrace to the sell stuff command.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="set_all_out_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_all_out_mess</b></a><pre>
+void set_all_out_mess(string s)
+</pre><dd>
+Overrides the default chat of the item being out of stock when a player
+tries to buy it<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with.  Must include $item$, which
+will be replaced by the item short.
+
+</dl>
+
+<dt><a name="set_busy_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_busy_mess</b></a><pre>
+void set_busy_mess(string s)
+</pre><dd>
+Overrides the default chat of the peddler being busy selling
+something already.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with
+
+</dl>
+
+<dt><a name="set_dont_sell_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_dont_sell_mess</b></a><pre>
+void set_dont_sell_mess(string s)
+</pre><dd>
+Overrides the default chat of the peddler not selling an item<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with.  Must include $item$, which
+will be replaced by the item short.
+
+</dl>
+
+<dt><a name="set_in_combat_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_in_combat_mess</b></a><pre>
+void set_in_combat_mess(string s)
+</pre><dd>
+Overrides the default chat of the peddler being in combat and hence unable
+to sell his wares!<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with
+
+</dl>
+
+<dt><a name="set_list_item_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_list_item_mess</b></a><pre>
+void set_list_item_mess(string s)
+</pre><dd>
+Overrides the default chat of listing a stock item's price and stock<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with.  Must include $num_left$,
+$display$ and $cost$, which will be replaced by the appropriate
+strings.
+
+</dl>
+
+<dt><a name="set_list_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_list_mess</b></a><pre>
+void set_list_mess(string s)
+</pre><dd>
+Overrides the default chat to announcing the stock list<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with
+
+</dl>
+
+<dt><a name="set_missing_punter_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_missing_punter_mess</b></a><pre>
+void set_missing_punter_mess(string s)
+</pre><dd>
+Overrides the default chat to the player having wandered off<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with
+
+</dl>
+
+<dt><a name="set_no_stock_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_stock_mess</b></a><pre>
+void set_no_stock_mess(string s)
+</pre><dd>
+Overrides the default reply to having no listable stock<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with
+
+</dl>
+
+<dt><a name="set_none_left_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_none_left_mess</b></a><pre>
+void set_none_left_mess(string s)
+</pre><dd>
+Overrides the default reply to having none left<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with
+
+</dl>
+
+<dt><a name="set_out_of_item_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_out_of_item_mess</b></a><pre>
+void set_out_of_item_mess(string s)
+</pre><dd>
+Overrides the default chat of being out of an item that is browsed<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with.  Must include $item$, which
+will be replaced by the item short.
+
+</dl>
+
+<dt><a name="set_show_item_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_show_item_mess</b></a><pre>
+void set_show_item_mess(string s)
+</pre><dd>
+Overrides the default chat of showing an item to a player<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with.  Must include $item$ and
+$cost$, which will be replaced by the item short and the cost of the item
+respectively.
+
+</dl>
+
+<dt><a name="set_too_heavy_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_too_heavy_mess</b></a><pre>
+void set_too_heavy_mess(string s)
+</pre><dd>
+Overrides the default chat of the player being too burdened to carry an
+item<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with.  Must include $item$, which
+will be replaced by the item short.
+
+</dl>
+
+<dt><a name="set_too_poor_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_too_poor_mess</b></a><pre>
+void set_too_poor_mess(string s)
+</pre><dd>
+Overrides the default chat of the player being too poor to buy an item<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the chat to replace the default with.  Must include $item$, which
+will be replaced by the item short.
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 14 Oct 2003 18:16:35 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

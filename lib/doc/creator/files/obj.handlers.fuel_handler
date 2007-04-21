@@ -1,0 +1,117 @@
+.DT
+fuel_handler
+Discworld Creator help
+fuel_handler
+
+Name
+.SP 5 5
+/obj/handlers/fuel_handler.c - Handler for things using fuel, and probably
+lots of other nice things.
+.EP
+
+Description
+
+.SP 5 5
+This handler makes it possible to have things use fuel over time, without
+wasting a call_out for it.
+.EP
+
+Functions
+
+.SI 5
+void add_burner( object thing )
+.EI
+.SP 10 5
+Calling this function will make the handler call thing->consume_fuel() every
+FUEL_TIME seconds.
+.EP
+ 
+.SI 5
+void remove_burner( object thing )
+.EI
+.SP 10 5
+Calling this will remove thing from the list of objects the handler calls
+consume_fuel in.
+.EP
+
+Information functions
+
+.SI 5
+object *query_burners()
+.EI
+.SP 10 5
+This returns the list of objects on this handler.
+.EP
+ 
+.SI 5
+mixed *stats()
+.EI
+.SP 10 5
+Yes, you can stat /obj/handlers/fuel_handler:)  It'll tell how many
+objects are in the list, and when the next call will be.
+.EP
+ 
+Related files
+
+.SI 5
+/include/fuel_handler.h
+.EI
+.SP 10 5
+Defines FUEL_HANDLER and FUEL_TIME.
+.EP
+
+Example (from /obj/misc/torch.c)
+
+.SI 5
+#include <fuel_handler.h>
+inherit "/std/object";
+     .
+int amount_of_fuel = 2000; 
+int is_lit;
+     .
+void setup() {
+     .
+   set_name( "torch" ); 
+   is_lit = 0;
+     .
+} /* setup() */
+
+int do_light() {
+     .
+   is_lit = 1;
+   FUEL_HANDLER->add_burner( this_object() );
+   return 1;
+} /* do_light() */
+
+int do_extinguish(object *indir, string s1, string s2, string prep) {
+     .
+   FUEL_HANDLER->remove_burner( this_object() );
+   is_lit = 0;
+} /* do_extinguish() */
+
+void out_of_fuel() {
+     .
+   is_lit = amount_of_fuel = 0;
+   FUEL_HANDLER->remove_burner( this_object() );
+} /* out_of_fuel() */
+
+void do_warning() {
+   tell_room( environment(), poss_short() +" starts to sputter and smoke a "
+             "lot.  It is on its last legs.\n");
+   return;
+} /* do_warning() */
+
+void consume_fuel() {
+   amount_of_fuel -= FUEL_TIME;
+   switch ( amount_of_fuel ) {
+    case (100-FUEL_TIME) .. 100: //this makes this one trigger only once
+      do_warning();              //no matter the size of FUEL_TIME
+      break;
+    case -10000 .. 0:
+      out_of_fuel();
+      break;
+    default:
+      /* do nothing */
+   }
+} /* consume_fuel() */
+.EI 5

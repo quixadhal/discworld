@@ -1,0 +1,39 @@
+.DT
+set_lit
+DW_wibble creator help
+set_lit
+
+.SH Name
+.SP 5 5
+set_lit -  This function is used to light or dowse the lightable.
+.EP
+
+.SH Syntax
+.SI 5
+int set_lit(int i)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^i%^RESET%^ - 1 for lit and 0 for unlit
+.EI
+
+.SH Returns
+.SI 5
+The current state, 1 for lit, 0 for unlit
+.EI
+
+.SH Defined in
+.SI 5
+/std/lightable.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function is used to light or dowse the lightable.
+Two properties are checked: unextinguishable means that
+the lightable cannot be extinguished and unlightable that
+it cannot be lit.
+.EP
+

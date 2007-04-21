@@ -1,0 +1,41 @@
+.DT
+update
+Discworld Creator help
+update
+
+.SH Name
+.SI 5
+update - Updates the objects in memory copy
+.EI
+
+.SH Syntax
+.SI 5
+update <object specification>
+.EI
+
+.SH Description
+.SP 5 5
+Update is used to bring the copy of an object that the mud is using up to date
+with the copy that is being used on disc.  It is useful when you are editting
+an object.  Before you clone the object after you make any changes, you must
+update it or the mud will not realise the change.  Certain other things are
+equivilant to updating, but it is safer if you just update while you are
+learning.
+
+Update destructs the existing loaded copy if there is one and then loads the
+new version for you.  If an object is not currently loaded, update will load it
+for you.
+.EP
+
+.SH Examples
+.SI 5
+> update /w/furball/test/*.c
+> update player.new.c
+> update test.c
+> update liv*.c
+.EI
+
+.SH See also
+.SP 5 5
+clone, load, discard, dupdate
+.EP

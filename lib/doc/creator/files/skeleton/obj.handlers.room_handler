@@ -1,0 +1,88 @@
+.DT
+room_handler
+Discworld Creator help
+room_handler
+
+Name
+.SI 5
+/obj/handlers/room_handler.c - Handler for <desc>
+.EI
+
+Description
+
+.SP 5 5
+This is the skeletal help for the room_handler handler.
+
+<description missing>
+.EP
+
+Functions
+
+.SI 5
+void create()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed *query_chatters()
+.EI
+.SP 10 5
+.EP
+
+int add_exit_type(string type, mixed message, mixed obvious, int size,
+.SI 5
+                  mixed func)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int remove_exit_type(string type)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed *query_door_type(string type, string direc, string dest)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void check_door( mixed args )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed *query_exit_type(string type, string dir)
+.EI
+.SP 10 5
+.EP
+ 
+int move_thing( object thing, string dir, string dest, mixed exit,
+.SI 5
+      mixed enter, string move )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int exit_move( string verb, string extra, string special, object thing )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void check_chatters()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void add_chatter( object thing, int number )
+.EI
+.SP 10 5
+.EP
+ 

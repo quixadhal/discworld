@@ -1,0 +1,53 @@
+.DT
+give_money
+DW_wibble creator help
+give_money
+
+.SH Name
+.SP 5 5
+give_money -  This method is used to give some startup money to the npc.
+.EP
+
+.SH Syntax
+.SI 5
+int give_money(int base,
+               int rand,
+               string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^base%^RESET%^ - the base amount of money to give (fixed)
+%^BOLD%^rand%^RESET%^ - the random amount of money to give
+%^BOLD%^type%^RESET%^ - the type of money to give (default: "copper")
+.EI
+
+.SH Returns
+.SI 5
+the return value of adjust_money().EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to give some startup money to the npc.
+.EP
+
+.SH Example 1
+.SI 5
+ob = clone_object(CLUCKY_CHICKEN);
+// This will give the chicken 10 + random(10) royals.
+// It is a royal chicken
+ob->give_money(10, 10, "royal");
+.EI
+
+.SH See also
+.SP 5 5
+/std/living/money.c
+
+.EP
+

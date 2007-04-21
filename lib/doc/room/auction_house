@@ -1,0 +1,43 @@
+.DT
+auction house
+Discworld room help
+auction house
+
+.SH Name
+.SI 5
+auction house - auction off your unwanted stuff
+.EI
+
+.SH Syntax
+.SI 5
+list
+browse <item>
+bid <amount> {on} <item>
+bid <item> {for} <amount>
+withdraw <item>
+claim
+add {bid_type} auction of <object> as <name>
+add {bid_type} auction of <object> as <name> reserve <price>
+.EI
+
+.SH Description
+.SP 5 5
+The auction house allows you to auction off your exciting
+items that you are now bored with.  You can set them to auction with a
+reserve price or without one, you set the name the item will be displayed
+as when being auctioned.
+
+.EP
+
+.SH Example
+.SI 5
+> add short auction of frog as Happy Frog
+> add very short auction of frog as Happy Frog reserve $10
+> bid 10 dollars on d
+> collect all
+.EI
+
+.SH See also
+.SP 5 5
+real estate, player housing
+.EP

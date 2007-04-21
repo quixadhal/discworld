@@ -1,0 +1,69 @@
+.DT
+Auction House
+Discworld Help
+Auction House
+
+.SH Name
+.SP 5 5
+player-run auction house - A player run object house object.
+.EP
+
+.SH Description
+.SP 5 5
+Auction cases may be purchased for player-run commercial spaces.  These cases may be completely customised by the owner of the house and they offer a nice way for both the owner and any player to make a nice profit.
+.EP
+
+.SH Syntax
+.SI 5
+info {in|on} <object>
+list [auctions] {on|in} <object>
+browse <auction id> {on|in} <object>
+bid [on] <auction id> for <money> {on|in} <object>
+collect [auctions] {on|in} <object>
+withdraw <auction id> {on|on|from} <object>
+add <time> auction of <object(s)> as <name> {in|on|to} <object>
+add <time> auction of <object(s)> as <name> reserve <money> {in|on|to} <object>
+
+.SH Owner commands
+.EI
+.SI 5
+reject <auction id> {in|on} <object>
+list finished [auctions] {in|on} <object>
+
+set message for <message name> {in|on} <object>
+set event for <event name> to mail seller with {<message list>|nothing} and bidder with {<message list>|nothing} {in|on} <object>
+set auction time <label> as <time string> {in|on} <object>
+set retrieval time to <time string> {in|on} <object>
+set maximum retries to <number> {in|on} <object>
+set owner cut to <percentage> {in|on} <object>
+set minimum bid increase to <percentage> {in|on} <object>
+set defaulted auction cost to <money> {in|on} <object>
+default {messages|events|times|all} {in|on} <object>
+
+info message <message name> {in|on} <object>
+info messages {in|on} <object>
+info event <event name> {in|on} <object>
+info event <event name> expand {in|on} <object>
+info events {in|on} <object>
+.EI
+
+.SH Basic Commands
+.SP 5 5
+The "info" command provides some information about the case, including the owner's cut and other various pieces of information important to people.  The "list" command will list pending auctions, and "browse" will allow you to get more detailed information on a specific auction, while "bid" will allow you to make a bid on a lot.
+
+The "add" command is what allows a potential seller to add their items to the auction case.  The seller must choose a lot name to describe his or her lot, and this name must be unique.  This means that if a finished lot has that name, that it is not unique, so bear in mind that you may not be able to see an auction with that name.  Rest assured that it is in use.
+
+Finally, "collect" allows the seller to either collect the money he or she is owed or to collect a failed lot, and allows the high bidder to collect and pay for a lot, and "withdraw" allows the seller to prematurely withdraw a lot.  Withdrawing a lot will cost the seller the defaulted auction cost.
+.EP
+
+.SH Owner-Only Commands
+.SP 5 5
+The owner is able to "reject" any lot which is placed in the case, which is important since different cases have different maximum storage spaces.  Also, the owner may customise almost all of the aspects of the behaviour of the auction case.  Each of the "set" commands is relatively self-explanatory, with the possible exception of "set message ..." and "set event ...", both of which are explained further in the auction_house_event helpfile.  The owner may also get a detailed list of finished lots.
+
+The "info" commands show various statistical data about the messages and events on the case and are very useful for reviewing that information.  The "default" command allows the owner to restore any part of the case to its factory defaults.  This action will prompt the user to make sure that this is what he or she wants to do, but it CANNOT be reversed once you confirm, so take care not to hastily decide to default values.
+.EP
+
+.SH See also
+.SI 5
+auction_house_events.
+.EI

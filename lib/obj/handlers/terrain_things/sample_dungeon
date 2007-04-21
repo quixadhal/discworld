@@ -1,0 +1,33 @@
+terrain_name sample_dungeon
+
+max_locations 12
+
+start_co_ord 0 0 0
+
+passage_probabilities 5 30 10 20
+# probabilities are:
+#    end passage
+#    split passage in two
+#    split passage in four
+#    make a room
+# remainder out of 100 is probability to continue
+
+continue_probabilities 45 35
+# probabilities are:
+#    bend at 45 degrees (to either side)
+#    bend at 90 degrees (to either side)
+# remainder out of 100 is probability to continue straight on
+
+room_probabilities 20 20 30 20
+# probabilities are:
+#    add an exit opposite or at right angles to entrance
+#     add an exit on a diagonal from entrance
+#    probabilities for each of the room_files
+#    (remainder of these probabilities out of 100 is chance to use first one)
+
+junction_clearance 2 4
+# first + random( second ) straight continues after a junction
+
+passage_files /obj/handlers/terrain_things/sample_passage_1 /obj/handlers/terrain_things/sample_passage_2
+
+room_files /obj/handlers/terrain_things/sample_room_1 /obj/handlers/terrain_things/sample_room_2 /obj/handlers/terrain_things/sample_room_3

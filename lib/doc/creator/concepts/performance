@@ -1,0 +1,164 @@
+.DT
+Performance
+Discworld concepts
+Performance
+
+.SH Overview
+.SP 5 5
+Performance tuning and coding efficiently are hard subjects to explain in
+detail. The most that can really be achieved is to give some principles to
+assist a programmer in determining the best approach.
+
+This document will attempt to explain some of the issues and give some advice
+and guidelines for writing efficient code on Discworld.
+
+The golden rule for efficiency is that simplicity is next to efficiency, what
+my first manager at a software engineering unit called the KISS principle: Keep
+It Simple Stupid!
+
+While it is possible to write inefficient yet clear and
+simple code it is far harder to do. Many efficiency problems occur because
+functions are too long and complex or the author was trying to achieve
+something that's just too intensive or convoluted and their code also became
+too intense or convoluted.
+.EP
+
+.SH Resources
+.SP 5 5
+The reason that code must be efficient is that the Disworld system has a finite
+amount of resources that must be shared between all of the code that needs to
+run. The primary resources that we are concerned about are CPU, Memory and Disk
+I/O bandwidth.
+
+The problem on an LP Mud is exacerbated by the fact that the driver is
+single-threaded, ie. every operation, every action by every npc, player or
+handler must be done sequentially.  If you write an object that takes 5 seconds
+to do its thing the entire mud will be frozen for 5 seconds.  To avoid
+such problems lengthy tasks should be avoided or at least re-written
+to be done in smaller chunks spread over a longer time using call_outs
+or heart_beat.
+
+CPU cycles are the resource that most people think of when they think of
+performance. Since the driver is single threaded it uses a simple system to
+keep track of how long a given execution has taken and if it takes too long it
+stops it with a 'Too long evaluation, execution aborted' error.
+
+The most common cause of this kind of problem is infinite loops or people
+trying to manipulate / sort / filter more objects than they expected ("They put
+_how many_ feathers in that trunk? 250? You're kidding?")
+
+Memory and Disk I/O are generally not a consideration unless you are writing a
+handler or some other complex item. When you are it is quite common for these
+two to be in opposition to each other. ie. you can reduce the amount of file
+reads and writes by keeping more data in memory and vice versa.
+
+General considerations regarding Memory and Disk I/O are: How much data will
+there be? How often will it be read? How often will it be changed?
+
+Common techniques to improve performance are splitting data up into multiple
+files, de-bouncing (storing a number of changes and writing them all at once)
+and caching (keeping a number of files in memory so they don't need to be
+re-read). A detailed analysis of how to approach these subjects is beyond the
+scope of this document and will probably be specific to your application.
+.EP
+
+.SH Designing for Efficiency
+.SP 5 5
+The most important first step in obtaining efficiency is to look critically at
+what you are trying to achieve and determine if it is achievable and
+important.
+
+Too often a new creator will have a vision for something and will attempt to
+rigidly stick to their original vision rather than making simple adjustments to
+make that vision efficient.
+
+If there are no players present it doesn't matter if an object "cheats". On
+Discworld, if noone is there to see or hear it a tree should not fall in the
+woods. Instead just have all the trees that would have fallen should be shown
+as having fallen when someone arrives, it's far more efficient that way.
+
+To put that into code terms. Instead of having a call_out() every N + random(M)
+seconds to fell a tree, in the init() function of the room mark a number of
+trees as having fallen since the init() was last called. There is no difference
+to the experience for the player but the reduced load could be enormous
+(especially if you have an entire forest of rooms).
+
+Balancing performance with realism and learning to judge which tasks can be
+fudged without tarnishing the player experience is one of the key steps to
+becoming a proficient Discworld coder.
+
+The next thing to check is for redundant code. Make sure that you are not doing
+the same thing more than once unless it's truly necessary. For example:
+.EP
+
+.SI 5
+func1(deep_inventory(this_player()));
+func2(deep_inventory(this_player()));
+
+can be more efficiently written:
+
+inv = deep_inventory(this_player());
+func1(inv);
+func2(inv);
+.EI
+
+.SP 5 5
+This is an obvious example but this kind of thing can easily happen if your
+code is complex (which comes back to the keep it simple point above).
+.EP
+
+.SH TIMTOWTDI - as the Perl mongers like to say
+.SP 5 5
+There is (always) more than one way to do it, and choosing the right way
+is largely a matter of experience and thinking critically and carefully about
+what you are trying to achieve and why.
+
+If you need something to happen over a long period of time you might use:
+.EP
+
+.SO 5 15 59
+	heart_beat	If the task must be done regularly and frequently (ever few seconds).
+	call_out	If the task must be done regularly but less frequently than every few seconds.
+	chime handler	If the task must be done every 15, 30 or 60 Discworld minutes.
+	init	If the task must be completed before a player enters the room or appear to be going when the player enters the room
+	load_chat	If the task only needs to be completed if someone is present and at semi-random intervals
+	reset	If the task needs to be done once in a while but the timing is not critical
+.EO
+
+.SP 5 5
+These are just a few examples there are many many more.
+.EP
+
+.SH The 80/20 Rule
+.SP 5 5
+80% of your codes execution time is taken up in about 20% of your
+code. In other words look for those things that get used a lot and
+make sure they are efficient.
+
+For example, if you were overloading query_property() or heart_beat()
+you would be well advised to make sure it is exceptionally efficient
+because those functions get used an enormous amount. Whereas it
+doesn't much matter if your setup() function takes 1/10th of a second
+since it is only called once in the objects lifetime.
+.EP
+
+.SH Some gotchas
+.SO 5 15 59
+	shadows	Shadows have become quite in vogue as they provide a simple way to alter the functionality of an object without having to alter the object. This can be very beneficial but shadows have a large performance overhead that prevents the driver from using its function table.  If it is important to alter the objects performance and it will only be done for short periods on a small subset of the loaded objects of its kind a shadow may be the right way to go. However, if all objects of this type will always have a shadow it is far far better to alter the object itself and not to write the shadow.
+
+	call_outs	These can be a great boon to performance by enabling you to spread out a heavy processing load over a longer period. However, it's very easy to write an object that submits hundreds or thousands of call_outs all at once and which therefore lags the mud slightly for hours at a time. There are other ways to avoid using call_outs (as mentioned above), be sure that you really do need to use call_outs and that one of the other, less expensive options won't suffice.
+
+	events	Generally speaking you should never need to directly use any of the event functions unless you are writing/altering part of the mudlib code itself. For example instead of event_enter() you can use init(), instead of event_person_say() you can use add_respond_to_with(), and the list continues.
+
+	fps	Function pointers can be extremely valuable, and they can be more efficient than named functions but they do have some downsides. If the object they were created from is destroyed the function pointer will error.  They can also make it far far harder to debug and trace the code. As a general rule anonymous functions are good in filters or where your code cannot know which function is required and not so good in any other circumstances.
+
+	filtering	Sorting and filtering can become extremely expensive if you are not careful about the number of items being sorted / filtered.
+
+	large files	Reading (or writing) a large data file can cause significant lag. Using compression, splitting the task into smaller files, caching and de-bouncing can be used to reduce this load.
+
+	busy waiting	Never do this. Busy waiting is where you continually check for some condition. For example running a continuous call_out checking if there is a player in the room, or in some other room. This is a constant, and pointless, drain on resources. Instead use init() to be notified when a player enters the room, or have the other rooms init() notify you when a player enters it.
+.EO
+
+.SH See also
+.SP 5 5
+.EP

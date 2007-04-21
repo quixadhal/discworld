@@ -1,0 +1,15 @@
+Quests should be designed to be blatantly single player, or team oriented.
+Team oriented quests are by far the more desirable.
+
+When a person or people finish a quest, you need only call
+
+#include "library.h"
+
+and
+
+LIBRARY->set_quest("player name", "quest name");
+
+After you have done this, the player will be recorded as having done
+this quest.  That function returns 1 if it is the first time they have
+done the quest.  Do not reward players for redoing a quest.
+

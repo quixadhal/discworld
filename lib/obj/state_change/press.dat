@@ -1,0 +1,45 @@
+## Spider poison gland ##
+
+::item "press:PoisonGlandOfSpider"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 0.1
+::->func:: ({
+      (: $2->set_name( "spider_poison" ) :),
+      (: $2->set_short( "pale red liquid" ) :),
+      (: $2->add_adjective( ({ "pale", "red", "liquid" }) ) :),
+      (: $2->set_long( "This is $amount_size$ of some pale red liquid.\n" ) :),
+      (: $2->set_medium_alias( "UndistilledSpiderPoison" ) :),
+      (: $2->add_eat_effect( "/std/effects/poisons/spider_venom",
+        to_int( $3->query_skill_bonus( "covert.items.poisons" ) / 10 ) ) :),
+    })
+
+## Blowfish poison sac ##
+
+::item "press:PoisonSacOfBlowfish"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 0.1
+::->func:: ({
+      (: $2->set_name( "blowfish_poison" ) :),
+      (: $2->set_short( "pale brown liquid" ) :),
+      (: $2->add_adjective( ({ "pale", "brown", "liquid" }) ) :),
+      (: $2->set_long( "This is $amount_size$ of some pale brown liquid.\n" ) :),
+      (: $2->set_medium_alias( "UndistilledBlowfishPoison" ) :),
+      (: $2->add_eat_effect( "/std/effects/poisons/bloat",
+        to_int( $3->query_skill_bonus( "covert.items.poisons" ) / 10 ) ) :),
+    })
+
+## Snake poison sac ##
+
+::item "press:PoisonSacOfSnake"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 0.1
+::->func:: ({
+      (: $2->set_name( "snake_poison" ) :),
+      (: $2->set_short( "thin white liquid" ) :),
+      (: $2->add_adjective( ({ "thin", "white", "liquid" }) ) :),
+      (: $2->set_long( "This is $amount_size$ of some thin white liquid.\n" ) :),
+      (: $2->set_medium_alias( "UndistilledSnakePoison" ) :),
+      (: $2->add_eat_effect( "/std/effects/ingested/poison",
+        to_int( $3->query_skill_bonus( "covert.items.poisons" ) ) ) :),
+    })
+

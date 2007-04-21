@@ -1,0 +1,117 @@
+Here are some guidelines on how to write room descriptions which
+I (Hobbes) think are really good and should be followed.
+It was found on rec.games-int-fiction and here goes:
+
+===================================================================
+
+I think one can balance eloquent prose with functional descriptions
+by applying the general-to-specific rule. Infocom used this method
+to great effect. Simply place all of the purely aesthetic description
+at the top of the paragraph, and then narrow down to the objects 
+(for possible interaction) and available exits at the very end of 
+the paragraph. Like this:
+
+An edge of a cliff.
+
+This is an edge of a high rocky crag whose cascading sheets of
+opaque stone descend some hundreds of feet to a raging river below.  
+Beyond the fulmigating waters, a dark forest scoops
+up and over a small range of pert hillsides and mossy gullies. 
+A sparse smattering of dry scrub clings to the pockmarked rock at 
+your feet.  Silver particles coat the brittle plant life, glinting 
+and scintillating in the warm afternoon sun.  A small copse of
+trees lies to the west, and the path continues back to the south. 
+Ahead of you to the north, the sheer cliff face drops off into open
+air. 
+
+It's a progression from general to specific. I can also describe it 
+in an hierarchy, or descending order, as such:
+
+TOP OF PARAGRAPH
+4. Setting 1 - As Far As The Player Can See (cliff, river, forest, hills)
+3. Setting 2 - Immediate Surroundings (cliff edge)
+2. Aesthetic Objects Within The Setting (scrub and silver dust)
+1. Available Directions (west to Copse, south to Cliff Path)
+BOTTOM OF PARAGRAPH
+
+=====================================================================
+
+In other words, the first lines of a paragraph establish the setting 
+and any aesthetic concerns, and the information at the bottom of the
+paragraph will determine how I can interact with the location and its
+objects. 
+
+Having things like "You are on an edge" might not always be very
+wise as you can look into another room, using a scrying device or
+through eyes of another, passing through the room in a carriage or
+over it on a flying system.
+Notice that we have two spaces after period on Discworld.
+
+In point 2, remember that every "real" item in the description should
+have an add_item.
+
+You should avoid narrating in the descriptions and you should not
+give the picture that you, as the creator, is there. For example:
+"I wouldn't hang around long in this place if I were you.", or
+"It looks like a rat to me".
+At the same time, you should not use things like: "You think it's
+wise to follow the narrow path." Instead let the players themselves 
+decide what to think, do, etc.
+
+It's sometimes easy to narrate a "story" about an npc in its
+description, for example: "He isn't called Carrot because of his
+hair, which his father has always cropped short for reasons of 
+hygiene." Now, this is okay with me in some cases, especially if
+you have a GOOD joke to tell, but it should never ever be on 
+expense of the "real" description.
+
+When it comes to EXITS, this order is suggested:
+
+north, south, east, west, northeast, southwest, southeast, northwest.
+
+simply because I think it looks best. This is also the order Deutha
+suggested.
+
+There should also be something more in the description than just
+an explanation on the directions. Remember that too long
+descriptions are boring. It all depends on the room, so use
+your common sense.
+
+It's important that the descriptions are... descriptive(!)
+It's easy to lose interest otherwise.
+Lines such as :
+
+"You get a feeling something isn't right here"
+"Seagulls fly above you making noise"
+"The slippery rocks make you tremble"
+
+that is things that refer to the player directly, can be put
+in as room_chats, and the effect will usually be better.
+
+Perhaps I should mention something about set_shorts as well.
+For the people using brief mode, they should be more descriptive
+/interesting/imagitive than just: "room", "shop", etc.
+Here are some examples how they should be:
+
+set_short("inside the Kart Kill Kafe");
+add_property( "determinate", "" );
+ 
+Result: "Inside the Kart Kill Kafe"
+-----
+set_short("large musty and claustrophobic cellar");
+
+Result: "A large musty and claustrophobic cellar"
+-----
+set_short("Widdershins Broad Way junction outside the Ephebian Embassy");
+add_property( "determinate", "the " );
+
+Result: "The Widdershins Broad Way junction outside the Ephebian Embassy" 
+-----
+Other examples: "The middle of Fog Alley", "Somewhere in the Shades",
+"The south end of Peach Pie Street"
+
+Notice that you just use capitals in names, ie Kart Kill Kafe and that the
+first letter of the short description in capitalised automagically, so should
+only use capitals if it's in a proper name.
+Notice that you just use capitals in names, ie Kart Kill Kafe.
+

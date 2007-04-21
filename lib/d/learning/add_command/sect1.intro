@@ -1,0 +1,60 @@
+Section 1. Introduction
+=======================
+
+1.1 Prerequisite concepts
+-------------------------
+
+In order to fully understand the add_command tutorial, you should have a
+basic understanding of the following concepts:
+
+~ data types: string, int, object, mixed ~ arrays: referencing members of,
+adding to ~ variables: types of, local, global ~ objects ~ functions:
+defining, parameters of, passing arguments to, calling
+
+Specific sections of the tutorial assume prior understanding of these topics
+as well:
+
+function pointers: discussed in Sections 2.5 and 4.7  (see note) add_item()
+in rooms: discussed in Sections 4.6 and 5.? effects and shadows: discussed
+in Section 5.?
+
+Note: Function pointers are explained to a limited degree in sections  2.4
+and 4.7.  Understanding these will make those sections easier to grasp but
+is not required.
+
+1.2 New terms and concepts
+
+The tutorial refers continually to "the parser".  The parser itself is a
+collection of files that handle user input, ie: reading what a player
+types, taking it apart into pieces (parsing it), deciding what to do  with
+it, and then carrying out those actions.  For example, when you type "say
+bing!" it is the parser that takes your input, determines  that 'say' is a
+command you know, and then initiates the process that  makes you actually
+say "bing!" and tell others that you've done so.
+
+The parser does this (roughly) by looking first to see if the first thing
+you type (e.g. "say" or "'" for the say command) is a command you know.  If
+it is, it consults the list of patterns it knows are associated with that
+command and compares all the rest of your input to these patterns.
+Add_command() allows a creator to tell the parser that a player or npc knows
+a new command and also tell it the pattern(s) it should use for comparison.
+
+The patterns themselves can be thought of as a kind of template or, better
+yet, as an exercise in filling in blanks.  Take, for example, the command
+get.  One of the syntaxes for get is "get <object>". That  < > is like a
+blank waiting for the player (or npc) to fill it in.   The label 'object'
+inside the < > tells the player and the parser both what the blank should be
+filled with.
+
+When a player types "get sword", the parser reads his input, decides the
+first word "get" is a command that the player knows, and then tries to match
+"sword" to the rest of the syntax, i.e. "<object>".  If there actually is an
+object named "sword" in the player's environment, the parser is satisfied
+and the command "get" proceeds.  If there is no such object in the player's
+environment, the parser decides that the <object> blank hasn't been filled
+in properly and tells the player to check the syntax for the command again.
+
+When adding a command to a player, it's your job to decide just what the
+pattern(s) associated with it should be.  Section 3: Format Patterns is
+devoted to helping you do that.  Until you get to that stage, have faith
+that the things you see in < > will make sense eventually.

@@ -1,0 +1,16 @@
+::#Class:: "/obj/food.c"
+::Name:: "wormwood"
+::Short:: "wormwood"
+::Long:: "This is $pile_size$ of wormwood, $amount_size$.\n"
+::Adjective:: ({ "some" })
+::Property:: "determinate", "some "
+::Plural:: "wormwood"
+::$set_medium_alias:: "Wormwood"
+::$set_amount_types:: ([ "stalk": ({ 1, "stalks" }),
+                         "handful": ({ 50, "handfuls" }) ])
+::Adjective:: ({ "stalk", "stalks", "handful", "handfuls", "of" })
+::$set_pile_types:: ({ 50, "small", 100, "medium", "large" })
+::$add_eat_effect::"/std/effects/ingested/cum_poison", 600
+::$set_amount:: 1
+::$set_continuous::
+::$set_weight_unit:: ({ 1, 10 })

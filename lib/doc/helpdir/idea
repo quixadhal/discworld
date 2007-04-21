@@ -3,32 +3,84 @@ idea
 Discworld player help
 idea
 
-Name
+.SH Name
 .SI 5
-idea - Tell the creators about a hoopy idea.
+idea - Report ideas to the creators
 .EI
 
-Syntax
+.SH Syntax
 .SI 5
-idea <text>
+idea spell {generic|wizards|witches} 
+idea spell new 
+idea ritual generic 
+idea ritual new 
+idea soul new 
+idea special {clubs|council|horses|newspaper|player_housing|player_shops} 
+idea misc {armours|clothes|scabbards|weapons} 
+idea object <name of NPC or item> 
+idea command <name> 
+idea spell <name> 
+idea ritual <name> 
+idea help <subject> 
+idea soul <soul command> 
+idea help 
+idea room 
 .EI
 
-Description
+.SH Description
 .SP 5 5
-Idea should be used when you have an idea that you think would improve a room
-or part of the game.
+This command informs the creators of ideas you have about commands, spells,
+objects (room items, normal items, NPCs, etc.), rituals, help files, rooms,
+or in general.  The first argument is used to specify what type of
+idea the report object the idea is about, while the second is the name
+of the command, spell, etc.  The second argument is not used for rooms as
+"here" is implicit, it's also not used for general ideas.
+
+The idea report is recorded in a database specific to whatever you are using
+the command for, so try to be specific in your use.
+
+If you report an idea for a new spell or a spell you haven't remembered at the
+moment, you can use the name of one you have, as all spells are maintained by
+the same creator, so the report will still go to the right person.  The same
+is true for rituals.
+
+To report ideas in rooms just stand in them and use the command.
+
+To report ideas about objects be VERY SPECIFIC.  For example, if you've got
+three swords, don't use 'idea object sword' because the idea report will go to
+the first sword even if it's not the one you have an idea about.
+
+Especially for creators: the object can be specified by filename.
+
+To report ideas about commands, spells and rituals, just put the name of
+the command or spell as you know it as the second argument.
+
+To report ideas for a help file, use 'idea help <name>', PLEASE only use this
+for reporting ideas about helpfiles.
+
+For new spells you use the command 'idea spell new' and for new rituals
+you use the command 'idea ritual new'.
 .EP
 
-Examples
+.SH Examples
 .SI 5
-idea make a house of bondage and slavery.
+> idea object sword
+Ok, enter your text.  ** on a line by itself to exit.
+1 ] The sword of slaying should have different swords for different races.
+2 ] **
+1 lines - Choose from IDLMCESQ H for help. s
+Quiting and saving.
 
-idea start a greenpeace division to save the trees.
-
-idea banish Furball, Pinkfish, Ember and Shadow from the game!
+> idea object troll
+Ok, enter your text.  ** on a line by itself to exit.
+1 ] The troll is ok, but when I give it the
+2 ] four strata pizza it should start eating it.
+3 ] **
+2 lines - Choose from IDLMCESQ H for help. s
+Quiting and saving.
 .EI
 
-See also
-.SI 5
-bug, typo
-.EI
+.SH See also
+.SP 5 5
+bug, typo, bugcheck
+.EP

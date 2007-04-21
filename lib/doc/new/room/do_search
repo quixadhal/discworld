@@ -16,7 +16,10 @@ int do_search(string str);
 Description
 .SP 5 5
 This is the function called by the search command.  If you wish this
-to do something useful, redefine this funcition.
+to do something useful, redefine this function.
+
+For a search that succeded return 1; for one that needs a notify_fail()
+return 0; for one that should give the default messages return -1.
 .EP
 
 See also

@@ -1,0 +1,49 @@
+.DT
+add_spell_action
+DW_wibble creator help
+add_spell_action
+
+.SH Name
+.SP 5 5
+add_spell_action -  This method adds an action to the npc that will happen if a specified spell is cast.
+.EP
+
+.SH Syntax
+.SI 5
+void add_spell_action(string spell_object,
+                      int chance,
+                      string name,
+                      mixed action)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^spell_object%^RESET%^ - the spell to respond to
+%^BOLD%^chance%^RESET%^ - the chance of it working
+%^BOLD%^name%^RESET%^ - the name of the thing
+%^BOLD%^action%^RESET%^ - the action to preform
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an action to the npc that will happen if a specified
+spell is cast.  This is an action which
+has a chance of occuring when a spell is being cast.
+The name is an identifier
+which can be used to remove the action with later.  The action
+itself can be a string, then that command will be executed.  If
+the action is a function pointer then it will be evaluated with
+two arguments, the first being the caster, the second being the
+target(s) array and the third being the magic arguments class.
+
+
+If the action is an array, if it is one element then the function specified will be called on the attacked with the same arguements as above. If the size of the array is two then the function will be called on the specified object with an extra first argument being the npc which the effect is being called from.
+.EP
+

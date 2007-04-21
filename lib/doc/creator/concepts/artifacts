@@ -1,0 +1,261 @@
+                                   Artifacts
+                                   -=-=-=-=-
+
+Introduction
+------------
+
+        This text describes various aspects of magical artifacts.  The
+magical artifacts in existence are:
+
+        amulets - /obj/amulet
+        rings - /obj/ring
+        rods - /obj/rod
+        staves - /obj/staff
+        wands - /obj/wand
+
+which are all characterised by:
+
+        1. the skill level for successful operation,
+        2. the number of charges remaining,
+        3. the file name of an object which is responsible for the action.
+
+For example, the level of a particular wand of striking could be 18, it
+could have 7 charges left and the object that actually damages the person
+at whom the wand is zapped is /obj/wands/striking.  Not all amulets,
+rings, rods, etc. are artifacts in this specific sense, namely objects
+that can perform a particular function a limited number of times before
+they must be recharged or discarded: an amulet that allows its wearer
+to breath underwater or a wizard's staff for storing spells do not fall
+into this category (these magical items are imagifacts rather than
+artifacts).  The total number of charges that the artifact has had over
+the course of its existence is also tallied (see the paragraph on
+recharging artifacts below).
+
+Knowledge of Artifacts
+----------------------
+
+A person can learn to recognise an artifact through various means.  To
+be exact, they can learn to recognise a specific artifact function
+whatever the form.  For example, once a person knows how to recognise a
+wand of eternal light, they will recognise one whether it is a soft
+piece of balsa, about a foot long and an inch in diameter, with a thin
+groove spiralling around it from one end to the other or a knobbly
+length of wood with paired knotholes along its length, each pair at
+right angles to its neighbours.  As well as an artifact being able to
+have more than one form, more than one artifact can use a particular
+form, especially for two artifacts that have opposed functions - the
+player would be wise to check whether a copper rod engraved with
+diamonds is a rod of hypertension discharging or a rod of summon
+lightning.
+
+Ability to Use an Artifact
+--------------------------
+
+The level of an artifact is the minimum level in the relevant skill
+which a person must have in order to stand a chance of using it - below
+this level, the artifact cannot be used at all.  Between a skill of this
+level and twice it, the person has a linearly increasing chance of being
+able to use the artifact, and at a skill of greater than twice the
+level, they will always be able to use it.  The graph below shows the
+chance of being unable to use the wand as a function of the person's
+skill.
+
+        Chance /|
+                |
+          100% _|_____
+                |     \
+                |      \
+                |       \
+                |        \
+            0% _|         \______
+                |___________________
+                      |   |        / person's skill level
+                  level   2*level
+
+If the person's skill is between the artifact's level and twice it and
+is able to use the wand, there is a linearly decreasing chance of
+gaining a level in the relevant skill on the basis that some point of
+lore has been realised or clarified.  The graph below shows the chance
+of gaining a skill level given that the wand may be used this time.
+
+        Chance /|
+                |
+           50% _|
+                |     |\
+                |     | \
+                |     |  \
+            0% _|_____|   \______
+                |___________________
+                      |   |        / person's skill level
+                  level   2*level
+
+If the person doesn't have the requisite skill to use the artifact, no
+charges are taken from it.  If the person is skillful enough to use it,
+one charge is removed from it.  At this point there is a probability of
+backfiring which, as a percentage, is one tenth of the artifact's
+level.  The nature of the backfire will depend on the artifact, being a
+simple failure message for simple wands, and either an anti-effect (for
+example, the wand of eternal light backfires by subtracting from its
+target's light instead of adding to it) or damage to the wielder (for
+the offensive artifacts, for instance).
+
+Fashioning Artifacts
+--------------------
+
+A sufficiently skilled person may fashion artifacts from suitable forms.
+In order to fashion an artifact, that person must have knowledge of that
+artifact (equivalent to being able to recognise it), must have an
+intelligence greater than one fifth of the maximum level of the artifact
+and must have a sufficient bonus in the relevant skill (the tables at
+the end of this document list this information); if these are met, and
+the form is suitable and sufficiently enchanted, the artifact is fashioned,
+the person's temporary intelligence drops by one fifth of the maximum
+level and the bonus amount of guild points is taken away (for example,
+to fashion a wand of artifact probing will cost the person 180 guild
+points and will cause a temporary drop of 5 in intelligence).  The level
+of the artifact fashioned will be between the maximum and minimum levels
+for that artifact; as the person's bonus increases above the required
+bonus, the level of the artifact drops from its maximum level towards
+the minimum level.
+
+Recharging Artifacts
+--------------------
+
+Artifacts may be charged in a generic way by various means but with a
+difficulty depending on the nature of the artifact. One method is to use
+the "recharge" command which requires the use of a magically potent
+substance: these will be available in a wide variety of strengths
+varying, for example, from ground red stalked mushroom at the least
+potent end through powdered cinnabar to octiron filings at the most
+potent extreme, rarity and cost increasing with power.  The power
+required per charge varies from artifact to artifact and is the value
+for it (as given in the tables at the end of this document).  As for
+fashioning a wand, the person must have a sufficient bonus in the
+relevant skill, and this bonus is also the guild points cost if the
+recharging process can be begun.  An artifact may not be given a current
+amount of charges beyond a certain number without there being a chance
+that the wand will explode and injure the person.  The maximum number of
+charges begins at 15, falls linearly with the level of the artifact and
+is 1 for an artifact of level 105 and above; the formula is:
+
+        maximum current charges = 15 - level / 7
+
+or 1 if this is below 1.  Artifacts are also limited in the total number
+of charges they can have had over their existance and similarly have a
+chance of exploding if this number is exceeded.  The maximum number of
+total charges starts at 32 and falls with level; the formula is:
+
+        maximum total charges = 1000 / ( 32 + level ).
+
+There is also a chance that the artifact will explode anyway.  The total
+chance that the artifact will explode on being given another charge is
+then:
+
+        ( 3 * ( current charges - maximum current charges + 1 ) ^2
+                [ if current charges >= maximum current charges ]
+        + 6 * ( total charges - maximum total charges + 1 ) ^2
+                [ if total charges >= maximum total charges ]
+        + 1 ) / 100.
+
+Further Documentation
+---------------------
+
+There is documentation for each basic artifact object (for example,
+obj.wand for wands) and a number of tables listing existing artifacts
+follow - it is intended that this document be kept current, so please
+hassle a Lord if there is an artifact which should be listed below but
+is not.
+
+Table of Amulet Details
+-----------------------
+
+amulet name                     max     min     bonus   value
+
+aggravation*
+tranquility*
+
+An amulet is used by grasping it while worn.
+
+Table of Ring Details
+---------------------
+
+ring name                       max     min     bonus   value
+
+recall*
+searching*
+
+A ring is used by twisting it while worn.
+
+Table of Staff Details
+----------------------
+
+staff name                      max     min     bonus   value
+
+artifact detection*
+
+A staff is used by invoking it while held (staves are two-handed).  A
+staff has an effect on the surroundings, or the contents of the
+surroundings, of the holder.
+
+Table of Rod Details
+--------------------
+
+rod name                        max     min     bonus   value
+
+Hypertension discharging*
+Muster comrades*
+Muster enemies*
+Summon lightning*
+
+A rod is used by applying it while held (rods are one-handed).
+
+Table of Wand Details
+---------------------
+
+wand name                       max     min     bonus   value
+
+accelerated growth              12      9       125     800 (A$2)
+acid bolt*
+anima gauging                   30      24      190     5000 (A$12.50)
+anima gouging*
+artifact probing                25      20      180     4000 (A$10)
+cancellation                    60      45      220     10000 (A$25)
+cold*
+death*
+eternal dark*
+eternal light                   85      65      250     30000 (A$75)
+fire*
+garlic breath                   2       1       25      600 (A$1.50)
+healing                         5       3       55      100 (25p)
+infestation cleansing           40      30      200     1200 (A$3)
+lightning*
+magic detection                 18      14      155     1000 (A$2.50)
+magic missile*
+pickling                        5       3       55      100 (25p)
+striking                        20      16      165     200 (50p)
+undead cloning*
+undead turning*
+
+A wand is used by zapping at something while held (wands are
+one-handed).  A wand has an effect on the person or object at which it
+is zapped.
+
+Notes on Tables
+---------------
+
+* forthcoming
+
+(a) The bonus is approximately the skill bonus at twice the maximum
+        level for an intelligence of 16.
+(c) Value - shown in brass coins and, in parentheses, Ankh-Morpork
+        currency - determines the "artifact" value info for the artifact;
+        see documentation for value for an explanation of value info.
+        The "artifact" value for a fashioned artifact is inversely
+        proportional to its level, being equal to the amount shown in
+        the table at the maximum level.  The "artifact" value will
+        determine the difficulty and/or cost of recharging the artifact.
+
+History of this Document
+------------------------
+
+26-31 xii 1994  Written by Deutha

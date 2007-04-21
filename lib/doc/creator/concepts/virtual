@@ -1,0 +1,125 @@
+.DT
+virtual
+Discworld creator help
+virtual
+ 
+Name
+.SI 5
+virtual - can be objects or rooms.
+.EI
+ 
+Description
+.SP 5 5
+Virtual objects and rooms (Vobjects) are objects that are cloned from a
+base object, and then configured.  This is similar to what is done with
+#inherited objects.  The only thing is that the Vobject can not contain
+it's own functions.  All configuration is done by call_other()'s on
+the cloned object.  Although this uses more cpu cycles, it saves on
+memory, which is considered by many as a good thing.  Currently there
+are 6 types of Vobjects: armor, weapon, object, room, monster, and
+'other'.
+.EP
+ 
+.SP 5 5
+The different type of objects are determined by the extension of
+the file, ie: .arm, .clo, .wep, .ob, .r, .mon.  The 'other' type of Vobject
+is made from one of the 6 standard types (explained below).
+.EP
+ 
+.SP 5 5
+Vobject files are made from comment lines (yes! comment them!) and
+config lines.  Comment lines start with '#'.  Config lines start with
+'::'.
+.EP
+ 
+ 
+Example 1:
+ 
+# Start of example.ob
+#
+::#debug:: 0
+::name:: "man"
+::short:: "A virtual test monster (a cyberbot)"
+::long:: "A virtual test monster other wise known as a cyberbot.
+ It was made to test the virtual compiler.\n"
+::alias:: "monster"
+::alias:: "bot"
+::race:: "human"
+::move zone:: "cyber space"
+::main_plural:: "virtual test monsters (cyberbots)"
+ 
+ 
+  Explanation:
+.SP 5 5
+The # lines are comment lines.  Keywords that start with
+'#' (ie the line "::#debug:: 0") are Vobject compiler switches.  The
+other lines are fairly straight forward.  ::name:: sets the name of the
+object to "man".
+.EP
+ 
+  Vobject keywords:
+.SP 5 5
+Current Vobject keywords are: #debug, #include and #class.  If #debug
+is set to 1, then the temporary file will not be removed if there is an
+error in it.  #include allows you to include a standard .h file from
+/include.  #class will set the base object to be cloned (explained below).
+.EP
+ 
+  keywords:
+.SP 5 5
+For a list of current 'standard' keywords, check the file
+"/global/virtual/compiler.h".  Different object types have different keywords.
+.EP
+ 
+ 
+Other Vobjects:
+.SP 5 5
+Any other object that can be cloned and configured can be made into a
+Vobject.  To do that, use the compiler switch "$class" and give the
+absolute path to the base object.  Functions that are defined in a
+new Vobject class that aren't a standard function can be called using
+the '$' escape char giving the full function name.
+.EP
+ 
+ 
+Example 2:
+ 
+# This room works, so #debug can be removed, or set to 0
+::#Debug:: 0
+ 
+# Use a 'non-standard' base object for cloning.
+::#Class:: "/std/outside.c"
+ 
+::Long:: "This is a virtual test room - long description.\n"
+ 
+# The $ start char is used for functions that are not defined
+# in the virtual object compiler
+::$set_night_long:: "This is a virtual test room (at night) -
+ long description.\n"
+ 
+# Now setup the short, exit, co ords, and light level
+::Short:: "Virtual test room"
+::light::100
+ 
+# silly co ord's to give, but they work for the demo.  Note: all
+# out door rooms must have co ords, either set via set_co_ord
+# (::co ord::), or the room must be loaded from a room with co ords.
+::co ord:: ({ 0, 0, 0 })
+ 
+ 
+  Explanation:
+.SP 5 5
+The "::$set_night_long:: ....." line will setup a call to
+set_night_long() using the argument given.
+.EP
+ 
+ 
+Hint:
+.SP 5 5
+To see how the Vcompiler will format the temp file, leave off
+an ending quote mark and set $debug to 1.  This will make the temporary .c file
+crash, and the compiler will not remove the errant file.  Be sure to remove
+the file as soon as you are done looking at it so we don't use too much
+file space.
+.EP
+ 

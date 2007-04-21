@@ -7,128 +7,53 @@
    Algorithm Analysis_ by Cawnthorpe.
 */
 
-#include "config.h"
-#include "lint.h"
-#include "mudlib_stats.h"
-#include "interpret.h"
+#include "std.h"
+#include "qsort.h"
 
-#define LEN sizeof(struct svalue)
+#define LEN sizeof(svalue_t)
+#define MAX_LEN 1000
 
-/* define cutoff point at which insertion sort is used */
-#define CUTOFF (10 * LEN)
+INLINE_STATIC void doSwap (char *, char *, int);
+static void qSort (void *, int, int, int, int, int (*) ());
 
-INLINE static void
-insertionSort(data, n, size, compar)
-char *data;
-int n, size;
-int (*compar) PROT((void *, void *));
+INLINE_STATIC void doSwap (register char * one, register char * two,
+                             register int size)
 {
-	static char x[LEN];
-	int i, j;
+    register char t;
 
-	for (i = 0; i < n; i += size) {
-		j = i;
-		memcpy(x, data + j, size);
-		while ((j >= size) && (compar(x, data + j - size) < 0)) {
-			memcpy(data + j, data + j - size, size);
-			j -= size;
-		}
-		memcpy(data + j, x, size);
-	}
+    while (size--) {
+	t = *one;
+	*(one++) = *two;
+	*(two++) = t;
+    }
 }
 
-INLINE static void
-doSwap(one, two, size)
-void *one, *two;
-int size;
-{
-	static char buf[LEN];
+/* qsort adapted from page 87 of K&R 2nd edition */
 
-	memcpy(buf, one, size);
-	memcpy(one, two, size);
-	memcpy(two, buf, size);
+static void qSort(void *v, int left, int right, int size, int rightmost, int (*compar) (void *, void *))
+{
+    int i, last, szleft;
+
+    if ((left >= right) || (left < 0) || (right > rightmost) || (right < 0)) {
+	return;
+    }
+    szleft = size * left;
+    doSwap((char *) v + szleft, (char *) v + (size * ((left + right) / 2)), size);
+    last = left;
+    for (i = left + 1; i <= right; i++) {
+	if ((*compar) ((char *) v + (size * i), (char *) v + szleft) < 0) {
+	    doSwap((char *) v + (size * ++last), (char *) v + (size * i), size);
+	}
+    }
+    doSwap((char *) v + szleft, (char *) v + (size * last), size);
+    qSort(v, left, last - 1, size, rightmost, compar);
+    qSort(v, last + 1, right, size, rightmost, compar);
 }
 
-INLINE static void
-median3(a, left, right, pivot, size, compar)
-char *a;
-int left, right;
-void **pivot;
-int size;
-int (*compar) PROT((void *, void *));
+void quickSort(void *a, int nmemb, int size, int (*compar) (void *, void *))
 {
-	int center;
-
-	center = (left + right) / 2;
-	/* round down to nearest multiple of size */
-	center -= (center % size);
-	if (compar(a + left, a + center) > 0) {
-		doSwap(a + left, a + center, size);
-	}
-	if (compar(a + left, a + right) > 0) {
-		doSwap(a + left, a + right, size);
-	}
-	if (compar(a + center, a + right) > 0) {
-		doSwap(a + center, a + right, size);
-	}
-	*pivot = a + center;
-	doSwap(a + center, a + right - size, size);
-}
-
-void
-qSort(a, left, right, size, compar)
-char *a;
-int left, right, size;
-int (*compar) PROT((void *, void *));
-{
-	char *pivot, *temp;
-	int i, j;
-
-	if ((left + CUTOFF) <= right) {
-		median3(a, left, right, &pivot, size, compar);
-		i = left;
-		j = right - size;
-		while (1) {
-			while (1) {
-				temp = a + (i += size);
-				/* protect against non-determistic compare */
-				if (i >= right) {
-					return;
-				}
-				if (compar(temp, pivot) >= 0) {
-					break;
-				}
-			}
-			while (1) {
-				temp = a + (j -= size);
-				/* protect against non-determistic compare */
-				if (j < 0) {
-					return;
-				}
-				if (compar(temp, pivot) <= 0) {
-					break;
-				}
-			}
-			if (j <= i) {
-				break;
-			}
-			doSwap(a + i, a + j, size);
-		}
-		doSwap(a + i, a + right - size, size);
-		qSort(a, left, i - size, size, compar);
-		qSort(a, i + size, right, size, compar);
-	}
-}
-
-void
-quickSort(a, nmemb, size, compar)
-void *a;
-int nmemb, size;
-int (*compar) PROT((void *, void *));
-{
-	if (nmemb < 2) {
-		return;
-	}
-	qSort(a, 0, size * (nmemb - 1), size, compar);
-	insertionSort(a, size * nmemb, size, compar);
+    if (nmemb < 2) {
+	return;
+    }
+    qSort(a, 0, nmemb - 1, size, nmemb - 1, compar);
 }

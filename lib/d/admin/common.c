@@ -1,3 +1,4 @@
+#include <config.h>
 #define DOM_TITLE "the domain of admin"
 #define LORD "pinkfish"
 #define DOMAIN "admin"
@@ -8,9 +9,10 @@ object board;
 void setup() {
   set_dom(DOMAIN);
   set_light(100);
-  add_exit("drum", "/d/am/am/mendeddrum", "door");
+  add_exit("drum", CONFIG_START_ROOM, "door");
+  modify_exit( "drum", ({ "one way", 1 }) );
   set_short("Common room of "+DOM_TITLE);
-  set_long("Large relaxing chairs addorn the room.  The walls are covered "+
+  set_long("Large relaxing chairs adorn the room.  The walls are covered "+
            "with strange motifs from different lands and the little shelf "+
            "above the fireplace is chocker block full of strange figurines "+
            "and bits of cloth.  It appears to be the common room of "+
@@ -53,10 +55,4 @@ void setup() {
   board = clone_object("/obj/misc/board");
   board->set_datafile(DOMAIN);
   board->move(this_object());
-}
-
-void dest_me()
-{
-  if(board) board->dest_me();
-  ::dest_me();
 }

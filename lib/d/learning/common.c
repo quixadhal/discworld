@@ -1,62 +1,181 @@
-#define DOM_TITLE "the learning domain"
-#define LORD "drgoon"
-#define DOMAIN "learning"
-/* PLEASE re-describe me */
-inherit "/std/dom/cmn_mas";
+#include <config.h>
+#include "path.h"
+
+/* inherit "/std/dom/cmn_mas"; 
+ * being a common room, this should inherit the previous, but since that's 
+ * basically a piece of shit, I won't have it contaminate my nice room:)
+ */
+inherit "/std/room/basic_room";
+
+#define HANDLER (LEARNING +"handlers/request")
+
 object board;
+object *chairs; /* people sitting */
+int do_claim(int);
+int do_remove(int);
+int do_request(string, string);
+int do_sit( string command, object *indir, string dir_match, 
+           string indir_match, mixed *args, string pattern );
 
 void setup() {
-  set_dom(DOMAIN);
-  set_light(100);
-  add_exit("drum", "/d/am/am/mendeddrum", "door");
-  set_short("Common room of "+DOM_TITLE);
-  set_long("Large relaxing chairs addorn the room.  The walls are covered "+
-           "with strange motifs from different lands and the little shelf "+
-           "above the fireplace is chocker block full of strange figurines "+
-           "and bits of cloth.  It appears to be the common room of "+
-           DOM_TITLE+" the large red letters on the wall were the " +
-           "give away.\n");
-  add_alias("chairs", "chair");
-  add_alias("cloths", "cloth");
-  add_alias("motifs", "motif");
-  add_alias("figurines", "figurine");
-  add_item("chair", "The chairs are lazing around the room relaxing it looks "+
-                    "like they come here after a hard days working in "+
-                    DOM_TITLE+".\n");
-  add_item("fireplace", "A nice little fire place with a cheery fire burning "+
-                        "in it keeping every one warm.\n");
-  add_item("figurine", "Small figurines, they look strangely familiar "+
-                         "until you realise they are the members of "+
-                         DOM_TITLE+".\n");
-  add_item("cloth", "Strange coloured bits of cloth strewn over the "+
-                    "mantlepice for no readily apparent reason.\n");
-  add_item("motif", "The motifs on close inspection look like stylised "+
-                     "signatures of all the members of "+DOM_TITLE+
-                     ".  Some of them are very strange, in fact there "+
-                     "seem to be more than there are members of the house.  "+
-                     "perhaps it is the members of the future.\n");
-  add_item("shelf", "A nice normal sort of shelf thing.  It is like all "+
-                    "those ones you see in houses all over the place, "+
-                    "execpt... the way it has been burnt... hmm it does "+
-                    "not look like the fire did it.\n");
-  add_item("fire", "There is a fire happily burning away in the fireplace "+
-                   "spluttering and crackling to itself.  The flames almost "+
-                   "seem afraid of something.  Looking closer you notice a "+
-                   "picture tacked to the side of the fire place.\n");
-  add_item("picture", "Tacked to the inside wall of the fire thingy, you "+
-                      "know the hole bit at the bottom, is a small picture "+
-                      "it looks like it was taken with the best of demon "+
-                      "photography.  It is a picture of a person holding "+
-                      "a small staff, you think it might be "+LORD+
-                      " but you are not sure as the fire light sparkles "+
-                      "in your eyes.\n");
-  board = clone_object("/obj/misc/board");
-  board->set_datafile(DOMAIN);
-  board->move(this_object());
-}
+   set_light( 100 );
+   set_short( "somewhat boring commonroom of the learning domain" );
+   add_property( "determinate", "the " );
+   set_long( "This is the common room of the domain of learning, the place "
+            "where creators come to learn.  It is a somewhat boring room "
+            "except for some chairs strewn around the place which happen to "
+            "be an example of having commands defined in add_items, and some "
+            "sort of list hanging on the wall which is an example of using "
+            "add_command in rooms.\n" );
+   add_item( "chair", ({ 
+      "long", "This chair looks comfortable, perhaps you can sit in it.",
+      "sit", ({ (: do_sit :), "[in] <direct:object>" })
+   }), 1 );
+   add_item( "chairs", ({ 
+      "long", "These chairs look comfortable, "
+              "perhaps you can sit in one of them.",
+      "sit", ({ (: do_sit :),  "[in] <direct:object>" })
+   }), 1 );
+   add_item( "list", 
+            "This list has several actions associated with it:\n"
+            "\"show list\" will show the current requests.\n" 
+            "\"request documentation\" will ask for "
+            "documentation on something.\n" 
+            "\"request example\" will ask for an example of "
+            "something to be coded.\n" 
+            "\"claim <number>\" is use to claim a request, thereby attempting "
+            "to make sure that only one creator is writing the documentation/"
+            "coding the examples." );
+   add_exit( "entrance", PATH +"main", "path" );
+   add_exit( "drum", CONFIG_START_LOCATION, "path" );
 
-void dest_me()
-{
-  if(board) board->dest_me();
-  ::dest_me();
-}
+   /* make all chairs empty */
+   chairs = ({ });
+   /* calling this result in the function extra_look() being called whenever
+    * people look at the room */
+   add_extra_look( this_object() );
+   /* the normal add_property() calls for the learning domain */
+   add_property( "commented functions", ({ "add_extra_look", "extra_look",
+      "remove_extra_look", "add_command" }) );
+   add_property( "keywords", ({ "room", "add_item", "action" }) );
+   /*make a copy of the domain's board */
+   board = clone_object( "/obj/misc/board" );
+   board->set_datafile( DOMAIN );
+   board->move( this_object() );
+} /* setup() */
+
+void init() {
+   ::init();
+   add_command( "show", "list" );
+   add_command( "claim", "<number>", (:do_claim( $4[0] ):) );
+   add_command( "request", "{documentation|example} <string'subject'>",
+                (:do_request( $4[0], $4[1] ):));
+   add_command( "remove", "<number>", (:do_remove( $4[0] ):) );
+} /* init() */
+
+int do_show() {
+   write( HANDLER->query_list() );
+   return 1;
+} /* do_show() */
+
+int do_claim( int i ) {
+  if ( HANDLER->claim_request( this_player()->query_name(), i ) ) {
+    add_succeeded_mess("$N $V a request.\n", ({}));
+  } else {
+    return notify_fail( "Illegal request number.\n" );
+  }
+  return 1;
+} /* do_claim() */
+
+int do_remove( int i ) {
+  if ( HANDLER->remove_request( this_player()->query_name(), i ) ) {
+    add_succeeded_mess("$N $V a request.\n", ({}));
+  } else {
+    return notify_fail( "You can't remove that request.\n" );
+  }
+  return 1;
+} /* do_remove() */
+
+int do_request( string option, string words ) {
+  if ( option == "documentation" ){
+      HANDLER->add_request( this_player()->query_name(),
+                           "documentation for "+ words );
+      write( "You request some documentation.\n");
+      say( this_player()->the_short() +" requests some documentation.\n");
+      return 1;
+   }
+  if ( option == "example") {
+      HANDLER->add_request( this_player()->query_name(),
+                           "examples of "+ words );
+      write( "You request some example.\n");
+      say( this_player()->the_short() +" requests some example.\n");
+      return 1;
+   }
+   return 0;   
+} /* do_request() */
+
+int do_sit( string command, object *indir, string dir_match, 
+           string indir_match, mixed *args, string pattern ) {
+   /* Note!  I use add_succeeded_mess even though the command failed, 
+    * because it fails for another reason than being the wrong object.
+    * This make it work even though there is a "sit" soul.
+    */
+   if ( dir_match == "chairs" ) {
+      this_player()->add_succeeded_mess( previous_object(), 
+             "How can you sit on more than one chair at the same time?\n", 
+             ({ }) );
+      return 1;
+   }
+   if ( member_array( this_player(), chairs ) != -1 ) {
+      this_player()->add_succeeded_mess( previous_object(), 
+             "You are already sitting in a chair.\n", ({ }) );
+      return 1;
+   }
+   /* add the player to the list of people in the chairs */
+   chairs += ({ this_player() });
+   /* calling add_extra_look() result in the function extra_look being     
+    * called whenever people look at the person */
+   this_player()->add_extra_look( this_object() );
+   this_player()->add_succeeded_mess( previous_object(), 
+           "$N $V in a "+ dir_match +".\n", ({ }) );
+   return 1;
+} /* do_sit() */
+
+string extra_look( object thing ) {
+   if ( thing == this_object() ) { /* we're looking at the room */
+      /* remove people who have logged out */
+      chairs = filter_array( chairs, (: $1 != 0 :) );
+      /* and those who have left */
+      chairs = filter_array( chairs, 
+                            (: environment( $1 ) == this_object() :) );
+      if ( !sizeof( chairs ) ) { /* none left sitting */
+         return "";
+      } else {
+         if ( sizeof( chairs ) == 1 ) {           /* only one left */
+            if ( chairs[ 0 ] == this_player() ) { /* and it's you */
+               return "You are sitting in one of the chairs.\n";
+            } else {                              /* and it's someone else */
+               return (string)chairs[ 0 ]->the_short() 
+                      +" is sitting in one of the chairs.\n";
+            }
+         } else {
+            return query_multiple_short( chairs, "the" ) 
+              +" are sitting in the chairs.\n";
+         }
+      }
+   } else if ( member_array( thing, chairs ) != -1 ) {
+      /* we're looking at someone who might be sitting */
+      if ( environment( thing ) == this_object() ) { /* sitting and here */
+         if ( thing == this_player() ) { /*looking at yourself */
+            return "You are sitting in a chair looking lazy.\n";
+         } else {
+            return thing->query_pronoun() +" is lazing around in a chair.\n";
+         }
+      }
+   }
+   /* calling remove_extra_look() stop extra_look() being     
+    * called whenever people look at the thing */
+   thing->remove_extra_look( this_object() );
+   /* show nothing */
+   return "";
+} /* extra_look() */

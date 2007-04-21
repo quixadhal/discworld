@@ -1,0 +1,50 @@
+.DT
+set_throw_out
+DW_wibble creator help
+set_throw_out
+
+.SH Name
+.SP 5 5
+set_throw_out -  This method is used to determine when to throw people out of a room.
+.EP
+
+.SH Syntax
+.SI 5
+void set_throw_out(int hps,
+                   int chance,
+                   string their_mess,
+                   string everyone_mess)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^hps%^RESET%^ - the number of hps at which to start throwing people out
+%^BOLD%^chance%^RESET%^ - the percentage chance of being thrown out
+%^BOLD%^their_mess%^RESET%^ - the message to show them
+%^BOLD%^everyone_mess%^RESET%^ - the message to show everyone else
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to determine when to throw people out of a
+room.  This is what detritus uses to throw people out of the
+mended drum when it gets a bit rowdy.
+
+
+The hps is the level of hps at which the npc will start throwing people out with the chance of it occuring (chance is a percentage). 
+
+People will be thrown into a random room, if the property "no throw out"is specified on the room then they will not be thrown into that room.
+.EP
+
+.SH See also
+.SP 5 5
+set_aggressive(), query_throw_out(), set_join_fights(), expand_string()
+
+.EP
+

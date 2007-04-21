@@ -1,0 +1,47 @@
+.DT
+do_cut
+DW_wibble creator help
+do_cut
+
+.SH Name
+.SP 5 5
+do_cut -  This cuts the food up into bits.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int do_cut(int num_pieces)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^num_pieces%^RESET%^ - The number of pieces to cut the food into.
+.EI
+
+.SH Returns
+.SI 5
+1 if it succeeded, 0 if not.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This cuts the food up into bits.  This is the command called
+with add_command() and does the actual cutting up into bits.  If
+the num_pieces parameter is undefined, the food is cut in half.
+If the food is continuous, the cutting is handled by
+the state_change handler (all continuous objects must be cut this
+way).
+
+.EP
+
+.SH See also
+.SP 5 5
+set_piece_description(), query_in_pieces(), query_piece_short(), query_piece_plural(), query_piece_substance()
+.EP
+

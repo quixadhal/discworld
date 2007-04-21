@@ -1,0 +1,50 @@
+.DT
+common room
+Discworld creator help
+common room
+
+.SH Name
+.SI 5
+common room - to help administrate the domain
+.EI
+
+.SH Syntax
+.SI 5
+list <domain>
+list all
+add <creator>
+delete <creator>
+project <creator> <project>
+.EI
+
+.SH Description
+.SP 5 5
+Your domain's common room allows you to easily access some of the necessary
+administration tools.  It is also the home of your domain board.  From your
+common room, you can 'list' the members of a particular domain, or 'list all'
+for all members of all domains.  You can 'add <creator>' to add an existing
+creator to your domain.  You can 'delete <creator>' to remove a creator from
+your domain.  You can also 'project <creator> <project>' to change the 
+project of a creator in your domain.
+.EP
+
+.SH Example
+.SI 5
+> add drakkos
+Creator Drakkos now added to forn
+
+> list forn
+Forn has one member and is owned by Drakkos.
+* Drakkos's project: newbie
+
+> project drakkos Fornographer
+Drakkos's project set to : Fornographer
+
+> delete drakkos
+Member Drakkos removed from forn
+.EI
+
+.SH See also
+.SP 5 5
+None
+.EP

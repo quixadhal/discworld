@@ -1,0 +1,64 @@
+.DT
+new shop owner
+Discworld shop help
+new shop owner
+
+
+.SH Simple controls - accepting items
+.SP 5 5
+The default setup of the shop will put any item that is attempted to be
+sold to the shop into an approval list.  This list can be seen using the
+'approve list' command.
+
+The items in the approve list are all give ids and they must be used to
+reference these items.  Please note these ids are totaly seperate to the
+ids used in the shop itself.
+
+The items can be approved with the command 'approve item <id>' and
+rejected with the command 'approve reject <id>'.  When you approve an
+item the shop will try and take the money it will cost to approve it
+from your inventory.  If you do not have enough money to approve the item,
+the shop will refuse to put the item into the shops inventory.
+
+Before you let an item be approve you may wish to check to see if it is
+really what they say it is.  There a few commands that allow you to do this.
+The first one is 'approve browse <id>' which allows you to look at
+the short and long descriptions and the read message of an item.
+
+You can change the category and name of the item before it is
+approved using 'approve change name <id> to <name>' and
+'approve chane category <id> to <name>'.  You can still change the
+name and the category of an object after it has been sold using
+the 'change name of <object> to <string>', 'change category of <object> to
+<string>' and 'change price of <object> to <string>'.  You cannot
+change the price before the item is accepted since this is the price that
+the person that is selling it is willing to part with it for.
+
+The other method of checking items is using the 'approve checkout <id>'
+and 'approve checkin <object>' commands.  These allow an object to be
+taken out of the approval list and checked over without actually buying
+the object.  If you loose the object in some way after you have checked it
+out (burying it or whatever) then the person who sold the item will be
+credited with the money for actually selling it to the shop.  So be
+careful not to destroy the object.  Once you have finished examining it
+you can check it back in for approval/rejection.
+.EP
+
+.SH Examples
+.SI 5
+> approve list
+Aa) Pinkfish's frog frog for A$4 in Frog Wares (1 object).
+> approve browse aa
+Frog:
+Small and green with lots of little toes.
+There is nothing written on the frog.
+> approve reject aa
+Sending: Pinkfish
+You reject the frog.
+> approve item aa
+You approve the frog into Frog Wares.
+> approve checkout aa
+You checkout the frog.
+> approve checkin frog
+You checkin the frog.
+.EI

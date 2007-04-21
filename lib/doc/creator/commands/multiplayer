@@ -1,0 +1,89 @@
+.DT
+multiplayer
+Discworld creator help
+multiplayer
+
+.SH Name
+.SI 5
+multipl[ayer] - Handle the multiplayer information database.
+.EI
+
+.SH Syntax
+.SI 5
+multiplayer del git <player-name>
+multiplayer del allowed <player-name>
+multiplayer add git <player-name>
+multiplayer add allowed <player-name> <other player-name>
+multiplayer log <name> [<log text>]
+multiplayer [list] [allow]
+multiplayer allow site <site>
+.EI
+
+.SH Description
+.SP 5 5
+The multiplayer command is used to manipulate and/or list the database for
+multiplayers.  This database contains 2 things, the list of players that are
+known multiplayers and the list of players that are known to be on a shared
+network server and are allowed to be on from the same IP number.  If they are on
+the first list, automatic playerinfo "multiplay" event entries will be added by
+the multiplayer handler when they are multiplaying and "multiplayer" type
+informs occur as well.  They will also show up in the netdups listing as "not
+allowed".
+If a player is on the second list, the netdups listing shows them as being
+allowed.
+
+A player pair is added to the allowed list with the "add allowed" command.
+This will stop informs from showing up if they log on from the same IP address,
+and will also remove both names from the 'Not allowed with' field in the
+netdups command.  It will also add an entry to their playerinfo.  Note that the
+info is updated for both players, so you don't need to add "bing" and "frog" if
+you already added "frog" and "bing".
+
+A not allowed player is added to the multiplayer list (i.e. the not allowed
+list) with the "add git" command.
+
+A player can be removed from the allowed list with the "del allowed" command,
+from the gits list with the "del git" command.
+
+The "log" command can be used to to mark automatically generated "multiplay"
+events in the playerinfo database as "handled".  If you don't give a log
+message, a default text is entered.
+
+The "allow site" command allows you to permit multipleusers to login
+from a site for a short period.  This can be used to chart people who
+claim to be separate but who are not yet allowed together. The
+adddress parameter is the IP address (found with netstat).
+
+Finally, the "list" command lists the currently known multiplayers. By
+appending "allow" to the command the list of allowed multiplayers is shown.
+The same happens with just the "allow" argument.
+If no argument is given, the currently known multiplayers are listed.
+.EP
+
+.SH Examples
+.SI 5
+> multiplayer
+> multiplayer list
+The list currently consists of:
+     Badgit1 and Badgit2
+
+> multiplayer allow
+> multiplayer list allow
+The list currently consists of:
+     Turrican and Wodan
+
+> multiplayer add git sadgit
+"sadgit" added.
+
+> multiplayer add allowed niceperson okayperson
+"niceperson" added.
+
+> multiplayer log sadgit I talked to the guy, he said he wouldn't do it again.
+Marked "multiplay" playerinfo events for "sadgit" as "I talked to the guy, he
+said he wouldn't do it again.".
+.EI
+
+.SH See also
+.SI 5
+playerinfo, netdups, inform
+.EI

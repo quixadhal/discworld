@@ -1,0 +1,81 @@
+.DT
+finderror_helper
+Discworld Creator help
+finderror_helper
+
+Name
+.SI 5
+/obj/handlers/finderror_helper.c - Helper for finderrors
+.EI
+
+Description
+
+.SP 5 5
+This handler keeps track of the directories selected for the finderrors
+command.
+.EP
+
+Functions
+
+.SI 5
+string get_next_dir( string name )
+.EI
+.SP 10 5
+Get the next directory with an ERROR_REPORTS file in the list for name.
+.EP
+  
+.SI 5
+int add_dir( string name, string dir, int recursive )
+.EI
+.SP 10 5
+Add directory dir to the list of directories to be checked by name, add
+all subdirs as well if recursive is true.
+.EP
+  
+.SI 5
+string *query_dirs( string name )
+.EI
+.SP 10 5
+Return the list of directories to be checked.
+.EP
+  
+.SI 5
+int remove_dir( string name, string dir, int recursive )
+.EI
+.SP 10 5
+Remove directory dir to the list of directories to be checked by name,
+remove all subdirs as well if recursive is true.
+.EP
+
+Support functions
+
+.SI 5
+int get_data_file( string name )
+.EI
+.SP 10 5
+Read the saved list from the save file or if it doesn't exist,
+initialize to an empty list.
+.EP
+ 
+.SI 5
+void save_data_file( string name )
+.EI
+.SP 10 5
+Save the list of directories.
+.EP
+ 
+.SI 5
+void init_data( string name )
+.EI
+.SP 10 5
+Initialize the data if no savefile is present.  Word is the name of the
+creator.
+.EP
+
+.SI 5
+void recursive_add_dir( string name, string dir )
+.EI
+.SP 10 5
+Help function for add_dir when done recursively.
+.EP
+  

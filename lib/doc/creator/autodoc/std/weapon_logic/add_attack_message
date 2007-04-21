@@ -1,0 +1,59 @@
+.DT
+add_attack_message
+DW_wibble creator help
+add_attack_message
+
+.SH Name
+.SP 5 5
+add_attack_message -  This method adds a special attack message set onto the weapon.
+.EP
+
+.SH Syntax
+.SI 5
+void add_attack_message(string name,
+                        string type,
+                        string * data)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the attack (0 for none)
+%^BOLD%^type%^RESET%^ - the type of attack
+%^BOLD%^data%^RESET%^ - the attack data
+.EI
+
+.SH Defined in
+.SI 5
+/std/weapon_logic.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a special attack message set onto the weapon.  The type
+and name are around this way to correspond
+to the parameters to add_attack.
+.EP
+
+.SH Example 1
+.SI 5
+inherit "/obj/weapon";
+
+void setup() {
+  ...
+  add_attack_message("gumboot", "blunt", ({
+    0, "$N gumboot$s at $I with $D",
+   20, "$N lightly gumboot$s $I in the $z with $D",
+   60, "$N gumboot$s $I in the $z with $D",
+ 5000, "$N heavily gumboot$s $I in the $z with $D" }));
+  ...
+} /* setup() */
+
+.EI
+
+.SH See also
+.SP 5 5
+/obj/handlers/attack_messages
+, query_special_message()
+.EP
+

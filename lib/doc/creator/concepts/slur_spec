@@ -1,0 +1,72 @@
+.DT
+slur_spec
+Discworld creator help
+slur_spec
+
+.SH Summary
+.SP 5 5
+This help file will lay down some of the "rules" for how SLUR is supposed to work.  Life will be so much nicer when we play the game by same rules.
+
+First, some terminology.  A "function" is written in LPC.  A "directive" is a name the interpretor recognizes as a way to handle the rest of the items in a list.  A "list" is otherwise known as an array, where each item in the list is another list or a constant or a macro.
+.EP
+.SH Commandment I
+.SP 5 5
+"All things shall be of the same form when given to the interpretor."
+
+You pass to the interpretor either a list or a constant or a macro.  (A macro is simply a quicker way to do some simple tasks.  They are all absolutely equivalent to a appropriately formatted list and they are predefined in the interpretor.  Hands off.)  This falls down to three possibilities of response from the
+interpretor:
+
+1) Constant: A string, a number, a mapping, what-have-you.  The interpretor takes one look at it and gives it right back to you.
+
+2) A list with a valid directive name as the first element: The interpretor looks up what function to call which is associated with the directive name, and passes all the rest of the items in the list to that function, then returns the return value of the function.
+
+3) A list without a valid directive name as the first element: the interpretor calls itself on each item in the list in turn and returns the value of the last element.
+.EP
+.SH Commandment II
+.SP 5 5
+"The interpretor is thy interpretor, and though shalt not muck about with directives without its intercession."
+
+The interpretor does a lot of things to keep life sane, such as manage the scope of variables, keep the flow of control straight and keep an ever vigilant eye out for abort messages.  Never, ever call a directive's function directly from code unless you thoroughly grok the interpretor and have replicated all the necessary functionality in your code.  This is a sensely replication of effort, and leads to the next commandment.
+.EP
+.SH Commandment III
+.SP 5 5
+"Thy code shall not depend upon a specific implementation; thy code shall rely on standards and specifications lest you be smacked upside the head with the hefty halibut of Re-implementation."
+
+If someone feels like totally recoding the interpretor one day to make it more efficient, or smaller, or faster, so long as it looks the same from the outside, gods be with them.  I will not be the first to say that the interpretor or the directives is the most efficient thing in the world and I certainly won't say it's bullet proof.  On the other hand, the specification for any directive or function within the SLUR interpretor is gospel.
+.EP
+.SH Commandment IV
+.SP 5 5
+"Thou shalt announce thy new directives to the interpretor upon creation of the object which contains them in order that they might be seen, called upon, and otherwise given their share of the load."
+
+Each object which inherits a SLUR interpretor is stand alone; each has its own set of memory with which to hold its own variables, pointers to call_outs, and list of directives.  When the object is cloned, all the directives that the interpretor in that object shall have access to must be registered with the interpretor.  Registering a directive with the interpretor at some time after cloning is quite dangerous.  Registering a directive whose function is in another object is doubly dangerous unless the second object can be loaded at a whim by the interpretor.
+.EP
+.SH Commandment V
+.SP 5 5
+"Thy custom directives' functions shall adhere to the standards of calling and the standards of aborting, and the form of their interface."
+
+All functions that are called as directives must have the same interface to that the interpretor can handle them on a general basis.  This being so, each function must handle its own error checking of the arguments.  If an error is found, the function must then adhere to the conventions for bringing everything to a grinding halt, and also pass on without modification any abort signals it receives from the functions it has called to the function that called it.
+
+Additionally, while the first call to interpret from the object can be done without pre-setting a scope for the interpretor to work in, the interpretor sets up a scope at the beginning of that first call, and therefore the variable used to tell directives what scopes are legal for them to look at MUST be passed along.  Otherwise, the interpretor will try to set up a new scope for every call made to it without a scope specified.  This is likely to piss off someone.
+.EP
+.SH Commandment VI
+.SP 5 5
+"Everything shall check the information passed to it and the information returned to it."
+
+This is done because an abort flag needs to be passed back to the first calling of the interpretor as quickly and efficiently as possible.  What this means is that when something in the script has a problem it can't handle, it should immediately return an abort message to its caller.  That function should immediately check the returned value and, seeing that it is a abort message, return it unmodified to ITS caller, and so on ad nauseum.  Eventually this will come back to the LPC code that called the interpretor in the first place.  This should check to see if the abort message is a good one IE one it expected that says everything went well.  If it does not recognize the abort message as something pre-ordaned, it should immediately generate a run-time error that includes the error from the script.
+.EP
+.SH Commandment VII
+.SP 5 5
+"Thou shalt clean up thy mess."
+
+This is mostly a convention applicable to writing scripts.  A moderately complicated script may use SIGNALs, DELAYs, and likely preset a scope.  If the script and the code that called it do not clean up after themselves, the interpretor will start hogging all sorts of memory to keep tack of a bit of script waiting for a SIGNAL that isn't coming anymore.  Therefore, every script should have a cleanup-type SIGNALed hunk of script whose only function is to go back and clean out all the extraneous SIGNALs, wipe clean the DELAYs, then return a value to the code that called it that says "clean up whatever you did" (I recommend you clean up no matter what value is returned.)
+.EP
+.SH Commandment VIII
+.SP 5 5
+"Thou shalt give praise to Jeremy, for his data handler hath saved your butt."
+
+It is highly recommended that you never hard code a script into your working code; that sorta defeats the purpose.  Rather, have the object use Jeremy's data handler to load up a file that will generate the appropriate nested array that the interpretor likes.  Do this every time you want to run the script.  Sure there is some overhead involved in this, but it is far better than keeping the script is memory for the entire time and it allows you to update the scripts without having to track down every object that contains that script and update it.
+.EP
+.SH Thou shalt See Also:
+.SI 5
+slur, and all the help files it indicates
+.EI

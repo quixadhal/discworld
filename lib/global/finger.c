@@ -1,436 +1,452 @@
-string password, email;
-static string tmp_password;
-string real_name, birth_day, desc, where;
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: finger.c,v 1.14 2003/07/16 18:21:53 pinkfish Exp $
+ * $Log: finger.c,v $
+ * Revision 1.14  2003/07/16 18:21:53  pinkfish
+ * Make $NEW_LINE$ force a new line in a desc.
+ *
+ * Revision 1.13  2003/07/13 09:50:24  pinkfish
+ * Fix up the email querying for the options command.
+ *
+ * Revision 1.12  2003/04/03 19:12:49  ceres
+ * Fixed to handle ramdisk
+ *
+ * Revision 1.11  2003/03/19 21:35:09  ceres
+ * Allowed /secure/nlogin to alter the password
+ *
+ * Revision 1.10  2003/03/01 21:18:33  pinkfish
+ * Put in only one space.
+ *
+ * Revision 1.9  2003/02/21 02:10:24  pinkfish
+ * Add in stuff to allow zone based descriptions.
+ *
+ * Revision 1.8  2001/12/28 02:35:13  presto
+ * When clearing the description, remove the mapping entry.  Also, if
+ * player_info["desc"] is undefined, return "" for the description
+ *
+ * Revision 1.7  2001/12/17 02:13:32  presto
+ * Add a RESET to the end of the description in query_desc()
+ *
+ * Revision 1.6  2001/03/12 01:36:40  ceres
+ * Protected email addresses.
+ * &&
+ *
+ * Revision 1.5  2000/06/26 23:14:44  ceres
+ * Made password require 6 char passwords
+ *
+ * Revision 1.4  1999/08/30 01:15:31  pinkfish
+ * Modify a few things and make the birthday use the UNKNOWN_BIRTHDAY
+ * define.
+ *
+ * Revision 1.3  1999/08/30 00:58:39  ceres
+ *  Forcibly unlocked by pinkfish
+ *
+ * Revision 1.2  1998/04/13 12:17:00  pinkfish
+ * Adding documentaion and making the code a bit neater.
+ *
+ * Revision 1.1  1998/01/06 04:54:05  ceres
+ * Initial revision
+ * 
+ */
 
+/**
+ * This file contains all of the information related to a player,
+ * their password, real name, birthday, location etc.
+ * @author Pinkfish
+ */
+#include <player.h>
+#include <mail.h>
+#include <clothing.h>
+
+private mapping player_info;
+
+private string password;
+private nosave string tmppassword;
+
+string query_name();
+private int change_password();
+private int change_password2(mixed pass);
+private int change_password3(string pass);
+private int change_password4(string pass);
+int add_command(string command, object ob, mixed format, function func);
+
+/**
+ * The commands related to the fingering of a player.
+ * Just the change password command at the moment.
+ */
 void finger_commands() {
-  add_action("chfn", "chfn");
-  add_action("set_email","email");
-  add_action("finger","finger");
-  add_action("describe","describe");
-  add_action("change_password","password");
-  add_action("change_password","passwd");
-  add_action("do_who", "who");
-  add_action("do_whoami", "whoami");
+   add_command("password", this_object(), "", (: change_password() :));
+   add_command("passwd", this_object(), "", (: change_password() :));
 } /* finger_commands() */
 
-string who_line(object ob, int cre, int width, int force) {
-  string s, tmp, nam;
-
-  if (!(tmp = (string)ob->short()))
-    if (!force)
-      return 0;
-    else
-      tmp = (string)ob->query_cap_name();
-  s = "";
-  nam = tmp;
-  if (cre)
-    if ((tmp = (string)ob->query_in_editor()))
-      s += " (Editing: "+tmp+")";
-  if (ob->query_property("guest"))
-    s += " guest of Discworld";
-  else if (tmp = (string)ob->query_gtitle())
-    s += " " + tmp;
-  else
-    s += " the adventurer";
-  if (tmp = (string)ob->query_title())
-    s += ", " + tmp;
-  if (tmp = (string)ob->query_atitle())
-    s += " (" + tmp + ")";
-  if (query_idle(ob) > 120)
-    s += " (Idle: " + (query_idle(ob)/60) + ")";
-  return sprintf(nam+"%*-=s", width - strlen(nam), s)+"%^RESET%^\n";
-} /* who_line() */
-
-string who_string(int width, int cre) {
-  object *arr;
-  int i;
-  int number;
-  string s, tmp, nam, prt;
-
-  arr = users();
-  s = "";
-
-  prt = sprintf("%|*'-'s\n", width, "==========]  Discworld  [===========");
-  prt += sprintf("%|*s\n%*'-'s\n", width, ctime(time()), width, "");
-
-  for (i=0;i<sizeof(arr);i++) {
-    tmp = who_line(arr[i], cre, width, 0);
-    if (!tmp) continue;
-    prt += tmp;
-    if (!arr[i]->query_hidden())
-      number++;
-  }
-  if(number < 2)
-     tmp = "> You are all alone on the Discworld. <";
-  else
-     tmp = "> There are " + query_num(number, 100) +
-        " mudders on the Discworld. <";
-  prt += sprintf("%*'-'|s\n", width, tmp);
-  return prt;
-} /* who_string() */
-
-int do_who() {
-  efun::tell_object(this_player(),
- (string)this_object()->fix_string(who_string((int)this_object()->query_cols(),
-                                       (int)this_object()->query_creator())));
-  return 1;
-} /* do_who() */
-
-
-int do_whoami() {
-  efun::tell_object(this_player(),
-  (string)this_object()->fix_string(who_line(this_object(),
-      (int)this_object()->query_cols(), (int)this_object()->query_creator(),
-       1)));
-} /* do_whoami() */
-
-int finger(string str) {
-  string ret;
-
-  if (!str) {
-    object *obs;
-    string type;
-    int i;
-
-    obs = users();
-/*
-    obs = (object *)this_object()->get_people(str);
-    if (!sizeof(obs)) {
-      notify_fail("Sorry no one logged on matches "+str+".\n");
-      return 0;
-    }
-*/
-    write(sprintf("%-12.12s    %-20.20s %-20.20s %-20.20s\n",
-                  "Name", "Real name", "Where", "Birthday"));
-    for (i=0;i<sizeof(obs);i++) {
-      string euid;
-
-      if (obs[i]->query_invis() && !this_object()->query_creator())
-        continue;
-      if ((int)obs[i]->query_invis() == 2 && !this_object()->query_lord())
-        continue;
-      type = (obs[i]->query_earmuffs() ? "e" : " ");
-      euid = geteuid(obs[i]);
-      type += obs[i]->query_object_type();
-/* above changed to use query_object_type by ember 16-feb-93 ... does
-   query_object_type get the 'X' as well? */
-/*
-      else if ("/secure/master"->god(euid)) type += "G";
-      else if ("/secure/master"->high_programmer(euid)) type += "H";
-      else if ("/secure/master"->query_lord(euid)) type += "L";
-      else if ("/d/independent/master"->query_member(euid)) type += "I";
-      else if (obs[i]->query_creator()) type += "C";
-      else if (obs[i]->query_app_creator()) type += "A";
-      else type += " ";
+/**
+ * This method sets the description of the player.  The
+ * description is the little bit of text seen in the long.
+ * @param str the new description of the player
+ * @see query_desc()
  */
-      printf("%-12.12s %2.2s %-20.20s %-20.20s %-20.20s\n",
-      (obs[i]->query_invis()?"("+obs[i]->query_name()+")":(string)obs[i]->query_name()),
-                    type,
-                    ((ret = (string)obs[i]->query_real_name())?ret:"-"),
-                    ((ret = (string)obs[i]->query_where())?ret:"-"),
-                    ((ret = (string)obs[i]->query_birthday())?ret:"-"));
-    }
-    return 1;
-  } else if(ret = (string)"/secure/finger"->finger_info(str)) {
-    write(ret);
-    return 1;
-  } else {
-    notify_fail("No one going by the name of " + str + " has ever visited " +
-      "Discworld.\n");
-    return 0;
-  }
-} /* finger() */
- 
-nomask int set_email(string str) {
-    if (!str) {
-      write("You current email address is "+email+"\n");
-      write("To clear use \"email CLEAR\"\n");
-      write("For the email address to be only visible by lords prepend a :\n");
-      write("eg email :frog@frogcentral.froguni.swamp\n");
-      return 1;
-    }
-    if (str == "CLEAR")
-      email = "";
-    else
-      email = str;
-    if (email != "")
-      write("Email address set to "+str+".\n");
-    else
-      write("Email address is null.\n");
-    return 1;
-} /* set_email() */
+void set_desc(string str) {
+   if (!player_info) {
+      player_info = ([ ]);
+   }
+   if (!str) {
+      map_delete(player_info, "desc");
+   } else {
+      player_info["desc"] = str;
+   }
+}
 
-void set_desc(string str) { desc = str; }
-string query_desc() { return desc; }
+/**
+ * This method returns the current description of the player.
+ * @see set_desc()
+ * @return the current description
+ */
+string query_desc() {
+   if (!player_info  ||  undefinedp(player_info["desc"])) {
+      return "";
+   }
+   return player_info["desc"] + "%^RESET%^";
+} /* query_desc() */
 
-int describe(string arg) {
-  if (!arg) {
-    if(desc)
-      notify_fail("Usage: describe <string>\n"+
-                  "       describe clear\n"+
-                  "description reads : "+this_object()->query_cap_name()+" "+desc+"\n");
-    else
-      notify_fail("Usage: describe <string>\n"+
-                  "       describe clear\n"+
-                  "no description set.\n");
-    return 0;
-  }
-  if(arg == "clear") {
-    desc = 0;
-    write("Description cleared.\n");
-    return 1;
-  }
-  set_desc(arg);
-  write("Ok.\n");
-  return 1;
-} /* describe() */
+/**
+ * This method sets the description for the specific area of the body.
+ * @param zone the zone to set the description for
+ * @param desc the description for that zone
+ */
+void set_zone_desc(string zone, string desc) {
+   if (!player_info["zone desc"]) {
+      player_info["zone desc"] = ([ ]);
+   }
+   if (!desc) {
+      map_delete(player_info["zone desc"], zone);
+   } else {
+      player_info["zone desc"][zone] = desc;
+   }
+}
 
+/**
+ * This method returns the zone description for the specified zone.
+ * @param zone the zone to get the description for
+ * @return the zone description
+ */
+string query_zone_desc(string zone) {
+   if (!player_info["zone desc"]) {
+      return 0;
+   }
+   return player_info["zone desc"][zone];
+}
+
+/**
+ * This method returns all the zones there are currently descriptions for.
+ * @return the zones there are descriptions for
+ */
+string* query_zone_desc_names() {
+   if (!player_info["zone desc"]) {
+      return ({ });
+   }
+   return keys(player_info["zone desc"]);
+}
+
+/**
+ * This method returns the main zone description to use in the
+ * long of the player.
+ * @return the main zone description
+ */
+string query_main_zone_desc(object* wearing) {
+   object bing;
+   string zone;
+   string type;
+   string eq_type;
+   string str;
+   mixed types;
+   mapping covered;
+
+   if (!sizeof(player_info["zone desc"])) {
+      return "";
+   }
+
+   covered = ([ ]);
+   foreach (bing in wearing) {
+      types = bing->query_type();
+      if (!arrayp(types)) {
+         types = ({ types });
+      }
+      foreach (type in types) {
+         eq_type = CLOTHING_HANDLER->query_equivilant_type(type);
+         if (eq_type) {
+            foreach (zone in CLOTHING_HANDLER->query_zone_names(eq_type)) {
+               covered[zone] = 1;
+            }
+         } else {
+            foreach (zone in CLOTHING_HANDLER->query_zone_names(type)) {
+               covered[zone] = 1;
+            }
+         }
+      }
+   }
+
+   str = "";
+   foreach (zone in query_zone_desc_names()) {
+      if (!covered[zone]) {
+         str += " " + replace_string(query_zone_desc(zone), "$NEW_LINE$", "\n");
+      }
+   }
+   return str;
+}
+
+/**
+ * This method changes the password of the player.  It can only
+ * be called by the login object at startup.
+ * @param pass the new password
+ */
 void set_password(string pass) {
-  int i;
-  if (sscanf(file_name(previous_object()), "/secure/login#%d", i))
-    password = pass;
+   if (file_name(previous_object())[0..12] == "/secure/login" ||
+       file_name(previous_object())[0..13] == "/secure/nlogin") {
+      password = pass;
+   }
 } /* set_password() */
 
-int change_password2(mixed pass);
-
-static int change_password() {
-  if (password) {
-    write("Please enter your old password : ");
-    input_to("change_password2",1);
-    return 1;
-  }
-  change_password2(0);
-  return 1;
+/**
+ * This method is called when the password is attempted to be changed.
+ * @return 1 if successful, 0 on failure
+ */
+private int change_password() {
+   if (password) {
+      write("Please enter your old password : ");
+      input_to((: change_password2 :),1);
+      return 1;
+   }
+   change_password2(0);
+   return 1;
 } /* change_password() */
 
-static int change_password2(mixed pass) {
-  string str;
-  if (password) {
-    str = crypt(pass,password);
-    if (str != password) {
-      write("\nIncorrect.\n");
-      return 1;
-    }
-  }
-  write("\nEnter new Password : ");
-  input_to("change_password3",1);
-  return 1;
+private int change_password2(mixed pass) {
+   string str;
+   
+   if (password) {
+      str = crypt(pass,password);
+      if (str != password) {
+         write("\nIncorrect.\n");
+         return 1;
+      }
+   }
+   write("\nEnter new Password : ");
+   input_to((: change_password3 :),1);
+   return 1;
 } /* change_password2() */
 
-static string tmppassword;
-
-static int change_password3(string pass) {
-  tmppassword = pass;
-  write("\nPlease enter again : ");
-  input_to("change_password4",1);
-  return 1;
+private int change_password3(string pass) {
+   tmppassword = pass;
+   if(sizeof(pass) < 6) {
+     write("\nPassword is too short, must be at least 6 characters.\n");
+     write("Enter new Password :");
+     input_to((: change_password3 :),1);
+     return 1;
+   }
+     
+   write("\nPlease enter again : ");
+   input_to((: change_password4 :),1);
+   return 1;
 } /* change_password3() */
 
-static int change_password4(string pass) {
-  if (tmppassword != pass) {
-    write("\nIncorrect.\n");
-    return 1;
-  }
-  password = crypt(pass,password);
-  write("\nOk.\n");
-  return 1;
+private int change_password4(string pass) {
+   if (tmppassword != pass) {
+      write("\nIncorrect.\n");
+      return 1;
+   }
+   password = crypt(pass,password);
+   write("\nOk.\n");
+   return 1;
 } /* change_password4() */
 
-string query_birthday();
-
-int chfn() {
-  write("Change finger information.\n");
-  write("Pressing return at the prompts will take the default.  The default "+
-        "is the option in []'s.\n");
-  write("What real name do you wish to use ["+real_name+"] ? ");
-  input_to("real_name");
-  return 1;
-} /* chfn() */
-
-int real_name(string str) {
-  if (str && str != "")
-    if (str == "none")
-      real_name = 0;
-    else
-      real_name = str;
-  if (real_name && real_name != "")
-    write("Ok real name set to "+real_name+".\n");
-  else
-    write("Real name cleared.\n");
-  write(
-"Enter your location (ie Perth, oz, whatever) ["+where+"]\n"+
-"(none for none) : ");
-  input_to("get_where");
-  return 1;
-} /* real_name() */
-
-int get_where(string str) {
-  if (str && str != "")
-    if (str == "none")
-      where = 0;
-    else
-      where = str;
-  if (where && where != "")
-    write("Ok location set to "+where+".\n");
-  else
-    write("Real name cleared.\n");
-  write("Enter your birthday (ddmm) ["+query_birthday()+
-        "] (none for none) : ");
-  input_to("birthday");
-  return 1;
-} /* get_where() */
-
-string convert_birthday(string str) {
-  /* we assume it is 4 characters long */
-
-  int day, month, tot;
-  string retval;
-
-  sscanf(str, "%d", tot);
-  day = tot / 100;
-  month = tot % 100;
-  switch(day) {
-    case 11:
-      retval = "11th"; break;
-    case 12:
-      retval = "12th"; break;
-    case 13:
-      retval = "13th"; break;
-    default:
-      switch(day%10) {
-        case 1:
-          retval = day+"st"; break;
-        case 2:
-          retval = day+"nd"; break;
-        case 3:
-          retval = day+"rd"; break;
-        default:
-          retval = day+"th";
-      }
-  }
-  retval += " of ";
-  switch(month) {
-    case 1:
-      return retval + "January";
-    case 2:
-      return retval + "February";
-    case 3:
-      return retval + "March";
-    case 4:
-      return retval + "April";
-    case 5:
-      return retval + "May";
-    case 6:
-      return retval + "June";
-    case 7:
-      return retval + "July";
-    case 8:
-      return retval + "August";
-    case 9:
-      return retval + "September";
-    case 10:
-      return retval + "October";
-    case 11:
-      return retval + "November";
-    case 12:
-      return retval + "December";
-  }
-  return retval;
-} /* convert_birthday() */
-
-int valid_birthday(string str) {
-#define LENGTHS ({ 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 })
-
-  int tot, month, day;
-
-  if(strlen(str) != 4) {
+/**
+ * Find out which IP addresses this user wants to be able to login from.
+ */
+string *query_rhosts() {
+  if(!player_info)
     return 0;
-  }
-  if(!sscanf(str, "%d", tot)) {
-    return 0;
-  }
-  month = tot % 100;
-  day = tot / 100;
-  if(month > 12 || month < 1) {
-    return 0;
-  }
-  if(day < 1) {
-    return 0;
-  }
-  return day <= LENGTHS[month];
-} /* valid_birthday() */
+  return player_info["allowed_ips"];
+}
 
+void set_rhosts(string *ips) {
+  if(file_name(previous_object())[0..18] != "/cmds/player/access" &&
+     file_name(previous_object())[0..19] != "/cmds/lord/authorise")
+    return ;
+  
+  if(!player_info)
+    player_info = ([ ]);
+  
+  player_info["allowed_ips"] = ips;
+}
+
+/**
+ * This will return the real name of the player.
+ * @return the real name of the player
+ * @see set_real_name()
+ */
+string query_real_name() {
+   if (!player_info) {
+      return 0;
+   }
+   return player_info["real_name"];
+} /* query_real_name() */
+
+/**
+ * This will set the real name of the player.
+ * @see query_name()
+ * @param str the new real name of the player
+ */
+void set_real_name(string str) {
+   if (!player_info) {
+      player_info = ([ ]);
+   }
+   player_info["real_name"] = str;
+} /* set_real_name() */
+
+/**
+ * This methoid returns the location of the player.  The location
+ * is the location in their funger infor, so like "Perth, oz, whatever".
+ * @return their currently set location
+ * @see set_where()
+ */   
+string query_where() {
+   if (!player_info) {
+      return "";
+   }
+   return player_info["location"];
+} /* query_where() */
+
+/**
+ * This method sets the currnet location of the player.
+ * @see query_location()
+ * @param str the new location
+ */
+void set_where(string str) {
+   if (!player_info) {
+      player_info = ([ ]);
+   }
+   player_info["location"] = str;
+} /* set_where() */
+
+/**
+ * This method returns the players birthday.  The birthday will be
+ * of the form "4th of july".
+ * @return the current birthday
+ * @see set_birthday()
+ * @see query_is_birthday_today()
+ */
 string query_birthday() {
-  if(birth_day) {
-    return birth_day;
-  }
-  return "Unknown";
+   if (!player_info) {
+      return UNKNOWN_BIRTHDAY;
+   }
+   if (!player_info["birthday"]) {
+      return UNKNOWN_BIRTHDAY;
+   }
+   
+   return player_info["birthday"];
 } /* query_birthday() */
 
-int set_birthday(string str)
-{ /* added so wizzes can set player's birthdays if they foul up */
-  if(valid_birthday(str)) {
-     birth_day = convert_birthday(str);
-     this_object()->save_me();
-     return 1;
-  }
-  return 0;
+/**
+ * This method sets the players current birthday.  The birthday
+ * needs to be of the form:  "4th of July".
+ * @param i the new birthday to set
+ * @see query_birthday()
+ * @see query_is_birthday_today()
+ */
+void set_birthday(string i) {
+   if (!player_info) {
+      player_info = ([]);
+   }
+   player_info["birthday"] = i;
 } /* set_birthday() */
 
-void birthday(string str) {
-  if (str == "") {
-    if (birth_day)
-      write("Birthday unchanged from "+query_birthday()+".\n");
-    else
-      write("Birthday left as blank.\n");
-  } else {
-    if(query_birthday() != "Unknown") {
-      write("You can't change when you were born! Please ask a Creator or " +
-        "a Lord to change it if you made an error.\n");
-    } else if(!valid_birthday(str)) {
-        write("Invalid Birthday.  Birthday cleared.\n");
-        birth_day = 0;
-    } else {
-      birth_day = convert_birthday(str);
-      write("Birthday set to " + query_birthday() + ".\n");
-      this_object()->birthday_gifts();
-    }
-  }
-  this_object()->save_me();
-  write("What email address do you wish to use.  Set to none to clear.\n");
-  write("Putting a : in front of it means that only the creators and lords "+
-        "can read it.\n");
-  write("["+email+"] : ");
-  input_to("get_email");
-} /* birthday() */
-
-void get_email(string str) {
-  if (str == "")
-    if (!email || email == "")
-      write("Email address left blank.\n");
-    else
-      write("Email address left as "+email+".\n");
-  else if (str == "none") {
-    email = 0;
-    write("Email address cleared.\n");
-  } else {
-    email = str;
-    write("Email address set to "+email+".\n");
-  }
-  this_object()->save_me();
-} /* get_email() */
-
+/**
+ * This method checks to see if it is currently the players birthday.
+ * @return 1 if it is their birthday, 0 if not
+ * @see set_birthday()
+ * @see query_birthday()
+ */
 int query_is_birthday_today() {
-    string cmonth, dummy, bmonth;
-    int cdate, bdate;
-
-    if(sscanf(ctime(time()), "%s %s %d %s", dummy, cmonth, cdate, dummy)!=4)
-        return 0; /* error in date */
-    if(sscanf(query_birthday(), "%d%s of %s", bdate, dummy, bmonth) !=3)
-        return 0; /* no bday set */
-    if(cmonth == bmonth[0..2] && cdate == bdate)
-        return 1;
+   string cmonth;
+   string dummy;
+   string bmonth;
+   int cdate;
+   int bdate;
+    
+   if (sscanf(ctime(time()), "%s %s %d %s", dummy, cmonth, cdate, dummy)!=4) {
+      return 0; /* error in date */
+   }
+   if (sscanf(query_birthday(), "%d%s of %s", bdate, dummy, bmonth) !=3) {
+      return 0; /* no bday set */
+   }
+   if (cmonth == bmonth[0..2] && cdate == bdate) {
+      return 1;
+   }
 } /* query_is_birthday_today() */
 
-string query_real_name() { return real_name; }
-string query_where() { return where; }
+/**
+ * This method returns the current email address of the player.
+ * @see set_email()
+ * @return the current email address
+ */
+string query_email() {
+  if(file_name(previous_object())[0..13] != "/secure/finger" &&
+     file_name(previous_object())[0..27] != "/obj/handlers/player_handler" &&
+     file_name(previous_object())[0..28] != "/obj/handlers/options_handler") {
+    return "";
+   }
+
+   if (!player_info) {
+      return "";
+   }
+   return player_info["email"];
+}
+/**
+ * This method sets the current email address of the player.
+ * @see query_email()
+ * @param str the new email address
+ */
+nomask void set_email(string str) {
+   if (!player_info) {
+      player_info = ([]);
+   }
+   player_info["email"] = str;
+} /* set_email() */
+
+/**
+ * This method queries the current homepage for the player.
+ * @see set_homepage()
+ * @return their homepage url
+ */
+string query_homepage() {
+   if (!player_info) {
+      player_info = ([ ]);
+   }
+   return player_info["homepage"];
+} /* query_homepage() */
+
+/**
+ * This method sets the players homepage.
+ * @see query_homepage()
+ * @param their homepage url
+ */
+nomask void set_homepage(string str) {
+   if (!player_info) {
+      player_info = ([]);
+   }
+   player_info["homepage"] = str;
+} /* set_homepage() */
+
+/**
+ * This method returns whether the player has set their finger info.
+ * @return 1 if they have their finger information set, 0 if not
+ */
+int finger_set() {
+   if (!player_info || 
+      player_info == ([ ]) || 
+      sizeof(keys(player_info)) == 1) {
+      return 0;
+   }
+   return 1;
+} /* finger_set() */

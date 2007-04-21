@@ -1,0 +1,49 @@
+.DT
+set_piece_substance
+DW_wibble creator help
+set_piece_substance
+
+.SH Name
+.SP 5 5
+set_piece_substance -  This sets a new description for what there are pieces of.
+.EP
+
+.SH Syntax
+.SI 5
+void set_piece_substance(string substance)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - The description of what the 'piece' is of.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets a new description for what there are pieces of.
+For example, if you want the short of the food before it
+is cut up to be 'bar of chocolate', without the piece
+substance being set, when it is cut up it will become
+'a piece of bar of chocolate'.  If you set this in enables
+you to change that unwieldly description to 'a piece of
+chocolate'.
+
+.EP
+
+.SH Example 1
+.SI 5
+set_piece_substance("goat cheese");
+
+.EI
+
+.SH See also
+.SP 5 5
+query_in_pieces(), set_piece_description(), set_piece_short(), set_piece_plural()
+.EP
+

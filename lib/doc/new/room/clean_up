@@ -1,0 +1,76 @@
+.DT
+clean_up
+Discworld room help
+clean_up
+
+Name
+.SI 5
+clean_up - Cleans up a room
+.EI
+
+Syntax
+.SI 5
+int clean_up(int parent)
+.EI
+
+Description
+.SP 5 5
+Normally you don't need to deal with this function since its already handled for you however sometimes your room may have special requirements as to when it should or should not be cleaned up
+.EP
+
+Examples
+.SI 5
+The most common scenario is probably a control room which never gets 
+visited but which shouldn't be unloaded, for example a CITYROOM.
+To prevent clean_up() just call set_keep_room_loaded() in the setup() 
+or create() function.
+
+A more complex scenario is when one room is responsible for, and 
+requires, another room. For example the shops and their storerooms. 
+The storeroom should be cleaned up when the shop is cleaned up but 
+must never be cleaned up without the shop being cleaned up.
+
+So, what you do is: In the storerooms setup() or create() function 
+call set_keep_room_loaded() so that it wont ever get cleaned up.
+
+Then in the shop you define dest_me() as follows:
+void dest_me() {
+  if(storeroom)
+    storeroom->dest_me();
+  ::dest_me();
+}
+
+Thus if and when the shop gets dested (via clean_up() or any other 
+mechanism) so does the storeroom, but the storeroom will never be 
+independantly cleaned up.
+
+The final scenario is when a room has special requirements as to when 
+it should, or should not get cleaned up.
+
+If the requirements are simple you can just override clean_up(). If 
+they're more complex you can override real_clean(). real_clean() is 
+called via a call_out() from clean_up() to spread the load of doing 
+the cleaning.
+
+Thus you might do something simple like:
+
+int clean_up(int parent) {
+  if(query_some_value())
+    return 1;
+  return ::clean_up(parent);
+}
+
+or something more complex such as:
+
+int real_clean() {
+  if(filter(all_inventory(this_object()),
+            (: $1->query_property("wibble") :) ) != ({ }))
+    return 1;
+  return ::real_clean();
+}
+.EI
+
+See also
+.SP 5 5
+efun::clean_up
+.EP

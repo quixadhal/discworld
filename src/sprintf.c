@@ -5,6 +5,7 @@
  * extensions (note that as no floating point exists, some parameters
  * have slightly different meaning or restrictions to "standard"
  * (s)printf.)  Implemented by Lynscar (Sean A Reith).
+ * 2/28/93: float support for MudOS added by jacques/blackthorn
  *
  * This version supports the following as modifiers:
  *  " "   pad positive integers with a space.
@@ -22,11 +23,11 @@
  *   n    specifies the field size, a '*' specifies to use the corresponding
  *        arg as the field size.  if n is prepended with a zero, then is padded
  *        zeros, else it is padded with spaces (or specified pad string).
- *  "."n  presision of n, simple strings truncate after this (if presision is
- *        greater than field size, then field size = presision), tables use
- *        presision to specify the number of columns (if presision not specified
+ *  "."n  precision of n, simple strings truncate after this (if precision is
+ *        greater than field size, then field size = precision), tables use
+ *        precision to specify the number of columns (if precision not specified
  *        then tables calculate a best fit), all other types ignore this.
- *  ":"n  n specifies the fs _and_ the presision, if n is prepended by a zero
+ *  ":"n  n specifies the fs _and_ the precision, if n is prepended by a zero
  *        then it is padded with zeros instead of spaces.
  *  "@"   the argument is an array.  the corresponding format_info (minus the
  *        "@") is applyed to each element of the array.
@@ -35,7 +36,7 @@
  *        size) and a pad string are specified, the one specified second
  *        overrules).  NOTE:  to include "'" in the pad string, you must
  *        use "\\'" (as the backslash has to be escaped past the
- *        interpreter), similarly, to include "\" requires "\\\\".
+ *        interpreter), similarly, to include "\\" requires "\\\\".
  * The following are the possible type specifiers.
  *  "%"   in which case no arguments are interpreted, and a "%" is inserted, and
  *        all modifiers are ignored.
@@ -43,63 +44,47 @@
  *  "s"   the argument is a string.
  *  "d"   the integer arg is printed in decimal.
  *  "i"   as d.
+ *  "f"   floating point value.
  *  "c"   the integer arg is to be printed as a character.
  *  "o"   the integer arg is printed in octal.
  *  "x"   the integer arg is printed in hex.
  *  "X"   the integer arg is printed in hex (in capitals).
  */
 
-#include <stdio.h>
-#include <string.h>
-#include <setjmp.h>
-#include <sys/types.h>
-
-#include "config.h"
-#include "lint.h"
-#include "lang.tab.h"
-#include "stdio.h"
-#include "interpret.h"
-#include "mapping.h"
-#include "object.h"
-#include "sent.h"
-#include "ignore.h"
-#include "exec.h"
-
-/*
- * If this #define is defined then error messages are returned,
- * otherwise error() is called (ie: A "wrongness in the fabric...")
- */
-#define RETURN_ERROR_MESSAGES
+#include "std.h"
+#include "sprintf.h"
+#include "efuns_incl.h"
+#include "simul_efun.h"
+#include "lex.h"
+#include "stralloc.h"
+#include "master.h"
 
 #if defined(F_SPRINTF) || defined(F_PRINTF)
 
-extern char *xalloc(), *string_copy();
-extern void free_svalue PROT((struct svalue *));
-
-extern struct object *current_object;
-
 typedef unsigned int format_info;
+
 /*
  * Format of format_info:
  *   00000000 0000xxxx : argument type:
- *				0000 : type not found yet;
- *				0001 : error type not found;
- *				0010 : percent sign, null argument;
- *				0011 : LPC datatype;
- *				0100 : string;
- *				1000 : integer;
- *				1001 : char;
- *				1010 : octal;
- *				1011 : hex;
- *				1100 : HEX;
+ *                              0000 : type not found yet;
+ *                              0001 : error type not found;
+ *                              0010 : percent sign, null argument;
+ *                              0011 : LPC datatype;
+ *                              0100 : string;
+ *                              1000 : integer;
+ *                              1001 : char;
+ *                              1010 : octal;
+ *                              1011 : hex;
+ *                              1100 : HEX;
+ *                              1101 : float;
  *   00000000 00xx0000 : justification:
- *				00 : right;
- *				01 : centre;
- *				10 : left;
+ *                              00 : right;
+ *                              01 : centre;
+ *                              10 : left;
  *   00000000 xx000000 : positive pad char:
- *				00 : none;
- *				01 : ' ';
- *				10 : '+';
+ *                              00 : none;
+ *                              01 : ' ';
+ *                              10 : '+';
  *   0000000x 00000000 : array mode?
  *   000000x0 00000000 : column mode?
  *   00000x00 00000000 : table mode?
@@ -115,6 +100,7 @@ typedef unsigned int format_info;
 #define INFO_T_OCT 0xA
 #define INFO_T_HEX 0xB
 #define INFO_T_C_HEX 0xC
+#define INFO_T_FLOAT 0xD
 
 #define INFO_J 0x30
 #define INFO_J_CENTRE 0x10
@@ -128,135 +114,220 @@ typedef unsigned int format_info;
 #define INFO_COLS 0x200
 #define INFO_TABLE 0x400
 
-#define BUFF_SIZE 10000
-
-#define ERROR(x) LONGJMP(error_jmp, x)
-#define ERR_BUFF_OVERFLOW	0x1	/* buffer overflowed */
-#define ERR_TO_FEW_ARGS		0x2	/* more arguments spec'ed than passed */
-#define ERR_INVALID_STAR	0x3	/* invalid arg to * */
-#define ERR_PRES_EXPECTED	0x4	/* expected presision not found */
-#define ERR_INVALID_FORMAT_STR	0x5	/* error in format string */
-#define ERR_INCORRECT_ARG_S	0x6	/* invalid arg to %s */
-#define ERR_CST_REQUIRES_FS	0x7	/* field size not given for c/t */
-#define ERR_BAD_INT_TYPE	0x8	/* bad integer type... */
-#define ERR_UNDEFINED_TYPE	0x9	/* undefined type found */
-#define ERR_QUOTE_EXPECTED	0xA	/* expected ' not found */
-#define ERR_UNEXPECTED_EOS	0xB	/* fs terminated unexpectedly */
-#define ERR_NULL_PS		0xC	/* pad string is null */
+#define ERR_BUFF_OVERFLOW       0x1     /* buffer overflowed */
+#define ERR_TOO_FEW_ARGS        0x2     /* more arguments spec'ed than passed */
+#define ERR_INVALID_STAR        0x3     /* invalid arg to * */
+#define ERR_PRES_EXPECTED       0x4     /* expected precision not found */
+#define ERR_INVALID_FORMAT_STR  0x5     /* error in format string */
+#define ERR_INCORRECT_ARG_S     0x6     /* invalid arg to %s */
+#define ERR_CST_REQUIRES_FS     0x7     /* field size not given for c/t */
+#define ERR_BAD_INT_TYPE        0x8     /* bad integer type... */
+#define ERR_UNDEFINED_TYPE      0x9     /* undefined type found */
+#define ERR_QUOTE_EXPECTED      0xA     /* expected ' not found */
+#define ERR_UNEXPECTED_EOS      0xB     /* fs terminated unexpectedly */
+#define ERR_NULL_PS             0xC     /* pad string is null */
 #define ERR_ARRAY_EXPECTED      0xD     /* Yep!  You guessed it. */
+#define ERR_RECOVERY_ONLY       0xE     /* err msg already done...just
+                                         * recover */
 
 #define ADD_CHAR(x) {\
-  buff[bpos] = x;\
-  if (startignore) \
-    if (buff[bpos++] == '^') \
-      inignore = !inignore; \
-    else \
-      curpos += 2*!inignore; \
-  else \
-    if (buff[bpos++] == '%') \
-      startignore = 1; \
-    else \
-      curpos += !inignore; \
-  if (bpos>BUFF_SIZE) ERROR(ERR_BUFF_OVERFLOW); \
+  if (sprintf_state->obuff.real_size == USHRT_MAX) ERROR(ERR_BUFF_OVERFLOW); \
+  outbuf_addchar(&(sprintf_state->obuff), x);\
 }
 
 #define GET_NEXT_ARG {\
-  if (++arg >= argc) ERROR(ERR_TO_FEW_ARGS); \
-  carg = (argv+arg);\
+  if (++sprintf_state->cur_arg >= argc) ERROR(ERR_TOO_FEW_ARGS); \
+  carg = (argv + sprintf_state->cur_arg);\
 }
 
-#define SAVE_CHAR(pointer) {\
-  savechars *new;\
-  new = (savechars *)XALLOC(sizeof(savechars));\
-  new->what = *(pointer);\
-  new->where = pointer;\
-  new->next = saves;\
-  saves = new;\
-}
+typedef struct {
+    const char *what;
+    int len;
+} pad_info_t;
 
-/*
- * list of characters to restore before exiting.
- */
-typedef struct SaveChars {
-  char what;
-  char *where;
-  struct SaveChars *next;
-} savechars;
+typedef struct {
+    const char *start;
+    const char *cur;
+} tab_data_t;
 
+/* slash here means 'or' */
 typedef struct ColumnSlashTable {
-  union CSTData {
-    char *col;			/* column data */
-    char **tab;			/* table data */
-  } d;				/* d == data */
-  unsigned short int nocols;	/* number of columns in table *sigh* */
-  char *pad;
-  unsigned int start;		/* starting cursor position */
-  unsigned int size;		/* column/table width */
-  int pres;			/* presision */
-  format_info info;		/* formatting data */
-  struct ColumnSlashTable *next;
-} cst;				/* Columns Slash Tables */
+    union CSTData {
+        const char *col;        /* column data */
+        tab_data_t *tab;        /* table data */
+    }       d;                  /* d == data */
+    unsigned short int nocols;  /* number of columns in table *sigh* */
+    pad_info_t *pad;
+    unsigned int start;         /* starting cursor position */
+    unsigned int size;          /* column/table width */
+    unsigned int remainder;     /* extra space needed to fill out to width */
+    int pres;                   /* precision */
+    format_info info;           /* formatting data */
+    struct ColumnSlashTable *next;
+}                cst;           /* Columns Slash Tables */
 
-static char buff[BUFF_SIZE];	/* buffer for returned string */
-unsigned int bpos;		/* position in buff */
-unsigned int curpos;		/* cursor position */
-unsigned int inignore;          /* are we not counting these characters */
-unsigned int startignore;       /* we found the first char... now for next */
-jmp_buf error_jmp;              /* LONGJMP() buffer for error catching */
+typedef struct _sprintf_state {
+    outbuffer_t             obuff;
+    cst                     *csts;
+    SIGNED int              cur_arg;
+    svalue_t                clean;
+    struct _sprintf_state   *next;
+} sprintf_state_t;
 
-/*
- * Probably should make this a #define...
+static sprintf_state_t  *sprintf_state = NULL;
+
+static void numadd (outbuffer_t *, long num);
+static void add_space (outbuffer_t *, int indent);
+static void add_justified (const char *str, int slen, pad_info_t *pad, int fs, format_info finfo, short int trailing);
+static int add_column (cst ** column, int trailing);
+static int add_table (cst ** table);
+
+#define ERROR(x) sprintf_error(x, 0)
+
+static void pop_sprintf_state (void) {
+    sprintf_state_t *state;
+
+    state = sprintf_state;
+    sprintf_state = sprintf_state->next;
+
+    if (state->obuff.buffer) {
+        FREE_MSTR(state->obuff.buffer);
+    }
+    while (state->csts) {
+        cst *next = state->csts->next;
+        if (!(state->csts->info & INFO_COLS) && state->csts->d.tab) {
+            FREE(state->csts->d.tab);
+        }
+        FREE(state->csts);
+        state->csts = next;
+    }
+    if (state->clean.type != T_NUMBER) {
+        free_svalue(&(state->clean), "pop_sprintf_state");
+    }
+
+    FREE(state);
+}
+
+static void push_sprintf_state (void) {
+    sprintf_state_t *state;
+
+    state = ALLOCATE(sprintf_state_t, TAG_TEMPORARY, "push_sprintf_state");
+    outbuf_zero(&(state->obuff));
+    state->csts = NULL;
+    state->cur_arg = -1;
+    state->clean.type = T_NUMBER;
+    state->clean.u.number = 0;
+    state->next = sprintf_state;
+    sprintf_state = state;
+}
+
+/* Signal an error.  Note that we call error, so this routine never returns.
+ * Anything that has been allocated should be somewhere it can be found and
+ * freed later.
  */
-void stradd(dst, size, add)
-  char **dst, *add;
-  int *size;
+static void sprintf_error (int which, char * premade) {
+    char lbuf[2048];
+    const char *err;
+    
+    switch (which) {
+    case ERR_BUFF_OVERFLOW:
+        err = "BUFF_SIZE overflowed...";
+        break;
+    case ERR_TOO_FEW_ARGS:
+        err = "More arguments specified than passed.";
+        break;
+    case ERR_INVALID_STAR:
+        err = "Incorrect argument type to *.";
+        break;
+    case ERR_PRES_EXPECTED:
+        err = "Expected precision not found.";
+        break;
+    case ERR_INVALID_FORMAT_STR:
+        err = "Error in format string.";
+        break;
+    case ERR_INCORRECT_ARG_S:
+        err = "Incorrect argument to type %%s.";
+        break;
+    case ERR_CST_REQUIRES_FS:
+        err = "Column/table mode requires a field size.";
+        break;
+    case ERR_BAD_INT_TYPE:
+        err = "!feature - bad integer type!";
+        break;
+    case ERR_UNDEFINED_TYPE:
+        err = "!feature - undefined type!";
+        break;
+    case ERR_QUOTE_EXPECTED:
+        err = "Quote expected in format string.";
+        break;
+    case ERR_UNEXPECTED_EOS:
+        err = "Unexpected end of format string.";
+        break;
+    case ERR_NULL_PS:
+        err = "Null pad string specified.";
+        break;
+    case ERR_ARRAY_EXPECTED:
+        err = "Array expected.";
+        break;
+    case ERR_RECOVERY_ONLY:
+        err = premade;
+        break;
+    default:
+        err = "undefined error in (s)printf!\n";
+        break;
+    }
+    sprintf(lbuf, "(s)printf(): %s (arg: %d)\n", err, sprintf_state->cur_arg);
+    error(lbuf);
+}
+
+static void numadd (outbuffer_t * outbuf, long num)
 {
-  int i;
+    long i, num_l,               /* length of num as a string */
+        nve;                    /* true if num negative */
+    int space;
+    int chop;
+    char *p;
 
-  if ((i = (strlen(*dst) + strlen(add))) >= *size) {
-    *size += i + 1;
-    *dst = REALLOC(*dst, *size);
-  }
-  strcat(*dst, add);
-} /* end of stradd() */
+    if (num < 0) {
+        /* Beek: yes, it's possible for num < 0, and num * -1 < 0. */
+        /* Beek: This shouldn't be a hardcoded const (assumes int is 4 bytes)*/
+        /* Wodan: indeed! */
+#if SIZEOF_LONG==4
+        num = (num * -1) & 0x7fffffff;
+#else
+	num = (num * -1) & 0x7fffffffffffffff;
+#endif
+        nve = 1;
+    } else
+        nve = 0;
+    for (i = num / 10, num_l = nve + 1; i; i /= 10, num_l++);
+    if ((space = outbuf_extend(outbuf, num_l))) {
+        chop = num_l - space;
+        while (chop--) 
+            num /= 10; /* lose that last digits that got chopped */
+        p = outbuf->buffer + outbuf->real_size;
+        outbuf->real_size += space;
+        p[space] = 0;
+        if (nve) {
+            *p++ = '-';
+            space--;
+        }
+        while (space--) {
+            p[space] = (num % 10) + '0';
+            num /= 10;
+        }
+    }
+}                               /* end of numadd() */
 
-void numadd(dst, size, num)
-  char **dst;
-  int *size, num;
+static void add_space (outbuffer_t * outbuf, int indent)
 {
-  int i,
-      num_l, /* length of num as a string */
-      nve;   /* true if num negative */
-
-  if (num < 0) { num *= -1; nve=1; } else nve=0;
-  for (i=num/10, num_l=nve+1; i; i /= 10, num_l++) ;
-  i = strlen(*dst); /* i = length ofconstructed string so far */
-  if ((i + num_l) >= *size) {
-    *size += i + num_l + 2;
-    *dst = REALLOC(*dst, *size);
-  }
-  (*dst)[i+num_l] = '\0';
-  if (nve) (*dst)[i] = '-'; else i--;
-  for (num_l-=nve; num_l; num_l--, num /= 10) (*dst)[i+num_l] = (num%10) + '0';
-} /* end of num_add() */
-
-/*
- * This is a function purely because stradd() is, to keep same param
- * passing...
- */
-void add_indent(dst, size, indent)
-  char **dst;
-  int *size, indent;
-{
-  int i;
-
-  i = strlen(*dst);
-  if ((i + indent) >= *size) {
-    *size += i + indent + 1;
-    *dst = REALLOC(*dst, *size);
-  }
-  for (;indent;indent--) (*dst)[i++] = ' ';
-  (*dst)[i] = '\0';
+    int l;
+    
+    if ((l = outbuf_extend(outbuf, indent))) {
+        memset(outbuf->buffer + outbuf->real_size, ' ', l);
+        *(outbuf->buffer + outbuf->real_size + l) = 0;
+        outbuf->real_size += l;
+    }
 }
 
 /*
@@ -264,122 +335,222 @@ void add_indent(dst, size, indent)
  * and returns a pointer to this string.
  * Scary number of parameters for a recursive function.
  */
-void svalue_to_string(obj, str, size, indent, trailing, indent2)
-  struct svalue *obj;
-  char **str;
-  int size, indent, trailing, indent2;
+void svalue_to_string (svalue_t * obj, outbuffer_t * outbuf, int indent, int trailing, int indent2)
 {
-  int i;
+    int i;
 
-  if (!indent2)
-    add_indent(str, &size, indent);
-  switch (obj->type) {
+    /* prevent an infinite recursion on self-referential structures */
+    if (indent > 20) {
+        outbuf_add(outbuf, "...");
+        return;
+    }
+    if (!indent2)
+        add_space(outbuf, indent);
+    switch ((obj->type & ~T_FREED)) {
     case T_INVALID:
-      stradd(str,&size,"T_INVALID");
-      break;
+        outbuf_add(outbuf, "T_INVALID");
+        break;
     case T_LVALUE:
-      stradd(str, &size, "lvalue: ");
-      svalue_to_string(obj->u.lvalue, str, size, indent+2, trailing);
-      break;
+        outbuf_add(outbuf, "lvalue: ");
+        svalue_to_string(obj->u.lvalue, outbuf, indent + 2, trailing, 0);
+        break;
+    case T_REF:
+        if(!obj->u.ref->lvalue)
+	    kill_ref(obj->u.ref);
+	else {
+	    outbuf_add(outbuf, "ref: ");
+	    svalue_to_string(obj->u.ref->lvalue, outbuf, indent + 2, trailing, 0);
+	}
+        break;
     case T_NUMBER:
-      numadd(str, &size, obj->u.number);
-      break;
+        numadd(outbuf, obj->u.number);
+        break;
+    case T_REAL:
+        outbuf_addv(outbuf, "%f", obj->u.real);
+        break;
     case T_STRING:
-      stradd(str, &size, "\"");
-      stradd(str, &size, obj->u.string);
-      stradd(str, &size, "\"");
-      break;
-    case T_POINTER:
-      if (!(obj->u.vec->size)) {
-        stradd(str, &size, "({ })");
-      } else {
-        stradd(str, &size, "({ /* sizeof() == ");
-        numadd(str, &size, obj->u.vec->size);
-        stradd(str, &size, " */\n");
-        for (i=0; i<(obj->u.vec->size)-1; i++)
-          svalue_to_string(&(obj->u.vec->item[i]), str, size, indent+2, 1, 0);
-        svalue_to_string(&(obj->u.vec->item[i]), str, size, indent+2, 0, 0);
-        stradd(str, &size, "\n");
-        add_indent(str, &size, indent);
-        stradd(str, &size, "})");
-      }
-      break;
-    case T_MAPPING:
-      if (!(obj->u.map->table_size)) {
-        stradd(str, &size, "([ ])");
-      } else {
-        stradd(str, &size, "([ /* sizeof() == ");
-        numadd(str, &str, obj->u.map->table_size);
-        stradd(str, &size, " */\n");
-        for (i=0; i < obj->u.map->table_size; i++) {
-          struct node *elm;
-
-          for (elm = obj->u.map->table[i]; elm; elm = elm->next) {
-            svalue_to_string(&(elm->values[0]), str, size, indent+2, 0, 0);
-            stradd(str, &size, " : ");
-            svalue_to_string(&(elm->values[1]), str, size, indent+4, 1, 1);
-          }
+        outbuf_add(outbuf, "\"");
+        outbuf_add(outbuf, obj->u.string);
+        outbuf_add(outbuf, "\"");
+        break;
+    case T_CLASS:
+        {
+            int n = obj->u.arr->size;
+            outbuf_add(outbuf, "CLASS( ");
+            numadd(outbuf, n);
+            outbuf_add(outbuf, n == 1 ? " element\n" : " elements\n");
+            for (i = 0; i < (obj->u.arr->size) - 1; i++)
+                svalue_to_string(&(obj->u.arr->item[i]), outbuf,
+                                 indent + 2, 1, 0);
+	    if(obj->u.arr->size)
+	      svalue_to_string(&(obj->u.arr->item[i]), outbuf, 
+			       indent + 2, 0, 0);
+            outbuf_add(outbuf, "\n");
+            add_space(outbuf, indent);
+            outbuf_add(outbuf, " )");
+            break;
         }
-        add_indent(str, &size, indent);
-        stradd(str, &size, "])");
-      }
-      break;
+    case T_ARRAY:
+        if (!(obj->u.arr->size)) {
+            outbuf_add(outbuf, "({ })");
+        } else {
+            outbuf_add(outbuf, "({ /* sizeof() == ");
+            numadd(outbuf, obj->u.arr->size);
+            outbuf_add(outbuf, " */\n");
+            for (i = 0; i < (obj->u.arr->size) - 1; i++)
+                svalue_to_string(&(obj->u.arr->item[i]), outbuf, indent + 2, 1, 0);
+            svalue_to_string(&(obj->u.arr->item[i]), outbuf, indent + 2, 0, 0);
+            outbuf_add(outbuf, "\n");
+            add_space(outbuf, indent);
+            outbuf_add(outbuf, "})");
+        }
+        break;
+#ifndef NO_BUFFER_TYPE
+    case T_BUFFER:
+        outbuf_add(outbuf, "<buffer>");
+        break;
+#endif
+    case T_FUNCTION:
+        {
+            svalue_t tmp;
+            object_t *ob;
+            tmp.type = T_ARRAY;
+
+            outbuf_add(outbuf, "(: ");
+            switch (obj->u.fp->hdr.type) {
+            case FP_LOCAL | FP_NOT_BINDABLE:
+                ob = obj->u.fp->hdr.owner;
+                if (!ob || ob->flags & O_DESTRUCTED) {
+                    outbuf_add(outbuf, "0");
+                    break;
+                }
+                outbuf_add(outbuf, function_name(ob->prog,
+                                                 obj->u.fp->f.local.index));
+                break;
+            case FP_SIMUL:
+                outbuf_add(outbuf, simuls[obj->u.fp->f.simul.index].func->funcname);
+                break;
+            case FP_FUNCTIONAL:
+            case FP_FUNCTIONAL | FP_NOT_BINDABLE:
+                {
+                    char buf[10];
+                    int n = obj->u.fp->f.functional.num_arg;
+                    
+                    outbuf_add(outbuf, "<code>(");
+                    for (i=1; i < n; i++) {
+                        sprintf(buf, "$%i, ", i);
+                        outbuf_add(outbuf, buf);
+                    }
+                    if (n) {
+                        sprintf(buf, "$%i", n);
+                        outbuf_add(outbuf, buf);
+                    }
+                    outbuf_add(outbuf, ")");
+                    break;
+                }
+            case FP_EFUN:
+                {
+                    int i;
+                    i = obj->u.fp->f.efun.index;
+                    outbuf_add(outbuf, query_instr_name(i));
+                    break;
+                }
+            }
+            if (obj->u.fp->hdr.args) {
+                for (i=0; i<obj->u.fp->hdr.args->size; i++) {
+                    outbuf_add(outbuf, ", ");
+                    svalue_to_string(&(obj->u.fp->hdr.args->item[i]), outbuf, indent, 0, 0);
+                }
+            } 
+        }
+        outbuf_add(outbuf, " :)");
+        break;
+    case T_MAPPING:
+        if (!(obj->u.map->count)) {
+            outbuf_add(outbuf, "([ ])");
+        } else {
+            outbuf_add(outbuf, "([ /* sizeof() == ");
+            numadd(outbuf, obj->u.map->count);
+            outbuf_add(outbuf, " */\n");
+            for (i = 0; i <= (int) (obj->u.map->table_size); i++) {
+                mapping_node_t *elm;
+
+                for (elm = obj->u.map->table[i]; elm; elm = elm->next) {
+                    svalue_to_string(&(elm->values[0]), outbuf, indent + 2, 0, 0);
+                    outbuf_add(outbuf, " : ");
+                    svalue_to_string(&(elm->values[1]), outbuf, indent + 4, 1, 1);
+                }
+            }
+            add_space(outbuf, indent);
+            outbuf_add(outbuf, "])");
+        }
+        break;
     case T_OBJECT:
-    {
-      struct svalue *temp;
+        {
+            svalue_t *temp;
 
-      stradd(str, &size, obj->u.ob->name);
-      push_object(obj->u.ob);
-      temp = apply_master_ob("object_name", 1);
-      if (temp && (temp->type == T_STRING)) {
-        stradd(str, &size, " (\"");
-        stradd(str, &size, temp->u.string);
-        stradd(str, &size, "\")");
-      }
-      /*
-       * These flags aren't that useful...
-       *
-      if (obj->u.ob->flags & O_HEART_BEAT) stradd(str,&size," (hb)");
-      if (obj->u.ob->flags & O_IS_WIZARD) stradd(str,&size," (wiz)");
-      if (obj->u.ob->flags & O_ENABLE_COMMANDS) stradd(str,&size," (enabled)");
-      if (obj->u.ob->flags & O_CLONE) stradd(str,&size," (clone)");
-      if (obj->u.ob->flags & O_DESTRUCTED) stradd(str,&size," (destructed)");
-      if (obj->u.ob->flags & O_SWAPPED) stradd(str,&size," (swapped)");
-      if (obj->u.ob->flags & O_ONCE_INTERACTIVE) stradd(str,&size," (x-activ)");
-      if (obj->u.ob->flags & O_APPROVED) stradd(str,&size," (ok)");
-      if (obj->u.ob->flags & O_RESET_STATE) stradd(str,&size," (reset)");
-      if (obj->u.ob->flags & O_WILL_CLEAN_UP) stradd(str,&size," (clean up)");
-       */
-      break;
-    }
+            if (obj->u.ob->flags & O_DESTRUCTED) {
+                numadd(outbuf, 0);
+                break;
+            }
+
+            outbuf_addchar(outbuf, '/');
+            outbuf_add(outbuf, obj->u.ob->obname);
+
+            if (!max_eval_error && !too_deep_error) {
+                push_object(obj->u.ob);
+                temp = safe_apply_master_ob(APPLY_OBJECT_NAME, 1);
+                if (temp && temp != (svalue_t *) -1 && (temp->type == T_STRING)) {
+                    outbuf_add(outbuf, " (\"");
+                    outbuf_add(outbuf, temp->u.string);
+                    outbuf_add(outbuf, "\")");
+                }
+            }
+            break;
+        }
     default:
-      stradd(str, &size, "!ERROR: GARBAGE SVALUE!");
-  } /* end of switch (obj->type) */
-  if (trailing) stradd(str, &size, ",\n");
-} /* end of svalue_to_string() */
+        outbuf_add(outbuf, "!ERROR: GARBAGE SVALUE!");
+    }                           /* end of switch (obj->type) */
+    if (trailing)
+        outbuf_add(outbuf, ",\n");
+}                               /* end of svalue_to_string() */
 
-/* The ignore strlen is so that the pading will work with our wonderful
- * ansi colour stuff.  bing onwards.  This was hacked in by Pinkfish
- * so you may hold me responsible if you wish
- */
-int ignorestrlen(str)
-  char *str;
-{
-  int len=0, inignore=0, first=0;
+static void add_pad (pad_info_t * pad, int len) {
+    char *p;
+    int padlen;
+    
+    if (outbuf_extend(&(sprintf_state->obuff), len) < len)
+        ERROR(ERR_BUFF_OVERFLOW);
+    p = sprintf_state->obuff.buffer + sprintf_state->obuff.real_size;
+    sprintf_state->obuff.real_size += len;
+    p[len] = 0;
+    
+    if (pad && (padlen = pad->len)) {
+        char *end;
+        const char *pstr = pad->what;
+        int i;
+        char c;
+        
+        for (i = 0, end = p + len; p < end; i++) {
+            if (i == padlen) 
+                i = 0;
 
-  while (*str++) {
-    if (first) {
-      if (*str == IGNORE_C2)
-        inignore = !inignore;
-      len += !inignore;
-      first = 0;
-    }
-    if (*str == IGNORE_C1)
-      first = 1;
-    else
-      len += !inignore;
-  }
-  return len;
+            if ((c = pstr[i]) == '\\') {
+                /* guaranteed to have a valid char next */
+                *p++ = pstr[++i];
+            } else
+                *p++ = c;
+        }
+    } else
+        memset(p, ' ', len);
+}
+
+INLINE_STATIC void add_nstr (const char * str, int len) {
+    if (outbuf_extend(&(sprintf_state->obuff), len) < len)
+        ERROR(ERR_BUFF_OVERFLOW);
+    memcpy(sprintf_state->obuff.buffer + sprintf_state->obuff.real_size, str, len);
+    sprintf_state->obuff.real_size += len;
+    sprintf_state->obuff.buffer[sprintf_state->obuff.real_size] = 0;
 }
 
 /*
@@ -388,61 +559,43 @@ int ignorestrlen(str)
  * "str" is unmodified.  trailing is, of course, ignored in the case
  * of right justification.
  */
-void add_justified(str, pad, fs, finfo, trailing)
-  char *str, *pad;
-  int fs;
-  format_info finfo;
-  short int trailing;
+static void add_justified (const char * str, int slen, pad_info_t * pad,
+                             int fs, format_info finfo, short int trailing)
 {
-  int i, len, len2;
+    fs -= slen;
 
-  len = strlen(str);
-  len2 = ignorestrlen(str);
-  switch(finfo & INFO_J) {
-    case INFO_J_LEFT:
-      for (i=0; i<len; i++) ADD_CHAR(str[i]);
-      fs -= len;
-      len = strlen(pad);
-      if (trailing) for (i=0; fs>0; i++, fs--) {
-        if (pad[i%len] == '\\') i++;
-        ADD_CHAR(pad[i%len]);
-      }
-      break;
-    case INFO_J_CENTRE: {
-      int j, l;
-
-      l = strlen(pad);
-      if (!l) {
-/* Irk! */
-        l = 1;
-        pad = " ";
-      }
-      j = (fs - len2)/2 + (fs - len2)%2;
-      for (i=0; i<j; i++) {
-        if (pad[i%l] == '\\') { i++; j++; }
-        ADD_CHAR(pad[i%l]);
-      }
-      for (i=0; i<len; i++) ADD_CHAR(str[i]);
-      j = (fs - len2)/2;
-      if (trailing) for (i=0; i<j; i++) {
-        if (pad[i%l] == '\\') { i++; j++; }
-        ADD_CHAR(pad[i%l]);
-      }
-      break;
+    if (fs <= 0) {
+        add_nstr(str, slen);
+    } else {
+        int i;
+        switch (finfo & INFO_J) {
+        case INFO_J_LEFT:
+            add_nstr(str, slen);
+            if (trailing)
+                add_pad(pad, fs);
+            break;
+        case INFO_J_CENTRE:
+            i = fs / 2 + fs % 2;
+            add_pad(pad, i);
+            add_nstr(str, slen);
+            if (trailing)
+            add_pad(pad, fs - i);
+            break;
+        case INFO_J_CENTRE | INFO_J_LEFT:
+            i = fs / 2;
+            add_pad(pad, i);
+            add_nstr(str, slen);
+            if (trailing)
+            add_pad(pad, fs - i);
+            break;
+        default:
+            /* std (s)printf defaults to right
+             * justification */
+            add_pad(pad, fs);
+            add_nstr(str, slen);
+        }
     }
-    default: { /* std (s)printf defaults to right justification */
-      int l;
-
-      fs -= len2;
-      l = strlen(pad);
-      for (i=0; i<fs; i++) {
-        if (pad[i%l] == '\\') { i++; fs++; }
-        ADD_CHAR(pad[i%l]);
-      }
-      for (i=0; i<len; i++) ADD_CHAR(str[i]);
-    }
-  }
-} /* end of add_justified() */
+}                               /* end of add_justified() */
 
 /*
  * Adds "column" to the buffer.
@@ -450,96 +603,129 @@ void add_justified(str, pad, fs, finfo, trailing)
  * Returns 1 if column completed.
  * Returns 2 if column completed has a \n at the end.
  */
-int add_column(column, trailing)
-  cst **column;
-  short int trailing;
+static int add_column (cst ** column, int trailing)
 {
-  register unsigned int done, off=0, inadd_off=0, first_ig=0;
-  unsigned int save;
-#define COL (*column)
-#define COL_D (COL->d.col)
-
-  for (done=0;((done-off)<COL->pres) && COL_D[done] && (COL_D[done]!='\n');done++) {
-    if (first_ig) {
-      if (COL_D[done] == IGNORE_C2) {
-        inadd_off = !inadd_off;
-        off += 2;
-      } else
-        done--;
-      first_ig = 0;
-    } else if (COL_D[done] == IGNORE_C1)
-      first_ig = 1;
-    else
-      off += inadd_off;
-  }
-  if (COL_D[done] && (COL_D[done]!='\n')) {
-    save = done;
-    for (; done && (COL_D[done]!=' '); done--);
-    /*
-     * handle larger than column size words...
-     */
-    if (!done) done = save;
-  }
-  save = COL_D[done];
-  COL_D[done] = '\0';
-  add_justified(COL_D, COL->pad, COL->size, COL->info,
-                (trailing || (COL->next)));
-  COL_D[done] = save;
-  COL_D += done; /* inc'ed below ... */
-  /*
-   * if this or the next character is a NULL then take this column out
-   * of the list.
-   */
-  if (!(*COL_D) || !(*(++COL_D))) {
-    cst *temp;
+    register unsigned int done;
+    char c;
+    int space = -1;
     int ret;
+    cst *col = *column;    /* always holds (*column) */
+    const char *col_d = col->d.col; /* always holds (col->d.col) */
 
-    if (*(COL_D-1) == '\n') ret = 2; else ret = 1;
-    temp = COL->next;
-    FREE((char *)COL);
-    COL = temp;
-    return ret;
-  }
-  return 0;
-} /* end of add_column() */
+    done = 0;
+    /* find a good spot to break the line */
+    while ((c = col_d[done]) && c != '\n') {
+        if (c == ' ')
+            space = done;
+        if (++done == col->pres) {
+            if (space != -1) {
+                c = col_d[done];
+                if (c != '\n' && c != ' ' && c)
+                    done = space;
+            }
+            break;
+        }
+    }
+    add_justified(col_d, done, col->pad, 
+                  col->size, col->info, trailing || col->next);
+    col_d += done;
+    ret = 1;
+    if (*col_d == '\n') {
+        col_d++;
+        ret = 2;
+    }
+    col->d.col = col_d;
+    /*
+     * if the next character is a NULL then take this column out of
+     * the list.
+     */
+    if (!(*col_d)) {
+        cst *temp;
+
+        temp = col->next;
+        if (col->pad)
+            FREE(col->pad);
+        FREE(col);
+        *column = temp;
+        return ret;
+    }
+    return 0;
+}                               /* end of add_column() */
 
 /*
  * Adds "table" to the buffer.
  * Returns 0 if table not completed.
  * Returns 1 if table completed.
  */
-int add_table(table, trailing)
-  cst **table;
-  short int trailing;
+static int add_table (cst ** table)
 {
-  char save;
-  register unsigned int done, i;
-#define TAB (*table)
-#define TAB_D (TAB->d.tab[i])
+    int done, i;
+    cst *tab = *table;                  /* always (*table) */
+    tab_data_t *tab_d = tab->d.tab;     /* always tab->d.tab */
+    const char *tab_di;                       /* always tab->d.tab[i].cur */
+    int end;
+    
+    for (i = 0; i < tab->nocols && (tab_di = tab_d[i].cur); i++) {
+        end = tab_d[i + 1].start - tab_di - 1;
+    
+        for (done = 0; done != end && tab_di[done] != '\n'; done++)
+            ;
+        add_justified(tab_di, (done > tab->size ? tab->size : done),
+                      tab->pad, tab->size, tab->info, 
+                      tab->pad || (i < tab->nocols - 1) || tab->next);
+        if (done >= end - 1) {
+            tab_di = 0;
+        } else {
+            tab_di += done + 1;         /* inc'ed next line ... */
+        }
+        tab_d[i].cur = tab_di;
+    }
+    if (tab->pad) {
+        while (i++ < tab->nocols) {
+            add_pad(tab->pad, tab->size);
+        }
+        add_pad(tab->pad, tab->remainder);
+    }
+    if (!tab_d[0].cur) {
+        cst *temp;
 
-  for (i=0; i < TAB->nocols && TAB_D; i++) {
-    for (done=0;(TAB_D[done])&&(TAB_D[done] != '\n');done++);
-    save = TAB_D[done];
-    TAB_D[done] = '\0';
-    add_justified(TAB_D, TAB->pad, TAB->size, TAB->info, 
-                  (trailing || (i < TAB->nocols-1) || (TAB->next)));
-    TAB_D[done] = save;
-    TAB_D += done; /* inc'ed next line ... */
-    if (!(*TAB_D) || !(*(++TAB_D))) TAB_D = 0;
-  }
-  if (trailing && i < TAB->nocols)
-    for (; i < TAB->nocols; i++)
-      for (done = 0; done < TAB->size; done++) ADD_CHAR(' ');
-  if (!TAB->d.tab[0]) {
-    cst *temp;
+        temp = tab->next;
+        if (tab->pad)
+            FREE(tab->pad);
+        if (tab_d)
+            FREE(tab_d);
+        FREE(tab);
+        *table = temp;
+        return 1;
+    }
+    return 0;
+}                               /* end of add_table() */
 
-    temp = TAB->next;
-    FREE((char *)TAB);
-    TAB = temp;
-    return 1;
-  }
-  return 0;
-} /* end of add_table() */
+static int get_curpos() {
+    char *p1, *p2;
+    
+    if (!sprintf_state->obuff.buffer) return 0;
+    p1 = sprintf_state->obuff.buffer + sprintf_state->obuff.real_size - 1;
+    p2 = p1;
+    while (p2 > sprintf_state->obuff.buffer && *p2 != '\n')
+        p2--;
+    if (*p2 != '\n')
+        return p1 - p2 + 1;
+    else
+        return p1 - p2;
+}
+
+/* We can't use a pointer to a local in a table or column, since it
+ * could get overwritten by another on the same line.
+ */
+static pad_info_t *make_pad (pad_info_t * p) {
+    pad_info_t *x;
+    if (p->len == 0) return 0;
+    x = ALLOCATE(pad_info_t, TAG_TEMPORARY, "make_pad");
+    x->what = p->what;
+    x->len = p->len;
+    return x;
+}
 
 /*
  * THE (s)printf() function.
@@ -548,442 +734,505 @@ int add_table(table, trailing)
  * this function is called again, or if it's going to be modified (esp.
  * if it risks being free()ed).
  */
-char *string_print_formatted(format_str, argc, argv)
-  char *format_str;
-  int argc;
-  struct svalue *argv;
+char *string_print_formatted (const char * format_str, int argc, svalue_t * argv)
 {
-  format_info finfo;
-  savechars *saves;	/* chars to restore */
-  cst *csts;		/* list of columns/tables to be done */
-  struct svalue *carg;	/* current arg */
-  unsigned int nelemno;	/* next offset into array */
-  unsigned int fpos;	/* position in format_str */
-  unsigned int arg = 0;	/* current arg number */
-  unsigned int fs;	/* field size */
-  int pres;		/* presision */
-  unsigned int i;
-  char *pad;		/* fs pad string */
+    format_info finfo;
+    svalue_t *carg;     /* current arg */
+    unsigned int nelemno = 0;   /* next offset into array */
+    unsigned int fpos;          /* position in format_str */
+    int fs;                     /* field size */
+    int pres;                   /* precision */
+    pad_info_t pad;             /* fs pad string */
+    unsigned int i;
+    char *retvalue;
+    int last;
 
-  if ((i = SETJMP(error_jmp))) { /* error handling */
-    char *err;
+    push_sprintf_state();
+    STACK_INC;
+    sp->type = T_ERROR_HANDLER;
+    sp->u.error_handler = pop_sprintf_state;
+    
+    last = 0;
+    for (fpos = 0; 1; fpos++) {
+        char c = format_str[fpos];
+        
+        if (c == '\n' || !c) {
+            int column_stat = 0;
 
-    switch(i) {
-      case ERR_BUFF_OVERFLOW:
-        err = "BUFF_SIZE overflowed...";
-        break;
-      case ERR_TO_FEW_ARGS:
-        err = "More arguments specified than passed.";
-        break;
-      case ERR_INVALID_STAR:
-        err = "Incorrect argument type to *.";
-        break;
-      case ERR_PRES_EXPECTED:
-        err = "Expected presision not found.";
-        break;
-      case ERR_INVALID_FORMAT_STR:
-        err = "Error in format string.";
-        break;
-      case ERR_INCORRECT_ARG_S:
-        err = "Incorrect argument to type %s";
-        break;
-      case ERR_CST_REQUIRES_FS:
-        err = "Column/table mode requires a field size.";
-        break;
-      case ERR_BAD_INT_TYPE:
-        err = "!feature - bad integer type!";
-        break;
-      case ERR_UNDEFINED_TYPE:
-        err = "!feature - undefined type!";
-        break;
-      case ERR_QUOTE_EXPECTED:
-        err = "Quote expected in format string.";
-        break;
-      case ERR_UNEXPECTED_EOS:
-        err = "Unexpected end of format string.";
-        break;
-      case ERR_NULL_PS:
-        err = "Null pad string specified.";
-        break;
-      case ERR_ARRAY_EXPECTED:
-        err = "Array expected.";
-        break;
-      default:
-#ifdef RETURN_ERROR_MESSAGES
-        debug_message("%s", 
-          "ERROR: (s)printf(): !feature - undefined error 0x%X !\n", i);
-        if (current_object) {
-	     debug_message("program: %s, object: %s line %d\n",
-		    current_prog ? current_prog->name : "",
-		    current_object->name,
-		    get_line_number_if_any());
-        }
-        sprintf(buff,
-          "ERROR: (s)printf(): !feature - undefined error 0x%X !\n", i);
-        fprintf(stderr, "%s:%d: %s", current_object->name,
-                                     get_line_number_if_any(), buff);
-        return buff;
-#else
-        error("ERROR: (s)printf(): !feature - undefined error 0x%X !\n", i);
-#endif /* RETURN_ERROR_MESSAGES */
-    }
-#ifdef RETURN_ERROR_MESSAGES
-    sprintf(buff, "ERROR: (s)printf(): %s in arg %u\n", err, arg);
-    fprintf(stderr, "%s:%d: %s", current_object->name,
-                                 get_line_number_if_any(), buff);
-    debug_message("%s", "ERROR: (s)printf(): %s in arg %u\n", err, arg);
-    if (current_object) {
-        debug_message("program: %s, object: %s line %d\n",
-		    current_prog ? current_prog->name : "",
-		    current_object->name,
-		    get_line_number_if_any());
-    }
-    return buff;
-#else
-    error("ERROR: (s)printf(): %s in arg %d\n", err, arg);
-#endif /* RETURN_ERROR_MESSAGES */
-  }
-  arg = -1;
-  bpos = 0;
-  curpos = 0;
-  inignore = 0;
-  startignore = 0;
-  csts = 0;
-  saves = 0;
-  for (fpos=0; 1; fpos++) {
-    if ((format_str[fpos] == '\n') || (!format_str[fpos])) {
-      int column_stat = 0;
+            if (last != fpos) {
+                add_nstr(format_str + last, fpos - last);
+                last = fpos + 1;
+            } else last++;
 
-      if (!csts) {
-        if (!format_str[fpos]) break;
-        ADD_CHAR('\n');
-        curpos = 0;
-        inignore = 0;
-        startignore = 0;
-        continue;
-      }
-      ADD_CHAR('\n');
-      curpos = 0;
-      inignore = 0;
-      startignore = 0;
-      while (csts) {
-        cst **temp;
-
-        temp = &csts;
-        while (*temp) {
-          if ((*temp)->info & INFO_COLS) {
-            if (*((*temp)->d.col-1) != '\n')
-              while (*((*temp)->d.col) == ' ') (*temp)->d.col++;
-            for (i=curpos; i<(*temp)->start; i++) ADD_CHAR(' ');
-            column_stat = add_column(temp, 0);
-            if (!column_stat) temp = &((*temp)->next);
-          } else {
-            for (i=curpos; i<(*temp)->start; i++) ADD_CHAR(' ');
-            if (!add_table(temp, 0)) temp = &((*temp)->next);
-          }
-        } /* of while (*temp) */
-        if (csts || format_str[fpos] == '\n')
-          ADD_CHAR('\n');
-        inignore = 0;
-        startignore = 0;
-        curpos = 0;
-      } /* of while (csts) */
-      if (column_stat == 2) ADD_CHAR('\n');
-      if (!format_str[fpos]) break;
-      continue;
-    }
-    if (format_str[fpos] == '%') {
-      if (format_str[fpos+1] == '%') {
-        ADD_CHAR('%');
-        fpos++;
-        continue;
-      }
-      GET_NEXT_ARG;
-      fs = 0;
-      pres = 0;
-      pad = " ";
-      finfo = 0;
-      for (fpos++; !(finfo & INFO_T); fpos++) {
-        if (!format_str[fpos]) {
-          finfo |= INFO_T_ERROR;
-          break;
-        }
-        if (((format_str[fpos] >= '0') && (format_str[fpos] <= '9'))
-            || (format_str[fpos] == '*')) {
-          if (pres == -1) { /* then looking for pres */
-            if (format_str[fpos] == '*') {
-              if (carg->type != T_NUMBER)
-                ERROR(ERR_INVALID_STAR);
-              pres = carg->u.number;
-              GET_NEXT_ARG;
-              continue;
-            }
-            pres = format_str[fpos] - '0';
-            for (fpos++;
-                 (format_str[fpos]>='0')&&(format_str[fpos]<='9'); fpos++) {
-              pres = pres*10 + format_str[fpos] - '0';
-            }
-          } else { /* then is fs (and maybe pres) */
-            if ((format_str[fpos] == '0') && (((format_str[fpos+1] >= '1')
-                && (format_str[fpos+1] <= '9')) || (format_str[fpos+1] == '*')))
-              pad = "0";
-            else {
-              if (format_str[fpos] == '*') {
-                if (carg->type != T_NUMBER)
-                  ERROR(ERR_INVALID_STAR);
-                fs = carg->u.number;
-                if (pres == -2) pres = fs; /* colon */
-                GET_NEXT_ARG;
-                continue;
-              }
-              fs = format_str[fpos] - '0';
-            }
-            for (fpos++;
-                 (format_str[fpos]>='0')&&(format_str[fpos]<='9'); fpos++) {
-              fs = fs*10 + format_str[fpos] - '0';
-            }
-            if (pres == -2) { /* colon */
-              pres = fs;
-            }
-          }
-          fpos--; /* bout to get incremented */
-          continue;
-        }
-        switch (format_str[fpos]) {
-          case ' ': finfo |= INFO_PP_SPACE; break;
-          case '+': finfo |= INFO_PP_PLUS; break;
-          case '-': finfo |= INFO_J_LEFT; break;
-          case '|': finfo |= INFO_J_CENTRE; break;
-          case '@': finfo |= INFO_ARRAY; break;
-          case '=': finfo |= INFO_COLS; break;
-          case '#': finfo |= INFO_TABLE; break;
-          case '.': pres = -1; break;
-          case ':': pres = -2; break;
-          case '%': finfo |= INFO_T_NULL; break; /* never reached */
-          case 'O': finfo |= INFO_T_LPC; break;
-          case 's': finfo |= INFO_T_STRING; break;
-          case 'd': finfo |= INFO_T_INT; break;
-          case 'i': finfo |= INFO_T_INT; break;
-          case 'c': finfo |= INFO_T_CHAR; break;
-          case 'o': finfo |= INFO_T_OCT; break;
-          case 'x': finfo |= INFO_T_HEX; break;
-          case 'X': finfo |= INFO_T_C_HEX; break;
-          case '\'':
-            pad = &(format_str[++fpos]);
-            while (1) {
-              if (!format_str[fpos]) ERROR(ERR_UNEXPECTED_EOS);
-              if (format_str[fpos] == '\\') { fpos += 2; continue; }
-              if (format_str[fpos] == '\'') {
-                if (format_str+fpos == pad) ERROR(ERR_NULL_PS);
-                SAVE_CHAR(format_str+fpos);
-                format_str[fpos] = '\0';
-                break;
-              }
-              fpos++;
-            }
-            break;
-          default: finfo |= INFO_T_ERROR;
-        }
-      } /* end of for () */
-      if (pres < 0)
-        ERROR(ERR_PRES_EXPECTED);
-      /*
-       * now handle the different arg types...
-       */
-      if (finfo & INFO_ARRAY) {
-        if (carg->type != T_POINTER)
-           ERROR(ERR_ARRAY_EXPECTED);
-        if (carg->u.vec->size == 0) {
-          fpos--; /* 'bout to get incremented */
-          continue;
-        }
-        carg = (argv+arg)->u.vec->item;
-        nelemno = 1; /* next element number */
-      }
-      while (1) {
-        struct svalue *clean = 0;
-
-        if ((finfo & INFO_T) == INFO_T_LPC) {
-          clean = (struct svalue *)XALLOC(sizeof(struct svalue));
-          clean->type = T_STRING;
-          clean->subtype = STRING_MALLOC;
-          clean->u.string = (char *)XALLOC(500);
-          clean->u.string[0] = '\0';
-          svalue_to_string(carg, &(clean->u.string), 500, 0, 0);
-          carg = clean;
-          finfo ^= INFO_T_LPC;
-          finfo |= INFO_T_STRING;
-        }
-        if ((finfo & INFO_T) == INFO_T_ERROR) {
-          ERROR(ERR_INVALID_FORMAT_STR);
-        } else if ((finfo & INFO_T) == INFO_T_NULL) {
-          /* never reached... */
-          fprintf(stderr, "%s: (s)printf: INFO_T_NULL.... found.\n",
-                  current_object->name);
-          ADD_CHAR('%');
-        } else if ((finfo & INFO_T) == INFO_T_STRING) {
-          int slen;
-
-          if (carg->type != T_STRING)
-            ERROR(ERR_INCORRECT_ARG_S);
-          slen = strlen(carg->u.string);
-          if ((finfo & INFO_COLS) || (finfo & INFO_TABLE)) {
-            cst **temp;
-
-            if (!fs)
-              ERROR(ERR_CST_REQUIRES_FS);
-
-            temp = &csts;
-            while (*temp) temp = &((*temp)->next);
-            if (finfo & INFO_COLS) {
-              *temp = (cst *)XALLOC(sizeof(cst));
-              (*temp)->next = 0;
-              (*temp)->d.col = carg->u.string;
-              (*temp)->pad = pad;
-              (*temp)->size = fs;
-              (*temp)->pres = (pres) ? pres : fs;
-              (*temp)->info = finfo;
-              (*temp)->start = curpos;
-              if ((add_column(temp, (((format_str[fpos] != '\n')
-                    && (format_str[fpos] != '\0')) || ((finfo & INFO_ARRAY)
-                      && (nelemno < (argv+arg)->u.vec->size)))) == 2)
-                  && !format_str[fpos]) {
+            if (!sprintf_state->csts) {
+                if (!c)
+                    break;
                 ADD_CHAR('\n');
-              }
-            } else { /* (finfo & INFO_TABLE) */
-#undef max
-              unsigned int n, len, max;
+                continue;
+            }
+            ADD_CHAR('\n');
+            while (sprintf_state->csts) {
+                cst **temp;
 
+                temp = &(sprintf_state->csts);
+                while (*temp) {
+                    if ((*temp)->info & INFO_COLS) {
+                        if (*((*temp)->d.col - 1) != '\n')
+                            while (*((*temp)->d.col) == ' ')
+                                (*temp)->d.col++;
+                        add_pad(0, (*temp)->start - get_curpos());
+                        column_stat = add_column(temp, 0);
+                        if (!column_stat)
+                            temp = &((*temp)->next);
+                    } else {
+                        add_pad(0, (*temp)->start - get_curpos());
+                        if (!add_table(temp))
+                            temp = &((*temp)->next);
+                    }
+                }               /* of while (*temp) */
+                if (sprintf_state->csts || c == '\n')
+                    ADD_CHAR('\n');
+            }                   /* of while (sprintf_state->csts) */
+            if (column_stat == 2)
+                ADD_CHAR('\n');
+            if (!c)
+                break;
+        } else
+        if (c == '%') {
+            if (last != fpos) {
+                add_nstr(format_str + last, fpos - last);
+                last = fpos + 1;
+            } else last++;
+            if (format_str[fpos + 1] == '%') {
+                ADD_CHAR('%');
+                fpos++;
+                last++;
+                continue;
+            }
+            GET_NEXT_ARG;
+            fs = 0;
+            pres = 0;
+            pad.len = 0;
+            finfo = 0;
+            for (fpos++; !(finfo & INFO_T); fpos++) {
+                if (!format_str[fpos]) {
+                    finfo |= INFO_T_ERROR;
+                    break;
+                }
+                if (((format_str[fpos] >= '0') && (format_str[fpos] <= '9'))
+                    || (format_str[fpos] == '*')) {
+                    if (pres == -1) {   /* then looking for pres */
+                        if (format_str[fpos] == '*') {
+                            if (carg->type != T_NUMBER)
+                                ERROR(ERR_INVALID_STAR);
+                            pres = carg->u.number;
+                            GET_NEXT_ARG;
+                            continue;
+                        }
+                        pres = format_str[fpos] - '0';
+                        for (fpos++;
+                             (format_str[fpos] >= '0') && (format_str[fpos] <= '9'); fpos++) {
+                            pres = pres * 10 + format_str[fpos] - '0';
+                        }
+                        if (pres < 0) pres = 0;
+                    } else {    /* then is fs (and maybe pres) */
+                        if ((format_str[fpos] == '0') && (((format_str[fpos + 1] >= '1')
+                                                           && (format_str[fpos + 1] <= '9')) || (format_str[fpos + 1] == '*'))) {
+                            pad.what = "0";
+                            pad.len = 1;
+                        } else {
+                            if (format_str[fpos] == '*') {
+                                if (carg->type != T_NUMBER)
+                                    ERROR(ERR_INVALID_STAR);
+                                fs = carg->u.number;
+                                if (fs < 0) fs = 0;
+                                if (pres == -2)
+                                    pres = fs;  /* colon */
+                                GET_NEXT_ARG;
+                                continue;
+                            }
+                            fs = format_str[fpos] - '0';
+                        }
+                        for (fpos++;
+                             (format_str[fpos] >= '0') && (format_str[fpos] <= '9'); fpos++) {
+                            fs = fs * 10 + format_str[fpos] - '0';
+                        }
+                        if (fs < 0) fs = 0;
+                        if (pres == -2) {       /* colon */
+                            pres = fs;
+                        }
+                    }
+                    fpos--; /* about to get incremented */
+                    continue;
+                }
+                switch (format_str[fpos]) {
+                case ' ':
+                    finfo |= INFO_PP_SPACE;
+                    break;
+                case '+':
+                    finfo |= INFO_PP_PLUS;
+                    break;
+                case '-':
+                    finfo |= INFO_J_LEFT;
+                    break;
+                case '|':
+                    finfo |= INFO_J_CENTRE;
+                    break;
+                case '@':
+                    finfo |= INFO_ARRAY;
+                    break;
+                case '=':
+                    finfo |= INFO_COLS;
+                    break;
+                case '#':
+                    finfo |= INFO_TABLE;
+                    break;
+                case '.':
+                    pres = -1;
+                    break;
+                case ':':
+                    pres = -2;
+                    break;
+#ifdef DEBUG
+                case '%':
+                    finfo |= INFO_T_NULL;
+                    break;      /* never reached */
+#endif
+                case 'O':
+                    finfo |= INFO_T_LPC;
+                    break;
+                case 's':
+                    finfo |= INFO_T_STRING;
+                    break;
+                case 'd':
+                case 'i':
+                    finfo |= INFO_T_INT;
+                    break;
+                case 'f':
+                    finfo |= INFO_T_FLOAT;
+                    break;
+                case 'c':
+                    finfo |= INFO_T_CHAR;
+                    break;
+                case 'o':
+                    finfo |= INFO_T_OCT;
+                    break;
+                case 'x':
+                    finfo |= INFO_T_HEX;
+                    break;
+                case 'X':
+                    finfo |= INFO_T_C_HEX;
+                    break;
+                case '\'':
+                    fpos++;
+                    pad.what = format_str + fpos;
+                    while (1) {
+                        if (!format_str[fpos])
+                            ERROR(ERR_UNEXPECTED_EOS);
+                        if (format_str[fpos] == '\\') {
+                            if (!format_str[++fpos])
+                                ERROR(ERR_UNEXPECTED_EOS);
+                        } else
+                        if (format_str[fpos] == '\'') {
+                            pad.len = format_str + fpos - pad.what;
+                            if (!pad.len)
+                                ERROR(ERR_NULL_PS);
+                            break;
+                        }
+                        fpos++;
+                    }
+                    break;
+                default:
+                    finfo |= INFO_T_ERROR;
+                }
+            }                   /* end of for () */
+            if (pres < 0)
+                ERROR(ERR_PRES_EXPECTED);
+            /*
+             * now handle the different arg types...
+             */
+            if (finfo & INFO_ARRAY) {
+                if (carg->type != T_ARRAY)
+                    ERROR(ERR_ARRAY_EXPECTED);
+                if (carg->u.arr->size == 0) {
+                    last = fpos;
+                    fpos--;     /* 'bout to get incremented */
+                    continue;
+                }
+                carg = (argv + sprintf_state->cur_arg)->u.arr->item;
+                nelemno = 1;    /* next element number */
+            }
+            while (1) {
+                if ((finfo & INFO_T) == INFO_T_LPC) {
+                    outbuffer_t outbuf;
+                    
+                    outbuf_zero(&outbuf);
+                    svalue_to_string(carg, &outbuf, 0, 0, 0);
+                    outbuf_fix(&outbuf);
+
+                    sprintf_state->clean.type = T_STRING;
+                    sprintf_state->clean.subtype = STRING_MALLOC;
+                    sprintf_state->clean.u.string = outbuf.buffer;
+                    carg = &(sprintf_state->clean);
+                    finfo ^= INFO_T_LPC;
+                    finfo |= INFO_T_STRING;
+                }
+                if ((finfo & INFO_T) == INFO_T_ERROR) {
+                    ERROR(ERR_INVALID_FORMAT_STR);
+#ifdef DEBUG
+                } else if ((finfo & INFO_T) == INFO_T_NULL) {
+                    /* never reached... */
+                    fprintf(stderr, "/%s: (s)printf: INFO_T_NULL.... found.\n",
+                            current_object->obname);
+                    ADD_CHAR('%');
+#endif
+                } else if ((finfo & INFO_T) == INFO_T_STRING) {
+                    int slen;
+                    /*
+                     * %s null handling added 930709 by Luke Mewburn
+                     * <zak@rmit.oz.au>
+                     */
+                    if (carg->type == T_NUMBER && carg->u.number == 0) {
+                        sprintf_state->clean.type = T_STRING;
+                        sprintf_state->clean.subtype = STRING_MALLOC;
+                        sprintf_state->clean.u.string = string_copy(NULL_MSG, "sprintf NULL");
+                        carg = &(sprintf_state->clean);
+                    } else
+                    if (carg->type != T_STRING) {
+                        ERROR(ERR_INCORRECT_ARG_S);
+                    }
+                    slen = SVALUE_STRLEN(carg);
+                    if ((finfo & INFO_COLS) || (finfo & INFO_TABLE)) {
+                        cst **temp;
+
+                        if (!fs) {
+                            ERROR(ERR_CST_REQUIRES_FS);
+                        }
+
+                        temp = &(sprintf_state->csts);
+                        while (*temp)
+                            temp = &((*temp)->next);
+                        if (finfo & INFO_COLS) {
+                            int tmp;
+                            if (pres > fs) pres = fs;
+                            *temp = ALLOCATE(cst, TAG_TEMPORARY, "string_print: 3");
+                            (*temp)->next = 0;
+                            (*temp)->d.col = carg->u.string;
+                            (*temp)->pad = make_pad(&pad);
+                            (*temp)->size = fs;
+                            (*temp)->pres = (pres) ? pres : fs;
+                            (*temp)->info = finfo;
+                            (*temp)->start = get_curpos();
+#ifdef TCC
+			    puts("tcc has some bugs");
+#endif
+                            tmp = ((format_str[fpos] != '\n') 
+                                   && (format_str[fpos] != '\0'))
+                                || ((finfo & INFO_ARRAY)
+                                    && (nelemno < (argv + sprintf_state->cur_arg)->u.arr->size));
+                            tmp = add_column(temp, tmp);
+                            if (tmp == 2 && !format_str[fpos]) {
+                                ADD_CHAR('\n');
+                            }
+                        } else {/* (finfo & INFO_TABLE) */
+                            unsigned int n, len, max_len;
+                            const char *p1, *p2;
+                            
 #define TABLE carg->u.string
-              (*temp) = (cst *)XALLOC(sizeof(cst));
-              (*temp)->pad = pad;
-              (*temp)->info = finfo;
-              (*temp)->start = curpos;
-              (*temp)->next = 0;
-              max = len = 0;
-              n = 1;
-              for (i=0; TABLE[i]; i++) {
-                if (TABLE[i] == '\n') {
-                  if (len > max) max = len;
-                  len = 0;
-                  if (TABLE[i+1]) n++;
-                  continue;
-                }
-                len++;
-              }
-              if (pres) {
-                (*temp)->size = fs/pres;
-              } else {
-                if (len > max) max = len; /* the null terminated word */
-                pres = fs/(max+2); /* at least two separating spaces */
-                if (!pres) pres = 1;
-                (*temp)->size = fs/pres;
-              }
-              len = n/pres; /* length of average column */
-              if (n < pres) pres = n;
-              if (len*pres < n) len++;
-              if (len > 1 && n%pres) pres -= (pres - n%pres)/len;
-              (*temp)->d.tab = (char **)XALLOC(pres*sizeof(char *));
-              (*temp)->nocols = pres; /* heavy sigh */
-              (*temp)->d.tab[0] = TABLE;
-              if (pres == 1) goto add_table_now;
-              i = 1; /* the next column number */
-              n = 0; /* the current "word" number in this column */
-              for (fs = 0; TABLE[fs]; fs++) { /* throwing away fs... */
-                if (TABLE[fs] == '\n') {
-                  if (++n >= len) {
-                    SAVE_CHAR(((TABLE)+fs));
-                    TABLE[fs] = '\0';
-                    (*temp)->d.tab[i++] = TABLE+fs+1;
-                    if (i >= pres) goto add_table_now;
-                    n = 0;
-                  }
-                }
-              }
-add_table_now:
-              add_table(temp, (((format_str[fpos] != '\n')
-                && (format_str[fpos] != '\0')) || ((finfo & INFO_ARRAY)
-                  && (nelemno < (argv+arg)->u.vec->size))));
-            }
-          } else { /* not column or table */
-            if (pres && pres<slen) {
-              SAVE_CHAR(((carg->u.string)+pres));
-              carg->u.string[pres] = '\0';
-              slen = pres;
-            }
-            if (fs && fs>slen) {
-              add_justified(carg->u.string, pad, fs, finfo,
-          (((format_str[fpos] != '\n') && (format_str[fpos] != '\0'))
-          || ((finfo & INFO_ARRAY) && (nelemno < (argv+arg)->u.vec->size)))
-          || carg->u.string[slen-1] != '\n');
-            } else {
-              for (i=0; i<slen; i++) ADD_CHAR(carg->u.string[i]);
-            }
-          }
-        } else if (finfo & INFO_T_INT) { /* one of the integer types */
-          char cheat[4];
-          char temp[100];
-  
-          *cheat = '%';
-          i = 1;
-          switch (finfo & INFO_PP) {
-            case INFO_PP_SPACE: cheat[i++] = ' '; break;
-            case INFO_PP_PLUS: cheat[i++] = '+'; break;
-          }
-          switch (finfo & INFO_T) {
-            case INFO_T_INT: cheat[i++] = 'd'; break;
-            case INFO_T_CHAR: cheat[i++] = 'c'; break;
-            case INFO_T_OCT: cheat[i++] = 'o'; break;
-            case INFO_T_HEX: cheat[i++] = 'x'; break;
-            case INFO_T_C_HEX: cheat[i++] = 'X'; break;
-            default: ERROR(ERR_BAD_INT_TYPE);
-          }
-          if (carg->type != T_NUMBER) { /* sigh... */
-#ifdef RETURN_ERROR_MESSAGES
-            sprintf(buff,
-              "ERROR: (s)printf(): incorrect argument type to %%%c.\n",
-              cheat[i-1]);
-            fprintf(stderr, "%s:%d: %s", current_object->name,
-                                         get_line_number_if_any(), buff);
-            return buff;
-#else
-            error("ERROR: (s)printf(): incorrect argument type to %%%c.\n",
-                  cheat[i-1]);
-#endif /* RETURN_ERROR_MESSAGES */
-          }
-          cheat[i] = '\0';
-          sprintf(temp, cheat, carg->u.number);
-          {
-            int tmpl = strlen(temp);
-            if (pres && tmpl > pres) temp[pres] = '\0'; /* well.... */
-            if (tmpl < fs)
-              add_justified(temp, pad, fs, finfo,
-          (((format_str[fpos] != '\n') && (format_str[fpos] != '\0'))
-          || ((finfo & INFO_ARRAY) && (nelemno < (argv+arg)->u.vec->size))));
-            else
-              for (i=0; i<tmpl; i++) ADD_CHAR(temp[i]);
-          }
-        } else /* type not found */
-          ERROR(ERR_UNDEFINED_TYPE);
-        if (clean) free_svalue(clean);
-        if (!(finfo & INFO_ARRAY)) break;
-        if (nelemno >= (argv+arg)->u.vec->size) break;
-        carg = (argv+arg)->u.vec->item+nelemno++;
-      } /* end of while (1) */
-      fpos--; /* bout to get incremented */
-      continue;
-    }
-    ADD_CHAR(format_str[fpos]);
-  } /* end of for (fpos=0; 1; fpos++) */
-  ADD_CHAR('\0');
-  while (saves) {
-    savechars *tmp;
-    *(saves->where) = saves->what;
-    tmp = saves;
-    saves = saves->next;
-    FREE((char *)tmp);
-  }
-  return buff;
-} /* end of string_print_formatted() */
+                            (*temp) = ALLOCATE(cst, TAG_TEMPORARY, "string_print: 4");
+                            (*temp)->d.tab = 0;
+                            (*temp)->pad = make_pad(&pad);
+                            (*temp)->info = finfo;
+                            (*temp)->start = get_curpos();
+                            (*temp)->next = 0;
+                            max_len = 0;
+                            n = 1;
 
-#endif /* defined(F_SPRINTF) || defined(F_PRINTF) */
+                            p2 = p1 = TABLE;
+                            while (*p1) {
+                                if (*p1 == '\n') {
+                                    if (p1 - p2 > max_len)
+                                        max_len = p1 - p2;
+                                    p1++;
+                                    if (*(p2 = p1)) 
+                                        n++;
+                                } else
+                                    p1++;
+                            }
+                            if (!pres) {
+                                /* the null terminated word */
+                                if (p1 - p2 > max_len)
+                                    max_len = p1 - p2;
+                                pres = fs / (max_len + 2); /* at least two
+                                                            * separating spaces */
+                                if (!pres)
+                                    pres = 1;
+                                
+                                /* This moves some entries from the right side
+                                 * of the table to fill out the last line,
+                                 * which makes the table look a bit nicer.
+                                 * E.g.
+                                 * (n=13,p=6)      (l=3,p=5)
+                                 * X X X X X X     X X X X X
+                                 * X X X X X X  -> X X X X X
+                                 * X               X X X X
+                                 *
+                                 */
+                                len = (n-1)/pres + 1;
+                                if (n > pres && n % pres)
+                                    pres -= (pres - n % pres) / len;
+                            } else {
+                                len = (n-1)/pres + 1;
+                            }
+                            (*temp)->size = fs / pres;
+                            (*temp)->remainder = fs % pres;
+                            if (n < pres) {
+                                /* If we have fewer elements than columns,
+                                 * pretend we are dealing with a smaller
+                                 * table.
+                                 */
+                                (*temp)->remainder += (pres - n)*((*temp)->size);
+                                pres = n;
+                            }
+                            
+                            (*temp)->d.tab = CALLOCATE(pres + 1, tab_data_t,
+                                             TAG_TEMPORARY, "string_print: 5");
+                            (*temp)->nocols = pres;     /* heavy sigh */
+                            (*temp)->d.tab[0].start = TABLE;
+                            if (pres == 1) {
+                                (*temp)->d.tab[1].start = TABLE + SVALUE_STRLEN(carg) + 1;
+                            } else {
+                                i = 1;  /* the next column number */
+                                n = 0;  /* the current "word" number in this
+                                         * column */
+
+                                p1 = TABLE;
+                                while (*p1) {
+                                    if (*p1++ == '\n' && ++n >= len) {
+                                        (*temp)->d.tab[i++].start = p1;
+                                        n = 0;
+                                    }
+                                }
+                                for ( ; i <= pres; i++)
+                                    (*temp)->d.tab[i].start = ++p1;
+                            }
+                            for (i = 0; i < pres; i++)
+                                (*temp)->d.tab[i].cur = (*temp)->d.tab[i].start;
+
+                            add_table(temp);
+                        }
+                    } else {    /* not column or table */
+                        if (pres && pres < slen)
+                            slen = pres;
+			const char *tmp = carg->u.string; //work around tcc bug;
+                        add_justified(tmp, slen, &pad, fs, finfo,
+                                      (((format_str[fpos] != '\n') && (format_str[fpos] != '\0'))
+                                       || ((finfo & INFO_ARRAY) && (nelemno < (argv + sprintf_state->cur_arg)->u.arr->size)))
+                                      || carg->u.string[slen - 1] != '\n');
+                    }
+                } else if (finfo & INFO_T_INT) {        /* one of the integer
+                                                         * types */
+                    char cheat[20];
+                    char temp[100];
+
+                    *cheat = '%';
+                    i = 1;
+                    switch (finfo & INFO_PP) {
+                    case INFO_PP_SPACE:
+                        cheat[i++] = ' ';
+                        break;
+                    case INFO_PP_PLUS:
+                        cheat[i++] = '+';
+                        break;
+                    }
+                    if (pres) {
+                        cheat[i++] = '.';
+                        if(pres >= sizeof(temp))
+                           sprintf(cheat + i, "%d", sizeof(temp) - 1);
+                        else
+                           sprintf(cheat + i, "%d", pres);
+                        
+                        i += strlen(cheat + i);
+                    }
+                    switch (finfo & INFO_T) {
+                    case INFO_T_INT:
+                        cheat[i++] = 'l';
+                        cheat[i++] = 'd';
+                        break;
+                    case INFO_T_FLOAT:
+                        cheat[i++] = 'f';
+                        break;
+                    case INFO_T_CHAR:
+                        cheat[i++] = 'c';
+                        break;
+                    case INFO_T_OCT:
+                        cheat[i++] = 'o';
+                        break;
+                    case INFO_T_HEX:
+                        cheat[i++] = 'x';
+                        break;
+                    case INFO_T_C_HEX:
+                        cheat[i++] = 'X';
+                        break;
+                    default:
+                        ERROR(ERR_BAD_INT_TYPE);
+                    }
+                    if ((cheat[i - 1] == 'f' && carg->type != T_REAL) || (cheat[i - 1] != 'f' && carg->type != T_NUMBER)) {
+#ifdef RETURN_ERROR_MESSAGES
+                        sprintf(buff,
+                                "ERROR: (s)printf(): Incorrect argument type to %%%c. (arg: %u)\n",
+                                cheat[i - 1], sprintf_state->cur_arg);
+                        fprintf(stderr, "Program /%s File: %s: %s", current_prog->name,
+                                get_line_number_if_any(), buff);
+                        debug_message("%s", buff);
+                        if (current_object) {
+                            debug_message("program: /%s, object: %s, file: %s\n",
+                                     current_prog ? current_prog->name : "",
+                                          current_object->name,
+                                          get_line_number_if_any());
+                        }
+                        ERROR(ERR_RECOVERY_ONLY);
+#else
+                        error("ERROR: (s)printf(): Incorrect argument type to %%%c.\n",
+                              cheat[i - 1]);
+#endif                          /* RETURN_ERROR_MESSAGES */
+                    }
+                    cheat[i] = '\0';
+
+                    if (carg->type == T_REAL) {
+                        sprintf(temp, cheat, carg->u.real);
+                    } else
+                        sprintf(temp, cheat, carg->u.number);
+                    {
+                        int tmpl = strlen(temp);
+
+                        add_justified(temp, tmpl, &pad, fs, finfo,
+                                      (((format_str[fpos] != '\n') && (format_str[fpos] != '\0'))
+                                       || ((finfo & INFO_ARRAY) && (nelemno < (argv + sprintf_state->cur_arg)->u.arr->size))));
+                    }
+                } else          /* type not found */
+                    ERROR(ERR_UNDEFINED_TYPE);
+                if (sprintf_state->clean.type != T_NUMBER) {
+                    free_svalue(&(sprintf_state->clean), "string_print_formatted");
+                    sprintf_state->clean.type = T_NUMBER;
+                }
+
+                if (!(finfo & INFO_ARRAY))
+                    break;
+                if (nelemno >= (argv + sprintf_state->cur_arg)->u.arr->size)
+                    break;
+                carg = (argv + sprintf_state->cur_arg)->u.arr->item + nelemno++;
+            }                   /* end of while (1) */
+            last = fpos;
+            fpos--;             /* bout to get incremented */
+        }
+    }                           /* end of for (fpos=0; 1; fpos++) */
+
+    outbuf_fix(&sprintf_state->obuff);
+    retvalue = sprintf_state->obuff.buffer;
+    sprintf_state->obuff.buffer = 0;
+    pop_stack();                /* pop off our error handler, will call pop_sprintf_state */
+    return retvalue;
+}                               /* end of string_print_formatted() */
+
+#endif                          /* defined(F_SPRINTF) || defined(F_PRINTF) */

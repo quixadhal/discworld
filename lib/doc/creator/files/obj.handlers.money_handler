@@ -1,0 +1,100 @@
+.DT
+money_handler
+Discworld Creator help
+money_handler
+
+.SP 0 5
+This helpfile is probably wrong on several accounts since is hasn't been
+updated for ages.
+
+This documentation will be rewritten soon to take account of the recent
+changes.
+
+The money handler: this has a plethora of useful and contagious
+functions on it, so beware.
+.EP
+
+Functions
+
+.SI 5
+void add_type(string type, int value)
+.EI
+.SP 10 5
+Adds a new type of coinage into the system at the moment
+we only have brass, copper, silver, gold, platinum.  The
+value is it value in brass coins (which are worth 1 ;)
+.EP
+
+.SI 5
+void remove_type(string type)
+.EI
+.SP 10 5
+Removes a type of coin from the handler a great way to
+annoy players.  revalue or delete a bit of the
+currency.
+.EP
+
+.SI 5
+mixed *query_values()
+.EI
+.SP 10 5
+Returns the values  array.  Is of the format ({ "brass",
+1, "copper", 10, "silver", 100, ... })
+.EP
+
+.SI 5
+int query_value(string type)
+.EI
+.SP 10 5
+Returns the value of the given coinage.
+.EP
+
+.SI 5
+int query_total_value(mixed m_array)
+.EI
+.SP 10 5
+Returns the total value (in brass coins) of the money
+array.
+.EP
+
+.SI 5
+string money_string(mixed m_array)
+.EI
+.SP 10 5
+Returns a string of the format 10 silver coins and 1
+brass coin.  Is used by the shop and the money object
+itself for shorts.
+.EP
+
+.SI 5
+mixed *create_money_array(int value)
+.EI
+.SP 10 5
+Given a value of an object in brass coins, create a
+money array that uses the least amout of coins
+necessary.
+.EP
+
+.SI 5
+mixed *calc_change(int amt, mixed *values)
+.EI
+.SP 10 5
+Calculates change is mostly for internal use by the
+make_payment procedure defined below.
+.EP
+
+.SI 5
+mixed make_payment(string type, int amt, object ob)
+.EI
+.SP 10 5
+From the objects pool of money try and make a payment of
+the amt of type coins.  This is used by the pay_money
+function on players so they can buy things  at the shop.
+It also calculates the amount of change to give them.
+Returns an array of the format ({ ({ take_m_array }),
+({ add_m_array }) }).
+The take money array is an array that should be taken
+off the player for the amout of money specifed to be
+payed.  The add money array is the amout that needs to
+be added on as change.
+.EP

@@ -1,0 +1,72 @@
+.DT
+Office
+Player-run shop help
+Office
+
+.SH Name
+.SI 5
+Player-run shop office
+.EI
+
+.SH Syntax - all employees
+
+.SI 5
+claim {badge|handbook|bonus}
+resign
+list
+office
+.EI
+
+.SH Syntax - all employees except retired managers
+
+.SI 5
+clock {in|out}
+bank
+bank <number>
+promotion {on|off}
+(memo)
+.EI
+
+.SH Syntax - supervisors and managers only
+
+.SI 5
+chart add <item>
+chart remove <item>
+chart max <item>
+chart buy <item>
+chart sell <item>
+chart assign <item> [to cabinet] <number>
+chart unassign <item> [from cabinet] <number>
+check cabinets
+logs
+logs <number>
+logs chart
+.EI
+
+.SH Syntax - managers only
+
+.SI 5
+logs {personnel|accounts|chart}
+.EI
+
+.SH Description
+
+.SP 5 5
+This is the office, accessible only to employees of the shop.
+
+Please also see the "office" command and your staff handbook, claimable
+from this office.
+
+The policy notice states the management policies in relation to this shop.
+All items on this notice represent the current policy and should be strictly
+adhered to.  Managers reserve the right to update these policies at any time.
+
+The item chart lists the items bought and sold by the shop.  It also states
+the buying and selling price, the maximum stock level, average stock level,
+average daily sales, and the cabinets currently assigned to hold each
+particular item.
+
+The memo command will only be accessible to employees if the shop does
+not have a notice board.  The memo command will send a mail to each employee
+of the shop.
+.EP

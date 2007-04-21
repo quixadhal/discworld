@@ -1,0 +1,35 @@
+.DT
+no_env_move
+DW_wibble creator help
+no_env_move
+
+.SH Name
+.SP 5 5
+no_env_move -  This method checks to see if we are still in our silly little container and if we are, moves us back.
+.EP
+
+.SH Syntax
+.SI 5
+void no_env_move(object dest,
+                 object place)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dest%^RESET%^ - where we are going to
+%^BOLD%^place%^RESET%^ - the temporary container
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/cont_medium.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if we are still in our silly little container
+and if we are, moves us back.  We always dest the old container
+.EP
+

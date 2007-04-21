@@ -1,0 +1,206 @@
+.DT
+map
+Discworld Creator help
+map
+
+Name
+.SI 5
+/obj/handlers/map.c - Handler for <desc>
+.EI
+
+Description
+
+.SP 5 5
+This is the skeletal help for the map handler.
+
+<description missing>
+.EP
+
+Functions
+
+.SI 5
+void create()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void update_cache( string directory, int load )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void clear_cache()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mapping query_map( string dir )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void change_map( string dir, string room, string *dd )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mapping query_shorts( string dir )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void change_shorts( string dir, string room, string sh )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mapping query_movezones( string dir )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void change_movezones( string dir, string room, string *zones )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mapping query_changetimes( string dir )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void change_changetimes( string dir, string room, int time )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mapping query_co_ords( string dir )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void change_co_ords( string dir, string room, int *coord )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void del( string dir, string room )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string *query_dest_dir( string room )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string *qdd( string room )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_destination( string exit, string room )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mapping qm()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string *query_cache()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string *query_queue()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_stopped( int s )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int compare_arrays( mixed *ar1, mixed *ar2 )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void do_room( string room )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void do_room1( string room )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void check_next()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void check_map( string room )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void check_map2( string room )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_short( string room )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string *query_zones( string room )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int *query_co_ord( string room )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int test_room( string room )
+.EI
+.SP 10 5
+.EP
+

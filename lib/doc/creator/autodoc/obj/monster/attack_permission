@@ -1,0 +1,49 @@
+.DT
+attack_permission
+DW_wibble creator help
+attack_permission
+
+.SH Name
+.SP 5 5
+attack_permission -   attack_permission function, added for use by the allow_attack simul.
+.EP
+
+.SH Syntax
+.SI 5
+int attack_permission(object ob1,
+                      object ob2,
+                      string stringy)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^object%^RESET%^ - The person performing the action
+%^BOLD%^object%^RESET%^ - The object being acted on, this object usually.
+%^BOLD%^string%^RESET%^ - Attack type, this will be one of "combat", "theft", or "magic",
+this lets you give your NPCs different responses for different attacks. As well
+as make them immune to theft and magic (as an example)
+.EI
+
+.SH Returns
+.SI 5
+int 1 if the action is denied, 0 is it can go through..EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+
+attack_permission function, added for use by the allow_attack simul.
+.EP
+
+.SH See also
+.SP 5 5
+efun::allow_attack()
+
+
+.EP
+

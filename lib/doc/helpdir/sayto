@@ -1,0 +1,47 @@
+.DT
+sayto
+Discworld player help
+sayto
+
+.SH Name
+.SI 5
+sayto - Direct a say to someone in the room.
+.EI
+
+.SH Syntax
+.SI 5
+sayto <person> [#lang] [@adverb] <text>
+sayto <person> [#'lang'] [@adverb] <text>
+.EI
+
+.SH Description
+.SP 5 5
+Sayto sends the message to all the people in the room and also makes the
+message look directed.  With a normal say you would see:
+
+Furball says: hello
+
+With sayto you would see:
+
+Furball says to Pinkfish: hello
+
+The # and @ can be used to use a specific language and an adverb to the
+message.  You can use partial matching for a language, so for example
+#dj will make you speak in djelian.  You may also put the language name
+in quotes after the # to speak in languages which have spaces in them.
+.EP
+
+.SH Examples
+.SI 5
+> sayto pinkfish hello
+> sayto drem The sun shines out of your eyes and drowns me in sweet surprise.
+> sayto gototh Whooo!  Look at that coffee table!  The inlay!
+> say sojan #djelian @happily This is in djelian.
+> say sojan #dj @happily This is in djelian.
+> say sojan #'djelian' @happily This is in djelian.
+.EI
+
+.SH See also
+.SI 5
+say, emote, lsay, shout, tell, whisper.
+.EI

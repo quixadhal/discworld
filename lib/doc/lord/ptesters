@@ -1,0 +1,49 @@
+.DT
+ptesters
+Discworld lord help
+ptesters
+
+
+.SH Name
+.SI 5
+ptesters - Interface to the playtesters handler
+.EI
+
+.SH Syntax
+.SI 5
+ptesters 
+ptesters r <word> <string> 
+ptesters {a|s|h|r|?} <word> 
+ptesters {l|h|?} 
+.EI
+
+.SH Description
+.SP 5 5
+The ptesters command acts as an interface to the playtesters handler.  
+
+'ptesters' by itself will give a list of all the playtesters.  It 
+will give some information on the past few months as well... the 
+first column is the number of reports made, the second is the 
+number of hours spent online.
+
+'ptesters r' can be used to remove a playtesters.  You must specify a
+reason for doing this, which is logged to /log/PLAYTESTERS
+
+'ptesters a' can be used to promote a player to playtester status. 
+
+'ptesters s' promotes a playtester to senior playtesting status.
+
+'ptesters h' queries the command help system for some instructions on using
+the command.
+
+.EP
+
+.SH Examples:
+.SI 5
+
+> ptesters a draktest
+Draktest cannot be made a play tester because: level is too low.
+
+.SH See also
+.SP 5 5
+.EP

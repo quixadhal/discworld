@@ -1,0 +1,61 @@
+.DT
+query_combat_actions
+DW_wibble creator help
+query_combat_actions
+
+.SH Name
+.SP 5 5
+query_combat_actions -  This method returns the current array of combat actions on the npc.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * query_combat_actions()
+.EI
+
+.SH Returns
+.SI 5
+the combat action array.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current array of combat actions on the
+npc.
+
+
+The array will have the format of: 
+.EP
+.SP 5 5
+   ({
+.EP
+.SP 5 5
+       action1_chance,
+.EP
+.SP 5 5
+       action1_name,
+.EP
+.SP 5 5
+       action1_action,
+.EP
+.SP 5 5
+       ...
+.EP
+.SP 5 5
+    })
+.EP
+.SP 5 5
+
+.EP
+
+.SH See also
+.SP 5 5
+add_combat_action(), remove_combat_actions(), /std/effects/fighting/combat.c
+
+.EP
+

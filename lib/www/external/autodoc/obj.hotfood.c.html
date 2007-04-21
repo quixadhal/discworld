@@ -1,0 +1,37 @@
+<html><head><title>File hotfood.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/hotfood.c</h2>
+
+<BR>
+This is an inherit for hot food which cools down, 
+based on the temperature of the room in which it 
+finds itself and any containers it might be in. 
+<P>
+It performs just as normal food, apart from the following:
+<P>
+- If eaten while still hot it will cause the consumer to warm up for 
+  a period of time.
+<P>
+- It only decays once it has finished cooling.
+<P>
+It's cooling level can be checked by query_cool_level().  This
+starts at a value of twenty times the original weight of the 
+hot food and determines how long it takes to cool down.  Larger items
+cool more slowly.
+<P>
+The level of cooling is shown in the long and short of the object.
+These are created using query_short_rotten_adjective and 
+query_long_decay_level, and are based on the percentage by which it has 
+cooled.
+<P>
+
+Differant messages can be displayed when the food is eaten hot or cold
+These can be set using set_hot_eat_message() and set_cold_eat_message()
+Messages can also be set for eating bites of food where appropriate
+using setup_cold_eat_piece_messages() and setup_hot_eat_piece_messages()
+<p>Written by Sightblinder
+
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.food.c.html">/obj/food.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.weather.h.html">/include/weather.h</a> and <a href="include.bits_controller.h.html">/include/bits_controller.h</a><hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 14 Oct 2003 17:05:13 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

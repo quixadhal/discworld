@@ -1,0 +1,56 @@
+.DT
+expand_mon_string
+DW_wibble creator help
+expand_mon_string
+
+.SH Name
+.SP 5 5
+expand_mon_string -  This method executes the string passed in.
+.EP
+
+.SH Syntax
+.SI 5
+void expand_mon_string(mixed str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the thing to execute
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method executes the string passed in.  It handles all the
+stuff which is needed from the chat_string stuff.
+
+If the input is a function pointer then it is evaluated with one
+parameter, being the npc.
+
+If the input is a string then the first letter determines what will
+be done with it.  All these are passed through expand_string
+so that exciting things can be done.
+
+.EP
+.SO 6 2 -10
+
+	*	# - A call_other will be generated. The parameters are separated by ':'s, so "#frog:bing:fred:chicken" would call
+.EO
+.SO 6 2 -10
+		this_object()->bing("fred", "chicken");
+.EO
+.SO 6 2 -10
+		. ', ", : - These will generate a 'say', 'lsay' or 'emote'. @ - This will run the passed in command. Eg: "@frog" would cause the soul command frog to be used. Anything else will be used as a message to be sent to everyone in the room. 
+.EO
+
+.SH See also
+.SP 5 5
+expand_string()
+
+.EP
+

@@ -5,12 +5,12 @@ event_person_say
 
 Name
 .SI 5
-event_person_say - Players speach.
+event_person_say - Players' speech.
 .EI
 
 Syntax
 .SI 5
-void event_person_say(object ob, string start, string mess, string lang);
+void event_person_say(object ob, string start, string mess, string lang, string accent);
 .EI
 
 Description
@@ -18,8 +18,9 @@ Description
 This is the function which is called when people say things.  The start
 part of the message is the bit which is something like "Pinkfish says",
 or "Pinkfish asks".  It is the bit put before the column and used for
-formating so the output looks neat.  The mess is the string which they
-actually said and the lang argument is the language in which they spoke.
+formatting so the output looks neat.  The mess is the string which they
+actually said, the lang argument is the language in which they spoke,
+and the accent argument is the accent they used.
 .EP
 
 See also

@@ -1,0 +1,56 @@
+.DT
+set_eat_object
+DW_wibble creator help
+set_eat_object
+
+.SH Name
+.SP 5 5
+set_eat_object -  This sets the object on which the eat function is stored.
+.EP
+
+.SH Syntax
+.SI 5
+void set_eat_object(string word)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - The object containing the eat function.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets the object on which the eat function is stored.
+
+
+If the eat object is set, then the eat function needs to be set as well. If the function is not set then setting the object has no effect. 
+
+The function will be called with two parameters, the first being the object being eaten and the second being the person eating the object. 
+.EP
+
+.SH Example 1
+.SI 5
+void create_food() {
+  object food;
+  food = clone_object("/obj/food/apple.food");
+  food->set_eat_object(this_object());
+  food->set_eat_func("eat_apple");
+} /* create_food() */
+
+void eat_apple(object food, object eater) {
+  /* Do something wonderful! */
+} /* eat_rabbit() */
+
+.EI
+
+.SH See also
+.SP 5 5
+set_eat_object(), set_eat_mess()
+.EP
+

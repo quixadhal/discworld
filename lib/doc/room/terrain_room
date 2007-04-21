@@ -1,0 +1,52 @@
+.DT
+terrain room
+Discworld room help
+terrain room
+
+.SH Name
+.SI 5
+terrain room - a room in a terrain
+.EI
+
+.SH Syntax
+.SI 5
+map
+journey
+walk
+options personal travel
+.EI
+
+.SH Description
+.SP 5 5
+A terrain room is part of a larger collection of rooms that connect
+together and do wonderful things.  They are connected together via a
+text map and allow larger areas to be mapped and navigated with
+relative ease.
+
+There are two methods of getting through a terrain, you can either walk
+or journey.  If you walk then you move one step at a time, if you use
+journey then you move multiple steps at a time.  The default exit, as
+in the exit name without the 'walk' or 'journey' will pick either one of
+these two methods to use.  The method chosen is set using the 'options
+personal travel'.
+
+While in a terrain it is possible to see the adjacent rooms around you that
+are visible using the 'map' command.  The map will display a small
+map on the screen allowing you to see the visible rooms around you.
+.EP
+
+.SH Example
+.SI 5
+> map
+> journey northwest
+> walk south
+> options personal travel=walk
+> s
+> options personal travel=journey
+> northwest
+.EI
+
+.SH See also
+.SP 5 5
+None
+.EP

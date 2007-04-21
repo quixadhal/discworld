@@ -1,0 +1,661 @@
+A Brief Introduction to LPC  -  Flow Control
+Ae First Rough Draft
+
+Drakkos - 26/09/2000
+
+N.B     -       This is a work in project... a living document if
+                you like.  If it appears to be dead when you view
+                it, don't worry.  It's most likely just playing
+                possum.
+
+==========================================================================
+Concepts still to be covered:
+
+Not sure... perhaps nothing.
+==========================================================================
+
+Normally in LPC, statements in programs are executed one after the other
+in order... this is called 'sequential execution'.  However, LPC provides
+a selection of structures that can be used to transfer the flow of control
+to other statements depending on pre-determined situations.   LPC offers
+three types of selection structure: the sequential structure, the selection
+structure, and the repetition structure.  The sequential structure is 
+essentially built into LPC... your statements will be executed in sequential
+order unless you break this up by using one of the other structures.
+
+LPC provides three types of selection structure.  These are:  the if 
+structure, the if-else structure, and the switch structure.  LPC also 
+provides four types of repetition structure:  the while loop, the do-while 
+loop, the for loop, and the foreach loop.
+
+The if structure is known as a 'single selection structure' because 
+it will select, or ignore, a single action based on predefined condition(s).
+An if-else structure is a 'double selection structure' since it differentiates
+between two possible flows of execution depending on the conditions of the
+selection.  A switch statement is a 'multiple-selection structure' because
+it provides a range of different actions.
+
+Each object you write in LPC will be built from combinations of these control 
+structures.  We'll look at them a little more closely now:
+
+
+The If Selection Structure
+==========================
+
+The if selection structure is used to determine whether or not a statement 
+(or block of statements) will be executed.  It takes the form:
+
+    if(condition) {
+        statements_to_be_executed;
+    }
+
+For example, the structure:
+
+    object player = this_player();
+
+    if (player->query_name() == "drakkos") {
+        tell_object(player, "You're a stupid-head!\n");
+    }
+        
+The statement at the top will be executed first, as can be expected in 
+a sequentially executing structure.  Then, the if statement is evaluated
+to determine what flow of execution then follows.  In this case, if
+calling the function 'query_name' on the object variable 'player' returns
+the value "drakkos", then the condition will be evaluated as true.  In
+this case, then the efun tell_object() would send the message  "You're a 
+stupid head!" to the variable 'player'.  In this case, the player with the 
+name 'Drakkos'.
+
+If the name had been anything else, then the condition would have evaluated
+to false, and the tell_object() function would not have been called.
+
+You will notice that the statements after the if structure are enclosed in 
+a pair of curly braces.  If the following code consists of only one
+statement, these are not strictly necessary.  However, it is good practise to 
+use them anyway since it allows for easier addition of later code required, 
+and also makes the code easier to read.  But, for completeness, it would be 
+possible to write the above if statement as:
+
+    if (player->query_name() == "drakkos")
+        tell_object(player, "You're a stupid head!\n");
+
+With no change in functionality.  If you have multiple statements to be 
+executed, you will require the braces enclosing them.  This is a common 
+programming error if you don't get into the habit of using braces 
+regardless.  Let's look at this example:
+
+    if (player->query_name() == "drakkos")
+        tell_object(player, "You're a stupid head!\n");
+        tell_object(player, "Ha!  Ha!  You smell!\n");
+        
+What will happen here is that if the condition evaluated to true, the
+player Drakkos will get:
+
+    You're a stupid head!
+    Ha!  Ha!  You smell!
+    
+On their screen.  But, even if the condition evaluates to false, the
+player will still get:
+
+    Ha!  Ha!  You smell!
+    
+Why is this?  Well... because there are no braces to indicate a block
+of code, the if statement believes that only the first statement there
+is dependant on the condition, and the second is to be executed regardless.
+Assuming this isn't actually what you want to happen, the structure should
+be written:
+
+    if (player->query_name() == "drakkos") {
+        tell_object(player, "You're a stupid head!\n");
+        tell_object(player, "Ha!  Ha!  You smell!\n");
+    }
+    
+This will only send the text to the player Drakkos, and will send nothing to
+objects with any other name.
+
+Also note that the if statement has no semi-colon before the braces.  If
+you have a semi-colon, then the if statement will terminate there, and 
+sequential execution of all code afterwards will continue.
+
+
+The If-Else Selection Structure
+===============================
+
+The if-else structure may be used to select between two different courses
+of action to be executed, dependant on the given condition(s).  It takes the
+form:
+
+    if(condition) {
+        statements_to_be_executed_if_condition_is_true;
+    }
+    else {
+        statements_to_be_executed_if_condition_is_false;
+    }
+
+The if statement detailed above will perform any of the associated
+statements if the condition is evaluated to true.  Otherwise, the
+action is simply skipped over.  The if-else selection structure allows
+the creator to specify that different actions are to be performed if
+the condition evaluates to true, then if the condition evaluates to
+false.  Example:
+
+    if (player->query_name() == "drakkos") {
+        tell_object(player, "You're a stupid head!\n");
+    } 
+    else {
+        tell_object(player, "Monkeys!\n");
+    }
+    
+This will send the 'You're a stupid head' message if the condition is
+evaluated to true, and the message 'Monkeys!' if it evaluates to false. 
+In other words, only Drakkos gets insulted.  Everyone else just gets a 
+nice message about monkeys.  Poor Drakkos, but let's not feel too sorry for 
+him.
+
+LPC also offers the conditional operator (?:) which is closely related
+to the if-else structure:
+
+    tell_object(player, (player->query_name()== "drakkos" ?
+            "You're a stupid head!\n" : "Monkeys!\n"));
+
+As you can see, this takes the form (condition ? expression if evaluated
+true : expression if evaluated false).  You won't normally need to know
+how this works, but you may come across it in code you read/debug, so
+it is helpful to know.
+
+It is also possible to combinate the if and if-else control structures:
+
+    if(condition) {
+        statement 1;
+    }
+    else if(condition 2) {
+        statement 2;
+    }
+    else {
+        statement 3;
+    }
+    
+This does much what you would expect it to do... the first part is the 
+normal if-else detailed above.  As part of the else structure, there's
+an if check on another condition.  If this check evaluates to true, then
+then statement 2 is executed.  Otherwise, statement 3 is.  In structured
+english:
+
+    If condition 1 is true, execute statement 1.  Otherwise, if condition 2
+    is true, execute statement 2.  Otherwise, execute statement 3.
+
+Although it is sometimes necessary to combine, and even nest (lots of
+else-if statements inside each other) these statements, the third
+type of selection structure, the switch statement, often provides a much
+cleaner and more efficient way of achieving this.  For completeness, let's
+look at a nested if-else structure that takes the integer variable 'level', 
+and returns some text based on what it is:
+
+    if(level == 10) {
+        tell_object(player, "My, don't you have large and impressive "
+            "muscles?\n");
+    } else if(level == 9) {
+        tell_object(player, "Almost there!\n");
+    } else if(level == 8) {
+        tell_object(player, "You're a fairly tough guy!\n");
+    } else if(level == 7) {
+        tell_object(player, "You're not so tough!\n");
+    } else {
+        tell_object(player, "You big pansy!\n");
+    }
+    
+While this will work perfectly well, a switch statement is a much better way
+of achieving it.  Nonetheless, it may indeed be necessary to nest if-else
+statements in your code if the conditions are not related as above.  For
+example:
+
+    if(level == 10) {
+        tell_object(player, "My, don't you have large and impressive "
+            "muscles?\n");    
+    } else if(player->query_name() == "drakkos") {
+        tell_object(player, "Ha!  Mr Spud Head!\n");
+    } else {
+        tell_object(player, "Monkeys!\n");
+    }
+    
+    
+Since the conditions here aren't related, a switch selection structure will
+not be able to deal with the necessary flow of logic.
+
+
+The Switch Structure
+====================
+
+The switch statement allows for a creator to test a variable or expression 
+based on the possible values it may assume.   It takes the form of:
+
+    switch(variable) {
+        case possible_state_of_variable_one:
+            statement_to_be_executed;
+        break;
+        case possible_state_of_variable_two:
+            statement_to_be_executed;
+        break;
+        default:
+            statement_to_be_executed;
+        break;
+    } 
+         
+As shown above, it is possible to do this with nested if-else statements, but 
+the switch statement is designed with this purpose explicitly in mind.  The 
+structure consists of a series of 'case' labels, and an optional 'default' case.  
+We would write the level checking code above using a switch statement like so:
+
+    switch(level) {
+
+        case 10:
+        tell_object(player, "My, don't you have large and impressive "
+            "muscles?\n");
+        break;
+        case 9:
+            tell_object(player, "Almost there!\n");
+        break;
+        case 8:
+            tell_object(player, "You're a fairly tough guy!\n");
+        break;
+        case 7:
+            tell_object(player, "You're not so tough!\n");
+        break;
+        default:
+            tell_object(player, "You big pansy!\n");
+        break;
+    }
+    
+Notice the break statements after each conditional case.  This is done
+to avoid the various statements in the switch running together.  If break
+is not used in a switch, then each time a match occurs in the structure, all
+following statements will be executed without being evaluated via the case.  
+Example:
+
+    switch(level) {
+
+        case 10:
+        tell_object(player, "My, don't you have large and impressive "
+            "muscles?\n");
+        case 9:
+            tell_object(player, "Almost there!\n");
+        case 8:
+            tell_object(player, "You're a fairly tough guy!\n");
+        case 7:
+            tell_object(player, "You're not so tough!\n");
+        default:
+            tell_object(player, "You big pansy!\n");
+    }
+    
+If we pass in level as '8', we would get:
+
+You're a fairly tough guy!
+You're not so tough!
+You big pansy!
+
+On our screen.  This feature is rarely used, although it may be handy if 
+you're ever coding an NPC who recites the Twelve Days Of Christmas, for 
+example. 
+
+Break statements halt the execution of the switch and returns execution
+control outside of the structure.
+
+If no matches occur within a switch statement (i.e, there are no corresponding
+cases to the value passed in), then the default case is executed.  Cases can 
+have multiple statements, just like the other structures, but switch is 
+unique in that it does not require multiple statements to be indicated with
+braces.
+
+It is possible to stack case statements to allow for them to cover more
+than one possible value.  For example, let us presume the variable 
+'name' holds someone's name (funnily enough):
+
+    switch(name) {
+        case "drakkos":
+        case "taffyd":
+        case "solace":
+            tell_object(player, "Monkeys everywhere!\n");
+        break;
+        case "pinkfish":
+        case "turrican":
+        case "saffra":
+            tell_object(player, "Bingle!\n");
+        break;
+        case "sojan":
+            tell_object(player, "Womble!\n");
+        break;
+        default:
+            tell_object(player, "Frog?\n");
+   }
+   
+Drakkos, Taffyd, and Solace will see 'Monkeys everywhere!'.  Pinkfish, Saffra 
+and  Turrican will see 'Bingle!', and Sojan will see 'Womble!'.  Everyone else
+will see 'Frog?'.
+
+Note that string values in the case statement must be enclosed in quotation 
+marks.  Numerical values must be left without.  
+
+Finally, it is possible to specify 'ranges' with a switch statement using ..:
+
+    switch(level) {
+        case 90..100:
+            tell_object(player, "Neet!\n");
+         break;
+         default:
+            tell_object(player, "Doh!\n");
+         break;
+    }
+    
+Any value of 90 to 100 with level would print the 'Neet' message.  Anything
+else would get 'Doh!'.
+
+
+The For Repetition Structure
+============================
+
+So far, the structures we have discussed have been selection structures.  
+The second family of control structures are known as 'repetition' 
+structures.  Many objects require repetition, or looping, in their
+code.  In a loop, the same statements get executed repeatedly while some
+loop condition remains true.  The for loop is a 'counter controlled' loop.
+This is also often known as 'definite repetition', since we know in 
+advance how many times the loop will be execute.  In a for loop, a
+control variable is used to count the number of repetitions.  The control
+variable is incremented (usually by one) each time the group of statements
+of the structure is executed.  When the value of the control variable 
+indicates the correct number of repetitions have been performed, the
+loop terminates and the computer continues sequentially with the statement
+after the structure.
+
+The for loop handles all of this automatically.  The for loop has
+the following form:
+
+    for(Initialisation; Condition; Counter) {
+            statements;
+    }
+    
+The initialisation expression is executed at the beginning of the repetition,
+and only once.  Thus, it is useful for initialising any variables required
+in the body of the loop.
+
+The condition expression is used to determine whether the loop continues.
+If condition evaluates to false, the loop terminates and execution again
+continues outside the for structure.  The condition is evaluated after
+each iteration. The counter expression handles the updating of any counter 
+variables.  It too is evaluated every iteration.  Let us take a look
+at how a for loop might be used.  Let us presume that the variable
+frogs is an array of strings containing a list of names.  We want
+to list through these names and print them out on the screen.  There
+are numerous other ways we can do this, but in this case we are looking
+to show how a for loop may be used:
+
+    int counter;
+    string *frogs = ({"drakkos", "taffyd", "pinkfish", "turrican", "solace", 
+        "dogbolter"});
+    
+    for(counter = 0; counter < sizeof (frogs) ; counter++) {
+        printf("Frog at position %d is %s.\n", counter, frogs [counter]);
+    }
+    
+    
+In this case, printf is an efun that will simply print text on the screen of "
+the current interactive.  The first argument is the string that will be
+printed.  For more on how printf works, see 'help printf' for a
+full explanation.  It is possible to be Very Clever with printf and format the
+text string in all sorts of neat ways.  This is beyond the scope of this 
+document, however.  
+
+This for loop will print the following text:
+    
+    Frog at position 0 is drakkos.
+    Frog at position 1 is taffyd
+    Frog at position 2 is pinkfish
+    Frog at position 3 is turrican.
+    Frog at position 4 is solace
+    Frog at position 5 is dogbolter
+
+Remember that LPC counts initially from 0 in arrays.
+
+The three arguments in the for loop are optional.  If the condition expression
+is omitted, the for loop is evaluated as an infinite loop that is never 
+terminated  (this is not quite true... due to the nature of LPC and MudOS, 
+safeguards exist to protect against infinite loops of this nature). The 
+counter expression can safely be omitted if the counter is incremented within 
+the body of the statement, for example.  And if no variables are to be 
+initialised, the initialisation expression can likewise safely be left out.
+
+All three of these expressions can likewise contain arithmetic and logical
+expressions:
+
+    for(x = y +2; y < x * x; x > y + x)
+    
+Note that this isn't actually an instructional example, but shows what is
+possible within a for loop.
+
+
+The Foreach Repetition Structure
+================================
+
+Foreach is similar in tone to the for repetition structure, but is used
+exclusively for iterating through an array or a mapping.  Rather than
+having to deal with counters and evaluation conditions, we can use
+foreach to simply state 'for each value in array/mapping'.  For example:
+
+    string value, *array = ({"Hello!", "Goodbye!", "See yu!"});
+
+    foreach(value in array) {
+        printf("%s\n", value):
+    }
+    
+Which would print out:
+    
+    Hello!
+    Goodbye!
+    See yu!
+    
+For mappings, we need to step through pairs of values representing the
+key and the value:
+
+    mapping myMap = ([  "drakkos"   :   "bing!", 
+                        "pinkfish"  :   "womble",
+                        "rue"       :   "frog"]);  
+    string key, value;
+
+    foreach(key, value in myMap) {
+        printf("Key is %s, value is %s.\n", key, value);
+    }
+        
+Which will print:
+
+    Key is drakkos, value is bing!
+    Key is pinkfish, value is womble!
+    Key is rue, value is frog!                
+    
+For stepping through all elements of an array, a foreach loop is more 
+convenient and ever so slightly more efficient than a straight for loop.  
+
+
+The While Repetition Structure
+==============================
+
+The while loop resembles the for loop in that it is a repetition structure.  
+However, unlike the for loop, the while loop is an 'indefinite repetition'
+because we don't know in advance how many times the loop will be
+executed.  Thus, we repeat on a condition without worrying about the number
+of iterations we have gone through.  
+
+The while repetition structure has the form:
+
+    while(condition) { 
+        statement_to_be_executed;
+    }
+
+Let us look at a simple example of a while loop that attempts to find the 
+first power of 2 larger than 1000:
+
+    int product = 2;
+    
+    while(product <= 1000) {
+        product = product * 2;
+    }
+    
+The while loops will first evaluate the condition.  If the condition is true, 
+then the statements within the loop will be executed.  At each iteration,
+the condition will again be evaluated until it is false, at which point the
+execution returns to the next statement outside of the structure.  Note that
+if the condition is initially evaluated as false, the loop will never be
+executed.
+
+
+The Do-While Repetition Structure
+=================================
+
+This is almost identical in function to the while structure, but rather 
+than evaluating the condition, then iterating if it is true, the do-while
+structure first executes the body of the loop once before evaluating
+the condition.  The do-while loop has the form:
+
+    do {
+        statement;
+    } while(condition);
+    
+To take a theoretical example, let's say we have a value that we need to
+add to another value.  If the resultant product is less than a particular
+amount, we have to add it again.  We keep doing this until we reach the
+amount we're looking for.  We could do this as a do-while loop, like so:
+
+    do {
+        x = x + 5;
+    } while(x < 20);
+    
+Here, x will always be incremented by 5 at least once, since the condition
+ (x < 20) is not evaluated until that statement has been performed.  Whether
+or not it is then incremented again depends on the condition.
+
+To take another example, let's look at a loop we would use to countdown from
+a specific value.  Again, in this case, 10.  Since we're always going to be
+executing the countdown at least once, we can put this in a do-while loop:
+
+    int t = 10;
+
+    do {
+        t = t -1;
+        printf("T-minus %d.\n", t);
+    } while(t > 0);
+    
+    printf("Blast off!\n");
+    
+You will only need to use a do-while loop in very rare situations, but it is
+included here for the sake of completeness.  There are several situations 
+where a do-while loop will be preferable to a while or a for loop, but in 
+general you will find both of these loops will be more useful in day-to-day
+coding.
+    
+    
+The Break and Continue Statements.
+==================================    
+
+We have already looked at how break is used to halt execution in a switch
+statement.  It is possible to use the break statement in any of the 
+structures shown above to return execution to the next statement after the 
+structure.  
+
+Continue, on the other hand, can also be used to alter the control flow of a 
+repetition structure.  Unlike break, it does not return control to the 
+sequential execution.  Instead, it instructs the loop to halt execution of 
+this particular iteration, and continue with the next.  This will cause a 
+re-evaluation of the condition expression and if that evaluates as true, a 
+continuation of the loop.  In a for loop, it will continue from the next 
+counter incrementation. 
+
+Let's look at how these two statements can be used within a simple for loop.
+Here, the intention is to print out what the current value of 'i', our 
+counter variable, is:
+
+    for(i=0;i < 10; i++) {
+        printf("%d ", i);
+    }
+
+So we run this, and we get 1 2 3 4 5 6 7 8 9 10.
+
+But say we wanted it to skip number 5 (for whatever reason).  We could use an
+if statement within the for:
+
+    for(i=0; i < 10; i++) {
+        if(i == 5) {
+            continue;
+        }
+        
+        printf("%d ", i);
+    }
+
+This will produce the output: 1 2 3 4 6 7 8 9 10.  It does this because when 
+the if statement is evaluated to true (when the variable i equals 5), it 
+executes a continue statement.  As we've already said, continue will then 
+halt the execution of this iteration (before it gets to the printf), and 
+continues with the next (when i equals 6).
+
+If we did the same thing with a break; instead of a continue:
+
+    for(i=0; i < 10; i++) {
+        if(i == 5) {
+            break;
+        }
+        
+        printf("%d ", i);
+    }
+
+We'd get the output: 1 2 3 4.
+
+Like with the continue example above, the break will be executed if i is equal
+to five, and will be executed before the printf.  However, unlike continue,
+break will halt execution of the loop entirely, and the rest of the iterations 
+will not be executed.
+
+Break and continue can be useful statements within a repetition structure, but
+care must be taken when using them.  Well designed evaluation conditions 
+will often negate the need for either statement.  Thinking through the logic
+of your structure will often provide better ways to ensure the correct flow
+of logic through the loop other than artificially breaking it with a break 
+or continue statement.  Note that this only applies to loops, and not to the
+switch selection structure detailed above, which requires the use of break to
+enforce case distinctions.
+
+
+Chapter Summary
+===============
+
+This has been a long and quite involved chapter, but by now you hopefully have
+an idea of how powerful the structures above can be when coding.  We've 
+covered a lot of ground here, detailing three selection structures and four
+repetition structures.  Yikes!  Perhaps we've been beating a dead horse
+somewhat, but it's vital you understand how these structures work if you want
+to code clever and unique objects.
+
+-   There are three types of structure on Discworld.  Sequential, selection 
+    and repetition.
+-   Sequential execution is the standard for LPC.  All code you write will be
+    executed sequentially unless you explicitly change the flow of control.
+-   The selection structures are: if, if-else, and switch.
+-   The if structure is a single selection structure, and can be used if you
+    have code to be executed based on upon a particular condition.
+-   The if-else structure can be used to select between two courses of action
+    depending on the condition.  Nested if-else statements can deal with a
+    larger range of possible courses of action.
+-   The switch structure is a multiple selection structure, and is used to
+    differentiate between ranges of a particular variable.
+-   The repetition structures are: for, foreach, while, and do-while.
+-   For is a definite repetition structure, used when we know how many 
+    iterations we need.  
+-   Foreach is a variation on for, and is used to easily step through all 
+    members of an array or a mapping.
+-   While is an indefinite repetition structure, and is used when our 
+    iteration is based on some condition.
+-   Do-while is also an indefinite repetition structure, and will execute the
+    conditional statements at least once before evaluating the condition.
+-   Break and continue statements can be used to abnormally terminate the
+    control flow within a repetition structure.
+-   Break halts execution of the structure and returns control outside the
+    loop.
+-   Continue halts execution of the current iteration, and returns control to
+    the next loop of the iteration.        

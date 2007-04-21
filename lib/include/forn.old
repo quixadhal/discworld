@@ -1,0 +1,96 @@
+/**
+ *  Forn include file
+ *  @author Drakkos
+ *  @stared 28/11/2000
+ */
+
+
+#ifndef __FORN_H
+#define __FORN_H
+
+/* Domain define */
+ 
+#define FORN                   "/d/forn/"
+
+/* General defines */
+
+#define CHARS                  FORN + "chars/" 
+#define DOCS                   FORN + "docs/"
+#define FORN_INCLUDE           FORN + "include/"
+#define HOSPITAL_DIR           FORN + "hospital/"
+#define IDEAS                  FORN + "ideas/"
+#define ITEMS                  FORN + "items/"
+#define LOG                    FORN + "log/"
+#define SAVE                   FORN + "save/"
+#define SECURE                 FORN + "secure/"
+#define UTILS                  FORN + "utils/"
+#define WEB                    FORN + "public_html/"
+
+/* Area defines */
+
+#define GENUA                  FORN + "genua/"
+
+/* Miscellaneous defines */
+
+#define POLICY                 DOCS + "policy/"
+#define HELP                   DOCS + "room_help/"
+
+/* Genua defines */
+
+#define GENUA_CHARS            GENUA + "chars/"
+#define GENUA_CITY             GENUA + "genua_city_dev/"
+#define GENUA_HANDLERS         GENUA + "handlers/"
+#define GENUA_INHERITS         GENUA + "inherits/"
+#define GENUA_ITEMS            GENUA + "items/"
+#define GENUA_VILLAGES         GENUA + "villages/"
+#define GENUA_CITIZEN          GENUA_INHERITS + "protected_npc"
+#define GENUA_CITYROOM         GENUA_INHERITS + "cityroom"
+#define GENUA_CITY_GUARD       GENUA_INHERITS + "city_guard"
+#define GENUA_COMMERCE         GENUA_INHERITS + "genua_commerce"
+#define GENUA_CONSIGLIERE      GENUA_INHERITS + "consigliere"
+#define GENUA_GENERAL_SHOP     GENUA_INHERITS + "genua_general_shop"
+#define GENUA_INNER_RING       GENUA_INHERITS + "genua_inner_ring"
+#define GENUA_ITEM_SHOP        GENUA_INHERITS + "genua_item_shop"
+#define GENUA_MAFIA_HOOD       GENUA_INHERITS + "coffee_nostra_hood"
+#define GENUA_MAFIA_INHERIT    GENUA_INHERITS + "mafia_inherit"
+#define GENUA_OUTER_RING       GENUA_INHERITS + "genua_outer_ring"
+#define GENUA_PUB              GENUA_INHERITS + "genua_pub"
+#define GENUA_WATCH_INHERIT    GENUA_INHERITS + "watch_house"
+
+/* Genua city areas */
+
+#define CARREFOUR_CRESCENT     GENUA_CITY + "carrefour_crescent/"
+#define DAUPHIN_STREET         GENUA_CITY + "dauphin_street/"
+#define DIAMOND_CRESCENT       GENUA_CITY + "diamond_crescent/"
+#define FLORIN_AVENUE          GENUA_CITY + "florin_avenue/"
+#define GENUA_AVENUE           GENUA_CITY + "genua_avenue/"
+#define GENUA_DOCKS            GENUA_CITY + "genua_docks/"
+#define GENUA_MAIN_GATE        GENUA_CITY + "main_gate/"
+#define GENUA_MARKET           GENUA_CITY + "genua_market/"
+#define GENUA_PALACE           GENUA_CITY + "genua_palace/"
+#define GOLDEN_KEY_CRESCENT    GENUA_CITY + "golden_key_crescent/"
+#define GRIM_STREET            GENUA_CITY + "grim_street/"
+#define MARKET_STREET          GENUA_CITY + "market_street/"
+#define MINARET_STREET         GENUA_CITY + "minaret_street/"
+#define NAWLINS_ROAD           GENUA_CITY + "nawlins_road/"
+#define OKRA_AVENUE            GENUA_CITY + "okra_avenue/"
+#define PARADISE_CRESCENT      GENUA_CITY + "paradise_crescent/"
+#define ROYAL_AVENUE           GENUA_CITY + "royal_avenue/"
+#define SAMEDI_CRESCENT        GENUA_CITY + "samedi_crescent/"
+#define YAGA_CRESCENT          GENUA_CITY + "yaga_crescent/"
+#define VIEUX_PROMENADE        GENUA_CITY + "vieux_promenade/"
+#define WATCH_HOUSE            GENUA_CITY + "watch_house/"
+
+/* Specific domain object defines */
+
+#define BROCHURE               IDEAS + "brochure_text/"     
+#define COMMON_ROOM            (FORN + "common")
+#define GENUA_LEDGER           (GENUA_HANDLERS + "genua_crime_handler")
+#define COFFEE_NOSTRA          (GENUA_HANDLERS + "coffee_nostra")
+#define INVENTORY              (GENUA_HANDLERS + "inventory_handler")
+#define HOSPITAL               (HOSPITAL_DIR + "hospital")
+#define INTERVIEW_ROOM         (UTILS + "interview")
+#define PRISON_CELL            (WATCH_HOUSE + "cell")
+#define WEB_HANDLER            (WEB + "misc/web_handler")
+
+#endif

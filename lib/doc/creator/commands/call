@@ -1,0 +1,74 @@
+.DT
+call
+Discworld creator help
+call
+
+.SH Name
+.SI 5
+call - The base calling function.
+.EI
+
+.SH Syntax
+.SI 5
+call function(args) object
+call obvar=function(args) object
+;object->function(args)
+.EI
+
+.SH Description
+.SP 5 5
+The call command allows you to call functions on objects.  This is a very
+powerful command and one of the most useful debug commands.  The
+function name is fairly explanitory, it is something like "short" or
+"long".  If the obvar assignment is used and the result of the call
+is an object pointer, then the obvar specified will now point to that
+object.  The args are very flexible and I will now give you a description
+of all the forms that the arguments to the functions can take.  Of course
+all object references are done through wiz_present.
+
+Numbers are of course passed as numbers, bet that surprised you :)  Strings
+can take a number of forms.  Any of ', " or ` can be used to mark the
+start and end of strings, it will match the two sorts of string ends.
+So if you wish to have a ' in your string you can use "'s to include it.
+ie "thieves' cant".  If the text is surrounded by |'s the args inside
+is passed directly to wiz_present and will error if it cannot find an
+object to match.  {}'s mean arrays.  So {1, 2, 3} is a array of size
+3 containing the elements 1, 2, 3.  Anything of the form ob->func(args)
+is replaced with the return value of the function.
+
+The default parseing of a paramater (if it is not specificaly specified)
+is to try and see if it is an object.  If this is the case it is replaced
+with this, if not it is taken as a string.
+
+Object values and return values from function calls.  If there is only
+one matching object a single object is returned.  If more than one
+object matches it is replaced with the array of objects.  The same
+applies to return values from functions.
+
+In summary:
+.EP
+.SO 3 17 -25
+	<num>	A number
+	'<anything>'	A string
+	"<anythinng>"	A string
+	`<anything>`	A string
+	{args}	An array conatining args. eg { 1, "bing", { 'yellow' } }
+	ob->func(args)	Calls function func on object ob. eg labels->short()
+	|<text>|	Replaced with objects.  eg all in pinkfish
+	<default>	The default text is first checked to see if it is a object, if it is it is replaced with the object, otherwise it is taken as a string.
+.EO
+
+.SH Examples
+.SI 5
+> call adjust_money(1, "gold") me
+<Return thingy printed here>
+> ;me->adjust_money(1, "gold");
+({ -- sizeof 1
+   0
+})
+.EI
+
+.SH See also
+.SI 5
+wiz_present, object, exec
+.EI

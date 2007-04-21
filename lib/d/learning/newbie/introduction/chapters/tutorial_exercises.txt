@@ -1,0 +1,82 @@
+Introduction To LPC - Exercises
+===============================
+
+Easy:
+
+    1)  A plural for objects is automatically created when the object is setup. 
+        We've already looked at how set_main_plural() can be used to change the
+        default way the mud pluralises our object.  Using add_plural(), 
+        demonstrate how we can add further plurals to an NPC.
+       
+    2)  It's possible to make an NPC auto attack any players who enter the
+        room.  Using set_aggressive(), how would we do this?
+        
+    3)  We can provide our NPC with some cash by using the adjust_money()
+        function.  How would we do this to provide our NPC with two 
+        Ankh-Morpork dollars and fifty Ankh-Morpork pence?
+        
+    4)  Discworld being a magical place, it's not unusual for areas to have 
+        high levels of background magic.  How would you use the 
+        set_background_enchant() function to give a room some ambient, residual 
+        magic?
+    
+    5)  Add_alias() can also be used on rooms to add additional labels for 
+        exits.  Demonstrate how you can alias exits to synonyms using this 
+        function.
+        
+    6)  Some rooms are, obviously, larger than others.  Demonstrate how we can
+        make a room larger or smaller using the set_room_size() function.        
+
+
+More Difficult:
+   
+    7)  load_chat() allows for special character strings to be passed in 
+        which are later expanded.  The help file for expand_string() details the 
+        codes for this.  If passing in a command as 'emote swings $mposs$ 
+        hips.' will be expanded as 'The grey blob swings his hips.', what 
+        would we pass in to get:
+        
+        a)  The capitalised name of a random living object in the room
+        b)  The pronoun (he/she/it) of an object attacking our NPC
+        c)  The short description of a random object in the NPC's inventory.
+    
+    8)  If we pass in an array as action to be executed as a part of 
+        add_respond_to_with(), the NPC will randomly perform one of the 
+        commands.  How would you write an add_respond_to_with to make an
+        NPC say either 'bing' or 'bong' when the player says hello?
+    
+    9)  An NPC will execute a story of sorts if a load_chat action is passed
+        in as an array.  How would we define a load_chat to make our NPC 
+        perform three actions, one after the other, in order?
+
+    10)  We've shown above how to move an object into a room.  If we had a 
+        physical object, such as a sword or a chest, how would it be possible
+        to add the object to a room without it appearing in the inventory 
+        line?  Add_hidden_object() may prove useful.
+        
+    11)  Modify exit is an extremely useful function in room coding,  Have
+        a read of the helpfile and see if you can work out the code to
+        
+        a)  Change the exit message of a player so that it would appear as
+            "<name> staggers off to the <direction>".
+        b)  Change an exit so that it does not appear in the list of 
+            obvious exits in a room.
+
+    12)  We can give NPCs access to guild commands using the add_known_command
+        function.  Using this and an add_combat_action, show how we can make
+        an NPC crush and strike at an enemy, should they have an appropriate
+        weapon.
+        
+        
+        
+Notes on Tutorial Questions:
+
+    If you have any ideas for tutorial questions based on what is located in 
+    the newbie coding tutorial, then please mudmail them to Drakkos.  Also,
+    if you have an idea for some neat little thing you'd like to do in your
+    objects, and it seems like it would make an instructive example, mail
+    your query to me and I'll see if I can make a tutorial exercise out of
+    it, with the appropriate answer code.  Thx, flyheads!!
+    
+    
+    

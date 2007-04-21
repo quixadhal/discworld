@@ -1,0 +1,696 @@
+A Brief Introduction to LPC  -  Putting It All Together 5
+Ae First Rough Draft
+
+Drakkos - 15/10/2000
+
+N.B     -       This is a work in project... a living document if
+                you like.  If it appears to be dead when you view
+                it, don't worry.  It's most likely just playing
+                possum.
+
+==========================================================================
+Concepts still to be covered:
+
+Not sure... perhaps nothing.
+==========================================================================
+
+We'll finish off our set of basic tutorials with a look at some of the
+nifty things we can do with NPCs and objects.  As with part four of the
+tutorial set, nothing in this document is vital to creating objects and
+NPCs.  However, the information contained within can be used to make your
+creations more interesting.
+
+We'll start off with NPCs.  We've already looked at how to create an 
+NPC, give it chats, and responses, and even give it some clothes and
+a weapon.  But there's a range of further functionality available that
+we can use to expand on what we've already learned.
+
+Unique NPCs
+===========
+
+Again, we'll ease into this tutorial with an easy example:  the unique
+property.  You can make NPCs 'unique' by adding the following line to
+their setup:
+
+    add_property("unique", 1);
+    
+NPCs with this property do not give out death XP when they are killed.  They
+also trigger a nice leetle death inform when they are killed, so that all
+online creators can see something like:
+
+    [grey blob killed by drakkos <drakkos>]
+    
+The unique property, however, does not prevent two NPCs of the same type
+being cloned.  You must cater for this in the code that loads the NPC.  
+Unique NPCs should never be cloned with clone_object().  They should always
+be loaded with load_object, and then moved into the appropriate room.  
+Using load_object() will ensure that two copies of the same unique NPC are 
+never in the game at the same time.  We've already seen how to use 
+load_object() in the after_reset() of our simple room.
+
+The unique property also has a number of peripheral applications... for 
+example, unique NPCs will not be subjected to the flea infestation effect.
+All NPCs that are named should have this property.  If you want to create an
+NPC that is not unique, but you want to take advantage of the fact that the
+property removes death xp, you can instead mask query_death_xp() to return
+0 in your NPC code:
+
+    int query_death_xp() {
+        return 0;
+    }
+    
+    
+NPCs, Guilds and Races
+======================
+
+We've already seen how to set the race of an NPC through the function 
+basic_setup.  In our previous example, however, we simply used the default,
+boring human race.  But there are a large number of other interesting races
+available for us to choose from.  You can 'call query_races() /std/race' to
+get a list of all valid races.
+
+Races do lots of interesting things behind the scenes, like setting up
+what body parts a creature has, and which body parts are part of which
+other parts.  It's the race object that allows for things like 
+'get teeth from corpse' and 'get tooth from teeth'.  
+
+Race objects also deal with the default settings for a particular NPC...
+for example, armour classes, and basic attacks.  We change the race of
+a particular NPC by changing the first argument of our basic_setup.  
+Say we wanted to create a dwarf instead of a human, for example.  We
+would use:  basic_setup("dwarf", "fighter", 50), which would give our
+NPC all the characteristics of a dwarf.  
+
+Note that changing the race will also change the physical statistics of an
+NPC... strength, dexterity, and so on.  You can get this information easily
+by using 'stat <NPC>' on a cloned creature... this will give lots of 
+information on your leetle NPC... including its physical characteristics.
+Many races will modify strength, constitution, etc, based on the values
+provided in their race object.  This allows for dwarfs, for example, to be
+much stronger by default than humans.
+
+In the same way, we can change the guild of our NPC simply by altering the
+second parameter of basic_setup to one of the various guilds.  You can get
+a list of these with 'call query_guilds() /std/race'.  Say, for example,
+we want to have a level 30 dwarf wizard.  We would use:
+
+    basic_setup("dwarf", "wizard", 30);
+    
+Simple!
+
+You can modify the physical characteristics of your NPCs using the functions
+adjust_xxx() and set_xxx(), where xxx is any one of str (strength), wis 
+(wisdom), con (constitution), int (intelligence) or dex (dexterity).  
+Adjust_xxx() will modify the current statistic by the value passed in as
+a parameter... adjust_str(5), for example, would add five to the NPC's
+strength.  adjust_int(-3), would subtract three from intelligence.  The
+set_xxx() functions will set an NPC's statistic to the value you pass in.
+set_str(20), for example, will set the NPC's strength to 20.
+
+Note however that when you setup your NPC as a one of the standard guilds,
+unless it has the 'unique' property, you will not be able to set exact
+values for their statistics.  Standard guild NPCs have their statistics
+randomised to a degree to increase variety.  You can use the adjust_xxx()
+functions in your setup to favour a particular range, but if you use
+set_xxx(), then the standard guild object will over-ride these.  Example:
+
+    NPC 1:
+    
+    void setup() {
+        set_name("bing");
+        set_short("Big Bing");
+        set_long("This is a big bing!\n");
+        basic_setup("human", "fighter", 30);
+        set_str(18);
+        set_int(18);
+        set_dex(18);
+        set_con(18);
+        set_wis(18);
+    }
+    
+    And NPC 2:
+
+    void setup() {
+        set_name("bang");
+        set_short("Big Bang");
+        set_long("This is a big bang!\n");
+        basic_setup("human", "fighter", 30);
+        add_property("unique", 1);
+        set_str(18);
+        set_int(18);
+        set_dex(18);
+        set_con(18);
+        set_wis(18);
+    }
+    
+When cloning an example NPC 1, we get:
+
+    Con: 14,  Dex: 19,  Int: 17,  Str: 22,  Wis: 15 
+    
+When cloning an example NPC 2, we get:
+
+    Con: 18,  Dex: 18,  Int: 18,  Str: 18,  Wis: 18 
+    
+The presence of the unique property in the second example allows us to 
+explicitly set the statistics.  If we want to adjust our first NPC, we must 
+use adjust_xxx() to modify the randomly chosen statistics by appropriate 
+values. 
+
+Your choice of guild for your NPC will determine what skills they start off
+with as default.  Your NPC will get a few levels in fighting, other and
+other.health as default.  The rest of its skills will be determined by the
+guild object.  You can call query_skills() on the /std/race/<insert_guild>
+to find out what skills a guild has as a primary.  For example, 
+'call query_skills() /std/guilds/warrior' gives:
+
+    fighting.points
+    fighting.combat.melee.sharp
+    fighting.combat.melee.pierce
+    fighting.combat.melee.blunt
+    fighting.combat.melee.unarmed
+    fighting.combat.range.thrown
+    fighting.combat.range.fired
+    fighting.combat.parry.melee
+    fighting.combat.parry.range
+    fighting.combat.dodging.melee
+    fighting.combat.dodging.range
+    fighting.combat.special.weapon
+    fighting.combat.special.unarmed
+    other.evaluating.weapon
+    other.evaluating.armour
+
+Once you've set your NPC up with the default skills, you can further modify
+what levels and bonuses an NPC has in specific skills using the function
+add_skill_level().  This takes two arguments, the first being a string 
+containing the full name of the skill, the second being an integer argument
+of the number of levels to be advanced:
+
+    add_skill_level("other.health", 25);
+  
+This adds twenty-five levels of other.health to your NPC on top of what
+it already has from its guild object.  Easy peasy!
+
+So let's start off with another example NPC... this one a little more complex
+than the grey blob we coded in tutorial one.  We're going to be a little 
+more adventurous and code a leetle gnome with nasty teefs and a talent for
+casting spells.  Sounds like fnu?  Indeed it does!  So let's start with the
+setup:
+
+    /*
+        The Laughing Gnome!
+        With teefs and spells!
+        
+        Wrytten by Drakkos Thee Creator
+        18/10/2000
+    */
+    
+    void setup() {
+        set_name("gnome");
+        set_short("laughing gnome");
+        set_long("This is a little, friendly looking gnome.  Well... "
+            "friendly looking aside from the vicious sharp teefs and the "
+            "wicked razor-like claws.  He has laughter lines all over "
+            "his face, tho', so he can't be all bad.\n");
+        add_property("unique", 1);
+        basic_setup("gnome", "wizard", 50);
+        set_gender("male");
+        
+        set_int(23);
+        set_str(18);
+        set_wis(18);
+        
+        add_skill_level("magic", 100);
+        add_skill_level("fighting", 50);
+
+        load_chat(20,({ 
+        1, "' Ha ha ha!.",
+        1, "' He he he!.",
+        2 , "' I'm the laughing gnome, and you can't catch me!",
+        }) );
+
+        load_a_chat(20,({ 
+        2, ": bares his teeth.",
+        1, "' I'll get my brother Fred onto you!.",
+        2 , "' I'll call out the Gnome Guard!",
+        }) );
+    }
+    
+Not much to go on just now... but we're going to cover the rest of what we 
+need to know next!
+
+
+Spells And Your NPC
+===================
+
+Spells are added to your NPC with the add_spell() function.   This takes
+three arguments... the first is the name the spell will be referenced by.
+The second is the filename of the spell, and the third is the function the
+spell is called through (in the majority of cases, this will be "cast_spell").
+
+So, say we wanted to add the Kamikaze Oryctalagus Flamullae spell to our
+NPC.  Since we're not too concerned about anything cosmetic here, we'll
+just call the spell 'bunnies'.  The path to the spell is 
+/obj/spells/fire_bunny.c.  Our function would then be:
+
+    add_spell("bunnies", "/obj/spells/fire_bunny", "cast_spell");
+    
+Simple!  And now our NPC can attempt to cast the spell by simply using the 
+command 'cast bunnies on <name of poor sod>'.  Of course, our NPC is subject
+to the same restrictions as players... he must have the correct number of
+magic GPs, he must have the spell components to hand, etc.  But assuming all
+of that is provided for him, he'll be able to throw fire bunnies around with
+the best of them.
+
+That was so easy, in fact, let's add a few more spells to him!  All the
+wizard spells are in the directory /obj/spells.  Priest rituals are added
+in the same way, but they reside in /obj/rituals.  We're only going to be
+playing with wizard spells at the moment, however, since all that god bothering
+nonsense is entirely unnecessary for our wizard NPC.  Let's give him a couple
+of other spells... namely Eringyas Surprising Bouquet, and Transcendent 
+Pneumatic Alleviator:
+
+    add_spell("flowers", "/obj/spells/flowers", "cast_spell");
+    add_spell("shield", "/obj/spells/small_shield", "cast_spell");
+    
+Whee!  Now our NPC has some nifty magic he can call upon when the going
+gets tough.  Neato!  But... how do we get him to use them?    
+    
+
+Function Pointers in Load Chats
+===============================
+
+So far, all we've done with load chats are simple commands for our NPC to 
+perform:  say this, emote that, etc.  But if we want to be a little more
+creative, we can put a pointer to a function in our load_chat and
+load_a_chat by prefacing a function name with a # symbol:
+
+        load_chat(20,({ 
+        1, "' Ha ha ha!.",
+        1, "' He he he!.",
+        2 , "' I'm the laughing gnome, and you can't catch me!",
+        1 , "#charm_women",
+        }) );
+        
+See the fourth chat we have there?  Every time that chat option is called, 
+the function charm_women() will be executed.  Nifty!  But what will we
+do in this function?
+
+Well, our gnome is a lecherous little devil... and he has Eringyas Surprising
+Bouquet, allowing him to summon up a bouquet of flowers.  So, let's have it
+so that every time this function is called, he checks his current room for
+any female players, and if one exists, he casts the spell and presents the
+flowers to them.  Cute?  Well... it would be if he wasn't two foot tall and
+all teeth.  But the thought is there!
+
+    void charm_women() {
+        
+        object player;
+        
+        foreach(player in all_inventory (environment(this_object()))) {
+            if (interactive(player) && player->query_gender() == 2) {
+                queue_command("cast flowers");
+                queue_command("give flowers to " + player->query_name());
+                queue_command("bow with a flourish");
+                return;
+            }
+        }
+    }
+
+
+Although this function is somewhat rough and ready (there are much better ways 
+to do the check for female players, for example), it serves to demonstrate what
+we can do with a load_chat function pointer.  I'll go through the function step
+by step to make sure you understand exactly what it's doing:
+
+First, we declare our object variable player.  Then we use a foreach loop to 
+cycle through all objects in our gnomes room.  All_inventory is an efun that 
+takes a single argument of an object, and returns the list of all other 
+objects inside that object.  For example, if you pass in a room, it returns 
+all the objects standing in that room.  If you pass in a backpack, it'll return 
+the list of items inside the backpack.  
+
+In this case, we're passing in the environment of this_object() (our gnome). 
+The environment here is the room our NPC is standing in, so we get the list of
+all objects currently in the room with our gnome.
+
+For each object in the room, we perform an if conditional.  If the object is
+interactive() (In other words, if the object is a player), and if calling
+query_gender on the object returns 2 (in other words, female), then we
+
+1)  Cast the spell flowers.  This is the spell Eringyas Surprising Bouquet...
+    the flowers label we chose when we used add_spell.
+2)  Give the flowers to the player. 
+3)  Bow with a flourish.
+4)  Return from the function since we've found a female player and presented
+    her with the flowers.
+    
+If our if condition is never evaluated to true, the function eventually 
+terminates when all objects have been cycled over.  
+
+So now we have a lecherous little gnome with flowers and a glint in his eye.  
+Neat!  We can add other functions to our load_chat to have our gnome do pretty
+much anything we want him to.  The only limit is your imagination!  Oh, and
+the physical limits of the MUD.  But your imagination is likely to run out
+first.
+
+
+Mixing It Up!  Combat Actions!
+==============================
+
+Sooner, or later, any NPC you code is going to be attacked.  No matter how 
+sweet, adorable, and thoroughly loveable your lickle creation is, someone
+is going to come along and stick a big sword through it.  It's a sad life,
+being an NPC.  You're standing around, minding your own business, and some
+psychopath with a sledgehammer decides he doesn't like your face and attempts
+to practise retrophrenology on a grand scale.  What's a poor leetle NPC to
+do?
+
+Well... fight back, of course!  Most NPCs will do this automatically with
+their hands, feet and whatever they may be holding in their hands.  But
+with judicious use of add_combat_action, you can make your NPCs fight a 
+little better, and maybe even provide a few surprises to unwitting players
+along the way.  Take our gnome, for example.  He has a shielding spell.  
+He has fire bunnies... wouldn't it be neat if he used them both when 
+attacked?  Yes, it would!  So let's add a couple of combat actions
+to that effect!
+
+Add_combat_action() takes three arguments.  The first is an integer, and
+is the chance an action will be called in any combat round.  The second
+is the name of the attack... we can refer to this later if we want to
+remove the action at a later date.  The third argument is either a 
+function pointer (we'll go into function pointers in more depth in a later
+document) to a function (it will be called with two object arguments... the 
+attacker and the target), or an array.  We'll just look at the function
+pointer for now... if you're interested in how the array works, check the
+help file for add_combat_action.
+
+    add_combat_action(50, "bunny_them", (: do_bunny :));
+    add_combat_action(50, "maintain_me", (: do_maintain :));
+    
+Now we need two functions to deal with the combat action calls... do_bunny
+and do_maintain.  Both of these will be called with two object arguments:
+
+    void do_bunny(object attacker, object target) {
+        if (target != this_object() ) {
+            do_command("cast bunnies on " + target->query_name());
+        }
+    }
+
+And for the do_maintain() function:
+
+    void do_maintain(object attacker, object target) {
+        if (target == this_object() ) {
+            do_command("cast shield on " + this_object()->query_name());
+        }
+    }
+
+
+We'll also need to prototype these functions at the top of the file (read the
+chapter on functions if you are unsure what this means), so we add at the top
+of our file:
+
+    void do_bunny(object, object);
+    void do_maintain(object, object);
+
+
+Simple!
+
+Again, these are very rough and ready examples, and would require a lot of
+work before they could actually be used in the game.  They serve merely to
+illustrate the principles.  
+
+But!  
+
+These will not work!  Why not?  Well, our poor leetle gnome has no components
+to cast the spells with.  Sorklin's Field Of Protection requires a shield.  
+Kamikaze Orytalagus Flammulae requires a carrot and a torch.  
+So... how do we get these components into our NPC's grubby little hands?
+
+Well, there are two ways.  One is to cheat and give our NPC the components
+every time he wants to cast the spell.  The other is to give our NPC a number
+of components when he's cloned, and once he's used them all up, he's on his
+own.  Since we're never actually going to be unleashing our leetle gnome on
+any players, we can afford to cheat and simply give him his components when
+he needs them.  So let's rewrite our functions slightly:
+
+    void do_bunny(object attacker, object target) {
+        
+        object carrot, torch;
+        
+        if (target != this_object() ) {
+        
+            if (!sizeof(match_objects_for_existence("carrot", 
+                this_object()))) {
+                
+                carrot = clone_object("/obj/food/carrot.food");
+                carrot->move(this_object());
+            }
+            
+            if (!sizeof(match_objects_for_existence ("torch", 
+                this_object()))) {
+                torch->clone_object("/obj/misc/torch");
+                torch->move(this_object());
+            }
+            
+            do_command("cast bunnies on " + target->query_name());
+        }
+    }
+
+And:
+
+    void do_maintain(object attacker, object target) {
+        
+        object temp;
+        
+        if (!sizeof(match_objects_for_existence("shields", this_object()))) {
+            temp = ARMOURY->request_item("wooden djelian shield", 100);    
+            temp->move(this_object());                        
+        }
+                        
+        do_command("cast shield on " + this_object()->query_name());
+    }
+
+And tada!  Whenever our gnome goes to use his spells, he'll magically have the
+components he needs to hand, no matter what.  How dastardly!  Ooo, don't you 
+feel nice and evil?  No?  Well, you should... it's part of the job 
+requirements.  Ahem.
+
+So now you know how to give your NPC neato combat actions.  You even know how
+to cheat and magically provide them with all the equipment they're ever likely
+to need!  Of course, if you're going to be coding something for the game, it
+would probably be fairer to give them limited components at setup... but we're
+not coding for the game at the moment, we're coding for fnu and we can cheat
+if we want to!
+
+
+Masking Critical Functions!
+===========================
+
+So, now we have our leetle gnome with all the magic he's ever going to need, 
+let's attack him and see if he uses it!  So we clone him into our room, 
+grin wickedly, and type 'kill gnome'.  And, whack:
+
+    You kick the laughing gnome.
+    You killed the laughing gnome.
+
+Wow... that was easy!  Why did he die so easily?
+
+Well, being a gnome, he doesn't really have the physiology to withstand
+much punishment.  We can use add_skill_level() to increase his other.health,
+but that won't do much since his maximum HPs is set deeper in the mudlib.  So
+what can we do?
+
+Well, there are a couple of things we can do!  One, we can stop people from
+attacking him at all by masking the function attack_by().  This function is
+called on an object when another object attempts to attack it.  If we mask
+this to return 0, then an attack will not be permitted.  We can also use the
+stop_fight() function to make sure that the other object doesn't keep fighting
+anyway, since returning 0 only stops that particular attack from going 
+through... it doesn't stop the fight itself.  Attack by takes one argument, the
+reference of the object making the attack:
+
+    int attack_by(object ob) {
+        ob->stop_fight(this_object());
+        this_object()->stop_fight (ob);
+        tell_object(ob, "You meanie!  Leave the poor leetle gnome alone!\n");
+        return 0;
+    }
+    
+So now we have an unattackable NPC.  Neato.  But... well... that's not exactly
+what we want.  Our NPC will only use his spells when he's in the middle of a 
+fight, so we'd need to make sure that he was able to fight back if attacked.  
+In the function above, we have two stop_fight() calls:
+
+    ob->stop_fight(this_object());
+    
+Which calls stop_fight() on the attacking object, and tells the object to 
+stop attacking this_object() (our gnome).  We also have:
+
+    this_object()->stop_fight(ob);
+
+Which calls stop_fight on our gnome, and tells it to stop attacking the object
+ob refers to.  We could make the fight favour our gnome just a leetle by 
+removing the 'this_object()->stop_fight (ob)' line.  This would allow the
+gnome to fight us, but not allow us to fight back.  So let's cheat some
+more and do that now:
+
+    int attack_by(object ob) {
+        ob->stop_fight(this_object());
+        tell_object(ob, "You meanie!  Leave the poor leetle gnome alone!\n");
+        return 0;
+    }
+
+But that's not enough.  For example, if we cast fire bunnies on the NPC
+ourself, we find that our gnome burns to a crisp within seconds.  Since we're
+not actually physically attacking the gnome with the bunnies, attack_by isn't
+stopping the fight.  What we also need to do is make sure our NPC doesn't
+actually get hurt at all.  We can do this by masking adjust_hp().  Adjust_hp()
+takes a single integer argument, which is the number of HPs to adjust the
+NPCs HPs by.  We can simply mask this as:
+
+    void adjust_hp(int number) {
+        return;
+    }
+    
+Woohoo!
+
+Having both of these methods in our NPC is overkill, however, so we'll just go
+with the adjust_hp() mask in our example.  We discussed using attack_by simply
+for completeness, and because it's very useful to know how to make NPCs respond
+differently when attacked.  
+
+   
+Adding Attacks!
+===============
+
+Well, we've already seen our NPC has sharp teefs and claws... and now we know
+our NPC will stand and take whatever damage we want to dish out to him.  But,
+when he's not casting his spells, he's not doing much with his teeth and 
+claws... he's just kicking and punching like a normal person!  Our leetle 
+gnome is more dangerous than that, however, so we're going to give him a 
+couple of extra attacks to show his teeth and claws in action.
+
+We do this using the 'add_attack' function.  We've already seen this in 
+action when we coded our dirty mop in the third tutorial, so we don't need
+to spend too much time going over it again.  But we're going to expand on
+it a little and see how we can change the attack messages to something 
+more appropriate than the default messages for the attack.  We can do this
+with 'add_attack_message'.  So let's give our gnome some neat attacks:
+
+    add_attack("claws", 88, ({ 10, 8, 20 }), "sharp", "sharp", 0 );
+    add_attack("teeth", 88, ({ 5, 5, 25 }), "pierce", "pierce", 0 );
+     
+And now, we use add_attack_message to change the text we get when our leetle
+gnome attacks.  Add_attack_message takes three arguments.  The first is the
+name of the attack, the second is the type of attack, and the third is the
+attack data.  The attack data is of the form:
+
+    ({damage to switch on, ({Message attacker sees, message target sees, message
+        room sees}).  
+        
+If the damage is 0, then that is the default message set to display.  So, let's
+put some messages on these attacks:
+     
+    add_attack_message("claws", "sharp", 
+    ({
+    100, 
+        ({ "You slice $hcname$ with your claws.\n",
+            "$mcname$ slices you with $mposs$ claws.\n",
+            "$mcname$ slices $hcname$ with $mposs$ claws.\n"}),
+    200,
+        ({ "You rip $hcname$ apart with your claws.\n",
+            "$mcname$ rips you apart with $mcposs$ claws.\n",
+            "$mcname$ rips $hcname$ apart with $mposs$ claws.\n"}),
+    0, // The default message set.
+        ({ "You scratch $hcname$ viciously with your claws.\n",
+            "$mcname$ scratches you viciously with $mposs$ claws.\n",
+            "$mcname$ scratches $hcname$ viciously with $mposs$ claws.\n"})
+    }));      
+
+And for his teeth:
+
+    add_attack_message("teeth", "pierce", 
+    ({
+    100, 
+        ({ "You nibble $hcname$ with your teeth.\n",
+            "$mcname$ nibbles you with $mposs$ teeth.\n",
+            "$mcname$ nibbles $hcname$ with $mposs$ teeth.\n"}),
+    200,
+        ({ "You chew on $hcname$ with your teeth.\n",
+            "$mcname$ chews on you with $mcposs$ teeth.\n",
+            "$mcname$ chews on $hcname$ with $mposs$ teeth.\n"}),
+    0, // The default message set.
+        ({ "You sink your teeth into $hcname$.\n",
+            "$mcname$ sinks $mposs$ teeth into you.\n",
+            "$mcname$ sinks $mposs$ teeth into $hcname$.\n"})
+    }));  
+
+And voila!  Now we've given him a few neat attacks, let's give him a good
+kicking to demonstrate.  Jade scarabs at the ready though, boys and 
+girls, 'cause he's a vicious little bugger.  Some pertinent extracts:
+
+    You prepare to attack a laughing gnome.
+    
+    The laughing gnome rips you apart with his claws.
+    Ouch.  That would have taken off 194 hit points.
+    
+    The laughing gnome nibbles you with his teeth.
+    Ouch.  That would have taken off 92 hit points.
+
+    The laughing gnome looks pensive for a few moments.
+    The laughing gnome stares at nothing much in the air around himself.
+    The laughing gnome appears to tense momentarily.
+    With a noise that sounds like "Plink!", the air around the laughing gnome.
+    
+    The laughing gnome wiggles his eyebrows around a bit.
+    The laughing gnome wrinkles his face in disgust.
+    The laughing gnome points at you.
+    The fiery carrot above your head flickers and goes out.
+    The laughing gnome sets fire to the carrot.
+    The carrot floats up and hovers above you.
+    Eight fire bunnies leap out of the ground and throw themselves at you.
+    Ouch.  That would have taken off 197 hit points.
+
+
+Chapter Summary
+===============
+
+Woo!  Isn't our leetle gnome something?  He sure is!  And, as always, there's
+more, much more to learn!  But you'll have to discover all that for yourself
+because this is where this tutorial ends!  But you've come a long way in these
+pages.  You've learned about races, about combat actions and function pointers
+in load chats, and unique attacks for NPCs.  You're well on your way to 
+becoming the MASTAR OF NPC KNOWLIDGE!!  But our journey is nearly at an end...
+the next tutorial will be the last in this suite of documents, and will mark
+the finale of the basic Discworld coding tutorial.  Sniff.  Stay tuned for
+part six!
+
+-   NPCs can be made 'unique' by adding the unique property to them.  Unique
+    NPCs generate a death inform and give no XP when killed.
+-   All NPCs must have a race, guild, and level.  NPCs will be given their
+    level in their primary skills, and an additional few levels in health and
+    fighting based on that level.    
+-   Only unique NPCs can have their statistics set using the set_xxx() function
+    calls.
+-   Spells are added to an NPC using the add_spell() function.  NPCs have the
+    same restriction on spells that players have.  They must have the correct
+    component and have enough skills and GP to cast.
+-   It is possible to pass in a function as an argument to load_chat or 
+    load_a_chat by prefacing the function name with #.
+-   The function add_combat_action may be used to add actions for an NPC to 
+    perform during combat.    
+-   If the function attack_by() is masked to return zero, no one can 
+    physically attack our NPC.  We can mask this function to change the 
+    behaviour of an NPC when attacked.
+-   We can mask adjust_hp() to alter the way an NPC deals with being damaged.
+-   We can use the add_attack() function to add physical attacks to an NPC.
+-   The function add_attack_message() can be used to provide unique messages
+    for an NPC's attacks.    
+        
+
+Support Files
+=============
+
+The code for the example above can be found at:
+
+    /d/learning/newbie/introduction/advanced_npc.c

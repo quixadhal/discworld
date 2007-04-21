@@ -1,0 +1,144 @@
+.DT
+inhumation office
+Discworld room help
+inhumation office
+
+.SH Name
+.SI 5
+inhumation office - Allows playerkillers to place contracts on each other, and lets assassins view them and collect payment for completed jobs.
+.EI
+
+.SH Syntax
+.SI 5
+request contract on <playername>
+request warning contract for <playername>
+confirm contract on <playername>
+submit message for <playername>
+collect [payment]
+view book, view listings, review contracts, etc.
+list [available NPCs]
+donate <money>
+.EI
+
+.SH Player contracts
+.SP 5 5
+There are several distinct phases to requesting a contract on another player
+through the Assassins' Guild.  The first step is to 'request' the contract
+at any branch office of the Guild.  Your request will be processed; once a
+decision has been reached on whether the contract was accepted and how much
+it will cost, you will be informed.
+
+"Warning" contracts will cost considerably less than a "full-service"
+contract requested on the same person.  The only difference between a
+full contract and a warning contract is that, with a warning contract,
+the client will not lose a life.
+
+Full contracts are considerably more costly if the client has very few
+lives remaining at the time of contract valuation.
+
+After you have received confirmation of the price, you can go to any branch
+office and pay the cost of the contract in the appropriate local currency
+using the 'confirm' command.
+
+A player who has not requested the contract in question can still pay it,
+assuming they have enough money to cover the contract plus a surcharge.
+Please note, however: If you do not have sufficient funds, you will not
+be told that there is a contract on that player.
+
+Once a contract has been paid, you may submit a special message for your
+intended client, which will be printed on the receipt they receive when
+they are inhumed.  You may also choose to reveal your name to your client
+if you so choose; please note that if you do not specifically indicate that
+you wish your name to be revealed, you will remain anonymous.
+
+A contract is only active for a limited period of time.  If that time
+expires, the person who paid the contract will receive a mail indicating
+that they have a refund waiting for them, which they can 'collect' at any
+branch office.  The collect command is also used by graduated assassins
+to claim their wages from completed jobs.  There is a service fee associated
+with expired contracts; you will not get the full amount back.
+.EP
+
+.SH Viewing the contract listings
+.SP 5 5
+If you have graduated from the guild, you can view the currently active
+contracts.  The command to do this will vary from office to office.  You
+may have to ask the secretary, or you may simply have to view the book.
+
+All graduated assassins can view the book; however, you must meet several
+additional criteria before you are allowed to view or close contracts on
+other PKs. Those criteria are: (1) You must be at least Guild Level 175,
+(2) You must be at least 10 days old, (3) You must have closed at least 4
+(NPC) contracts, (4) You must be considered an active player.
+.EP
+
+.SH NPC contracts
+.SP 5 5
+Any player, PK or non-PK, may request and pay for a contract on a selected
+list of NPCs.  That list is available in all public Guild offices by typing
+"list".  Please use the entry in the "tag" column to request NPC contracts.
+.EP
+
+.SH Donations
+.SP 5 5
+Any player may choose to make a donation to the Assassins' Guild Benevolent
+Fund.  This money will be used to fund NPC contracts for graduated assassins
+to close.  Use the command "donate" to donate a specific number of coins
+(in the denomination of the Guild you are in) into the Guild coffers.  Note 
+that for any one donation, all the coins must be from one money area, IE 
+Ankh-Morpork, Lancre.
+.EP
+
+.SH Notes
+.SP 5 5
+If you commit a crime against the guild (stealing on guild grounds, killing
+Guild NPCs, possibly other actions), you will earn a "special" contract
+which will cost you a life, and can be closed by NPC assassins or by
+specially-appointed PK Guild Enforcers.
+
+Only playerkillers may request contracts, and only playerkillers may be
+the target of contracts from other players (Non-PKs can still earn special
+contracts).
+
+Assassins may request and pay for contracts, but will not be allowed to
+close a contract which they themselves have been involved in.  It is
+considered cheating to try to circumvent this rule.
+
+Assassins can not place contracts on each other.  Attempting to circumvent
+this rule is also considered cheating.
+
+Disavowed assassins are denied access to the contract system.  The
+Guildmaster may also deny access to the contract system for any player
+at his or her discretion.  Guess what? Cheating if you try to get around
+this one, too.
+
+Any player found to be using the contract system with intent to harass
+can expect to have a brief and painful chat with Admin.
+.EP
+
+.SH Examples
+.SI 5
+Requesting a contract:
+> request contract on shirke
+> request warning contract for shirke
+
+Paying for a contract:
+> confirm contract on shirke
+
+Customizing the message:
+> submit message for shirke
+
+Collecting refunds or wages:
+> collect payment
+
+Making a donation:
+> donate 128 pence and 34 dollars
+
+Viewing a price list of NPCs:
+> list
+.EI
+
+.SH See also
+.SP 5 5
+inhume
+.EP

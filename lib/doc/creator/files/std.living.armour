@@ -1,0 +1,76 @@
+.DT
+armour
+Discworld Creator help
+armour
+
+Name
+.SI 5
+/std/living/armour.c - object inherited by everything living
+.EI
+
+Description
+
+.SP 5 5
+/std/living/armour is the object that handles wearing and wielding armour
+for living objects.
+.EP
+
+Manipulating functions
+
+.SI 5
+string wear_armour( object thing, int doing_hold )
+.EI
+.SP 10 5
+Makes the living object wear the given armour.  If doing_hold, the armour is
+to be held instead of worn, eg. a shield.  It checks various things such as
+query the number of items of the given type it can wear off the race object.
+Returns 0 if the player succeded in wearing it, or returns the string error
+message.
+.EP
+ 
+.SI 5
+int remove_armour( object thing )
+.EI
+.SP 10 5
+Tries to remove the armour from the living object.  Returns 0 on
+success and 1 on failure.
+.EP
+ 
+void clear_armours()
+.EI
+.SP 10 5
+Removes everything.
+.EP
+ 
+Information functions
+ 
+.SI 5
+int query_ac( string type, int amount, string zone )
+.EI
+.SP 10 5
+Returns the ac of the player.  This will take into account the natural
+armour class of the living object plus the armour class of what is is
+wearing.  The dam parameter is used by the armours in damaging them, ie.
+their condition.  The zone parameter is when ac is checked for a specific
+location, eg. "head" or "arms", see /include/clothing.h for the complete
+list.
+.EP
+ 
+.SI 5
+object *query_wearing()
+object *query_armours()
+.EI
+.SP 10 5
+These are synonyms, and will return a list of the things worn.
+.EP
+
+Internal functions
+
+.SI 5
+.SI 5
+int equivilant_armour_types(mixed comp, string type)
+.EI
+.SP 10 5
+Dyslexia strikes again *sigh*
+.EP
+ 

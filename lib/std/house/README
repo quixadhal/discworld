@@ -1,0 +1,71 @@
+This is the directory in which the house layouts are written.
+
+Each directory contains one template. Any directory which ends with the
+letter 'M' means that template contains multiple houses (e.g. a duplex or
+block of flats).
+
+Within each directory are a number of files. Each file corresponds to a
+single room. Each file starts with N. The N will be replaced by the house
+number (so you could have several houses in a particular area each with a
+different number so they don't get mixed up). If there are multiple houses
+in the directory they will be indicated by a letter after the
+N. e.g. Nagarden.c Naliving.c Nafluff.c are all part of house Na and
+Nbgarden.c Nbliving.c Nbfluff.c are all part of the house Nb. Finally the
+room will have a name e.g. livingroom, bedroom1, etc.
+
+The code for the house rooms is normal LPC code except that information
+that will vary has been replaced with %<name>%. These fields are
+substituted when you use the housing creator. The following substitutions
+are available:
+
+  %savedir% -- the directory for the houses save files
+  %N% -- the house number
+  %orientation% -- 1 if the house is oriented on a diagonal, 0 otherwise.
+  %out% -- the destination of the exit onto the street.
+  %1% - %7% -- the directions as follows:  7 0 1
+                                            \|/
+                                           6-+-2  
+                                            /|\
+                                           5 4 3
+               these relative directions will be mapped to cardinal
+               directions by the housing creator.
+
+A typical room will look something like this:
+
+    #include "path.h";
+    inherit PLAYER_HOUSE;
+    
+    void setup() {
+       set_light(50);
+       set_theft_handler( HOSPITAL );
+       set_save_file("%savedir%/%N%bed");
+       
+       /* DESCRIPTIONS */
+       set_orientation(%orientation%);
+       set_quit_handler(%out%);
+    
+       set_short("bedroom");
+       set_base_desc( "a small bedroom" );
+       add_surface( "floor", "stone paving" );
+       add_surface( "ceiling", "roughly finished wood" );
+       add_surface( "%0% wall", "roughly finished wood" );
+       add_surface( "%2% wall", "roughly finished wood" );
+       add_surface( "%4% wall", "roughly finished wood" );
+       add_surface( "%6% wall", "roughly finished wood" );
+    
+       /* EXITS */
+    
+       add_exit( "%4%", PATH +"%N%livingroom", "door" );
+       modify_exit("%4%", ({ "door short", "living room door" }));
+    }
+
+The base description is put at the beginning of the rooms generated
+description, it only needs to be brief description, the full description
+will be auto-generated.
+
+6 surfaces should be present -- floor, ceiling, %0%, %2%, %4% and
+%6%. Ceiling will not be present in an outside room of course.
+
+Doors should be given a short description typically involving the room the
+door leads to. Do not mark doors as open, closed, locked, unlocked or
+having any keys since this is all handled by the housing system.

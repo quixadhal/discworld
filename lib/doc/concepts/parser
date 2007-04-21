@@ -1,0 +1,86 @@
+.DT
+parser
+Discworld Player Help
+parser
+
+.SH Name
+.SI 5
+parser - the Discworld object parser
+.EI
+
+.SH Description
+.SP 5 5
+The Discworld object parser allows you to interact with objects in many
+different ways.
+
+So if you have a blue frog in your inventory, you can type 'look at frog' or
+'look at blue frog'.
+
+If you have several types of the same object, you can refer to it with a
+number or an ordinal.  For example, 'blue frog 1' or '3rd blue frog'.
+
+You can refer to several types of the same object by specifying the number of
+objects you want to use.  For example, '1 blue frog' or 'twenty blue frogs'.
+
+You can also interact with objects in containers by using 'in'.  For example,
+'look at beer in bottle'.
+
+You can interact with several things at once by using ',' and '&'.  Typing
+'look at frog,womble' will allow you to look at both objects, but only if
+both objects are present.  Typing 'look at frog & womble' however, will allow
+you to look at the frog even if the womble isn't present and vice versa.
+
+If you only want to interact with objects that lie in the room, then you can
+use 'here'.  For example, 'look at green bottle here'
+If you only want to interact with objects that lie in your inventory then you
+can use 'my'.  For example, 'look at my shoes'.
+
+You can also specify random objects to match from a group with the
+'random' keyword.
+
+Living things can be specifed with the 'living' keyword.  This allows you to
+reference living things without referencing non-living things.
+
+The mud remembers what you last referenced, so you can reference them again
+with 'it', 'them', 'him', 'her' keywords.
+If for example, you have just looked at somebody and want to look at her socks
+you can type 'look at her socks'.  If you have just looked at a cabbage, you
+can pick it up with 'get it', and so on.
+
+You can change how precisely you want to target stuff with the option 'input
+ambiguous'.  If you are a complete control freak who always wants to specify
+precisely which object you are referring to then try setting 'options input
+ambiguous = on', otherwise leaving it 'off' might be better.
+
+It is also possible to turn on and off the processing of 'and' as a
+break word or as an adjective.  If you use 'options input andascomma = on'
+you will turn on the possibility to use 'and' as if it was a comma.  If
+you turn this to off then you can use it as an adjective and reference
+things like 'red and blue jacket'.
+.EP
+
+.SH Examples
+.SI 5
+> look at quill,frog
+> look at quill&frog
+> look at bottle in bucket
+> look at blue frog
+> look at 2nd red towel
+> look at 20 gold coins
+> look at cupcake here
+> look at random flower
+> look at my badge
+> look at her badge
+> look at his jacket
+> look at it
+> look at living beggar
+The beggar's life span looks exceptionally short.
+> get them
+> options input ambiguous = off
+> options input andascomma = on
+.EI
+
+.SH See also
+.SP 5 5
+locate, options
+.EP 5

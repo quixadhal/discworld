@@ -1,0 +1,42 @@
+.DT
+find_inv_match
+DW_wibble creator help
+find_inv_match
+
+.SH Name
+.SP 5 5
+find_inv_match -  This method finds the matching objects inside this object that are visible to the looker.
+.EP
+
+.SH Syntax
+.SI 5
+object * find_inv_match(string words,
+                        object looker)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^words%^RESET%^ - the words matched on
+%^BOLD%^looker%^RESET%^ - who is looking
+.EI
+
+.SH Defined in
+.SI 5
+/std/container.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method finds the matching objects inside this object
+that are visible to the looker.  This will also use the
+registered containers and add them into the array returned
+(if visible and contained in the object).
+.EP
+
+.SH See also
+.SP 5 5
+/secure/simul_efun->find_match(), add_inventory_container()
+
+.EP
+

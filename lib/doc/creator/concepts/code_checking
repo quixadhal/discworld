@@ -1,0 +1,66 @@
+.DT
+Code Checking
+Discworld creator help
+Code Checking
+
+.SH What to do before submitting your code for approval
+.SP 0 0
+(adapated from a post by Carmine, 8 May 2002)
+.EP
+
+.SP 5 5
+From time to time, some creators get lazy about
+checking and playtesting their own code before submitting it for approval.
+Typos, insane numbers, missing plurals, adjectives and aliases are all
+common complaints.  Most, if not all, of these should have been weeded out
+before it gets to the approval stage, but at the moment they are not.  This
+delays approval of your, and everyone else's, code, as more time is spent
+per file picking up errors.
+
+There are simple ways to reduce this problem!
+.EP
+
+.SO 5 5 -15
+	1)	If you have coded an object, clone it once and check that you can do everything to it that you would expect to be able to do to it.  Bring in a testchar to see if messages to the room are correct.  Then CLONE ANOTHER ONE, so that you have two, to check that the plurals work.  Check that you can refer to the object in question in every possible way that you think you should be able to.  "small packet of biscuits" should be able to be referred to as "small packet of biscuits", "packet of biscuits", "biscuit packet", "small packet", "small biscuit packet" etc. etc.
+
+	2)	If you have coded an item of clothing, PLEASE read 'help clothes' in order to use the correct numbers for its setup.  If you are not sure about what numbers are most appropriate, ask someone.
+
+	3)	I know that it's not always practical to run your descriptions through a spell-checker first, but if you know that you regularly make a particular typo write an alias to check for it!  e.g.
+.EO
+
+.SI 15
+alias check1 ggrep dont $*$;
+alias check2 ggrep freind $*$;
+alias check3 ggrep wierd $*$;
+.EI
+
+.SO 5 5 -15
+		You could even create a couple of aliases for quick fixing, though I am more wary of recommending this way of doing it (I'd rather you fixed them by hand to save ewkwerd errors (hi Tereno!)):
+.EO
+
+.SI 15
+alias fix1 sar ! dont ! ! don't ! $*$;
+alias fix2 sar ! freind ! ! friend ! $*$;
+alias fix3 sar ! wierd ! ! weird ! $*$;
+.EI
+
+.SO 5 5 -15
+	4)	When you walk through rooms, try and look at every noun you have used - you should really provide a description for each one.  If in doubt, make sure there's an add_item for it.  If you're not sure how picky to be, ask Gin or Foolish how picky I can be...
+
+	5)	When you've wandered through your code, get someone else to have a wander too.  Checking each other's code at the development stage will mean less to note at the approval stage, meaning quicker approval, meaning quicker results!
+.EO
+
+.SP 5 5
+These steps will, of course, by no means ensure that everything is perfect
+first time through the approval-checking process, but they will speed the
+entire process meaning less time waiting for you, happier Leader and
+Deputies, better code, and more time for spankings.
+
+Any code submitted which has obviously not had the most basic of playtesting
+by you (especially errors in the uses of plurals, aliases, adjectives etc)
+may be returned without comments/checking/approval until you yourself have
+tested your own code.
+
+If you have any questions or queries about this, don't hesitate to ask your
+Leader or a Deputy!
+.SP

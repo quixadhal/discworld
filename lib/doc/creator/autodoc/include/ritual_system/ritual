@@ -1,0 +1,59 @@
+.DT
+ritual
+DW_wibble creator help
+ritual
+
+.SH Name
+.SP 5 5
+ritual -  Data Storage for Rituals 
+.EP
+
+.SH Definition
+.SI 5
+class ritual {
+               string name;
+               string family;
+               int base_gp_cost;
+               int * align;
+               int targets;
+               class stage * stages;
+               int pk_check;
+               int teach_base;
+               int learn_base;
+               string training_skill;
+               int movement;
+               int speech;
+               int vision;
+               string * materials , * consumables;
+               function target_check;
+               string resist_skill;
+               string help;
+               int offensive;
+               object caster;
+               object imbue;
+               object * rit_targets;
+               object * resistors;
+               int current_stage;
+               int start_time;
+               int target_count;
+               function valid;
+               int degree;
+               string deity;
+               mapping difficulties;
+               mapping benefits;
+}
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/ritual_system.h
+.EI
+
+.SH Description
+.SP 5 5
+
+Data Storage for Rituals
+
+.EP
+

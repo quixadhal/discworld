@@ -1,0 +1,46 @@
+.DT
+hospital_log_file
+DW_wibble creator help
+hospital_log_file
+
+.SH Name
+.SP 5 5
+hospital_log_file -  This method provides log_file() functionality but for /d/am/log instead.
+.EP
+
+.SH Syntax
+.SI 5
+void hospital_log_file(string file,
+                       string format,
+                       mixed * args ...)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^file%^RESET%^ - the file name to log to. This will have /d/am/log/
+inserted before it.
+%^BOLD%^format%^RESET%^ - the text to log, can contain sprintf() format specifiers.
+%^BOLD%^args%^RESET%^ - the arguments for any sprintf format thingies
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/hospital.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method provides log_file() functionality but for /d/am/log
+instead.  You should use this method to record errors and whatever
+that are domain specific instead of using log_file().
+.EP
+
+.SH Example 1
+.SI 5
+hospital_log_file("BAD_HOSPITAL_NPC", "%s: Bad NPC hospital data, %O.\n",
+ctime(time()), _regenerated_npcs);
+// This would log to /d/am/log/BAD_HOSPITAL_NPC.
+.EI
+

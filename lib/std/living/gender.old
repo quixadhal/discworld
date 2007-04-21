@@ -1,0 +1,75 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker: arby $
+ * $Id: gender.c,v 1.1 1998/01/06 04:29:08 ceres Exp arby $
+ * $Log: gender.c,v $
+ * Revision 1.1  1998/01/06 04:29:08  ceres
+ * Initial revision
+ * 
+*/
+int gender;
+nosave int womens_day;
+
+int query_female() { return (gender == 2) || womens_day; }
+int query_gender() { return (womens_day?2:gender); }
+int query_male() { return gender == 1 && !womens_day; }
+int query_neuter() { return !gender && !womens_day; }
+
+string query_gender_string() {
+    if (!gender && !womens_day) return "neuter";
+    else if (gender == 1 && !womens_day) return "male";
+    else return "female";
+}
+
+string query_gender_title() {
+    if (!gender && !womens_day) return "creature";
+    else if (gender == 1 && !womens_day) return "sir";
+    else return "madam";
+}
+ 
+string query_objective() {
+    if (!gender && !womens_day)
+        return "it";
+    else if (gender == 1 && !womens_day)
+        return "him";
+    else return "her";
+}
+ 
+string query_possessive() {
+    if (!gender && !womens_day)
+        return "its";
+    else if (gender == 1 && !womens_day)
+        return "his";
+    else return "her";
+}
+ 
+string query_pronoun() {
+    if (!gender && !womens_day)
+        return "it";
+    else if (gender == 1 && !womens_day)
+        return "he";
+    else return "she";
+}
+
+void set_gender(mixed arg) {
+  if(stringp(arg)) {
+    if(arg == "male")
+      gender = 1;
+    else if(arg == "female")
+      gender = 2;
+    else
+      gender = 0;
+  } else {
+    gender = arg;
+  }
+} /* set_gender() */
+
+/* Can only set ourselves on or off on womens day */
+/* Bollocks. */
+void set_womens_day(int bing) {
+/*
+  if (previous_object() != this_object())
+    return ;
+*/
+  womens_day = bing;
+} /* set_womens_day() */

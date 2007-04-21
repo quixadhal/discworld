@@ -1,0 +1,126 @@
+.DT
+quest_handler
+Discworld Creator help
+quest_handler
+
+Name
+.SI 5
+/obj/handlers/quest_handler.c - Handler for <desc>
+.EI
+
+Description
+
+.SP 5 5
+This is the skeletal help for the quest_handler handler.
+
+<description missing>
+.EP
+
+Functions
+
+.SI 5
+void load_quests()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void save_quests()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void create()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_total_qp()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int add_quest( string name, int level, string title, string story )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_quest_level(string name)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_quest_story(string name)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_quest_title(string name)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_quest_times( string name )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed query_quest_done( string name )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int delete_quest(string name)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string *query_quest_names()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int *query_quest_levels()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string *query_quest_titles()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string *query_quest_stories()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void quest_completed(string name, int quest, object prev_ob)
+.EI
+.SP 10 5
+.EP
+ 
+/* Fame functions - for use in halls of fame / libraries etc. */
+/* Piecemaker 25/3/93                                         */
+/* get the fame percentage of the player. Quest points / total quest points */ 
+.SI 5
+string query_fame_str( string name )
+.EI
+.SP 10 5
+.EP
+ 
+ 

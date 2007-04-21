@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: grunt.c,v 1.1 1998/01/06 04:27:40 ceres Exp $
+ * $Log: grunt.c,v $
+ * Revision 1.1  1998/01/06 04:27:40  ceres
+ * Initial revision
+ * 
+*/
 /*
  * The language everyone can speak.  But no one understands.
  */

@@ -1,0 +1,40 @@
+.DT
+do_move_after
+DW_wibble creator help
+do_move_after
+
+.SH Name
+.SP 5 5
+do_move_after -  This is called when the npc decides it must continue down a certain route.
+.EP
+
+.SH Syntax
+.SI 5
+void do_move_after(int running_away)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^running_away%^RESET%^ - this is 1 if the npc is running away
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is called when the npc decides it must continue down
+a certain route.  This will be called by the wander handler
+and can be used to force the npc to wander along a route
+faster.
+.EP
+
+.SH See also
+.SP 5 5
+set_move_after()
+
+.EP
+

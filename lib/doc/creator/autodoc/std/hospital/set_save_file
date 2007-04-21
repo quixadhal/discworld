@@ -1,0 +1,39 @@
+.DT
+set_save_file
+DW_wibble creator help
+set_save_file
+
+.SH Name
+.SP 5 5
+set_save_file -  This method is used to set the save file for the hospital.
+.EP
+
+.SH Syntax
+.SI 5
+void set_save_file(string new_save)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^new_save%^RESET%^ - the file name to save the hospital data in
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/hospital.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to set the save file for the hospital.  This
+file is where all of the hospitals NPC data is stored while it is
+not active and in between reboots.
+
+
+If this file does not exist when the hospital is loaded, then the variables will be initialised to their defaults and %^BOLD%^restore_default_npcs()%^RESET%^called. 
+
+
+.EP
+

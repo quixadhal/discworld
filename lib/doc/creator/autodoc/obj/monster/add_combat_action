@@ -1,0 +1,43 @@
+.DT
+add_combat_action
+DW_wibble creator help
+add_combat_action
+
+.SH Name
+.SP 5 5
+add_combat_action -  This method adds a combat action to the npc.
+.EP
+
+.SH Syntax
+.SI 5
+void add_combat_action(int chance,
+                       string name,
+                       mixed action)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a combat action to the npc.  This is an action which
+has a chance of occuring during combat.  The name is an identifier
+which can be used to remove the action with later.  The action
+itself can be a string, then that command will be executed.  If
+the action is a function pointer then it will be evaluated with
+two arguments, the first being the attacker, the second being the
+target.
+
+
+If the action is an array, if it is one element then the function specified will be called on the attacked with the same arguements as above. If the size of the array is two then the function will be called on the specified object with the arguments as above.
+.EP
+
+.SH See also
+.SP 5 5
+remove_combat_action(), query_combat_actions(), /std/effects/fighting/combat.c
+
+.EP
+

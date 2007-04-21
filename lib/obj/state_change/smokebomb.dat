@@ -1,0 +1,44 @@
+::item "grind:SmokeRock"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 1.0
+::->func:: ({ (:
+   $2->set_decay_speed(0),
+   $2->set_medium_alias( "SmokeCrystals" ),
+   $2->set_name( "smoke_crystal" ),
+   $2->set_short( "tiny gray crystals" ),
+   $2->set_main_plural( "tiny gray crystals" ),
+   $2->set_weight_unit( ({ 1, 50 }) ),
+   $2->add_alias( ({ "crystal", "crystals" }) ),
+   $2->add_adjective( ({ "tiny", "gray" }) ),
+   $2->set_long( "This is $pile_size$ of tiny, dark gray crystals, "
+     "$amount_size$.  The individual crystals catch the light on "
+     "their facets, and the pile seems to swirl, like smoke.\n" )
+:) })
+
+::item "air-dry:DampCoatedSmokeCrystals"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 1.0
+::->func:: ({ (:
+   $2->set_decay_speed(0),
+   $2->set_medium_alias( "CoatedSmokeCrystals" ),
+   $2->set_name( "coated_smoke_crystals" ),
+   $2->add_alias( "crystals" ),
+   $2->set_short( "powdery black crystals" ),
+   $2->add_adjective( ({ "powdery", "black" }) ),
+   $2->set_long( "This is $pile_size$ of black crystals, about "
+     "$amount_size$.  The crystals are covered in fine black powder.\n" )
+:) })
+
+::item "air-dry:DampInertSmokeCrystals"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 1.0
+::->func:: ({ (:
+   $2->set_decay_speed(0),
+   $2->set_medium_alias( "InertSmokeCrystals" ),
+   $2->set_name( "inert_smoke_crystals" ),
+   $2->add_alias( "crystals" ),
+   $2->set_short( "powdery black crystals" ),
+   $2->add_adjective( ({ "powdery", "black" }) ),
+   $2->set_long( "This is $pile_size$ of black crystals, about "
+     "$amount_size$.  The crystals are covered in fine black powder.\n" )
+:) })

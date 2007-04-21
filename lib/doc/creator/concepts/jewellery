@@ -1,0 +1,84 @@
+.DT
+Discworld creator help
+jewellery
+Discworld creator help
+
+.SH Name
+.SI 5
+jewellery - the damage values and chances for jewellery
+.EI
+
+.SH Description
+.SP 5 5
+These are the numbers to calculate the setup of a piece of jewellery (usually with .arm as suffix, although it might legitimately have .clo).
+
+The base setup is based on how large the item is; the base damage chance is based on how easy it would be to hit in combat.  Thus, rings would be easier to bang up in combat than earrings.  Bonuses to setup and damage chances are based on the quality and hardness of the material.
+
+Note: you can make non-metal jewellery, such as hemp or cloth jewellery.  If you do not want the jewellery to be fixable in a forge, give the file a normal jewellery "type" (e.g., "ring") but give it a .clo suffix. It will be unfixable in a forge and fixable with needle and thread.  Refer to 'help clothes' to determine damage chances for the material.
+
+The property "shop type::jewellers" will let the item be sellable in a jewellery shop.  The alias "jewellery" should make it show up upon typing "look every jewellery".
+
+%^BOLD%^Type of Jewellery%^RESET%^
+.EP
+
+.SO 5 17 16 20 -59
+	Item	(Small->Large)	Base Damage Chance
+	----------	--------------	-------------
+	Rings	40-60	6
+	Brooches	60-80	5 
+	Earrings	50-70	4
+	Bracelets	80-100	6
+	Watches	80-100	6
+	Anklets	80-100	4
+	Armbands	90-110	5
+	Necklaces	100-120	5 
+.EO
+
+.SO 5 20 13 19 -59
+	Type of Material	Bonus	Damage Chance
+	----------------	-----	-------------
+	Platinum	600	1
+	Gold	500	2
+	Silver	400	2
+	Copper	300	1
+	Bronze	200	3
+	Brass	100	3
+	+ Gem/Stone	100	0
+
+.EO
+
+.SP 5 5
+VALUES:
+.EP
+.SP 5 5
+Values are variable and should be left free to the creator in the hope that logic is applied. The above metals are listed in order of priciness (at least in the Round World).  Gold and silver are softer than copper, platinum, and brass, so they have a higher damage bonus.
+.EP
+
+.SH Example
+.SI 5
+You wish to make a medium-sized silver ring with an emerald setting.
+
+.SO 5 30 15 20 -60
+	Ring's base setup:	50
+	Material bonus: silver:	400
+	+ Gem/stone bonus:	100
+	Setup:	----
+		550
+
+	Ring's base damage chance:	5
+	Material bonus: silver:	2
+	+ Gem/stone bonus:	0
+	Setup:	--
+		7
+.EO
+
+So the file will have in it:
+	::Setup::550
+	::Damage chance::7
+
+.SP 5 5
+
+.SH See also
+.SI 5
+clothes.
+.EI

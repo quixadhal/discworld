@@ -1,0 +1,45 @@
+.DT
+add_page_after
+DW_wibble creator help
+add_page_after
+
+.SH Name
+.SP 5 5
+add_page_after -  This method adds a new page in after the selected page.
+.EP
+
+.SH Syntax
+.SI 5
+int add_page_after(object page,
+                   int after)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^page%^RESET%^ - the page to add
+%^BOLD%^after%^RESET%^ - the page to add it after
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/std/book.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a new page in after the selected page.  The pages
+are numbered from 1, so adding a page after page 0 will place a
+page on the start and after the last page onto the end.
+.EP
+
+.SH See also
+.SP 5 5
+query_current_page(), query_num_pages()
+
+.EP
+

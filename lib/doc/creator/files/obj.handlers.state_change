@@ -1,0 +1,78 @@
+.DT
+state_change
+Discworld Creator help
+state_change
+
+Name
+.SI 5
+/obj/handlers/state_change.c - Handler for specifying how one object
+changes into another
+.EI
+
+Description
+
+.SP 5 5
+The state change handler is used to specify how one object changes into
+another.  This can be used to handle "transformation" objects such as
+food grinders, stoves, etc., or just environmental effects, like freezing.
+.EP
+
+Functions
+
+.SI 5
+mixed query_table()
+.EI
+.SP 10 5
+This function returns the transformation table.  It's mainly for debugging.
+.EP
+
+.SI 5
+void create()
+.EI
+.SP 10 5
+When the handler is loaded, it initializes the transformation table
+from the .dat files in /obj/state_change.  See "Transformations" below,
+and obj.handlers.data.
+.EP
+
+.SI 5
+object transform( object ob, string transformation )
+.EI
+.SP 10 5
+This function should be called to cause the object "ob" to be transformed
+by "transformation".  The function returns the resulting object, or 0
+if no entry for that object/transformation pair was found in the
+transformation table.  Note that ob is not modified.  It is up to the
+caller to dest it, if necessary.
+.EP
+
+.SP 10 5
+The table is indexed by "<name>:<transformation>", where name is one
+of the following: the value of the property "state name"; the medium
+alias, if no "state name" property exists; or the object's short, if
+the object has no medium alias.
+.EP
+
+Transformations
+
+.SP 5 5
+A transformation consists of the filename of the result object
+(string), a scale factor for the weights/amounts (float), and a list
+of function pointers to call on the result object (*func).  The
+original object is passed as parameter $1, and the result is passed as
+$2.  This allows characteristics from the original to be used in
+setting characteristics of the result.  The transformations are loaded
+from any file in /obj/state_change that ends in .dat.  The files are
+in the data handler format.  See the help on obj.handlers.data for
+more information.
+.EP
+
+Files
+.SI 5
+/obj/state_change/*.dat
+.EI
+
+See also
+.SI 5
+obj.handlers.data
+.EI

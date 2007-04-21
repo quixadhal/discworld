@@ -1,0 +1,44 @@
+::item "smelt:RedHotRawIronOre"::
+::->result:: "/obj/reagents/generic_ore.ob"
+::->factor:: 0.75
+::->func:: ({
+        (: $2->set_name("ore") :),
+        (: $2->set_short("refined iron ore") :),
+        (: $2->add_adjective(({"refined", "iron"})) :),
+        (: $2->set_long("This is $pile_size$ of refined iron ore, "
+                        "$amount_size$.\n" ) :),
+        (: $2->set_material("refined iron ore") :),
+        (: $2->set_material("refined iron ore") :),
+        (: $2->set_medium_alias("RefinedIronOre") :)
+    })
+
+::item "smelt:RedHotRefinedIronOre"::
+::->result:: "/obj/reagents/generic_ore.ob"
+::->factor:: 0.75
+::->func:: ({
+        (: $2->set_name("bloom") :),
+        (: $2->set_short("pig of iron bloom") :),
+        (: $2->add_adjective(({"pig", "of", "iron"})) :),
+        (: $2->add_property("determinate", "a ") :),
+        (: $2->add_alias("pig") :),
+        (: $2->add_alias("iron") :),
+        (: $2->set_material("iron bloom") :),
+        (: $2->set_long("This is a lump of crude iron.\n") :),
+        (: $2->set_medium_alias("IronBloom") :),
+        (: $2->reset_continuous() :)
+    })
+
+::item "hammer:RedHotIronBloom"::
+::->result:: "/obj/reagents/generic_ore.ob"
+::->factor:: 0.5
+::->func:: ({
+        (: $2->set_name("ingot") :),
+        (: $2->set_short("wrought iron ingot") :),
+        (: $2->add_adjective(({"wrought", "iron"})) :),
+        (: $2->add_property("determinate", "a ") :),
+        (: $2->add_alias("iron") :),
+        (: $2->set_material("wrought iron") :),
+        (: $2->set_long("This is an ingot of wrought iron.\n") :),
+        (: $2->set_medium_alias("WroughtIron") :),
+        (: $2->reset_continuous() :)
+    })

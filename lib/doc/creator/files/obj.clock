@@ -1,0 +1,68 @@
+.DT
+Clock
+Discworld Creator Help
+Clock
+
+Name
+.SI 5
+/obj/clock.c - Inheritable clock object
+.EI
+
+Description
+.SP 5 5
+/obj/clock is an inheritable clock object.  It makes it easy to have a clock
+in a room.  The clock may be made to chime the hour, half or quarter hours
+by calling set_chimes.  By defining a chime() function you can configure how
+the clock chimes.
+.EP
+
+Functions
+.SI 10
+
+void set_chimes(int num, string mess);
+.EI
+
+.SP 5 5
+num can be 1, 2 or 4 for chiming on the hour, half or quarters. To chime on hours, halfves and quarters you would call set_chimes three times. The message is the message shown when the clock chimes. You may also define the chime function -- void chime(string message) -- to define your own chime mechanism.
+.EP
+
+Example
+.SI 5
+inherit "/obj/clock";
+
+void setup() {
+  set_name("clock");
+  set_short("grandfather clock");
+  add_adjective("grandfather");
+  set_long("This is an intricately carved grandfather clock.  It stands "
+           "about 6 feet tall with a glass front which allows you to "
+           "see the pendulum swinging back and forth inside.  The face "
+           "is made of brass and inlaid with a view of Discworld.  In "
+           "addition to the large hour, minute and second hands there "
+           "are smaller dials set in the face to indicate the date.\n"
+           "The time is: ");
+  set_weight(3000);
+  set_chimes(2, "Ceres' grandfather clock strikes the half-hour.\n");
+  set_chimes(1, "Ceres' grandfather clock strikes the hour.\n");
+  reset_get();
+  add_property("there", "in one corner");
+}
+
+void chime(string mess) {
+  int *co_ords;
+
+  if(environment(this_object())) {
+
+    co_ords = (int *)environment(this_object())->query_co_ord();
+    
+    "/obj/handlers/broadcaster"->broadcast_event(users(), co_ords,
+                                                 mess, 20, 1, 0 );
+    tell_room(environment(this_object()), mess);
+  }
+}
+
+.EI
+
+See also
+.SP 5 5
+.EP

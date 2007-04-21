@@ -1,0 +1,40 @@
+.DT
+query_ignore_saved_pages
+DW_wibble creator help
+query_ignore_saved_pages
+
+.SH Name
+.SP 5 5
+query_ignore_saved_pages -  This method returns the current setting of the ignore saved pages variable.
+.EP
+
+.SH Syntax
+.SI 5
+int query_ignore_saved_pages()
+.EI
+
+.SH Returns
+.SI 5
+the current ignore saved page attribute
+.EI
+
+.SH Defined in
+.SI 5
+/std/book.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current setting of the ignore saved
+pages variable.  If this is true then
+the pages form the players auto_load stuff will be ignored totaly
+and only the page creates in setup would be
+used.
+.EP
+
+.SH See also
+.SP 5 5
+set_ignore_saved_pages()
+.EP
+

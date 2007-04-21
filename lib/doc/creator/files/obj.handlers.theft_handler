@@ -1,0 +1,33 @@
+.DT
+theft_handler
+Discworld Creator help
+theft_handler
+
+Name
+.SI 5
+/obj/handlers/theft_handler.c - Handler for thieving
+.EI
+
+Description
+
+.SP 5 5
+When people steal or shoplift a theft event is produced.  The theft handler provides default actions for rooms which do not define their own theft handler.
+.EP
+
+Functions
+
+.SI 5
+void handle_theft( object place, object command_ob, object thief,
+                  object victim, object *stolen )
+.EI
+.SP 10 5
+A theft event occurs for each and every theft.  By default no action is taken. This function is just there for completeness or future expansion.
+.EP
+ 
+.SI 5
+void handle_shoplift(object thief, object victim) {
+.EI
+.SP 10 5
+This function is used by shops to defend themselves when someone shoplifts.  The default action is to send in a bunch of mercenaries.
+.EP
+ 

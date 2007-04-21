@@ -1,0 +1,65 @@
+.DT
+voting booth
+Discworld room help
+voting booth
+
+.SH Name
+.SI 5
+voting booth - where you can vote for your favourite magistrate
+.EI
+
+.SH Syntax
+.SI 5
+list motions
+list elections
+list votes
+
+Election voting:
+information
+vote for <person>
+vote force for <person>
+nominate <person>
+
+Motion voting:
+vote <result> in [motion] <id>
+
+Issue voting:
+vote <string> on <number>
+
+Magistrate only:
+add vote with <choices>
+.EI
+
+.SH Description
+.SP 5 5
+This room allows you to vote for three different things, elections, motions
+and issues.  Elections are for the magistrates, motions are for new rules or
+ammendments to rules and issues are any sort of vote the magistrates which to
+put forward.
+
+This is where you go to vote for people to be magistrates.  The information
+command allows you to see if there is an election in progress or how
+long it is before the next one.
+
+To accept a nomination you must nominate yourself for the position.
+
+To vote you must vote for the number of people that there are magistrate
+positions.  This means if there are 7 magistrate positions you get
+7 votes.  You may only vote for any one person once.  If you only wish to vote for less
+than the number of magistrate positions you should use the 'vote force'
+command.
+.EP
+
+.SH Example
+.SI 5
+> information
+> vote for ringo,pinkfish,jasmin,allana,drem,hobbes
+> vote force for pinkfish
+> nominate pinkfish
+> add vote with Ralph,Sarah,Penelope,Roger
+.EI
+
+.SH See also
+.SP 5 5
+cases, chambers, citizenship(concepts)
+.EP

@@ -1,0 +1,28 @@
+::#Class:: "/obj/food.c"
+::Name:: "comfrey"
+::Short:: "comfrey"
+::Long:: "This is $pile_size$ of comfrey, $amount_size$.\n"
+::Adjective:: ({ "some" })
+::Property:: "determinate", "some "
+::Plural:: "comfrey"
+::Main Plural:: "comfrey"
+::$set_medium_alias:: "Comfrey"
+::$set_amount_types:: ([ "stalk": ({ 1, "stalks" }),
+                         "handful": ({ 50, "handfuls" }) ])
+::Adjective:: ({ "stalk", "stalks", "handful", "handfuls", "of" })
+::$set_amount:: 1
+::$set_continuous::
+::$set_pile_types:: ({ 50, "small", 100, "medium", "large" })
+# I have no idea what this should be
+::$set_weight_unit:: ({ 1, 10 })
+::$add_eat_effect::"/std/effects/ingested/basic_healing", 200
+::$add_eat_effect::"/std/effects/ingested/cum_poison", 800
+::Property:: "herb lore", "Comfrey, or Knitbone, is erect in habit and "
+    "rough and hairy all over.  The roots are fleshy and juicy, the flowers "
+    "pale and creamy.  Both the leaves and roots may be used in various "
+    "teas to reduce swelling, gangrene, and unpredictable intestinal events.  "
+    "Comfrey also speeds the healing of broken bones and sprained backs.  "
+    "The scientific name for this herb is Symphytum officinale."
+
+
+

@@ -1,0 +1,60 @@
+.DT
+sqlcmd
+Discworld creator help
+sqlcmd
+
+.SH Name
+.SI 5
+sqlcmd - make a sql request
+.EI
+
+.SH Syntax
+.SI 5
+sqlcmd <database> "<query>"
+.EI
+
+.SH Description
+.SP 5 5
+This lets you make a single, non-blocking request to the MySQL daemon.  Queries follow the format of any standard SQL query.  See http://www.mysql.com/doc/ for documentation on formatting queries.
+
+The result of the query is returned via a tell_creator in the call back function.
+
+The standard database is 'discworld'.
+.EP
+
+.SH Examples
+> sqlcmd discworld "select count( * ) from Tricks"
+> /cmds/creator/sqlcmd:
+flag: 0
+({ /* sizeof() == 1 */
+  ([ /* sizeof() == 1 */
+    "count( * )" : 361,
+  ])
+})
+
+> sqlcmd discworld "select TrickId, TrickName from Tricks where Author='tannah'"
+
+> /cmds/creator/sqlcmd:
+flag: 0
+({ /* sizeof() == 3 */
+  ([ /* sizeof() == 2 */
+    "TrickName" : "tannah's trick of rememberin",
+    "TrickId" : 139,
+  ]),
+  ([ /* sizeof() == 2 */
+    "TrickName" : "leetle trick",
+    "TrickId" : 369,
+  ]),
+  ([ /* sizeof() == 2 */
+    "TrickName" : "wossit",
+    "TrickId" : 370,
+  ])
+})
+
+.SI 5
+.EI
+
+.SH See also
+.SP 5 5
+sql
+.EP

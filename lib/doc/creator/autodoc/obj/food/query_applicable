@@ -1,0 +1,45 @@
+.DT
+query_applicable
+DW_wibble creator help
+query_applicable
+
+.SH Name
+.SP 5 5
+query_applicable -  This queries applicability of the food.
+.EP
+
+.SH Syntax
+.SI 5
+int query_applicable(object applier,
+                     object appliee)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^applier%^RESET%^ - - Who applies it
+%^BOLD%^appliee%^RESET%^ - - Who it is applied to.
+.EI
+
+.SH Returns
+.SI 5
+1 if it can be applied, 0 if it can't.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This queries applicability of the food. (rubbing on someone)
+Note that the food can only be applied when
+set_applicable() has been called
+.EP
+
+.SH See also
+.SP 5 5
+set_applicable(), unset_applicable(), set_external_pk_check()
+
+.EP
+

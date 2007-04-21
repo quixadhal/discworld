@@ -1,25 +1,60 @@
 .DT
-editing aliases
+ealias
 Discworld player help
-editing aliases
+ealias
 
-Name
+.SH Name
 .SI 5
-ealias - editing an alias in the Discworld alias system
+ealias - Edit an alias in the Discworld alias system
 .EI
 
-Syntax
+.SH Syntax
 .SI 5
-ealias <name>
+ealias <alias>
+ealias new <alias>
+ealias copy <alias> to <new alias>
 .EI
 
-Description
+.SH Description
 .SP 5 5
-       This command will read in an existing alias to the line editor and
-allow you to edit it, saving the edited alias in place of the old one.
+The basic form of this command will read an existing alias into the line
+editor and allow you to edit it, saving the edited alias in place of the
+old one.
+
+You can also create a 'new' alias directly and begin editing it immediately.
+
+This command also allows you to 'copy' an existing alias to a new alias name and
+edit the new version, so long as the new name isn't already an alias.
+
+Note that when editing an existing alias, there may be a surplus '$*$' sequence.  It is added to the end of aliases created with 'alias', if not specified within them.  You may need to delete it.
 .EP
 
-See also
+.SH Examples
 .SI 5
-nickname, alias
+> alias womblefrog tell $*$ Are you a womble, or a frog?!
+Added alias 'womblefrog'.
+
+> ea spike
+No alias 'spike' defined.
+
+> ealias new spike
+Enter your text.  Use ** on a line by itself to exit.
+1 ]
+ ...
+Added alias 'spike'.
+
+> ealias copy womblefrog to spike
+The alias 'spike' already exists.
+
+> ealias copy womblefrog to frogwomble
+Enter your text.  Use ** on a line by itself to exit.
+2 ]
+ ...
+Added alias 'frogwomble'.
+
+.EI
+
+.SH See also
+.SI 5
+alias, unalias, nickname
 .EI

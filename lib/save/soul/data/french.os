@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),0,({({"You give $hcname$ a deep and passionate kiss, it seems to last forever...","$mcname$ give$s$ $hcname$ a deep and passionate kiss, it seems to last forever...","$mcname$ give$s$ you a deep and passionate kiss, it seems to last forever...",0,0,0,}),0,}),})

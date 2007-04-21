@@ -1,0 +1,1 @@
+({({"<string> <indirect:any-living>","<indirect:any-living> <string>","<indirect:any-living>",}),0,({0,({"You go home to tell your $arg$ on $hcname$.","$mcname$ goes home to tell $mposs$ $arg$ on $hcname$.","$mcname$ goes home to tell $mposs$ $arg$ on you.",({"Mommy","Daddy",}),0,0,}),}),})

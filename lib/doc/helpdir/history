@@ -3,21 +3,39 @@ history
 Discworld player help
 history
 
-Name
-.SI 5
-history - command history
-.EI
+.SH Name
+.SP 5 5
+history - Command history.
+.EP
 
-Syntax
-.SI 5
+.SH Syntax
+.SP 5 5
 history
-.EI
+history <number>
+history <number,number> 
+.EP
 
-Description
+.SH Description
 .SP 5 5
 History is used to review the most recent commands you have typed.  You can
 also redo these commands in a number of ways.  Each of the commands in the
-history list has a number next to it.  Typing
+history list has a number next to it.
+
+If you type
+ >history
+ 
+You'll get a list of your last commands
+These can be navigated with commands like 
+
+>history 150
+
+Which will give commands from number 150 onwards, if more commands are needed,
+
+>history 150,190
+
+Will give the history between the two numbers
+
+Typing
 
 > .34
 
@@ -32,18 +50,18 @@ letters ki.  Also, as a shortcut, the command
 
 will execute the most recent command.  That being the last one you typed.
 
-Useing the syntax ^word1^word1^ you can do a search and replace on the last
-command typed replaceing every occurance of word1 with word2.
+Using the syntax ^word1^word2^ you can do a search and replace on the last
+command typed replacing every occurrence of word1 with word2.
 .EP
 
-.SI 5
+.SP 5 5
 > tell kaos bing?
 What?
 > ^kaos^khaos^
 You ask Khaos: bing?
-.EI
+.EP
 
-See also
-.SI 5
-alias
-.EI
+.SH See also
+.SP 5 5
+alias, nickname.
+.EP

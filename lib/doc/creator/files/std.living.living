@@ -1,0 +1,290 @@
+.DT
+living
+Discworld Creator help
+living
+
+Name
+.SI 5
+/std/living/living.c - object inherited by everything living
+.EI
+
+Description
+
+.SP 5 5
+/std/living/living is the object that
+
+<description missing>
+.EP
+
+Functions
+
+.SI 5
+void create()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_pronoun()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_possessive()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_objective()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_weight()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void add_effect( string eff, mixed arg )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void living_commands()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int test_add(object ob, int flag)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int test_remove( object ob, int flag, mixed dest )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_al()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_al( int number )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int adjust_al( int number )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int adjust_alignment( int number )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string align_string()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_deity()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_deity( string word )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_msgin()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_msgout()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_mmsgin()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string query_mmsgout()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed *query_facing()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_facing( mixed *args )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+string find_rel( string word, int from )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string reorient_rel( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void set_dragging( object thing )
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+object query_dragging()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void reset_dragging()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int room_look()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int move_with_look( object dest, string messin, string messout )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+varargs int exit_command( string word, mixed verb, object thing )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int cannot_get_stuff()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed *stats()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed *query_it_them()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed *set_it_them(mixed *i)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int add_follower(object ob)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int remove_follower(object ob)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+object query_current_room()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed *query_followers()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+varargs int adjust_money(mixed amt, string type)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed *query_money_array()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_money(string type)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_value()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void event_enter( object thing, string mess, object from )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void test_number_of_items()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+object *find_inv_match( string words )
+.EI
+.SP 10 5
+.EP
+ 

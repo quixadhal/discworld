@@ -1,0 +1,29 @@
+.DT
+check_dark               
+Discworld player help  
+check_dark
+
+Name
+.SI 5
+check_dark - Returns whether a creator of this race can see or not at this light level.
+.EI
+
+Syntax
+.SI 5
+int check_dark(int light);
+.EI
+
+Description
+.SP 5 5
+Returns an integer indicating how well the player can see at this light
+level. The number varies from -2 to 2.
+.EP
+
+Values
+.SI 5
+-2 total darkness
+-1 twilight (normally they can see a bit but nothing detailed).
+0 normal light levels
+1 very bright. As for -1 but too bright.
+2 too bright to see anything.
+.EI

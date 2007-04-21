@@ -1,0 +1,40 @@
+.DT
+dbxwhere
+Discworld creator help
+dbxwhere
+
+.SH Name
+.SI 5
+dbxwhere - Print a trace of the last error someone had.
+.EI
+
+.SH Syntax
+.SI 5
+dbxwhere [<player>]
+.EI
+
+.SH Description
+.SP 5 5
+dbxwhere will print the error trace of the last error you (or <player> if
+specified) got.  This trace has the same format as bug reports.  You can
+then look at the error context with dbxframe.
+.EP
+
+.SH Example
+.SI 5
+> dbxwhere
+*Error in loading object '/secure/cmds/creator/ta_il'
+Object: /secure/command at line 146
+Arguments were: (void)
+Locals were: none.
+
+
+'drunk_check' in /global/lord#1132 (global/psoul.c) at line 232
+'cmdAll' in /global/lord#1132 (global/command.c) at line 27
+'GetCommand' in /secure/command at line 146
+.EI
+
+.SH See also
+.SI 5
+dbxframe
+.EI

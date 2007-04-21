@@ -1,0 +1,182 @@
+.DT
+board_handler
+Discworld Creator help
+board_handler
+
+Name
+.SI 5
+/obj/handlers/board_handler.c - Handler for <desc>
+.EI
+
+Description
+
+.SP 5 5
+This is the skeletal help for the board_handler handler.
+
+<description missing>
+.EP
+
+Functions
+
+.SI 5
+void create()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string *query_boards()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_lord(string str)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+mixed get_subjects(string name)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string get_message(string board, int num)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int save_me()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int add_message(string board, string cap_name, string subject, string body)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int create_board(string board, int priva)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int add_allowed(string board, string name)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int remove_allowed(string board, string name)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+static int zap_message(string board, int off)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int delete_message(string board, int off)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string *query_security(string board)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int delete_board(string board)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string *list_of_boards()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int set_timeout(string board, int timeout)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int set_minimum(string board, int min)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int set_maximum(string board, int max)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int set_archive(string board, string file)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_timeout(string board)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_minimum(string board)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_maximum(string board)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string query_archive(string board)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void expire_boards()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int convert_board(string board, string *subject, string *body)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_prevent_shadow()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_num()
+.EI
+.SP 10 5
+.EP
+

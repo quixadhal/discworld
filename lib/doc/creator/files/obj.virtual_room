@@ -1,0 +1,92 @@
+.DT
+virtual_room
+Discworld Creator help
+virtual_room
+
+Name
+.SI 5
+/obj/virtual_room.c - The base class for virtual rooms.
+.EI
+
+Description
+
+.SP 5 5
+See "help virtual" for a general explanation of virtual objects, this file
+is for virtual rooms only.
+.EP
+
+Keywords special for virtual rooms
+
+.SO 5 14 -20
+	Exit	see "man add_exit"
+	Modify Exit	see "man modify_exit"
+	Dark Mess	see "man set_dark_mess"
+	Co Ord	see "man set_co_ord"
+	Size	see "man set_room_size"
+	Zone	see "man set_zone"
+	Alias	see "man add_alias"
+	Sign	see "man add_sign"
+	Cloned Object	see add_cloned_object later in this file
+.EO
+
+Example
+
+.SI 5
+::Short::"Olorin's workroom"
+::Property::"determinate", ""
+::Long::"The workroom of Olorin.  It looks like this was just newly created, there is a smell of paint and leather in the air.\n"
+::Light::100
+::Item::"chair", "The teak rolly chair has amazing carvings of dragons and ... other things on it."
+::Item::"desk", "The desk is made of mahogany with a touch of mountain ash."
+::Exit::"drum", "/d/am/am/mendeddrum", "path"
+::Cloned Object::FIXED, -1, "/obj/misc/button", 0
+.EI
+
+Functions not in /std/room:
+
+.SI 5
+void add_cloned_object( int flag, int delay, mixed clone_info, 
+                       string entry_mess )
+.EI
+.SP 10 5
+This is the call to add an npc or other object to this room.
+.EP
+.SO 10 11 -22
+	flag	This can be REMOVABLE, FIXED or UNIQUE defining whether a new item should be cloned if the current one is removed from the room, only cloned if this one is destructed, or as fixed, but it's the master objects that's put here (mainly for unique npc's with their own file).
+	delay	This is the delay in seconds between reset being called and the cloning.  If the delay is negative, the cloning is done directly in reset() with no call_out.
+	clone_info	This can be a string, in which case it's considered to be the filename of the thing to put here, or a function pointer meaning it's a function returning the thing.
+		Note!  If you use a function pointer you have to explicitely bind it to the room.  If you don't know what this means, just put bind( <func>, clone) there instead of <func>, and ask someone who might. :)
+	entry_mess	This is the parameter given to move when moving the item to this room.
+.EO
+ 
+.SI 5
+mixed *query_cloned_definitions()
+.EI
+.SP 10 5
+This returns the array of definitions, one definition per call of
+add_cloned_object().  Each definition has the following form:
+.EP
+
+.SI 15
+({ flag, delay, clone_info, entry_mess })
+.EI
+
+.SP 10 5
+corresponding directly to the parameters to add_cloned_object().
+.EP
+
+.SI 5
+mixed *query_cloned_objects()
+.EI
+.SP 10 5
+This returns the array of objects currently in the room.  The array has one
+entry per object, and is in the same order as the one returned by
+query_cloned_definitions()
+.EP
+ 
+Internal functions, do not use:)
+
+.SI 5
+private object make_clone( mixed func )
+protected void make_object( int i )
+.EI

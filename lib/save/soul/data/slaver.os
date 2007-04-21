@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),({({"You slaver all over the place.","$mcname$ slaver$s$ all over the place.",0,}),0,}),({({"You slaver all over $hcname$.","$mcname$ slaver$s$ all over $hcname$.","$mcname$ slaver$s$ all over you.",0,0,0,}),0,}),})

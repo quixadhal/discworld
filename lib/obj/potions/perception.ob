@@ -1,0 +1,21 @@
+::#Class:: "/obj/potions/potion.c"
+::Name:: "perception"
+::$set_min_level:: 40
+::$set_max_level:: 160
+::$set_advance_chance:: 10
+::$set_backfire_chance:: 50
+::$set_reagent_alias:: "TransientPerception"
+::$set_backfire_alias:: "TransientPanic"
+::$set_rel_strength:: 1
+::$set_potion_verb:: "chant"
+::$set_chant:: "Wubba!\nWubba!\nWubba!\n"
+::$set_recipe:: "     Granny Whitlow's Perseptione Inhansement Tonic\n" +
+    "Tayk a handful of grounds that have beene used to makke coffee " +
+    "in a stronge majical feild.  " +
+    "Adde one pynte of watre and three pynches of " +
+    "dedly nyteshayde.  When a chaynge is notticed, chant ovre the " +
+    "myxture.\n\nWarnning: can caus nervussness."
+::$set_skills:: ({
+    ({"magic.methods.physical.chanting", 3, 40, 1}),
+    ({"magic.methods.physical.enchanting", 1, 40, 1})
+})

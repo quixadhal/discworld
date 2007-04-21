@@ -1,0 +1,34 @@
+This is a first take on a general classification of diseases.
+
+Okay, here are the suggested disease classifications:
+
+Main group                   effect_classification               Standard
+ Sub group                                                       severity
+  Name
+-----------------------------------------------------------------------
+Infections                   disease.infection
+ Skin, hair, and nails       disease.infection.external
+ Brain and Nervous System    disease.infection.neural
+  Meningitis               *
+ Respiratory                 disease.infection.respiratory
+  Common cold              ! disease.infection.respiratory.cold  20000
+ Heart & Circulatory         disease.infection.circulatory
+ Digestive                   disease.infection.digestive
+ Muscle and bone             disease.infection.muscular
+ General infections          disease.infection.general
+  Flu                      ! disease.infection.general.flu       20000
+Parasitical                  disease.parasite
+ External                    disease.parasite.external
+  Fleas                    ! disease.parasite.external.flea      10000
+  Rock mites               ! disease.parasite.external.rock-mite 10000
+ Internal                    disease.parasite.internal
+  Malaria                  *
+  Bilharziosis             *
+  (This is where the really nice/ugly ones, are:)
+Injuries                     disease.injury
+  Broken fingers             disease.injury.broken.fingers
+ 
+! changed classification, so check cures
+* not coded
+
+There are lots of diseases to be coded and put in this system. :)

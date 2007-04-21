@@ -1,0 +1,43 @@
+.DT
+transfer_liquid_to
+DW_wibble creator help
+transfer_liquid_to
+
+.SH Name
+.SP 5 5
+transfer_liquid_to -  This method does the actual liquid transfer, as needed by the filling, emptying and pour operations.
+.EP
+
+.SH Syntax
+.SI 5
+void transfer_liquid_to(object dest,
+                        int vol_misc,
+                        mixed * misc,
+                        int vol_water,
+                        int * coord,
+                        int quantity)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dest%^RESET%^ - where the liquid is to go
+%^BOLD%^vol_misc%^RESET%^ - the volume of non-water to move
+%^BOLD%^misc%^RESET%^ - the attributes for the non-water
+%^BOLD%^vol_water%^RESET%^ - the volume of water to move
+%^BOLD%^coord%^RESET%^ - the co-ordinate of the liquid
+%^BOLD%^quantity%^RESET%^ - the quantity of the potion space liquid
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/container.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method does the actual liquid transfer, as needed by the
+filling, emptying and pour operations.
+.EP
+

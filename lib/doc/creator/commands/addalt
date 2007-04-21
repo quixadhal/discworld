@@ -1,0 +1,48 @@
+.DT
+addalt
+Discworld creator help
+addalt
+
+
+.SH Name
+.SI 5
+addalt - Adds a new name to the player's list of alt characters.
+.EI
+
+.SH Syntax
+.SI 5
+addalt <player_name> <alt_name> [<alt_name> ...]
+.EI
+
+.SH Description
+.SP 5 5
+This commands adds a new name to the player's list of alt characters. The
+player whose list is being modified is marked "main" in its group of alt
+characters, and the "playerinfo" command will list all alt character names in
+this group. The names added to this player's list are marked as belonging to
+their main character's list, and the "playerinfo" command will only show the
+main character's name, not the entire group.
+.EP
+
+.SH Notes
+.SP 5 5
+This command can be very CPU-intensive, especially when many alt character
+names are specified.
+.EP
+
+.SH Examples:
+.SI 5
+> addalt fiona belcar mayhem
+Added Belcar, Mayhem to Fiona's list of alts.
+
+> playerinfo fiona
+Report for: Fiona aka Belcar, Mayhem
+
+> playerinfo belcar
+Report for: Belcar (alt of Fiona)
+.EI
+
+.SH See also
+.SP 5 5
+playerinfo, addevent, delevent, delalt
+.EP

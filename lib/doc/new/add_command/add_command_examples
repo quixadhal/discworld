@@ -1,0 +1,93 @@
+.DT
+add_command_examples
+Discworld creator help
+add_command_examples
+
+.SH Examples
+.SP 5 5
+The general way to call add_command() on this_player() in an init()
+function, that will cause it to define the command for all living objects in
+the vicinity of the object that had the init() function.
+.EP
+
+.SI 10
+void init() {
+   if ( !this_player() )
+      return;
+   this_player()->add_command( "wave", this_object() );
+   ...
+} /* init() */
+.EI
+
+.SP 5 5
+This lets the user type things like 'wave wand'.  It will match a wand in the
+players inventory, or in the environment.
+.EP
+
+.SH Using simple object matching
+.SI 5
+add_command("load", ob,
+            "<direct:object:here> with <indirect:object:me>");
+.EI
+.SP 10 5
+Which will, when parsed 'load camel with flour', will match the
+camel in the environment and the flour in their inventory.
+.EP
+
+.SH Using direct objects in another object
+.SI 5
+add_command("unload", ob,
+            "<indirect:object:direct-obs> [from] <direct:object:here>");
+.EI
+.SP 10 5
+This will allow the player to unload things out of the camel.  The
+indirect objects will be matched inside the camel (which is the direct
+object).  Eg: 'unload flour from camel'.
+
+Words placed in the string must be matched. However, putting them in
+square brackets makes them optional.  You can also do {from|out of} which
+will require one of 'from' or 'out of' in the match.
+.EP
+
+.SH Using string, word and number
+.SI 5
+add_command("bow", ob,
+            "<string'adjective'> [to] <indirect:any-living>");
+.EI
+.SP 10 5
+This is an example of a soul command pattern.  Soul commands allow you
+to use multi-word optional parameters, (Eg: 'think like a rabbit'), so
+it is specified as a string.  The word 'to' is optional.  You can have
+it, or not have it.  Eg: 'bow colourfully to pinkfish' and 'bow
+colourfully pinkfish' both have the same effect.
+
+The 'adjective' will cause the syntax of the command to read: bow
+<adjective> [to] <any-living>
+
+As well as string you can use word to match a single word or number to
+match a number.
+.EP
+
+.SH Using fractions
+.SI 5
+add_command("pour", ob,
+            "<fraction> of <direct:object> into <indirect:object>");
+.EI
+.SP 10 5
+This sets up a pour command for a container, it allows
+you to pour a fraction of it into some
+other container  Matches things like 'pour 1/2 of bucket into cauldron'.
+.EP
+
+.SH add_action equivalent
+.SI 5
+add_command("smell", ob, "<string'anything'>");
+.EI
+.SP 10 5
+This will call your do_smell function with the pattern variable containing the matched string.
+.EP
+
+.SH See also
+.SI 5
+add_command, add_succeeded, add_succeeded_mess, add_failed_mess, command_control, syntax, add_command_conversion
+.EI

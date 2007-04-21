@@ -1,0 +1,83 @@
+.DT
+alerts
+Discworld creator quick-reference guide
+alerts
+
+
+.SH Name
+.SI 5
+alerts - Playerinfo entries which flag players' login informs. 
+>[%^GREEN%^Gumboot enters Discworld %^BOLD%^%^RED%^1 alert%^RESET%^]
+.EI
+
+.SH Syntax
+.SH * Most common commands:
+.SI 5
+
+%^CYAN%^Add an alert:%^RESET%^
+playerinfo <player> add alert [<comment>]
+
+%^CYAN%^View alerts:%^RESET%^
+playerinfo <player>
+
+%^CYAN%^Acknowledge an alert:%^RESET%^
+playerinfo <player> acknowledge <playerinfo event number> <message>
+
+
+.SH * Other commands:
+.SI 5
+%^CYAN%^
+Acknowledge an alert as someting other than a 'misc' event:%^RESET%^
+playerinfo <player> acknowledge <playerinfo event number> as <event type>
+<message>
+
+%^CYAN%^List players with active alerts:%^RESET%^
+playerinfo list alerts
+
+%^CYAN%^List players logged on with active alerts:%^RESET%^
+playerinfo list alerts online
+
+.EI
+
+.SH Description
+.SP 5 5
+Alerts should be used whenever action needs to be taken but cannot
+at that time, due to the player being offline, not having the right
+information, etc. 
+
+Please refer to the "playerinfo" and "addevent" command descriptions for more
+information.
+.EP
+
+.SH Notes
+.SP 5 5
+Please remember that your alerts need to make sense to whichever creator
+reads them, and suggest what action should be taken to acknowledge the alert.
+.EP
+
+.SH Examples:
+.SI 5
+
+> addevent wyvtest alert In need of a clue.
+Wyvtest's dossier updated.
+
+> playerinfo wyvtest
+1. Fri Aug 25 08:11:39 2000   %^RED%^alert%^RESET%^  (added by Wyvyrn)
+    In need of a clue.
+
+> playerinfo wyvtest acknowledge 1 Gave him a clue and a magnifying glass. :)
+Event acknowledged.
+
+> playerinfo wyvtest
+1. Fri Aug 25 08:12:18 2000   %^RED%^misc%^RESET%^   (added by Wyvyrn)
+    Originally added by Wyvyrn at Fri Aug 25 08:11:39 2000:
+    In need of a clue.
+    ---
+    Gave him a clue and a magnifying glass. :)
+
+.EI
+
+.SH See also
+.SP 5 5
+playerinfo, addevent
+.EP

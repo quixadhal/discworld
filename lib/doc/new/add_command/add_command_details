@@ -1,0 +1,278 @@
+.DT
+add_command
+Discworld creator help
+add_command
+
+.SH Syntax
+.SI 5
+int add_command(string verb, object ob)
+int add_command(string verb, object ob, string pattern)
+int add_command(string verb, object ob, string *pattern)
+int add_command(string verb, object ob, string pattern, function f)
+int add_command(string verb, object ob, string *pattern, function f)
+.EI
+
+.SH Note
+.SI 5
+For information on converting from add_action() to add_command() please
+see 'help add_command_conversion'
+.EI
+
+.SH Description
+.SP 5 5
+This function is a pattern matching input parser.  It is designed to
+make input parsing from the user a lot easier.
+
+It is called in the living object that is to get the command.  See add_command_examples for standard use.
+
+The first parameter passed to the add_command function is the verb.  The
+verb is the same as the verb specified in the add_action command.  The verb
+does not handle '*' completion stuff and it does not handle short verbs.
+
+The second parameter is the object.  This is the object that is defining the
+verb and it is the object upon which the function is called if it is matched.
+This will be defined in more detail later on.
+
+The third parameter is the pattern.  The pattern is the main part of the
+processing.  If the pattern is not defined a pattern of "<direct:object>" is
+assumed.  The format of the pattern will be defined in the Section on
+patterns.
+
+The fourth parameter is a function pointer.  It is what is
+called if the pattern matches and a
+function needs to be called.  If the function pointer is 0
+then the function do_verb (ie: do_read,
+do_light) is called, or the function command_control if
+the do_ functions do not exist.  The
+parameters and how these are called are defined in
+the Section on function calling.
+.EP
+
+.SH Patterns
+.SP 5 5
+The patterns are defined by using a series of key characters and
+a normal text string.  The key
+characters are all wrapping brackets of some
+kind.  There are three sorts of wrapping brackets
+used '{', '}'; '<', '>' and '[', ']'.  Anything which is not
+enclosed in wrapping brackets is a
+required word.
+
+A syntax message will be automaticaly generated.  You can override the
+displayed string by putting a 'mess' at the end of the pattern
+definition.  Eg: "<direct:object'frog'>"
+
+Things which are enclosed in '{' and '}' are lists of
+required words.  Eg:  '{from|in}' would
+match on either the word 'from' or the word 'in' in the input pattern.
+
+Things which are enclosed in '[' and ']' are lists of optional
+words.  Eg: '[bing]' would mean
+that the word bing is optionally in the input pattern.  If
+it is there it is matched, if it is not
+there, it is ignored.
+
+Things which are enclosed in '<' and '>' are special word
+list sequences.  The special word list
+sequences have a few options.  Options are separated
+from the main identifier by a ':'.
+.EP
+
+.SO 5 20 -30
+	direct	The direct object reference.  When a direct object is specified, the function will be called on it and it must be in the match list produced by the object matching routines.
+	indirect	The indirect object reference.  The functions are not called on these objects, they are parsed as parameters to the requested functions.
+		Note!  It is not direct and indirect in the grammatical sense, but simply a short name for the object passed in the second parameter, and all other objects.
+	string	One or more words comprise a string, it will always match at least one word.
+	word	A single word.
+	number	A number, this only matches numbers which are typed as numbers, (ie 12).  It does not match text numbers (ie twelve).
+	fraction	A composite number.  It matches things like 1/2 and 3/4.
+	preposition	A preposition, a word like 'from', 'in', 'under'.
+.EO
+
+.SP 5 5
+Several of these specifiers have options.  The most notable being the object specifiers (direct 
+and indirect).  The direct and indirect object specifiers have two options; the first tells us what 
+type of object to look for, and the second tells us where to look for them.
+
+The first option, if not specified, defaults to object.  The what type of object options are listed 
+below:
+.EP
+
+.SO 5 20 -30
+	object	Any object, uses find_match directly.
+	living	Any living object, applies a filter to the objects returned by find_match to determine if they are living or not.
+	distant-living	Uses find_living.
+	any-living	A combination of living and distant-living.  Allows the use of 'everyone', 'creators' and 'someone' as extra specifiers.
+	player	Will only match a player.
+	wiz-present	Uses wiz_present to do a match, only available in creators.
+.EO
+
+.SP 5 5
+The second option is where to look for the objects.  This defines the environment, if this 
+option is not specified an environment of 'me-here' is used.
+
+The options are listed below:
+.EP
+
+.SO 5 20 -30
+	me	The players inventory.
+	here	The inventory of the room.
+	here-me	The inventory of the room, then the inventory of the player.
+	me-here	The inventory of the player and then the inventory of the room.
+	direct-obs	The inventory of the direct object.  This allows manipulation like 'unload womble from camel' to work.  (This can only be used in a indirect object specification).
+.EO
+
+.SP 5 5
+Strings also have parameter, they can be short or long.  This
+depends on which way they do
+the next match searching, eg: In '<string:short> rabbit <string:short>'
+the first string is a short
+string, so the word 'rabbit' will be searched
+from the start of the string.  Therefor given the
+input string 'womble rabbit green rabbit home', the first
+string would be 'womble' and the
+second 'green rabbit home'.  If instead we change this
+string to a long string, eg:
+'<string:long> rabbit <string:short>', then the searching will
+start from the end of the string,
+so the first string will be 'womble rabbit green' and the
+last string will be 'home'.  The type of
+the last string does not matter, it only
+matters where there is another parameter to search for.
+
+Strings default to being short strings.
+
+There is another type for strings, which is quoted; as in <string:quoted>.
+If a quoted string is specified then it will match something inside
+quotes.  Like 'frog "womble" green', the womble would be the
+quoted match.
+.EP
+
+.SH Standard Arguments
+.SP 5 5
+These are the arguments which are passed into the
+function calls by default.  The reason these
+all seem a little weird is those wonderful
+words, 'backwards compatibility'.  These are always
+the same:
+.EP
+.SI 10
+int func(object *indirect_obs, string dir_match, string indir_match, mixed *args, string pattern);
+
+int func(object **indirect_obs, string *dir_match, string indir_match, mixed *args, string pattern);
+.EI
+
+.SP 5 5
+The indirect object's parameter is variable.  If
+there are more than one indirect object
+references in the pattern string, then this will
+be an array containing arrays of objects.  Eg:
+'<indirect:object> with <indirect:object>' when matched
+against 'bing with womble' will set
+indirect_obs to ({ ({ bing#5423 }), ({ womble#54343 }) }) and
+indir_match to ({ "bing", "womble" }).
+
+The pattern is the pattern which was matched, this
+is needed because sometimes multiple
+patterns are defined for the same verb.  You may
+need to know which was used.
+
+The args is the hard one, it contains all of
+the parsed bits which need to be parsed down into
+the code.  In most cases this will either be the
+string it matched on, or the number which it
+matched.
+
+<Need to insert a full list of how each is handled in here>.
+
+When using a function pointer to call your function the params are numbered 1 to 5. Thus if you just want to know the first indirect object and the second argument string you would use:
+.EP
+.SI 10
+add_command("bing", this_object(), "<indirect:player> sideways",
+            (: my_fun($1[0], $4[1]) :);
+
+and declare your function as:
+
+int my_fun(object ob, string param);
+.EI
+
+.SH Return value
+.SP 5 5
+Returning 1 from func will signal that the command succeded,
+returning 0 that the command failed.
+.EP
+
+.SH Function Calling
+.SP 5 5
+How are the functions called?  Why are they called.  Listen and all might be
+explained.
+
+There are two separate cases (which are handled differently)
+for dealing with function calling.
+The first is the case where no direct object is
+specified in the pattern and the second is where a
+direct object is specified.
+
+When no direct object is specified, first any
+indirect object references are checked to make
+sure they refer to something.  If everything
+is wonderful, then we continue.  In the case where
+no direct object is in the pattern, there is
+no matching done to see if the object is in the direct
+object list before we call it.  We call the
+function directly on each object which matches until
+one of them says it has dealt with the command
+(much like how add_action works now).  The
+patterns are scanned from the most complicated to
+the least complicated and the object from
+the most recently added to the oldest added
+(so commands can be overridden).
+
+First it is checked to see if a function was
+specified when the verb was added, if this was
+specified then this is evaluated with the standard
+arguments.  Second the function do_verb is
+checked to see if it exists on the object, ie if the
+verb which was added was "read" then the
+function "do_read" is checked.  If this function
+exists then it is called with the standard
+arguments.  If this does not exist then the
+function "command_control" is called with the first
+argument being the verb and the rest being the standard
+arguments.  No success message is
+automatically generated.
+
+When a direct object is specified, for instance in
+the command "light" the pattern would be
+"<direct:object:me>", this would only allow you to light
+things in your inventory.  If you typed
+"light torch", then find_match is called with "torch" as
+the argument.  This will return an object
+list, like ({ torch#3234, torch#12344 }), each object in
+the matched object list is checked to see
+if it is in the list of objects which defined the verb
+with this pattern.  For every object which is
+the a function is called on them.  Unlike when no
+direct object is specified, it calls the function
+on all of the matched direct objects.  So
+"eat apples" will call a function on each of the apples
+asking them to be eaten.  If they return 1
+then the action is assumed to have succeeded, if the
+function returns 0
+then it is assumed to have failed.  A success message
+is automatically generated if no special one
+is supplied.   The function calling is the same as above,
+first the function is checked, then
+do_light, then command_control, with the same arguments as above.
+
+The direct object stuff does a lot of the nasty work
+with dealing with multiple objects for you.
+It makes it very easy to do things
+like "light every red torch", or whatever.
+.EP
+
+.SH See also
+.SI 5
+add_succeeded, add_succeeded_mess, add_failed_mess, command_control and
+help syntax, help add_command_conversion
+.EI

@@ -1,0 +1,29 @@
+(spit
+  (pattern "[at] <indirect:any-living>")
+  (single
+    (no-arguments
+      (self "You spit.")
+      (rest "$mcname$ spits.")
+    )
+  )
+  (targeted
+    (no-arguments
+      (self   "You spit in $mhcname$ face.")
+      (target "$mcname$ spits in your face.")
+      (rest   "$mcname$ spits in $mhcname$ face.")
+    )
+    (arguments
+      (arguments  food, drink, general direction, face)
+      (self   "You spit in $mhcname$ $arg$.")
+      (target "$mcname$ spits in your $arg$.")
+      (rest   "$mcname$ spits in $mhcname$ $arg$.")
+    )
+    (arguments
+      (arguments  in disgust, in loathing, hatefully, #)
+      (self   "You spit $arg$ at $hcname$ .")
+      (target "$mcname$ spits $arg$ at you.")
+      (rest   "$mcname$ spits $hcname$ face.")
+    )
+  )
+)
+

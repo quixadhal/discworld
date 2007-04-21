@@ -1,0 +1,43 @@
+NOTE!  This file and the functions in it is being phased out, so don't
+code anything new that depends on it.
+
+int add_spell_effect(int no_rnds, string type, string name, object callee,
+                     string func, mixed params)
+		Adds a spell onto the player object.  This is used so
+		that the player object itself keeps track of the current
+		spells he has active on him.  For things like magic
+		missile and so on se the number of rounds to 1.  Every
+		heart_beat the no_rnds of the spell gets decremented by
+		1 and the function is called as if
+                callee->func(attackee, params, no_rnds)
+                [als: note that no_rnds is decd -after- the func call]
+		the return value is the smount of xp the player gets for
+		casting of the spells.  Either hps done or whatever.
+int remove_spell_effect(string name)
+		Removes the spell effect from the current list of spell
+		effects on the player.
+mixed *query_spell_effect(string name)
+		Returns the spell effects array for the spell of the
+		given name, returns 0 if the spell does not exist.
+		This will only return the first found spell effect.
+		Format of the array...
+		({ type, name, ({ no_rnds, callee, func, params }) })
+		Returns 0 on failure
+mixed *query_spell_effects_type(string type)
+		Returns all the spell effects of a giuven type that are
+		active on the object.  An example of the use of this is
+		to check to see if there is another attack spell already
+		active before casting another.  ie Magic Missile.
+		Format of the array
+		({ type, name, ({ no_rnds, callee, func, params }), ... })
+		Returns ({ }) on failure
+mixed *query_spell_effects_type(string name)
+		Returns all the spell effects of the given name on the
+		object.
+		({ type, name, ({ no_rnds, callee, func, params }), ... })
+		Returns ({ }) on failure.
+void do_spell_effects(object attacker)
+		Does the spell effects currently actrive on the player.
+		This is called every heart_beat. does a call of
+                callee->func(attackee, params, no_rnds)
+		and adds the return value on the players current xp.

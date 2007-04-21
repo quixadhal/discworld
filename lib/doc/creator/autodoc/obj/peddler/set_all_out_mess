@@ -1,0 +1,34 @@
+.DT
+set_all_out_mess
+DW_wibble creator help
+set_all_out_mess
+
+.SH Name
+.SP 5 5
+set_all_out_mess -  Overrides the default chat of the item being out of stock when a player tries to buy it
+.EP
+
+.SH Syntax
+.SI 5
+void set_all_out_mess(string s)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^s%^RESET%^ - the chat to replace the default with.  Must include $item$, which
+will be replaced by the item short.
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/peddler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Overrides the default chat of the item being out of stock when a player
+tries to buy it
+.EP
+

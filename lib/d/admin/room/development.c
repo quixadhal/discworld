@@ -1,5 +1,5 @@
 #include "path.h"
-inherit "std/room";
+inherit "/std/room/basic_room";
 
 object board;
 
@@ -26,6 +26,8 @@ void setup() {
   add_exit("east", ROOM+"quest_room", "door");
   add_exit("north", ROOM+"mail_room", "door");
   add_exit("south", ROOM+"domain_control", "corridor");
+  add_exit("northeast", ROOM+"cloner_control", "door");
+   add_exit( "southeast", ROOM +"terrain", "door" );
 }
 
 void dest_me() {

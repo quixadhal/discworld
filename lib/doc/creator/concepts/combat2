@@ -1,0 +1,78 @@
+.DT
+combat
+Discworld living help
+combat
+
+Name
+.SI 5
+combat - How things beat each other up.
+.EI
+
+.SH Description
+.SP 5 5
+Combat on Discworld lives in /std/living/combat.c  There are no combat
+rounds as such.  Every 2 seconds the heart_beat() function checks to
+see if the player (or npc) is fighting anyone, if the conditions are
+right to do an attack, and if so calls do_attack() which performs the
+attack itself.
+
+Combat uses an data class called attack (defined in combat.h) to store
+all the information about the current attack. The class is passed to,
+and returned by, each stage of combat, gradually having all its fields
+filled in.
+
+A combat attack is broken down into several steps shown in pseudo-code
+as follows:
+.EP
+
+.SI 5
+do_attack() {
+    choose_opponent()
+    do {
+      choose_defender()
+      choose_attack()
+      choose_defense()
+      calc_attack_modifier()
+      calc_defense_modifier()
+      determine outcome
+    } while(i < 1 && defender != opponent)
+    calc_damage()
+    calc_armour_protection()
+    write_messages()
+    adjust_hp
+    damage_weapon()
+    after_attack()
+}
+.EI
+
+.SP 5 5
+Each of the functions listed above (the lines ending with braces) can
+be overridden using the combat special system (see register_special)
+and has defined pre and post conditions (see the help for each function).
+.EP
+
+.SH Interfaces
+.SP 5 5
+The combat system provides a number of interfaces, or hooks that can
+be utilised when coding. Which you use depends on your requirements.
+.EP
+
+.SH Coding an NPC
+.SP 5 5
+When coding an NPC the easiest interface is to overload combat
+functions. Some functions are provided for exactly this purpose. The
+start_combat() and end_combat() methods have no role except that they
+are called at the start and end of combat. You can define your own
+functions within your NPC and the combat system will call them
+appropriately.
+
+If you require your NPC to do something during combat you can use
+add_combat_action. This allows you to register a callback that will be
+called at approximately the rate of your choosing.
+.EP
+
+See also
+.SP 5 5
+attack, query_attacker_list, set_damage_chance, set_natural, set_protector
+set_concentrate
+.EP

@@ -1,0 +1,1 @@
+({({"<string>",}),({({"You fold your arms.","$mcname$ fold$s$ $mposs$ arms.",0,}),({"You fold your arms $arg$.","$mcname$ fold$s$ $mposs$ arms $arg$.",0,({"arrogantly","decisively","carefully","slowly","menacingly","halfheartedly","quickly","snappily",}),}),}),0,})

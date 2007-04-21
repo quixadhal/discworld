@@ -1,0 +1,80 @@
+
+.DT
+callouts
+Discworld creator help
+callouts 
+
+.SH Name
+.SI 5
+callouts - see currently scheduled callouts
+.EI
+
+.SH Syntax
+.SI 5
+callouts 
+callouts {before|at|after} <time> 
+callouts {-c|count} 
+callouts {-b|no effects} 
+callouts <file> 
+.EI
+
+.SH Description
+.SP 5 5
+The callouts command can be used to get basic information about scheduled 
+callouts.
+.EP
+
+.SP 5 5
+The command can be used with no arguments to display all of the currently 
+scheduled callouts.  It can be given a file name to show all of the call outs
+scheduled for that file, or it can be given a qualifier (before, at or after) 
+and a time (in seconds) to see call outs before, at, or after that particular
+time. 
+.EP
+
+.SP 5 5
+There is also a brief summary mode for all objects, "count" and a "no effects"
+mode, which removes effect_timer events from the call out display.  The -c and
+-b tags are retained for backwards compatibility. 
+.EP
+
+.SH Example 1 
+.SI 5
+> callouts
+/obj/money#17479: "check_adjectives" in 0
+/obj/food#34109: "merge" in 0
+/d/am/streets/holofernes/holofernes06: "calc_exits" in 0
+/d/am/streets/holofernes/holofernes06: "(: <code>($1) :)" in 0
+/obj/handlers/map: "(: do_room1 :)" in 1
+/obj/handlers/wander_handler: "(: move_monsters :)" in 1
+.EI
+
+.SH Example 2
+.SI 5
+> callouts after 3600
+/d/guilds/wizards/Ankh-Morpork/lecturehalls_pt/rajii#10613: "go_posting" in 4282
+/global/player#7038: "effect_timer" in 4294
+/std/shadows/misc/effects#12553: "effect_timer" in 4457
+/std/shadows/misc/effects#11290: "effect_timer" in 5335
+/d/guilds/thieves/generic/items/licence#2252: "check_reset" in 6280
+.EI
+
+.SH Example 3
+.SI 5
+> callouts count
+/std/shadows/misc/effects#8529:effect_timer 1
+/std/shadows/misc/effects#8620:effect_timer 1
+/std/shadows/misc/effects#7677:effect_timer 1
+/d/sur/utils/error_tracker:do_the_work 1
+.EI
+
+.SH Example 4
+.SI 5
+> callouts /obj/handlers/error_tracker
+"/obj/handlers/error_tracker": "do_the_work" in 429280
+.EI
+
+.SH See also
+.SP 5 5
+call_out(), call_out_info()
+.EP

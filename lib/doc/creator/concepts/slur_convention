@@ -1,0 +1,148 @@
+.DT
+slur_convention
+Discworld creator help
+slur_convention
+
+.SH Summary
+.SP 5 5
+This help file will discuss appropriate ways to make custom SLUR
+directives.  Obviously, these are just recommendations, but for the love
+of Offler, follow them so the next creator who has to put up with your
+work doesn't go bald.
+.EP
+.SH Naming conventions
+.SP 5 5
+The first convention that will probably save you a lot of headaches has to
+do with capitalization.  When at all possible, name your directives in ALL
+CAPS.  In this implementation, the only indication that something might be
+the name of a directive is that it is a string that is the first item in a
+list.  If that string does not match exactly a registered directive, the
+interpretor will assume it is just another constant and do the appropriate
+thing for a list of items without a directive.  By naming your directives
+in ALL CAPS, it will be obvious, at a glance, which lists start with a
+directive and which don't.
+
+Next we deal with how to name them in the first place.  I recommend that
+you come up with a prefix for your new package of directives and put that
+in front off all the names, IE CRAFT_WIBBLE, or otherwise be VERY sure
+that no-one has or will use that name somewhere else.  Once registered, a
+function has exclusive use of the directive name used to call it.  If the
+object attempts to register two functions with the same name, number two
+is out of luck.
+.EP
+
+.SH Function form
+.SP 5 5
+This is one of the recommendations that is a hair's width from being
+required.  All functions to be called by the interpretor must have the
+following form:
+
+mixed FUNCTIONNAME (mixed args, string* scope)
+{
+  ...
+}
+
+Why mixed return type?  Because error messages are passed back through
+return values, and they're strings.  For consistancy's sake, since there
+are functions that return just about anything, we stick with mixed.
+
+Why a mixed argument "args"?  For one thing, you never know what some
+half-wit will put into his script.  If the functions had a set number of
+arguments, or even a varargs, there would be far more runtime errors we
+culdn't handle in our code.  Thus, the idea of input and output is to be
+extremely liberal, and then do your error checking in a way the
+interpretor can handle without resorting to runtimes.
+
+Why a array of strings called "scope"?  This is the way the interpretor
+keeps track of who knows what.  There is a Global space for variables, but
+by and large each iteration of a script should have its own variable
+space.  Otherwise, two simultaneously running scripts will barf all over
+each other.  Just pass it without comment and don't fiddle with it.  You
+will notice that the interpretor function (which is not a directive, but
+has a form similar to the one above) is varargs and can be used without
+specifying a scope.  This is just fine; and time the interpretor is given
+an empty scope, it makes one on its own and presses on.
+.EP
+
+.SH Error checking and abort messages
+.SP 5 5
+Since we are so liberal with what we give and take in a directive, we must
+do the work of error checking ourselves.
+
+First of all, we must check to see if we have the right number of
+arguments.  If you made a functions that works ad infinitum, you must
+check to see if you have enough arguments, or any at all.  Use a sizeof
+for this.  If there is a problem, return an abort message immediately.
+
+Secondly, You must check for types of the arguments.  All the arguments
+you were passed, however, are SLUR items and you must interpret them
+before you can determine their type or value.  I have found this to be an
+excellent method for doing this:
+
+  if (abortp(holder = interpret(arg[1],scope))) return holder;
+
+In this way, you get ahold of the value of the argument, check it for
+abort messages, return them if necessary, then you proceed to do your own
+type checking:
+
+  if (!(intp(holder))) return "__FUNCTION_bad_type_for_foo__";
+
+And on top of that, you might need to do some value checking on the return
+value:
+
+  if (holder > 2 || holder < 0) return "__FUNCTION_bad_value_for_foo__";
+
+Do all these things first, before you waste too many CPU cycles munging
+though other work.  Remember, we're doing our own type and error checking
+at each directive call, so we should do our best to minimize the amount of
+CPU we use per call.
+
+You will notice that the example error messages start and end with double
+underscores.  Was there a really good technical reason for doing this?
+Yes and no.  I needed some universal signal that says "Hey, something
+weird just happened, so I'm going to scream about it in an unusual way."
+Is double underscores a good way to do this?  Maybe not, but I've decided
+that's how it's going to be done.  Besides, that function above I used in
+the interpretation step, "abortp", is integral to the interpretor and keys
+off on beginning and ending double underscores to indicate an abort is
+necessary.  No thinking is needed on your part if you use it.
+
+Now that I have discussed why we're using double underscores to signal
+aborts, what about the stuff in the middle?  Well, obviously you'll need
+to tell whoever is debugging this thing in what function the problem
+happened, so always use the name of the directive in the abort message.
+Secondly, try to be specific with the rest of the message.  Try to tell
+them which argument went wrong and what was wrong with it.  If you don't
+want to be constantly saying "arg[5] has a wrong type", when you write
+your documentation, give arg[5] a notional name, like "skill_bonus".  it
+is obvious then that "skill_bonus" is an integer.
+
+I will reiterate the routine for error checking: interpret, type check,
+value check.  Always always always always interpret first, even if you're
+100% sure that what should go in that spot is a integer, or a string,
+because I'm 150% sure that something funny will end up in that spot some
+day and your object will blow up.  There is another good reason why you
+interpret first: that's how the entire interpretor scheme is supposed to
+work!  The entire thing is a recursively called branching tree of
+directives that eventually work their way down to constants at the ends of
+the tree branches.  In order for that to work, every call to a directive
+must involve the function interpreting its arguments FIRST.
+.EP
+
+.SH SLUR Mantras
+.SP 5 5
+Following conventions, you may chant this to yourself while you write your
+custom directives:
+
+	Interpret, Type Check, Value Check, MUNGE-MUNGE-MUNGE, Return
+
+Following this you may repeat to yourself the SLUR affirmation:
+
+"I will name things uniquely and never repeat myself, because I am a
+creative, intelligent person who can think up new things."
+.EP
+
+.SH See also
+.SI 5
+slur, slur_interpretor, slur_spec
+.EI

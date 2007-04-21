@@ -1,0 +1,32 @@
+.DT
+query_skill_path
+DW_wibble creator help
+query_skill_path
+
+.SH Name
+.SP 5 5
+query_skill_path -  This method returns the path to skill.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_skill_path(string skill)
+.EI
+
+.SH Returns
+.SI 5
+the skill path, or 0 if the skill does not exist
+.EI
+
+.SH Defined in
+.SI 5
+/std/skills.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the path to skill.  This is essentially the skill
+name broken up on '.'s and returned as an array.
+.EP
+

@@ -1,0 +1,781 @@
+(state
+ (name "main-menu")
+ (action "main_menu")
+ (event
+  (data "return-quit")
+  (new-state "quit")
+  )
+ (event
+  (data "input-n")
+  (new-state "check-new-access")
+  )
+ (event
+  (data "input-c")
+  (new-state "get-input-name")
+  )
+ (event
+  (data "input-r")
+  (new-state "get-password-name")
+  )
+ (event
+  (data "input-g")
+  (new-state "check-guest-access")
+  )
+ (event
+  (data "input-m")
+  (new-state "main-menu")
+  )
+ (event
+  (data "input-q")
+  (new-state "quit")
+  )
+ (event
+  (data "input-d")
+  (new-state "delete-menu")
+  )
+ (event
+  (data "input-u")
+  (new-state "list-players")
+  )
+ (event
+  (data "input-f")
+  (new-state "finger-player")
+ )
+ (event
+  (data "input")
+  (new-state "check-login-access")
+  )
+ )
+
+(state
+ (name "finger-player")
+ (write "Whom do you wish to finger? ")
+ (event
+  (data "input")
+  (new-state "display-finger")
+  )
+ )
+
+(state
+ (name "display-finger")
+ (action "finger_player")
+ (event
+  (data "input")
+  (new-state "main-menu")
+  )
+ )
+
+(state
+ (name "list-players")
+ (action "list_players")
+ (event
+  (data "input")
+  (new-state "main-menu")
+  )
+ )
+
+(state
+ (name "delete-menu")
+ (write "/doc/login/DELETE")
+ (event
+  (data "input")
+  (new-state "check-delete-name")
+  )
+ )
+
+(state
+ (name "check-delete-name")
+ (action "check_delete_name")
+ (event
+  (data "return-ok")
+  (new-state "read-delete-password")
+  )
+ (event 
+  (data "input")
+  (new-state "main-menu")
+  ) 
+ )
+
+(state
+ (name "read-delete-password")
+ (write "Enter password: ")
+ (no-echo true)
+ (event
+  (data "input")
+  (new-state "check-delete-password")
+  )
+ )
+
+(state
+ (name "check-delete-password")
+ (action "check_password")
+ (event
+  (data "return-ok")
+  (new-state "delete-character")
+  )
+ (event
+  (data "return-invalid")
+  (new-state "retry-delete-password")
+  )
+ (event
+  (data "return-failed")
+  (new-state "main-menu")
+  )
+ (event
+  (data "input")
+  (new-state "main-menu")
+  )
+ )
+
+(state
+ (name "retry-delete-password")
+ (write "Enter password: ")
+ (no-echo true)
+ (event
+  (data "input")
+  (new-state "check-delete-password")
+  )
+ )
+
+(state
+ (name "delete-character")
+ (action "delete_character")
+ (event
+  (data "default")
+  (new-state "main-menu")
+  )
+ )
+
+(state
+ (name "check-guest-access")
+ (action "check_guest_access")
+ (event
+  (data "return-ok")
+  (new-state "get-guest-name")
+  )
+ (event
+  (data "input")
+  (new-state "main-menu")
+  )
+ )
+(state
+ (name "get-guest-name")
+ (write "/doc/login/GUEST_LOGIN")
+ (action "reset_counter")
+ (event
+  (data "input")
+  (new-state "check-guest-name")
+  )
+ )
+(state
+ (name "retry-guest-name")
+ (write "Please try again: ")
+ (event
+  (data "input")
+  (new-state "check-guest-name")
+  )
+ )
+(state
+ (name "check-guest-name")
+ (action "check_new_name")
+ (event 
+  (data "return-ok")
+  (new-state "get-capitalization")
+  )
+ (event
+  (data "return-invalid")
+  (new-state "retry-guest-name")
+  )
+ (event
+  (data "return-failed")
+  (new-state "main-menu")
+  )
+ )
+
+(state
+ (name "check-new-access")
+ (action "check_new_access")
+ (event
+  (data "return-ok")
+  (new-state "new-character-menu")
+  )
+ (event
+  (data "return-auth")
+  (new-state "new-character-menu")
+  )
+ (event
+  (data "input")
+  (new-state "main-menu")
+  )
+ )
+
+(state
+ (name "new-character-menu")
+ (write "/doc/login/NEW_USER_NAME")
+ (action "reset_counter")
+ (event
+  (data "input-g")
+  (new-state "offer-generated-selection")
+  )
+ (event
+  (data "input")
+  (new-state "check-new-name")
+  )
+ )
+
+(state
+ (name "offer-generated-selection")
+ (action "main_random_name_menu")
+ (event
+  (data "input-m")
+  (new-state "main-menu")
+  )
+ (event
+  (data "input-q")
+  (new-state "quit")
+  )
+ (event
+  (data "input")
+  (new-state "random-lang-choice")
+  )
+ )
+
+(state
+ (name "random-lang-choice")
+ (action "random_lang_choice")
+ (event
+  (data "return-invalid")
+  (new-state "offer-generated-selection")
+  )
+ (event
+  (data "return")
+  (new-state "show-random-names")
+  )
+ )
+
+(state
+ (name "show-random-names")
+ (action "show_random_names")
+ (event
+  (data "input-g")
+  (new-state "offer-generated-selection")
+  )
+ (event
+  (data "input-n")
+  (new-state "new-character-menu")
+  )
+ (event
+  (data "input-m")
+  (new-state "main-menu")
+  )
+ (event
+  (data "input-q")
+  (new-state "quit")
+  )
+ (event
+  (data "input")
+  (new-state "check-random-name")
+  )
+)
+
+(state
+ (name "check-random-name")
+ (action "check_random_name")
+ (event
+  (data "return-ok")
+  (new-state "confirm-new-name")
+  )
+ (event
+  (data "return-invalid")
+  (new-state "offer-generated-selection")
+  )
+ )
+
+
+(state
+ (name "retry-new-name")
+ (write "Please try again: ")
+ (event
+  (data "input")
+  (new-state "check-new-name")
+  )
+ )
+
+(state
+ (name "check-new-name")
+ (action "check_new_name")
+ (event 
+  (data "return-ok")
+  (new-state "confirm-new-name")
+  )
+ (event
+  (data "return-invalid")
+  (new-state "retry-new-name")
+  )
+ (event
+  (data "return-generated")
+  (new-state "display-generated")
+  )
+ (event
+  (data "return-failed")
+  (new-state "main-menu")
+  )
+ )
+
+(state
+ (name "confirm-new-name")
+ (write "You have chosen the name [$name], is this correct [y/n]? ")
+ (event
+  (data "input-y")
+  (new-state "recheck-new-access")
+  )
+ (event
+  (data "input")
+  (new-state "new-character-menu")
+  )
+ )
+
+(state
+ (name "recheck-new-access")
+ (action "check_new_access")
+ (event
+  (data "return-ok")
+  (new-state "password-advice")
+  )
+ (event
+  (data "return-auth")
+  (new-state "get-valid-email")
+  )
+ )
+
+(state
+ (name "get-valid-email")
+ (write "Enter your email address: ")
+ (event
+  (data "input")
+  (new-state "check-email")
+  )
+ )
+
+(state
+ (name "check-email")
+ (action "check_email")
+ (event
+  (data "return-ok")
+  (new-state "new-player-auth")
+  )
+ (event
+  (data "return-invalid")
+  (new-state "get-valid-email")
+  )
+ )
+
+(state
+ (name "new-player-auth")
+ (action "new_player_auth")
+ (event
+  (data "input")
+  (new-state "main-menu")
+  )
+
+ )
+
+(state
+ (name "password-advice")
+ (write "/doc/login/NEW_USER_PASSWORD")
+ (no-echo true)
+ (event
+  (data "input")
+  (new-state "check-new-password")
+  )
+ )
+
+(state
+ (name "get-new-password")
+ (write "Enter password: ")
+ (no-echo true)
+ (event
+  (data "input")
+  (new-state "check-new-password")
+  )
+ )
+
+(state
+ (name "check-new-password")
+ (action "check_new_password")
+ (event
+  (data "return-ok")
+  (new-state "reread-password")
+  )
+ (event
+  (data "return-invalid")
+  (new-state "get-new-password")
+  )
+ (event
+  (data "return-failed")
+  (new-state "main-menu")
+  )
+ )
+
+(state
+ (name "reread-password")
+ (write "Enter password again: ")
+ (no-echo true)
+ (event
+  (data "input")
+  (new-state "verify-password")
+  )
+ )
+
+(state
+ (name "verify-password")
+ (action "verify_password")
+ (event
+  (data "return-ok")
+  (new-state "get-capitalization")
+  )
+ (event
+  (data "return-invalid")
+  (new-state "get-new-password")
+  )
+ )
+
+(state
+ (name "get-capitalization")
+ (action "get_capitalization")
+ (event
+  (data "input-y")
+  (new-state "get-gender")
+  )
+ (event
+  (data "input")
+  (new-state "check-capitalization")
+  )
+ )
+
+(state
+ (name "check-capitalization")
+ (action "check_capitalization")
+ (event
+  (data "return-ok")
+  (new-state "get-gender")
+  )
+ (event
+  (data "return-invalid")
+  (new-state "get-capitalization")
+  )
+ )
+
+(state
+ (name "get-gender")
+ (write "Are you male or female? ")
+ (event
+  (data "input")
+  (new-state "set-gender")
+  )
+ )
+
+(state
+ (name "set-gender")
+ (action "set_gender")
+ (event
+  (data "return-ok")
+  (new-state "terms-and-conditions")
+  )
+ (event
+  (data "return-invalid")
+  (new-state "get-gender")
+  )
+ )
+
+(state
+ (name "terms-and-conditions")
+ (action "display_terms")
+ (event
+  (data "return")
+  (new-state "terms-wait")
+  )
+ )
+
+(state
+ (name "terms-wait")
+ (noecho true)
+ (event
+  (data "input-q")
+  (new-state "quit")
+  )
+ (event
+  (data "input-quit")
+  (new-state "quit")
+  )
+ (event
+  (data "default")
+  (new-state "terms-wait")
+  )
+ )
+
+(state
+ (name "agree-terms")
+ (event
+  (data "input-yes")
+  (new-state "new-player-login")
+  )
+ (event
+  (data "input-no")
+  (new-state "quit")
+  )
+ (event
+  (data "input")
+  (new-state "terms-error")
+  )
+ )
+
+(state
+ (name "terms-error")
+ (write "You must enter 'yes' or 'no': ")
+ (event
+  (data "input-yes")
+  (new-state "new-player-login")
+  )
+ (event
+  (data "input-no")
+  (new-state "quit")
+  )
+ (event
+  (data "input")
+  (new-state "terms-error")
+  )
+ )
+
+(state
+ (name "new-player-login")
+ (action "new_player_login")
+ (event
+  (data "return-error")
+  (new-state "main-menu")
+  )
+ (event
+  (data "default")
+  (new-state "finished")
+  )
+ )
+
+(state
+ (name "get-input-name")
+ (write "Enter your name: ")
+ (event
+  (data "input")
+  (new-state "check-login-access")
+  )
+ )
+
+(state
+ (name "get-password-name")
+ (write "Enter your name: ")
+ (event
+  (data "input")
+  (new-state "request-password")
+  )
+ )
+(state
+ (name "request-password")
+ (action "request_password")
+ (event
+  (data "return-invalid")
+  (new-state "get-password-name")
+  )
+ (event
+  (data "input")
+  (new-state "main-menu")
+  )
+ )
+(state
+ (name "check-login-access")
+ (action "check_login_access")
+ (event
+  (data "return-ok")
+  (new-state "read-password")
+  )
+ (event
+  (data "input")
+  (new-state "main-menu")
+  )
+ )
+
+(state
+ (name "read-password")
+ (write "/doc/login/WELCOME")
+ (action "reset_counter")
+ (no-echo true)
+ (event
+  (data "input")
+  (new-state "check-password")
+  )
+ )
+
+(state
+ (name "check-password")
+ (action "check_password")
+ (event
+  (data "return-invalid")
+  (new-state "retry-password")
+  )
+ (event	
+  (data "return-new")
+  (new-state "get-capitalization")
+  )
+ (event
+  (data "return-ok")
+  (new-state "check-queue")
+  )
+ (event
+  (data "return-failed")
+  (new-state "main-menu")
+  )
+ (event
+  (data "input")
+  (new-state "main-menu")
+  )
+ )
+
+(state
+ (name "retry-password")
+ (write "Enter your password: ")
+ (no-echo true)
+ (event
+  (data "input")
+  (new-state "check-password")
+  )
+ )
+
+(state
+ (name "check-reconnecting")
+ (action "check_reconnecting")
+ (event
+  (data "return-no")
+  (new-state "player-login")
+  )
+ (event
+  (data "input-yes")
+  (new-state "reconnect")
+  )
+ (event
+  (data "input-y")
+  (new-state "reconnect")
+  )
+ (event
+  (data "input-restart")
+  (new-state "restart")
+  )
+ (event
+  (data "input")
+  (new-state "quit")
+  )
+ )
+
+(state
+ (name "reconnect")
+ (action "reconnect")
+ (event
+  (data "return-login")
+  (new-state "player-login")
+  )
+ (event
+  (data "return")
+  (new-state "finished")
+  )
+ )
+
+(state
+ (name "restart")
+ (action "restart")
+ (event
+  (data "return")
+  (new-state "player-login")
+  )
+ )
+
+(state
+ (name "check-queue")
+ (action "check_full")
+ (event
+  (data "return-ok")
+  (new-state "check-reconnecting")
+  )
+ (event
+  (data "return-full")
+  (new-state "add-to-queue")
+  )
+ )
+
+(state
+ (name "add-to-queue")
+ (action "add_to_queue")
+ (event
+  (data "return-ok")
+  (new-state "queue-wait")
+  )
+ (event
+  (data "default")
+  (new-state "quit")
+  )
+ )
+  
+(state
+ (name "queue-wait")
+ (event
+  (data "input-q")
+  (new-state "quit")
+  )
+ (event
+  (data "input-quit")
+  (new-state "quit")
+  )
+ (event
+  (data "input")
+  (new-state "queue-wait")
+  )
+ )
+
+(state
+ (name "leaving-queue")
+ (event
+  (data "input")
+  (new-state "exit-queue")
+  )
+ )
+
+(state
+ (name "exit-queue")
+ (action "exit_queue")
+ (event
+  (data "return-reconnect")
+  (new-state "check-reconnecting")
+  )
+ (event
+  (data "return-login")
+  (new-state "player-login")
+  )
+ )
+
+(state
+ (name "player-login")
+ (action "player_login")
+ (event
+  (data "return-error")
+  (new-state "quit")
+  )
+ (event
+  (data "default")
+  (new-state "finished")
+  )
+ )
+
+(state
+ (name "quit")
+ (action "quit")
+ (event
+  (data "default")
+  (new-state "quit")
+  )
+ )

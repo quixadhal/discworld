@@ -1,0 +1,43 @@
+.DT
+talker_args
+DW_wibble creator help
+talker_args
+
+.SH Name
+.SP 5 5
+talker_args -  This class stores the effect arguments for the talker.
+.EP
+
+.SH Definition
+.SI 5
+class talker_args {
+                    int status;
+                    string * channels;
+                    int verbose;
+                    int local_echo;
+                    mixed colour;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^status%^RESET%^ - whether or not the talker is on or off
+%^BOLD%^what%^RESET%^ - channels the talker is listening to
+%^BOLD%^verbose%^RESET%^ - whether the talker is in verbose or brief mode. (1 is verbose, 0 is brief)
+%^BOLD%^local_echo%^RESET%^ - is local echo enabled
+%^BOLD%^string%^RESET%^ - the colour that text is displayed on the screen.
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/talker.h
+.EI
+
+.SH Description
+.SP 5 5
+
+This class stores the effect arguments for the talker.
+.EP
+

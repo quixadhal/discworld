@@ -1,0 +1,54 @@
+.DT
+add_eat_effect
+DW_wibble creator help
+add_eat_effect
+
+.SH Name
+.SP 5 5
+add_eat_effect -  This adds an eat effect to the food.
+.EP
+
+.SH Syntax
+.SI 5
+int add_eat_effect(mixed word,
+                   int number)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - The file name of the effect to add.
+%^BOLD%^number%^RESET%^ - The number to set to the effect to.
+.EI
+
+.SH Returns
+.SI 5
+The current value of the effect in the mapping
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This adds an eat effect to the food.  This will be added to
+the player or NPC when the food is eaten.
+
+
+The effect is added with a number as the argument. The number is based on the amount which is eaten (in weight units), and usually represents the strength of the effect. If the object is continuous, the weight is calculated from the amount and weight_unit array... 
+
+
+.EP
+.SP 5 5
+eff_num = (amount * number * weight_unit[0]) / weight_unit[1] 
+
+...where the number is passed into the add_eat_effect() function. If the effect already exists, then the number is added onto the existing number. 
+.EP
+
+.SH See also
+.SP 5 5
+/obj/cont_medium->set_weight_unit(), remove_eat_effect()
+.EP
+

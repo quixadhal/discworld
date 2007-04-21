@@ -1,0 +1,115 @@
+.DT
+health
+Discworld Creator help
+health
+
+Name
+.SI 5
+/std/living/health.c - object inherited by everything living
+.EI
+
+Description
+
+.SP 5 5
+/std/living/health.c is the object that handles the health and exhaustion 
+of living objects.  It is inherited by /std/living/living and is therefore
+part of every living object on the mud.
+.EP
+
+Functions
+
+.SI 5
+int query_hp()
+.EI
+.SP 10 5
+Returns the monsters current hit points.
+.EP
+
+.SI 5
+int query_max_hp()
+.EI
+.SP 10 5
+Returns the monsters current maximum hit points.
+.EP
+
+.SI 5
+int query_gp()
+.EI
+.SP 10 5
+Returns the monsters current guild points
+.EP
+
+.SI 5
+int query_max_gp()
+.EI
+.SP 10 5
+Returns the monsters current maximum guild points.
+.EP
+
+.SI 5
+int query_xp()
+.EI
+.SP 10 5
+Returns the current experience points for the monster
+.EP
+
+.SI 5
+int query_total_xp()
+.EI
+.SP 10 5
+Returns the total amount of experience points this
+object has ever gained.
+.EP
+
+.SI 5
+int set_max_hp(int max)
+.EI
+.SP 10 5
+Sets the objects maximun hps to max.
+.EP
+
+.SI 5
+int set_hp(int i, object attacker)
+.EI
+.SP 10 5
+Sets the current hps to i.  If i is less than zero the
+death sequence is called.  This is why the parameter
+attacked is there.
+.EP
+
+.SI 5
+int adjust_hp(int i, object attacker)
+.EI
+.SP 10 5
+Adjusts the current hit points by i.  The attacker
+parameter is there because if the hps go below 0 the
+death sequence is initiated.
+.EP
+
+.SI 5
+int set_max_gp(int i)
+.EI
+.SP 10 5
+Sets the object maximun guild points to i.
+.EP
+
+.SI 5
+int set_gp(int i)
+.EI
+.SP 10 5
+Sets the objects current guild points to i.
+.EP
+
+.SI 5
+int adjust_gp(int i)
+.EI
+.SP 10 5
+Adjusts the guild points by i.
+.EP
+
+.SI 5
+int adjust_xp(int i)
+.EI
+.SP 10 5
+Adjusts the object's current experience points by i.
+.EP

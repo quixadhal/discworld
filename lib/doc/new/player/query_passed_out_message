@@ -1,0 +1,40 @@
+.DT
+query_passed_out_message
+Discworld monster help
+query_passed_out_message
+
+.SH Name
+.SI 5
+query_passed_out_message - Calculate the message to display when the
+creature is passed out.
+.EI
+
+.SH Syntax
+.SI 5
+string query_passed_out_message()
+.EI
+
+.SH Description
+.SP 5 5
+When an object has the "passed out" property set, it is prevented
+from performing any commands.  By default, a message saying "You are
+unconscious.  You can't do anything.\n" is sent to the object.
+If this function exists and returns a string, that string is
+sent instead of the default message.
+
+This function effectively generalizes the passed out property
+to cover any situation in which the object should be prevented
+from doing anything.  Be that because the object is honestly
+passed out, or because it is subject to a basilisk's paralysis, or any
+other reason.  Simply return the correct message from this function.
+.EP
+
+.SH Note
+.SP 5 5
+Remember the \n at the end of the message.
+.EP
+
+.SH See also
+.SI 5
+add_property, remove_property, drunk_check
+.EI

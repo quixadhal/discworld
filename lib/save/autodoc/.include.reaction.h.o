@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions ([])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"Include file for reaction handler.This file includes some useful defines for parameters passed tofunction pointers.To use these, you'd do $OBJ_A instead of $1, etc.",}),"author":({"Jeremy",}),])
+define_docs (["ENV2":(["main":({"The environment of the environment. ",}),]),"ENV":(["main":({"The environment in which the reaction is taking place. ",}),]),"OBJ_A":(["main":({"The first reagent in the reaction spec. ",}),]),"OBJ_X":(["main":({"The result of the reaction. ",}),]),"AMT_A":(["main":({"The amount of obj_a that will be consumed.These last two were necessary because the amounts aren't actuallyconsumed until after the function pointers are called.  So$OBJ_A->query_amount() returns the original amount, and $AMT_Ais the amount actually used.",}),]),"AMT_B":(["main":({"The amount of obj_b that will be consumed.These last two were necessary because the amounts aren't actuallyconsumed until after the function pointers are called.  So$OBJ_A->query_amount() returns the original amount, and $AMT_Ais the amount actually used.",}),]),"OBJ_B":(["main":({"The second reagent in the reaction spec. ",}),]),])
+includes ([])
+class_docs (["reaction":({0,({({"ratio",({"mixed",}),}),({"result",({"string",}),}),({"result_amt",({"float",}),}),({"message",({"string",}),}),({"func",({"mixed","*",}),}),}),(["main":({"The class used in the reaction handler.",}),"element":({"ratio Amount of first substance needed; can be a float(a:b) or an array of two floats (min/max ratio)","results Resulting object path","result_amt Amount of result per total reagents (ie, if2 ounces of a and 3 ounces of b should make 5ounces of result, this would be 1.0","message Message to be printed out at reaction (probablyobsolete; using 'func' below would be better)","func Array of call-by-value function strings orfunction pointers",}),]),}),])
+file_name "/include/reaction.h"
+last_changed 1059516249

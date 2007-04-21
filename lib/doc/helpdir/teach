@@ -3,41 +3,51 @@ teach
 Discworld player help
 teach
 
-Name
+.SH Name
 .SI 5
-teach - Teach things to other players.
+teach - teach things to other players
 .Ei
 
-Syntax
+.SH Syntax
 .SI 5
-teach <skill|n levels of skill> to <person(s)>
+teach <skill|n levels of skill|command> to <person(s)>
+teach me <skill|n levels of skill|command> from <person(s)>
 .EI
 
-Description
+.SH Description
 .SP 5 5
 This command allows you to teach a command or skill to another
 player.  In the case of commands the person doing the
-teaching needs to be experienced enough in the skill and the person
-being taught also needs to be experienced enough to learn and teach
-the skill respectively.
+teaching needs to be experienced enough in the skill to teach it, and the
+person being taught also needs to be experienced enough to learn the skill.
 
-In the case of skills the person doing the teaching needs to be a of
-a higher level than the person being taught.  The cost in
-experience to the teachee is based on the relative levels of the
+In the case of skills the person doing the teaching needs to be of
+a higher bonus than the person being taught.  The cost in
+experience to the teachee is based on the relative bonus of the
 person teaching and the person being taught.
+
+If the person you are trying to learn from has 'auto teach' turned on then
+you can learn skills from them directly without them having to 'teach' you.  
+Use the 'options' command to toggle 'auto teach' on 
+and off.
 .EP
 
-Example
+.SH Examples
 .SI 5
 > teach judge to khaos
 You teach judge to Khaos.
 > teach fix to bil
 Bil is not high enough level to learn fix.
 > teach 1 level of fighting to bil
-[Random piece of stuff not included because I cannot remember it]
+You offer to teach bil 1 level of fighting for 7000 xp.
+> teach me other.fluff from lanfear
+Lanfear offers to teach you 1 level of other.fluff for 753 xp.
+Use "learn" to learn the skill.
+> options personal auto teach = on
+Set option personal auto teach to on.
 .EI
 
-See also
+.SH See also
 .SI 5
-commands, learn.
+commands, learn, options
 .EI

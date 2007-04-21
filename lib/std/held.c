@@ -1,7 +1,7 @@
 /* inherit this file anything that wants to be holdable */
 inherit "/std/object";
 
-static object holder;
+nosave object holder;
 
 int query_holdable() { return 1; }
 
@@ -12,12 +12,14 @@ int set_holder(object ob) {
 
 object query_holder() { return holder; }
 
-int drop() {
+int drop(mixed dest) {
   holder = 0;
-  return ::drop();
+  return ::drop(dest);
 }
 
-move(dest, arrive, leave) {
+/** @ignore yes */
+/** @ignore yes */
+varargs int move( mixed dest, string arrive, string leave ) {
   if (holder && dest != holder) {
       holder->unhold_ob(this_object());
       holder = 0;

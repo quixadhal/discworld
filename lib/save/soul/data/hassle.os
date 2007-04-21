@@ -1,0 +1,1 @@
+({({"<indirect:any-living> [about] <string>","<string> <indirect:any-living>","<indirect:any-living>",}),0,({({"You hassle $hcname$.","$mcname$ hassle$s$ $hcname$.","$mcname$ hassle$s$ you.",0,0,0,}),({"You hassle $hcname$ about $arg$.","$mcname$ hassle$s$ $hcname$ about $arg$.","$mcname$ hassle$s$ you about $arg$.",({"frogs","chickens","wombles","#",}),0,0,}),}),})

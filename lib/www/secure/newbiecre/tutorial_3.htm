@@ -1,0 +1,393 @@
+<html><!-- #BeginTemplate "/Templates/Body Text.dwt" -->
+<head>
+<title> Discworld Documentation </title>
+</head>
+<body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">
+<table width="75%" border="0">
+  <tr>
+    <td><font face="arial,helvetica"><img align=left src="http://discworld.imaginary.com/external//pics/dw4.gif"></font></td>
+    <td><font face="arial,helvetica">
+      <h2>Discworld Documentation:</h2>
+      <h2>LPC for Dummies</h2>
+      </font> 
+      <p><font size="+1"><!-- #BeginEditable "Title" --><font size="+1"><b>Tutorial 
+  Three - Putting It All Together - Simple Objects</b></font><!-- #EndEditable --></font></p>
+      <p><i>N.B - This is a work in progress... a living document if you like. 
+        If it appears to be dead when you view it, don't worry. It's most likely 
+        just playing possum.</i></p>
+      <p>Comments on these chapters and tutorials can be e-mailed to <a href="mailto:drakkos@cableinet.co.uk">Drakkos.</a></p>
+    </td>
+  </tr>
+</table>
+<br>
+<!-- #BeginEditable "Body" --> 
+<p>Right. So far we've covered how to create an NPC, and how to create a room. 
+  Now we're going to take a look at how to code objects and how to make these 
+  objects available to NPCs and rooms alike. Now, like both our previous tutorials, 
+  we start with the comment, indicating what our file is, when it was coded, and 
+  who coded it: 
+<p><b>Comments, And Inherits, And Setup, Oh My! </b>
+<blockquote> 
+  <p><code>/* <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;This is a basic object! <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;Written by Drakkos. <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;04/10/2000 <br>
+    */ </code></p>
+</blockquote>
+<p>Now what? Well, like in both our room and NPC, we want to inherit a file. But 
+  it's slightly more complicated for an object, since there is such a wide variety 
+  of objects to choose from. Are we creating a weapon? A piece of food? A backpack 
+  or other container? There is a huge range of possible inheritables in the mudlib. 
+  To a degree, this is also true of NPCs and rooms, but it is possible to create 
+  a fully functioning example of both without worrying about the specialisations 
+  available. Let's take a look at some of the most common inheritables we may 
+  wish to use to create an object: 
+<p align="center">&nbsp;
+<div align="center"> 
+  <table width="75%" border="0">
+    <tr> 
+      <td valign="top"><b>&quot;/std/object&quot;</b></td>
+      <td>The very low level object that has all the fundamental functionality 
+        (such as setting the name of an object), but none of the specialised functionality 
+        that other objects use. You would use this object if you were coding something 
+        that needed all the basic methods of an object, but is not previously 
+        defined elsewhere in the mudlib.</td>
+    </tr>
+    <tr> 
+      <td valign="top"><b>&quot;/obj/weapon&quot;</b></td>
+      <td> 
+        <div align="left">This object contains all the functionality needed to 
+          create your very own weapons of death and destruction. You would need 
+          this file if you were creating swords, or axes, or any other kind of 
+          hand-held, death-dealing piece of equipment.</div>
+      </td>
+    </tr>
+    <tr> 
+      <td valign="top"><b>&quot;/obj/food&quot;</b></td>
+      <td> 
+        <p>This file contains the code for creating tasty foods, and all the nifty 
+          stuff for cutting food into pieces, or decaying. You would use this 
+          to code things such as apples, or cakes, or biscuits. </p>
+      </td>
+    </tr>
+    <tr> 
+      <td valign="top"><b>&quot;/obj/clothing&quot;</b></td>
+      <td>This is the file that deals with making clothes, and contains the functionality 
+        for wearing them, having them protect from the elements, and so on. Would 
+        be used when you were coding a coat, or a hat, or a set of sexy underwear 
+        (*rowr*!).</td>
+    </tr>
+    <tr> 
+      <td valign="top"><b>&quot;/obj/vessel&quot;</b></td>
+      <td>This is the file that contains the functionality for making containers 
+        for holding liquids. It would be used when coding a cup, or a glass, or 
+        a Thermos flask, for example. </td>
+    </tr>
+  </table>
+</div>
+<p align="center">&nbsp;
+<p>There are many more potential inheritables... having a good look through the 
+  /std/ and /obj/ directories will reveal many more examples. For the purpose 
+  of this tutorial, however, we're only going to make our selections from the 
+  list above. 
+<p>To start with, we are going to approach coding an object in the same way we 
+  have with our NPC and room. However, later in the tutorial, we will also look 
+  at 'virtual objects' and how these can be used to allow simple objects to be 
+  created very quickly. 
+<p>So, let's give our NPC some clothes. A nice pair of waterproof dungarees to 
+  hold in the slime. So we're going to select /obj/clothing from our list above: 
+<blockquote>
+  <p><code>inherit "/obj/clothing"; </code></p>
+</blockquote>
+<p>Simple! 
+<p>Now, like with almost all objects, we need a setup() method. Again, this will 
+  look very similar to what we've already seen with our NPC and our room, but 
+  with a few subtle differences. Like with the NPC, we need a set_name(). Clothing 
+  is something that can be touched, looked at, and manipulated by a player, so 
+  a name is required so that this is possible. We also need a set_short, and a 
+  set_long. These do exactly the same things as with our other examples. In the 
+  case of an object, we also need a set_weight() which determines how heavy the 
+  object is (One unit = 1/9 of a pound). 
+<p>We also need a set_value(), which determines how valuable the object is in 
+  brass coins (4 brass coins = 1 Ankh-Morpork pence). So let's plug them into 
+  our setup() function: 
+<blockquote> 
+  <p><code>void setup() { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_name("dungarees"); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_short("pair of waterproof dungarees"); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_long("This is a pair of waterproof dungarees. 
+    Luckily they "<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"are also ooze proof.\n"); 
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_weight(45); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_value(4000); <br>
+    } </code></p>
+</blockquote>
+<p>But we're not done yet. Although this object will load fine, attempting to 
+  clone it will send the object to **Null-space**. Objects that have subtle errors 
+  in their setup will often do this. In this case, the error is that although 
+  we have all the values set for manipulating the object, as a piece of clothing 
+  there is another piece of information that needs to be set... the type of clothing 
+  it is. A list of valid clothing types and the body areas they cover is contained 
+  in the clothing handler (/obj/handlers/clothing_handler). 
+<p>For this example, we're going to choose the type 'robe' for our dungarees, 
+  since it's roughly equivalent to what we want. We include the line set_type 
+  ("robe") in our setup, like so: 
+<blockquote> 
+  <p><code>void setup() { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_name("dungarees"); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_short("pair of waterproof dungarees"); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_long("This is a pair of waterproof dungarees. 
+    Luckily they " <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"are also ooze proof.\n"); 
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_weight(45); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_value(4000); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_type("robe"); <br>
+    } </code></p>
+</blockquote>
+<p>So, now we update our object and clone it again. It clones fine, and we can 
+  wear it using 'wear dungarees'. Cool! But let's 'look' at the dungarees. Hmm... 
+  something is wrong. Their condition is 'complete wreck'. But we just cloned 
+  them! But we forgot to give them a condition. If we put the line 'setup_clothing(50000)' 
+  in our setup, we'll give our clothing a condition (50000), and set it to have 
+  that condition when cloned. 
+<p>Finally, it's a little limiting to have to refer to our 'pair of waterproof 
+  dungarees' as just 'dungarees'. If we try and refer to them as, for example, 
+  'pair of dungarees', we get warned that we can't find a match. We also can't 
+  refer to 'waterproof dungarees', or even 'pair of waterproof dungarees'. Wouldn't 
+  it be nice if there was a way we could? Well... there is! The function add_adjective() 
+  allows for adjectives to be added to objects. It will take either a single adjective 
+  as an argument: 
+<blockquote>
+  <p><code>add_adjective("waterproof"); </code></p>
+</blockquote>
+<p>Or an array of arguments: 
+<blockquote>
+  <p><code>add_adjective(({"pair of", "waterproof"})); </code></p>
+</blockquote>
+<p>So we'll use the array method to add our adjectives, meaning we can now refer 
+  to our pair of dungarees, our waterproof dungarees, our pair of waterproof dungarees, 
+  or even just dungarees. Well... that was painless, wasn't it? And we now have 
+  a nice pair of dungarees for our blob. But how do we actually get our blob to 
+  wear them? 
+<p><b>Moving Objects Into NPCs </b>
+<p>Well, let's go back to our NPC code. The first thing we need to decide is when 
+  we want our NPC to have our new dungarees. Well, since the ooze is painful on 
+  the eyes, we want the NPC to have the dungarees as soon as he appears... so 
+  let's put the relevant code in the blob's setup(). The efun we need to clone 
+  a copy on an object is clone_object(). This takes the path of the file as an 
+  argument, and returns an object pointer to the cloned variable: 
+<blockquote>
+  <p><code>object ob = clone_object("/w/your_name/simple_object"); </code></p>
+</blockquote>
+<p>And we can then use the move() method of object ob to move the dungarees into 
+  this_object(): 
+<blockquote>
+  <p><code>ob->move(this_object()); </code></p>
+</blockquote>
+<p>Once we have the dungarees in our NPC's inventory, we want him to wear them. 
+  The function call init_equip() will inform our NPC to wear/hold every piece 
+  of equipment in his inventory that he can. So, after putting all of that into 
+  our NPC, his setup now looks like: 
+<blockquote> 
+  <p><code>void setup() { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;object ob = clone_object("/w/your_name/simple_object"); 
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_name("blob"); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_short("grey blob"); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_long("This is a grey blob. It is grey. It is also 
+    quite " <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"blobby.\n"); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;basic_setup("human", "warrior", 10); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_gender("male"); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;add_adjective(({"oozing", "grey"})); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;set_main_plural("grey blobses"); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;add_alias("porridge"); <br>
+    </code></p>
+  <p><code>&nbsp;&nbsp;&nbsp;&nbsp;add_respond_to_with(({ "@say",({"blob", "grey"}), 
+    }), <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"say Yes, I am a grey blob."); 
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;add_respond_to_with(({ "@say",({"ooze", "blue", "cardboard"}), 
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({"porridge", "bing", "womble"}), 
+    }), <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"' Yes, I'm oozing quite nicely, 
+    like grey " <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"blobs do. Like porridge!"); 
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;load_chat(20,({ 2, ": oozes around.", <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1, "' I'm very grey.", <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 , "' I'm a blob.", }) );<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;load_a_chat(20,({ 2, ": oozes all over you.", <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1, "' Lemme alone!.", <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 , ": sobs bitter, slimy 
+    tears.", }) ); </code></p>
+</blockquote>
+<p><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ob->move(this_object()); 
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;init_equip(); <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;} </code>
+<p>Now, let's go to our blob's lair. He appears, and we look at him... and lo 
+  and behold, he's wearing a nice pair of waterproof dungarees! Neat! Note that 
+  the code for cloning and moving the dungarees into the NPC could have cut out 
+  the middle stage of storing the returned reference from clone_object, and been 
+  written more compactly as simply: 
+<blockquote> 
+  <p><code>clone_object("/w/your_name/simple_object")->move (this_object()); </code></p>
+</blockquote>
+<p>Since we're never actually referring to 'ob' anywhere else in the code, it 
+  is safe to do this as a matter of brevity. 
+<p>If the object we wish to provide for our NPC is part of the standard library... 
+  in other words, if it lives in the /obj/ directory, then we can use the armoury 
+  to request a copy of the item. To do this, we #include armoury.h at the top 
+  of our file. Armoury.h #defines the location of the armoury file as ARMOURY. 
+  We can then use the function request_item() to request an object. Request_item() 
+  takes two arguments... the first is the item to be request, the second is the 
+  percentage condition of the item: 
+<blockquote> 
+  <p><code>object ob = ARMOURY->request_item("short sword", 75); <br>
+    ob->move(this_object());</code></p>
+</blockquote>
+<p> This would request a short sword and set is condition at 75% of the maximum. 
+  As above, we can combine these two function calls into a single line: 
+<blockquote> 
+  <p><code>ARMOURY->request_item("short sword", 75)->move(this_object()); </code></p>
+</blockquote>
+<p>Which would request the item from the armoury, and move the return value of 
+  request_item() into this_object(). You should always use the armoury if you 
+  are providing your object with one of the standard weapons, armours, clothes 
+  or jewellery since the armoury will keep track of filename changes for you. 
+<p><b>Virtual Objects And Coding Weapons </b>
+<p>Right, so we've got our NPC all clothed. Let's give him a nice weapon too, 
+  to defend himself from nasty leetle people who want to hurt him. And to do this, 
+  we're going to have a look at virtual objects. Virtual Objects (or Vobjects) 
+  are objects that are first cloned from a base inheritable, then configured. 
+  This is similar to what happens when you inherit a file then configure it, and 
+  is a very easy way of creating simple objects. A virtual object cannot have 
+  its own local functions, however, and so is limited to objects that have no 
+  special characteristics. Virtual objects are more efficient for the MUD since 
+  they use up less memory (although they do use more CPU cycles initially). The 
+  nature of a virtual object is defined by its filename extension: .wep - Virtual 
+  weapon .arm - Virtual armour .sca - Virtual scabbard .clo - Virtual clothing 
+  .ob - Virtual object .r - Virtual room .mon - Virtual monster. If we wanted 
+  to create a nice weapon for our NPC, for example, we'd call the file simple_weapon.wep. 
+  Much like with an object as described above, we need to set the various aspects 
+  of our weapon. In a Vobject, we do this with config lines, which are of the 
+  form '::value::'. For example, if we wanted to create our dungarees above as 
+  a virtual object, we'd write the file simple_object.clo as: 
+<blockquote> 
+  <p><code>::name:: "dungarees"<br>
+    ::short:: "pair of waterproof dungarees" <br>
+    ::long:: "This is a pair of waterproof dungarees. Luckily they " <br>
+    "are also ooze proof.\n" <br>
+    ::adjective::({"pair of", "waterproof"}) <br>
+    ::weight:: 45 <br>
+    ::value:: 4000 <br>
+    ::type:: "robe" <br>
+    ::setup:: 50000 </code></p>
+</blockquote>
+<p>Then we'd clone it as above (however, since it is a virtual object, we need 
+  to include the filename extension in the clone_object: "/w/your_name/simple_object.clo" 
+  rather than just "/w/your_name/simple_object"). 
+<p>So, to our weapon. We create a file simple_weapon.wep, and set it up with the 
+  basics we need: name, short, long, adjectives, weight and value: 
+<blockquote> 
+  <p><code>::name:: "mop" <br>
+    ::short:: "dirty mop" <br>
+    ::long:: "This is a dirty mop, dripping with ooze.\n" <br>
+    ::adjective:: "dirty" <br>
+    ::weight:: 20 <br>
+    ::value:: 2000 </code></p>
+</blockquote>
+<p>We also need some information on what kind of attacks our mop has. These are 
+  done using the function add_attack() in a .c file. In our virtual object, we 
+  use ::attack::. The format is (name of attack, chance it happens, ({fixed damage, 
+  number of faces, number of dice}), skill needed, type of attack, and function). 
+  Let's break that down a little. 
+<p>The name of the attack is a symbolic label we can use to refer to that particular 
+  attack. The chance is the percentage chance that particular attack will be called. 
+  The next argument is an array of integers, and these are in order, the number 
+  of sides each dice has, the number of dice, and a constant value to be added 
+  to the damage. So the arguments ({10, 5, 10}) would mean 'Start off with ten 
+  points of damage, then add the total of rolling ten five sided dice', giving 
+  a range of 20-60 points of damage. Skill needed is the leaf fighting skill the 
+  weapon is checked against, and type of attack is the type of attack (is it pierce, 
+  slash, blunt, etc). Function is a function pointer... if the function exists, 
+  then it will be called every time this attack is made. So, we want to add a 
+  few attacks to our weapon. Let's give it two blunt attacks... one called 'prod', 
+  and the other called 'whack': 
+<blockquote> 
+  <p><code>::Attack:: "prod", 50, ({ 5, 6, 6 }), "blunt", "blunt", 0 <br>
+    ::Attack:: "whack", 50, ({ 10, 10, 5 }), "blunt", "blunt", 0 </code></p>
+</blockquote>
+<p>And finally, like with our clothing, we need to setup the weapon so that it 
+  has a maximum and current condition: 
+<blockquote> 
+  <p><code>::setup:: 10000 </code></p>
+</blockquote>
+<p>And once we put it all together, we get: 
+<blockquote> 
+  <p><code>::name:: "mop" <br>
+    ::short:: "dirty mop" <br>
+    ::long:: "This is a dirty mop, dripping with ooze.\n" <br>
+    ::adjective:: "dirty" <br>
+    ::weight:: 20 <br>
+    ::value:: 2000 <br>
+    ::Setup::10000 <br>
+    ::Attack:: "prod", 50, ({ 5, 6, 6 }), "blunt", "blunt", 0 <br>
+    ::Attack:: "whack", 50, ({ 10, 10, 5 }), "blunt", "blunt", 0 </code></p>
+</blockquote>
+<p>Tada! We clone this into our NPC using the shorthanded notation above. We put 
+  this before our init_equip(): 
+<blockquote> 
+  <p><code>clone_object("/w/your_name/simple_weapon.wep")->move (this_object()); 
+    </code></p>
+</blockquote>
+<p>And voila! We have an NPC with nice clothes, and a nice weapon to defend himself 
+  with. And now the world of objects is open to you. The first steps you should 
+  take when writing an object of an unfamiliar kind, however, is to look for examples. 
+  Find objects already of that type and see how they work. Then, if you feel brave, 
+  check the code for the inheritable to see if you can make any sense of that. 
+  But don't be afraid to experiment with what is available, and if you run into 
+  problems there will almost always be someone online willing to help. 
+<p><b>Chapter Summary</b>
+<p>And that's it for our third tutorial! We're now intimately acquainted with 
+  NPCs, rooms, and objects... and we even know how to use them together. The next 
+  tutorial will go over rooms, NPCs and objects once more, and explain some of 
+  the other things you can do with them if you want to spruce them up. :-) 
+<ul>
+  <li><code>Object files may inherit a number of different files, depending on 
+    what kind of object is being coded. </code></li>
+  <li><code>Objects often need to be setup with a default condition. The function 
+    for doing this differs depending on what kind of object is coded. For clothing, 
+    this function is setup_clothing(). </code></li>
+  <li><code>We can make a copy of our object available in the code of other objects 
+    by using clone_object(). </code></li>
+  <li><code> Standard weapons, armours, clothing and jewelery can be request from 
+    the armoury by #including armoury.h in your file, and using the #define ARMOURY 
+    to make a call to request_item() with the relevent item as an argument. </code></li>
+  <li><code>Simple objects can be coded as 'virtual objects'. If your object has 
+    no local functions and does not use function pointers, you can lower the memory 
+    cost of your object by making it a virtual object. </code></li>
+  <li><code>When using clone_object() to clone virtual objects, you must rememember 
+    to include the file extension of your virtual file. </code></li>
+</ul>
+<p><b>Support Files </b>
+<blockquote> 
+  <p><code>/d/learning/newbie/introduction/examples/simple_object.c<br>
+    /d/learning/newbie/introduction/examples/simple_weapon.wep <br>
+    /d/learning/newbie/introduction/examples/simple_object.clo </code></p>
+</blockquote>
+<!-- #EndEditable --> 
+<p>
+<hr>
+<center><font size="-1"><a href="/login.html">Discworld MUD</a>'s world wide web pages.<br>brought to you by<br>
+  <strong>Cut Me Own Throat Dibbler's <a href="/sausages.html">Sensational Sausages</a>;&nbsp;buy 
+  one while they are hot.</strong> <br>
+<hr>Lost?  Try Discworld's <a href="/">home page</a>.</font></center><font size="-1"><i><a href="mailto:drakkos@cableinet.co.uk"><font size="-2">Mail Drakkos!</font></a></i>
+</font>
+</body>
+<!-- #EndTemplate --></html>

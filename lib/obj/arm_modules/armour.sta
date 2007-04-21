@@ -1,0 +1,10 @@
+ret += ({
+  ({ "condition", cond }),
+  ({ "max condition", max_cond }),
+  ({ "lowest cond", lowest_cond }),
+  ({ "damage chance", damage_chance }),
+  ({ "wear effect", wear_effect }),
+});
+for (i=0;i<sizeof(immune_to);i++)
+  ret += ({ ({ "immune to", immune_to[ i ] }) });
+ret += armour_logic::stats();

@@ -1,0 +1,47 @@
+.DT
+basic_setup
+DW_wibble creator help
+basic_setup
+
+.SH Name
+.SP 5 5
+basic_setup -  This method sets up the basic abilities and race of the critter.
+.EP
+
+.SH Syntax
+.SI 5
+void basic_setup(string race,
+                 string guild,
+                 int level)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^race%^RESET%^ - this is the race of the character.  It should be a
+race that's understood by the /std/race.c
+%^BOLD%^guild%^RESET%^ - this is the guild, class, or profession of the NPC.
+%^BOLD%^level%^RESET%^ - this is the base skill level of the NPC.  The
+number is used by the race object to set ability scores, and
+base skills.
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets up the basic abilities and race of the critter.  It
+is equivalent to calling set_race(), set_guild(), and then set_level()
+with the same parameters.  But those latter three functions are
+deprecated and shouldn't be used.
+.EP
+
+.SH See also
+.SP 5 5
+set_race(), set_guild(), set_level()
+.EP
+

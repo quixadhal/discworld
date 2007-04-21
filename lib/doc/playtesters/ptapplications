@@ -1,0 +1,42 @@
+.DT
+ptapplications
+Discworld playtester help
+ptapplications
+
+.SH Name
+.SI 5
+check - Query application details
+.EI
+
+.SH Syntax
+.SI 5
+ptapplications list
+ptapplications summary
+ptapplications vouches
+
+.EI
+
+.SH Description
+.SP 5 5
+The ptapplications command will allow you to query the status of playtester 
+applications.  
+
+'ptapplications list' will give a list of who has applied, how many vouches 
+they have received, and whether their application is on time or late.
+
+'ptapplications summary' will give a summary of what stage any particular 
+applicant is in.
+
+'ptapplications vouches' will list who you have given vouches for.
+
+.EP
+
+.SH Example
+.SI 5
+> ptapp list
+/--[ PT Applicants ]----------------------------------\
+| Name           Applied                    Ref C O/D |
+| --------------------------------------------------- |
+| drakkos        Tue Jul 23 15:45:41 2002   3   X   . |
+\-----------------------------------------------------/
+.EI

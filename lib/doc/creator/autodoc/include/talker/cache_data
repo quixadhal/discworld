@@ -1,0 +1,41 @@
+.DT
+cache_data
+DW_wibble creator help
+cache_data
+
+.SH Name
+.SP 5 5
+cache_data -  This class is used to record channel cache data.
+.EP
+
+.SH Definition
+.SI 5
+class cache_data {
+                   int playtester;
+                   int talker_quest;
+                   int apex_member;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^playtester%^RESET%^ - whether the player is a playtester or not.
+%^BOLD%^apex_member%^RESET%^ - whether or not the player is an apex member.
+%^BOLD%^talker_quest%^RESET%^ - whether or not the player has done the talker quest to
+gain access to additional channels.
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/talker.h
+.EI
+
+.SH Description
+.SP 5 5
+
+This class is used to record channel cache data. It is used in conjunction
+with a mapping.
+.EP
+

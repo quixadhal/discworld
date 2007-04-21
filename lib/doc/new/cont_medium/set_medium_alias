@@ -1,0 +1,61 @@
+.DT
+set_medium_alias
+Discworld cont_medium help
+set_medium_alias
+
+Name
+.SI 5
+set_medium_alias - The medium_alias of this stuff.
+.EI
+
+Syntax
+.SI 5
+void set_medium_alias(string alias);
+.EI
+
+Description
+.SP 5 5
+Used for identification - choose something with
+capitals (e.g. "ChalkDust") so players can't
+use it as a valid alias by accident.
+
+This is an internal alias for the object, so that various mudlib
+related things can keep track of what sort of thing it really is.  Used
+specifically when testing to see if there is another item of the same
+type to join with when turning up in an inventory.
+.EP
+
+Example
+.SI 5
+/* Food inherits cont_medium */
+inherit "/obj/food";
+ 
+void setup() {
+   set_name("rice");
+   set_long(
+"Little oval shaped hard nuggets, they are made almost totally "
+"of starch.\n");
+ 
+   /* Make it a continuous object */
+   set_continuous();
+   /* Set an alias to the medium so that it can be connected correctly */
+   set_medium_alias("RiceStuff");
+   /* How much of the stuff we have here */
+   set_amount(100);
+   /* 200 bits of rice weighs 1 weight unit */
+   set_weight_unit( ({ 1, 200 }) );
+   /* The name of a pile of them */
+   set_pile_name("pile");
+   /* The size of each of the amounts */
+   set_amount_types( ([ "pinch" : ({ 1, "pinches" }),
+                        "handful" : ({ 100, "handfuls" }),
+                        "bucket" : ({ 10000, "buckets" }) ]) );
+   /* The name for each of the sizes of piles */
+   set_pile_types(({ 400, "small", 800, "medium", 1600, "large", "huge" }) );
+} /* setup() */
+.EI
+
+See also
+.SI 5
+query_medium_alias
+.EI

@@ -1,0 +1,35 @@
+.DT
+query_pile_types
+DW_wibble creator help
+query_pile_types
+
+.SH Name
+.SP 5 5
+query_pile_types -  This method returns the array of pile types.
+.EP
+
+.SH Syntax
+.SI 5
+mixed query_pile_types()
+.EI
+
+.SH Returns
+.SI 5
+the array of pile types
+.EI
+
+.SH Defined in
+.SI 5
+/obj/cont_medium.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the array of pile types.
+The pile types array starts with a number, the number is the
+cut off amount to get the size name in the next array element.
+The numbers and strings alternate and the last element is the
+the default size.
+.EP
+

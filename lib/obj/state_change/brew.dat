@@ -1,0 +1,142 @@
+## Water just boils off ##
+
+::item "witchesbrew:Water"::
+::->result:: "/obj/reagents/water.ob"
+::->factor:: 0.0
+::->func:: ({})
+
+::item "ruinedbrew:Water"::
+::->result:: "/obj/reagents/water.ob"
+::->factor:: 0.0
+::->func:: ({})
+
+## Comfrey and Yarrow healing tea ##
+
+::item "witchesbrew:UnbrewedComfreyYarrowTea"::
+::->result:: "/obj/reagents/brewed_healing_tea.ob"
+::->factor:: 1.0
+::->func:: ({
+    (: $2->add_eat_effect( "/std/effects/ingested/basic_healing",
+       to_int( $1->query_eat_effects()[
+              "/std/effects/ingested/basic_healing" ] *
+           ( 4 + $1->query_property( "brew bonus" ) ) ) ) :),
+  })
+
+::item "ruinedbrew:UnbrewedComfreyYarrowTea"::
+::->result:: "/obj/reagents/burnt_tea.ob"
+::->factor:: 1.0
+::->func:: ({})
+
+# Removed so that they don't get endless xp for rebrewing already brewed
+# tea.
+#::item "witchesbrew:BrewedComfreyYarrowTea"::
+#::->result:: "/obj/reagents/brewed_healing_tea.ob"
+#::->factor:: 1.0
+#::->func:: ({
+#    (: $2->add_eat_effect( "/std/effects/ingested/basic_healing",
+#       $1->query_eat_effects()["/std/effects/ingested/basic_healing"] ) :),
+#  })
+#
+#::item "ruinedbrew:BrewedComfreyYarrowTea"::
+#::->result:: "/obj/reagents/burnt_tea.ob"
+#::->factor:: 1.0
+#::->func:: ({})
+
+## Spider Antidote ##
+
+::item "witchesbrew:UnbrewedBasilFennelSpiderTea"::
+::->result:: "/obj/reagents/brewed_antidote_elixir"
+::->factor:: 1.0
+::->func:: ({
+    (: $2->add_eat_effect( "/std/effects/ingested/poison_antidote",
+       to_int( $1->query_eat_effects()[
+           "/std/effects/ingested/poison_antidote"] *
+       ( 4 + $1->query_property( "brew bonus" ) ) ) ) :)
+  })
+
+::item "ruinedbrew:BasilFennelSpiderTea"::
+::->result:: "/obj/reagents/burnt_tea.ob"
+::->factor:: 1.0
+::->func:: ({})
+
+## Intelligence Tea ##
+# This tea has no strength until brewed
+
+::item "witchesbrew:UnbrewedSageIntPotion"::
+::->result:: "/obj/reagents/brewed_intelligence_tea.ob"
+::->factor:: 1.0
+::->func:: ({
+    (: $2->add_eat_effect( "/std/effects/ingested/int_bonus",
+       to_int( this_player()->query_skill_bonus(
+             "magic.methods.physical.brewing" ) /
+       ( 10 - $1->query_property( "brew bonus" ) ) ) ) :),
+    })
+
+::item "ruinedbrew:UnbrewedSageIntPotion"::
+::->result:: "/obj/reagents/burnt_tea.ob"
+::->factor:: 1.0
+::->func:: ({})
+
+## Blind Protection - not yet in play ##
+
+::item "witchesbrew:EyebrightCarrotBunnyEyeballTea"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 1.0
+::->func:: ({
+        (: $2->set_name("liquid") :),
+        (: $2->set_short("milky white liquid") :),
+        (: $2->add_adjective( "milky", "white"  ) :),
+        (: $2->set_long("This is a milky white liquid, $pile_size$.") :),
+        (: $2->set_medium_alias("BrewedEyebrightCarrotBunnyEyeballTea") :),
+        (: $2->add_eat_effect("/std/effects/ingested/blind_protect",
+               to_int( this_player()->query_skill_bonus(
+               "magic.methods.physical.brewing" ) /
+               ( 10 - $1->query_property( "brew bonus" ) ) ) ) :),
+    })
+
+::item "ruinedbrew:EyebrightCarrotBunnyEyeballTea"::
+::->result:: "/obj/reagents/burnt_tea.ob"
+::->factor:: 1.0
+::->func:: ({})
+
+
+## Cold Cure ##
+
+::item "witchesbrew:ColdCureSyrup"::
+::->result:: "/obj/reagents/brewed_cold_cure.ob"
+::->factor:: 1.0
+::->func:: ({
+     (: $2->add_eat_effect("/std/effects/ingested/cold_cure",
+        to_int( $1->query_eat_effects()["/std/effects/ingested/cold_cure"] *
+               ( 4 + $1->query_property( "brew bonus" ) ) ) ) :),
+     (: $2->add_eat_effect("/std/effects/ingested/garlic_breath",
+        $1->query_eat_effects()["/std/effects/ingested/garlic_breath"] ) :),
+   })
+
+::item "ruinedbrew:ColdCureSyrup"::
+::->result:: "/obj/reagents/burnt_cold_cure.ob"
+::->factor:: 0.25
+::->func:: ({})
+
+## Regular black tea ##
+
+::item "witchesbrew:UnbrewedBlackTea"::
+::->result:: "/obj/reagents/black_tea.ob"
+::->factor:: 1.0
+::->func:: ({ })
+
+::item "ruinedbrew:UnbrewedBlackTea"::
+::->result:: "/obj/reagents/burnt_tea.ob"
+::->factor:: 1.0
+::->func:: ({})
+
+::item "witchesbrew:BlackTea"::
+::->result:: "/obj/reagents/burnt_tea.ob"
+::->factor:: 1.0
+::->func:: ({ })
+
+::item "ruinedbrew:BlackTea"::
+::->result:: "/obj/reagents/burnt_tea.ob"
+::->factor:: 1.0
+::->func:: ({})
+

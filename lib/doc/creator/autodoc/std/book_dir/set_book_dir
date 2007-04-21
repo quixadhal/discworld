@@ -1,0 +1,50 @@
+.DT
+set_book_dir
+DW_wibble creator help
+set_book_dir
+
+.SH Name
+.SP 5 5
+set_book_dir -  Sets the directory to look for the book pages in.
+.EP
+
+.SH Syntax
+.SI 5
+void set_book_dir(string dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - the directory in which to search
+.EI
+
+.SH Defined in
+.SI 5
+/std/book_dir.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Sets the directory to look for the book pages in.  It scans every
+file in this dir to get the pages for the book.
+This sets the default paper to /obj/misc/nroff_paper.c
+.EP
+
+.SH Example 1
+.SI 5
+inherit "/std/book_dir";
+
+void setup() {
+   ...
+   set_book_dir("/save/books/dead/dead_page");
+   ...
+} /* setup() */
+
+.EI
+
+.SH See also
+.SP 5 5
+/obj/misc/nroff_paper.c
+.EP
+

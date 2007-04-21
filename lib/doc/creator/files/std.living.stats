@@ -1,0 +1,229 @@
+.DT
+stats
+Discworld Creator help
+stats
+
+Name
+.SI 5
+/std/living/stats.c - object inherited by everything living
+.EI
+
+Description
+
+.SP 5 5
+/std/living/stats.c is the object that handles the statistics
+of living objects.  It is inherited by /std/living/living and is therefore
+part of every living object on the mud.
+.EP
+
+Functions
+
+.SI 5
+void reset_hp()
+.EI
+.SP 10 5
+This is called when the con is changed.  It resets the
+hps to what they are supposed to be.
+.EP
+
+.SI 5
+void reset_sp()
+.EI
+.SP 10 5
+This is called when the int/wis is changed.  It calls
+the function set_sp on the guild object (if one is
+defined).  if there is no guild object it sets the sp to
+the skill_bonus of magic.points + 50.
+.EP
+
+.SI 5
+void reset_carry_cap()
+.EI
+.SP 10 5
+This resets the carrying capacity for the object. This
+is called when the strength is changed.
+.EP
+
+.SI 5
+void reset_all()
+.EI
+.SP 10 5
+Calls all the reset functions.
+.EP
+
+.SI 5
+int set_str(int i)
+.EI
+.SI 5
+int set_con(int i)
+.EI
+.SI 5
+int set_int(int i)
+.EI
+.SI 5
+int set_dex(int i)
+.EI
+.SI 5
+int set_wis(int i)
+.EI
+.SP 10 5
+Sets the appropriate stats to the given number.
+.EP
+
+.SI 5
+int query_str()
+.EI
+.SI 5
+int query_int()
+.EI
+.SI 5
+int query_dex()
+.EI
+.SI 5
+int query_wis()
+.EI
+.SI 5
+int query_con()
+.EI
+.SP 10 5
+Returns the total value of a given stat.  This is the
+bonuses+the natural+the temporaries.
+.EP
+
+.SI 5
+int query_real_str()
+.EI
+.SI 5
+int query_real_int()
+.EI
+.SI 5
+int query_real_dex()
+.EI
+.SI 5
+int query_real_wis()
+.EI
+.SI 5
+int query_real_con()
+.EI
+.SP 10 5
+Returns the real stats. Ie. the natural ones
+.EP
+
+.SI 5
+int query_tmp_str()
+.EI
+.SI 5
+int query_tmp_dex()
+.EI
+.SI 5
+int query_tmp_con()
+.EI
+.SI 5
+int query_tmp_int()
+.EI
+.SI 5
+int query_tmp_wis()
+.EI
+.SP 10 5
+Returns the temporary stats.  The temporary stats are
+used by spells and potions that increase stats.  Every
+15 minutes the current temporaries are halved.  These
+are saved between sessions.
+.EP
+
+.SI 5
+int query_bonus_str()
+.EI
+.SI 5
+int query_bonus_int()
+.EI
+.SI 5
+int query_bonus_dex()
+.EI
+.SI 5
+int query_bonus_wis()
+.EI
+.SI 5
+int query_bonus_con()
+.EI
+.SP 10 5
+These are the bonus stats.  These are used by objects
+and items that you have in your inventory.  They add to
+the persons stats but they are not saved.
+.EP
+
+.SI 5
+int adjust_dex(int i)
+.EI
+.SI 5
+int adjust_con(int i)
+.EI
+.SI 5
+int adjust_str(int i)
+.EI
+.SI 5
+int adjust_wis(int i)
+.EI
+.SI 5
+int adjust_int(int i)S
+.EI
+.SP 10 5
+Adjusts the characters real stats.  Only do this as a
+quest reward or something similar.
+.EP
+
+.SI 5
+int adjust_tmp_int(int i)
+.EI
+.SI 5
+int adjust_tmp_dex(int i)
+.EI
+.SI 5
+int adjust_tmp_wis(int i)
+.EI
+.SI 5
+int adjust_tmp_str(int i)
+.EI
+.SI 5
+int adjust_tmp_con(int i)
+.EI
+.SP 10 5
+Adjusts the temporary stats.  Use this for things that give a
+temporary boost or drop, such as potions.
+.EP
+
+.SI 5
+int adjust_bonus_int(int i)
+.EI
+.SI 5
+int adjust_bonus_dex(int i)
+.EI
+.SI 5
+int adjust_bonus_wis(int i)
+.EI
+.SI 5
+int adjust_bonus_str(int i)
+.EI
+.SI 5
+int adjust_bonus_con(int i)
+.EI
+.SP 10 5
+Adjusts the bonus stats.  Use this for items etc
+.EP
+
+.SI 5
+void update_tmps()
+.EI
+.SP 10 5
+Called every 15 mins or so.
+.EP
+
+.SI 5
+string stat_string(int i)
+.EI
+.SP 10 5
+Returns the stat string for the object.  This handles
+the 18/00 type things.  Well actually it doesn't since we don't use
+18/00 type stats, but it sounds good:)
+.EP
+

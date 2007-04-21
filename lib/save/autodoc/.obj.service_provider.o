@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["set_busy":({({"void",}),({}),([]),}),"add_service":({({"varargs","int",}),({({"string",}),"service",({"string",}),"browse_info",({"string",}),"func",({"int",}),"cost",({"string","*",}),"aliases",}),(["param":({"service the name of the service","cost what it costs","the function which controls","*aliases an array of aliases for this service.",}),"return":({"1 on success, 0 on failure",}),"main":({"This method adds a service to the list of services on offer.",}),]),}),"check_busy":({({"varargs","int",}),({({"object",}),"player",}),([]),}),"do_browse":({({"int",}),({({"mixed",}),"indirect_obs",({"string",}),"dir_match",({"string",}),"indir_match",({"string","*",}),"words",}),(["return":({"1 on success, 0 on failure",}),"main":({"The main entrance to the browse for things command.",}),]),}),"do_request":({({"int",}),({({"mixed",}),"indirect_obs",({"string",}),"dir_match",({"string",}),"indir_match",({"string","*",}),"words",}),(["return":({"1 on success, 0 on failure",}),"main":({"The main entrance to the buy things command.",}),]),}),"do_list":({({"int",}),({}),(["return":({"1 on success, 0 on failure",}),"main":({"The main entrance to the list stuff command.",}),]),}),"remove_service":({({"int",}),({({"string",}),"service",}),(["param":({"string service to be removed",}),"return":({"1 on successful removal, 0 on failure",}),"main":({"This method removes a service.",}),]),}),"reset_busy":({({"void",}),({}),([]),}),])
+protected_functions ([])
+inherits (["/obj/monster":({}),])
+main_docs (["author":({"FurciferMarch 2000",}),"main":({"The service provider object.  It is designed to be similar tothe peddler object, only instead of selling objects, it sellsservices instead.",}),])
+define_docs (["SERVICE":([]),"COST":([]),"FUNCTION":([]),"BROWSE":([]),"ALIASES":([]),])
+includes (["/include/armoury.h":1059516192,"/include/shops/bank.h":1059516191,"/include/money.h":1059516192,"/include/move_failures.h":1059516192,])
+class_docs ([])
+file_name "/obj/service_provider.c"
+last_changed 1059516271

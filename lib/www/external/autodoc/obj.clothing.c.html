@@ -1,0 +1,187 @@
+<html><head><title>File clothing.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/clothing.c</h2>
+This is the clothing file.  COntains everything you need to
+make some nice clothing.
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.close_lock.c.html">/std/basic/close_lock.c</a>, <a href="std.container.c.html">/std/container.c</a> and <a href="std.basic.wearable.c.html">/std/basic/wearable.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.virtual.h.html">/include/virtual.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_pocket"><b>add_pocket</b></a>(string, int)<dd>
+This method adds a pocket onto the clothing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#break_me"><b>break_me</b></a>()<dd>
+This method causes the object to be broken.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_clothing"><b>query_clothing</b></a>()<dd>
+This method will return true if the item is an item of clothing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_is_pair"><b>query_is_pair</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_objective"><b>query_objective</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pocket_mess"><b>query_pocket_mess</b></a>()<dd>
+This method returns the message associated with the pocket.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pockets"><b>query_pockets</b></a>()<dd>
+This method returns all the pockets on the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pronoun"><b>query_pronoun</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_pockets"><b>remove_pockets</b></a>()<dd>
+This method removes all pockets from the clothing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#replace_me"><b>replace_me</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_is_pair"><b>set_is_pair</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_pocket_mess"><b>set_pocket_mess</b></a>(string)<dd>
+This method sets the message associated with the pocket.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_clothing"><b>setup_clothing</b></a>(int)<dd>
+This method sets up the condition for the clothing.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_pocket">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_pocket</b></a><pre>
+void add_pocket(string type,
+                int amount)
+</pre><dd>
+This method adds a pocket onto the clothing.
+<p>
+When setting the amount a pocket can hold
+use the following guide:
+<pre>
+o==================o==============o========o
+| Type of Clothing | example type | amount |
+o==================o==============o========o
+|   Aprons         |    front     |  8-10  |
+|------------------+--------------+--------|
+|   Coats          |     side     |  6-7   |
+|                  |    inside    |   5    |
+|------------------+--------------+--------|
+|   Corsets        |   cleavage   |   2    |
+|------------------+--------------+--------|
+|   Dresses        |     side     |  2-3   |
+|------------------+--------------+--------|
+|   Hats           |    inside    |  2-6   |
+|------------------+--------------+--------|
+|   Jackets        |     side     |  2-3   |
+|                  |    inside    |  2-3   |
+|------------------+--------------+--------|
+|   Robes          |     side     |   5    |
+|                  |    sleeve    |   2    |
+|------------------+--------------+--------|
+|   Shirts         |    breast    |  2-3   |
+|------------------+--------------+--------|
+|   Skirts         |     side     |   4    |
+|------------------+--------------+--------|
+|   Trousers       |     side     |   4    |
+|                  |     back     |   2    |
+|------------------+--------------+--------|
+|   Underwear      |    front     |  1-2   |
+|                  |    breast    |  1-2   |
+|                  |   cleavage   |   2    |
+o==================o==============o========o
+</pre><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of pocket
+<dd>amount - the amount the pocket can hold
+<dt><b>See also:</b>
+<dd><a href="#query_pockets">query_pockets()</a>, <a href="#remove_pockets">remove_pockets()</a>, <a href="#set_pocket_mess">set_pocket_mess()</a> and <a href="#query_pocket_mess">query_pocket_mess()
+</a></dl>
+
+<dt><a name="break_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>break_me</b></a><pre>
+void break_me()
+</pre><dd>
+This method causes the object to be broken.
+<p>
+
+<dt><a name="query_clothing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_clothing</b></a><pre>
+int query_clothing()
+</pre><dd>
+This method will return true if the item is an item of clothing.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns true
+
+</dl>
+
+<dt><a name="query_is_pair">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_is_pair</b></a><pre>
+int query_is_pair()
+</pre>
+<dt><a name="query_objective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_objective</b></a><pre>
+string query_objective()
+</pre>
+<dt><a name="query_pocket_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pocket_mess</b></a><pre>
+string query_pocket_mess()
+</pre><dd>
+This method returns the message associated with the pocket.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the message associated with the pocket
+<dt><b>See also:</b>
+<dd><a href="#set_pocket_mess">set_pocket_mess()</a>, <a href="#query_pockets">query_pockets()</a>, <a href="#add_pocket">add_pocket()</a> and <a href="#remove_pockets">remove_pockets()
+</a></dl>
+
+<dt><a name="query_pockets">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pockets</b></a><pre>
+mixed * query_pockets()
+</pre><dd>
+This method returns all the pockets on the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the pockets on the object
+<dt><b>See also:</b>
+<dd><a href="#add_pocket">add_pocket()</a> and <a href="#remove_pockets">remove_pockets()
+</a></dl>
+
+<dt><a name="query_pronoun">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pronoun</b></a><pre>
+string query_pronoun()
+</pre>
+<dt><a name="remove_pockets">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_pockets</b></a><pre>
+void remove_pockets()
+</pre><dd>
+This method removes all pockets from the clothing.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_pocket">add_pocket()</a> and <a href="#query_pockets">query_pockets()
+</a></dl>
+
+<dt><a name="replace_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>replace_me</b></a><pre>
+void replace_me()
+</pre>
+<dt><a name="set_is_pair">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_is_pair</b></a><pre>
+void set_is_pair(int comes_in_pairs)
+</pre>
+<dt><a name="set_pocket_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_pocket_mess</b></a><pre>
+void set_pocket_mess(string words)
+</pre><dd>
+This method sets the message associated with the pocket.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the message associated with the pocket
+<dt><b>See also:</b>
+<dd><a href="#query_pocket_mess">query_pocket_mess()</a>, <a href="#add_pocket">add_pocket()</a> and <a href="#remove_pockets">remove_pockets()
+</a></dl>
+
+<dt><a name="setup_clothing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_clothing</b></a><pre>
+void setup_clothing(int number)
+</pre><dd>
+This method sets up the condition for the clothing.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the maximum condition for the clothing
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 18 Sep 2003 17:26:40 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,38 @@
+#  -*- LPC -*- #
+#
+# $Locker:  $
+# $Id: blue_lotus.ob,v 1.4 2003/01/31 13:21:26 siel Exp $
+#
+#
+#
+
+#by Siel
+
+::#Class:: "/obj/cont_medium.c"
+::#Class:: "/obj/food.c"
+::Name:: "flower"
+::Short:: "blue lotus flower"
+::Long:: "The perfectly bowl-shaped $Vflower$flowers $Vhas$have $a deep blue colour that "
+         "warns you of its intoxicating properties.\n"
+::Adjective:: ({ "blue", "lotus" })
+::Main plural:: "blue lotus flowers"
+::Weight::1
+::Alias::"lotus"
+::$set_medium_alias:: "BlueLotusFlower"
+::$set_collective::
+::$set_amount:: 1
+::$set_weight_unit:: ({ 1, 200 })
+#Left here in case more exiting things happen with herbs and plants
+::$add_eat_effect::"/std/effects/ingested/basic_healing", 200
+::$add_eat_effect:: "/std/effects/ingested/hallucination", 800
+#::$add_eat_effect::"/std/effects/ingested/cum_poison", 800
+::$setup_eat_piece_messages:: "$N place$s the flower on $o tongue and chew$s "
+        "slowly.\n",
+        "piece",
+        "$N place$s the leaf on $o tongue and chew$s slowly.\n"
+::Property:: "herb lore", "The lotus flower can be brewed to produce an "
+             "intoxicating brew.  Research shows that this lotus has "
+             "some medicinal properties as well as hallucinogenic "
+             "ones and the ability to increase sexual potency and a "
+             "feeling of well-being."
+::Value::900

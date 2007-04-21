@@ -1,0 +1,39 @@
+.DT
+tear_current_page_out
+DW_wibble creator help
+tear_current_page_out
+
+.SH Name
+.SP 5 5
+tear_current_page_out -  This method tears the current page out of the book and returns it to us.
+.EP
+
+.SH Syntax
+.SI 5
+object tear_current_page_out(object dest)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dest%^RESET%^ - the destination to move the page to
+.EI
+
+.SH Returns
+.SI 5
+the torn out page, or 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/std/book.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method tears the current page out of the book and returns it
+to us.  This object will be moved into the destination so that it is
+no longer inside us.  If it cannot be moved of the page has already
+been remove then the function will return 0.
+.EP
+

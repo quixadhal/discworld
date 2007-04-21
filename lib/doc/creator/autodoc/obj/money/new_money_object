@@ -1,0 +1,40 @@
+.DT
+new_money_object
+DW_wibble creator help
+new_money_object
+
+.SH Name
+.SP 5 5
+new_money_object -  This method creates a new money object from the current object.
+.EP
+
+.SH Syntax
+.SI 5
+object new_money_object(mixed number,
+                        string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^number%^RESET%^ - the number of coins to remove
+%^BOLD%^type%^RESET%^ - the type of coins to remove
+.EI
+
+.SH Returns
+.SI 5
+the new money object
+.EI
+
+.SH Defined in
+.SI 5
+/obj/money.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method creates a new money object from the current object.  It uses
+the current objects values to make the money and removes the avlues from
+the coins.
+.EP
+

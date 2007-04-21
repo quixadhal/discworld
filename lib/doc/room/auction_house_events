@@ -1,0 +1,133 @@
+.DT
+Auction House Events
+Discworld Help
+Auction House Events
+
+.SH Name
+.SI 5
+Auction House Events - Special mailer messages that may be customised for internal auction house events
+.EI
+
+.SH Description
+.SP 5 5
+When certain events occur within the auction house commercial object, the house needs to be able to inform people of these events.  For instance, when an object receives no bid in the amount of time given, or when an object is successfully sold to someone.  These messages may be customised by the owner of the commercial property, utilising control codes described below.
+.EP
+
+.SH Auction House Events
+.SP 5 5
+There now follows a list of auction house events, each of which has two messages assigned to it.  One message is the message mailed to the seller and the other is the message mailed to the high bidder.
+.EP
+
+.SH no_bid_retrying
+.SP 5 5
+There was no bid on the lot, but the auction house will automatically retry it.
+.EP
+
+.SH no_bid_not_retrying
+.SP 5 5
+There was no bid on the lot and the house will no longer attempt to resell the auction.
+.EP
+
+.SH finished
+.SP 5 5
+There was a high bid on the lot and it is sold.
+.EP
+
+.SH destroy
+.SP 5 5
+The lot was never collected and was automatically destroyed by the house.
+.EP
+
+.SH not_collected_retrying
+.SP 5 5
+The lot was never collected by the high bidder, but the auction house will automatically retry the auction.
+.EP
+
+.SH not_collected_not_retrying
+.SP 5 5
+The lot was never collected by the high bidder and the house will not attempt to resell the auction.
+
+.SH rejected
+.SP 5 5
+The owner rejected the lot.
+.EP
+
+.SH withdrawn
+.SP 5 5
+The lot was withdrawn by the seller before the auction could finish.
+.EP
+
+.SH Control Codes
+.SP 5 5
+There now follows a list of control codes that can be used in any of the messages.  Each control code will be replaced with the information specified when the string is evaluated, based on the lot data.
+.EP
+
+.SH $auction_objects$
+.SP 5 5
+A nice list of the objects in this lot.
+.EP
+
+.SH $retrieval_time$
+.SP 5 5
+The amount of time a high bidder has to retrieve the lot once the auction ends or the amount of time a seller has to retrieve the lot before it is destroyed if there is no successful sale.  This is interpreted as Ankh-Morpork time.
+.EP
+
+.SH $retrieval_date$
+.SP 5 5
+This is similar to $retrieval_time$, but this takes the current time into account and prints a date that shows when the lot must be retrieved.  This is interpreted as Ankh-Morpork time.
+.EP
+
+.SH $max_retries$
+.SP 5 5
+This is the amount of times that a failed auction will be automatically retried.
+.EP
+
+.SH $owner_cut$
+.SP 5 5
+This is the owners cut displayed as a percentage.
+.EP
+
+.SH $owner_cut_value$
+.SP 5 5
+This is the actual owner's cut on this specific lot, displayed as a money string.
+.EP
+
+.SH $seller_profit$
+.SP 5 5
+This is the seller's profit, with the owner's cut removed, displayed as a money string.
+.EP
+
+.SH $defaulted_auction_cost$
+.SP 5 5
+This is the cost of a failed auction to the seller displayed as a money string.
+.EP
+
+.SH $high_bidder$
+.SP 5 5
+This is the high bidder of the lot's name.
+.EP
+
+.SH $seller$
+.SP 5 5
+This is the seller of the lot.
+.EP
+
+.SH $final_bid$
+.SP 5 5
+This is the final bid that the lot received.
+.EP
+
+.SH $num_retries$
+.SP 5 5
+This is the number of times that this lot has already been retried.
+.EP
+
+.SH $time_started$
+.SP 5 5
+This displays the date and time at which the lot was put up for sale.  This is interpreted as Ankh-Morpork time.
+.EP
+
+.SH $auction_name$
+.SP 5 5
+This is the name of the lot, as defined by the seller when he or she first put the lot up for sale.
+.EP

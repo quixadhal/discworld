@@ -1,0 +1,71 @@
+.DT
+case control
+Discworld room help
+case control
+
+.SH Name
+.SI 5
+case control - a room that allows people to change cases
+.EI
+
+.SH Syntax
+.SI 5
+list
+list [case] <id>
+list punishments
+list {punishment|punishments|results} <result>
+list closed
+list closed [case] <id>
+case [add] note <id>
+case open [with] <people> about <description>
+
+Magistrate only:
+case add person <person> to <id>
+case remove person <person> from <id>
+case appeal <id>
+case close <id> result <result>
+.EI
+
+.SH Description
+.SP 5 5
+Allows people to setup new cases for administration, add notes
+and control the cases in various ways.  You can get a listing of each
+case and a listing of all the current cases.
+
+The result used in the close of a case must correspond to one of the names
+specified in the list punishments.  If any extra details are required
+you will be asked to enter them as you continue.
+
+You can list all the recently closed cases using the 'list closed' syntax.
+You can then list each case in more detail by using its id.
+
+The closed cases you can list are any cases that were recently closed
+(within the last 2 weeks), after this they are moved into the archive and
+are also no longer able to be appealed.
+
+For a case to be appealed you must find a magistrate to appeal the case
+for you.  The magistrate must be different to the one that closed the
+case.
+
+You can only modify a case if you are a magistrate and you are not involved
+in the case directly (either opened it or one of the people complained about).
+However, you can always add notes to cases.
+
+You can get more information about what the punishments do using the
+'list punishment fine' syntax.
+.EP
+
+.SH Example
+.SI 5
+> list
+> list case 1
+> case open ceres about his ears are too big for his feet
+> case add note 2
+> list punishment not guilty
+> case close 2 result not guilty
+.EI
+
+.SH See also
+.SP 5 5
+chambers, fines
+.EP

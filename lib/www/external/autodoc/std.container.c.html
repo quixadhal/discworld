@@ -1,0 +1,516 @@
+<html><head><title>File container.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/container.c</h2>
+The basic container inheritable, please note this is *not* a container
+like a bucket.  This now allows things inside the container to
+inform us that they should be used as part of the inventory of this
+object.  This means the contents of containers will look like they
+are not inside containers to the outside world.<p><b>See also:</b><br><a href="obj.container.c.html">/obj/container.c</a>, <a href="obj.baggage.c.html">/obj/baggage.c</a>, <a href="obj.vessel.c.html">/obj/vessel.c</a> and /obj/clothing.c
+<p>Written by Pinkfish<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.export_inventory.c.html">/std/basic/export_inventory.c</a>, <a href="global.auto_load.c.html">/global/auto_load.c</a>, <a href="std.basic.cute_look.c.html">/std/basic/cute_look.c</a> and <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_tracked_items"><b>add_tracked_items</b></a>(int)<dd>
+This method handles the addition of tracked items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_weight"><b>add_weight</b></a>(int)<dd>
+This method is called in the move functions, it adds extra
+weight onto the object when something is moved inside it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_find_match_recurse_into"><b>can_find_match_recurse_into</b></a>(object)<dd>
+This method allows the container to have stuff inside it checked.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_find_match_reference_inside_object"><b>can_find_match_reference_inside_object</b></a>(object, object)<dd>
+This method checks to see if the find match code can actually
+reference this object inside us.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#disable_item_tracking"><b>disable_item_tracking</b></a>()<dd>
+This method disables item tracking
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_restore_inventory_error"><b>do_restore_inventory_error</b></a>(object, int)<dd>
+This method handles the case where the return of the move flag is not
+MOVE_OK.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#enable_item_tracking"><b>enable_item_tracking</b></a>()<dd>
+This method enables item tracking
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_container_move"><b>event_container_move</b></a>(object, mixed, mixed)<dd>
+This method handles the movement of the containers of this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_move_object"><b>event_move_object</b></a>(mixed, mixed)<dd>
+This method is called from move to notify any tracked items contained of
+the move using event_container_moved.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_inv_match"><b>find_inv_match</b></a>(string, object)<dd>
+This method finds the matching objects inside this object
+that are visible to the looker.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#handle_restore_inventory"><b>handle_restore_inventory</b></a>(object)<dd>
+This method handles moving objects into the inventory from an auto
+load.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_complete_weight"><b>query_complete_weight</b></a>()<dd>
+This method returns the complete weight of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_loc_weight"><b>query_loc_weight</b></a>()<dd>
+This method returns the current local weight in this
+container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_items"><b>query_max_items</b></a>()<dd>
+This method returns the maximum number of items that can
+be carried in this container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_weight"><b>query_max_weight</b></a>()<dd>
+This method returns the maximum amount of weight that can
+be carried in this container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ownership"><b>query_ownership</b></a>()<dd>
+This returns who owns the container, if it set to 0 then no one
+owns it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player"><b>query_player</b></a>()<dd>
+This method returns the player who is loading the container
+during the autoload sequence.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_prevent_insert"><b>query_prevent_insert</b></a>()<dd>
+If this is true, this container cannot be put into other containers.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_tracked_items"><b>query_tracked_items</b></a>()<dd>
+This method returns the number of tracked item contained.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_tracked_items"><b>remove_tracked_items</b></a>(int)<dd>
+This method handles the removal of tracked items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_prevent_insert"><b>reset_prevent_insert</b></a>()<dd>
+This allows this container to be put into other containers (default).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_items"><b>set_max_items</b></a>(int)<dd>
+This method sets the maximum number of items that can
+be carried in this container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_weight"><b>set_max_weight</b></a>(int)<dd>
+This method sets the maximum amount of weight that can
+be carried in this container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_ownership"><b>set_ownership</b></a>(string)<dd>
+This sets who owns the container, if it set to 0 then no one
+owns it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_player"><b>set_player</b></a>(object)<dd>
+This method is used in the auto loading sequence to set the
+player who is loading the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_prevent_insert"><b>set_prevent_insert</b></a>()<dd>
+items21 stops this container from being put into other containers.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_tracked_item_status_reason"><b>set_tracked_item_status_reason</b></a>(string)<dd>
+This method is called to adjust the status reason.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_add"><b>test_add</b></a>(object, int)<dd>
+This method allows things to be added into us.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_remove"><b>test_remove</b></a>(object, int, mixed)<dd>
+This method checks to see if the object can be taken out of
+us.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_loc_weight"><b>update_loc_weight</b></a>()<dd>
+This method determins the current local weight from all the
+objects inside the container
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_tracked_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_tracked_items</b></a><pre>
+nomask void add_tracked_items(int n_items)
+</pre><dd>
+This method handles the addition of tracked items.
+Tracked items want to be notified if the container moves.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>n_items - the number of tracked items added
+<dt><b>See also:</b>
+<dd>remove_tracked_items.c and event_container_move
+.c</dl>
+
+<dt><a name="add_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_weight</b></a><pre>
+int add_weight(int n)
+</pre><dd>
+This method is called in the move functions, it adds extra
+weight onto the object when something is moved inside it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>n - the amount to add
+<dt><b>Returns:</b>
+<dd>1 if successfuly added
+<dt><b>See also:</b>
+<dd><a href="std.basic.misc.c.html#query_weight">/std/basic/misc->query_weight()
+</a></dl>
+
+<dt><a name="can_find_match_recurse_into">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_find_match_recurse_into</b></a><pre>
+int can_find_match_recurse_into(object looker)
+</pre><dd>
+This method allows the container to have stuff inside it checked.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>looker - the person doing the checking
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failur
+
+</dl>
+
+<dt><a name="can_find_match_reference_inside_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_find_match_reference_inside_object</b></a><pre>
+int can_find_match_reference_inside_object(object thing,
+                                           object looker)
+</pre><dd>
+This method checks to see if the find match code can actually
+reference this object inside us.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing to reference
+<dd>looker - the person looking at it
+<dt><b>Returns:</b>
+<dd>1 if they can, 0 if they cannot
+
+</dl>
+
+<dt><a name="disable_item_tracking">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>disable_item_tracking</b></a><pre>
+nomask void disable_item_tracking()
+</pre><dd>
+This method disables item tracking<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd>event_enter_tracked_item.c and enable_item_tracking
+.c</dl>
+
+<dt><a name="do_restore_inventory_error">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_restore_inventory_error</b></a><pre>
+int do_restore_inventory_error(object ob,
+                               int move_flag)
+</pre><dd>
+This method handles the case where the return of the move flag is not
+MOVE_OK.  This can do whatever we want to make it work in a more useful
+fashion.
+<p>
+
+<dt><a name="enable_item_tracking">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>enable_item_tracking</b></a><pre>
+nomask void enable_item_tracking()
+</pre><dd>
+This method enables item tracking<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd>event_enter_tracked_item.c and disable_item_tracking
+.c</dl>
+
+<dt><a name="event_container_move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_container_move</b></a><pre>
+nomask void event_container_move(object mover,
+                                 mixed from,
+                                 mixed to)
+</pre><dd>
+This method handles the movement of the containers of this object.
+Tracked items want to be notified if the container moves or anything
+containing it does.  The movement of the outmost moving container is 
+propagated down to all tracked items.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mover -    The outermost container object that moved
+<dd>from -     The start environment of the outermost container 
+<dd>to -       The destination of the outermost container 
+<dt><b>See also:</b>
+<dd>event_enter_tracked_item
+.c</dl>
+
+<dt><a name="event_move_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_move_object</b></a><pre>
+void event_move_object(mixed from,
+                       mixed to)
+</pre><dd>
+This method is called from move to notify any tracked items contained of
+the move using event_container_moved.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>from -   start
+<dd>to -     destination
+
+</dl>
+
+<dt><a name="find_inv_match">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_inv_match</b></a><pre>
+object * find_inv_match(string words,
+                        object looker)
+</pre><dd>
+This method finds the matching objects inside this object
+that are visible to the looker.  This will also use the
+registered containers and add them into the array returned
+(if visible and contained in the object).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the words matched on
+<dd>looker - who is looking
+<dt><b>See also:</b>
+<dd><a href="secure.simul_efun.c.html#find_match">/secure/simul_efun->find_match()</a> and <a href="#add_inventory_container">add_inventory_container()
+</a></dl>
+
+<dt><a name="query_complete_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_complete_weight</b></a><pre>
+int query_complete_weight()
+</pre><dd>
+This method returns the complete weight of the object.  This is the
+weight of the container itself, plus the weight of the things
+inside it<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the complete_weight()
+<dt><b>See also:</b>
+<dd><a href="std.basic.misc.c.html#query_weight">/std/basic/misc->query_weight()</a> and <a href="#query_loc_weight">query_loc_weight()
+</a></dl>
+
+<dt><a name="query_loc_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_loc_weight</b></a><pre>
+int query_loc_weight()
+</pre><dd>
+This method returns the current local weight in this
+container.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the local weight
+
+</dl>
+
+<dt><a name="query_max_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_items</b></a><pre>
+int query_max_items()
+</pre><dd>
+This method returns the maximum number of items that can
+be carried in this container.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maximum number of items
+<dt><b>See also:</b>
+<dd><a href="#set_max_items">set_max_items()
+</a></dl>
+
+<dt><a name="query_max_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_weight</b></a><pre>
+int query_max_weight()
+</pre><dd>
+This method returns the maximum amount of weight that can
+be carried in this container.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maximum weight
+<dt><b>See also:</b>
+<dd><a href="#set_max_weight">set_max_weight()
+</a></dl>
+
+<dt><a name="query_ownership">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ownership</b></a><pre>
+string query_ownership()
+</pre><dd>
+This returns who owns the container, if it set to 0 then no one
+owns it.  This is used in the theft determination for the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>who owns the container
+<dt><b>See also:</b>
+<dd><a href="#set_ownership">set_ownership()
+</a></dl>
+
+<dt><a name="query_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player</b></a><pre>
+object query_player()
+</pre><dd>
+This method returns the player who is loading the container
+during the autoload sequence.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the player who loaded the object
+
+</dl>
+
+<dt><a name="query_prevent_insert">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_prevent_insert</b></a><pre>
+int query_prevent_insert()
+</pre><dd>
+If this is true, this container cannot be put into other containers.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#reset_prevent_insert">reset_prevent_insert()</a> and <a href="#set_prevent_insert">set_prevent_insert()
+</a></dl>
+
+<dt><a name="query_tracked_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_tracked_items</b></a><pre>
+nomask int query_tracked_items()
+</pre><dd>
+This method returns the number of tracked item contained.
+Tracked items want to be notified if the container moves.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd>add_tracked_items.c and event_container_move
+.c</dl>
+
+<dt><a name="remove_tracked_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_tracked_items</b></a><pre>
+nomask void remove_tracked_items(int n_items)
+</pre><dd>
+This method handles the removal of tracked items.
+Tracked items want to be notified if the container moves.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>n_items - the number of tracked items  removed
+<dt><b>See also:</b>
+<dd>add_tracked_items.c and event_container_move
+.c</dl>
+
+<dt><a name="reset_prevent_insert">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_prevent_insert</b></a><pre>
+int reset_prevent_insert()
+</pre><dd>
+This allows this container to be put into other containers (default).<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_prevent_insert">set_prevent_insert()</a> and <a href="#query_prevent_insert">query_prevent_insert()
+</a></dl>
+
+<dt><a name="set_max_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_items</b></a><pre>
+void set_max_items(int number)
+</pre><dd>
+This method sets the maximum number of items that can
+be carried in this container.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the new maximum number of items
+<dt><b>See also:</b>
+<dd><a href="#query_max_items">query_max_items()
+</a></dl>
+
+<dt><a name="set_max_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_weight</b></a><pre>
+void set_max_weight(int number)
+</pre><dd>
+This method sets the maximum amount of weight that can
+be carried in this container.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the new maximum weight
+<dt><b>See also:</b>
+<dd><a href="#query_max_weight">query_max_weight()
+</a></dl>
+
+<dt><a name="set_ownership">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_ownership</b></a><pre>
+void set_ownership(string word)
+</pre><dd>
+This sets who owns the container, if it set to 0 then no one
+owns it.  This is used in the theft determination for the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - who owns the container
+<dt><b>See also:</b>
+<dd><a href="#query_ownership">query_ownership()
+</a></dl>
+
+<dt><a name="set_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_player</b></a><pre>
+void set_player(object thing)
+</pre><dd>
+This method is used in the auto loading sequence to set the
+player who is loading the container.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the player loading the container
+<dt><b>See also:</b>
+<dd><a href="#query_player">query_player()
+</a></dl>
+
+<dt><a name="set_prevent_insert">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_prevent_insert</b></a><pre>
+int set_prevent_insert()
+</pre><dd>
+items21 stops this container from being put into other containers.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#reset_prevent_insert">reset_prevent_insert()</a> and <a href="#query_prevent_insert">query_prevent_insert()
+</a></dl>
+
+<dt><a name="set_tracked_item_status_reason">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_tracked_item_status_reason</b></a><pre>
+nomask void set_tracked_item_status_reason(string reason)
+</pre><dd>
+This method is called to adjust the status reason.
+occurences.  <p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd>event_buried .c, event_player_quit .c and event_enter_tracked_item
+.c</dl>
+
+<dt><a name="test_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_add</b></a><pre>
+int test_add(object ob,
+             int flag)
+</pre><dd>
+This method allows things to be added into us.  If we have an 
+environment check that for the ability to add into us.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object being added
+<dd>flag - the add flags
+<dt><b>See also:</b>
+<dd>/std/basic/move.c
+</dl>
+
+<dt><a name="test_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_remove</b></a><pre>
+int test_remove(object thing,
+                int flag,
+                mixed dest)
+</pre><dd>
+This method checks to see if the object can be taken out of
+us.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object coming out
+<dd>flag - the move flag
+<dd>dest - the destination object
+<dt><b>Returns:</b>
+<dd>1 if it can be taken out, 0 if not.
+
+<dt><b>See also:</b>
+<dd><a href="std.basic.move.c.html">/std/basic/move.c</a></dl>
+
+<dt><a name="update_loc_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_loc_weight</b></a><pre>
+void update_loc_weight()
+</pre><dd>
+This method determins the current local weight from all the
+objects inside the container<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_loc_weight">query_loc_weight()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="handle_restore_inventory">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>handle_restore_inventory</b></a><pre>
+int handle_restore_inventory(object ob)
+</pre><dd>
+This method handles moving objects into the inventory from an auto
+load.  This should be over ridden by things inheriting us to
+make sure that the objects can be moved into the inventory.  It
+should handle the bypassing of open/close/locked etc flags.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to move into ourselves
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 02:36:44 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

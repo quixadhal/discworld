@@ -1,0 +1,44 @@
+.DT
+add_move_zone
+DW_wibble creator help
+add_move_zone
+
+.SH Name
+.SP 5 5
+add_move_zone -  This method adds a move zone onto the npc.
+.EP
+
+.SH Syntax
+.SI 5
+void add_move_zone(mixed zone)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^zone%^RESET%^ - the zone(s) to add
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a move zone onto the npc.  The move zones control
+which areas the npcs will wander into, a move zone is set on the
+room and the npcs will only enter rooms which have a matching
+move zone.  If there is no move zone, then the npc will enter
+any room.
+
+
+If the parameter is an array each of the elements of the array will be added as a move zone.
+.EP
+
+.SH See also
+.SP 5 5
+remove_move_zone(), query_move_zones(), set_move_after()
+
+.EP
+

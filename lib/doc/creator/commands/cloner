@@ -1,0 +1,42 @@
+.DT
+cloner
+Discworld creator help
+cloner
+
+.SH Name
+.SI 5
+cloner - Modify the cloners filename redirection
+.EI
+
+.SH Syntax
+.SI 5
+cloner move <source> <dest> 
+cloner add <source> <dest> 
+cloner list [<file>] 
+cloner remove <source> 
+.EI
+
+.SH Description
+.SP 5 5
+The cloner is what clones items on the MUD.  When an items path is
+changed a record can be added to the cloner to clone the item from the
+new path.  The cloner command provides a friendly interface to the
+cloner so that you can view and update the filename mappings.
+.EP
+
+.SO 7 5 -15
+	move	This is probably the most useful command. It will rename a file (or set of files) and add a mapping entry for each one.
+	add	This simply adds a mapping entry for a file.
+	list	This will list the current mappings. It will take wildcard filenames as well as a substring.
+	remove	This will remove a mapping
+.EO
+
+.SH Examples
+.SI 5
+> cd /obj/furnitures
+> cloner move misc/*mirror* mirrors
+.EI
+
+.SH See also
+.SP 5 5
+.EP

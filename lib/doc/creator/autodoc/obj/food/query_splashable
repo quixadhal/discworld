@@ -1,0 +1,46 @@
+.DT
+query_splashable
+DW_wibble creator help
+query_splashable
+
+.SH Name
+.SP 5 5
+query_splashable -  This queries splashability of the food.
+.EP
+
+.SH Syntax
+.SI 5
+int query_splashable(object splasher,
+                     object splashee)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^splasher%^RESET%^ - - Who splashes.
+%^BOLD%^splashee%^RESET%^ - - Who is splashed.
+.EI
+
+.SH Returns
+.SI 5
+1 if it can splash, 0 if it can't.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This queries splashability of the food.
+Note that the food can only be splashed when liquid and when
+set_splashable() has been called
+.EP
+
+.SH See also
+.SP 5 5
+set_splashable(), unset_splashable(), set_liquid(),
+set_external_pk_check()
+
+.EP
+

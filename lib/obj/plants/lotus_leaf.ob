@@ -1,0 +1,38 @@
+#  -*- LPC -*- #
+#
+# $Locker:  $
+# $Id: lotus_leaf.ob,v 1.2 2001/11/01 20:03:36 wirble Exp $
+#
+#
+#
+
+#by Siel and modified by Wirble
+
+::#Class:: "/obj/cont_medium.c"
+::#Class:: "/obj/food.c"
+::Name:: "leaf"
+::Short:: "lotus leaf"
+::Long:: "This is a $Pleaf from $a lotus.  It is wide and flat like "
+         "$Aplate and its leathery $Psurface $Vshines$shine dully.\n"
+::Adjective:: ({ "lotus" })
+
+::Main plural:: "lotus leaves"
+::Weight::1
+::$set_medium_alias:: "LotusLeaf"
+::$set_collective::
+::$set_amount:: 1
+::$set_weight_unit:: ({ 1, 200 })
+::Value::700
+::$setup_eat_piece_messages:: "$N place$s the leaf on $o tongue and chew$s "
+        "slowly.\n",
+        "piece",
+        "$N place$s the leaf on $o tongue and chew$s slowly.\n"
+::Property:: "herb lore", "The lotus leaf, has a waxy surface that "
+     "is actually quite rough.  Its unique structure and self-purifying "
+     "properties have made it known for what is called the lotus "
+     "effect.  That is, water never sticks to it, yet it gets "
+     "cleaned by it."
+#Left here in case more exiting things happen with herbs and plants
+::$add_eat_effect::"/std/effects/ingested/basic_healing", 100
+::$add_eat_effect:: "/std/effects/ingested/hallucination", 400
+#::$add_eat_effect::"/std/effects/ingested/cum_poison", 800

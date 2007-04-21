@@ -1,0 +1,32 @@
+.DT
+bugcheck
+Discworld player help
+bugcheck
+
+.SH Name
+.SP 5 5
+bugcheck - guidance on bugrepping objects
+.EP
+
+.SH Syntax
+.SP 5 5
+bugcheck <object>
+.EP
+
+.SH Description
+.SP 5 5
+The bugcheck command will give you some guidance on the best place to place a bugreport on a particular object.  Due to the way the MUD directory structure is broken down, sometimes bugreports on an object will go one place, sometimes they will go to another.  General items that can be found anywhere (such as weapons) will go to a centralised directory, while objects that belong to a specific domain will go to the directory for that domain.  
+
+While this makes sense from a coding perspective, there is no indication given to you as a player as to which category of object you may be dealing with, and where it would be best to make a bugrep.  The bugcheck command can be used to give some advice on that matter.
+.EP
+
+.SH Example
+.SI 5
+> bugcheck corset
+The black patent leather corset is a Disc-wide item, but belongs to a directory that is checked regularly.  Best to make the bugrep directly on the item.
+.EI
+
+.SH See also
+.SP 5 5
+bug, idea, typo
+.EP

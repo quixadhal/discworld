@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),({({"You score-brief.","$mcname$ score-briefs.",0,}),0,}),({({"You score-brief $hcname$.","$mcname$ score-briefs $hcname$.","$mcname$ score-briefs you.",0,0,0,}),0,}),})

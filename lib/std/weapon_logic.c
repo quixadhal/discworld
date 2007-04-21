@@ -1,233 +1,247 @@
-#include "weapon.h"
-
-/* ok.... now we start thinking about the strange things...
- *   We have several points we want to implement... 
- *   1)  A much wider range of damages.
- *   2)  A "To hit" and "damage" rolls being seperate things
- *          But are still related.  ie a good hit will do more damage
- *  Implementation...
- *    Ok, here goes.   The being hit players ac is taken based on the
- *    attack type, the ac will be returned as a base (not randomised)
- *    and a randomised amount...  This will be used to calculate the
- *    cute number we need.  Once we have the number we create the
- *    "To hit" role for the weapon.  Subtracting of this from our 
- *    ac number tells us weather or not we hit...  If we have hit
- *    We take the amount we hit by (after subtracting off the
- *    "To hit bonus") and add it too the extra damge that is done
- *    All this is kept in an array, there can be more than one
- *    attack in the array.  They can be connected together in
- *    several ways, 1) follow on after attack one did more that x
- *    points of damage.  2) have a percentage chance of working
- *    each attack.
- *    A standard set of attacks are defined in /std/handlers/armoury
- *    please see that file for more details
+/**
+ * This class has alkl the stuff for anything which can damage something
+ * else, this is included into living and weapons.
+ * @author Pinkfish.
  */
-static mixed attack_name,
-      attack_data;
-static string skill;
+#include <weapon.h>
+
+nosave string *attack_names;
+nosave string *attack_types;
+nosave mixed *attack_data;
+nosave mapping special_messages;
 
 void create() {
-  attack_name = ({ });
-  attack_data = ({ });
-}
+   attack_names = ({ });
+   attack_types = ({ });
+   attack_data = ({ });
+   special_messages = ([ ]);
+} /* create() */
 
-mixed query_attack_name() { return attack_name; }
-mixed query_attack_data() { return attack_data; }
+string *query_attack_names() { return copy( attack_names ); }
+string *query_attack_types() { return uniq_array( attack_types ); }
+mixed *query_attack_data() { return copy( attack_data ); }
+mapping query_special_messages() { return copy( special_messages ); }
 
-void set_weap_skill(string str) { skill = str; }
-string query_weap_skill() { return skill; }
-
-int add_attack(string name, mixed flag, int chance, mixed base, mixed hit,
-               mixed dam, string type) {
-  if (member_array(name, attack_name) != -1)
-    return 0;
-/* values for flag---
- *      0 - chance as follows
- *      "name" if it follows on after attack name
- *            chance at this point... 0-100 percetage
- *            200-... amount over hit to be done on
+/**
+ * This method adds a special attack message set onto the weapon.  The type
+ * and name are around this way to correspond
+ * to the parameters to add_attack.
+ * @see /obj/handlers/attack_messages
+ *
+ * @param name the name of the attack (0 for none)
+ * @param type the type of attack
+ * @param data the attack data
+ * @see query_special_message()
+ * @example
+ * inherit "/obj/weapon";
+ *
+ * void setup() {
+ *   ...
+ *   add_attack_message("gumboot", "blunt", ({
+ *     0, "$N gumboot$s at $I with $D",
+ *    20, "$N lightly gumboot$s $I in the $z with $D",
+ *    60, "$N gumboot$s $I in the $z with $D",
+ *  5000, "$N heavily gumboot$s $I in the $z with $D" }));
+ *   ...
+ * } /\* setup() *\/
  */
-  attack_name += ({ name });
-  attack_data += ({ flag, chance, base, hit, dam, type });
-}
+void add_attack_message(string name, string type, string *data) {
+   string nam;
 
-int add_arr_attack(string name, mixed *arr) {
-  int i;
-  if (!pointerp(arr) || sizeof(arr) != W_ARRAY_SIZE)
-    return 0;
-  if ((i=member_array(name, attack_name)) != -1) {
-    attack_data = attack_data[0..i*W_ARRAY_SIZE-1] +
-                  arr+attack_data[(i+1)*W_ARRAY_SIZE+1..sizeof(attack_data)];
-    return 1;
-  }
-  attack_name += ({ name });
-  attack_data += arr;
-  return 1;
-}
+   nam = type;
+   if (name) {
+      nam += "-" + name;
+   }
+   special_messages[nam] = data;
+} /* add_attack_message() */
 
-void remove_attack(string name) {
-  int i;
+/**
+ * This method returns the attack message associated with the
+ * type and name.  The type and name are around this way to correspond
+ * to the parameters to add_attack.
+ * @param name the name of the attack
+ * @param type the type of the attack
+ * @return the attack message array, 0 for none
+ */
+mixed *query_attack_message(string name, string type) {
+   if (special_messages[type + "-" + name]) {
+      return special_messages[type + "-" + name];
+   }
+   if (special_messages[type]) {
+     return special_messages[type];
+   }
+   return 0;
+} /* query_attack_message() */
 
-  if ((i=member_array(name, attack_name)) == -1)
-    return ;
-
-  attack_name = delete(attack_name, i, 1);
-  attack_data = delete(attack_data, i*W_ARRAY_SIZE, W_ARRAY_SIZE);
-}
-
-int calc_value(mixed arg, int skill, string name) {
-  int i, amt;
-
-  if (intp(arg))
-    return (int)this_object()->modify_damage((random(arg)*(100+skill))/300,
-                                                 name);
-  if (!pointerp(arg))
-    return 0;
-  switch (sizeof(arg)) {
-    case 1:
-      return (int)this_object()->modify_damage(arg[F_FIXED], name);
-    case 2:
-      return (int)this_object()->modify_damage(arg[F_FIXED]+
-                            ((random(arg[F_RAND])*(100+skill))/300), name);
-    case 3:
-      for (i=0;i<arg[F_NUM];i++)
-        amt += random(arg[F_DIE]);
-      return (int)this_object()->modify_damage(arg[F_FIXED]+((amt*
-                                 (100+skill))/300),
-                                                      name);
-    default :
+/**
+ * This method adds an attack onto the object.  The name of the attack
+ * must be unique on each object.
+ * @param a_name attack name
+ * @param change the chance of it occuring
+ * @param damage the damage it will do
+ * @param type the type of the attack
+ * @param skill the skill used by the attack
+ * @param func the special function
+ * @param bogus_1 errrr.
+ * @param bogus_2 frog.
+ * @see remove_attack()
+ */
+varargs int add_attack( string a_name, int chance, int *damage, string type,
+      string skill, mixed func, mixed bogus_1, mixed bogus_2 ) {
+   if ( stringp( bogus_1 ) ) {
+      write( file_name( this_object() ) +" is using the obselete syntax "+
+            "of add_attack.\n" );
       return 0;
-  }
-}
+   }
+   if ( member_array( a_name, attack_names ) != -1 )
+      return 0;
+   attack_names += ({ a_name });
+   attack_types += ({ type });
+   attack_data += ({ chance, damage, type, skill, func });
+   return 1;
+} /* add_attack() */
 
-static object target, me;
+/**
+ * This method removes the attack of the given name.
+ * @param a_name the name of the attack to remove
+ * @see add_attack()
+ */
+void remove_attack( string a_name ) {
+   int i;
 
-void do_attack(int name) {
-  int i, off, hit, base, ac, skill_val;
-  string our_name;
+   i = member_array( a_name, attack_names );
+   if ( i == -1 )
+      return;
+   attack_names = delete(attack_names, i, 1);
+   attack_types = delete(attack_types, i, 1);
+   attack_data = delete( attack_data, i * W_ARRAY_SIZE, W_ARRAY_SIZE );
+} /* remove_attack() */
 
-  our_name = attack_name[name];
-  off = name*W_ARRAY_SIZE;
-  if (skill)
-    skill_val = (int)me->query_skill_bonus(skill);
-  else
-    skill_val = 200;
-  base = calc_value(attack_data[off+W_BASE], skill_val, our_name);
-  hit = calc_value(attack_data[off+W_HIT], skill_val, our_name);
-  ac = (int)target->query_ac(attack_data[off+W_TYPE]);
-  hit += base - ac;
-  if (hit < 0) {
-    this_object()->write_message(0, target, me, attack_data[off+W_TYPE],our_name);
-    this_object()->hit_weapon(ac, our_name);
-    return ;
-  }
-  base -= ac;
-  if (base < 0)
-    base = 0;
-  base += calc_value(attack_data[off+W_DAM], skill_val, our_name);
-  this_object()->write_message(base, target, me, attack_data[off+W_TYPE], our_name);
-  this_object()->hit_weapon(ac, our_name);
-  if (base > target->query_hp())
-    base = target->query_hp()+1;
-  target->adjust_hp(-base);
-  me->adjust_xp(base/10);
-  if (!target)
-    return ;
-  for (i=0;i<sizeof(attack_data);i+=W_ARRAY_SIZE)
-    if (attack_data[i+W_FLAG] == our_name)
-      if (random(100) < attack_data[i+W_CHANCE])
-        if (attack_data[i+W_CHANCE]>200) {
-          if (hit > attack_data[i+W_CHANCE]-200)
-            do_attack(i/W_ARRAY_SIZE);
-        } else
-          do_attack(i/W_ARRAY_SIZE);
-}
+int modify_damage( int damage, string attack_name ) { return damage; }
 
-int weapon_attack(object targ, object ob) {
-  int i, off;
+int calc_attack( int number, int percent ) {
+   int damage, *data;
 
-  target = targ;
-  me = ob;
-  for (i=0;i<sizeof(attack_name);i++) {
-    off = i*W_ARRAY_SIZE;
-    if (!target)
-      continue;
-    if (!attack_data[off+W_FLAG])
-      if (random(100)<attack_data[off+W_CHANCE])
-        do_attack(i);
-  }
-}
+   data = attack_data[ number * W_ARRAY_SIZE + W_DAMAGE ];
+   damage = data[ F_FIXED ] + roll_MdN( data[ F_NUM ], data[ F_DIE ] );
+   damage = (int)this_object()->modify_damage( damage,
+         attack_names[ number ] );
+   damage = ( damage * percent ) / 100;
+   return damage;
+} /* calc_attack() */
 
-void write_message(int dam, object attack_ob, object attack_by, string type,
-                   string name) {
-  string *message;
+/**
+ * This function returns 0 or more attacks for this weapon against the
+ * given target.
+ *
+ * @param percent the attack percentage
+ * @param target who is being hit
+ *
+ * @return an array of 0 or more attacks. This array is indexed by the
+ * AT_ macros defined in combat.h
+ *
+ * @see combat.h
+ */
+mixed *weapon_attacks(int percent, object target ) {
+   int i, *order;
+   mixed *attacks;
+   if ( !percent )
+      percent = 100;
+   order = ({ });
+   for ( i = 0; i < sizeof( attack_names ); i++ )
+      order += ({ i });
+   order = shuffle( order );
+   attacks = ({ });
+   for ( i = 0; i < sizeof( order ); i++ ) {
+      if ( random( percent ) <
+            attack_data[ order[ i ] * W_ARRAY_SIZE + W_CHANCE ] ) {
+         attacks += ({ calc_attack( order[ i ], percent ),
+               attack_data[ order[ i ] * W_ARRAY_SIZE + W_SKILL ],
+               attack_data[ order[ i ] * W_ARRAY_SIZE + W_TYPE ],
+               attack_names[ order[ i ] ] });
+      }
+   }
+   return attacks;
+} /* weapon_attacks() */
 
-  message = (string *)"/std/weapon.mess"->query_message(dam ,type,
-                                                    attack_ob, attack_by, name);
-  if (message && sizeof(message) >= 3) {
-    tell_object(attack_by, message[0]);
-    tell_object(attack_ob, message[1]);
-    tell_room(environment(attack_ob), message[2], ({ attack_ob, attack_by }) );
-    return ;
-  }
-  if (dam<30) {
-    tell_object(attack_by, "You missed "+attack_ob->short()+".\n");
-    tell_object(attack_ob, capitalize((string)attack_by->short()) +
-      " missed you.\n");
-    tell_room(environment(attack_ob), capitalize((string)attack_by->short()) +
-     " misses " + attack_ob->short() + ".\n", ({ attack_ob, attack_by }));
-  } else {
-    tell_object(attack_by, "You hit " + attack_ob->short() + ".\n");
-    tell_object(attack_ob, capitalize((string)attack_by->short()) +
-      " hits you.\n");
-    tell_room(environment(attack_ob), capitalize((string)attack_by->short()) +
-      " hits " + attack_ob->short() + ".\n", ({ attack_ob, attack_by }));
-  }
-}
+void attack_function( string a_name, int damage, object attack_ob,
+      object attack_by ) {
+   int i;
 
-string calc_string(mixed b) {
-  if (intp(b))
-    return "rand("+b+")";
-  if (!pointerp(b))
-    return "Dead";
-  switch (sizeof(b)) {
-    case 1 :
-      return ""+b[0];
-    case 2 :
-      return ""+b[0]+"+rand("+b[1]+")";
-    case 3 :
-      return ""+b[0]+"+"+b[1]+"d"+b[2];
-    default :
-      return "Oh hell";
-  }
-}
+   i = member_array( a_name, attack_names );
+   if ( i == -1 ) {
+      return;
+   }
+   i *= W_ARRAY_SIZE;
+   if ( !attack_data[ i + W_FUNCTION ] ) {
+      return;
+   }
+   if ( stringp( attack_data[ i + W_FUNCTION ] ) ) {
+      call_other( this_object(), attack_data[ i + W_FUNCTION ],
+            damage, attack_ob, attack_by, attack_data[ i + W_TYPE ], a_name );
+   } else {
+      call_other( attack_data[ i + W_FUNCTION ][ 1 ],
+            attack_data[ i + W_FUNCTION ][ 0 ], damage, attack_ob, attack_by,
+            attack_data[ i + W_TYPE ], a_name );
+   }
+} /* attack_function() */
 
+/**
+ * This method attempts to work out what type of weapon this is.
+ * @return the weapon type
+ */
+string query_weapon_type() {
+   int i;
+   string type;
+
+   for ( i = 0; i < sizeof( attack_data ); i += W_ARRAY_SIZE ) {
+      if ( !type ) {
+         type = attack_data[ i + W_SKILL ];
+         continue;
+      }
+      if ( type != attack_data[ i + W_SKILL ] )
+         return "mixed";
+   }
+   return type;
+} /* query_weapon_type() */
+
+/** @ignore yes */
 mixed weapon_stats() {
-  int i, j;
-  mixed *ret;
+   int i, j;
+   string bit;
+   mixed *ret;
+   ret = ({ });
+   for ( i = 0; i < sizeof( attack_data ); i += W_ARRAY_SIZE, j++ ) {
+      ret += ({
+         ({ "attack #"+ j, attack_names[ j ] }),
+         ({ "   chance", attack_data[ i + W_CHANCE ] })
+      });
+      if ( attack_data[ i + W_DAMAGE ][ F_FIXED ] )
+         bit = attack_data[ i + W_DAMAGE ][ F_FIXED ] +"+";
+      else
+         bit = "";
+      if ( attack_data[ i + W_DAMAGE ][ F_NUM ] )
+         bit += attack_data[ i + W_DAMAGE ][ F_NUM ] +"d"+
+               attack_data[ i + W_DAMAGE ][ F_DIE ];
+      else
+         if ( attack_data[ i + W_DAMAGE ][ F_DIE ] )
+            bit += "1d"+ attack_data[ i + W_DAMAGE ][ F_DIE ];
+      ret += ({
+         ({ "   damage", bit }),
+         ({ "     type", attack_data[ i + W_TYPE ] }),
+         ({ "    skill", attack_data[ i + W_SKILL ] })
+      });
+      if ( stringp( attack_data[ i + W_FUNCTION ] ) )
+         ret += ({ ({ " function", attack_data[ i + W_FUNCTION ] }) });
+      else
+         if ( pointerp( attack_data[ i + W_FUNCTION ] ) )
+            ret += ({
+               ({ " function", attack_data[ i + W_FUNCTION ][ 0 ] }),
+               ({ "called on", attack_data[ i + W_FUNCTION ][ 1 ] })
+            });
+   }
+   return ret;
+} /* weapon_stats() */
 
-  ret = ({ });
-  for (i=0;i<sizeof(attack_data);i+=W_ARRAY_SIZE,j++)
-    ret += ({ ({ "ATT"+j+" name", attack_name[i/W_ARRAY_SIZE], }),
-              ({ "     flag", attack_data[i+W_FLAG], }),
-              ({ "   chance", attack_data[i+W_CHANCE], }),
-              ({ "     base", calc_string(attack_data[i+W_BASE]), }),
-              ({ "      hit",  calc_string(attack_data[i+W_HIT]), }),
-              ({ "      dam", calc_string(attack_data[i+W_DAM]), }),
-              ({ "     type", attack_data[i+W_TYPE], }),
-          });
-  return ret;
-}
-
-mixed stats() {
-  return weapon_stats();
-} /* stats() */
-
-void set_attack_name(mixed *bing) { attack_name = bing; }
-void set_attack_data(mixed *bing) { attack_data = bing; }
-
-mixed *query_init_data() {
-  return ({ "attack name", attack_name, "set_attack_name/p",
-            "attack data", attack_data, "set_attack_data/p",
-            "attack skill", skill, "set_weap_skill/p" });
-} /* query_init_data() */
+/** @ignore yes */
+mixed stats() { return weapon_stats(); }

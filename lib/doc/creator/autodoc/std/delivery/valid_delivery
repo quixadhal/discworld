@@ -1,0 +1,45 @@
+.DT
+valid_delivery
+DW_wibble creator help
+valid_delivery
+
+.SH Name
+.SP 5 5
+valid_delivery -  This method is called by the check_delivery() function when it validates  someone's deliveries.
+.EP
+
+.SH Syntax
+.SI 5
+int valid_delivery(class delivery_item delivery,
+                   string person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^delivery%^RESET%^ - the delivery item to be tested
+%^BOLD%^person%^RESET%^ - the person to deliver the item to.
+<p>
+.EI
+
+.SH Returns
+.SI 5
+1 if the delivery is not ready, 0 if it is. (yes, this is kind
+of backwards.)
+.EI
+
+.SH Defined in
+.SI 5
+/std/delivery.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called by the check_delivery() function when it validates 
+someone's deliveries.  It is used to determine whether or not it's time
+for a delivery to be delivered, and whether or not to remove it.
+
+
+
+.EP
+

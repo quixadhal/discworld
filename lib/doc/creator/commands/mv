@@ -1,0 +1,36 @@
+.DT
+mv
+Discworld creator help
+mv
+
+.SH Name
+.SI 5
+mv - Move files.
+.EI
+
+.SH Syntax
+.SI 5
+mv <file(s)> <file|dir>
+.EI
+
+.SH Description
+.SP 5 5
+The mv command is used to move a file.  You can move it into a different 
+directory keeping the same name, or move it to a file of a different name
+anywhere.  mv will not overwrite files, so you will have to rm the file that
+is already there if you want to replace an old copy of a file with a newer
+one.  
+.EP
+
+.SH Examples
+.SI 5
+mv test1 test2
+mv test1 testdir
+mv test* testdir
+mv test1* test2*
+.EI
+
+.SH See also
+.SP 5 5
+cp, rm
+.EP

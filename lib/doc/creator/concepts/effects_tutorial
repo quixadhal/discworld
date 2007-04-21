@@ -1,0 +1,678 @@
+.DT
+effects_tutorial
+Discworld Creator Help
+effects_tutorial
+
+.SH Name
+
+.SI 5
+Coding Effects - A Tutorial                   Mansarde, 22-jan-99
+===========================                   -------------------
+.EI
+
+.SH Description
+
+.SP 5 5
+This documentation draws extensively on the existing "help effects" file,
+however the aim of this tutorial is not to replace the that documentation but
+to provide a practical guide to help get you started in actually coding an
+effect.  It's aimed at people who are relatively competent at LPC, but who are
+either new to effects or would like a quick refresher.
+.EP
+
+.SP 5 5
+I would strongly recommend that you also read "help effects", since I have
+not included a lot of the information that it contains, to try to keep this
+tutorial a little shorter and to the point.
+.EP
+
+
+.SH Anatomy Of An Effect
+.SH --------------------
+
+.SP 5 5
+A basic effect will normally require 5 functions:
+.EP
+.SI 5
+  beginning()
+  merge_effect()
+  end()
+  restart()
+  query_classification()
+.EI
+
+.SP 5 5
+Let's quickly run through what they do:
+.EP
+
+.SI 5
+.SH [mixed/void] beginning (object player, mixed arg, int id)
+.EI
+
+.SP 10 5
+This function is called immediately after add_effect(), the parameters are:
+.EP
+
+.SO 10 10 -25
+	player	The player (or other object) that the effect has been added to.  Use this inside your effect, rather than this_player().
+	arg	The arguments passed to the effect, generally things like its duration, strength, or whatever else you want.
+	id	A unique id number for referring to yourself and your shadow (more about shadows later).  Normally, you won't need this.
+.EO
+.SI 5
+.SH [mixed/void] merge_effect(object player, mixed old_arg, mixed new_arg, int id)
+.EI
+
+.SP 10 5
+This function is called by add_effect if the your effect is already on
+the object.  It allows you to control what happens when your effect is
+"doubled up" - without this function the effects system will simply add
+another copy of your effect to the object; normally that is not what you
+want.
+.EP
+
+.SI 5
+.SH void end (object player, mixed arg, int id)
+.EI
+
+.SP 10 5
+This is is *always* called when your effect is removed, no matter what it
+was that caused it to be removed.  The parameters are the same as for
+beginning().
+.EP
+
+.SI 5
+.SH void restart (object player)
+.EI
+
+.SP 10 5
+This is called when the effect is restarted.  For example, if a player has
+the effect on them when they log out, restart() will be called when they
+log back in.
+.EP
+
+.SI 5
+.SH string query_classification()
+.EI
+
+.SP 10 5
+You MUST have this function in your effect.  It will return the dotted
+classification string for your effect, "priest.shield", "npc.fighter",
+"religious.fumble" or whatever.
+.EP
+
+.SH A Brief Note On Data Types
+.SH --------------------------
+
+.SP 5 5
+You'll notice that in the above functions, the type for 'arg' in beginning,
+merge_effect and end is given as "mixed".  However, you should always try to
+avoid mixed data types wherever possible (anywhere, not just in effects), so
+if the argument to your effect is an integer or a string, use "int arg" or
+"string arg", as appropriate.  Often, the arguments to an effect really will
+be mixed, in which case you have no real choice, but where you can, you should
+specify the type.
+.EP
+
+.SP 5 5
+Also, notice that the return type for beginning and merge_effect is
+[mixed/void].  If you return anything from either of those two functions,
+that will become the new argument[s] to the effect, so your return type should
+be the same as that of your args.  However, if you don't wish to modify your
+effect's arguments in one of those functions, just declare one or both as void,
+and return nothing.
+.EP
+
+.SH submit_ee()
+.SH -----------
+
+.SP 5 5
+One more thing that you'll almost certainly need in order to write an effect
+is a call to submit_ee().  This will let you call functions on your effect at
+timed intervals, do to interesting and exciting things.
+.EP
+
+.SP 5 5
+It looks something like this:
+.EP
+.SI 5
+player->submit_ee(string function, [int/int *] interval, int flags)
+.EI
+
+.SP 5 5
+The parameters are:
+.EP
+
+.SO 10 10 -25
+	function	The name of the function to call
+	interval	How long until that function is called (see below)
+	flags	EE_ONCE, do it once. The default, so you can just leave it out
+		EE_CONTINUOUS, do it continuously
+		EE_REMOVE, remove the effect from the object after the call
+.EO
+
+.SP 5 5
+The interval can be a simple int, which is the time in seconds until the
+function is called, or it can also be an array of ints:
+.EP
+
+.SO 10 20 -35
+	({ min, max })	min time in seconds, max time in seconds. Simple uniform distribution.
+	({ min, max, r })	min and max time in seconds, with the the result 'rolled' r times.  The higher the value of r, the closer the result will be to (min + max) / 2.
+.EO
+
+.SP 5 5
+Only one EE_REMOVE can be in place at one time.  If you submit another, the
+first is wiped and the new one used.
+.EP
+
+.SP 5 5
+EE_ONCE, EE_CONTINUOUS, and EE_REMOVE are defined in /include/effects.h, so
+you'll probably want
+.EP
+.SI 10
+.SH  #include <effects.h>
+.EI
+.SP 5 5
+at the top of your effect.
+.EP
+
+.SH Your First Effect
+.SH -----------------
+
+.SP 5 5
+OK, you should now have a rough idea of what you'll need to make a simple
+effect, so let's go ahead and code a simple effect to make someone stronger.
+The effect will have one argument, the duration (in seconds), and will be
+imaginatively classified "mansarde.tutorial.strength".
+.EP
+
+=====================================================================
+#include <effect.h>
+
+string query_classification() { return "mansarde.tutorial.strength"; }
+
+void beginning (object player, int arg) {
+  tell_object(player, "You feel your muscles grow in strength.\n");
+  player->adjust_bonus_str(4);
+  player->submit_ee( 0, arg, EE_REMOVE );
+} /* beginning() */
+
+int merge_effect (object player, int old_arg, int new_arg) {
+  int time_left;
+  time_left = (new_arg / 2) + player->expected_tt();
+  player->submit_ee( 0, time_left, EE_REMOVE );
+  return time_left;
+} /* merge_effect() */
+
+void end (object player) {
+  tell_object(player, "Your muscles relax, and return to normal.\n");
+  player->adjust_bonus_str(-4);
+} /* end() */
+
+void restart (object player) {
+  tell_object(player, "You feel your muscles grow in strength.\n");
+  player->adjust_bonus_str(4);
+} /* restart() */
+=====================================================================
+
+.SP 5 5
+OK, let's go through that effect and look at what it does.  We'll skip over
+query_classification, since it's pretty straight forward.
+
+Beginning has its return type set as void, because we don't want to change
+the arg from there, and also has the "id" parameter missing, because we aren't
+going to use it.  Notice that when we print a message to the player, we use
+tell_object(player, ... ) rather than write(), because write() uses
+this_player().
+
+Remember that in an effect you never refer to the object that has the effect
+on them with this_player(), because this_player() is frequently someone else.
+For instance, if this effect were added from a spell then this_player() would
+be the person casting the spell, not the target (unless they cast it on
+themseleves :).  The point, though, is that it's generally uncertain who
+this_player() will refer to, so you should avoid it, unless you're absolutely
+100% certain that it will always be who you think it is.  Eg: if you have an
+extra_look() function in your effect, you could use this_player() to refer to
+the person doing the looking.
+
+Next we increase their strength by 4, using adjust_bonus_str(), and set a
+time for the effect to be removed with submit_ee().  The name of the function
+in the submit_ee is 0, so it won't actually call a function, just remove the
+effect.  Of course, end() will still be called, because it's always called
+when the effect ends.  But specifying a function here would have allowed us
+to call another function, before end().
+
+Merge_effect extends the existing effect by half of the new duration.
+Exected_tt() just returns how many seconds are left until our EE_REMOVE
+submit_ee() will get called, in other words, how long until the effect is due
+to be removed.  So if the original duration was 300 seconds, and after 100
+seconds someone tries to add another 300 seconds:
+.EP
+
+.SI 5
+time_left = (300 / 2) + 200 = 350
+.EI
+
+.SP 5 5
+We then return time_left, so that it becomes the new arg for the effect, and
+it shows up when the player is statted, or the args of the effect queried.
+
+As a side note, some have claimed that there are problems with expected_tt,
+however I'm not entirely certain what those problems are, and how you would
+go about avoiding them.  Since there is no real alternative to expected_tt,
+you're probably going to have to use it anyway, but just keep in mind that
+it may not be 100% reliable.  Who knows, by the time you're reading this,
+someone may have recoded the function, and it now works flawlessly. :)
+
+End is pretty self-explanatory, we use tell_object() to print a message about
+the player not feeling as strong any more, then we reduce their strength.
+
+Restart is just like beginning, printing the "you feel stronger" message, and
+increasing their strength.  The difference is that in restart, we don't need
+to worry about resubmitting effect events, because those are taken care of
+for us by the effects system.  When they log back in, the events that were
+scheduled before they left will all still be there, and should just continue
+as before.
+
+Also notice that throughout the effect, we omitted parameters to functions if
+we didn't use them.
+.EP
+
+.SH Was It Good For You?
+.SH --------------------
+
+.SI 5
+Looking through the effect you should notice that there are some problems
+with it, and some possible improvements.  First, we'll introduce another
+effect function:
+.EI
+
+survive_death().
+
+.SI 5
+Normally, all effects are removed from a player when they die, but if you put
+something like this in your effect:
+.EI
+
+int survive_death() { return 1; }
+
+.SI 5
+your effect will not be removed, and stay with the player as a ghost, and when
+they're raised.  We don't want that in our effect, of course, so we do need
+to be aware that the effect will get auto-removed when they die.  This
+doesn't seem a problem, until you remember that end() *always* gets called
+when the effect is removed, even by death.  In our case, this means that the
+player will see "Your muscles relax, and return to normal." just after they
+die.
+
+Clearly, this would be a little silly, so we should add a check to end() to
+make sure that the message only gets printed if they're still alive.  This
+is something that's very easy to overlook when coding and testing an effect,
+so try to watch out for it, and have end() print a different message to dead
+people, or no message at all.  To check if your player is dead, just do a
+check for the "dead" property:
+.EI
+
+if ( player->query_property("dead") ) { "He's dead, Jim." }
+
+.SI 5
+Something else that you would probably want to add, if you were coding an
+effect like this, is a message printed to the room when the effect starts.
+Something like
+.EI
+
+tell_room(environment(player), player->query_cap_name() +
+          " seems to grow in strength.\n", player);
+
+.SI 5
+alongside the messages to the player, in beginning and restart.  If someone's
+muscles are growing and becoming stronger, Incredible Hulk style, is seems
+natural that people standing nearby would notice.
+
+Another possible addition might be a second argument, so that you can specify
+how much extra strength to add, rather than always adding 4. This would make
+your effect much more flexible and useful.
+
+To do that you'll need to change the type of your "arg" parameters in
+beginning, end, and merge_effect from int (single int) to int* (an array of
+ints), and change the return type of merge_effect to int* as well.
+You might also want to be really flash and change merge_effect so that as well
+as extending the time, it also increases the str boost a little.
+
+Finally, you could have a function that prints a message telling the player
+how super-strong he or she feels every minute or so, using a continuous
+submit_ee.  To do that you would need to add a line like this to beginning():
+.EI
+
+player->submit_ee("print_mess", 20, EE_CONTINUOUS);
+
+.SI 5
+This will call a function called print_mess() in your effect every 20 seconds,
+for the duration of the effect.  Print_mess() could just be something like
+this:
+.EI
+
+void print_mess( object player, mixed arg, int id ) {
+  string* mess;
+  mess = ({
+           "Your muscles pulse with strength.\n",
+           "You feel incredibly strong.\n",
+           "You feel that could tear up large trees with your bare hands.\n"
+         })
+  tell_object(player, mess[random(sizeof(mess))];
+  return;
+} /* print_mess() */
+
+.SI 5
+I've included all the parameters that are passed for the sake of completeness,
+you will probably not need all of them in your function.
+
+You can see that this function just prints one of three messages, at random.
+When you're printing messages to a player like this, it's always better to
+have lots of different ones, rather han just one or two, since they tend to
+become very irritating and boring in a very short period of time.
+Remeber that you don't need to modify restart() to start those messages going
+again, since this should be handled for you automagically.
+
+So, having looked at that simple effect, let's move on to something more
+advanced.
+.EI
+
+
+.SH Effects With Shadows
+.SH ====================
+
+.SI 5
+The majority of effects on Discworld do things that cannot be acomplished with
+an effect on its own, so they have a shadow object to accompany them.  Often,
+most of the work will be done by the shadow, with the effect just there to
+make sure that the shadow is added and removed at the right time, and
+suitable messages printed to the player.
+.EI
+
+.SH What's A Shadow?
+.SH ----------------
+
+.SI 5
+If you already know what a shadow object is, you could just skip straight to
+The Next Section.  If not, read on :)
+
+A shadow object is an object which redefines one or more functions on another
+object, so that any calls to those functions are sent to the shadow, not the
+real function.  It sounds tricky, but actually it's a fairly simple concept.
+
+Let's take the Priest ritual called Aegis as an example.  This ritual halves
+all damage taken by someone, and works by placing an effect (with a shadow)
+on the target.  Inside the aegis shadow object is the following:
+.EI
+
+======================================================================
+int adjust_hp( int number, object thing ) {
+ /* It should be possible to heal while under aegis */
+   if ( number >= 0 ){
+      player->adjust_hp( number );
+      return 1;
+   }
+   return (int)player->adjust_hp( number / 2, thing );
+} /* adjust_hp() */
+======================================================================
+
+.SI 5
+If a player (Mansarde, for the sake of this example) has the Aegis effect on
+him, anything that tries to call adjust_hp() on him will not call the real
+adjust_hp,  it will be intercepted by the shadowed adjust_hp.
+
+So if something does this:
+.EI
+
+find_player("mansarde")->adjust_hp(-1000);
+
+.SI 5
+the call will go to the shadow, which will halve the number of hp to reduce,
+then pass the call on to the normal adjust_hp function on the player.  This
+means that by the time the real adjust_hp gets to see it, the number of HP to
+remove has been halved.  You can still call the real adjust_hp() from within
+your shadow, though.  If you do:
+.EI
+
+player->adjust_hp(300);
+
+.SI 5
+inside that shadow, it will not recursively call the function on the shadow,
+as you might expect, but will instead call the real function, on the player
+object.  In the case of a player having several shadow objects shadowing the
+same function, each shadow function will call the next shadow function in turn
+until it finally gets to the real function, or one of the shadow functions
+returns without consulting the real function.  So if Mansarde has two aegis
+shadows on him, and someone did:
+.EI
+
+find_player("mansarde")->adjust_hp(-1000);
+
+.SI 5
+the first aegis shadow would intercept the call, halve the number of hp to
+remove, but when that first shadow called adjust_hp(), it would call the
+second shadow, with a value of -500.  That second shadow will then halve the
+number again, and pass it onto the real adjust_hp() function on the player.
+
+Thus, with 2 aegis-style adjust_hp() shadow functions, a player will receive
+only 1/4 of any damage.  All of this is handled for you, though, and you don't
+need to lose any sleep worrying about other shadows interacting with yours,
+as long as your shadow has been coded correctly, everything should be fine.
+
+Some of you may have noticed, though, that this shadow is actually a bit
+naughty.  If the number of hp >= 0, ie the person is being healed, this
+function will do the healing as normal, then return 1.  This is wrong, because
+adjust_hp() should in fact return the new number of hp.  The Aegis shadowed
+adjust_hp() only returns the new hp if the player is being injured.
+
+This is something you need to watch for when writing shadows, especially if
+you're shadowing important functions:  make sure that you have the correct
+arguments, and especially that you return the correct value.  If your shadow
+has been written properly, it should look to the outside world exactly like
+the real function.
+
+Also, don't rely on what you _think_ the parameters and return values are,
+from your experience of using the function in the past.  Find where the
+function is defined, and make sure that your function has the same arguments
+and return type.  What you do with those arguments will probably be
+different, of course, and the actual value that you return may well be
+different, but your function should be able to be used exactly like the real
+one.  Any code which uses that function should not be broken by your shadow.
+
+In this case, if someone had written code which depended on adjust_hp()
+returning the new number of hp(), that code would not work correctly with
+an aegised player.  Of course, by the time you read this, I will have modified
+the Aegis shadow to return the correct value, but I included the previous,
+incorrect code here as an example. :)
+
+For a more info on shadows, see "help shadow".
+
+Hopefully, the above will be enough for you to get an idea of what a shadow
+is, and to follow the next example...
+.EI
+
+.SH The Next Section
+.SH ----------------
+
+.SI 5
+...an effect to boost someone's crafts skills by 25%.
+
+We'll classify this effect as "mansarde.tutorial.crafty" and give it one arg,
+the duration.  As with the previous effect, you could modify it to have a
+second arg, to specify how much of a boost you want.  For simplicity, we'll
+just stick to a fixed 25% boost, though.
+
+This effect will require two objects, an effect and the shadow.
+First the effect:
+.EI
+
+======================================================================
+#include <effect.h>
+
+string query_classification() { return "mansarde.tutorial.crafty"; }
+
+string query_shadow_ob() { PATH + "crafty_shad"; }
+
+void beginning(object player, int arg) {
+  tell_object(player, "You feel very crafty.\n");
+  player->submit_ee(0, arg, EE_REMOVE);
+} /* beginning() */
+
+int merge_effect (object player, int old_arg, int new_arg) {
+  int time_left;
+  time_left = (new_arg / 2) + player->expected_tt();
+  player->submit_ee( 0, time_left, EE_REMOVE );
+  return time_left;
+} /* merge_effect() */
+
+void end (object player) {
+  tell_object(player, "Your craftiness seems to have left you.\n");
+} /* end() */
+
+void restart (object player) {
+  tell_object(player, "You feel very crafty.\n");
+} /* restart() */
+
+======================================================================
+
+.SI 5
+This effect is just about as simple as you can get.  It is almost the same
+as the strength effect, minus the calls to adjust_bonus_str(), and with
+different messages.  The main difference is the extra function:
+.EI
+
+string query_shadow_ob() { PATH + "crafty_shad"; }
+
+(PATH would presumably be defined somewhere as the path for your shadows.)
+
+.SI 5
+This tells the effects system that our effect has a shadow attached, and what
+its path is.  That one line is all you need to add a shadow to your effect.
+The effects system will make sure that the shadow object is added and removed
+from the player when the effect starts and ends, so you don't need to worry
+about that.
+
+All we need to do now, is actually write the shadow...
+.EI
+
+======================================================================
+inherit "/std/effect_shadow";
+
+varargs int query_skill_bonus (string skill, int use_base ) {
+  int true_bonus;
+
+  // This is necessary or people can use our adjusted bonus for teaching
+  // and the like. 
+
+  if ( use_base ) { 
+    return player->query_skill_bonus( skill, use_base );
+  }
+
+  true_bonus = player->query_skill_bonus( skill );
+
+  if (skill[0..5] != "crafts") // not a crafts skill, so no modification
+    return true_bonus;
+
+  return true_bonus + (true_bonus / 4);
+} /* query_skill_bonus() */
+======================================================================
+
+.SI 5
+That wasn't so hard :)
+
+We start out by inheriting /std/effect_shadow.  All effect shadows should
+inherit this, as it has some support functions to handle adding and removing
+it cleanly, plus the arg() function, which allows you to access the args for
+the effect from within the shadow.
+
+Then we have the definition of our shadowed query_skill_bonus() function.
+We start off by finding out what the player's real skill bonus is in the
+relevant skill, by calling the real query_skill_bonus, with the same
+argument.  Once we have that, we next check whether the skill being queried
+is a crafts skill, and if not we just return the true bonus that we got
+earlier.  Otherwise, if the skill being queried is indeed a crafts skill,
+we return the true bonus, plus the 25% boost.
+
+This means that any call to query a non-crafts skill will work exactly as
+before, and the skill bonus wil be unaffected, but all skills which have
+"crafts" as their first 5 characters will recieve a 25% increase in bonus.
+
+It's as easy as that.
+.EI
+
+.SH A Few General Pointers
+.SH ----------------------
+
+.SI 5
+These are just some handy tips and things that are relevant when coding
+effects.
+
+1) Object variables will not behave as you'd expect.  Only one copy of the
+   effect object is created, no matter how many people have the effect on
+   them, so there will only be one instance of each object variable, not one
+   per player.  This may be of some use to you, in some obscure case where you
+   want to keep track of some data about the effect as a whole, but normally
+   you will want to avoid object variables in effects.  To store data about
+   a particular thing which has the effect on it, use an argument to the
+   effect.
+
+2) Call_outs. If you have an object which uses a lot of call_outs, especially
+   at regular intervals, you should seriously consider impaling yourself on a
+   sharp object, then modifying your object to use an effect instead.
+
+   Although effects were originally intended as a way of temporarily modifying
+   existing objects, they can be very useful to control behaviour which is
+   part of the normal activities of your object, especially if this means
+   getting rid of call_outs (which, as everyone knows, are the work of Satan :)
+
+   The query_indefinite() function will help you here.  Normally, any effect
+   which has no effect events (EEs) pending, including an EE to remove the
+   effect, will automatically be deleted from the object by the effect system.
+   To avoid having your effect wiped out, include something like this:
+.EI
+
+   int query_indefinite() { return 1; }
+
+.SI 5
+   This tells the effect system that your effect really is supposed to remain
+   there indefinitely, even if it has no events pending, so it won't get
+   removed.
+
+3) Always, always, always put a comment at the top of your effect stating what
+   the arguments are.  This is true even if you only have one arg, for the
+   duration, but applies especially for effects which have several args.  It
+   can be extremely annoying to have to wade through the code for an effect,
+   trying to figure out what each of the args is supposed to be, and how
+   they're used.  At the time of writing, a lot of effects do not have such a
+   comment; this is not a good reason to create even more undocmented effects,
+   however :)
+.EI
+
+.SH The Fat Lady Tunes Up
+.SH ---------------------
+
+.SI 5
+That almost concludes the tutorial, and by this point you should be able to go
+off and code your own effect to do almost whatever it is you want.  For
+further reading, I highly recommend the contents of /std/effects and
+/std/shadows, as well as "help effects", since it documents lots of effect
+support functions that i've not listed here, to keep this shorter and because
+they're not really necessary to get started.
+.EI
+
+.SH Laaaaaaaaa!
+.SH -----------
+
+.SI 5
+The End.
+
+
+
+Well, what're you waiting for?  Go and code yourself an effect!
+.EI
+
+.SH See Also
+.SI 5
+help shadow, help effect
+.EI

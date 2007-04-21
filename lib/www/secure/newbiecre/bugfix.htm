@@ -1,0 +1,249 @@
+<title>A Guide To Bugfixing</title> 
+<p align="center"><font size="+2"><b>A Simple Guide to Bug Fixing</b></font></p>
+<p align="center">&nbsp; </p>
+<p> A lot of people avoid the fixing of simple bugs in their domains because they 
+  think it is more difficult than it really is, they don't really understand how 
+  to do it, or they are not sure how to use RCS.
+<p> This file is designed to be a simple walkthrough of how to fix bugs in your 
+  domain. There is no place to hide; by typing fixed 'creator' you can see how 
+  many bugs have been fixed by each creator.The total numbers of bugs fixed by 
+  everyne can be seen by typing 'fixed all'. 
+<p>There are two ways to start. The first way is to use <b>finderrors</b>, which 
+  has its own helpfile in case you get confused. Finderrors will allow you to 
+  add directories to a list and then check that list for error reports. 
+<p> To use finderrors, you must first add the directories you want to the list. 
+  To do this, type: 
+<blockquote>
+  <p><code>finderrors add</code> <i>directory name</i></p>
+</blockquote>
+<p> For example,
+<blockquote>
+  <p><code>finderrors add /d/ram/*</code></p>
+</blockquote>
+<p> would add all of the Ram domain to your list.
+<p> Then type:
+<blockquote>
+  <p><code>finderrors </code></p>
+</blockquote>
+<p>to take you to an error. The command:
+<blockquote>
+  <p> <code>finderrors count</code></p>
+</blockquote>
+<p> will list all of the errors in the directories you chose and give you a total. 
+  For more detailed finderrors help, see the helpfile.
+<p> The other way to do it is to go to the relevant error tracker, posted on domain 
+  boards weekly. It should look something like the following: 
+<blockquote> 
+  <p>Title: "Error summaries for Ram" <br>
+    There are reports in the following directories in Ram<br>
+    BUG &nbsp;&nbsp;&nbsp;&nbsp;TYPO&nbsp;&nbsp;&nbsp;&nbsp; IDEA<br>
+    &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    0&nbsp;&nbsp;&nbsp; /d/ram/Razorback<br>
+    &nbsp;&nbsp;&nbsp;1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    0 &nbsp;&nbsp;&nbsp;/d/ram/Temple_of_Soyin<br>
+    &nbsp;&nbsp;&nbsp;1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 
+    &nbsp;&nbsp;&nbsp;/d/ram/bandit_camp<br>
+    &nbsp;&nbsp;&nbsp;2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    0 &nbsp;&nbsp;&nbsp;/d/ram/chars<br>
+    &nbsp;&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;/d/ram/foothills<br>
+    &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 
+    &nbsp;&nbsp;&nbsp;/d/ram/items<br>
+    &nbsp;&nbsp;&nbsp;1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    0&nbsp;&nbsp;&nbsp; /d/ram/madstoat<br>
+    &nbsp;&nbsp;&nbsp;1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp; 
+    /d/ram/mountains<br>
+    &nbsp;&nbsp;&nbsp;1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp; 
+    /d/ram/ohulan/dock_street<br>
+    &nbsp;&nbsp;&nbsp;3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp; 
+    /d/ram/ohulan/market<br>
+    &nbsp;&nbsp;12 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    2 &nbsp;&nbsp;&nbsp;TOTAL</p>
+</blockquote>
+<p>Go to the relevant directory using the cd command. (For example:</p>
+<blockquote>
+  <p><code>cd /d/ram/chars</code></p>
+</blockquote>
+<p> Then type:</p>
+<blockquote> 
+  <p><code>errors</code> </p>
+</blockquote>
+<p>to bring up the bug report for that directory. Or, alternatively:</p>
+<blockquote>
+  <p> <code>errors</code> <i>directory name</i></p>
+</blockquote>
+<p>will work just as well, without having to cd.</p>
+<p>A bug, typo or idea report will show up in the following format: </p>
+<blockquote>
+  <p>ROOM TYPO<br>
+    /d/ram/ohulan/market/market_c<br>
+    Made by : Sasquatch at : Wed Sep 8 09:15:31 1999</p>
+  <p> set_short is center, not centre<br>
+    [1-1] (1) Choose from EBUCFDNPGIQX, H for help.</p>
+</blockquote>
+<p> Once you have read the error report, it is always a good idea to go to the 
+  location of the bug or typo mentioned in the report to check it out. If you 
+  determine it needs fixing, you must unlock the file using RCS. (You cannot modify 
+  a file on RCS without unlocking it first.)<br>
+  Please note: RCS has an excellent helpfile.</p>
+<p> To unlock an RCS file, type:</p>
+<blockquote>
+  <p><code>rcsout <i>file pathname</i></code></p>
+</blockquote>
+<p> For example:</p>
+<blockquote>
+  <p> <code>rcsout /d/ram/ohulan/market/market_c</code></p>
+</blockquote>
+<p> would unlock the file to you. Only you can edit that file until you put it 
+  back. This gives you access to fix the file, which can be fixed using ftp or 
+  ed, depending on your preference. You must have write access to the file to 
+  be able to rcsout it however.</p>
+<p> Using rcsout should return something close to the following:</p>
+<blockquote>
+  <p> >rcsout /d/ram/ohulan/market/market_c<br>
+    d/ram/ohulan/market/RCS/market_c.c,v --> d/ram/ohulan/market/market_c.c<br>
+    revision 1.2 (locked)<br>
+    done </p>
+</blockquote>
+<p>Then fix the typo in the normal way and update the room to make sure it works. 
+  Please remember to check the room for objects that might be destroyed or similar 
+  situations before updating.</p>
+<p> If something goes wrong here and you accidentally break something, do not 
+  panic. The command:</p>
+<blockquote> 
+  <p><code>rcsrelease</code><i> file pathname</i></p>
+</blockquote>
+<p> will revert the file to the previous version. If everything works fine, type:</p>
+<blockquote>
+  <p><code>rcsin</code> <i>file pathname</i></p>
+</blockquote>
+<p>to check the file back in so others may access it. </p>
+<p>The rcsin command will prompt you to add a short comment explaining what you 
+  did. Please do so. For example:</p>
+<blockquote>
+  <p> rcsin /d/ram/ohulan/market/market_c<br>
+    Enter a comment. <br>
+    Enter your text. Use ** on a line by itself to exit.<br>
+    1 ] Fixed typo<br>
+    2 ] ** <br>
+    1 lines - Choose from IDLMCESQ or H for help. <br>
+    s<br>
+    Quitting and saving.</p>
+</blockquote>
+<p> > d/ram/ohulan/market/RCS/market_c.c,v <-- d/ram/ohulan/market/market_c.c<br>
+  new revision: 1.3; previous revision: 1.2 <br>
+  done</p>
+<p> There is a command called <b>rcslog</b>, used as expected:</p>
+<blockquote>
+  <p><code>rcslog</code><i> file pathname</i></p>
+</blockquote>
+<p>so, in this case:</p>
+<blockquote> 
+  <p> <code>rcslog /d/ram/ohulan/market/market_c</code></p>
+</blockquote>
+<p> will show you a log of all changes done to the file.</p>
+<p> For example:</p>
+<blockquote>
+  <p> rcslog /d/ram/ohulan/market/market_c<br>
+    RCS file: d/ram/ohulan/market/RCS/market_c.c,v<br>
+    Working file: d/ram/ohulan/market/market_c.c<br>
+    head: 1.3<br>
+    branch:<br>
+    locks strict <br>
+    access list:<br>
+    symbolic names: <br>
+    keyword substitution: kv<br>
+    total revisions: 3; selected revisions: 3 <br>
+    description:<br>
+    Bing<br>
+    ----------------------------<br>
+    revision 1.3<br>
+    date: 1999/09/08 16:28:52; author: sasquatch; state: Exp; lines: +1 -1<br>
+    Fixed typo<br>
+    ----------------------------<br>
+    revision 1.2 date: 1999/03/13 16:14:51; author: rue; state: Exp; lines: +1 
+    -1<br>
+    fixed a typo - Rue<br>
+    ----------------------------<br>
+    revision 1.1 date: 1999/02/25 21:45:44; author: tape; state: Exp; <br>
+    Initial revision<br>
+    ============================================================================</p>
+</blockquote>
+<p> The error is now fixed; all that needs doing is to mark the bug report as 
+  done so no one else wastes time trying to fix it. This is done by entering the 
+  errors menu again, either by typing <b>errors</b> while in the directory or 
+  by using <b>finderrors.</b></p>
+<p>Pressing h for the helpfile will give you the following: </p>
+<blockquote>
+  <p>[1-1] (1) Choose from EBUCFDNPGIQX, H for help.<br>
+    h<br>
+    B b - Post the report to board b.<br>
+    E - Edit the file to correct the error.<br>
+    E f - Edit file with name f.<br>
+    I - Change a report into an idea.<br>
+    U - Forward and delete report to the 'unknown' list. <br>
+    F n - Forward and delete report to creator or directory n.<br>
+    C - Enter a comment about the report. <br>
+    D - Mark report as fixed. <br>
+    D F - Mark report as being fixed. <br>
+    D N - Mark report as not an error. <br>
+    D C - Mark report as being considered.<br>
+    D R - Delete report and reply to sender yourself. <br>
+    The word $report$ will be replaced by the original report.<br>
+    N/+ - Next report.<br>
+    P/- - Previous report.<br>
+    G n - Go to report n.<br>
+    Q - Quit.<br>
+    X - Save and quit.<br>
+    H/? - This help file.<br>
+    [1-1] (1) Choose from EBUCFDNPGIQX, H for help </p>
+</blockquote>
+<p>In this case you would use option d, as you have fixed the error. This will 
+  mark it as fixed and put you back to the error menu. At this point, DO NOT QUIT 
+  USING Q; that will quit you out of the menu. The correct option is x, which 
+  will save and quit. If you do press q, do not panic. It will ask you if you 
+  really do want to quit without saving. Selecting x will automatically send the 
+  person who reported the bug mail telling them it was fixed. </p>
+<p>This helpfile explains how to fix bugs using ftp and the mud. For your information, 
+  it is also possible to use the error handler on the secure pages of the Disc's 
+  webpage to fix bugs. It works in a similar fashion as the handler on the mud 
+  does, but has a few significant differences.</p>
+<p> In the web handler, you can enter a directory, like /d/ram/, and select whether 
+  you would like to search the subdirectories for errors. In doing this, you have 
+  the choice of errors to search for. You can see all of the errors in the directory, 
+  which includes the ones open, fixed, or fixing, or choose to just view one type, 
+  for example the open (not yet fixed) bugreps. Also, you can choose to view just 
+  the bugs, typos or ideas in the directory, or again, view them all. There is 
+  an index of the bugs in the directory, which will let you view all of the bugs 
+  in a list, and shows the dates, this is useful for seeing the newer bugreps, 
+  instead of having to search through them all for the new ones, that have shown 
+  up on finderrors.</p>
+<p> Another advantage this interface has, is that you can see the numbers in each 
+  individual directory, so, if you had for example /d/guilds/priests and also 
+  /d/guilds/assassins in your finderrors list, a finderrors count would only show 
+  the total bugs, but by using the web for just priests, this allows you to see 
+  how many are in each directory. There are also other options to search from, 
+  such as only show reports with fixer..., only show reports about..., only show 
+  reports containing..., don't show reports containing... These options allow 
+  you to search out bugs specifically for the ones you are looking for.</p>
+<p> When you view a bug report using the web interface, there is an option availible 
+  for you to edit the file in question. (This is useful for those quick fixes 
+  during times when you can web surf, but not mud) Upon editing the file to a 
+  fixed version, it will save the file to /tmp/<i>creator</i>/, where <i>creator</i> 
+  is your name. The file can then be copied to the relevent directory when you 
+  next log on. The /tmp/<i>creator</i> directory will be added automatically, 
+  there is no need for you to make one yourself.</p>
+<p> A popular option is to use both handlers together, search for bugs using the 
+  web handler, fix them using the mud, and then mark as fixed using the web. When 
+  a bug is marked as fixed using the web, it is important to click on the save 
+  button, this is the same as quitting with X in the mud interface, and will send 
+  a mail to the people who reported the bugs. The don't save option is the same 
+  as q in the mud, and will just quit and leave the bugs. The choice of interface 
+  is entirely down to personal preference, some like the web, some only use the 
+  mud, but it is always nice to have the option of more.</p>
+<p align="center"> I hope this helps people to understand bug fixing a little 
+  better. </p>

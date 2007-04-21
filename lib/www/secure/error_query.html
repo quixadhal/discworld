@@ -1,0 +1,100 @@
+<HTML>
+<HEAD>
+<TITLE>Error Query</TITLE>
+</HEAD>
+<BODY bgcolor="#ffffff" text="#000030" link="#4a529c" "vlink="#b57339">
+<FONT face="arial,helvetica">
+<H2>Error Query</H2>
+Please note, this will display at most 150 error reports.
+<FORM method="GET" action="errors_new.c">
+<input type=hidden name="action" value="query">
+<TABLE>
+<TR>
+<TH align="left">Directory:</TH>
+<TD><INPUT type="text" name="dir" size=40> 
+<INPUT type="checkbox" name="recurse" value="yes"> Subdirs?
+<INPUT type="submit" value="Enter"></TD>
+</tr>
+<TR>
+<TH align="left">Assigned To:</TH>
+<TD><INPUT type="text" name="assigned" size=20></TD>
+</tr>
+<TR>
+<TH align="left">Status:</TH>
+<TD>
+<INPUT type="checkbox" name="open" value="yes" checked>
+ Open
+<INPUT type="checkbox" name="fixing" value="yes" checked> Fixing
+<INPUT type="checkbox" name="considering" value="yes" checked>
+ Considering
+<INPUT type="checkbox" name="fixed" value="yes"> Fixed
+<INPUT type="checkbox" name="denied" value="yes"> Denied
+</TD>
+</tr>
+<TR>
+<TH align="left">Type:</TH>
+<TD>
+<INPUT type="checkbox" name="bug" value="yes" checked> Bug
+<INPUT type="checkbox" name="typo" value="yes" checked> Typo
+<INPUT type="checkbox" name="idea" value="yes" checked> Idea
+<INPUT type="checkbox" name="comment" value="yes" checked> Comment
+</TD>
+</tr>
+<TH align="left">Category:</TH>
+<TD>
+<INPUT type="checkbox" name="room" value="yes" checked> Room
+<INPUT type="checkbox" name="object" value="yes" checked> Object
+<INPUT type="checkbox" name="help" value="yes" checked> Help
+<INPUT type="checkbox" name="ritual" value="yes" checked> Ritual
+<INPUT type="checkbox" name="spell" value="yes" checked> Spell
+<INPUT type="checkbox" name="command" value="yes" checked> Command
+<INPUT type="checkbox" name="general" value="yes" checked> General
+</TD>
+</tr>
+<TR>
+<TH align="left">Filename:</TH>
+<TD><INPUT type="text" name="filename" size=40> 
+(Example: /cmds/errors_base)</TD>
+</tr>
+<TR>
+<TH align="left">Reported by:</TH>
+<TD><INPUT type="text" name="reporter"></TD>
+</tr>
+<tr>
+<TH align="left">Fixed by:</TH>
+<TD><INPUT type="text" name="fixer"></TD>
+</tr>
+<!--
+<TR>
+<TH align="left">Only show reports containing:</TH>
+<TD><INPUT type="text" name="contains"> 
+<INPUT type="checkbox" name="cregexp" value="yes"> Regexp?
+</TD>
+<TR>
+<TH align="left">Don't show reports containing:</TH>
+<TD><INPUT type="text" name="excludes"> 
+<INPUT type="checkbox" name="eregexp" value="yes"> Regexp?
+</TD>
+</tr>
+  -->
+<tr>
+<TH align="left">Order by:</TH>
+<TD><SELECT name="order_by">
+<OPTION value="directory">Directory</option>
+<OPTION value="filename">Filename</option>
+<OPTION value="date">Date</option>
+<OPTION value="reporter">Reporter</option>
+</SELECT>
+</TD>
+</tr>
+<TH align="left">Bug Offset:</TH>
+<TD><input type="text" name="bug_offset" size=10>
+</TD>
+</tr>
+</TABLE>
+</FORM>
+
+@@/footer:footer@@
+
+</body>
+</html>

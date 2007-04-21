@@ -1,0 +1,14 @@
+::item "BatGuano" "Water"::
+::->ratio:: ({ 0.8, 1.2 })
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->result_amt:: 1
+::->func:: ({ (:
+   $3->set_decay_speed(0),
+   $3->set_medium_alias( "GuanoSolution" ),
+   $3->set_name( "guano_solution" ),
+   $3->add_alias( "sludge" ),
+   $3->set_short( "thick brown sludge" ),
+   $3->add_adjective( ({ "thick", "brown" }) ),
+   $3->set_long( "This is some thick brown sludge, streaked through with "
+     "white.  The smell is... prominent.\n" )
+:) })

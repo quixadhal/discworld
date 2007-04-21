@@ -1,0 +1,52 @@
+.DT
+todo
+Discworld creator help
+todo
+
+.SH Name
+.SI 5
+todo - Todo list information tracker.
+.EI
+
+.SH Syntax
+.SI 5
+todo list
+todo list brief
+todo list type <type>
+todo list <priority>
+todo creator <name>
+todo add <priority> <type> <description>
+todo complete <id>
+todo change priority <id> <priority>
+todo change description <id> <description>
+.EI
+
+.SH Description
+.SP 5 5
+This command allows you to create and keep track of a todo list.  It sorts
+the todo list in priority order and by type.  The type can be anything
+you wish, to help you keep your tasks more ordered.  The priority can be
+any of 'VL' very low, 'L' low, 'H' high, 'VH' very high and 'U' urgent.
+If you put a 'P' on the end of the priority string, then you make the
+todo item private.  A private todo item can only be seen by you.
+The description can be anything you wish it to be.
+
+The id you use to complete a todo list item with is the number specified
+after a # when listed.
+
+You can also see other creators todo lists, so hopefully seeing what they are
+actually working on.
+.EP
+
+.SH Examples
+.SI 5
+> todo list
+> todo add L fluffy To be really nice to Pinkfish all the time
+> todo add U bug To fix the really hairy bug in the explode monsters spell
+> todo complete 1
+.EI
+
+.SH See also
+.SP 5 5
+.EP
+ 

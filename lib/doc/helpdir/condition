@@ -1,0 +1,48 @@
+.DT
+condition
+Discworld player help
+condition
+
+.SH Name
+.SI 5
+condition - Give the condition of all objects matching a description
+.EI
+
+.SH Syntax
+.SI 5
+condition <item(s)>
+condition <item(s)> sorting <up|down>
+condition <item(s)> damaged
+condition <item(s)> damaged sorting <up|down>
+.EI
+
+.SH Description
+.SP 5 5
+The condition command will tell you the condition of all objects in your
+inventory which match the word(s) you give.
+.EP
+
+.SH Examples
+.SI 5
+> condition weapons
+The thief's dagger (1) is a complete wreck.
+The Wyrm Sword (2) is in poor condition.
+
+> condition all
+The thief's dagger (1) is a complete wreck.
+The gold earring (2) is in excellent condition.
+The Wyrm Sword (3) is in poor condition.
+
+> condition all sorting up
+The thief's dagger (1) is a complete wreck.
+The Wyrm Sword (2) is in poor condition.
+The gold earring (3) is in excellent condition.
+
+> condition all damaged
+The thief's dagger (1) is a complete wreck.
+The Wyrm Sword (2) is in poor condition.
+
+> condition all damaged sorting down
+The Wyrm Sword (1) is in poor condition.
+The thief's dagger (2) is a complete wreck.
+.EI

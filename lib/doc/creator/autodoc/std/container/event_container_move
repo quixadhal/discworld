@@ -1,0 +1,44 @@
+.DT
+event_container_move
+DW_wibble creator help
+event_container_move
+
+.SH Name
+.SP 5 5
+event_container_move -  This method handles the movement of the containers of this object.
+.EP
+
+.SH Syntax
+.SI 5
+nomask void event_container_move(object mover,
+                                 mixed from,
+                                 mixed to)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^mover%^RESET%^ -    The outermost container object that moved
+%^BOLD%^from%^RESET%^ -     The start environment of the outermost container 
+%^BOLD%^to%^RESET%^ -       The destination of the outermost container 
+.EI
+
+.SH Defined in
+.SI 5
+/std/container.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method handles the movement of the containers of this object.
+Tracked items want to be notified if the container moves or anything
+containing it does.  The movement of the outmost moving container is 
+propagated down to all tracked items.
+.EP
+
+.SH See also
+.SP 5 5
+event_enter_tracked_item
+
+.EP
+

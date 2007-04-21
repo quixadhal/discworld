@@ -1,0 +1,1 @@
+({({"<indirect:any-living>","<string>",}),({({"You faint.","$mcname$ faint$s$.",0,}),({"You faint $arg$.","$mcname$ faint$s$ $arg$.",0,({"tiredly","out of boredom",}),}),}),({({"You faint on $hcname$.","$mcname$ faint$s$ on $hcname$.","$mcname$ faint$s$ on you.",0,0,0,}),0,}),})

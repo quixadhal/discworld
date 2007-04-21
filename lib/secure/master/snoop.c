@@ -1,4 +1,25 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: snoop.c,v 1.4 1998/08/21 11:26:08 pinkfish Exp $
+ * $Log: snoop.c,v $
+ * Revision 1.4  1998/08/21 11:26:08  pinkfish
+ * Erm, realy change the snoop log location :)
+ *
+ * Revision 1.3  1998/08/21 11:23:41  pinkfish
+ * Move the snoop log into the admin dir.
+ *
+ * Revision 1.2  1998/05/05 14:09:15  pinkfish
+ * Fix up qsnoop.
+ *
+ * Revision 1.1  1998/01/06 05:12:03  ceres
+ * Initial revision
+ * 
+*/
 int valid_snoop(object snooper, object snoopee, object pobj) {
+  string verb;
+
+  verb = this_player()->query_current_verb();
   if (snooper == snoopee) {
     tell_object(snooper, "You can't snoop yourself.\n");
     return 0;
@@ -9,53 +30,48 @@ int valid_snoop(object snooper, object snoopee, object pobj) {
     return 0;
   }
   if (snooper->query_snoopee()) {
-      if (!snooper->query_property("quiet snoop")) {
-          event(users(), snooper->query_cap_name()+" stops qsnooping "+
-                         snooper->query_snoopee()->query_name(), "snoop");
-	  tell_object((object)snooper->query_snoopee(),
-		      snooper->query_cap_name()+" stops snooping you.\n");
-      } else {
-          event(users(), snooper->query_cap_name()+" stops snooping "+
-                         snooper->query_snoopee()->query_name(), "snoop");
-	  snooper->remove_property("quiet snoop");
-      }
-      snooper->set_snoopee(0);
+    user_event( snooper->query_cap_name()+" stops " + verb + "ing "+
+                snooper->query_snoopee()->query_name(), "snoop");
+    if (!snooper->query_property("quiet snoop")) {
+      tell_object((object)snooper->query_snoopee(),
+                  snooper->query_cap_name()+" stops snooping you.\n");
+    } else {
+      snooper->remove_property("quiet snoop");
+    }
+    snooper->set_snoopee(0);
   }
   if (!snoopee) {
-      return 1;
+    return 1;
   }
-
-  if (query_snoop(snoopee))
-    return 0;
   if (!snooper->query_creator())
     return 0;
   if (pobj == this_object()) {
-    event(users(), snooper->query_cap_name()+" starts qsnooping "+
-                   snoopee->query_name(), "snoop");
+    user_event( snooper->query_cap_name()+" starts qsnooping "+
+                snoopee->query_name(), "snoop");
     return 1;
   }
-  if (query_verb() == "qsnoop" && query_lord(geteuid(snooper)) &&
-      !high_programmer(geteuid(snoopee))) {
+  if (verb == "qsnoop" && query_lord(geteuid(snooper)) &&
+      !query_lord(geteuid(snoopee))) {
     tell_object(snooper, "You are quiet snooping "+
                 snoopee->query_cap_name()+"\n");
     snooper->add_property("quiet snoop", 1);
   } else {
     tell_object(snoopee, "You are being snooped by "+
-                           snooper->query_cap_name()+".\n");
+                snooper->query_cap_name()+".\n");
   }
-  log_file("SNOOP", ctime(time()) + " " +
-           (string)snooper->query_cap_name() + " " +
-           query_verb() + "s " + (string)snoopee->query_cap_name() + ".\n");
+  unguarded( (: write_file("/d/admin/log/SNOOP", ctime(time()) + " " +
+           (string)$(snooper)->query_cap_name() + " " +
+           $(verb) + "s " + (string)$(snoopee)->query_cap_name() + ".\n") :) );
   snooper->set_snoopee(snoopee);
-  if(query_verb() == "qsnoop") {
+  if (verb == "qsnoop") {
     tell_object(snooper, "Please share with us the reason why you are " +
-      "quiet snooping?\n: ");
+                "quiet snooping?\n: ");
     input_to("snoop_reason");
     snoop_list[snooper] = snoopee;
     return 0;
   }
-  event(users(), snooper->query_cap_name()+" starts snooping "+
-                 snoopee->query_name(), "snoop");
+  user_event( snooper->query_cap_name()+" starts " + verb + "ing "+
+              snoopee->query_name(), "snoop");
   return 1;
 } /* valid_snoop() */
 
@@ -77,10 +93,11 @@ void snoop_reason(string str) {
   }
   if(!str) {
     write("Snoop canceled.\n");
-    log_file("SNOOP", "  Chickened out.\n");
+    unguarded( (: write_file("/d/admin/log/SNOOP", "  Chickened out.\n") :) );
     return;
   }
-  log_file("SNOOP", "  Reason: " + str + "\n");
+  unguarded( (: write_file("/d/admin/log/SNOOP", "  Reason: " + $(str) +
+                           "\n") :) );
   if (snoop(snooper, snoop_list[snooper]))
     write("Snoop suceeded,\n");
   else

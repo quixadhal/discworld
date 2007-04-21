@@ -1,0 +1,52 @@
+.DT
+which
+Discworld creator help
+which
+
+.SH Name
+.SI 5
+which - show full path of commands
+.EI
+
+.SH Syntax
+.SI 5
+which 
+which <commandname>
+.EI
+
+.SH Description
+.SP 5 5
+which takes a command name, and prints out the full pathname of the
+object(s) the mud calls to execute it.
+If there is more than one object defining the command, the objects are
+printed in the order they will be called.
+.EP
+
+.SP 5 5
+Alternatively, it can be used with no parameters to bring up a list
+of all the commands defined on the player object, and which object
+they are defined on.
+.EP
+
+.SH Example
+.SI 5
+> which read
+List of files defining 'read', in search order:
+    /cmds/living/r_ead
+    /w/jeremy/idle_chart
+    /obj/misc/board_mas
+    /d/admin/room/access_control
+    /obj/misc/board_mas
+.EI
+
+.SH Example 2
+.SI 5
+> which
+Command                 Defined On
+END_ALIAS               /global/lord#804400
+Internal_More_String    /global/lord#804400
+a'tuin                  /w/taffyd/items/chia_taffyd#804648
+a'tuin:                 /w/taffyd/items/chia_taffyd#804648
+aim                     /d/am/items/addictometer#804944
+allow                   /global/lord#804400
+.EI

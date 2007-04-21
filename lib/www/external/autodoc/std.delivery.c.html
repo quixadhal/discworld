@@ -1,0 +1,405 @@
+<html><head><title>File delivery.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/delivery.c</h2>
+Inheritable Delivery System
+<p>
+This object provides a way of storing and sending objects to 
+players while they are not online.  It is roughly based on
+the concepts found in Post Offices that support parcel
+depositing, and also Bernita's Flower Shop. (Which delivers
+flowers to people when they log on.)
+<p>
+This object is easy to use, and can be combined with most
+other objects on the Disc. (ie, /obj/monster and /std/room).
+See delivery_room.c for a pre-made room which handles the 
+delivery of objects.
+<p>
+Note that this system uses static login calls.  These 
+must be configured first and turned on manually in order for
+the delivery system to work.
+<p>
+In order to use this inheritable the following things must be
+done:
+<ul>
+<li>The object that uses it created, and this object inherited.
+<li>The save file set using set_save_file().
+<li>Any extra settings such as delivery message and delay configured.
+<li>setup_delivery() called on the object to finalize setup.
+</ul><p>Written by Taffyd
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="global.auto_load.c.html">/global/auto_load.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a>, <a href="include.login.h.html">/include/login.h</a> and <a href="include.player_handler.h.html">/include/player_handler.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_delivery_item"><b>delivery_item</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_delivery"><b>add_delivery</b></a>(mixed, mixed, object, int)<dd>
+This method adds a new item to the delivery mapping for the specified 
+recipient.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_delivery"><b>check_delivery</b></a>(mixed, string)<dd>
+This method is called by the login handler every time someone logs 
+on to the Disc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clean_delivery_mapping"><b>clean_delivery_mapping</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_delivery"><b>clear_delivery</b></a>()<dd>
+This method is used to remove all deliveries currently stored within the 
+delivery system.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#deliver_item"><b>deliver_item</b></a>(string, object, string)<dd>
+This method is called when an item is being delivered to a player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_file"><b>load_file</b></a>()<dd>
+This method loads retrieves data from the save file, and handles the 
+autoloading of the items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_burdened_mess"><b>query_burdened_mess</b></a>()<dd>
+This returns the current delivery message that is displayed to the 
+recipient of a delivery, if it is too heavy go to in their inventory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_delivery"><b>query_delivery</b></a>(string)<dd>
+This method returns the delivery details for a particular person, or
+the entire delivery mapping of one doesn't exist.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_delivery_delay"><b>query_delivery_delay</b></a>()<dd>
+This method returns how long after the login an item is delivered
+to the recipient.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_delivery_mess"><b>query_delivery_mess</b></a>()<dd>
+This returns the current delivery message that is displayed to the 
+recipient of a delivery.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_file"><b>query_save_file</b></a>()<dd>
+This method is used to query the save file in which the delivery data
+is stored.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_file"><b>save_file</b></a>()<dd>
+This method saves all of the delivery data into the save file, handling 
+saving of the auto loading as well.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_burdened_mess"><b>set_burdened_mess</b></a>(string)<dd>
+This method sets the message that is displayed when an item is too 
+heavy to be placed in the victim's inventory.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_delivery"><b>set_delivery</b></a>(mapping)<dd>
+This is used to set all of the delivery mapping manually.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_delivery_delay"><b>set_delivery_delay</b></a>(int)<dd>
+This method is used to specify how many seconds to wait after login 
+until the item is delivered.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_delivery_mess"><b>set_delivery_mess</b></a>(string)<dd>
+This method sets the delivery message that is displayed to the player 
+when they log on.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_file"><b>set_save_file</b></a>(string)<dd>
+This method sets the save file to a file name so that auto loading and 
+delivery details can be successfully saved.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_delivery"><b>setup_delivery</b></a>()<dd>
+This method adds the object into the login handler's static login calls 
+list.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#valid_delivery"><b>valid_delivery</b></a>(class delivery_item, string)<dd>
+This method is called by the check_delivery() function when it validates 
+someone's deliveries.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_delivery">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_delivery</b></a><pre>
+void add_delivery(mixed who,
+                  mixed sender,
+                  object item,
+                  int delay)
+</pre><dd>
+This method adds a new item to the delivery mapping for the specified 
+recipient.  This should always be used instead of set_delivery(), as it
+makes sure that all the data structures have been configured correctly.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>who - the person to receive the item. 
+<dd>sender - the person sending the file. 
+<dd>item - the item to be sent
+<dd>delay - how many seconds to wait before delivering item on the next
+login.
+
+<dt><b>See also:</b>
+<dd><a href="#check_delivery">check_delivery()
+</a><dt><b>Example:</b>
+<dd><pre>     add_delivery(this_player(), "taffyd", frog, 360);</pre></dl>
+
+<dt><a name="check_delivery">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_delivery</b></a><pre>
+void check_delivery(mixed person,
+                    string type)
+</pre><dd>
+This method is called by the login handler every time someone logs 
+on to the Disc.  It handles the delivery of items and all sorts of 
+nifty things.
+<p><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the name of the person logging on
+<dd>type - the type of login event
+
+
+</dl>
+
+<dt><a name="clean_delivery_mapping">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clean_delivery_mapping</b></a><pre>
+void clean_delivery_mapping()
+</pre>
+<dt><a name="clear_delivery">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_delivery</b></a><pre>
+void clear_delivery()
+</pre><dd>
+This method is used to remove all deliveries currently stored within the 
+delivery system.
+<p>
+Be very careful when using this function! It will save the cleared
+delivery mapping after it has been called. 
+<p>
+
+<dt><a name="load_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_file</b></a><pre>
+void load_file()
+</pre><dd>
+This method loads retrieves data from the save file, and handles the 
+autoloading of the items.
+<p>
+
+<dt><a name="query_burdened_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_burdened_mess</b></a><pre>
+string query_burdened_mess()
+</pre><dd>
+This returns the current delivery message that is displayed to the 
+recipient of a delivery, if it is too heavy go to in their inventory.
+<p><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the delivery message
+
+<dt><b>See also:</b>
+<dd><a href="#set_burdened_mess">set_burdened_mess()</a> and <a href="#query_delivery_mess">query_delivery_mess()</a></dl>
+
+<dt><a name="query_delivery">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_delivery</b></a><pre>
+varargs mixed query_delivery(string person)
+</pre><dd>
+This method returns the delivery details for a particular person, or
+the entire delivery mapping of one doesn't exist.
+<p><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person's delivery details to query. 
+
+</dl>
+
+<dt><a name="query_delivery_delay">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_delivery_delay</b></a><pre>
+int query_delivery_delay()
+</pre><dd>
+This method returns how long after the login an item is delivered
+to the recipient.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the number of seconds unt    
+
+
+</dl>
+
+<dt><a name="query_delivery_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_delivery_mess</b></a><pre>
+string query_delivery_mess()
+</pre><dd>
+This returns the current delivery message that is displayed to the 
+recipient of a delivery.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the delivery message
+
+<dt><b>See also:</b>
+<dd><a href="#set_delivery_mess">set_delivery_mess()</a></dl>
+
+<dt><a name="query_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_file</b></a><pre>
+string query_save_file()
+</pre><dd>
+This method is used to query the save file in which the delivery data
+is stored.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd> the path of the save file used to store delivery details.
+
+</dl>
+
+<dt><a name="save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_file</b></a><pre>
+void save_file()
+</pre><dd>
+This method saves all of the delivery data into the save file, handling 
+saving of the auto loading as well.
+<p>
+
+<dt><a name="setup_delivery">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_delivery</b></a><pre>
+void setup_delivery()
+</pre><dd>
+This method adds the object into the login handler's static login calls 
+list.  It only ever needs to be called _once_, and doesn't need to be 
+called every time the object loads. 
+<p>
+Once this is done, the object will automatically be loaded whenever 
+someone logs on.
+<p> 
+This must be called in order for the delivery system to work at all.
+<p>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="deliver_item">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>deliver_item</b></a><pre>
+void deliver_item(string who,
+                  object ob,
+                  string sent_by)
+</pre><dd>
+This method is called when an item is being delivered to a player.  The 
+delivery message or the burdened mess is used depending on how the item
+is delivered, and then it is removed from the delivery mapping.
+<p>
+Note that this routine uses add_message() to display movement messages
+to the player, instead of tell_object() or a traditional move message. This
+is so that the messages can be 'clumped' together properly, otherwise 
+it just doesn't work.
+<p><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>who - the person to deliver to
+<dd>ob - the object to deliver
+<dd>sent_by - the person that send the parcel
+<dd>position - its location in the recepient's delivery mapping.
+
+</dl>
+
+<dt><a name="set_burdened_mess">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_burdened_mess</b></a><pre>
+void set_burdened_mess(string s)
+</pre><dd>
+This method sets the message that is displayed when an item is too 
+heavy to be placed in the victim's inventory. This uses the same format
+as the normal delivery message.
+<p><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - message to display
+<dt><b>See also:</b>
+<dd><a href="#set_delivery_mess">set_delivery_mess()</a> and <a href="#query_burdened_mess">query_burdened_mess()
+</a></dl>
+
+<dt><a name="set_delivery">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_delivery</b></a><pre>
+void set_delivery(mapping x)
+</pre><dd>
+This is used to set all of the delivery mapping manually.  You should 
+not use this method.  
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the new delivery mapping.
+<dt><b>See also:</b>
+<dd><a href="#add_delivery">add_delivery()
+</a></dl>
+
+<dt><a name="set_delivery_delay">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_delivery_delay</b></a><pre>
+void set_delivery_delay(int new_time)
+</pre><dd>
+This method is used to specify how many seconds to wait after login 
+until the item is delivered.  Note that if this is too long, then the
+receipient may log out before you can give them the item.  If the 
+receipient logs out, then the item will be destroyed.
+<p>
+This is set to 5 by default.
+<p><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_time - the time in seconds after log in to deliver the message.
+
+</dl>
+
+<dt><a name="set_delivery_mess">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_delivery_mess</b></a><pre>
+void set_delivery_mess(string s)
+</pre><dd>
+This method sets the delivery message that is displayed to the player 
+when they log on. $S is substituted in the string with the name of 
+the player who sent the message, $N is replaced with the a_short()
+of the item being sent. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the new delivery string
+<dt><b>See also:</b>
+<dd><a href="#query_delivery_mess">query_delivery_mess()</a> and <a href="std.basic.desc.c.html#a_short">/std/basic/desc->a_short()</a><dt><b>Example:</b>
+<dd><pre>    set_delivery_mess("A small frog hops up to you, and thrusts $N "
+        "into your arms.  He holds up a large sign that reads: \""
+        "From $S\", and then runs away.\n");
+
+// Recipient sees:
+A small frog hops up to you, and thrusts a large blue box into your
+arms.  He holds up a large sign that reads: \"From Taffyd!\", and then
+runs away.
+</pre></dl>
+
+<dt><a name="set_save_file">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_save_file</b></a><pre>
+void set_save_file(string str)
+</pre><dd>
+This method sets the save file to a file name so that auto loading and 
+delivery details can be successfully saved.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new path.
+
+</dl>
+
+<dt><a name="valid_delivery">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>valid_delivery</b></a><pre>
+int valid_delivery(class delivery_item delivery,
+                   string person)
+</pre><dd>
+This method is called by the check_delivery() function when it validates 
+someone's deliveries.  It is used to determine whether or not it's time
+for a delivery to be delivered, and whether or not to remove it.
+<p><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>delivery - the delivery item to be tested
+<dd>person - the person to deliver the item to.
+<p>
+<dt><b>Returns:</b>
+<dd>1 if the delivery is not ready, 0 if it is. (yes, this is kind
+of backwards.)
+
+</dl>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_delivery_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delivery_item</b></a><pre>
+class delivery_item {
+                      object delivery_ob;
+                      string sent_by;
+                      int submit_time;
+                      int delay_time;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 02:42:44 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,133 @@
+.DT
+Debugging
+Discworld concepts
+Debugging
+
+.SH Overview
+.SP 5 5
+Unfortunately the MUD system that Discworld uses doesn't have a full
+debugger, however there are a number of commands and capabilities
+available that make debugging your programs a little easier.
+.EP
+
+.SH First things first
+.SP 5 5
+The place to start is with your editor.  Use a language sensitive
+editor (such as XEmacs or UltraEdit) that can colour code your code,
+lay it out so that it's readable and spot simple syntax errors.
+.EP
+
+.SH Getting it to load
+.SP 5 5
+Before you can run your code it must compile. The 'load', 'update', 
+'dupdate' and 'clone' commands will attempt to compile your code. If
+it refuses to compile the compiler will give you a line number and an
+error message telling you what went wrong.
+.EP
+
+.SH Runtime errors
+.SP 5 5
+If an object does something wrong it may produce a runtime error. A
+stack trace if then logged in /log/runtime and in /w/<creator>/runtime
+or /d/<domain>/runtime.
+.EP
+
+.SH Stack Traces
+.SP 5 5
+A stack trace shows the sequence of functions that led to a runtime
+error being produced. The logs also indicate the values of the objects
+variables at the time the error occured and which line the error
+occured in.
+.EP
+
+.SH dbxwhere
+.SP 5 5
+You can obtain a stack trace for a given object using the dbxwhere
+command.  If you wish to see the values of variables at a given point
+in the trace (known as a frame) you can use dbxframe to obtain this
+information.
+.EP
+
+.SH dump
+.SP 5 5
+The dump command uses the debug_info() efun to provide information
+about a given object. In certain situations this may be helpful in
+tracking down what is going wrong.
+.EP
+
+.SH Tracing your code
+.SP 5 5
+Often an object will not be runtiming but will not be acting
+correctly. At this point it's a question of printing out information
+about which code is being executed and the values of variables that
+are relevant to the problem. This can be achieved using
+debug_printf(), and if necessary, tell_creator(). 
+
+Wherever possible using debug_printf() is preferable to
+tell_creator() since it works for any creator and can be earmuffed at
+will while tell_creator cannot be earmuffed and is creator specific.
+
+These two functions can print out complex variables using the %O
+format string.
+
+In addition the efuns back_trace() and call_stack() can provide a dump
+of the current call stack which can be very useful in finding out the
+route taken to reach your code.
+.EP
+
+.SH File logging
+.SP 5 5
+In some situations it is necessary to log trace information to a
+file.  This is especially true for handlers or situations where you
+may not be logged in or present when the error occurs.
+
+In such instances be sure to use log_file() since it is 'de-bounced'
+and so more efficient that write_file(). Try to avoid too much logging
+since it can be a signficant cause of lag.
+
+Once the problem has been resolved be sure to turn off the logging
+(see "Using #ifdef" below) and that the log files are deleted so as not
+to fill /log with unused files.
+
+When logging to a file it is useful to have the first part of each
+line contain the date and time the event occured. ctime(time()) will
+give a date and time in the form "Mon Oct  8 16:32:14 2001". To save
+space and hence reduce the rate at which the log files will rollover
+ctime(time())[4..18] will give "Oct  8 16:32:14" as used below.
+.EP
+
+.SH Using #ifdef
+.SP 5 5
+Rather than adding debugging statements and then removing them once
+the problem is resolved if they are placed within
+#ifdef DEBUG ... #endif clauses the debugging can be enabled or
+disabled with a simple #define DEBUG or #undef DEBUG.
+
+The #ifdef approach is preferable to using an plain "if" because the
+#ifdef is evaluated once, at compile time, rather than everytime the
+code is executed.
+.EP
+
+.SH Examples
+.SI 5
+#define DEBUG
+
+#ifdef DEBUG
+  debug_printf("Object is: %O", obj);
+#endif
+
+#ifdef DEBUG
+  tell_creator("ceres", "Object is: %O, count is %d.", obj, i);
+#endif
+
+#ifdef DEBUG
+  log_file("MONSTER", "%s: Object is: %O, %d.\n", ctime(time())[4..18],
+           obj, i);
+#endif
+.EI
+
+.SH See also
+.SP 5 5
+load, update, dupdate, clone, dbxwhere, dbxframe, dump, debug_printf,
+tell_creator, log_file, back_trace, call_stack
+.EP

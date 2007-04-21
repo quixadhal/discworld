@@ -1,0 +1,403 @@
+<html><!-- #BeginTemplate "/Templates/Body Text.dwt" -->
+<head>
+<title> Discworld Documentation </title>
+</head>
+<body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">
+<table width="75%" border="0">
+  <tr>
+    <td><font face="arial,helvetica"><img align=left src="http://discworld.imaginary.com/external//pics/dw4.gif"></font></td>
+    <td><font face="arial,helvetica">
+      <h2>Discworld Documentation:</h2>
+      <h2>LPC for Dummies</h2>
+      </font> 
+      <p><font size="+1"><!-- #BeginEditable "Title" --><font size="+1"><b>Tutorial 
+  Answers </b></font><!-- #EndEditable --></font></p>
+      <p><i>N.B - This is a work in progress... a living document if you like. 
+        If it appears to be dead when you view it, don't worry. It's most likely 
+        just playing possum.</i></p>
+      <p>Comments on these chapters and tutorials can be e-mailed to <a href="mailto:drakkos@cableinet.co.uk">Drakkos.</a></p>
+    </td>
+  </tr>
+</table>
+<br>
+<!-- #BeginEditable "Body" --> 
+
+<p><hr>
+<code>QUESTION ONE: </code> 
+<blockquote> 
+  <p><i>"A plural for objects is automatically created when the object is setup. 
+    We've already looked at how set_main_plural() can be used to change the default 
+    way the mud pluralises our object. Using add_plural(), demonstrate how we 
+    can add further plurals to an NPC." </i></p>
+</blockquote>
+<p>Add plural can be used in the same way we've already seen with add_adjective. 
+  We simply pass in the plural, or an array containing multiple plurals, in the 
+  setup of our npc. So if we wanted to add, say, porridges and greys as plurals 
+  (which we wouldn't, unless we speak like Gollum, my preciousss), we would use 
+  the line: 
+<blockquote> 
+  <p><code>add_plural(({"greys", "porridges"})). </code></p>
+</blockquote>
+<p>We would mainly use add_plural when we're coding an item that may have several 
+  correct pluralisations. Since the MUD will only add one plural as standard, 
+  we use add_plural() to make sure all the bases are covered. <br>
+  <br>
+<hr>
+<p><code>QUESTION TWO: </code>
+<blockquote> 
+  <p><i>"It's possible to make an NPC auto attack any players who enter the room. 
+    Using set_aggressive(), how would we do this?" </i></p>
+</blockquote>
+<p>Set_aggressive takes a single integer argument of one, two or zero. If we pass 
+  in one as an argument, then the NPC becomes aggressive and will attack all players 
+  who enter its environment. If we pass it in as two, then the NPC will attack 
+  all players, and all NPCs who enter the environment. Passing in zero as an argument 
+  will make the NPC passive. So to make our NPC attack players, we use the line: 
+<blockquote> 
+  <p><code>set_aggressive(1); </code></p>
+</blockquote>
+<p>In the setup of the NPC. 
+<br>
+<hr>
+<code><br>
+QUESTION THREE: </code> 
+<blockquote> 
+  <p><i>"We can provide our NPC with some cash by using the adjust_money() command. 
+    How would we do this to provide our NPC with two Ankh-Morpork dollars and 
+    fifty Ankh-Morpork pence?" </i></p>
+</blockquote>
+<p>Adjust money allows us to modify the NPC's purse. It takes two arguments, the 
+  first being the number of coins, and the second being the type of coins. We 
+  can get a list of valid types of coin by doing 'call query_valid_types() /obj/handlers/money_handler'. 
+  Somewhere in the list that appears are the two types of coin we're interested 
+  in: "Ankh-Morpork pence", "Ankh-Morpork dollar", So, we want to give our NPC 
+  two dollars: 
+<blockquote> 
+  <p><code>adjust_money(2, "Ankh-Morpork dollar"); </code></p>
+</blockquote>
+<p>And fifty pence: 
+<blockquote> 
+  <p><code>adjust_money(50, "Ankh-Morpork pence"); </code></p>
+</blockquote>
+<p>We put this wherever we want our NPC to get the money. In most cases, we'll 
+  put it into the setup() of our NPC.<br>
+  <br>
+<hr>
+<p><code>QUESTION FOUR: </code>
+<blockquote> 
+  <p><i>"Discworld being a magical place, it's not unusual for areas to have high 
+    levels of background magic. How would you use the set_background_enchant() 
+    function to give a room some ambient, residual magic?" </i></p>
+</blockquote>
+<p>The function set_background_enchant takes a single integer as an argument, 
+  and sets the ambient background magic of the room as that value. The line in 
+  setup would look like: 
+<blockquote> 
+  <p><code>set_background_enchant (100); </code></p>
+</blockquote>
+<p>Which would give the background magic level to those who can sense octarine 
+  as: There is the residual taste of magic in this place Higher values, obviously, 
+  mean a greater level of background magic. 
+<br>
+<hr>
+<br>
+<code>QUESTION FIVE: </code> 
+<blockquote> 
+  <p><i>"Add_alias() can also be used on rooms to add additional labels for exits. 
+    Demonstrate how you can alias exits to synonyms using this function." </i></p>
+</blockquote>
+<p>Add_alias takes two arguments. The first being the alias, or aliases to apply 
+  to an exit, the second being the exit itself. For example: 
+<blockquote> 
+  <p><code>add_exit ("north", "/oh/some/room", "road"); </code></p>
+</blockquote>
+<p>We can then allow people to go north by typing 'Bing' or 'Bong' by using: 
+<blockquote> 
+  <p><code>add_alias ("bing", "north"); <br>
+    add_alias ("bong", "north"); </code></p>
+</blockquote>
+<p>Or combining the two into one call by passing in an array as the first argument: 
+<blockquote> 
+  <p><code>add_alias (({"bing", "bong"}), "north"); </code></p>
+</blockquote>
+<p>We can use add_alias to make odd exits somewhat more forgiving, as well as 
+  to be flexible with regards to conventional exits. <br>
+  <br>
+<hr>
+<br>
+<code> QUESTION SIX: </code> 
+<blockquote> 
+  <p><i>"Some rooms are, obviously, larger than others. Demonstrate how we can 
+    make a room larger or smaller using the set_room_size() function." </i></p>
+</blockquote>
+<p>Inside rooms have a default size of ten cubic units, a unit being roughly equivalent 
+  to a foot. So a normal inside room will be 10' by 10' by 10'. 
+<p>We can change the size of a room by using the set_room_size() function. This 
+  takes a single argument, which may either be an integer specifying the size 
+  of the room, or an array consisting of the three dimensions. 
+<p>If the argument is a single value, then the dimensions are assumed to be equal 
+  in all directions... in other words, the room is cubic. If we pass in an array, 
+  it takes the form ({north-south radius, east-west radius, up-down radius}). 
+  So we could use: 
+<blockquote> 
+  <p><code>set_room_size (20); </code></p>
+</blockquote>
+<p>To make a room of twenty cubic units, or: 
+<blockquote> 
+  <p><code>set_room_size (({20, 10, 10})); </code></p>
+</blockquote>
+<p>To make a room that has a radius of 20 going north to south, a radius of 10 
+  going from east to west, and a radius of 10 going up and down. 
+<br>
+<hr>
+<code><br>
+QUESTION SEVEN: </code> 
+<blockquote> 
+  <p><i>"load_chat() allows for special character strings to be passed in which 
+    are later expanded. The help file for expand_string() details the codes for 
+    this. If passing in a command as 'emote swings $mposs$ hips.' will be expanded 
+    as 'The grey blob swings his hips.', what would we pass in to get: </i></p>
+  <p><i>a) The capitalised name of a random living object in the room <br>
+    b) The pronoun (he/she/it) of an object attacking our NPC <br>
+    c) The short description of a random object in the NPC's inventory." </i></p>
+</blockquote>
+<p>We enclose our special case string between two $ symbols. This indicates to 
+  the output processing code that we want to treat the text between the symbols 
+  as special. The first character after the first dollar determines which object 
+  we're referring to: 
+<blockquote> 
+  <p><code>m - The NPC itself<br>
+    l - A random living object in the NPC's room <br>
+    o - A random object in the inventory of the NPC <br>
+    a - A random object in the NPC's attacker list, if one exists. </code></p>
+</blockquote>
+<p>We then follow this immediately with the information we want to access about 
+  the object: name - We want the name of the object 
+<blockquote> 
+  <p><code>cname - We want the capitalised name <br>
+    gender - We want the gender string <br>
+    poss - We want the possessive string <br>
+    obj - We want the objective string <br>
+    pronoun - We want the pronoun string <br>
+    gtitle - We want the guild title </code></p>
+</blockquote>
+<p>We also have ashort, possshort, theshort, and oneshort, and these call the 
+  relevant short() function on the NPC. 
+<p>So, for the cases we have above, we want: 
+<blockquote> 
+  <p><code>a) $lcname$ (l - random living, cname - capitalised name) <br>
+    b) $apronoun$ (a - random attacker, pronoun - pronoun string) <br>
+    c) $ooneshort$ (o - random object, oneshort - the short of the object) </code></p>
+</blockquote>
+<p>These functions can be used in load_chat and load_a_chat in place of a specific 
+  reference, for example: 
+<blockquote> 
+  <p><code>load_chat(20,({ <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;1 , ": fiddles with $ooneshort$.",<br>
+    </code><code>}));</code> </p>
+</blockquote>
+<hr>
+<p><code>QUESTION EIGHT: </code>
+<blockquote> 
+  <p><i>"If we pass in an array as action to be executed as a part of add_respond_to_with(), 
+    the NPC will randomly perform one of the commands. How would you write an 
+    add_respond_to_with to make an NPC say either 'bing' or 'bong' when the player 
+    says hello?" </i></p>
+</blockquote>
+<p>When the action to be performed as a result of an add_respond_to_with is an 
+  array, then the NPC will randomly pick one of the elements of the array to execute. 
+  Again, these elements take the form of commands to be executed by the NPC, so 
+  we'd have: </p>
+<blockquote> 
+  <p><code>add_respond_to_with(({ "@say",({"hello"}), }), <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; ({"say Bing.", "say Bong"})); </code></p>
+</blockquote>
+<p>Which would give two random reactions to a player saying hello. 
+<br>
+<hr>
+<br>
+<code>QUESTION NINE: </code> 
+<blockquote> 
+  <p><i>"An NPC will execute a story of sorts it a load_chat action is passed 
+    in as an array. How would we define a load_chat to make our NPC perform three 
+    actions, one after the other, in order?" </i></p>
+</blockquote>
+<p>Again, we can achieve this simply by passing in the command as an array. Unlike 
+  add_respond_to_with, the load_chat() will execute each of these commands in 
+  turn, at intervals dictated by the chat frequency. So if we had: </p>
+<blockquote> 
+  <p><code>load_chat(20,({ 2, ({"' Hello.", <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; "' There.", <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; "' I'm talking in.", <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; "'Slow.", <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; "'Motion"}),<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; 1, "' Bwah-ha-ha!", }) ); </code></p>
+</blockquote>
+<p>And our leetle NPC executed the first action (the story array), we'd get:
+<blockquote> 
+  <p> <code>Our NPC says: Hello. <br>
+    Our NPC says: There. <br>
+    Our NPC says: I'm talking in. <br>
+    Our NPC says: Slow. <br>
+    Our NPC says: Motion. </code></p>
+</blockquote>
+<p>Each element of the story array would be executed before the NPC performed 
+  any other random chats.<br>
+  <br>
+<hr>
+<p> <code>QUESTION TEN:</code>
+<blockquote> 
+  <p> <i>"We've shown above how to move an object into a room. If we had a physical 
+    object, such as a sword or a chest, how would it be possible to add the object 
+    to a room without it appearing in the inventory line? Add_hidden_object() 
+    may prove useful." </i></p>
+</blockquote>
+<p>Add_hidden_object() adds an object as hidden to a room. Pretty obvious stuff, 
+  yes! But it still bears some further explanation. It takes a single object argument, 
+  the argument being the object reference we want to add to the room. It moves 
+  the object to the room and makes it invisible with regards to the inventory 
+  line of the room. It can still be looked at, touched, smelled, kissed, fondled, 
+  etc, etc, as normal. Any commands associated with the item can still be used 
+  as if the item was there normally. The only difference is that the item will 
+  not be shown along with any other physical objects in the room. 
+<p>To take an example, let's say we have an item located at /w/your_name/clever_item. 
+  We want to move this into our room, so we do: 
+<blockquote> 
+  <p><code>object ob = clone_object ("/w/your_name/clever_item"); <br>
+    ob->move (this_object()); </code></p>
+</blockquote>
+<p>And then we enter our room, to see: 
+<blockquote> 
+  <p><code>This is a very cool room, with lots of cool things. More cool things 
+    than you could shake a particularly cool stick at! <br>
+    There are two obvious exits: east and southwest. <br>
+    A clever item is here. <br>
+    <br>
+    > look clever item <br>
+    It's very clever! </code></p>
+</blockquote>
+<p>But say we don't want that... we want our item to be invisible. So instead, 
+  we do: 
+<blockquote> 
+  <p><code>object ob = clone_object ("/w/your_name/clever_item"); <br>
+    add_hidden_object (ob); </code></p>
+</blockquote>
+<p>And we get: 
+<blockquote> 
+  <p><code>This is a very cool room, with lots of cool things. More cool things 
+    than you could shake a particularly cool stick at! <br>
+    There are two obvious exits: east and southwest. </code></p>
+  <p><code>>look clever item <br>
+    It's very clever! </code></p>
+</blockquote>
+<p>So although our item does not appear in the inventory line, it is still in 
+  the room. 
+<br>
+<hr>
+<br>
+<code>QUESTION ELEVEN </code> 
+<blockquote> 
+  <p><i>"Modify exit is an extremely useful function in room coding, Have a read 
+    of the helpfile and see if you can work out the code to <br>
+    a) Change the exit message of a player so that it would appear as "<name> 
+    staggers off to the <direction>". <br>
+    b) Change an exit so that it does not appear in the list of obvious exits 
+    in a room." </i></p>
+</blockquote>
+<p>We've already discussed modify exit a little in tutorial four. This is just 
+  an expansion of what we discussed there. In this case, for the first we use 
+  the "exit mess" type. The value we pass in after that uses the special character 
+  code $N, which is replaced by the name of the object taking the exit. $F and 
+  $T are replaced with the from direction, and the to direction respectively. 
+  So we'd use a modify exit that looks like: 
+<blockquote> 
+  <p><code>modify_exit("east", ({"exit mess", <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; "$N stagger$s off to the $T."})); </code></p>
+</blockquote>
+<p>Remember the stagger$s thing is a pluralisation code... it will appear as 'staggers' 
+  for one object taking the exit, and 'stagger' if two objects take the exit: 
+<blockquote> 
+  <p><code>Drakkos Wyrmstalker staggers off to the east. <br>
+    Drakkos Wyrmstalker and Draktest stagger off to the east. </code></p>
+</blockquote>
+<p>The second part of this exercise is achieved by using the "obvious" type. Again, 
+  we use it as above. We pass in a 1 if we want the exit to be obvious... in other 
+  words, we want it to appear in the list of obvious exits. We pass in a 0 if 
+  we want it to be hidden: </p>
+<blockquote> 
+  <p><code>modify_exit("east", ({"obvious", 0})); </code></p>
+</blockquote>
+<p>Remember that we can combine all of our modify_exit statements into a single 
+  line of code, like so: </p>
+<blockquote> 
+  <p><code>modify_exit("east", ({"exit mess", "$N stagger$s off to the $T.", &nbsp;&nbsp;&nbsp;&nbsp; 
+    "obvious", 0})); </code></p>
+</blockquote>
+<p>Which is equivalent to both of the previous modify_exits. <br>
+  <br>
+<hr>
+<br>
+<code>QUESTION TWELVE </code> 
+<blockquote> 
+  <p><i>"We can give NPCs access to guild commands using the add_known_command 
+    function. Using this and an add_combat_action, show how we can make an NPC 
+    crush and strike at an enemy, should they have an appropriate weapon." </i></p>
+</blockquote>
+<p>Add_known_command takes a single string as an argument, and that string is 
+  the name of the command. The command must exist as a part of /cmds/guild-race, 
+  however, or it will not be added. In our setup(), we would have the following 
+  lines to provide our NPC with access to the crush and strike commands: 
+<blockquote> 
+  <p><code>add_known_command ("crush"); <br>
+    add_known_command ("strike"); </code></p>
+</blockquote>
+<p>Then, we add a combat action to our NPC as we've done before: 
+<blockquote> 
+  <p><code>add_combat_action(25, "beat_them",(: do_whack :)); </code></p>
+</blockquote>
+<p>And then a function to handle the actual crushing or striking: 
+<blockquote> 
+  <p><code>void do_whack(object attacker, object target) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; if (target == this_object()) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; return; <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; } <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; if (sizeof (this_object()->query_holding())) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; switch (random (2)) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
+    case 0: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
+    do_command ("crush " + file_name (target) <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
+    + " with weapon"); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
+    break; <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
+    default: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
+    do_command ("strike " + file_name (target) <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
+    + " with weapon"); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
+    break; <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; } <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; } <br>
+    } </code></p>
+</blockquote>
+<p>Then, we give our NPC an appropriate weapon in its setup(), and tell it to 
+  hold it: 
+<blockquote> 
+  <p><code>ARMOURY->request_item ("sledgehammer", 100); <br>
+    init_equip(); </code></p>
+</blockquote>
+<p>And voila! We have an NPC ready to beat some excrement out of its foes wif 
+  a big hammer. Whee! 
+<!-- #EndEditable --> 
+<p>
+<hr>
+<center><font size="-1"><a href="/login.html">Discworld MUD</a>'s world wide web pages.<br>brought to you by<br>
+  <strong>Cut Me Own Throat Dibbler's <a href="/sausages.html">Sensational Sausages</a>;&nbsp;buy 
+  one while they are hot.</strong> <br>
+<hr>Lost?  Try Discworld's <a href="/">home page</a>.</font></center><font size="-1"><i><a href="mailto:drakkos@cableinet.co.uk"><font size="-2">Mail Drakkos!</font></a></i>
+</font>
+</body>
+<!-- #EndTemplate --></html>

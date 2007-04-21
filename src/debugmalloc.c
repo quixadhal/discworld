@@ -3,102 +3,113 @@
    Truilkan@TMI - 92/04/17
 */
 
-/* config.h gets INLINE */
-#include "config.h"
-#include "lint.h"
-#include "interpret.h"
-#ifdef NeXT
-#include <stdlib.h>
-#endif
-
+#define IN_MALLOC_WRAPPER
+#define NO_OPCODES
+#include "std.h"
+#include "debugmalloc.h"
+#include "my_malloc.h"
 #include "md.h"
 
-extern unsigned long total_malloced;
-extern unsigned long hiwater;
+#undef NOISY_MALLOC
+
+#ifdef NOISY_MALLOC
+#define NOISY(x) printf(x)
+#define NOISY1(x,y) printf(x,y)
+#define NOISY2(x,y,z) printf(x,y,z)
+#define NOISY3(w,x,y,z) printf(w,x,y,z)
+#else
+#define NOISY(x) 
+#define NOISY1(x,y) 
+#define NOISY2(x,y,z) 
+#define NOISY3(w,x,y,z) 
+#endif
+
+void fatal PROT1V(char *);
 
 typedef struct stats_s {
-	unsigned long free_calls, alloc_calls, realloc_calls;
-} stats_t;
+    unsigned int free_calls, alloc_calls, realloc_calls;
+}       stats_t;
 
 static stats_t stats;
 
 void debugmalloc_init()
 {
-	stats.free_calls = 0;
-	stats.alloc_calls = 0;
-	stats.realloc_calls = 0;
-	MDinit();
+    stats.free_calls = 0;
+    stats.alloc_calls = 0;
+    stats.realloc_calls = 0;
+    MDinit();
 }
 
-INLINE void *debugrealloc(ptr,size,tag,desc)
-void *ptr;
-int size;
-unsigned short tag;
-char *desc;
+INLINE void *debugrealloc (void * ptr, int size, int tag, char * desc)
 {
-	void *tmp;
+    void *tmp;
 
-	stats.realloc_calls++;
-	tmp = (node_t *)ptr - 1;
-	if (MDfree(tmp)) {
-		tmp = (void *)realloc(tmp,size + sizeof(node_t));
-		MDmalloc(tmp, size, tag, desc);
-		return (node_t *)tmp + 1;
-	}
-	return (void *)0;
-}
+    if (size <= 0)
+	fatal("illegal size in debugrealloc()");
 
-INLINE void *debugmalloc(size, tag, desc)
-int size;
-unsigned short tag;
-char *desc;
-{
-	void *tmp;
-
-	stats.alloc_calls++;
-	tmp = (void *)malloc(size + sizeof(node_t));
+    NOISY3("realloc: %i (%x), %s\n", size, ptr, desc);
+    stats.realloc_calls++;
+    tmp = (md_node_t *) ptr - 1;
+    if (MDfree(tmp)) {
+	tmp = (void *) REALLOC(tmp, size + MD_OVERHEAD);
 	MDmalloc(tmp, size, tag, desc);
-	return (node_t *)tmp + 1;
+	return (md_node_t *) tmp + 1;
+    }
+    return (void *) 0;
 }
 
-INLINE void *debugcalloc(nitems,size,tag,desc)
-int nitems;
-int size;
-unsigned short tag;
-char *desc;
+INLINE void *debugmalloc (int size, int tag, char * desc)
 {
-	void *tmp;
+    void *tmp;
 
-	stats.alloc_calls++;
-	tmp = (void *)calloc(nitems * size + sizeof(node_t), 1);
-	MDmalloc(tmp, nitems * size, tag, desc);
-	return (node_t *)tmp + 1;
+    if (size <= 0)
+	fatal("illegal size in debugmalloc()");
+    stats.alloc_calls++;
+    tmp = (void *) MALLOC(size + MD_OVERHEAD);
+    MDmalloc(tmp, size, tag, desc);
+    NOISY3("malloc: %i (%x), %s\n", size, (md_node_t *)tmp + 1, desc);
+    return (md_node_t *) tmp + 1;
 }
 
-INLINE void debugfree(ptr)
-void *ptr;
+INLINE void *debugcalloc (int nitems, int size, int tag, char * desc)
 {
-	void *tmp;
+    void *tmp;
 
-	stats.free_calls++;
-	tmp = (node_t *)ptr - 1;
-	if (MDfree(tmp)) {
-		free(tmp);  /* only free if safe to do so */
-	}
+    if (size <= 0)
+	fatal("illegal size in debugcalloc()");
+
+    stats.alloc_calls++;
+    tmp = (void *) CALLOC(nitems * size + MD_OVERHEAD, 1);
+    MDmalloc(tmp, nitems * size, tag, desc);
+    NOISY3("calloc: %i (%x), %s\n", nitems*size, (md_node_t *)tmp + 1, desc);
+    return (md_node_t *) tmp + 1;
 }
 
-void dump_malloc_data()
+INLINE void debugfree (void * ptr)
 {
-	int net;
+    md_node_t *tmp;
 
-	net = stats.alloc_calls - stats.free_calls;
-	add_message("using debug malloc:\n\n");
-	add_message("total malloc'd:   %10lu\n", total_malloced);
-	add_message("high water mark:  %10lu\n", hiwater);
-	add_message("overhead:         %10lu\n",
-		(TABLESIZE * sizeof(node_t *)) + (net * sizeof(node_t)));
-	add_message("#alloc calls:     %10lu\n",stats.alloc_calls);
-	add_message("#free calls:      %10lu\n",stats.free_calls);
-	add_message("#alloc - #free:   %10lu\n", net);
-	add_message("#realloc calls:   %10lu\n",stats.realloc_calls);
+    NOISY1("free (%x)\n", ptr);
+    stats.free_calls++;
+    tmp = (md_node_t *) ptr - 1;
+    if (MDfree(tmp)) {
+	memset(ptr, 'x', tmp->size);
+	FREE(tmp);		/* only free if safe to do so */
+    }
+}
+
+void dump_malloc_data (outbuffer_t * ob)
+{
+    int net;
+
+    net = stats.alloc_calls - stats.free_calls;
+    outbuf_add(ob, "using debug malloc:\n\n");
+    outbuf_addv(ob, "total malloc'd:   %10lu\n", total_malloced);
+    outbuf_addv(ob, "high water mark:  %10lu\n", hiwater);
+    outbuf_addv(ob, "overhead:         %10lu\n",
+		(MD_TABLE_SIZE * sizeof(md_node_t *)) + (net * MD_OVERHEAD));
+    outbuf_addv(ob, "#alloc calls:     %10lu\n", stats.alloc_calls);
+    outbuf_addv(ob, "#free calls:      %10lu\n", stats.free_calls);
+    outbuf_addv(ob, "#alloc - #free:   %10lu\n", net);
+    outbuf_addv(ob, "#realloc calls:   %10lu\n", stats.realloc_calls);
 }

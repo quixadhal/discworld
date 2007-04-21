@@ -1,0 +1,17 @@
+#Soup With Named Meat for the Kart Kill Kafe on The Soake
+::#Class::"/obj/reagents/generic_liquid.ob"
+::Name::"soup"
+::Short::"Soup with Named Meat"
+::Alias::({"meat", "stew", "food", "soup" })
+::Medium Alias::"SoupWithNamedMeat"
+::Adjective::({"with", "named", "meat"})
+::Long::"At least the hideous lumps floating in this thin, gelatinous goo are "
+   "from a recognisable animal, although it still doesn't have the delicious, "
+   "appetising appearance of, say, the foot of a random passerby.\n"
+::Amount::30
+::$setup_eat_piece_messages:: ({"You swallow some of the vile soup.\n", 
+   "$N gulp$s some soup with a look of disgust on $p face.\n"}),
+   ({}),
+   ({"You eat a little happier knowing just what it is you're eating.\n",
+   "$N seems content with $p soup.\n"})
+::Eat Effects::"/std/effects/ingested/vial_healing", 2

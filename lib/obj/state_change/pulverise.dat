@@ -1,0 +1,64 @@
+
+::item "pulverise:Venom"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+      (: $2->set_name( "venom" ) :),
+      (: $2->set_short( "yellow powder" ) :),
+      (: $2->add_alias( "powder" ) :),
+      (: $2->add_adjective( "yellow" ) :),
+      (: $2->set_long( "This is some yellow powder.\n" ) :),
+      (: $2->set_medium_alias( "PoisonVenom" ) :),
+      (: $2->add_eat_effect("/std/effects/ingested/cum_poison", 16) :),
+      (: $2->add_eat_effect("/std/effects/ingested/basic_healing", 4) :),
+      (: $2->set_decay_speed( 0 ) :)
+   })
+   
+
+::item "pulverise:Catalyst"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("Catalyst") :),
+        (: $2->set_short("white powder") :),
+        (: $2->add_alias("powder") :),
+        (: $2->add_adjective("white") :),
+        (: $2->set_long("This is some white powder.\n") :),
+        (: $2->set_medium_alias("PoisonCatalyst") :),
+        (: $2->add_eat_effect("/std/effects/ingested/cum_poison", 12) :),
+        (: $2->add_eat_effect("/std/effects/ingested/basic_healing", 2) :),
+        (: $2->set_decay_speed(0) :)
+    })
+
+   
+::item "pulverise:Fang"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("fang") :),
+        (: $2->set_short("black powder") :),
+        (: $2->add_alias("powder") :),
+        (: $2->add_adjective("black") :),
+        (: $2->set_long("This is some black powder.\n") :),
+        (: $2->set_medium_alias("PoisonFang") :),
+        (: $2->set_decay_speed(0) :)
+    })
+
+::item "pulverise:Leaf"::
+::->result:: "/obj/reagents/generic_solid.ob"
+::->factor:: 50.0
+::->func:: ({
+        (: $2->set_name("leaf") :),
+        (: $2->set_short("green powder") :),
+        (: $2->add_alias("powder") :),
+        (: $2->add_adjective("green") :),
+        (: $2->set_long("This is some green powder.\n") :),
+        (: $2->set_medium_alias("PoisonLeaf") :),
+        (: $2->set_decay_speed(0) :)
+    })
+
+
+::item "pulverise:SulphurBlock"::
+::->result:: "/obj/reagents/sulphur_powder.ob"
+::->factor:: 10.0
+::->func:: ({})

@@ -1,0 +1,44 @@
+.DT
+new shop owner
+Discworld shop help
+new shop owner
+
+
+.SH Setting up people for auotmatic acceptance
+.SP 5 5
+You can setup people so that items they sell have different limits to the
+defaults.  This applies to the deny limit, the approve limit and the
+number of items the shop will stock.
+
+'approve limit deny value for <player> to <cost|disable>' sets the
+deny limit for the player.  If they try and sell an item for more
+than this it will be denied.  This can be higher or lower than the
+default limit.  If this is disabled then
+the default limit will be used.
+
+'approve limit approve value for <player> to <cost|disable>' sets the
+approve limit for the player.  If they try and sell an item for less
+than this it will be automatically added to the shop inventory.  This can be
+higher or lower than the default limit.  If this is disabled then
+the default limit will be used.
+
+'approve limit number for <player> to <number>' sets the
+number of items the shop will stock for the player.  It will deny them
+from selling more than this to the shop, this includes both the inventory
+and anything they have waiting for acceptance.  This can be
+higher or lower than the default limit.  If the number is set to 0 then
+this will be disabled and the default limit will be used.
+
+'approve status' will show you the current status of all the players
+approval limits.
+.EP
+
+.SH Examples
+.SI 5
+> approve limit deny value for brighid to $20
+You set the deny limit to A$20 for brighid.
+> approve limit approve value for brighid to $20
+You set the approve limit to A$20 for brighid.
+> approve limit number for brighid to 100
+You set the number of items of brighid's the shop will stock to 100.
+.EI

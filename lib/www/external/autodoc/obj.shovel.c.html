@@ -1,0 +1,30 @@
+<html><head><title>File shovel.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/shovel.c</h2>
+This is a clonable shovel object (a "shovel" in this case being anything
+that can be used for digging, from a garden trowel to a steam shovel).
+The "dig" command is defined with the following syntax:
+<ul>
+<li> "with <direct:object> in <string>"
+<li> "with <direct:object> in <indirect:object>"
+<li> "with <direct:object>"
+<li> "[in] <string> with <direct:object>"
+<li> "[in] <indirect:object> with <direct:object>"
+</ul><br>
+The do_dig() function tries to call a function dig() on this_player()'s
+environment, which should be defined as
+<p><code>
+int dig( object indir, string indir_s )
+</code><p>
+where
+<ul>
+<li> <i>indir</i> is the <indirect:object> matched (if any)
+<li> <i>indir_s</i> is the <string> matched, or the string that
+     matched <indirect:object>
+</ul><br>
+Note that the command can match either actual objects or just strings;
+also note that, although it will match room items, the object passed
+won't really be of much use (which is why the string is passed also).
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.weapon.c.html">/obj/weapon.c</a><hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 29 Oct 2003 14:56:00 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,46 @@
+.DT
+netdups
+Discworld creator help
+netdups
+
+.SH Name
+.SI 5
+netdups - List multiple players from single IP numbers.
+.EI
+
+.SH Syntax
+.SI 5
+netdups
+.EI
+
+.SH Description
+.SP 5 5
+The netdups command gives a listing of all potential multiplayers by checking
+if there are multiple players logged on from the same IP address.  The command
+gives the names of the players, the IP number, the IP name and a list of names
+which are not registered as allowed to be on from the same IP address.
+The info for the last field is taken from the multiplayer info database.
+
+You can add or delete multiplayers (allowed or not) with the multiplayer
+command.  The default is that they are not allowed, however, if you add them to
+the multiplayer info database as not allowed, their logons will also cause
+automatic "multiplay" events in their playerinfo as well as "multiplayer" type
+informs.
+
+The output of netdups can be changed with the set command.  The current output
+settings can be displayed with the review command.
+.EP
+
+.SH Example
+.SI 5
+> netdups
+Name         IP Number        IP Name                        Not allowed with
+turrican     127.0.0.1        localhost                      turri
+turri        127.0.0.1        localhost                      turrican
+pinkfish     127.0.0.1        localhost
+.EI
+
+.SH See also
+.SI 5
+multiplayer, playerinfo, set, review
+.EI

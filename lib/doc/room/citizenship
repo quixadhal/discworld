@@ -1,0 +1,66 @@
+.DT
+citizenship
+Discworld room help
+citizenship
+
+.SH Name
+.SI 5
+citizenship - where you can become a citizen
+.EI
+
+.SH Syntax
+.SI 5
+list
+apply for citizenship
+sponsor <person> for citizenship
+deny <person> for citizenship because <reason>
+list honour roll
+
+Magistrates only:
+approve <person> for citizenship
+blacklist add <person> for <reason>
+blacklist remove <person>
+blacklist list {verbose|brief}
+expression list
+expression citizen <citizenship requirements>
+expression sponsor <citizenship requirements>
+list denied
+add <person> to honours because <reason>
+remove <person> from honours because <reason>
+.EI
+
+.SH Description
+.SP 5 5
+This is a room help file.
+
+This is where you need to go to become a citizen of an area.  It will check
+all the specified conditions and then put you in the list of people waiting
+to become a citizen if you successfuly make them all.  To actually become
+a citizen a magistrate must approve your application.  They do this
+by sponsoring you.  If they deny you, then you will be denied.
+
+Citizens can sponsor and deny other people to show their support or
+non-support for the people who are applying for citizenship.
+
+Magistrates can do a few extra things in this room.  They can add and
+remove people from a black list of people not allowed to use the room,
+they can set the expression used for citizenship approval and they can
+check to see why a person was denied citizenship in the past.
+
+The variables able to be used in the expression are: ageindays, ageinhours,
+level, timesincedeniedindays. 
+The functions able to be used in the expression are: citizenof(place),
+magistrateof(place).
+.EP
+
+.SH Example
+.SI 5
+> apply for citizenship
+> sponsor bec for citizenship
+> deny jabba for citizenship because his name sounds like a hut
+.EI
+
+.SH See also
+.SP 5 5
+cases, chambers, citizenship(concepts)
+.EP

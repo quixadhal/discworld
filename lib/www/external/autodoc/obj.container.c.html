@@ -1,0 +1,601 @@
+<html><head><title>File container.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/container.c</h2>
+This is main container type object that players will use.  For
+example, buckets and stuff would use this.  A backpack would be
+a type of clothing and a potion bottle should be a vessel.<p><b>See also:</b><br><a href="obj.vessel.c.html">/obj/vessel.c</a> and /obj/clothing.c
+<p>Written by Who knows, Pinkfish, Ember, Jeremy<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.container.c.html">/std/container.c</a> and <a href="std.basic.close_lock_container.c.html">/std/basic/close_lock_container.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.parse_command.h.html">/include/parse_command.h</a> and <a href="include.potion_attrs.h.html">/include/potion_attrs.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_ps_vect"><b>add_ps_vect</b></a>(int *, int)<dd>
+This method adds a potion space vector with a particular
+quantity to the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#begin_config"><b>begin_config</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_concentration"><b>change_concentration</b></a>(mixed *, int)<dd>
+This method changes the concentration of the liquid to be a new
+and exciting concentration.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_breakages"><b>check_breakages</b></a>()<dd>
+This method checks to see if any of the things contained in the
+container should be broken.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#config"><b>config</b></a>(int, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#consistency_string"><b>consistency_string</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#contents_vect"><b>contents_vect</b></a>()<dd>
+This method returns the vector of the contents of the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#dest_active_contents"><b>dest_active_contents</b></a>()<dd>
+This method will destroy all the liquid contents of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#empty_formula"><b>empty_formula</b></a>()<dd>
+This method returns the amount of the liquid you can actually empty
+from a container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#end_config"><b>end_config</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#ensure_open"><b>ensure_open</b></a>()<dd>
+This method returns true if the object is open and prints a message
+about the open status of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#fullness_adjectives"><b>fullness_adjectives</b></a>()<dd>
+This returns an adjective for how full the current object is with
+liquid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#liquid_name"><b>liquid_name</b></a>()<dd>
+This method returns the name of the current liquid inside the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#merge_potions"><b>merge_potions</b></a>(mixed *, mixed *, int, int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#mix_liq"><b>mix_liq</b></a>(mixed *, mixed *, int, int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_command_adjectiv_id_list"><b>parse_command_adjectiv_id_list</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_command_id_list"><b>parse_command_id_list</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_active_attrs"><b>query_active_attrs</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_attrs"><b>query_all_attrs</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_frac_parse_id"><b>query_frac_parse_id</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_full_weight"><b>query_full_weight</b></a>()<dd>
+This method returns the full weight of the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_leak_rate"><b>query_leak_rate</b></a>()<dd>
+This method returns the leak rate of the container
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_liquid_short"><b>query_liquid_short</b></a>()<dd>
+This method returns the short description of the liquid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_volume"><b>query_max_volume</b></a>()<dd>
+This method returns the current maxium volume associated with this
+container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_misc_attrs"><b>query_misc_attrs</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_parse_id"><b>query_parse_id</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ps_coord"><b>query_ps_coord</b></a>()<dd>
+This method returns the potion space co-ordinates of the liquid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ps_quantity"><b>query_ps_quantity</b></a>()<dd>
+This method returns the quantity of liquid at the potion space.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_volume"><b>query_volume</b></a>()<dd>
+This method returns the current amount of liquid in the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_volume_left"><b>query_volume_left</b></a>()<dd>
+This method returns the amount of volume left for liquids to be
+added into.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_water_volume"><b>query_water_volume</b></a>()<dd>
+This method returns the volume of water in the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_weight_left"><b>query_weight_left</b></a>()<dd>
+This method returns the current amount of weight left that can
+be filled on the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_volume"><b>remove_volume</b></a>(int)<dd>
+This method removes some volume of liquid from the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_full_weight"><b>set_full_weight</b></a>(int)<dd>
+This method sets the weight of the container when it is full.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_leak_rate"><b>set_leak_rate</b></a>(int)<dd>
+This method sets the leak rate of the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_volume"><b>set_max_volume</b></a>(int)<dd>
+This method sets the maximum volume of the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_weight"><b>set_max_weight</b></a>(int)<dd>
+This method sets the maximum weight of the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_misc_attrs"><b>set_misc_attrs</b></a>(mixed *, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_ps_coord_quantity"><b>set_ps_coord_quantity</b></a>(int *, int)<dd>
+This method sets the quantity of the position space co-ordinate
+to be the new quantity.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_ps_quantity"><b>set_ps_quantity</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_volume"><b>set_volume</b></a>(int)<dd>
+This method sets the current amount of liquid in the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_water_volume"><b>set_water_volume</b></a>(int)<dd>
+This method sets the volume of water in the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#sort_func"><b>sort_func</b></a>(int *, int *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_add"><b>test_add</b></a>(object, int)<dd>
+This method stops the container being added when it is 
+closed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#transfer_liquid_to"><b>transfer_liquid_to</b></a>(object, int, mixed *, int, int *, int)<dd>
+This method does the actual liquid transfer, as needed by the
+filling, emptying and pour operations.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#transparency_string"><b>transparency_string</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_potion_parse"><b>update_potion_parse</b></a>()<dd>
+This method updates the values used for the find_match() parseing
+due to the liquids.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#void_liquid"><b>void_liquid</b></a>()<dd>
+This method zaps all the liquid stuff in the container.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_ps_vect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_ps_vect</b></a><pre>
+void add_ps_vect(int * v,
+                 int quant)
+</pre><dd>
+This method adds a potion space vector with a particular
+quantity to the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>v - the vector to add
+<dd>quant - the quantity to add
+
+</dl>
+
+<dt><a name="begin_config">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>begin_config</b></a><pre>
+void begin_config()
+</pre>
+<dt><a name="change_concentration">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_concentration</b></a><pre>
+mixed * change_concentration(mixed * potion,
+                             int new_conc)
+</pre><dd>
+This method changes the concentration of the liquid to be a new
+and exciting concentration.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>potion - the potion to change the concentration of
+<dd>new_conc - the new concentration of the liquid
+
+</dl>
+
+<dt><a name="check_breakages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_breakages</b></a><pre>
+void check_breakages()
+</pre><dd>
+This method checks to see if any of the things contained in the
+container should be broken.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="std.container.c.html#add_weight">/std/container->add_weight()
+</a></dl>
+
+<dt><a name="config">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>config</b></a><pre>
+void config(int vari,
+            mixed cont)
+</pre>
+<dt><a name="consistency_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>consistency_string</b></a><pre>
+string consistency_string(int cons)
+</pre>
+<dt><a name="contents_vect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>contents_vect</b></a><pre>
+int * contents_vect()
+</pre><dd>
+This method returns the vector of the contents of the container.
+This is based on the vectors of all the liquid with a vector set
+on them.
+<p>
+
+<dt><a name="dest_active_contents">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>dest_active_contents</b></a><pre>
+int dest_active_contents()
+</pre><dd>
+This method will destroy all the liquid contents of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the number of object destroyed
+
+</dl>
+
+<dt><a name="empty_formula">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>empty_formula</b></a><pre>
+int empty_formula()
+</pre><dd>
+This method returns the amount of the liquid you can actually empty
+from a container.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the amount of liquid that can be emptied
+
+</dl>
+
+<dt><a name="end_config">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>end_config</b></a><pre>
+void end_config()
+</pre>
+<dt><a name="ensure_open">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>ensure_open</b></a><pre>
+int ensure_open()
+</pre><dd>
+This method returns true if the object is open and prints a message
+about the open status of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is open, 0 if not
+
+</dl>
+
+<dt><a name="fullness_adjectives">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>fullness_adjectives</b></a><pre>
+string * fullness_adjectives()
+</pre><dd>
+This returns an adjective for how full the current object is with
+liquid.  This is used in the parse command handling code.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the fullness adjective
+<dt><b>See also:</b>
+<dd><a href="#query_max_volume">query_max_volume()
+</a></dl>
+
+<dt><a name="liquid_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>liquid_name</b></a><pre>
+string liquid_name()
+</pre><dd>
+This method returns the name of the current liquid inside the container.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the current liquid
+
+</dl>
+
+<dt><a name="merge_potions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>merge_potions</b></a><pre>
+mixed * merge_potions(mixed * potion1,
+                      mixed * potion2,
+                      int vol1,
+                      int vol2,
+                      int tot_vol)
+</pre>
+<dt><a name="mix_liq">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>mix_liq</b></a><pre>
+mixed * mix_liq(mixed * arr1,
+                mixed * arr2,
+                int vol1,
+                int vol2,
+                int tot_vol)
+</pre>
+<dt><a name="parse_command_adjectiv_id_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_command_adjectiv_id_list</b></a><pre>
+string * parse_command_adjectiv_id_list()
+</pre>
+<dt><a name="parse_command_id_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_command_id_list</b></a><pre>
+string * parse_command_id_list()
+</pre>
+<dt><a name="query_active_attrs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_active_attrs</b></a><pre>
+int * query_active_attrs()
+</pre>
+<dt><a name="query_all_attrs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_attrs</b></a><pre>
+int * query_all_attrs()
+</pre>
+<dt><a name="query_frac_parse_id">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_frac_parse_id</b></a><pre>
+object query_frac_parse_id(mixed * arr)
+</pre>
+<dt><a name="query_full_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_full_weight</b></a><pre>
+int query_full_weight()
+</pre><dd>
+This method returns the full weight of the container.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_full_weight">set_full_weight()</a> and <a href="#query_weight">query_weight()
+</a></dl>
+
+<dt><a name="query_leak_rate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_leak_rate</b></a><pre>
+int query_leak_rate()
+</pre><dd>
+This method returns the leak rate of the container<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_leak_rate">set_leak_rate()
+</a></dl>
+
+<dt><a name="query_liquid_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_liquid_short</b></a><pre>
+string query_liquid_short()
+</pre><dd>
+This method returns the short description of the liquid.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the short description of the liquid
+<dt><b>See also:</b>
+<dd><a href="#query_liquid_name">query_liquid_name()
+</a></dl>
+
+<dt><a name="query_max_volume">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_volume</b></a><pre>
+int query_max_volume()
+</pre><dd>
+This method returns the current maxium volume associated with this
+container.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current maximum volume
+
+</dl>
+
+<dt><a name="query_misc_attrs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_misc_attrs</b></a><pre>
+int * query_misc_attrs()
+</pre>
+<dt><a name="query_parse_id">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_parse_id</b></a><pre>
+object query_parse_id(mixed * arr)
+</pre>
+<dt><a name="query_ps_coord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ps_coord</b></a><pre>
+int * query_ps_coord()
+</pre><dd>
+This method returns the potion space co-ordinates of the liquid.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the potion space co-ordinates
+<dt><b>See also:</b>
+<dd><a href="#query_ps_quantity">query_ps_quantity()
+</a></dl>
+
+<dt><a name="query_ps_quantity">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ps_quantity</b></a><pre>
+int query_ps_quantity()
+</pre><dd>
+This method returns the quantity of liquid at the potion space.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the quantity of liquid
+<dt><b>See also:</b>
+<dd><a href="#query_ps_coord">query_ps_coord()</a> and <a href="#set_ps_quantity">set_ps_quantity()
+</a></dl>
+
+<dt><a name="query_volume">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_volume</b></a><pre>
+int query_volume()
+</pre><dd>
+This method returns the current amount of liquid in the container.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current amount of liquid in the container
+
+</dl>
+
+<dt><a name="query_volume_left">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_volume_left</b></a><pre>
+int query_volume_left()
+</pre><dd>
+This method returns the amount of volume left for liquids to be
+added into.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the amount of volume left
+<dt><b>See also:</b>
+<dd><a href="#add_volume">add_volume()</a> and <a href="#transfer_liquid_to">transfer_liquid_to()
+</a></dl>
+
+<dt><a name="query_water_volume">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_water_volume</b></a><pre>
+int query_water_volume()
+</pre><dd>
+This method returns the volume of water in the container.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_water_volume">set_water_volume()
+</a></dl>
+
+<dt><a name="query_weight_left">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_weight_left</b></a><pre>
+int query_weight_left()
+</pre><dd>
+This method returns the current amount of weight left that can
+be filled on the container.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current amount of weight left
+
+</dl>
+
+<dt><a name="remove_volume">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_volume</b></a><pre>
+int remove_volume(int vol_lost)
+</pre><dd>
+This method removes some volume of liquid from the container.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_volume">add_volume()</a> and <a href="#query_volume">query_volume()
+</a></dl>
+
+<dt><a name="set_full_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_full_weight</b></a><pre>
+void set_full_weight(int i)
+</pre><dd>
+This method sets the weight of the container when it is full.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new weight of the containe when full.
+<dt><b>See also:</b>
+<dd><a href="#query_full_weight">query_full_weight()</a> and <a href="#set_weight">set_weight()
+</a></dl>
+
+<dt><a name="set_leak_rate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_leak_rate</b></a><pre>
+void set_leak_rate(int i)
+</pre><dd>
+This method sets the leak rate of the container.  The leak rate is how
+fast stuff leaks out of the container.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new leak rate of the container
+<dt><b>See also:</b>
+<dd><a href="#query_leak_rate">query_leak_rate()
+</a></dl>
+
+<dt><a name="set_max_volume">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_volume</b></a><pre>
+void set_max_volume(int i)
+</pre><dd>
+This method sets the maximum volume of the container.  This also
+sets the maximum weight of the container to one tenth of the
+volume (if there is not current maximum weight).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new maximum volume
+<dt><b>See also:</b>
+<dd><a href="#set_max_weight">set_max_weight()</a> and <a href="#add_volume">add_volume()
+</a></dl>
+
+<dt><a name="set_max_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_weight</b></a><pre>
+void set_max_weight(int i)
+</pre><dd>
+This method sets the maximum weight of the container.  This also sets
+the maximum volume of the container to 10 times its maximum weight.
+(If there is no current maximum volume).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the maxium weight of the container
+<dt><b>See also:</b>
+<dd><a href="#set_max_volume">set_max_volume()</a> and <a href="#add_weight">add_weight()
+</a></dl>
+
+<dt><a name="set_misc_attrs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_misc_attrs</b></a><pre>
+void set_misc_attrs(mixed * new_misc_attrs,
+                    int misc_vol)
+</pre>
+<dt><a name="set_ps_coord_quantity">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_ps_coord_quantity</b></a><pre>
+void set_ps_coord_quantity(int * new_coord,
+                           int new_quantity)
+</pre><dd>
+This method sets the quantity of the position space co-ordinate
+to be the new quantity.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_coord - the new co-ordinate of the liquid
+<dd>new_quantity - the new quantity of the liquid
+
+</dl>
+
+<dt><a name="set_ps_quantity">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_ps_quantity</b></a><pre>
+void set_ps_quantity(int n)
+</pre>
+<dt><a name="set_volume">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_volume</b></a><pre>
+void set_volume(int i)
+</pre><dd>
+This method sets the current amount of liquid in the container.  If
+the container has a leak rate, it starts to leak.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new amount of liquid in the containe
+<dt><b>See also:</b>
+<dd><a href="#query_volume">query_volume()</a> and <a href="#set_leak_rate">set_leak_rate()
+</a></dl>
+
+<dt><a name="set_water_volume">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_water_volume</b></a><pre>
+void set_water_volume(int n)
+</pre><dd>
+This method sets the volume of water in the container.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>n - the new volume of water
+
+</dl>
+
+<dt><a name="sort_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>sort_func</b></a><pre>
+int sort_func(int * x,
+              int * y)
+</pre>
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed stats()
+</pre>
+<dt><a name="test_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_add</b></a><pre>
+int test_add(object ob,
+             int flag)
+</pre><dd>
+This method stops the container being added when it is 
+closed.  It also handles the same flags as the liing
+object.  We assume this is not the same
+as the default containers used
+by things like item rooms and such.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object being added
+<dd>flag - the addition flag
+<dt><b>See also:</b>
+<dd>/std/basic/move.c
+</dl>
+
+<dt><a name="transfer_liquid_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>transfer_liquid_to</b></a><pre>
+void transfer_liquid_to(object dest,
+                        int vol_misc,
+                        mixed * misc,
+                        int vol_water,
+                        int * coord,
+                        int quantity)
+</pre><dd>
+This method does the actual liquid transfer, as needed by the
+filling, emptying and pour operations.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dest - where the liquid is to go
+<dd>vol_misc - the volume of non-water to move
+<dd>misc - the attributes for the non-water
+<dd>vol_water - the volume of water to move
+<dd>coord - the co-ordinate of the liquid
+<dd>quantity - the quantity of the potion space liquid
+
+</dl>
+
+<dt><a name="transparency_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>transparency_string</b></a><pre>
+string transparency_string(int trans)
+</pre>
+<dt><a name="update_potion_parse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_potion_parse</b></a><pre>
+void update_potion_parse()
+</pre><dd>
+This method updates the values used for the find_match() parseing
+due to the liquids.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="secure.simul_efun.c.html#find_match">/secure/simul_efun->find_match()
+</a></dl>
+
+<dt><a name="void_liquid">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>void_liquid</b></a><pre>
+void void_liquid()
+</pre><dd>
+This method zaps all the liquid stuff in the container.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 18 Sep 2003 18:23:38 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,99 @@
+.DT
+Reaction Handler
+Discworld Creator Help
+Reaction Handler
+
+Name
+.SP 5 5
+/obj/handlers/reaction - Handler for specifying reactions in mixtures
+.EP
+
+Description
+.SP 5 5
+The reaction handler is used to specify what happens when different
+substances are combined.  The handler is called by
+the event_enter() function in the corresponding container.  The
+database of reagents and corresponding reactions is stored in text
+files, which are loaded by the data initializer (/obj/handlers/data).
+.EP
+
+Terminology
+.SP 5 5
+To avoid confusion, the following terms have the following meaning.
+.EP
+
+.SO 5 15 -30
+	reagent	An object that, when mixed with another reagent in sufficient proportion, will cause a reaction to occur.
+	reaction	A sequence of events that occurs when two reaction-causing reagents are mixed in sufficient proportions.  The generally result is a decrease in the amounts of the reagents, the creation of a new object, and optionally the printing out of an informative message to the player(s).
+	result	The object created as the end product of the reaction.
+	transient	A reagent that has a limited lifetime.  Generally used for "special effects" in the course of a reaction.
+	continuous	An object that inherits /obj/cont_medium.  Only continuous objects can be reagents.  Each reagent is identified by its "medium alias".
+.EO
+
+Reaction File Format
+.SP 5 5
+The reaction files are the files that define the reaction database.
+To keep things modular, this section can be found in the obj.reactions
+help file.
+.EP
+
+Functions
+.SP 5 5
+There are basically only three functions that are called from outside
+the handler.
+.EP
+
+.SI 5
+void check_reaction( object a )
+.EI
+
+.SP 10 5
+This is the function that needs to be called when a continuous object
+enters an appropriate container.  It's usually called from
+event_enter().  The parameter is the object being added.  The function
+checks it against every other continuous object in the container,
+checks the reaction database for a match, and, if there is sufficient
+quantities of both reagents, causes the specified reaction to occur.
+.EP
+
+.SI 5
+mixed *query_reaction( string name_a, string name_b )
+.EI
+
+.SP 10 5
+This will return a mixed array, containing all of the parameters
+specified for the reaction matching the two given reagents.  It is
+pretty much obsolete now that the database is stored in
+nicely-formatted files, but someone may find a use for it.
+.EP
+
+.SI 5
+void dump( string a, string b )
+.EI
+
+.SP 10 5
+This will write out the reaction database in a fairly-readable
+format.  If 'b' is null, all reactions whose first reagent matches 'a'
+will be printed.  If both 'a' and 'b' are null, the entire database will
+be printed.  Note that the order of 'a' and 'b' must be alphabetical.
+This is useful for debugging, but not much else.
+.EP
+
+.SP 5 5
+If this_player() has the property "debug_rh" defined with a non-zero
+value, various debugging messages will be printed during the reaction.
+This has proven to be extremely useful.
+.EP
+
+Files
+.SI 5
+/obj/reactions/*.rcn (Note: the previous version of the reaction handler
+used *.rct; the suffix was changed to avoid confusion)
+.EI
+
+See also
+.SI 5
+obj.reactions
+obj.reagents.transient
+/obj/reactions/*.rcn
+.EI

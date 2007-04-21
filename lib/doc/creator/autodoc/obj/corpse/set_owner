@@ -1,0 +1,36 @@
+.DT
+set_owner
+DW_wibble creator help
+set_owner
+
+.SH Name
+.SP 5 5
+set_owner -  This method initially sets up the corpse object.
+.EP
+
+.SH Syntax
+.SI 5
+void set_owner(string words,
+               object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^words%^RESET%^ - the owner of the object
+%^BOLD%^thing%^RESET%^ - the object to get the ownership data from
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/corpse.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method initially sets up the corpse object.  Generally
+speaking words should be 0 and the 'thing' variable should be
+set to the object which just died.
+.EP
+

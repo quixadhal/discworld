@@ -1,0 +1,243 @@
+Section 3. add_command() Format Patterns
+========================================
+
+Format patterns are defined by using a series of key characters within a
+normal text string.  The key characters are all wrapping brackets of some
+kind.  There are three sorts of wrapping brackets used: { }, [ ], and < >.
+The type of bracket specifies the type of match made: [ ] indicate optional
+words, { } indicate a selection of required words, and words in < > are like
+blanks which the player must fill; what he fills them with depends on the
+specifier you choose when designing the pattern.  Anything that is not
+enclosed in wrapping brackets is a required word and must match input
+exactly or nothing will happen.
+
+A syntax message will be automaticaly generated.  You can override the
+displayed string by putting a 'label' at the end of the specifier enclosed
+in < >.  Eg: "<indirect'clothing'>"  Doing this makes the syntax messages
+clearer for players and slightly less mechanical sounding.
+
+
+NB: 'Tannah's pattern matcher' (/d/learning/items/matcher) is a handy tool
+that lets you test out add_command patterns and see what they match in
+various circumstances and therefore what arguments your commands
+automagically pass to do_<verb>.
+
+
+3.1 Format Patterns: using [ ]
+------------------------------
+
+Words enclosed in [ ] in the format string are optional.  A player may or
+may not type them as he chooses; the parser will match the input either way.
+
+Example:
+
+add_command( "water", "flower with [watering] can" );
+
+> syntax water
+Forms of syntax available for the command "water":
+water flower with [watering] can
+
+Now a player may type "water flower with can" or "water flower with watering
+can" and either will be considered a valid match.
+
+The [ ] may also be used with a list of words separated by |, eg:
+[a|an|the].  In this case the input may include any one or none (but not
+more than one) of the words in the list and the parser will find a
+successful match.
+
+
+3.2 Format Patterns: using { }
+-----------------------------
+
+A series of words enclosed in { } and separated by | will trigger a valid
+match if any one of the words is input.  Eg:
+
+add_command( "water", "{flower|plant|daisy} with [watering] can" );
+
+> syntax water
+Forms of syntax available for the command "water":
+water {plant|flower|daisy} with [watering] can
+
+Now either of the following will constitute a valid match and trigger
+do_water:
+
+> water daisy with can
+> water flower with watering can
+
+It is possible to enclose only one word in { } but this has no effect, as
+words enclosed in { } are not optional.
+
+See Section 4.4 for more information.
+
+
+3.3 Format Patterns: using < >
+------------------------------
+
+Things enclosed in < > are special match specifiers.  The parser attempts to
+match the input given according to rules for the type of specifier used.
+
+The specifiers defined and the rules for each are as follows:
+
+Specifier           Rules for match
+---------           ---------------
+
+direct              The direct object reference.  When a direct object is
+                    specified, the function will be called on it.
+                    See Section 3.3.1 for more details.
+
+indirect            The indirect object reference.  The functions are
+                    not called on these objects, they are passed as
+                    arguments to appropriate function in the direct
+                    object(s).
+                    See Section 3.3.1 for more details.
+
+string              One or more words comprise a string, it will
+                    always match at least one word.
+                    See Section 3.3.2 for more details.
+
+word                A single word.
+
+number              A number, this only matches numbers which are
+                    typed as numbers, (ie 12).  It does not match
+                    text numbers (ie twelve).
+
+fraction            A composite number.  It matches things like 1/2
+                    and 3/4.
+
+preposition         A preposition, a word like 'from', 'in', 'under'.
+
+For example, if your format pattern is "<indirect> with [watering] can", and
+the player types "plant with watering can" the parser will attempt to match
+the word "plant" according to the rules for the specifier <indirect>.  If,
+on the other hand, the pattern is "<string> with [watering] can", it will
+attempt to match the word "plant" according to the rules for the <string>
+specifier.
+
+
+3.3.1 Format Patterns: <direct> and <indirect>
+----------------------------------------------
+
+The specifiers <direct> and <indirect> both refer to objects.  Note that the
+objects are not direct or indirect in the grammatical sense!  The difference
+between the two is simply this: in any given pattern, the <direct> objects
+are those which contain the function that will be executed and <indirect>
+objects are all the rest.
+
+Example:
+
+/* A command which might be added in a "needle" object: */
+add_command( "mend", "<indirect'clothing'> with <direct'needle'> and "
+                     "<indirect'thread'>" );
+
+In this case, the needle itself is the direct object, and the function
+do_mend() would be defined within that object.  If do_mend() were instead
+defined in the clothing object itself, you would add the command this way:
+
+/* A command which might be added in a "clothing" object: */
+add_command( "mend", "<direct'clothing'> with <indirect'needle'> and "
+                     "<indirect'thread'>" );
+
+This would then call the function do_mend in the clothing object if
+successfully matched.
+
+Both <direct> and <indirect> objects have two optional descriptors which can
+be added; these specify the type and location of the object in question and
+are added in the format <specifier:type:location>.
+
+The first option for <direct> and <indirect> defaults to object. Therefore,
+the sequences <direct> and  <direct:object> are equivalent, as are
+<indirect> and <indirect:object>.  Other type descriptors are:
+
+Descriptor          Type
+----------          ----
+
+object              Any object, uses find_match directly. (default)
+
+living              Any living object, applies a filter to the objects
+                    returned by find_match to determine if they are living
+                    or not.
+
+distant-living      Uses find_living.
+
+any-living          A combination of living and distant-living. This also
+                    matches the input "everyone", "someone" and "creators".
+
+player              Will only match a player.
+
+wiz-present         Uses wiz_present to do a match, only available in
+                    creators.
+
+So <indirect:living> will match with a living object in the player's
+inventory or environment, whereas <indirect:player> will only match with a
+player.
+
+The second descriptor for <direct> and <indirect> tells the parser the
+location in which to search for a match.  The default is 'me-here'.
+Therefore, <direct:object> and <direct:object:me-here> are equivalent, as
+are <indirect:object> and <indirect:object:me-here>.  Other options are:
+
+Descriptor           Location searched
+----------           -----------------
+
+me                   The players inventory.
+
+here                 The inventory of the room.
+
+here-me              The inventory of the room first, followed by the
+                     inventory of the player.
+
+me-here              The inventory of the player first, followed by
+                     the inventory of the room.
+
+direct-obs           The inventory of the direct object.  This
+                     allows manipulation like 'unload hay from
+                     cart' to work.  (This can only be used in a
+                     indirect object specification).
+
+I.e., if you want the parser to match only objects in a player's inventory,
+you'd use <indirect:object:me>; if you wanted to match only living things in
+his environment, you'd use <indirect:living:here>.
+
+Example:
+
+add_command( "unload", "<indirect:object:direct-obs'goods'> from "
+                       "<direct'cart>" );
+
+> unload hay from cart
+
+In this case, the parser will try to find an indirect object with the id of
+"hay" in the inventory of the direct object, or "cart".
+
+
+3.3.1 Format Patterns: <string>
+-------------------------------
+
+String specifiers also have a type descriptor: they can be small, long or
+quoted. The types 'small' and 'long' determine whether the match is made
+from the start of the input string or from the end; the type 'quoted' simply
+matches for words contained in quotes.  The default type is 'long',
+therefore <string> and <string:long> are equivalent.
+
+The descriptors 'small' and 'long' are really only necessary where two
+strings will be matched on either side of a fixed word or words and there is
+some debate as to how the match should be made.  Note that the fixed word(s)
+are not part of the matched strings.
+
+Take, for example, the command feed with the following patterns and the same
+input in each case:
+
+add_command( "feed", "<string:long> on <string:long>" );
+> feed bird on branch on tree on hill
+matches: "bird on branch on tree", "hill"
+
+add_command( "feed", "<string:small> on <string:small>"
+> feed bird on branch on tree on hill
+matches: "bird", "branch on tree on hill"
+
+add_command( "feed", "<string:small> on <string:small> on <string:long>"
+> feed bird on branch on tree on hill
+matches: "bird", "branch", "tree on hill"
+
+add_command( "feed", "<string:small> on <string:long> on <string:long>"
+> feed bird on branch on tree on hill
+matches: "bird", "branch on tree", "hill"

@@ -1,0 +1,64 @@
+<html><head><title>File clock.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/clock.c</h2>
+An inheritable clock object. This is used for proper clocks, if you need to
+create a watch use the watch object instead.
+<p><b>See also:</b><br>/obj/watch
+.c<p>Written by Ceres
+<hr><h2>Inherits</h2>
+This class inherits the following classes std/object.c<hr><h2>Includes</h2>
+This class includes the following files <a href="include.am_time.h.html">/include/am_time.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#chime"><b>chime</b></a>(string, int)<dd>
+Function to chime.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#extra_look"><b>extra_look</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_chimes"><b>set_chimes</b></a>(int, string)<dd>
+setup chimes for this clock.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_show_date"><b>set_show_date</b></a>()<dd>
+Sets this clock to show the date as well as the tme.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="chime">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>chime</b></a><pre>
+void chime(string chime_message,
+           int type)
+</pre><dd>
+Function to chime. Overload this if you wish to have your own chime
+code.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>chime_message - the message set with set_chimes.
+<dt><b>See also:</b>
+<dd>set_chimes
+.c</dl>
+
+<dt><a name="extra_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>extra_look</b></a><pre>
+string extra_look(object thing)
+</pre>
+<dt><a name="set_chimes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_chimes</b></a><pre>
+void set_chimes(int num,
+                string mess)
+</pre><dd>
+setup chimes for this clock.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - 1 = every hour, 2 = every half hour, 3 = every quarter hour.
+<dd>mess - The message to be displayed when the clock chimes.
+
+</dl>
+
+<dt><a name="set_show_date">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_show_date</b></a><pre>
+void set_show_date()
+</pre><dd>
+Sets this clock to show the date as well as the tme.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 18 Sep 2003 17:19:38 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,1 @@
+({({"[on|at] <indirect:any-living>",}),({({"You brighten up the place.","$mcname$ do$s$ a technicolour yawn.",0,}),0,}),({({"You puke on $hcname$.","$mcname$ puke$s$ on $hcname$.","$mcname$ puke$s$ on you.",0,0,0,}),0,}),})

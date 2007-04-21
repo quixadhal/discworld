@@ -1,0 +1,132 @@
+#
+# Table structure for table 'comments'
+#
+CREATE TABLE comments (
+  Id int(11) DEFAULT 0 NOT NULL,
+  CommentDate int(11) DEFAULT 0 NOT NULL,
+  Commenter varchar(13) DEFAULT '' NOT NULL,
+  Comment text NOT NULL,
+  KEY Id (Id)
+);
+
+#
+# Table structure for table 'errors'
+#
+CREATE TABLE errors (
+  Id int(11) NOT NULL auto_increment,
+  DirEntryDate int(11) NOT NULL default '0',
+  EntryDate int(11) NOT NULL default '0',
+  FixDate int(11) default NULL,
+  Directory varchar(150) NOT NULL default '',
+  Filename varchar(100) NOT NULL default '',
+  Category enum('ROOM','OBJECT','RITUAL','SPELL','HELP','COMMAND','GENERAL') NOT
+ NULL default 'ROOM',
+  type enum('TYPO','BUG','IDEA','COMMENT') NOT NULL default 'TYPO',
+  Name varchar(255) default '',
+  Reporter varchar(13) NOT NULL default '',
+  Fixer varchar(13) default NULL,
+  Status enum('OPEN','FIXING','CONSIDERING','DENIED','FIXED') NOT NULL default '
+OPEN',
+  Report text,
+  Runtime text,
+  AssignedTo varchar(20) default NULL,
+  PRIMARY KEY  (Id),
+  KEY Type (type),
+  KEY Status (Status),
+  KEY Filename (Filename),
+  KEY Directory (Directory)
+) TYPE=ISAM PACK_KEYS=1;
+
+#
+# Table structure for table 'forwards'
+#
+CREATE TABLE forwards (
+  Id int(11) DEFAULT 0 NOT NULL,
+  ForwardDate int(11) DEFAULT 0 NOT NULL,
+  Forwarder varchar(13) DEFAULT '' NOT NULL,
+  OldDirectory varchar(150) DEFAULT '' NOT NULL,
+  KEY Id (Id)
+);
+
+##
+## Table structure for table 'bugstats'
+##
+
+CREATE TABLE bugstats (
+  weekend int(11) NOT NULL default '0',
+  countopened int(11) NOT NULL default '0',
+  countfixed int(11) NOT NULL default '0',
+  totalopen int(11) NOT NULL default '0',
+  totalbugs int(11) default NULL,
+  totalideas int(11) default NULL,
+  totaltypos int(11) default NULL,
+  PRIMARY KEY  (weekend),
+  UNIQUE KEY weekend (weekend)
+) TYPE=MyISAM;
+
+##
+## Table structure for table 'domainstats'
+##
+
+CREATE TABLE domainstats (
+  weekend int(11) NOT NULL default '0',
+  domain varchar(20) NOT NULL default '',
+  countopened int(11) NOT NULL default '0',
+  countfixed int(11) NOT NULL default '0',
+  totalopen int(11) default NULL,
+  totaltypos int(11) default NULL,
+  totalideas int(11) default NULL,
+  totalbugs int(11) default NULL,
+  PRIMARY KEY  (weekend,domain),
+  KEY domain (domain),
+  KEY weekend (weekend)
+) TYPE=MyISAM;
+
+##
+## Table structure for table 'error_replies'
+##
+
+CREATE TABLE error_replies (
+  id int(11) NOT NULL auto_increment,
+  bug_id int(11) NOT NULL default '0',
+  sender varchar(20) NOT NULL default '',
+  recipient varchar(20) NOT NULL default '',
+  subject varchar(80) NOT NULL default '',
+  senddate int(11) NOT NULL default '0',
+  status enum('NEW','READ','DELETED') NOT NULL default 'NEW',
+  message blob,
+  PRIMARY KEY  (id),
+  KEY recipient (recipient),
+  KEY bug_id (bug_id)
+) TYPE=MyISAM;
+
+#
+# Table struct for 'fixedstats'
+#
+CREATE TABLE fixedstats (
+   name varchar(11) not null,
+   weekend int(11) not null,
+   count int(11) not null,
+   primary key(name,weekend)
+);
+
+#
+# Table structure for 'openedstats'
+#
+CREATE TABLE openedstats (
+   name varchar(11) not null,
+   monthend int(11) not null,
+   count int(11) not null,
+   primary key(name,monthend)
+);
+
+#
+# Table structure for 'openedtotalstats'
+#
+CREATE TABLE openedtotalstats (
+   name varchar(11) not null,
+   count int(11) not null,
+   primary key (name)
+);
+
+

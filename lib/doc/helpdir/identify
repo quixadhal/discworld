@@ -1,0 +1,63 @@
+.DT
+identify
+Discworld player help
+identify
+
+.SH Name
+.SP 5 5
+identify - Add a multi-purpose indicator to an object.
+.EP
+
+.SH Syntax
+.SI 5
+identify <object> as <words>
+identify <object>
+.EI
+
+.SH Description
+.SP 5 5
+This command can be used to describe an object with a word/words
+you choose yourself.  Items that have had an indicator specified are
+shown as such by "locate".  An item's identifier is preserved over
+logins, but not if the item leaves your inventory at any time.
+
+Note: Leaving your inventory does not include being put into any
+container, such as a backpack or a scabbard, unless this container
+is not in your inventory (or leaves it).
+
+The 'identify <object>' syntax will show the current identifier (if any)
+for the object.
+.EP
+
+.SH Special identifiers
+.SP 5 5
+"component pouch" is checked for components needed for casting spells.
+.EP
+
+.SH Examples
+.SI 5
+> hold kawi-sashi
+Cannot find "kawi-sashi".
+> say Argh!
+You exclaim: Argh!
+> identify waki-zashi as kawi-sashi
+The waki-zashi may now be identified as "kawi-sashi".
+> grin
+You grin.
+> hold kawi-sashi
+You hold a waki-zashi in your left hand.
+> locate kawi-sashi
+The waki-zashi (wielded) ("kawi-sashi") is in your inventory.
+
+> locate satchel
+The small satchel (worn) is in your inventory.
+> identify satchel as component pouch
+The small satchel may now be identified as "component pouch".
+> locate satchel
+The small satchel (worn) ("component pouch") is in your inventory.
+.EI
+
+.SH See also
+.SP 5 5
+locate.
+.EP

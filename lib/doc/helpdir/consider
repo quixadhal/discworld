@@ -3,33 +3,69 @@ consider
 Discworld player help
 consider
 
-Name
+.SJ Name
 .SI 5
 consider - Consider how worthwhile it is to attack something.
 .EI
 
-Syntax
+.SH Syntax
 .SI 5
-consider <thing>
+consider <target(s)>
 .EI
 
-Description
+.SH Description
 .SP 5 5
-Consider is the command used to see if the monster you are thinking
-about attacking is too high or too low a level for you.  Of course I
-know all of you are insane.  But don't complain if the dragon kills you
-ok?
+The consider command can be used to see if the monster you are thinking
+about attacking is too high or too low a level for you.  This command
+is provided as is without any warranty express or implied.  Your mileage
+may vary.
 .EP
 
-Examples
+.SH Responses
+.SP 5 5
+The following are the order of responses that `consider' gives:
+.EP
+.S0 10 -10
+	<target> is too weak to bother attacking
+	<target> is someone you look down on
+	<target> would be an easy target
+	<target> is a lot weaker than you are
+	<target> is weaker than you are
+	<target> is slightly weaker than you are
+	<target> is about equal with you
+	<target> is slightly tougher than you are
+	<target> is tougher than you
+	<target> is a lot tougher than you
+	<target> looks pretty nasty
+	<target> is into the don't think about it region
+	You would have to be utterly insane to attack <target>
+.EO
+
+.SH Caveats
+.SP 5 5
+`consider' takes into account such things as weapon, armour, offensive and
+defensive skill and hit points so your results may vary depending on the
+health and equipment of the monsters at the time.
+
+`consider' does not take into account any special tactics, commands, rituals 
+or spells which may be employed by you or your opponents.
+
+At high levels (for both players and NPCs) consider becomes more and
+more inaccurate.
+
+If you consider multiple targets it will attempt to calculate your chances
+against all the monsters at once - but it's only a rough guide.
+.EP
+
+.SH Examples
 .SI 5
 > consider dragon
-You would have to insane to attack the dragon!
+You would have to be utterly insane to attack the dragon!
 > consider rat
-The rat is an easy target.
+The rat would be an easy target.
 .EI
 
-See also
+.SH See also
 .SI 5
-stop, cast, spells, consider
+fighting, tactics
 .EI

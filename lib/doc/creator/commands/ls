@@ -1,0 +1,82 @@
+.DT
+ls
+Discworld creator help
+ls
+
+.SH Name
+.SI 5
+ls - list files in a directory
+.EI
+
+.SH Syntax
+.SI 5
+ls [<options>] [<path>]
+.EI
+
+.SH Description
+.SP 5 5
+ls is used to list the files in a directory.  Directories have a '/' appended
+to them.  If no directory is given, it will default to your current directory.
+You can also specify patterns to match to so that not all files will be
+listed.
+
+The -F option will put a '*' on the end of a file if it is loaded, it will
+place a '@' on the end of a file if it is in the autodoc system and it
+will place a '/' on the end if it is a directory.
+
+ls has a number of options, -CF being the defaults:
+.EP
+
+.SO 7 10 -20
+	-a	do not hide entries ".." and "."
+	-d	list directory entries instead of contents
+	-h	display help and exit
+	-l	use a long listing format
+	-o	colorize entries according to type
+	-C	list entries by columns
+	-F	append a character to entries according to type
+	-1	list one file per line
+	-t	sort list by date
+.EO
+
+.SI 5
+An explanation of all the fields in the long listing format:
+
+  -rw-r--r--   1 turrican    Creator       4537 Jun 25 00:46 workroom.c
+  ^^^^^^^^^^   ^ ^^^^^^^^    ^^^^^^^       ^^^^ ^^^^^^^^^^^^ ^^^^^^^^^^
+  |\|/\|/\|/   | \__|___/    \__|__/       \|_/ \____|_____/ \____|___/
+  1 2  3  4    5    6           7           8        9           10
+.EI
+
+.SO 7 5 -18
+	1	The type of the file, '-' for normal file, 'd' for directory.
+	2	The access permissions for the owner of the file. 
+	3	The access permissions for the domain of the file.
+	4	The access permissions for others.  Possible values for the 3 positions are 'r'ead or '-' no access, 'w'rite or '-' no access, e'x'ecute or '-', for files this means the file is loaded, for directories this means you can enter it.
+	5	The link count, for a file this is 1, and for a directory it is the amount of directories in it, include ".." and ".".
+	6	The owner.
+	7	The domain.
+	8	The size, for directories this is always 0.
+	9	The last modified time of the file.
+	10	The filename itself.
+.EO
+
+.SH Examples
+.SI 5
+ls
+ls -C /std
+ls /std/living/l*.c
+ls /log/F*
+ls -l examples/*.c
+ls -oCF
+.EI
+
+.SH See also
+.SP 5 5
+cd, mkdir, rmdir
+.EP
+
+.SH Author
+.SI 5
+Turrican@Discworld
+.EI

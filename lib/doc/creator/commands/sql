@@ -1,0 +1,45 @@
+.DT
+sql
+Discworld creator help
+sql
+
+.SH Name
+.SI 5
+sql - Query the mySQL Database
+.EI
+
+.SH Syntax
+.SI 5
+sql <database> -u <user> -p <password> 
+sql <database> -u <user> 
+sql <database> 
+.EI
+
+.SH Description
+.SP 5 5
+This command allows you to connect to the mySQL database and perform
+SQL queries on it.  
+.EP
+
+.SP 5 5
+Once you are inside the command interpreter, clear allows a query
+to be cleared, edit enters the editor so you can edit an existing
+query, and exit is used to exit completely.
+.EP
+
+.SH Examples
+.SI 5
+> sql discworld
+Welcome to the Discworld SQL monitor.  Commands end with ; .
+
+Type 'help' for help.
+
+sql> select address from Customer_Database where age > 18;
+...
+.EI
+
+.SH See also
+.SP 5 5
+http://www.mysql.org
+.EP
+

@@ -1,0 +1,78 @@
+.DT
+skills
+Discworld Creator help
+skills
+
+Name
+.SI 5
+/std/living/skills.c - object inherited by everything living
+.EI
+
+Description
+
+.SP 5 5
+/std/living/skills.c is the object that keep track of the skills
+of living objects.  It is inherited by /std/living/living and is therefore
+part of every living object on the mud.
+.EP
+
+Functions
+
+.SI 5
+int query_skill( string str )
+.EI
+.SP 10 5
+Returns the level of the skill.
+.EP
+
+.SI 5
+int query_skill_bonus( string skill )
+.EI
+.SP 10 5
+Returns the players bonus in a skill.  This will range
+from approximately 0-200.  It will get higher than 200
+but not much.  The bonus is calculated on the guild
+object and the bonus from the race object added on.
+
+Pinkfish was quite naive when he wrote this:)
+.EP
+
+.SI 5
+int add_skill_level( string skill, int level, int exp )
+.EI
+.SP 10 5
+Adds the number of levels specified to the given skill.
+The exp option is how much exp was used in increasing
+the level.
+.EP
+
+.SI 5
+mixed *query_skills() 
+.EI
+.SP 10 5
+Returns the currently set skills array on the living
+object.  This is used by other commands and players to
+do any clever things they need to do with the skills
+array.
+.EP
+
+.SI 5
+void set_skills( mixed *frog )
+.EI
+.SP 10 5
+Sets the skills array to the parameter.  Beware of using
+this.
+.EP
+
+.SI 5
+int query_skill_successful( string str, int modifier )
+.EI
+.SP 10 5
+Returns 1 if the object successfully completed the skill
+check.  The modifier is so that you can make the attempt
+easy or hard.
+
+Since this one is useless when the bonus gets above 200,
+you should use the taskmaster instead.
+.EP
+

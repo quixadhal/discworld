@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),0,({({"You push $hcname$ over$position$.","$mcname$ push$s$ $hcname$ over$position$.","$mcname$ push$s$ you over$position$.",0,0,(["default":"lie","standing":"sit","lying":"ignore","silent":"yes",]),}),0,}),})

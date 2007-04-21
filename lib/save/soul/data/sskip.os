@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),({({"You skip around happily.","$mcname$ skip$s$ around happily.",0,}),0,}),({({"You skip around $hcname$.","$mcname$ skip$s$ around $hcname$.","$mcname$ skip$s$ around you.",0,0,0,}),0,}),})

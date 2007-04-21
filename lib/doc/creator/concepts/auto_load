@@ -1,0 +1,129 @@
+.DT
+auto_load
+Discworld concepts help
+auto_load
+
+Name
+.SI 5
+auto_load - Saving the state of objects over quits.
+.EI
+
+Syntax
+.SI 5
+mixed query_static_auto_load();
+mixed query_dynamic_auto_load();
+void init_dynamic_arg(mixed arg);
+void init_static_arg(mixed arg);
+.EI
+
+Description
+.SP 5 5
+Whenever a player quits/saves in the game, each object in the player's
+inventory has the functions query_dynamic_auto_load() and
+query_static_auto_load() called on it.  If either of these functions
+return a non zero value, the return value is saved as the "state" of
+the object.  When the player logs on again, the object is recreated,
+and the init_*_arg() functions are called on it, passing in the value
+that was saved from the corresponding query_*_auto_load() function.
+
+The convention is to have query_*_auto_load() return a hierarchical
+mapping, with the keys being the variables that are to be
+saved for the object, and the corresponding value being the value of
+the variable.  For example,
+.EP
+
+     mapping query_dynamic_auto_load() {
+        return ([
+            "::": ::query_dynamic_auto_load(),
+            "amount": amount
+        ]);
+     }
+
+.SP 5 5
+where 'amount' is a variable defined in this object.  Note that the
+first element of the mapping is itself a mapping - the one returned by
+the query_dynamic_auto_load() of the object that this one inherits.
+The init_*_arg() function then needs to check each element of the
+mapping that it is passed, and restore the value of the corresponding
+variable:
+.EP
+
+     void init_dynamic_arg( mapping map ) {
+        if ( map[ "::" ] )
+            ::init_dynamic_arg( map[ "::" ] );
+        if ( map[ "amount" ] )
+            set_amount( map[ "amount" ] );
+     }
+
+.SP 5 5
+The static functions work similarly, but with one twist: the static
+variables are usually only saved if this object is the "master" object
+for this file, or cloned directly from it (i.e., the file_name() of
+the object begins with the path of the file containing the
+highest-level query_static_auto_load() function).  The reason for this
+is disk space conservation.
+
+Suppose you write an object to implement a rock.  In the setup() of
+the rock, you call set_name(), set_long(), set_short(), etc.  These
+are the types of variables that would be considered static (i.e., they
+don't change over the life of the object).  When this object is cloned
+in the process of restoring the player's inventory, setup() will be
+called, setting these variables; therefore, there is no need to save
+their values when the player quits.
+
+However, suppose that instead of writing a separate object, you create
+the rock as part of a room's code, cloning it from /std/object and
+calling set_name(), etc., as part of the room's reset() function.  If
+a player picks up the rock, quits, and logs in again, a blank
+/std/object clone will be put in the player's inventory - no name, no
+long, no short; in this case, the static variables need to be saved
+and restored to recreate the object.
+
+To implement this, query_static_auto_load is generally written as
+follows:
+.EP
+
+     mapping query_static_auto_load() {
+         if ( file_name( this_object() )[ 0 .. 12 ] == "/obj/myobject" )
+             return int_query_static_auto_load();
+         return 0;
+     }
+
+.SP 5 5
+where "/obj/myobject" should be replaced with the path of the source
+file, and the array index adjusted accordingly.
+int_query_static_auto_load() follows basically the same form as
+query_dynamic_auto_load(), e.g.,
+.EP
+
+     mapping int_query_static_auto_load() {
+        return ([
+            "::": ::int_query_static_auto_load(),
+            "medium_alias", medium_alias,
+            ...
+        ]);
+     }
+
+.SP 5 5
+Restoring static variables is identical to restoring dynamic
+variables:
+.EP
+
+     void init_static_arg( mapping map ) {
+        if ( map[ "::" ] )
+            ::init_static_arg( map[ "::" ] );
+        if ( !undefinedp( map[ "medium_alias" ] ) )
+            medium_alias = map[ "medium_alias" ];
+        ...
+     }
+
+.SP 5 5
+The tricky part is classifying variables as static or dynamic.  In
+general, if a variable may change during an object's lifetime, then it
+should be considered dynamic; otherwise, it can be handled as static.
+.EP
+
+See also
+.SP 5 5
+arrays, mappings
+.EP

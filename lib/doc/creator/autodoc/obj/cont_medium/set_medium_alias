@@ -1,0 +1,33 @@
+.DT
+set_medium_alias
+DW_wibble creator help
+set_medium_alias
+
+.SH Name
+.SP 5 5
+set_medium_alias -  This method sets the medium alias for the object.
+.EP
+
+.SH Syntax
+.SI 5
+void set_medium_alias(string word)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/cont_medium.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the medium alias for the object.
+This should be a unique alias
+for the medium, it is used when joining to see if we can join or not
+It it used for identification - choose something with
+capitals (e.g. "ChalkDust") so players can't
+use it as a valid alias by accident.
+& @param word the medium alias
+
+.EP
+

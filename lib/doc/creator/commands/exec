@@ -1,0 +1,34 @@
+.DT
+exec
+Discworld creator help
+exec
+
+.SH Name
+.SI 5
+exec - Executes a bit of lpc code
+.EI
+
+.SH Syntax
+.SI 5
+exec <lpc code>
+.EI
+
+.SH Description
+.SP 5 5
+Exec can be used to execute a small amount of lpc.  What the function does is
+write a temporary file call ~/exec_tmp.c and call a function containing the
+code you provided on that object.  It will delete everything when it is finished
+and clean up everything.  It will also print whatever return value is passed.
+.EP
+
+.SH Examples
+.SI 5
+exec return users()
+exec return query_ip_number(this_player())
+exec string s; s = "frog"; s += "fish"; return s
+.EI
+
+.SH See Also
+.SP 5 5
+call
+.EP

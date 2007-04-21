@@ -1,1005 +1,494 @@
-#include "reversi.h"
+inherit "/std/room/furniture/basic";
 
-#ifdef IGOR
-#define LET_STR "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-#endif
-
-void save_me();
-void load_me();
-int check_move(mixed *board, int x, int y, int me);
-
-mixed *games;
-mapping ranks;
-static mapping doing_move, do_view;
-int board_no;
-
-#ifndef IGOR
-void create() {
-#else
-void reset(int arg) {
-  if (arg) return ;
-#endif
-  games = ({ });
-  ranks = ([ ]);
-  doing_move = ([ ]);
-  do_view = ([ ]);
-#ifndef IGOR
-  seteuid((string)"/secure/master"->creator_file(file_name(this_object())));
-#endif
-  load_me();
+class co_ord {
+   int x;
+   int y;
 }
 
-int new_board() {
-  mixed *bing;
-  int i;
+private mixed* _board;
+private string _player_white;
+private string _player_black;
+private nosave class co_ord* _offsets;
+private class co_ord _last_move;
+private int _move_no;
 
-  bing = ({ });
-  for (i=0;i<8;i++)
-    bing += ({ allocate(8) });
-  bing[4][4] = 'X';
-  bing[3][3] = 'X';
-  bing[4][3] = 'O';
-  bing[3][4] = 'O';
-  BOARD_THING->save_board(bing, board_no);
-  return board_no++;
-}
+#define BOARD_SIZE 8
+#define BOARD_BLACK "X"
+#define BOARD_WHITE "O"
 
-void write_board(int b_n, int show) {
-  int i, j, bl, wh, x, y, me;
-  string line;
-  mixed *board;
+#define BOARD_TAG "reversi table"
 
-  board = (mixed *)BOARD_THING->load_board(games[b_n][R_BOARD]);
-  if (sizeof(games[b_n]) > R_LASTX) {
-    x = games[b_n][R_LASTX];
-    y = games[b_n][R_LASTY];
-  } else {
-    x = -1;
-    y = -1;
-  }
-  if (games[b_n][R_MOVE_NO]%2)
-    me = 'O';
-  else
-    me = 'X';
-  write(                    "      A   B   C   D   E   F   G  H\n");
-  write("    "+BOARD_COL+"+---+---+---+---+---+---+---+---+"+RESET+"\n");
-  for (i=0;i<8;i++) {
-    line = " "+(i+1)+": "+BOARD_COL+"|";
-    for (j=0;j<8;j++)
-      switch (board[i][j]) {
-        case 'X' :
-          if (i == x && j == y)
-            line += " "+BLACK_COL+"L"+END_TILE+" |";
-          else
-            line += " "+BLACK_COL+"X"+END_TILE+" |";
-          bl++;
-          break;
-        case 'O' :
-          if (i == x && j == y)
-            line += " "+WHITE_COL+"L"+END_TILE+" |";
-          else
-            line += " "+WHITE_COL+"O"+END_TILE+" |";
-          wh++;
-          break;
-        case 0 :
-          if (show && check_move(board, i, j, me))
-            line += " "+SETUP_COL+"S"+END_TILE+" |";
-          else
-            line += "   |";
-          break;
-      }
-    switch (i) {
-      case 1 :
-        write(line+RESET+"    Whelk Reversi\n");
-        write("    "+BOARD_COL+"+---+---+---+---+---+---+---+---+"+RESET+
-              "    by Pinkfish.\n");
-        break;
-      case 3 :
-        write(line+RESET+"    Black (X) "+capitalize(games[b_n][R_PLAYER1])+
-              "\n");
-        write("    "+BOARD_COL+"+---+---+---+---+---+---+---+---+"+RESET+
-              "    White (O) "+(games[b_n][R_PLAYER2]?
-              capitalize(games[b_n][R_PLAYER2]):"no one")+"\n");
-        break;
-      default :
-        write(line+RESET+"\n");
-        write("    "+BOARD_COL+"+---+---+---+---+---+---+---+---+"+RESET+"\n");
-        break;
-    }
-  }
-  write("White(O) has "+wh+" pieces and Black(X) has "+bl+" pieces.\n");
-  if (games[b_n][R_MOVE_NO]%2) {
-    if (games[b_n][R_PLAYER2])
-      write("White ("+capitalize(games[b_n][R_PLAYER2])+") to move.\n");
-  } else
-    write("Black ("+capitalize(games[b_n][R_PLAYER1])+") to move.\n");
-  return ;
-}
+void reset_board();
 
-int check_move(mixed *board, int x, int y, int me) {
-  int i, j;
-  int not_me;
+void setup() {
+   set_name("table");
+   set_short("reversi table");
+   add_adjective("reversi");
+   set_long("A lovely green coloured board table divided into 8 by 8 grid "
+            "with small black lines.  There are two curved indentations on "
+            "each side of the table filled with bi coloured discs.\n");
 
-  if (me == 'X')
-    not_me = 'O';
-  else
-    not_me = 'X';
-  if (board[x][y]) return 0;
-/* ok... check diagonals angles. */
-  if (x<7 && y<7 && board[x+1][y+1] == not_me)
-    for (i=1;x+i<8 && y+i<8;i++)
-      if (!board[x+i][y+i])
-        break;
-      else if (board[x+i][y+i] == me)
-        return 1;
-  if (y<7 && x>0 && board[x-1][y+1] == not_me)
-    for (i=1;x-i>=0 && y+i<8;i++)
-      if (!board[x-i][y+i])
-        break;
-      else if (board[x-i][y+i] == me)
-        return 1;
-  if (x>0 && y>0 && board[x-1][y-1] == not_me)
-    for (i=1;x-i>=0 && y-i>=0;i++)
-      if (!board[x-i][y-i])
-        break;
-      else if (board[x-i][y-i] == me)
-        return 1;
-  if (x<7 && y>0 && board[x+1][y-1] == not_me)
-    for (i=1;x+i<8 && y-i>=0;i++)
-      if (!board[x+i][y-i])
-        break;
-      else if (board[x+i][y-i] == me)
-        return 1;
-/* Horizontal...  Ohh err. this is a long routine. */
-  if (x<7 && board[x+1][y] == not_me)
-    for (i=x+1;i<8;i++) {
-      if (!board[i][y])
-        break;
-      else if (board[i][y] == me)
-        return 1;
-    }
-  if (y<7 && board[x][y+1] == not_me)
-    for (i=y+1;i<8;i++)
-      if (!board[x][i])
-        break;
-      else if (board[x][i] == me)
-        return 1;
-  if (x>0 && board[x-1][y] == not_me)
-    for (i=x-1;i>=0;i--)
-      if (!board[i][y])
-        break;
-      else if (board[i][y] == me)
-        return 1;
-  if (y>0 && board[x][y-1] == not_me)
-    for (i=y-1;i>=0;i--)
-      if (!board[x][i])
-        break;
-      else if (board[x][i] == me)
-        return 1;
-}
+   set_weight(100);
+   //
+   // Setup the offsets for checking.
+   //
+   _offsets = allocate(8, (: new(class co_ord) :));
+   _offsets[0]->x = 1;
+   _offsets[0]->y = 1;
+   _offsets[1]->x = 0;
+   _offsets[1]->y = 1;
+   _offsets[2]->x = -1;
+   _offsets[2]->y = 1;
+   _offsets[3]->x = -1;
+   _offsets[3]->y = 0;
+   _offsets[4]->x = -1;
+   _offsets[4]->y = -1;
+   _offsets[5]->x = 0;
+   _offsets[5]->y = -1;
+   _offsets[6]->x = 1;
+   _offsets[6]->y = -1;
+   _offsets[7]->x = 1;
+   _offsets[7]->y = 0;
 
-int *end_of_game(int g_n) {
-  int me, not_me, i, j, no_m, bl, wh, x, y;
-  mixed *board;
+   reset_board();
+} /* setup() */
 
-  if (games[g_n][R_MOVE_NO]%2)
-    me = 'O';
-  else
-    me = 'X';
-  board = (mixed *)BOARD_THING->load_board(games[g_n][R_BOARD]);
-  for (i=0;i<8;i++)
-    for (j=0;j<8;j++)
-      switch (board[i][j]) {
-        case 'X' :
-          bl++;
-          break;
-        case 'O' :
-          wh++;
-          break;
-        default :
-         if (check_move(board, i, j, me)) {
-           no_m++;
-           x = i;
-           y = j;
+/**
+ * This method sets up the board.
+ */
+void reset_board() {
+   int i;
+
+   _board = allocate(BOARD_SIZE);
+   for (i = 0; i < sizeof(_board); i++) {
+      _board[i] = allocate(BOARD_SIZE);
+   }
+   _board[3][3] = BOARD_BLACK;
+   _board[4][4] = BOARD_BLACK;
+   _board[3][4] = BOARD_WHITE;
+   _board[4][3] = BOARD_WHITE;
+   _move_no = 0;
+} /* reset_board() */
+
+private string query_line() {
+   int i;
+   string str;
+
+   str = "   %^B_GREEN%^+";
+   for (i = 0; i < BOARD_SIZE; i++) {
+      str += "---+";
+   }
+   return str + "%^RESET%^\n";;
+} /* query_line() */
+
+/**
+ * This method returns the person who plays the white player.
+ * @return the person who plays the white player
+ */
+string query_white_player() {
+   if (_player_white) {
+      return _player_white;
+   }
+   return "unknown";
+} /* query_white_player() */
+
+/**
+ * This method returns the person who plays the black player.
+ * @return the person who plays the black player
+ */
+string query_black_player() {
+   if (_player_black) {
+      return _player_black;
+   }
+   return "unknown";
+} /* query_black_player() */
+
+/**
+ * This method returns whose move it is.
+ */
+string query_whose_move() {
+   if (_move_no % 2) {
+      return BOARD_BLACK;
+   } else {
+      return BOARD_WHITE;
+   }
+} /* query_whose_move() */
+
+/**
+ * This method returns the name of the player whose move it is.
+ */
+string query_player_name_move() {
+   if (query_whose_move() == BOARD_BLACK) {
+      return query_black_player();
+   }
+   return query_white_player();
+} /* query_player_name_move() */
+
+/**
+ * This method returns the board stuff.
+ */
+mixed* query_board() {
+   return _board;
+} /* query_board() */
+
+/**
+ * This method shows the current state of the board.
+ */
+string query_board_string() {
+   int x;
+   int y;
+   int no_white;
+   int no_black;
+   string board_str;
+
+   board_str = "";
+
+   if (query_whose_move() == BOARD_BLACK) {
+      board_str += "%^BOLD%^Blacks move.%^RESET%^\n";
+   } else {
+      board_str += "%^BOLD%^Whites move.%^RESET%^\n";
+   }
+
+   board_str += "White player (O): " + query_white_player() + "\n";
+   board_str += "Black player (X): " + query_black_player() + "\n";
+
+   board_str += "    ";
+   for (x = 1; x <= sizeof(_board); x++) {
+      board_str += " " + x + "  ";
+   }
+   board_str += "\n";
+   board_str += query_line();
+
+   for (x = 0; x < sizeof(_board); x++) {
+      board_str += sprintf("%c  %%^B_GREEN%%^|", x + 'A');
+      for (y = 0; y < sizeof(_board[x]); y++) {
+         if (!_board[x][y]) {
+            board_str += "   |";
+         } else {
+            if (_board[x][y] == BOARD_BLACK) {
+               board_str += " %^B_BLACK%^X%^B_GREEN%^ ";
+               no_black++;
+            } else {
+               board_str += " %^B_WHITE%^O%^B_GREEN%^ ";
+               no_white++;
+            }
+            board_str += "|";
          }
-         break;
       }
-  return ({ no_m, bl, wh, x, y });
-}
+      board_str += "%^RESET%^\n";
+      board_str += query_line();
+   }
 
-void end_game(string win, string lose) {
-  int w_r, l_r;
-  string nam;
+   board_str += "\nWhite has " + no_white +" pieces and black has " +
+                no_black + " pieces.\n";
 
-  nam = (string)TP_NAME;
-  w_r = (ranks[lose]+50+ranks[win])/2;
-  l_r = (ranks[lose]+ranks[win])/2;
-  if (w_r > ranks[win])
-    ranks[win] = w_r;
-  if (l_r < ranks[lose])
-    ranks[lose] = l_r;
-  if (nam == win) {
-    write("The game has finished.  You have won!\n");
-    if (find_player(lose))
-      tell_object(find_player(lose),
-"You get the feeling you just lost a game of reversi.  Bad luck.\n");
-  } else {
-    write("The game just finished, you have lost.  Better luck next time.\n");
-    if (find_player(win))
-      tell_object(find_player(win),
-"You just won a game of reversi!  Congratulations!\n");
-  }
-}
+   return board_str;
+} /* query_board_string() */
 
-static void delete_game(int g_n) {
-  string *ind;
-  int i;
+/** @ignore yes */
+string long(string str, int dark) {
+   if (dark) {
+      return ::long() +
+             "It is too dark to make out the pieces on the board.\n";
+   }
+   return ::long() + query_board_string();
+} /* long() */
 
-  ind = m_indices(doing_move);
-  for (i=0;i<sizeof(ind);i++)
-    if (!pointerp(doing_move[ind[i]]) && doing_move[ind[i]] > g_n)
-      doing_move[ind[i]]--;
-  BOARD_THING->delete_board(games[g_n][R_BOARD]);
-  games = delete(games, g_n, 1);
-  save_me();
-}
+/**
+ * This method deciphers some co-ordinates for us.
+ */
+class co_ord query_co_ords(string str) {
+   class co_ord bing;
 
-/* we are assuming in this routine the data is correct */
-mixed *do_move(int b_n, int x, int y, int me) {
-  int i, j;
-  int not_me;
-  mixed *board;
+   str = lower_case(str);
+   if (strlen(str) != 2) {
+      return 0;
+   }
 
-  board = (mixed *)BOARD_THING->load_board(games[b_n][R_BOARD]);
-  if (me == 'X')
-    not_me = 'O';
-  else
-    not_me = 'X';
-/* ok... check diagonals angles. */
-  if (x<7 && y<7 && board[x+1][y+1] == not_me)
-    for (i=1;x+i<8 && y+i<8;i++)
-      if (!board[x+i][y+i])
-        break;
-      else if (board[x+i][y+i] == me) {
-        for (i=1;1;i++)
-          if (board[x+i][y+i] == me) {
-            break;
-          } else
-            board[x+i][y+i] = me;
-        break;
-      }
-  if (y<7 && x>0 && board[x-1][y+1] == not_me)
-    for (i=1;x-i>=0 && y+i<8;i++)
-      if (!board[x-i][y+i])
-        break;
-      else if (board[x-i][y+i] == me) {
-        for (i=1;1;i++)
-          if (board[x-i][y+i] == me) {
-            break;
-          } else
-            board[x-i][y+i] = me;
-        break;
-      }
-  if (x>1 && y>0 && board[x-1][y-1] == not_me)
-    for (i=1;x-i>=0 && y-i>=0;i++)
-      if (!board[x-i][y-i])
-        break;
-      else if (board[x-i][y-i] == me) {
-        for (i=1;1;i++)
-          if (board[x-i][y-i] == me) {
-            break;
-          } else
-            board[x-i][y-i] = me;
-        break;
-      }
-  if (x<7 && y>0 && board[x+1][y-1] == not_me)
-    for (i=1;x+i<8 && y-i>=0;i++)
-      if (!board[x+i][y-i])
-        break;
-      else if (board[x+i][y-i] == me) {
-        for (i=1;1;i++)
-          if (board[x+i][y-i] == me) {
-            break;
-          } else
-            board[x+i][y-i] = me;
-        break;
-      }
-/* Horizontal...  Ohh err. this is a long routine. */
-  if (x<7 && board[x+1][y] == not_me)
-    for (i=x+1;i<8;i++)
-      if (!board[i][y])
-        break;
-      else if (board[i][y] == me)
-        for (i=x+1;i<8;i++)
-          if (board[i][y] == me) {
-            i = 8;
-            break;
-          } else
-            board[i][y] = me;
-  if (y<7 && board[x][y+1] == not_me)
-    for (i=y+1;i<8;i++)
-      if (!board[x][i])
-        break;
-      else if (board[x][i] == me)
-        for (i=y+1;i<8;i++)
-          if (board[x][i] == me) {
-            i = 8;
-            break;
-          } else
-            board[x][i] = me;
-  if (x>0 && board[x-1][y] == not_me)
-    for (i=x-1;i>=0;i--)
-      if (!board[i][y])
-        break;
-      else if (board[i][y] == me)
-        for (i=x-1;i>=0;i--)
-          if (board[i][y] == me) {
-            i = -1;
-            break;
-          } else
-            board[i][y] = me;
-  if (y>0 && board[x][y-1] == not_me)
-    for (i=y-1;i>=0;i--)
-      if (!board[x][i])
-        break;
-      else if (board[x][i] == me)
-        for (i=y-1;i>=0;i--)
-          if (board[x][i] == me) {
-            i = -1;
-            break;
-          } else
-            board[x][i] = me;
-  board[x][y] = me;
-  games[b_n][R_MOVE_NO]++;
-  games[b_n][R_LAST] = time();
-  if (sizeof(games[b_n]) > R_LASTX) {
-    games[b_n][R_LASTX] = x;
-    games[b_n][R_LASTY] = y;
-  }
-  save_me();
-  BOARD_THING->save_board(board, games[b_n][R_BOARD]);
-}
-
-int input_move(string str) {
-  int x, y, b_n, me, frog;
-  string nam;
-  mixed *board;
-
-  nam = (string)TP_NAME;
-  if (pointerp(doing_move[nam])) {
-    write("Oh dear, mess up.\n");
-    doing_move = m_delete(doing_move, nam);
-    return 1;
-  }
-  if (!(b_n = doing_move[nam])) {
-    write("Oh dear.  We have lost your game.\n");
-    return 1;
-  }
-  b_n --;
-  board = (mixed *)BOARD_THING->load_board(games[b_n][R_BOARD]);
-  str = lower_case(str);
-  if (games[b_n][R_PLAYER1] == nam)
-    me = 'X';
-  else
-    me = 'O';
-  if (str[0] >= '1' && str[0] <= '8' && str[1] >= 'a' && str[1] <= 'h') {
-    if (!check_move(board, str[0]-'1', str[1]-'a', me)) {
-      write("Invalid move.\n");
-      write("Move: ");
-      input_to("input_move");
-      return 1;
-    }
-    x = str[0]-'1';
-    y = str[1]-'a';
-  } else if (str[1] >= '1' && str[1] <= '8' && str[0] >= 'a' && str[0] <= 'h') {
-    if (!check_move(board, str[1]-'1', str[0]-'a', me)) {
-      write("Invalid move.\n");
-      write("Move: ");
-      input_to("input_move");
-      return 1;
-    }
-    x = str[1]-'1';
-    y = str[0]-'a';
-  } else if (str[0] == 'r') {
-    write_board(b_n,0);
-    write("Move: ");
-    input_to("input_move");
-    return 1;
-  } else if (str[0] == 's') {
-    write_board(b_n, 1);
-    write("Move: ");
-    input_to("input_move");
-    return 1;
-  } else if (str[0] == 'q') {
-    if (!games[b_n][R_MOVE_NO]) {
-      write("Deleteing unstarted game.\n");
-      games = delete(games, b_n, 1);
-      return 1;
-    }
-    write("Quiting.\n");
-    return 1;
-  } else {
-    write("Invalid input.\n");
-    write("Move: ");
-    input_to("input_move");
-    return 1;
-  }
-  do_move(b_n, x, y, me);
-  write_board(b_n, 0);
-  if (games[b_n][R_PLAYER1] == nam) {
-    if (games[b_n][R_PLAYER2] && find_player(games[b_n][R_PLAYER2]))
-      tell_object(find_player(games[b_n][R_PLAYER2]),
-capitalize(nam)+" just took a move against you in reversi.\n");
-  } else if (find_player(games[b_n][R_PLAYER1]))
-    tell_object(find_player(games[b_n][R_PLAYER1]),
-capitalize(nam)+" just took a move against you in reversi.\n");
-  doing_move = m_delete(doing_move, nam);
-  do {
-    board = end_of_game(b_n);
-    frog = 0;
-    if (!board[1]) { /* No bits left */
-      end_game(games[b_n][R_PLAYER2], games[b_n][R_PLAYER1]);
-      delete_game(b_n);
-    } else if (!board[2]) {
-      end_game(games[b_n][R_PLAYER1], games[b_n][R_PLAYER2]);
-      delete_game(b_n);
-    } else if (board[1] + board[2] >= 64) {
-      if (board[1] > board[2])
-        end_game(games[b_n][R_PLAYER1], games[b_n][R_PLAYER2]);
-      else
-        end_game(games[b_n][R_PLAYER2], games[b_n][R_PLAYER1]);
-      delete_game(b_n);
-    } else if (!board[0]) {
-      write("Other player cannot take a turn skipping.\n");
-      if (nam == games[b_n][R_PLAYER1]) {
-        if (games[b_n][R_PLAYER2] && find_player(games[b_n][R_PLAYER2]))
-          tell_object(find_player(games[b_n][R_PLAYER2]),
-"You don't have any moves in reversi game against "+capitalize(nam)+
-" skipping.\n");
-      } else if (find_player(games[b_n][R_PLAYER1]))
-          tell_object(find_player(games[b_n][R_PLAYER1]),
-"You don't have any moves in reversi game against "+capitalize(nam)+
-" skipping.\n");
-      games[b_n][R_MOVE_NO]++;
-      save_me();
-    } else if (board[0] == 1) {
-      write("Other player only has one move, taking it for them.\n");
-      frog = 1;
-      if (nam == games[b_n][R_PLAYER1]) {
-        do_move(b_n, board[3], board[4], 'O');
-        if (games[b_n][R_PLAYER2] && find_player(games[b_n][R_PLAYER2]))
-          tell_object(find_player(games[b_n][R_PLAYER2]),
-#ifndef IGOR
-sprintf("You only had one move against "+capitalize(nam)+" takeing move "+
-"  %c%c for you.\n",(board[3]+'1'),(board[4]+'a')));
-#else
-"You only had one move against "+capitalize(nam)+" takeing move "+
-"  "+(board[3]+1)+LET_STR[board[4]]+" for you.\n");
-#endif
+   bing = new(class co_ord);
+   if (str[0] >= '1' && str[0] <= '8') {
+      bing->y = str[0] - '1';
+      if (str[1] >= 'a' && str[1] <= 'h') {
+         bing->x = str[1] - 'a';
       } else {
-        do_move(b_n, board[3], board[4], 'X');
-        if (find_player(games[b_n][R_PLAYER1]))
-          tell_object(find_player(games[b_n][R_PLAYER1]),
-#ifndef IGOR
-sprintf("You only had one move against "+capitalize(nam)+" takeing move "+
-"  %c%c for you.\n",(board[3]+'1'),(board[4]+'a')));
-#else
-"You only had one move against "+capitalize(nam)+" takeing move "+
-"  "+(board[3]+1)+LET_STR[board[4]]+" for you.\n");
-#endif
+         return 0;
       }
-    }
-  } while (frog);
-  write("Ok.\n");
-  return 1;
-}
+   } else if (str[0] >= 'a' && str[0] <= 'h') {
+      bing->x = str[0] - 'a';
+      if (str[1] >= '1' && str[1] <= '8') {
+         bing->y = str[1] - '1';
+      } else {
+         return 0;
+      }
+   }
+   return bing;
+} /* query_co_ords() */
 
-int do_fix(int b_n) { /* this should only be called if a game wombles
-                       * itself.  Share and enjoy.
-                       */
-  mixed *board;
-  string nam;
+/**
+ * This method checks to see if the specified move is valid for the specified
+ * colour.
+ * @param co_ord the co-ordinate
+ * @param colour the colour they are
+ * @return 1 if valid, 0 if not
+ */
+int is_valid_move(class co_ord bing, string colour) {
+   int x;
+   int y;
+   string other_colour;
+   class co_ord off;
 
-  nam = (string)this_player()->query_name();
-  board = end_of_game(b_n);
-  if (!board[1]) { /* No bits left */
-    end_game(games[b_n][R_PLAYER2], games[b_n][R_PLAYER1]);
-    delete_game(b_n);
-  } else if (!board[2]) {
-    end_game(games[b_n][R_PLAYER1], games[b_n][R_PLAYER2]);
-    delete_game(b_n);
-  } else if (board[1] + board[2] >= 64) {
-    if (board[1] > board[2])
-      end_game(games[b_n][R_PLAYER1], games[b_n][R_PLAYER2]);
-    else
-      end_game(games[b_n][R_PLAYER2], games[b_n][R_PLAYER1]);
-    delete_game(b_n);
-  } else if (!board[0]) {
-    write("Other player cannot take a turn skipping.\n");
-    if (nam == games[b_n][R_PLAYER1]) {
-      if (games[b_n][R_PLAYER2] && find_player(games[b_n][R_PLAYER2]))
-        tell_object(find_player(games[b_n][R_PLAYER2]),
-"You don't have any moves in reversi game against "+capitalize(nam)+
-" skipping.\n");
-    } else if (find_player(games[b_n][R_PLAYER1]))
-        tell_object(find_player(games[b_n][R_PLAYER1]),
-"You don't have any moves in reversi game against "+capitalize(nam)+
-" skipping.\n");
-    games[b_n][R_MOVE_NO]++;
-    save_me();
-  }
-  return 1;
-}
-
-int do_rank(string str) {
-  int *r, i, j;
-  string *s;
-
-  r = allocate(40);
-  s = m_indices(ranks);
-  for (i=0;i<sizeof(s);i++) {
-    for (j=(sizeof(r)-1)/2;j>=0 && r[j*2] < ranks[s[i]];j--);
-    if (j == (sizeof(r)-1)/2)
-      continue;
-    r = r[0..(j+1)*2-1] + ({ ranks[s[i]], s[i] }) + r[(j+1)*2..sizeof(r)-3];
-  }
-  for (i=0;r[i] && i < sizeof(r);i+=2)
-    write((i/2)+": "+r[i+1]+" with "+r[i]+"\n");
-  return 1;
-}
-
-int do_start(string str) {
-  mixed *board;
-  string nam;
-  int no_g, i;
-
-  nam = (string)TP_NAME;
-  for (i=0;i<sizeof(games);i++)
-    if (games[i][R_PLAYER1] == nam || games[i][R_PLAYER2] == nam)
-      no_g++;
-
-  if (no_g > MAX_GAMES) {
-    notify_fail("You are involved in too many games.\n");
-    return 0;
-  }
-
-  games += ({ ({ nam, 0, new_board(), 0, time(), 0, 0 }) });
-  doing_move[nam] = sizeof(games);
-  write_board(sizeof(games)-1, 0);
-  write("Move: ");
-  input_to("input_move");
-  return 1;
-}
-
-int do_take(string str) {
-  string nam;
-  int b_n, i, *bing;
-  mixed *board;
-
-  nam = (string)TP_NAME;
-  if (str) {
-    if (sscanf(str, "%d", b_n) != 1) {
-      notify_fail("Syntax: "+query_verb()+" [game no]\n");
+   if (_board[bing->x][bing->y]) {
       return 0;
-    }
-    if (b_n < 0 || b_n >= sizeof(games)) {
-      notify_fail("That game does not exist.\n");
-      return 0;
-    }
-    if (games[b_n][R_PLAYER1] !=  nam && games[b_n][R_PLAYER2] != nam) {
-      notify_fail("You are not in game "+b_n+".\n");
-      return 0;
-    }
-    if (games[b_n][R_PLAYER1] == nam && (games[b_n][R_MOVE_NO]%2) ||
-        games[b_n][R_PLAYER2] == nam && !(games[b_n][R_MOVE_NO]%2)) {
-      notify_fail("It is not your turn in "+b_n+".\n");
-      return 0;
-    }
-    doing_move[nam] = b_n+1;
-    write_board(b_n, 0);
-    write("Move: ");
-    input_to("input_move");
-    return 1;
-  }
-  bing = ({ });
-  for (i=0;i<sizeof(games);i++)
-    if (games[i][R_PLAYER1] == nam && !(games[i][R_MOVE_NO]%2)) {
-#ifndef IGOR
-      write(sprintf("%c-%2d: %s against %s.\n", sizeof(bing)+'A',
-                    i, capitalize(nam), capitalize(games[i][R_PLAYER2])));
-#else
-      write(LET_STR[i]+"-"+i+": "+captitalize(nam)+" against "+
-            capitalize(games[i][R_PLAYER2]+".\n"));
-#endif
-      bing += ({ i });
-    } else if (games[i][R_PLAYER2] == nam && (games[i][R_MOVE_NO]%2)) {
-#ifndef IGOR
-      write(sprintf("%c-%2d: %s against %s.\n", sizeof(bing)+'A',
-                    i, capitalize(nam), capitalize(games[i][R_PLAYER1])));
-#else
-      write(LET_STR[i]+"-"+i+": "+capitalize(nam)+" against "+
-            capitalize(games[i][R_PLAYER1])+".\n");
-#endif
-      bing += ({ i });
-    }
-  if (!sizeof(bing)) {
-    notify_fail("No games to take a turn in.\n");
-    return 0;
-  }
-  if (sizeof(bing) == 1) {
-    write("Only one game to take a turn in.\n");
-    doing_move[nam] = bing[0]+1;
-    write_board(bing[0], 0);
-    write("Move: ");
-    input_to("input_move");
-    return 1;
-  }
-  doing_move[nam] = bing;
-#ifndef IGOR
-  write("Which game [A-"+sprintf("%c", sizeof(bing)-1+'A')+"]? ");
-#else
-  write("Which game [A-"+LETSTR[sizeof(bing)-1]+"]? ");
-#endif
-  input_to("get_game_no");
-  return 1;
-}
+   }
 
-int get_game_no(string str) {
-  string nam;
-  int *bing, b_n;
-  mixed *board;
+   if (colour == BOARD_BLACK) {
+      other_colour = BOARD_WHITE;
+   } else {
+      other_colour = BOARD_BLACK;
+   }
 
-  str = lower_case(str);
-  nam = (string)TP_NAME;
-  if (!pointerp(doing_move[nam])) {
-    write("Error!!!  Oh no, quick call a frog!!!\n");
-    return 1;
-  }
-  bing = doing_move[nam];
-  if (str[0] == 'q') {
-    write("Quiting.\n");
-    doing_move = m_delete(doing_move, nam);
-    return 1;
-  }
-  if (sscanf(str, "%d", b_n) == 1) {
-    if (member_array(b_n, bing) == -1) {
-      if (do_view[nam])
-        write("You cannot view that game.\n");
-      else
-        write("You cannot play that game.\n");
-#ifndef IGOR
-      write("Game [A-"+sprintf("%c", 'A'+sizeof(bing)-1)+"]? ");
-#else
-      write("Game [A-"+LET_STR[sizeof(bing)-1]+"]? ");
-#endif
-      input_to("get_game_no");
+   //
+   // Check stuff.
+   //
+   foreach (off in _offsets) {
+      if (bing->x + off->x < BOARD_SIZE && bing->y + off->y < BOARD_SIZE &&
+          bing->x + off->x >= 0 && bing->y + off->y >= 0 &&
+          _board[bing->x + off->x][bing->y + off->y] == other_colour) {
+printf("Checking %O -- %O\n", off, bing);
+         for (x = bing->x + off->x * 2, y = bing->y + off->y * 2;
+              x < BOARD_SIZE && y < BOARD_SIZE && x >= 0 && y >= 0;
+              x += off->x, y += off->y) {
+            if (_board[x][y] == colour) {
+               return 1;
+            } else if (!_board[x][y]) {
+               break;
+            }
+         }
+      }
+   }
+
+   return 0;
+} /* is_valid_move() */
+
+/**
+ * This method makes the move.
+ * @param co_ord the co-ordinate
+ * @param colour the colour they are
+ * @return 1 if valid, 0 if not
+ */
+int make_move(class co_ord bing, string colour) {
+   int x;
+   int y;
+   string other_colour;
+   class co_ord off;
+
+   if (!is_valid_move(bing, colour)) {
+      return 0;
+   }
+
+   if (colour == BOARD_BLACK) {
+      other_colour = BOARD_WHITE;
+   } else {
+      other_colour = BOARD_BLACK;
+   }
+
+   //
+   // Check stuff.
+   //
+   _board[bing->x][bing->y] = colour;
+   foreach (off in _offsets) {
+      if (bing->x + off->x < BOARD_SIZE && bing->y + off->y < BOARD_SIZE &&
+          bing->x + off->x >= 0 && bing->y + off->y >= 0 &&
+          _board[bing->x + off->x][bing->y + off->y] == other_colour) {
+         for (x = bing->x + off->x * 2, y = bing->y + off->y * 2;
+              x < BOARD_SIZE && y < BOARD_SIZE && x >= 0 && y >= 0;
+              x += off->x, y += off->y) {
+            if (_board[x][y] == colour) {
+               for (x = bing->x + off->x, y = bing->y + off->y;
+                    ;
+                    x += off->x, y += off->y) {
+                  if (_board[x][y] == colour) {
+                     break;
+                  }
+                  _board[x][y] = colour;
+               }
+               break;
+            }
+         }
+      }
+   }
+
+   _last_move = bing;
+   _move_no++;
+
+   //
+   // Send the board data to the other person.
+   //
+   if (query_whose_move() == BOARD_BLACK) {
+      if (find_player(query_black_player())) {
+         tell_object(find_player(query_black_player()),
+                     query_board_string());
+      }
+   } else {
+      if (find_player(query_white_player())) {
+         tell_object(find_player(query_white_player()),
+                     query_board_string());
+      }
+   }
+
+   return 1;
+} /* make_move() */
+
+/**
+ * This method does the actual move.
+ * @param str the co-ordinate
+ * @return 1 on success, 0 failure
+ */
+int do_move(string str) {
+   class co_ord bing;
+
+   if (query_player_name_move() != this_player()->query_name()) {
+      add_failed_mess("It is not your move!\n");
+      return 0;
+   }
+
+   bing = query_co_ords(str);
+   if (!bing) {
+      add_failed_mess("Sorry, " + str + " is not a valid move.\n");
+      return 0;
+   }
+
+   if (!is_valid_move(bing, query_whose_move())) {
+      add_failed_mess("Sorry, " + str + " is not a valid move.\n");
+      return 0;
+   }
+
+   make_move(bing, query_whose_move());
+   add_succeeded_mess("$N make$s an exciting move on $I.\n",
+                      ({ this_object() }));
+   return 1;
+} /* do_move() */
+
+/**
+ * This method allows you to join the game.
+ * @param colour the colour to join as
+ * @return 1 on success, 0 failure
+ */
+int do_join(string colour) {
+   string play;
+   string name;
+
+   if (colour == BOARD_BLACK) {
+      play = query_black_player();
+   } else {
+      play = query_white_player();
+   }
+
+   if (find_player(play) && find_player(play) == environment()) {
+      add_failed_mess("Someone is already playing that colour.\n");
+      return 0;
+   }
+
+   if (colour == BOARD_BLACK) {
+      _player_black = this_player()->query_name();
+      name = "black";
+   } else {
+      _player_white = this_player()->query_name();
+      name = "white";
+   }
+
+   add_succeeded_mess("$N join$s the game on $I as " + name + ".\n",
+                      ({ this_object() }));
+   return 1;
+} /* do_join() */
+
+/**
+ * This method starts a game.
+ * @return 1 on success, 0 failure
+ */
+int do_start() {
+   if (query_black_player() == this_player()->query_name() ||
+       query_white_player() == this_player()->query_name()) {
+      reset_board();
+      add_succeeded_mess("$N start$s a new game on $I.\n",
+                         ({ this_object() }));
+      return 0;
+   }
+   add_failed_mess("Only the players of the game can start a new one.\n");
+   return 0;
+} /* do_start() */
+
+/**
+ * This method allows you to resign from the game.
+ * @return 1 on success, 0 on failure
+ */
+int do_resign() {
+   if (query_black_player() == this_player()->query_name()) {
+      _player_black = 0;
+      add_succeeded_mess("$N resign$s as the black player on $I.\n",
+                        ({ this_object() }));
       return 1;
-    }
-    doing_move[nam] = b_n+1;
-  } else if (str[0] < 'a' || str[0] >= 'a'+sizeof(bing)) {
-#ifndef IGOR
-    write("Out of range [A-"+sprintf("%c", 'A'+sizeof(bing)-1)+"]? ");
-#else
-    write("Out of range [A-"+LET_STR[sizeof(bing)-1]+"]? ");
-#endif
-    input_to("get_game_no");
-    return 1;
-  } else if (str[0] == 'q' && do_view[nam]) {
-    write("Quiting.\n");
-    doing_move = m_delete(doing_move, nam);
-    do_view = m_delete(do_view, nam);
-    return 1;
-  } else
-    doing_move[nam] = (b_n = bing[str[0]-'a'])+1;
-  write("Game no: "+b_n+".\n");
-  write_board(b_n, 0);
-  if (do_view[nam]) {
-    doing_move = m_delete(doing_move, nam);
-    do_view = m_delete(do_view, nam);
-    return 1;
-  }
-  if (!games[doing_move[nam]-1][R_PLAYER2] &&
-       games[doing_move[nam]-1][R_MOVE_NO] == 1)
-    games[doing_move[nam]-1][R_PLAYER2] = nam;
-  write("Move: ");
-  input_to("input_move");
-  return 1;
-}
-
-int do_join(string str) {
-  int i, *bing, b_n, no_g;
-  string nam;
-  mixed *board;
-
-  nam = (string)TP_NAME;
-  bing = ({ });
-  for (i=0;i<sizeof(games);i++)
-    if (!games[i][R_PLAYER2] && games[i][R_PLAYER1] != nam) {
-#ifndef IGOR
-      write(sprintf("%c-%2d: %s against no one.\n", sizeof(bing)+'A',
-                    i, capitalize(games[i][R_PLAYER1])));
-#else
-      write(LET_STR[i]+"-"+i+": "+capitalize(games[i][R_PLAYER1])+
-            " against no one.\n");
-#endif
-      bing += ({ i });
-    } else if (games[i][R_PLAYER1] == nam || games[i][R_PLAYER2] == nam)
-      no_g++;
-
-  if (no_g > MAX_GAMES) {
-    notify_fail("You are involved in too many games.\n");
-    return 0;
-  }
-
-  if (!sizeof(bing)) {
-    notify_fail("No games to join.\n");
-    return 0;
-  }
-
-  if (str) {
-    if (sscanf(str, "%d", b_n) != 1) {
-      notify_fail("Syntax: "+query_verb()+" [game no]\n");
-      return 0;
-    }
-    if (b_n < 0 || b_n >= sizeof(games)) {
-      notify_fail("That game does not exist.\n");
-      return 0;
-    }
-    if (games[b_n][R_PLAYER2]) {
-      notify_fail("That game has already started.\n");
-      return 0;
-    }
-    doing_move[nam] = b_n+1;
-    games[b_n][R_PLAYER2] = nam;
-    write_board(b_n, 0);
-    write("Move: ");
-    input_to("input_move");
-    return 1;
-  }
-
-  doing_move[nam] = bing;
-#ifndef IGOR
-  write("Which game [A-"+sprintf("%c", sizeof(bing)-1+'A')+"]? ");
-#else
-  write("Which game [A-"+LET_STR[sizeof(bing)-1]+"]? ");
-#endif
-  input_to("get_game_no");
-  return 1;
-}
-
-int do_view(string str) {
-  int i, *bing, b_n, no_g;
-  string nam;
-  mixed *board;
-
-  nam = (string)TP_NAME;
-  bing = ({ });
-
-  if (str) {
-    if (sscanf(str, "%d", b_n) != 1) {
-      notify_fail("Syntax: "+query_verb()+" [game no]\n");
-      return 0;
-    }
-    if (b_n < 0 || b_n >= sizeof(games)) {
-      notify_fail("That game does not exist.\n");
-      return 0;
-    }
-    write_board(b_n, 0);
-    return 1;
-  }
-
-  bing = ({ });
-  for (i=0;i<sizeof(games);i++)
-    if (games[i][R_PLAYER2] == nam || games[i][R_PLAYER1] == nam) {
-#ifndef IGOR
-      write(sprintf("%c-%2d: %s against %s.\n", sizeof(bing)+'A',
-                    i, capitalize(games[i][R_PLAYER1]), (games[i][R_PLAYER2]?
-                    capitalize(games[i][R_PLAYER2]):"no one")));
-#else
-      write(LET_STR[i]+"-"i+": "+capitalize(games[i][R_PLAYER1])+" against "+
-                    (games[i][R_PLAYER2]?capitalize(games[i][R_PLAYER2]):
-                    "no one")+".\n");
-#endif
-      bing += ({ i });
-    }
-
-  do_view[nam] = 1; /* Yes, an obscure global varible.  Like it? */
-  doing_move[nam] = bing;
-#ifndef IGOR
-  write("Which game [A-"+sprintf("%c", sizeof(bing)-1+'A')+"]? ");
-#else
-  write("Which game [A-"+LET_STR[sizeof(bing)-1]+"]? ");
-#endif
-  input_to("get_game_no");
-  return 1;
-}
-
-/* this will show us all the games we are in and any new games. */
-int do_list() {
-  mixed *new;
-  int i;
-  string nam;
-
-  nam = (string)TP_NAME;
-  new = ({ });
-  write("Games you are currently involved in:\n");
-  for (i=0;i<sizeof(games);i++)
-    if (games[i][R_PLAYER1] == nam) {
-      if (!games[i][R_PLAYER2])
-#ifndef IGOR
-        write(sprintf("%2d: %s against no one.\n", i,
-                       capitalize(games[i][R_PLAYER1])));
-#else
-        write(i+": "+capitalize(games[i][R_PLAYER1])+" against no one.\n");
-#endif
-      else
-#ifndef IGOR
-        write(sprintf("%2d: %s against %s.\n", i, capitalize(nam),
-                      capitalize(games[i][R_PLAYER2])));
-#else
-        write(i+": "+capitalize(nam)+" against "+
-              capitalize(games[i][R_PLAYER2])+".\n");
-#endif
-    } else if (games[i][R_PLAYER2] == nam) {
-#ifndef IGOR
-      write(sprintf("%2d: %s against %s, %s move.\n", i, 
-                     capitalize(games[i][R_PLAYER1]), 
-                     capitalize(nam), (games[i][R_MOVE_NO]%2?"His":"Your")));
-#else
-      write(i+": "+capitalize(games[i][R_PLAYER1])+" against "+
-            capitalize(games[i][R_PLAYER2])+
-            ", "+(games[i][R_MOVE_NO]%2?"His":"Your")+" move.\n");
-#endif
-    } else if (!games[i][R_PLAYER2])
-      new += ({ i });
-  if (sizeof(new)) {
-    write("\nNew games:\n");
-    for (i=0;i<sizeof(new);i++)
-#ifndef IGOR
-      write(sprintf("%2d: %s.\n", new[i],
-                    capitalize(games[new[i]][R_PLAYER1])));
-#else
-      write(new[i]+": "+capitalize(games[new[i]][R_PLAYER1])+".\n");
-#endif
-  }
-  return 1;
-}
-
-int do_show(string str) {
-  int b_n, m_p, i;
-
-  if (str) {
-    if (sscanf(str, "%d", b_n) != 1) {
-      notify_fail("Syntax: "+query_verb()+" [board_number]\n");
-      return 0;
-    }
-    if (b_n < 0 || b_n >= sizeof(games)) {
-      notify_fail("Board out of range.\n");
-      return 0;
-    }
-    write_board(b_n, 0);
-    return 1;
-  }
-  m_p = MAX_PAGE;
-  for (i=0;i<m_p && i<sizeof(games);i++)
-#ifndef IGOR
-    write(sprintf("%c-%2d: %s against %s, move %d.\n", i+'A',
-                  i, capitalize(games[i][R_PLAYER1]), (games[i][R_PLAYER2]?
-               capitalize(games[i][R_PLAYER2]):"no one"), games[i][R_MOVE_NO]));
-  write(sprintf("Board to show [A-%c]? ", 'A'+i-1));
-#else
-    write(LET_STR[i]+"-"+i+": "+capitalize(games[i][R_PLAYER1])+" against "+
-                 (games[i][R_PLAYER2]?
-                 capitalize(games[i][R_PLAYER2]):"no one")+", move "+
-                 games[i][R_MOVE_NO]+".\n");
-  write("Board to show? ");
-#endif
-  doing_move[TP_NAME] = ({ 0, i });
-  input_to("input_show");
-  return 1;
-}
-
-int input_show(string str) {
-  int i, b_n, m_p, low;
-  string nam;
-
-  nam = (string)TP_NAME;
-  if (sscanf(str, "%d", b_n) == 1) {
-    if (b_n < 0 || b_n >= sizeof(games)) {
-      write("Board out of range.\nBoard to show? ");
-      input_to("input_show");
+   }
+   if (query_white_player() == this_player()->query_name()) {
+      _player_white = 0;
+      add_succeeded_mess("$N resign$s as the white player on $I.\n",
+                        ({ this_object() }));
       return 1;
-    }
-    write_board(b_n, 0);
-    doing_move = m_delete(doing_move, nam);
-    return 1;
-  }
-  if (str != "") {
-    str = lower_case(str);
-    if (str[0] == 'q') {
-      write("Quiting.\n");
-      doing_move = m_delete(doing_move, nam);
-      return 1;
-    }
-    b_n = str[0]-'a'+doing_move[nam][0];
-    if (b_n < doing_move[nam][0] || b_n > doing_move[nam][1]) {
-      write("Out of range.\n");
-#ifndef IGOR
-      write(sprintf("Board to show [A-%c]? ", 'A'+doing_move[nam][1]-1));
-#else
-      write("Board to show [A-"+LET_STR[doing_move[nam][1]-1]+"]? ");
-#endif
-      input_to("input_show");
-      return 1;
-    }
-    b_n += doing_move[nam][0];
-    write_board(b_n, 0);
-    doing_move = m_delete(doing_move, nam);
-    return 1;
-  }
-  if (i >= sizeof(games)) {
-    write("End of list.\n");
-    doing_move = m_delete(doing_move, nam);
-    return 1;
-  }
-  low = doing_move[nam][1];
-  m_p = doing_move[nam][1]+MAX_PAGE;
-  for (i=low;i<m_p && i<sizeof(games);i++)
-#ifndef IGOR
-    write(sprintf("%c-%2d: %s against %s, move %d.\n", i+'A'-low,
-                  i, capitalize(games[i][R_PLAYER1]), (games[i][R_PLAYER2]?
-               capitalize(games[i][R_PLAYER2]):"no one"), games[i][R_MOVE_NO]));
-  write(sprintf("Board to show [A-%c]? ", 'A'+i-1));
-#else
-    write(LET_STR[i]+"-"+i+": "+capitalize(games[i][R_PLAYER1])+" against "+
-                 (games[i][R_PLAYER2]?
-                 capitalize(games[i][R_PLAYER2]):"no one")+", move "+
-                 games[i][R_MOVE_NO]+".\n");
-  write("Board to show [A-"+LET_STR[doing_move[nam][1]-1]+"]? ");
-#endif
-  doing_move[nam] = ({ low, i });
-  input_to("input_show");
-  return 1;
-}
+   }
+   return 0;
+} /* do_resign() */
 
-int do_delete(string str) {
-  string nam;
-  int b_n;
+/**
+ * This method views the current state of the board.
+ */
+int do_view() {
+   int dark;
 
-  nam = (string)TP_NAME;
-  if (str) {
-    if (sscanf(str, "%d", b_n) != 1) {
-      notify_fail("Syntax: "+query_verb()+" <game no>\n");
+   dark = this_player()->check_dark(environment()->query_light());
+   if (dark) {
+      add_failed_mess("It is too dark to see the board.\n");
       return 0;
-    }
-    if (b_n < 0 || b_n >= sizeof(games)) {
-      notify_fail("That game does not exist.\n");
-      return 0;
-    }
-    if (games[b_n][R_PLAYER1] != nam && games[b_n][R_PLAYER2] != nam) {
-      notify_fail("You cannot delete other peoples games!\n");
-      return 0;
-    }
-    if (games[b_n][R_LAST] < MIN_TIME) {
-      notify_fail("That game is too young to delete.\n");
-      return 0;
-    }
-    delete_game(b_n);
-    write("Ok, game deleted.\n");
-    return 1;
-  }
-  notify_fail("Syntax: "+query_verb()+" <game no>\n");
-  return 0;
-}
+   }
 
-void save_me() {
-#ifndef NO_SAVE
-  save_object(SAVE_FILE);
-#endif
-}
+   write(query_board_string());
+   return 1;
+} /* do_view() */
 
-void load_me() {
-#ifndef NO_SAVE
-  restore_object(SAVE_FILE);
-#endif
-}
+/** @ignore yes */
+void init() {
+   ::init();
+   add_command("join", "game as {black|white}",
+               (: do_join($4[0] == "black"?BOARD_BLACK:BOARD_WHITE) :));
+   add_command("resign", "from game",
+               (: do_resign() :));
+   add_command("move", "<string'pos'>", (: do_move($4[0]) :) );
+   add_command("start", "new game", (: do_start() :) );
+   add_command("view", "", (: do_view() :));
+} /* init() */
+
+/** @ignore yes */
+mapping query_dynamic_auto_load() {
+   mapping map;
+
+   map = ::query_dynamic_auto_load();
+   add_auto_load_value(map, BOARD_TAG, "board", _board);
+   add_auto_load_value(map, BOARD_TAG, "move no", _move_no);
+   add_auto_load_value(map, BOARD_TAG, "white", _player_white);
+   add_auto_load_value(map, BOARD_TAG, "black", _player_black);
+   add_auto_load_value(map, BOARD_TAG, "last move", _last_move);
+   return map;
+} /* query_dynamic_auto_load() */
+
+/** @ignore yes */
+void init_dynamic_arg(mapping map, object player) {
+   ::init_dynamic_arg(map, player);
+
+   _board = query_auto_load_value(map, BOARD_TAG, "board");
+   _move_no = query_auto_load_value(map, BOARD_TAG, "move no");
+   _player_white = query_auto_load_value(map, BOARD_TAG, "white");
+   _player_black = query_auto_load_value(map, BOARD_TAG, "black");
+   _last_move = query_auto_load_value(map, BOARD_TAG, "last move");
+   if (!_board) {
+      reset_board();
+   }
+} /* init_dynamic_arg() */

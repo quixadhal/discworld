@@ -1,0 +1,17 @@
+#Soup With Meat for the Kart Kill Kafe on The Soake
+::#Class::"/obj/reagents/generic_liquid.ob"
+::Name::"soup"
+::Short::"Soup with Meat"
+::Alias::({"meat", "stew", "portion", "food", "soup"})
+::Adjective::({"with", "meat"})
+::Medium Alias::"SoupWithMeat"
+::Long::"This soup is a uniform grey-green colour, and has Bits floating in "
+   "it.  Not only is the meat not named, it's not entirely clear that it is "
+   "meat at all.\n"
+::Amount::30
+::$setup_eat_piece_messages:: ({"You swallow some of the vile soup.\n", 
+   "$N gulp$s some soup with a look of disgust on $p face.\n"}),
+   ({}),
+   ({"You finish off the soup and try to think of something else.\n",
+   "$N regretfully sip$s the soup until it is gone.\n"})
+::Eat Effects::"/std/effects/ingested/vial_healing", 1

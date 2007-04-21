@@ -1,0 +1,128 @@
+.DT
+groups
+Discworld player help
+groups
+
+.SH Overview
+.SP 5 5
+Teams, or groups, are a mechanism whereby a number of players can act
+together.  By acting in concert players can often achieve tasks which
+none of them could manage individually.
+
+Discworld provides a number of commands to assist in the management of
+group.
+.EP
+
+.SH First Things First
+.SP 5 5
+The command to access all group operations is called "group".  This
+command is divided into a number of different sub-commands and is
+used by typing "group <sub-command> [arguments]" such as "group list"
+or "group say Hello."
+
+To get a list of all of the current sub-commands in the system, type
+"syntax group".  To get a short help message on a particular sub-command,
+type "group help <sub-command>".  For example, to view the help for
+"group create", type "group help create".
+.EP
+
+.SH Colour
+.SP 5 5
+Group actions can be colourised via the "group" option in the command
+"colours".  See "help colours" for more details.
+.EP
+
+.SH The Hierarchy of Adventure
+.SP 5 5
+What a silly title.  Anyway, every group must have a leader at all times.
+The leader gets access to special commands to administer his fellow members
+(or crack the whip, depending on which sort of group he's running).  At the
+beginning, the leader is the person who creates the group.
+.EP
+
+.SH Listing, Creating, Joining and Leaving Groups
+.SP 5 5
+A player creates a group by typing "group create <name>".  This, oddly,
+starts a group of that name.  If a group with such a name exists, the command
+will bark at you with a nasty error.  Use the command "group list"
+to view already existing groups and their members and leader.
+
+If the command succeeds, the group is created and exists until either all
+members leave the group or the game.  Groups do not (or should not)
+survive between logins.  You want clubs for that ("help clubs").
+
+To join an existing group you must first be invited.  An invitation can
+only be placed by the leader of a group with the "group invite <person>"
+command.  The leader and the new member do not have to be in the same
+room together for the invitation to be placed.  The prospecting member
+can join a group when he meets an existing member of the group and types
+"group join <member>".
+
+A member can leave a group by either quitting the game or typing
+"group leave".
+.EP
+
+.SH Communication and Discipline
+.SP 5 5
+Group members can talk to each other with the "group say
+<text>" command.  This command broadcasts a message to everyone in the
+group.  To emote on the group channel, use "group emote <message>".
+
+It might be useful to alias these commands for easy access,
+e.g. "alias p' group say $*$".  See "help alias" for more information.
+
+To view what has been said on the channel recently, a member can use the
+command "group history".  You can only view the history from the point
+where you joined the group.
+
+If a member is not cooperating to a point that he must be removed from
+the group, the command "group kick <member>" is available to the leader
+to boot the player out.
+.EP
+
+.SH Movement
+.SP 5 5
+Generally the group moves as a single unit with everyone following the
+leader.  To change this configuration, members can use the commands
+"group follow <member(s)>" and "group unfollow <member(s)>".
+
+The arguments these commands takes can be the name (or names, separated
+by commas) of a group member in the same room with you, or a simple
+"all" which makes you follow all group members in the room.
+
+When you join a group, you will automatically begin following the
+group's current leader.  If the leader of a group changes, you will only
+switch to follow the new leader if you were already following the old
+one.
+.EP
+
+.SH Combat
+.SP 5 5
+One of the most important uses for groups is to cooperate in combat.  There
+are various commands to aid in coordinating attacks and communication
+information and orders during them.
+
+To view statistics of all group members, use the command "group status
+[brief|verbose]".  The 'brief' or 'verbose' argument is optional - it will
+default to either one depending on your verbose settings (see "help
+verbose" for more information).  To announce your personal statistics to
+all group members, use the command "group report".
+
+To keep an eye on a group member, and automatically join the fight when
+someone attacks him, use the command "group assist <member>".  You may
+only be assisting a certain number of members at one time, and the
+larger the number, the larger the delay before you "notice".  This
+delay is also based on your character's perception.
+.EP
+
+.SH Notes
+.SP 5 5
+The maximum number of players that can be in a group at one time is six.
+.EP
+
+.EO
+
+.SH See Also
+.SP5 5
+protect, unprotect, verbose, colours
+.EP

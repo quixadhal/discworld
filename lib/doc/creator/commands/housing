@@ -1,0 +1,108 @@
+.DT
+housing
+Discworld creator help
+housing
+
+.SH Name
+.SI 5
+housing - view/modify the housing database
+.EI
+
+.SH Syntax
+.SI 5
+housing add <house> <region> <rented> <address> 
+housing modify <house> <region> <rented> <address> 
+housing remove <house> 
+
+housing add room <house> <room> 
+housing remove room <house> <room> 
+
+housing owner <house> <owner> 
+
+housing list address <search> 
+housing list <search> 
+.EI
+
+.SH Description
+.SP 5 5
+The housing command lets you view (and modify) information about houses
+stored in the housing handler.  The housing handler is used to handle the
+sale/rental of all houses on the Disc.  It keeps track of who owns which
+house, where that house is, how much the rent is etc.
+
+Only add a house to the handler if it is in the game and open for players.
+Any vacant house in the handler will automatically get put up for auction!
+
+Each house has a primary room and any number of subsidiary rooms.  A house
+must always be referred to by this rooms filename.
+.EP
+
+.SH Altering house information
+.SP 5 5
+Add a house to the handler is done with the 'housing add' command.  You
+must provide the filename of the main house room, the region of the Disc
+the house is in, whether it is rented or owned, and a street address.
+
+After this you must add each of the other rooms in the house with the
+command 'housing add room', again giving the filename of the main house
+room and then the filename of the room you're adding.
+
+You can remove a house from the mapping with the 'housing remove house'
+command or remove a single room from a house with 'housing remove room'.
+
+You can set the owner of a house with 'housing owner'.  Note you can make a
+house vacant with 'housing owner <house> Vacant'.
+
+Once a house has been added to the handler, you must make it vacant, 
+otherwise it will not be put up for auction.  You can do this by using 
+'housing owner <house> none' to set its flag as for sale.
+.EP
+
+.SH Searching for houses
+.SP 5 5
+The 'housing list' and 'housing list address' commands can take a search
+parameter which will be matched against the output. To invert a search
+place "not" in front of the search term.
+
+'housing list' shows the filename, renter, number of rooms and region.
+'housing list address' shows the filename, address and region.
+
+If you give the filename of a single house you will see the full details of
+that house.  If you don't give any search string you will receive a list of
+all the houses in the handler.
+.EP
+
+.SH Examples
+.SI 5
+> housing add /d/am/nakor/houses/12livingroom Ankh-Morpork 1 12 Nakor Street, Ankh Morpork
+House added
+
+> housing list elm
+/d/am/elm/house/10livingroom - Renter: brighid. 11 rooms (Ankh-Morpork).
+/d/am/elm/house/19blivingroom - Renter: ded. 2 rooms (Ankh-Morpork).
+/d/am/elm/house/12hall - Renter (A$485): slipstream. 3 rooms (Ankh-Morpork).
+/d/am/elm/house/19alivingroom - Renter: For Sale. 2 rooms (Ankh-Morpork).
+/d/am/elm/house/13hall - Renter: lobo. 6 rooms (Ankh-Morpork).
+/d/am/elm/house/14hall - Renter: dlsss. 6 rooms (Ankh-Morpork).
+/d/am/elm/house/17hall - Renter: For Sale. 6 rooms (Ankh-Morpork).
+7 houses found.
+
+> housing list not for sale
+/d/am/elm/house/10livingroom - Renter: brighid. 11 rooms (Ankh-Morpork).
+/d/am/elm/house/19blivingroom - Renter: ded. 2 rooms (Ankh-Morpork).
+/d/am/elm/house/12hall - Renter (A$485): slipstream. 3 rooms (Ankh-Morpork).
+/d/am/elm/house/13hall - Renter: lobo. 6 rooms (Ankh-Morpork).
+/d/am/elm/house/14hall - Renter: dlsss. 6 rooms (Ankh-Morpork).
+7 houses found.
+
+> housing list /d/am/elm/house/12hall
+House: /d/am/elm/house/12hall
+  Owner: slipstream
+  Address: 12 Elm Street, Ankh-Morpork
+  Region: Ankh-Morpork
+  Type: Rented
+  Value: 194000
+  Rooms: /d/am/elm/house/12livingroom, /d/am/elm/house/12bed, 
+/d/am/elm/house/12hall
+.EI
+

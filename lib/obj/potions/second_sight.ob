@@ -1,0 +1,26 @@
+::#Class:: "/obj/potions/potion.c"
+::Name:: "second_sight"
+::$set_min_level:: 100
+::$set_max_level:: 500
+::$set_advance_chance:: 50
+::$set_backfire_chance:: 0
+::$set_reagent_alias:: "TransientSecondSight"
+# Still need to write this...
+::$set_backfire_alias:: "TransientBlindBoom"
+::$set_rel_strength:: 1
+::$set_potion_verb:: "chant"
+::$set_chant:: "Through the darkness, through the haze,\n" +
+               "Through the forest's twisted maze,\n" +
+               "Through the sky with stars ablaze,\n" +
+               "Let mine eyes on others gaze.\n"
+::$set_recipe:: "     A mixture to endow a person with second sight\n" +
+        "Obtain the left eye of a Basilisk.  Extract ten drops of ichor " +
+        "from said eye.  Mix with ten drops of molten beeswax from a " +
+        "candle dedicated to the Blind god, and five pinches of ground " +
+        "carrot.  Chant the words over the mixture before the wax hardens. " +
+        "Mix one drop of the resultant concoction in a quantity of water, " +
+        "and picture the desired location in the container."
+::$set_skills:: ({
+    ({"magic.methods.elemental.water", 1, 100, 1}),
+    ({"magic.methods.physical.chanting", 2, 100, 1})
+})

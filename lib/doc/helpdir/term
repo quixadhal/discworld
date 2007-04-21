@@ -3,29 +3,38 @@ term
 Discworld player help
 term
 
-Name
+.SH Name
 .SI 5
-term - Set your terminal type.
+term - Set your terminal type
 .EI
 
-Syntax
+.SH Syntax
 .SI 5
-term <terminal-type>
+options terminal type=[<terminal-type>]
 .EI
 
-Description
+.SH Description
 .SP 5 5
-Term sets your terminal type. If you experiment with terminal types it is your
-own fault if your terminal hangs...which it may do if it is not compatible.
-Currently supported are dumb, ansi, freedom and ansi-status.  At the moment
-only ansi supports different colours.  If you have the terminal codes
-for another terminal you would like to see added, please mail one of
-the creators.
+Term sets your terminal type.  If you experiment with terminal types it is your
+own fault if your terminal hangs... which it may do if it is not compatible.
+Currently supported are 'dumb', 'ansi', 'freedom', 'hpterm', 'aixterm',
+'xterm', 'vt100', 'vt220', 'ibm3151', 'vt100-nc' and 'vt220-nc'.
+At the moment 'ansi', 'xterm', 'vt100' and 'vt220' support different colours.
+'vt100-nc' and 'vt220-nc' are 'no colour' versions of these popular terminals.
+They attempt to emulate colour using combinations of bold, reverse video and
+underline attributes.
 
-Share and enjoy.
+You can also set your terminal type to 'network', which will cause Discworld
+to use telnet negotiation to figure out your terminal type.  This is the
+default setting.
 .EP
 
-See also
+.SH Example
 .SI 5
-cols, rows, review.
+> options terminal type=ansi
+.EI
+
+.SH See also
+.SI 5
+cols, rows, resize, colours, options
 .EI

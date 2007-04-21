@@ -1,0 +1,42 @@
+<html><head><title>File meltable.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/meltable.c</h2>
+
+<BR>
+This is an inheritable for frozen food which melts, 
+based on the temperature of the room environment in 
+which it finds itself. 
+<P>
+It performs just as normal food, apart from the following:
+<P>
+- It cannot be cured or dried
+<P>
+- It does not decay
+<P>
+- It cannot be forced to behave as a liquid
+<P>
+- When applied or eaten, it will cause a brief decrease
+in temperature of the user.
+<P>
+It will melt into a liquid, which can be set using 
+set_melt_result().  This is default at water, and can be 
+queried using query_melt_result().
+<P>
+It's melt level can be checked by query_melt_level().  This
+starts at a value of ten times the original weight of the 
+meltable food.
+<P>
+It's rate of melting adjusts itself regularly, based on the
+temperature.  This can be checked with query_melt_rate(), and
+set temporarily with set_melt_rate.
+<P>
+The level of melting is shown in the long and short of the object.
+These are created using query_short_rotten_adjective and 
+query_long_decay_level, and are based on the percentage of 
+object left.
+<p>Written by Carmine
+
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.food.c.html">/obj/food.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.weather.h.html">/include/weather.h</a> and <a href="include.bits_controller.h.html">/include/bits_controller.h</a><hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 14 Oct 2003 17:32:57 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

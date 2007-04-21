@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions ([])
+protected_functions ([])
+inherits (["/obj/food":({}),])
+main_docs (["author":({"Carmine",}),"main":({"<BR>This is an inheritable for frozen food which melts, based on the temperature of the room environment in which it finds itself. <P>It performs just as normal food, apart from the following:<P>- It cannot be cured or dried<P>- It does not decay<P>- It cannot be forced to behave as a liquid<P>- When applied or eaten, it will cause a brief decreasein temperature of the user.<P>It will melt into a liquid, which can be set using set_melt_result().  This is default at water, and can be queried using query_melt_result().<P>It's melt level can be checked by query_melt_level().  Thisstarts at a value of ten times the original weight of the meltable food.<P>It's rate of melting adjusts itself regularly, based on thetemperature.  This can be checked with query_melt_rate(), andset temporarily with set_melt_rate.<P>The level of melting is shown in the long and short of the object.These are created using query_short_rotten_adjective and query_long_decay_level, and are based on the percentage of object left.",}),])
+define_docs (["CHILL":([]),"MELT_RATE_DEFAULT":([]),"CHILL_TIME":([]),])
+includes (["/include/weather.h":1059516193,"/include/bits_controller.h":1059516192,])
+class_docs ([])
+file_name "/obj/meltable.c"
+last_changed 1059516271

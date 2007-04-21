@@ -1,0 +1,45 @@
+Discworld mudlib version wibble
+
+To setup and run this mudlib you will need to do the following things:
+
+1)  If you wish to run mysql and connect up to the errors system you must
+    turn on the database efuns in the local_options file.
+
+2)  First you will need to compile up the driver, the options you need to
+    compile the driver with are listed in /driver/local_options in the
+    mudlib directory.  You must edit the local_options file to get the
+    directory to the find the config files setup correctly.  The mudlib
+    comes with config files in the /driver directory.
+    You copy the local_options file into the directory
+    with your driver sources then run 'build.MudOS' and then 'make'.
+
+3)  Copy the driver binary into your bin directory.
+
+3)  If you are using mysql you must create the databases for the system
+    to hook up to.  The system uses the databases 'discworld' and 'errors'.
+    Once the database is setup you must setup the tables.  The table 
+    definitions are in the db directory of the mudlib.  The following
+    sequence of commands should setup your database.
+    You create these with:
+       mysqladmin create database discworld
+       mysqladmin create database errors
+       cd $(mudlibdir)/db
+       mysql errors < errors
+       mysql discworld < discworld
+
+4)  Setup your config.dw_distribution file, you will need to change the
+    path to your mudlib and the binary directory in this file.  Setting
+    your mud name as something other than 'dw_dist' would be a good
+    idea too.
+
+5)  Edit the /include/config.h directory to setup any configurable mudlib
+    options.
+
+6)  Edit /secure/master.c to set yourself up as an adminisistrator.
+
+7)  Run the driver!
+       $(bindir)/driver config.dw_dist
+
+8)  Connect to the mudlib and everything should be working.  You may need
+    to 'upgrade' after saving for the first time for some of the commands
+    to turn on.

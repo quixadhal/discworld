@@ -1,0 +1,66 @@
+.DT
+set_weight_unit
+Discworld cont_medium help
+set_weight_unit
+
+Name
+.SI 5
+set_weight_unit - The amount of this stuff.
+.EI
+
+Syntax
+.SI 5
+void set_weight_unit(int *unit);
+.EI
+
+Description
+.SP 5 5
+This is an array of two elements:  ({ a, b }) means that b
+units have weight a.
+
+This allows you to define up less than the smallest weight weights
+for continuous items.  ie: For rice the weight unit would be
+something like ({ 1, 200 }) which means 200 of the objects weigh
+1 weight unit.  In other words, the array is a fraction a/b
+representing the weight per volume (if you think of the amount as
+a measure of volume).
+
+This is also used in food when the eat_effect is
+run to modify the number passed into the eat_effect.  So the number
+parsed in is the actual weight of the stuff eaten.
+.EP
+
+Example
+.SI 5
+/* Food inherits cont_medium */
+inherit "/obj/food";
+ 
+void setup() {
+   set_name("rice");
+   set_long(
+"Little oval shaped hard nuggets, they are made almost totally "
+"of starch.\n");
+ 
+   /* Make it a continuous object */
+   set_continuous();
+   /* Set an alias to the medium so that it can be connected correctly */
+   set_medium_alias("RiceStuff");
+   /* How much of the stuff we have here */
+   set_amount(100);
+   /* 200 bits of rice weighs 1 weight unit */
+   set_weight_unit( ({ 1, 200 }) );
+   /* The name of a pile of them */
+   set_pile_name("pile");
+   /* The size of each of the amounts */
+   set_amount_types( ([ "pinch" : ({ 1, "pinches" }),
+                        "handful" : ({ 100, "handfuls" }),
+                        "bucket" : ({ 10000, "buckets" }) ]) );
+   /* The name for each of the sizes of piles */
+   set_pile_types(({ 400, "small", 800, "medium", 1600, "large", "huge" }) );
+} /* setup() */
+.EI
+
+See also
+.SP 5 5
+query_weight_unit, query_amount, set_amount, add_eat_effect
+.EP

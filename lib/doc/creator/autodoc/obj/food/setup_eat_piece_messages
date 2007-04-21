@@ -1,0 +1,38 @@
+.DT
+setup_eat_piece_messages
+DW_wibble creator help
+setup_eat_piece_messages
+
+.SH Name
+.SP 5 5
+setup_eat_piece_messages -  This sets up the eat messages for pieces and stuff.
+.EP
+
+.SH Syntax
+.SI 5
+void setup_eat_piece_messages(mixed piece,
+                              mixed amt,
+                              mixed last)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^piece%^RESET%^ - the eat piece message. This can be either a string or an
+array, it is passed to add_succeeded_mess().
+%^BOLD%^amt%^RESET%^ - the amount messages
+%^BOLD%^last%^RESET%^ - the message to print out when the last bit gets eaten
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets up the eat messages for pieces and stuff.  The amount message
+will replace the $amt$ string in the message with the amount_string().  
+.EP
+

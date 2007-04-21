@@ -1,0 +1,95 @@
+.DT
+response_mon
+Discworld Creator help
+response_mon
+
+Name
+.SI 5
+/std/living/response_mon.c - object inherited by NPCs
+.EI
+
+Description
+
+.SP 5 5
+/std/living/response_mon is the object that
+
+<description missing>
+.EP
+
+Functions
+
+.SI 5
+void set_respond_to_with(mixed map)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void add_respond_to_with(mixed *trigger, mixed response)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void set_stop_responding(int i)
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_stop_responding()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+mixed *query_respond_to_with()
+.EI
+.SP 10 5
+.EP
+
+Internal functions
+
+.SI 5
+mixed *check_sub_sequence (string *words)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int match(string str, mixed format)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+string remove_read_marks(string str)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void senddstr(string str, object per)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void exec_response(mixed rep, object per, string mess)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void event_person_say(object per, string start, string mess, string lang)
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void event_soul(object per, string mess, object *avoid, string verb,
+                string last, mixed at)
+.EI
+.SP 10 5
+.EP
+ 

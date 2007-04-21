@@ -1,0 +1,31 @@
+::#Class:: "/obj/food.c"
+::Name:: "root"
+::Short:: "holy ghost root"
+::Long:: "This is $pile_size$ of holy ghost root, $amount_size$.\n"
+::Adjective:: ({ "some", "holy", "ghost" })
+::Property:: "determinate", "some "
+::Property:: "no recycling", 1
+::Plural:: "holy ghost root"
+::Main Plural:: "holy ghost root"
+::$set_medium_alias:: "HolyGhostRoot"
+::$set_amount_types:: ([ "clump": ({ 1, "clumps" }),
+                         "handful": ({ 50, "handfuls" }) ])
+::Adjective:: ({ "clump", "clumps", "handful", "handfuls", "of" })
+::$set_amount:: 1
+::$set_continuous::
+::$set_pile_types:: ({ 50, "small", 100, "medium", "large" })
+# I have no idea what this should be
+::$set_weight_unit:: ({ 1, 10 })
+# 10 hp per stalk
+::$add_eat_effect::"/std/effects/object/oak_wand_healing", 100
+# 10 stalks for poison to begin acting
+::$add_eat_effect::"/std/effects/ingested/cum_poison", 600
+::Property:: "herb lore", "Holy Ghost Root, more commonly known as angelica "
+    "root comes from a plant that is a perennial herb.  The plant grows to "
+    "about 3 metres in height with a green groved hollow stem and large "
+    "pinnate leaves and umbels of greenish-white or green flowers.  Its roots "
+    "are usually dug out in autumn.  Fiberous roots are first removed before "
+    "storing away to be dried.  Its medical functions includes replenishing "
+    "stagnant blood, invigorating blood, alleviating pain and moistening the "
+    "intestines."
+#Most of this code was ripped from /obj/plants/thorny_burr.ob

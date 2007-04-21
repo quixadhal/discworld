@@ -1,0 +1,46 @@
+.DT
+clubs
+Discworld lord help
+clubs
+
+
+.SH Name
+.SI 5
+clubs - Clubs query and deletion tool
+.EI
+
+.SH Syntax
+.SI 5
+clubs delete <word> <string> 
+clubs invalid <string> 
+clubs invalid 
+
+.EI
+
+.SH Description
+.SP 5 5
+The clubs command allows you to delete clubs without having to mess around 
+with the handlers.  It also allows you to query which clubs are in the 
+'grey' area of having dodgy names.
+
+'clubs invalid' by itself will give you a list of all the clubs that have
+names that may perhaps violate naming policy or perhaps contain one of the
+standard 'banned words' that players and clubs cannot contain (such as 
+'black', 'mage', 'pink', etc).  If you use the syntax 'clubs invalid verbose',
+you will get more detailed information on these clubs.
+
+'clubs delete' allows you to delete a club.  Please note that there are no
+spaces in the clubs name, merely underscores, and it is all lowercase.  
+So the club 'The Amazing  Maurice' would be named in the handler as 
+'the_amazing_maurice'.  You must also state a reason, which is sent to the
+founder and members of the club via mail.
+
+.EP
+
+.SH Examples:
+.SI 5
+> clubs delete the_amazing_maurice This is the name of a book
+
+.SH See also
+.SP 5 5
+.EP

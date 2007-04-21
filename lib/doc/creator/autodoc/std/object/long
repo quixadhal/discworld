@@ -1,0 +1,39 @@
+.DT
+long
+DW_wibble creator help
+long
+
+.SH Name
+.SP 5 5
+long -  The description of an object when someone looks at it.
+.EP
+
+.SH Syntax
+.SI 5
+string long(string word,
+            int dark)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the word it was matched on
+%^BOLD%^dark%^RESET%^ - is it dark from the player's perspecitive
+.EI
+
+.SH Returns
+.SI 5
+the long description
+.EI
+
+.SH Defined in
+.SI 5
+/std/object.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The description of an object when someone looks at it.  This handles
+the extra code for messages, colour and material.
+.EP
+

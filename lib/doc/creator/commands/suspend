@@ -1,0 +1,50 @@
+.DT
+suspend
+Discworld creator help
+suspend
+
+
+.SH Name
+.SI 5
+Suspend - Temporarily revoke a character's access to DW.
+.EI
+
+.SH Syntax
+.SI 5
+suspend <player> <time> <hours|days|weeks|months|years> <reason> 
+suspend <player> <time> <reason> 
+suspend <player> <reason> 
+suspend help 
+.EI
+
+.SH Description
+.SP 5 5
+The suspend command can be used to stop a particular character logging 
+in for a period of time... this is almost exclusively used as a punishment.  
+If someone wishes to be voluntarily suspended, direct them towards the 
+'lockout' command.
+
+The syntax provides three methods of suspending.  The first is most flexible,
+ and allows you to simply state a multiple of a particular block of time.
+ '2 weeks', for example.
+ 
+The second is in seconds, so you must suspend for '86400' to suspend for a 
+day.
+
+The third is the standard 'quick' suspension and will suspend for two hours.  
+This is a good way to get an abusive or angry player to calm down.
+
+This command is restricted... seniors and liaisons can suspend for two 
+hours maximum.  Liaison deputies can suspend for as long as two weeks.  
+Lords and above have access to the unrestricted suspend command.  
+.EP
+
+.SH Examples:
+.SI 5
+suspend drakkos 2 years being a really nasty bastard, full of bile and hatred
+.EI
+
+.SH See also
+.SP 5 5
+unsuspend   lockout
+.EP

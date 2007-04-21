@@ -1,0 +1,249 @@
+.DT
+basic_ritual
+Discworld Creator Help
+basic_ritual
+
+Name
+.SI 5
+/std/effects/religious/basic_ritual.c - Inheritable basic ritual object
+.EI
+
+Description
+
+.SP 5 5
+/std/effects/religious/basic_ritual is the basic object inherited by all new
+priest rituals.  It gives the basic functionality and all the functions
+needed to individualize the rituals.  The ritual inheriting this one should
+be put in /obj/rituals.
+.EP
+
+Functions to be defined
+
+.SP 5 5
+The ritual object should define at least the following two functions:
+.EP
+
+.SI 5
+void setup()
+.EI
+.SP 10 5
+This is used to setup all the values defining the ritual. 
+.EP
+
+.SI 5
+void ritual_succeeded( object caster, object *targets, int bonus )
+.EI
+.SP 10 5
+This defines the actual result of casting the ritual when it succeedes,
+caster is whoever cast the ritual, targets is an array of the targets, and
+bonus is the bonus of the casters relevant skill.
+.EP
+
+Optional functions
+
+.SI 5
+void ritual_failed( object caster, object *targets, int bonus )
+.EI
+.SP 10 5
+This defines the result of a failed ritual.
+.EP
+
+.SI 5
+void ritual_resisted( object caster, object *targets, int bonus )
+.EI
+.SP 10 5
+This defines the result of a resisted ritual.  This only has meaning if the
+set_resist() has been called.
+.EP
+
+
+.SI 5
+void ritual_aborted( object caster, object *targets, int bonus )
+.EI
+.SP 10 5
+This defines the result of an aborted ritual ie. caster used the stop
+command before the end.
+.EP
+
+
+Functions in setup
+.SP 5 5
+These are the functions to use in setup.
+.EP
+
+.SI 5
+void set_name( string word )
+.EI
+.SP 10 5
+Defines the name of the ritual, this is also the default name to be used
+when casting the ritual.
+.EP
+
+.SI 5
+void set_power_level( int number )
+.EI
+.SP 10 5
+Sets the bonus used for taskmaster calculations.
+.EP
+
+.SI 5
+void set_learn_lvl( int number )
+.EI
+.SP 10 5
+The default level at which the ritual is taught in the guild.
+.EP
+
+.SI 5
+void set_teach_lvl( int number )
+.EI
+.SP 10 5
+The level at which the ritual can be taught.  NOTE, not used at the moment,
+but should be specified anyway.
+.EP
+
+.SI 5
+void set_point_cost( int number )
+.EI
+.SP 10 5
+The number of guild points used when trying to cast this ritual.
+.EP
+
+
+.SI 5
+void set_directed( int number )
+.EI
+.SP 10 5
+The sum of 1 for non-living, 2 for living, 4 for self and 8 for multiple
+targets, determines the targets allowed for the ritual.  If 0 any targets
+specified will be ignored.
+.EP
+
+.SI 5
+void set_casting_time( int number )
+.EI
+.SP 10 5
+Average time between ritual stages.
+.EP
+
+.SI 5
+void set_ritual( mixed *args )
+.EI
+.SP 10 5
+Used to define the messages seen while casting the ritual.  
+.EP
+.SI 10
+format of the array used in set_ritual:
+ ({
+    ({ /* first part */
+       ({ /* first possibility */
+          message to caster when caster is a target,
+          message to caster when caster is not a target,
+          message to room excluding all targets and caster,
+          message to targets excluding caster,
+       }),
+       ({ /* other possibilities... */
+          etc.
+       }),
+    }),
+    ({ /* other parts */
+       etc.
+    })
+ })
+.EI
+
+.SP 10 5
+Within the message strings, use the following as they will correctly handle
+such situations as single/multiple targets and whether the caster the/one of
+the target(s):
+.EP
+.SO 15 15 -35
+	$tp_name$	name of caster
+	$tp_poss$	possessive of caster
+	$tp_pron$	pronoun of caster
+	$tp_obje$	objective of caster
+	$ob_name$	name of target(s)
+	$ob_poss$	possessive of target(s)
+	$ob_pron$	pronoun of target(s)
+	$ob_obje$	objective of target(s)
+	$god$	name of the casters deity
+	$r_name$	name the caster knows this ritual as
+.EO
+
+.SI 5
+void set_info( string words )
+.EI
+.SP 10 5
+The text to give when the player asks for help.  $r_name$ is replaced by the
+name the player knows this ritual as.  NOTE, this name is not necessarily the
+same as given with set_name() so that name should not be used here.
+.EP
+
+.SI 5
+void set_ritual_type( string word )
+.EI
+.SP 10 5
+Set the type of the ritual.  Types used so far are: offensive, defensive,
+protection, healing and detection.
+.EP
+
+.SI 5
+void set_pk_checked( int number )
+.EI
+.SP 10 5
+Set whether there should be a pk_check on the targets or not,
+set_pk_checked( 1 ) means the ritual needs caster and targets to be pk'ers
+or npc's.
+.EP
+
+.SI 5
+void set_skill_used( string word )
+.EI
+.SP 10 5
+Defines the skill used for this ritual.  In the case of curing, offensive
+and defensive ritual, the skill to specify should be the one without the
+leafs, as the relevant skill used will be determined by the target.
+.EP
+
+.SI 5
+void set_resist( int *numbers )
+.EI
+.SP 10 5
+Define the resistance of the targets against the ritual.  The values are 
+({ div, normal, player, agressive }) and the resistance is calculated as the
+targets level / div * (normal|player|agressive) the latter factor depending
+on the target.  Defining this means that a second taskmaster attempt is done
+with the margin widened by the resistance.
+.EP
+
+.SI 5
+void set_symbols( string *words )
+.EI
+.SP 10 5
+Define what holy items are needed for this ritual, the ones defined at the
+moment are "holy symbol", "holy amulet" and "prayer book".  A holy item is
+any object having the properties <deityname> and one of the names mentioned
+here set.
+.EP
+
+.SI 5
+void set_symbols_consumed( string *words ) { symbols_consumed = words; }
+.EI
+.SP 10 5
+The holy items consumed by this ritual.
+.EP
+
+.SI 5
+void set_needed( string *words )
+.EI
+.SP 10 5
+Non-holy objects needed to cast the ritual.  The objects will be matched by
+name.
+.EP
+
+.SI 5
+void set_consumables( string *words )
+.EI
+.SP 10 5
+Defines the objects consumed by this ritual.  The objects will be matched by
+their name, and will be consumed whether the ritual succedes or not.
+.EP

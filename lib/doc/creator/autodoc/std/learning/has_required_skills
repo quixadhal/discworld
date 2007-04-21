@@ -1,0 +1,37 @@
+.DT
+has_required_skills
+DW_wibble creator help
+has_required_skills
+
+.SH Name
+.SP 5 5
+has_required_skills - has_required_skills( string name, object player ) Skills: Skills and skill levels which may be necessary to learn something For instance, one should learn to walk before one learns to run.
+.EP
+
+.SH Syntax
+.SI 5
+int has_required_skills(string name,
+                        object player)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - name of the lesson they're trying to learn
+%^BOLD%^player%^RESET%^ - player object of the player trying to learn
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/learning.c
+.EI
+
+.SH Description
+.SP 5 5
+has_required_skills( string name, object player )
+Skills: Skills and skill levels which may be necessary to learn something
+For instance, one should learn to walk before one learns to run.  If you
+don't have sufficient skill levels in walking, you won't be able to learn
+how to run.
+.EP
+

@@ -1,0 +1,51 @@
+.DT
+set_decay_speed
+DW_wibble creator help
+set_decay_speed
+
+.SH Name
+.SP 5 5
+set_decay_speed -  This sets the speed at which a food object decays.
+.EP
+
+.SH Syntax
+.SI 5
+void set_decay_speed(int decay)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^speed%^RESET%^ - The speed at which the object will decays.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/food.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets the speed at which a food object decays.  The
+speed is set in seconds and is the total amount of time
+before the food decays.
+
+
+If the decay speed is set to 0, then the object will never decay. 
+.EP
+
+.SH Example 1
+.SI 5
+/* This will make the object decay totaly in 30 minutes */
+set_decay_speed(1800);
+
+/* This will stop the object from ever decsaying */
+set_decay_speed(0);
+
+.EI
+
+.SH See also
+.SP 5 5
+set_decay_level(), query_decay_speed()
+.EP
+

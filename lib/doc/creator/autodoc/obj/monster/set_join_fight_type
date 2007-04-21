@@ -1,0 +1,39 @@
+.DT
+set_join_fight_type
+DW_wibble creator help
+set_join_fight_type
+
+.SH Name
+.SP 5 5
+set_join_fight_type -  This method sets the flag which allows the npc to join into fights.
+.EP
+
+.SH Syntax
+.SI 5
+void set_join_fight_type(int i)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^i%^RESET%^ - 1 if the npc is to join fights, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/monster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the flag which allows the npc to join into fights.
+If this is set to a non-zero value then the npc will join into
+fights in progress using the fight joining message.
+.EP
+
+.SH See also
+.SP 5 5
+set_join_fights(), query_join_fight_type()
+
+.EP
+

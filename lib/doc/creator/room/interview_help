@@ -1,0 +1,102 @@
+.DT
+Domain Interview Room
+Discworld creator help
+Domain Interview Room
+
+.SH Name
+.SI 5
+Domain Interview Room - for all your application needs!
+.EI
+
+.SH Syntax
+.SI 5
+show movie
+interview <player>
+end interview
+add <name> [as candidate]
+query applicants
+query permitted [creators]
+query {confirmation|acceptance|rejection} [text]
+delete <name> [from candidates]
+clear [all] candidates
+confirm <name>
+grant [access to] <name>
+remove <name> [as allowed]
+flag <name> as {accepted|rejected}
+read interview for <name>
+list interviews
+.EI
+
+.SH How to use the interview room
+.SP 5 5
+The domain interview room centralises all the functionality you're likely to 
+need when interviewing players for creator positions.  It contains an automated
+lecture on creator responsibilities, and logging facilities for interviews.  It 
+also handles sending out creator tests and confirming receipt of any submissions.
+
+First, a player is added to the room data by using the 'add <name> [as candidate]
+syntax.  This will send out a copy of the application test.  Once you have
+recieved their submission, you can 'confirm <name>' to send out a mail indicating
+that you have received it.  If you have set confirmation text within your room,
+this will be sent in a mail to the player.  Otherwise, a default message will
+be sent.  'query confirmation [text]' will show you the confirmation message.
+
+When interviewing a player, first the automated lecture should be shown.
+
+The 'show movie' command will start playing the automated lecture.  Once this
+is completed and the player still wishes to continue their application, you 
+can 'interview <player>' to begin logging.  Only says and souls are logged.  
+
+Once an interview has been completed, you can 'end interview' to stop logging.
+Log files are stored in the set interview directory under the name of the
+interviewed player... for example, /d/your_domain/secure/interviews/drakkos.txt.
+
+You may query the state of your applications using the 'query applicants' 
+command.  This will return the relevant information for who the candidates are
+and what stage of the process they are at. 
+
+By default, only the domain lord and the domain deputies may use the room.  
+The lord of the domain may allow other creators to conduct interviews and
+so on by using the 'grant [access to] <name>' syntax.  Access can later be
+removed by using the 'remove <name> [as allowed]' syntax.
+
+Candidates can be removed from the room using 'clear all candidates' if
+the information is to be completely cleared, or 'delete <name>' if a
+particular name is to be removed.
+
+To mark a particular candidate as accepted or rejected, the flag command
+is used.  This will send a form mail to the candidate.  The interview 
+room sets default mail messages (which can be seen by using 
+'query acceptance text' and 'query rejection text').  These can be
+over-ridden in your own domain room.
+
+Finally, you can read the interview for a particular player by using the
+'read interview for <name>' command.  The list of available player files
+is given using 'list interviews'
+
+.EP
+
+.SH Example
+.SI 5
+> add drakkos
+You add a name to the candidate list.
+Sending to: Drakkos.
+
+> query applicants
+The candidates for Forn still to submit answers to part two of the application
+process are: drakkos.
+
+> confirm drakkos
+Sending to: Drakkos.
+You confirm receipt of a candidate's application.
+
+> query applicants
+The following candidates for Forn have submitted answers to part two of the test and are awaiting an interview.  Names in bold are currently online: %^BOLD%^drakkos%^RESET%^.
+
+> flag drakkos as accepted
+Sending to: Drakkos.
+You flag a player as accepted.
+
+.EI
+.EP
+

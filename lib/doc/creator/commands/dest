@@ -1,0 +1,38 @@
+.DT
+dest
+Discworld creator help
+dest
+
+.SH Name
+.SI 5
+dest - Destruct object.
+.EI
+
+.SH Syntax
+.SI 5
+dest <object(s)>
+dest query <object(s)>
+.EI
+
+.SH Description
+.SP 5 5
+Dest is used to destruct objects.  The objects are located using wiz_present.
+For information on how to define objects using wiz_present, see the file
+/doc/creator/wiz_present.  Destruct will destruct a cloned instance
+of an object or the original instance of the object.
+
+The 'query' option will cause dest to ask you before desting
+each object.
+.EP
+
+.SH Examples
+.SI 5
+dest test
+dest every test in me
+dest all in here except me
+.EI
+
+.SH See also
+.SP 5 5
+clone
+.EP

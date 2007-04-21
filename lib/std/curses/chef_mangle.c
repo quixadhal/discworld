@@ -1,3 +1,12 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: chef_mangle.c,v 1.1 1998/01/06 04:02:57 ceres Exp $
+ * $Log: chef_mangle.c,v $
+ * Revision 1.1  1998/01/06 04:02:57  ceres
+ * Initial revision
+ * 
+*/
 /* chef.x - convert English on stdin to Mock Swedish on stdout
  *
  * The WC definition matches any word character, and the NW definition matches

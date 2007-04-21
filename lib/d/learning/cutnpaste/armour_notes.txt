@@ -1,0 +1,69 @@
+Notes for armour
+================
+
+These are just some notes to use as a guide when creating new armour.
+
+
+Damage resistance
+-----------------
+
+Types of armour should have the following levels of resistance:
+
+        blunt   sharp  pierce
+plate   excel   excel  excel
+chain   bad     v.good medium
+hleath  good    medium bad
+leath+  +++     ++     +
+leather bad     poor   bad
+bone    good    bad    bad
+
+hleath is hard leather. leath+ is all those leather + bits of
+metal/whatever. Use your judgement, but basically the more metal the
+better blunt will become, sharp will go up more slowly than blunt and
+pierce even more slowly.
+
+
+Armour types
+============
+
+Armour is divided into three basic types, leather, flexible (maille) and hard
+(plate). Players can wear both maille & plate at the same time.
+
+All your items should be one (or more) of these types.
+Note: an item may be of more than one type. For example a basinet may
+have a set_type of: set_type(({"helmet", "gorget"})); to give it
+coverage for both the head and neck.
+
+leather
+-------
+The leather armour is somewhere between clothing & armour, thus it
+uses clothing types.
+hat (head)
+jacket (chest, back, arms)
+trousers (abdomen, legs)
+
+flexible (maille)
+-----------------
+coif (head & neck)
+byrnie (chest + back + abdomen)
+haubergon (chest + back + abdomen + arms)
+hauberk (chest + back + adbdomen + arms + legs)
+chausses (feet)
+
+hard (plate)
+------------
+helmet (head)
+gorget (neck)
+breastplate (chest + abdomen)
+backplate (back)
+vambraces (arms)
+greaves (legs)
+sabatons (feet)
+
+basinet {helmet + gorget}
+cuirass {breastplate + backplate}
+
+
+Gloves & boots are extra. You can't wear maille & plate gloves or
+boots -- ouch!
+

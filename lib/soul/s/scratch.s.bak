@@ -1,0 +1,45 @@
+(scratch
+  (pattern "<indirect:any-living>")
+  (pattern "<string>")
+  (pattern "<string> <indirect:any-living>")
+  (pattern "<indirect:any-living> <string>")
+  (single
+    (arguments
+      (arguments  head, back, leg, arm, nose, ear, finger, bum, 
+                  cat behind the ears, eyes, #)
+      (self "You scratch your $arg$.")
+      (rest "$mcname$ scratches $mposs$ $arg$.")
+    )
+    (arguments
+      (arguments  chin)
+      (self "You scratch your $arg$ and go 'Hmmmm...'.")
+      (rest "$mcname$ scratches $mposs$ $arg$ and goes 'Hmmmm...'.")
+    )
+  )
+  (targeted
+    (no-arguments
+      (self   "You scratch $hcname$.")
+      (target "$mcname$ scratches you.")
+      (rest   "$mcname$ scratches $mhcname$.")
+    )
+    (arguments
+      (arguments  head, back, leg, arm, nose, ear, finger, bum, #)
+      (self   "You scratch $mhcname$ $arg$.")
+      (target "$mcname$ scratches your $arg$.")
+      (rest   "$mcname$ scratches $mhcname$ $arg$.")
+    )
+    (arguments
+      (arguments  chin)
+      (self   "You scratch your $arg$ and go 'Hmmmm...' at $hcname$.")
+      (target "$mcname$ scratches $mposs$ $arg$ and goes 'Hmmmm...' at you.")
+      (rest   "$mcname$ scratches $mposs$ $arg$ and goes 'Hmmmm...' at $hcname$.")
+    )
+    (arguments
+      (arguments  behind the ears)
+      (self   "You scratch behind $mhcname$ ears.")
+      (target "$mcname$ scratches behind your ears.")
+      (rest   "$mcname$ scratches behind $mhcname$ ears.")
+    )
+  )
+)
+

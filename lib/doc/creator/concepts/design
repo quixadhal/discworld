@@ -1,0 +1,183 @@
+.DT
+Design
+Discworld Creator Help
+Design
+
+Name
+.SI 5
+Designing the Game, especially Quests
+.EI
+
+Source
+.SP 5 5
+I don't know who wrote the original of this document, although I'll be
+happy to acknowledge the author when I find out who that is.  Some part
+of it is taken from the manual of a compiler for INFOCOM-like games.
+.EP
+
+Description
+.SP 5 5
+Perhaps the most important point about designing a game is to think as a
+player and not a designer.  I think the least a player deserves is:
+
+1. Not to be killed without warning.
+
+At its most basic level, this means that a room with three exits, two of
+which lead to instant death and the third to treasure, is unreasonable
+without some hint.  Mention of which brings us to: 
+
+2. Not to be given horribly unclear hints.
+
+Many years ago, I played a game in which going north from a cave led to a
+lethal pit.  The hint was that there was a pride of lions carved above the
+doorway.  Good hints can be skillfully hidden, or very brief (I think, for
+example, the hint in the moving-rocks plain problem in "Spellbreaker" is a
+masterpiece) but should not need explaining even after the event.
+
+A more sophisticated version of (1) leads us to: 
+
+3. To be able to win without experience of past lives.
+
+Suppose, for instance, there is a device buried under some anonymous floor
+somewher which must be disarmed.  It is unreasonable to expect a player to
+dig up this floor purely because in previous games, the device was there.  To
+take a more concrete example, in "The Lurking Horror" there is something which
+needs cooking for the right length of time.  As far as I can tell, the only
+way to find out the right time is by trial and error, but you only get one
+trial per game.  In principle a good player should be able to play the entire
+game out without doing anything illogical or that is a non sequitur.  In
+a similar vein:
+
+4. To be able to win without knowledge of future events.
+
+For example, the game opens near a shop.  You have one coin and can buy a
+lamp, a magic carpet or a periscope.  Five minutes later you are transported
+away without warning to a submarine, whereupon you need a periscope.  If you
+bought the carpet or the lamp, bad luck.
+
+5. Not to have the game closed off without warning.
+
+Closed off means that it becomes impossible to proceed at some later date.
+If there is a papier-mache wall which you can walk through at the very
+beginning of the game, it is extremely annoying to find that a puzzle at
+the very end requires it to still be intact, because every one of your
+saved games will be useless.  Similarly it is quite common to have a room
+which can only be visited once per game.  If there are two different things
+to be accomplished there, this should be hinted at.
+
+6. Not to need to do unlikely things.
+
+For example, a game which depends on asking a policeman about something he
+could not reasonably know about.  (Less extremely, the hackers' keys in
+"The Lurking Horror".)  Another unlikely thing is waiting in uninteresting
+places.  If you have a junction such that after five turns an elf turns
+up and gives you a magic ring (well, on Discworld, it'd stab you...),
+a player may well never spend five turns there and never solve what you
+intended to be straightforward.  On the other hand, if you were to put
+something which demanded investigation in the junction, it might be faith
+enough.  ("Zork III" is especially poor in this respect.)
+
+7. Not to need to do boring things for the sake of it.
+
+In the bad old days many games would make life difficult by putting objects
+needed to solve a problem miles away from where the problem was, despite all
+logic - say, putting a boat in the middle of a desert.  Or, for example, it
+might be fun to have a four-discs Tower of Hanoi puzzle in a game - but not
+an eight-discs one.  (This applies to mazes as well.  However, they are
+somewhat different.  See the section on mazes below for more information.)
+
+8. Not to have to type exactly the right verb.
+
+For instance, looking inside a box finds nothing, but searching it does.  Or
+consider the following dialogue (amazingly, from "Sorcerer"):
+
+> unlock journal
+(with the small key)
+No spell would help with that!
+
+> open journal
+(with the small key)
+The journal springs open.
+
+This is so misleading as to constitute a bug.  But it's an easy design
+fault to make.  (Similarly, the wording needed to use the brick in "Zork II"
+strikes me as quite unfair.  Or perhaps I missed something obvious.)
+
+9. To be allowed reasonable synonyms.
+
+In the same room in "Sorcerer" is a "woven wall hanging" which can instead be
+called a "tapestry" (though not "curtain").  This is not a luxury, it's
+an essential.
+
+10. To have a decent parser.
+
+This goes without saying.  (The original author makes the comment that the
+parser is the weakest spot of "every LPmud so far", saying that things like
+"taking and dropping of multiple objects" should be provided for - Discworld
+not only handles that but much more advanced things, thanks to the
+add_command system.)  The last few are more a matter of taste, but I believe
+in them:
+
+11. To have reasonable freedom of action.
+
+Being locked up in a long sequence of prisons, with only brief escapes
+between them, is not all that entertaining.  After a while the player begins
+to feel that the designer has tied him to a chair in order to shout the plott
+at him.  Likewise for muds - too often quest designers choose the easy way
+out by making a room teleport-proof and blocking all exits until the victim
+has been told the entire story.
+
+12. Not to depend much on luck.
+
+Small chance variations add to the fun, but only small ones.  The thief in
+"Zork I" seems to me to be just about right in this respect, and similarly
+the spinning room in "Zork II".  A ten ton weight, however, which falls down
+and kills you at a certain point in half of all the games is just annoying.
+
+13. To be able to understand a problem once it is solved.
+
+This may sound odd, but many problems are solved by accident or trial and
+error.  A guard-post which can be passed only if you are carrying a spear,
+for instance, ought to have some indication that this is why you're allowed
+past.  (The most extreme example must be the notorious Bank of Zork.)
+
+14. Not to be given too many red herrings.
+
+A few red herrings make a game more interesting.  A very nice feature of the
+Zork trilogy is that they each contain red herrings explained in the others
+(in one case, explained in "Sorcerer").  Difficult puzzles, however, tend to
+be solved last, and the main technique players use is to look at their maps
+and see what's left that they don't understand.  This is frustrating when
+there are many insoluble puzzles and useless objects.  So you can expect
+players to lose interest if you aren't careful.  My personal view is that
+red herrings ought to have some clue provided (even only much later).  For
+instance, if there is a useless coconut near the beginning, then perhaps
+much later an absent-minded botanist could be found who wandered about
+dropping them.  The coconut should at least have some rationale.  The
+very worst game I've played for red herrings is "Sorcerer", which by my
+reckoning has 10.
+
+15. To have a good reason why something is impossible.
+
+Unless it's also funny, a very contrived reason why something is impossible
+just irritates.  (The reason one can't walk on the grass in "Trinity" is
+only just funny enough, I think.)
+
+16. Not to need to be American to understand hints.
+
+The diamond maze in "Zork II" being a case in point.  Similarly, it's polite
+to allow the player to type English or American spellings or idioms.  For
+instance "Trinity" endears itself to English players in that the soccer ball
+can be called a "football" - soccer is a word almost never used in England.
+
+17. To know how the game is getting on.
+
+In other words, when the end is approaching, or how the plot is
+developing.  Once upon a time, score was the only measure of this, but 
+hopefully not any more.
+.EP
+
+See also
+.SP 5 5
+quests
+.EP

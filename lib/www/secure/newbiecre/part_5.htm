@@ -1,0 +1,631 @@
+<html><!-- #BeginTemplate "/Templates/Body Text.dwt" -->
+<head>
+<title> Discworld Documentation </title>
+</head>
+<body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">
+<table width="75%" border="0">
+  <tr>
+    <td><font face="arial,helvetica"><img align=left src="http://discworld.imaginary.com/external//pics/dw4.gif"></font></td>
+    <td><font face="arial,helvetica">
+      <h2>Discworld Documentation:</h2>
+      <h2>LPC for Dummies</h2>
+      </font> 
+      <p><font size="+1"><!-- #BeginEditable "Title" --><font size="+1"><b>Chapter Five: 
+  Flow Control</b></font><!-- #EndEditable --></font></p>
+      <p><i>N.B - This is a work in project... a living document if you like. 
+        If it appears to be dead when you view it, don't worry. It's most likely 
+        just playing possum.</i></p>
+      <p>Comments on these tutorials can be e-mailed to <a href="mailto:drakkos@cableinet.co.uk">Drakkos.</a></p>
+    </td>
+  </tr>
+</table>
+<br>
+<!-- #BeginEditable "Body" --> 
+<p>Normally in LPC, statements in programs are executed one after the other in 
+  order... this is called 'sequential execution'. However, LPC provides a selection 
+  of structures that can be used to transfer the flow of control to other statements 
+  depending on pre-determined situations. LPC offers three types of selection 
+  structure: the sequential structure, the selection structure, and the repetition 
+  structure. The sequential structure is essentially built into LPC... your statements 
+  will be executed in sequential order unless you break this up by using one of 
+  the other structures. 
+<p>LPC provides three types of selection structure. These are: the if structure, 
+  the if-else structure, and the switch structure. LPC also provides four types 
+  of repetition structure: the while loop, the do-while loop, the for loop, and 
+  the foreach loop. </p>
+<p>The if structure is known as a 'single selection structure' because it will 
+  select, or ignore, a single action based on predefined condition(s). An if-else 
+  structure is a 'double selection structure' since it differentiates between 
+  two possible flows of execution depending on the conditions of the selection. 
+  A switch statement is a 'multiple-selection structure' because it provides a 
+  range of different actions. </p>
+<p>Each object you write in LPC will be built from combinations of these control 
+  structures. We'll look at them a little more closely now:</p>
+<p><b>The If Selection Structure</b> </p>
+<p>The if selection structure is used to determine whether or not a statement 
+  (or block of statements) will be executed. It takes the form: </p>
+<blockquote> 
+  <p><code>if(condition) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;statements_to_be_executed; <br>
+    } </code></p>
+</blockquote>
+<p>For example, the structure: </p>
+<blockquote> 
+  <p><code>object player = this_player(); </code></p>
+  <p><code>if (player->query_name() == "drakkos") { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You're a stupid-head!\n"); <br>
+    } </code></p>
+</blockquote>
+<p>The statement at the top will be executed first, as can be expected in a sequentially 
+  executing structure. Then, the if statement is evaluated to determine what flow 
+  of execution then follows. In this case, if calling the function 'query_name' 
+  on the object variable 'player' returns the value "drakkos", then the condition 
+  will be evaluated as true. In this case, then the efun tell_object() would send 
+  the message "You're a stupid head!" to the variable 'player' - the player with 
+  the name 'Drakkos'. If the name had been anything else, then the condition would 
+  have evaluated to false, and the tell_object() function would not have been 
+  called. </p>
+<p>You will notice that the statements after the if structure are enclosed in 
+  a pair of curly braces. If the following code consists of only one statement, 
+  these are not strictly necessary. However, it is good practise to use them anyway 
+  since it allows for easier addition of later code required, and also makes the 
+  code easier to read. But, for completeness, it would be possible to write the 
+  above if statement as: </p>
+<blockquote> 
+  <p><code>if (player->query_name() == "drakkos") <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You're a stupid head!\n"); </code></p>
+</blockquote>
+<p>With no change in functionality. If you have multiple statements to be executed, 
+  you will require the braces enclosing them. This is a common programming error 
+  if you don't get into the habit of using braces regardless. Let's look at this 
+  example: </p>
+<blockquote> 
+  <p><code>if (player->query_name() == "drakkos") <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You're a stupid head!\n"); <br>
+    tell_object(player, "Ha! Ha! You smell!\n"); </code></p>
+</blockquote>
+<p>What will happen here is that if the condition evaluated to true, the player 
+  Drakkos will get: </p>
+<blockquote>
+  <p><code>You're a stupid head! <br>
+    Ha! Ha! You smell! </code></p>
+</blockquote>
+<p>On their screen. But, even if the condition evaluates to false, the player 
+  will still get: </p>
+<blockquote>
+  <p><code>Ha! Ha! You smell! </code></p>
+</blockquote>
+<p>Why is this? Well... because there are no braces to indicate a block of code, 
+  the if statement believes that only the first statement there is dependant on 
+  the condition, and the second is to be executed regardless. Assuming this isn't 
+  actually what you want to happen, the structure should be written: </p>
+<blockquote> 
+  <p><code>if (player->query_name() == "drakkos") { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You're a stupid head!\n"); <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "Ha! Ha! You smell!\n"); <br>
+    } </code></p>
+</blockquote>
+<p>This will only send the text to the player Drakkos, and will send nothing to 
+  objects with any other name. Also note that the if statement has no semi-colon 
+  before the braces. If you have a semi-colon ,then the if statement will terminate 
+  there, and sequential execution of all code afterwards will continue.</p>
+<p><b>The If-Else Selection Structure</b></p>
+<p>The if-else structure may be used to select between two different courses of 
+  action to be executed, dependant on the given condition(s). It takes the form: 
+</p>
+<blockquote> 
+  <p><code>if(condition) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;statements_to_be_executed_if_condition_is_true;<br>
+    }<br>
+    else { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;statements_to_be_executed_if_condition_is_false; <br>
+    } </code></p>
+</blockquote>
+<p>The if statement detailed above will perform any of the associated statements 
+  if the condition is evaluated to true. Otherwise, the action is simply skipped 
+  over. The if-else selection structure allows the creator to specify that different 
+  actions are to be performed if the condition evaluates to true, then if the 
+  condition evaluates to false. Example: </p>
+<blockquote> 
+  <p><code>if (player->query_name() == "drakkos") { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You're a stupid head!\n"); <br>
+    } <br>
+    else { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "Monkeys!\n"); <br>
+    } </code></p>
+</blockquote>
+<p>This will send the 'You're a stupid head' message if the condition is evaluated 
+  to true, and the message 'Monkeys!' if it evaluates to false. In other words, 
+  only Drakkos gets insulted. Everyone else just gets a nice message about monkeys. 
+  Poor Drakkos, but let's not feel too sorry for him. </p>
+<p>LPC also offers the conditional operator (?:) which is closely related to the 
+  if-else structure: </p>
+<blockquote> 
+  <p><code>tell_object(player, (player->query_name()== "drakkos" ? "You're a stupid 
+    head!\n" : "Monkeys!\n"));</code></p>
+</blockquote>
+<p>As you can see, this takes the form: </p>
+<blockquote> 
+  <p><code>(condition ? expression if evaluated true : expression if evaluated 
+    false). </code> </p>
+</blockquote>
+<p>You won't normally need to know how this works, but you may come across it 
+  in code you read/debug, so it is helpful to know. </p>
+<p>It is also possible to combinate the if and if-else control structures: </p>
+<blockquote> 
+  <p><code>if(condition) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;statement 1; <br>
+    } <br>
+    else if(condition 2) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;statement 2; <br>
+    }<br>
+    else { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;statement 3;<br>
+    } </code></p>
+</blockquote>
+<p>This does much what you would expect it to do... the first part is the normal 
+  if-else detailed above. As part of the else structure, there's an if check on 
+  another condition. If this check evaluates to true, then then statement 2 is 
+  executed. Otherwise, statement 3 is. In structured english: </p>
+<blockquote> 
+  <p><code>If condition 1 is true, execute statement 1. <br>
+    Otherwise, if condition 2 is true, execute statement 2. <br>
+    Otherwise, execute statement 3. </code></p>
+</blockquote>
+<p>Although it is sometimes necessary to combine, and even nest (lots of else-if 
+  statements inside each other) these statements, the third type of selection 
+  structure, the switch statement, often provides a much cleaner and more efficient 
+  way of achieving this. For completeness, let's look at a nested if-else structure 
+  that takes the integer variable 'level', and returns some text based on what 
+  it is: </p>
+<blockquote> 
+  <p><code>if(level == 10) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "My, don't you have large and 
+    impressive "<br>
+    </code><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"muscles?\n");<br>
+    } <br>
+    else if(level == 9) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "Almost there!\n"); <br>
+    } <br>
+    else if(level == 8) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You're a fairly tough guy!\n"); 
+    <br>
+    } <br>
+    else if(level == 7) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You're not so tough!\n"); <br>
+    } <br>
+    else { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You big pansy!\n"); <br>
+    } </code></p>
+  </blockquote>
+<p>While this will work perfectly well, a switch statement is a much better way 
+  of achieving it. Nonetheless, it may indeed be necessary to nest if-else statements 
+  in your code if the conditions are not related as above. For example: </p>
+<blockquote> 
+  <p><code>if(level == 10) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "My, don't you have large and 
+    impressive " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"muscles?\n"); <br>
+    } <br>
+    else if(player->query_name() == "drakkos") { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "Ha! Mr Spud Head!\n"); <br>
+    } <br>
+    else { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "Monkeys!\n"); <br>
+    } </code></p>
+</blockquote>
+<p>Since the conditions here aren't related, a switch selection structure will 
+  not be able to deal with the necessary flow of logic.</p>
+<p><b>The Switch Structure</b></p>
+<p>The switch statement allows for a creator to test a variable or expression 
+  based on the possible values it may assume. It takes the form of: </p>
+<blockquote> 
+  <p><code>switch(variable) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;case possible_state_of_variable_one: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statement_to_be_executed; 
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;break; <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;case possible_state_of_variable_two: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statement_to_be_executed; 
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;break; <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;default: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statement_to_be_executed; 
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;break; <br>
+    } </code></p>
+</blockquote>
+<p>As shown above, it is possible to do this with nested if-else statements, but 
+  the switch statement is designed with this purpose explicitly in mind. The structure 
+  consists of a series of 'case' labels, and an optional 'default' case. We would 
+  write the level checking code above using a switch statement like so: </p>
+<blockquote> 
+  <p><code>switch(level) { <br>
+    &nbsp;&nbsp;&nbsp;case 10: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "My, don't you have 
+    large and impressive" &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"muscles?\n"); 
+    <br>
+    &nbsp;&nbsp;&nbsp;break; <br>
+    &nbsp;&nbsp;&nbsp;case 9:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "Almost there!\n"); 
+    <br>
+    &nbsp;&nbsp;&nbsp;break; <br>
+    &nbsp;&nbsp;&nbsp;case 8: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You're a fairly tough 
+    guy!\n"); <br>
+    &nbsp;&nbsp;&nbsp;break; <br>
+    &nbsp;&nbsp;&nbsp;case 7: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You're not so tough!\n"); 
+    <br>
+    &nbsp;&nbsp;&nbsp;break; <br>
+    &nbsp;&nbsp;&nbsp;default: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You big pansy!\n"); 
+    <br>
+    &nbsp;&nbsp;&nbsp;break; <br>
+    } </code></p>
+</blockquote>
+<p>Notice the break statements after each conditional case. This is done to avoid 
+  the various statements in the switch running together. If break is not used 
+  in a switch, then each time a match occurs in the structure, all following statements 
+  will be executed without being evaluated via the case. Example: </p>
+<blockquote> 
+  <p><code>switch(level) { <br>
+    &nbsp;&nbsp;&nbsp;case 10: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "My, don't you have 
+    large and impressive" &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"muscles?\n"); 
+    <br>
+    &nbsp;&nbsp;&nbsp;case 9:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "Almost there!\n"); 
+    <br>
+    &nbsp;&nbsp;&nbsp;case 8: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You're a fairly tough 
+    guy!\n"); <br>
+    &nbsp;&nbsp;&nbsp;case 7: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You're not so tough!\n"); 
+    <br>
+    &nbsp;&nbsp;&nbsp;default: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "You big pansy!\n"); 
+    <br>
+    } </code></p>
+</blockquote>
+<p>If we pass in level as '8', we would get: </p>
+<blockquote> 
+  <p><code>You're a fairly tough guy! <br>
+    You're not so tough! <br>
+    You big pansy! </code></p>
+</blockquote>
+<p>On our screen. This feature is rarely used, although it may be handy if you're 
+  ever coding an NPC who recites the Twelve Days Of Christmas, for example. </p>
+<p>Break statements halt the execution of the switch and returns execution control 
+  outside of the structure. If no matches occur within a switch statement (i.e, 
+  there are no corresponding cases to the value passed in), then the default case 
+  is executed. Cases can have multiple statements, just like the other structures, 
+  but switch is unique in that it does not require multiple statements to be indicated 
+  with braces. </p>
+<p>It is possible to stack case statements to allow for them to cover more than 
+  one possible value. For example, let us presume the variable 'name' holds someone's 
+  name (funnily enough): </p>
+<blockquote> 
+  <p><code>switch(name) { <br>
+    &nbsp;&nbsp;&nbsp;case "drakkos": <br>
+    &nbsp;&nbsp;&nbsp;case "taffyd": <br>
+    &nbsp;&nbsp;&nbsp;case "solace": <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "Monkeys everywhere!\n"); 
+    <br>
+    &nbsp;&nbsp;&nbsp;break; <br>
+    &nbsp;&nbsp;&nbsp;case "pinkfish": <br>
+    &nbsp;&nbsp;&nbsp;case "turrican": <br>
+    &nbsp;&nbsp;&nbsp;case "saffra": <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tell_object(player, "Bingle!\n"); <br>
+    &nbsp;&nbsp;&nbsp;break; <br>
+    &nbsp;&nbsp;&nbsp;case "sojan": <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tell_object(player, "Womble!\n"); <br>
+    &nbsp;&nbsp;&nbsp;break; <br>
+    &nbsp;&nbsp;&nbsp;default: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "Frog?\n"); <br>
+    } </code></p>
+</blockquote>
+<p>Drakkos, Taffyd, and Solace will see 'Monkeys everywhere!'. Pinkfish, Saffra 
+  and Turrican will see 'Bingle!', and Sojan will see 'Womble!'. Everyone else 
+  will see 'Frog?'. Note that string values in the case statement must be enclosed 
+  in quotation marks. Numerical values must be left without. </p>
+<p>Finally, it is possible to specify 'ranges' with a switch statement using ..: 
+</p>
+<blockquote> 
+  <p><code>switch(level) { <br>
+    &nbsp;&nbsp;&nbsp;case 90..100: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "Neet!\n"); <br>
+    &nbsp;&nbsp;&nbsp;break; <br>
+    &nbsp;&nbsp;&nbsp;default: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tell_object(player, "Doh!\n"); <br>
+    &nbsp;&nbsp;&nbsp;break; <br>
+    } </code></p>
+</blockquote>
+<p>Any value of 90 to 100 with level would print the 'Neet' message. Anything 
+  else would get 'Doh!'. </p>
+<p><b>The For Repetition Structure</b></p>
+<p>So far, the structures we have discussed have been selection structures. The 
+  second family of control structures are known as 'repetition' structures. Many 
+  objects require repetition, or looping, in their code. In a loop, the same statements 
+  get executed repeatedly while some loop condition remains true. The for loop 
+  is a 'counter controlled' loop. This is also often known as 'definite repetition', 
+  since we know in advance how many times the loop will be execute. In a for loop, 
+  a control variable is used to count the number of repetitions. The control variable 
+  is incremented (usually by one) each time the group of statements of the structure 
+  is executed. When the value of the control variable indicates the correct number 
+  of repetitions have been performed, the loop terminates and the computer continues 
+  sequentially with the statement after the structure. The for loop handles all 
+  of this automatically. The for loop has the following form: </p>
+<blockquote> 
+  <p><code>for(Initialisation; Condition; Counter) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;statements;<br>
+    } </code></p>
+</blockquote>
+<p>The initialisation expression is executed at the beginning of the repetition, 
+  and only once. Thus, it is useful for initialising any variables required in 
+  the body of the loop. The condition expression is used to determine whether 
+  the loop continues. If condition evaluates to false, the loop terminates and 
+  execution again continues outside the for structure. The condition is evaluated 
+  after each iteration. The counter expression handles the updating of any counter 
+  variables. It too is evaluated every iteration. Let us take a look at how a 
+  for loop might be used. Let us presume that the variable frogs is an array of 
+  strings containing a list of names. We want to list through these names and 
+  print them out on the screen. There are numerous other ways we can do this, 
+  but in this case we are looking to show how a for loop may be used: </p>
+<blockquote> 
+  <p><code>int counter; <br>
+    string *frogs = ({"drakkos", "taffyd", "pinkfish", "turrican",<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; "solace", "dogbolter"}); <br>
+    <br>
+    for(counter = 0; counter < sizeof (frogs) ; counter++) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;printf("Frog at position %d is %s.\n", counter, <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;frogs[counter]); <br>
+    } </code></p>
+</blockquote>
+<p>In this case, printf is an efun that will simply print text on the screen of 
+  the current interactive. The first argument is the string that will be printed. 
+  For more on how printf works, see 'help printf' for a full explanation. It is 
+  possible to be Very Clever with printf and format the text string in all sorts 
+  of neat ways. This is beyond the scope of this document, however. This for loop 
+  will print the following text: </p>
+<blockquote> 
+  <p><code>Frog at position 0 is drakkos. <br>
+    Frog at position 1 is taffyd <br>
+    Frog at position 2 is pinkfish <br>
+    Frog at position 3 is turrican.<br>
+    Frog at position 4 is solace <br>
+    Frog at position 5 is dogbolter </code></p>
+</blockquote>
+<p>Remember that LPC counts initially from 0 in arrays. The three arguments in 
+  the for loop are optional. If the condition expression is omitted, the for loop 
+  is evaluated as an infinite loop that is never terminated (this is not quite 
+  true... due to the nature of LPC and MudOS, safeguards exist to protect against 
+  infinite loops of this nature). The counter expression can safely be omitted 
+  if the counter is incremented within the body of the statement, for example. 
+  And if no variables are to be initialised, the initialisation expression can 
+  likewise safely be left out. All three of these expressions can likewise contain 
+  arithmetic and logical expressions: </p>
+<blockquote> 
+  <p><code>for(x = y +2; y < x * x; x > y + x) </code></p>
+</blockquote>
+<p>Note that this isn't actually an instructional example, but shows what is possible 
+  within a for loop.</p>
+<p><b>The Foreach Repetition Structure </b></p>
+<p>Foreach is similar in tone to the for repetition structure, but is used exclusively 
+  for iterating through an array or a mapping. Rather than having to deal with 
+  counters and evaluation conditions, we can use foreach to simply state 'for 
+  each value in array/mapping'. For example: </p>
+<blockquote> 
+  <p><code>string value, *array = ({"Hello!", "Goodbye!", "See yu!"}); </code></p>
+  <p><code>foreach(value in array) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;printf("%s\n", value): <br>
+    } </code></p>
+</blockquote>
+<p>Which would print out: </p>
+<blockquote> 
+  <p><code>Hello! <br>
+    Goodbye! <br>
+    See yu! </code></p>
+</blockquote>
+<p>For mappings, we need to step through pairs of values representing the key 
+  and the value: </p>
+<blockquote> 
+  <p><code>mapping myMap = ([ <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;"drakkos" : "bing!",<br>
+    </code><code>&nbsp;&nbsp;&nbsp;&nbsp;"pinkfish" : "womble", <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;"rue" : "frog"<br>
+    ]); <br>
+    string key, value; <br>
+    </code></p>
+  <p><code> foreach(key, value in myMap) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;printf("Key is %s, value is %s.\n", key, value); <br>
+    } </code></p>
+</blockquote>
+<p>Which will print: </p>
+<blockquote> 
+  <p><code>Key is drakkos, value is bing! <br>
+    Key is pinkfish, value is womble! <br>
+    Key is rue, value is frog! </code></p>
+</blockquote>
+<p>For stepping through all elements of an array, a foreach loop is more convenient 
+  and ever so slightly more efficient than a straight for loop. </p>
+<p><b>The While Repetition Structure</b></p>
+<p>The while loop resembles the for loop in that it is a repetition structure. 
+  However, unlike the for loop, the while loop is an 'indefinite repetition' because 
+  we don't know in advance how many times the loop will be executed. Thus, we 
+  repeat on a condition without worrying about the number of iterations we have 
+  gone through. The while repetition structure has the form: </p>
+<blockquote> 
+  <p><code>while(condition) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp; statement_to_be_executed; <br>
+    } </code></p>
+</blockquote>
+<p>Let us look at a simple example of a while loop that attempts to find the first 
+  power of 2 larger than 1000: </p>
+<blockquote> 
+  <p><code>int product = 2; <br>
+    <br>
+    while(product <= 1000) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;product = product * 2; <br>
+    } </code></p>
+</blockquote>
+<p>The while loops will first evaluate the condition. If the condition is true, 
+  then the statements within the loop will be executed. At each iteration, the 
+  condition will again be evaluated until it is false, at which point the execution 
+  returns to the next statement outside of the structure. Note that if the condition 
+  is initially evaluated as false, the loop will never be executed. </p>
+<p><b>The Do-While Repetition Structure </b></p>
+<p>This is almost identical in function to the while structure, but rather than 
+  evaluating the condition, then iterating if it is true, the do-while structure 
+  first executes the body of the loop once before evaluating the condition. The 
+  do-while loop has the form: </p>
+<blockquote> 
+  <p><code>do { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;statement;<br>
+    } while(condition); </code></p>
+</blockquote>
+<p>To take a theoretical example, let's say we have a value that we need to add 
+  to another value. If the resultant product is less than a particular amount, 
+  we have to add it again. We keep doing this until we reach the amount we're 
+  looking for. We could do this as a do-while loop, like so: </p>
+<blockquote> 
+  <p><code>do { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;x = x + 5; <br>
+    } while(x < 20); </code></p>
+</blockquote>
+<p>Here, x will always be incremented by 5 at least once, since the condition 
+  (x < 20) is not evaluated until that statement has been performed. Whether or 
+  not it is then incremented again depends on the condition. To take another example, 
+  let's look at a loop we would use to countdown from a specific value. Again, 
+  in this case, 10. Since we're always going to be executing the countdown at 
+  least once, we can put this in a do-while loop: </p>
+<blockquote> 
+  <p><code>int t = 10; </code></p>
+  <p><code>do { <br>
+    t = t -1; <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;printf("T-minus %d.\n", t); <br>
+    } while(t > 0); </code></p>
+  <p><code>printf("Blast off!\n"); </code></p>
+</blockquote>
+<p>You will only need to use a do-while loop in very rare situations, but it is 
+  included here for the sake of completeness. There are several situations where 
+  a do-while loop will be preferable to a while or a for loop, but in general 
+  you will find both of these loops will be more useful in day-to-day coding. 
+</p>
+<p><b>The Break and Continue Statements</b></p>
+<p>We have already looked at how break is used to halt execution in a switch statement. 
+  It is possible to use the break statement in any of the structures shown above 
+  to return execution to the next statement after the structure. Continue, on 
+  the other hand, can also be used to alter the control flow of a repetition structure. 
+  Unlike break, it does not return control to the sequential execution. Instead, 
+  it instructs the loop to halt execution of this particular iteration, and continue 
+  with the next. This will cause a re-evaluation of the condition expression and 
+  if that evaluates as true, a continuation of the loop. In a for loop, it will 
+  continue from the next counter incrementation. Let's look at how these two statements 
+  can be used within a simple for loop. Here, the intention is to print out what 
+  the current value of 'i', our counter variable, is: </p>
+<blockquote> 
+  <p><code>for(i=0;i < 10; i++) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;printf ("%d ", i); <br>
+    } </code></p>
+</blockquote>
+<p>So we run this, and we get 1 2 3 4 5 6 7 8 9 10. But say we wanted it to skip 
+  number 5 (for whatever reason). We could use an if statement within the for: 
+</p>
+<blockquote> 
+  <p><code>for(i=0; i < 10; i++) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;if(i == 5) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue; <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", i); <br>
+    } </code></p>
+</blockquote>
+<p>This will produce the output: 1 2 3 4 6 7 8 9 10. It does this because when 
+  the if statement is evaluated to true (when the variable i equals 5), it executes 
+  a continue statement. As we've already said, continue will then halt the execution 
+  of this iteration (before it gets to the printf), and continues with the next 
+  (when i equals 6). If we did the same thing with a break; instead of a continue: 
+</p>
+<blockquote> 
+  <p><code>for(i=0; i < 10; i++) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;if(i == 5) { <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break; <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;} <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;printf("%d ", i); <br>
+    } </code></p>
+</blockquote>
+<p>We'd get the output: 1 2 3 4. Like with the continue example above, the break 
+  will be executed if i is equal to five, and will be executed before the printf. 
+  However, unlike continue, break will halt execution of the loop entirely, and 
+  the rest of the iterations will not be executed. </p>
+<p>Break and continue can be useful statements within a repetition structure, 
+  but care must be taken when using them. Well designed evaluation conditions 
+  will often negate the need for either statement. Thinking through the logic 
+  of your structure will often provide better ways to ensure the correct flow 
+  of logic through the loop other than artificially breaking it with a break or 
+  continue statement. Note that this only applies to loops, and not to the switch 
+  selection structure detailed above, which requires the use of break to enforce 
+  case distinctions. </p>
+<p><b>Chapter Summary </b></p>
+<p>This has been a long and quite involved chapter, but by now you hopefully have 
+  an idea of how powerful the structures above can be when coding. We've covered 
+  a lot of ground here, detailing three selection structures and four repetition 
+  structures. Yikes! Perhaps we've been beating a dead horse somewhat, but it's 
+  vital you understand how these structures work if you want to code clever and 
+  unique objects. </p>
+<ul>
+  <li><code>There are three types of structure on Discworld. Sequential, selection 
+    and repetition.</code></li>
+  <li><code>Sequential execution is the standard for LPC. All code you write will 
+    be executed sequentially unless you explicitly change the flow of control. 
+    <br>
+    </code></li>
+  <li><code>The selection structures are: if, if-else, and switch. <br>
+    </code></li>
+  <li><code>The if structure is a single selection structure, and can be used 
+    if you have code to be executed based on upon a particular condition. <br>
+    </code></li>
+  <li><code>The if-else structure can be used to select between two courses of 
+    action depending on the condition. Nested if-else statements can deal with 
+    a larger range of possible courses of action. <br>
+    </code></li>
+  <li><code>The switch structure is a multiple selection structure, and is used 
+    to differentiate between ranges of a particular variable. <br>
+    </code></li>
+  <li><code>The repetition structures are: for, foreach, while, and do-while. 
+    <br>
+    </code></li>
+  <li><code>For is a definite repetition structure, used when we know how many 
+    iterations we need. <br>
+    </code></li>
+  <li><code>Foreach is a variation on for, and is used to easily step through 
+    all members of an array or a mapping. <br>
+    </code></li>
+  <li><code>While is an indefinite repetition structure, and is used when our 
+    iteration is based on some condition. <br>
+    </code></li>
+  <li><code>Do-while is also an indefinite repetition structure, and will execute 
+    the conditional statements at least once before evaluating the condition. 
+    <br>
+    </code></li>
+  <li><code>Break and continue statements can be used to abnormally terminate 
+    the control flow within a repetition structure. <br>
+    </code></li>
+  <li><code>Break halts execution of the structure and returns control outside 
+    the loop. <br>
+    </code></li>
+  <li><code>Continue halts execution of the current iteration, and returns control 
+    to the next loop of the iteration. </code></li>
+</ul>
+<!-- #EndEditable --> 
+<p>
+<hr>
+<center><font size="-1"><a href="/login.html">Discworld MUD</a>'s world wide web pages.<br>brought to you by<br>
+  <strong>Cut Me Own Throat Dibbler's <a href="/sausages.html">Sensational Sausages</a>;&nbsp;buy 
+  one while they are hot.</strong> <br>
+<hr>Lost?  Try Discworld's <a href="/">home page</a>.</font></center><font size="-1"><i><a href="mailto:drakkos@cableinet.co.uk"><font size="-2">Mail Drakkos!</font></a></i>
+</font>
+</body>
+<!-- #EndTemplate --></html>

@@ -1,0 +1,94 @@
+.DT
+exits
+Discworld Room and Living Help
+exits
+
+Name
+.SI 5
+exits - those handy links to get you from one room to another
+.EI
+
+Description
+.SP 5 5
+Everyone knows what an exit is, except for maybe the most naive
+newbie.  Just about every creator knows how to add basic exits
+and most know how to do slightly more fancy things with them,
+such as use exit functions.  This document is for those people
+who want to know the gritty details of how exits actually work,
+for whatever reason.  The rest of this description will be in
+three parts, describing the roles played by rooms, living objects
+and the room handler; broadly speaking, rooms store the information
+for their exits, living objects contain define the action needed
+for moving and interpret the command according to orientation, if
+appropriate, and the room handler does all of the actual work.  Note:
+It is not expected that after reading this document, you will be an
+instant master of the mudlib details of exits.  You are expected to
+spend time correlating the information given here with the relevant
+code, the file containing the code being given with each section
+below.
+.EP
+
+Rooms (/std/room)
+.SP 5 5
+There are three variables used by rooms to store information to do
+with exits, with a fourth handling doors.  The biggest one is
+dest_other, which includes just about all of the vital information;
+it is a mixed array, with the first, third, etc. elements being
+directions and the second, fourth, etc. elements being arrays of:
+destination, the optional exit message, obviousness, size, function,
+the enter message or information used to compose the enter message,
+whether the exit is relative or not, two elements to do with looking
+through an exit and the grade of the exit.  Directions can also be
+given aliases, which are alternative commands for taking a particular
+direction; for instance, if an exit is called "enter shop", an alias
+of "enter" could be added [with add_alias( "enter", "enter flat" );]
+so that either could be used to take that exit.  With each change
+to the exits information, a third variable is updated, exits, which
+contains a simple array of strings, each element being a valid exit
+command; it contains the full exit name, any aliases for that exit
+name and any standard abbreviations (e.g. "w" for "west").  To use
+an exit from this room, the command given (after allowing for
+reorientation due to an exit being relative) must be on this list.
+.EP
+
+Living Objects (/std/living/living)
+.SP 5 5
+All living objects have a free verb connected to the function
+exit_command(), which will handle the start of using an exit, if
+the function decides that the input means that the living object
+wants to use an exit.  After some preliminary variable shuffling
+to allow for some other uses for this command, the verb is lengthened
+if appropriate (e.g. "w" is expanded to "west").  Then the verb is
+compared to the list of valid exits for the room, taking into account
+the possibility that the exit might be relative and dealing with
+that as appropriate.  If the exit is valid, control is passed to
+the room handler via the function exit_move().
+.EP
+
+The Room Handler (/obj/handlers/room_handler)
+.SP 5 5
+At this point, the verb will either be an actual direction or
+will be the alias for a direction, so expand_alias() is called
+on the room to convert the alias, if it is an alias, to an actual
+direction; anything that isn't an alias is simply returned
+unchanged.  Then the function set_destination() is called on the
+room, which is used by some cloned room systems to correctly
+set exits, following which the room handler obtains a copy of
+the dest_other array element following the element that is the
+direction.  Just as the destination was checked, the door, if
+there is one, for that exit is checked, and data on it obtained
+by the handler; if there is a door, it is dealt with appropriately,
+the move failing if it cannot be opened.  Next the exit function,
+if there is one, is called, followed by a check to see if the
+exit is too small to be used.  At long last, the living object
+is actually moved, handling exit and enter messages and objects
+being dragged if necessary, and, if this move is successful, the
+living object's immediate followers are moved, after making the
+appropriate checks with the exit function and size.
+.EP
+
+See also
+.SI 5
+add_exit, modify_exit, remove_exit
+exit_aliases
+.EI

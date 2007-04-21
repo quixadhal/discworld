@@ -1,0 +1,41 @@
+.DT
+finderrors
+Discworld creator help
+finderrors
+
+.SH Name
+.SI 5
+finderrors - handle a list of directories for keeping track of error reports.
+.EI
+
+.SH Syntax
+.SI 5
+finderrors
+finderrors add <word> recursive
+finderrors remove <word> recursive
+finderrors add <word>
+finderrors remove <word>
+finderrors list
+finderrors count
+.EI
+
+.SH Description
+.SP 5 5
+Finderrors without a command, will search through the list of directories, stopping at the first with an ERRORS_REPORT file, the work like the errors command.
+
+With add and remove, directories can be added and removes from the list, with list the list can be seen and print will make a file containing all reports found in the directories in the list.
+
+With count, the command will list all dirs with reports, and how many are in each.
+
+If directories are added or removed using the recursive syntax, all subdirectories will be added or removed as well.  Note that this may make the list very long.
+.EP
+
+.SH Examples
+.SI 5
+finderrors add /d/am/temple_cut
+.EI
+
+.SH See also
+.SP 5 5
+errors
+.EP

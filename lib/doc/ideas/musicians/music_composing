@@ -1,0 +1,277 @@
+This file will try to sum up the ideas about COMPOSING songs.
+(with reservations of typos)
+
+Composing is done with a handler very much the same as the quest
+handler/editor.
+
+Question here is how do you write a song that can be played in a
+group with different instruments. 
+You can either compose a song for one instrument and vocals
+ONLY, and the other people will have to re-compose their song for
+their instrument, etc.
+
+Another question is if selecting the instrument from the start is 
+needed at all. More realistic, yes, but perhaps difficult to code?
+
+Or you can compose everything together. I will now try and describe
+the first way, and the other last.
+ 
+A player must have a quill and a piece of paper in their inventory
+first, then the first way _could_ look like.
+
+> hold quill
+You hold a quill in your left hand.
+> compose on paper with quill
+You start writing on the piece of writing paper.
+(1) Choose one of M,Q,T,D,R,S,E,I or H (for help) h
+Song editor commands:
+M           : set instruments used for playing
+Q           : save and quit the song editor 
+I           : set difficulty of new song
+T <title>   : change a song's title
+D <text>    : set a song's description
+S           : review your remembered songs
+E           : edit the song's text file
+R           : review the song's data 
+H           : get this list of commands
+X           : quit without saving
+No command will reprint the song
+
+(1) Choose one of M,Q,T,D,R,S,E,I or H (for help) r
+Song data so far:
+        Title:       not set
+        Description: not set
+        Difficulty:  not set
+        Instruments: not set
+(1) Choose one of M,Q,T,D,R,S,E,I or H (for help) t the Gold Song
+Song title set to:  Gold Song
+
+(1) Choose one of M,Q,T,D,R,S,E,I or H (for help) d fast and happy song 
+with a steady rhythm
+Description of the Gold Song set to:  fast and happy with a steady rhythm 
+
+(1) Choose one of M,Q,T,D,R,S,E,I or H (for help) i
+Syntax:  i <easy, medium, hard>
+
+(1) Choose one of M,Q,T,D,R,S,E,I or H (for help) i medium
+  (Here the musicians skills must be calculated so the song
+has a complexity that can be compared with other musicians
+play the song.)
+
+(1) Choose one of M,Q,T,D,R,S,E,I or H (for help) m
+Enter one at a time the instruments or vocals with which this
+song can be played.
+Enter a blank line to quit.
+] vocals
+] banjo 
+]
+Instrument set: vocals  
+
+(1) Choose one of M,Q,T,D,R,S,E,I or H (for help) r
+Song data so far:
+        Title:       the Gold Song
+        Description: fast and happy song with a steady rhythm
+        Difficulty:  medium
+        Instruments: vocals, banjo
+
+(1) Choose one of M,Q,T,D,R,S,E,I or H (for help) e
+Write the lyrics in " quotes " and other text between '',
+'pause' marks a pause, and end the song with 'end'.
+$N is the player, $I is the instrument upon the song 
+is played. Verbs must be put like this "play$s"
+
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]'$N play$s a lovely solo with $I.' 
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]'$N play$s a lovely solo with $I.' 
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]'The song gets louder.'
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]pause
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]end
+
+(1) Choose one of M,Q,T,D,R,S,E,I or H (for help) <return>
+Womble clears his throat.
+Womble says: Ahem, this one is called "the Gold Song."
+Gold Gold Gold Gold
+Gold Gold Gold Gold
+Gold Gold Gold Gold
+Womble and Frog play a lovely solo with their banjos.
+Gold Gold Gold Gold
+Gold Gold Gold Gold
+Gold Gold Gold Gold
+The song gets more loud.
+Gold Gold Gold Gold
+Gold Gold Gold Gold
+Gold Gold Gold Gold
+Womble pauses to catch his breath.
+Gold Gold Gold Gold
+Gold Gold Gold Gold
+Gold Gold Gold Gold
+end
+
+(1) Choose one of M,Q,T,D,R,S,E,I or H (for help) q
+Save this song? ([Y]/n) y
+You finish writing on the paper. Phew!
+> look paper
+
+This is a nice sheet of writing-paper.
+On the paper are the notes and lyrics of the Gold Song. It is a 
+fast and happy song with a steady rhythm.
+You study the notes a bit and come to the conclusion that this 
+is a song of medium difficulty and written for a banjo.
+
+> remember the Gold Song from paper
+You start memorizing the lyrics from the paper.
+You hum a few bars.
+You succesfully memorize the Gold Song.
+
+> songs
+You know the following songs:
+        a Wizard's Staff has a Knob on the End
+        the Streets of Ankh-Morpork
+        the Gold Song
+
+-----------------------------
+
+
+In this way, it's just possible to write the song for one instrument with
+vocals, as I said before. When playing in a group, each musician have to
+re-compose the song and fill in their instruments and the other changes
+that affects them. More work for the players, but it seems easier
+for us to code. I'm not sure on these things, but here's the other
+suggestion:
+
+>(1) Choose one of Q, P, G, C, T, D, E, F, +, - or H (for help) : e gold
+>
+>Write the lyrics in " quotes " and other text between '',
+>'pause' marks a pause, and end the song with 'end'.
+>$N is the player(s), $I is the instrument upon the song
+>is played. The verbs must use "$", "play$s" for example.
+>
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]'$N play$s a lovely solo on $I.'
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]'$N play$s a lovely solo on $I.'
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]'The song gets more loud.'
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]pause
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]"Gold Gold Gold Gold"
+]end
+
+This is OK for a solo banjo player/vocalist. However, when we want to have
+a song that two players - say a guitarist and a vocalist - can perform, it
+gets more complicated. Here is my suggestion:
+
+(1) Choose one of Q, P, G, C, T, D, E, F, +, - or H (for help) : e
+
+You can edit one of these parts: vocal, guitar
+Choose part to edit: vocal
+
+(insert small help text here)
+
+ 1] "Gold Gold Gold Gold"
+ 2] "Gold Gold Gold Gold"
+ 3] "Gold Gold Gold Gold"
+ 4] 
+ 5] "Gold Gold Gold Gold"
+ 6] "Gold Gold Gold Gold"
+ 7] "Gold Gold Gold Gold"
+ 8] 
+ 9] "Gold Gold Gold Gold"
+10] "Gold Gold Gold Gold"
+11] "Gold Gold Gold Gold"
+12] '$N shout$s: Come on!'
+13] "Gold Gold Gold Gold"
+14] "Gold Gold Gold Gold"
+15] "Gold Gold Gold Gold"
+16] end
+
+(1) Choose one of Q, P, G, C, T, D, E, F, +, - or H (for help) : e
+
+You can edit one of these parts: vocal, guitar
+Choose part to edit: guitar
+
+ 1] '$N begin$s strumming a joyful chord sequence on $I.'
+ 2]
+ 3]
+ 4] '$N play$s a lovely interlude on $I.'
+ 5]
+ 6]
+ 7]
+ 8] '$N play$s a solo on $I.'
+ 9]
+10]
+11]
+12] '$N start$s playing louder.'
+13]
+14]
+15]
+16] end
+
+...
+
+When performed, it could look like this:
+
+Aksu begins strumming a joyful chord sequence on his guitar.
+Womble sings: Gold Gold Gold Gold
+Womble sings: Gold Gold Gold Gold
+Womble sings: Gold Gold Gold Gold
+Aksu plays a lovely interlude on his guitar.
+Womble sings: Gold Gold Gold Gold
+Womble sings: Gold Gold Gold Gold
+Womble sings: Gold Gold Gold Gold
+Aksu plays a solo on his guitar.
+Womble sings: Gold Gold Gold Gold
+Womble sings: Gold Gold Gold Gold
+Womble sings: Gold Gold Gold Gold
+Womble shouts: Come on!
+Aksu starts playing louder.
+Womble sings: Gold Gold Gold Gold
+Womble sings: Gold Gold Gold Gold
+Womble sings: Gold Gold Gold Gold
+The song ends.
+
+Obviously the interface needs a bit of polishing, but the general idea
+is that each part can be written separately. It should also be possible
+for one player to perform both parts solo.
+
+Perhaps should the complexity/difficulty factor be skipped...
+
+Deutha: My only concern is with the difficulty setting bit: I
+>don't think it should be possible to make a song that the composer
+>can't play --- I know that this isn't perfectly accurate, given that
+>you could compose a tune that you can play on one instrument, but
+>score it for another that you can't play, but if the ability to play
+>is hooked to the taskmaster, people will use this system to boot-strap
+>themselves upwards. There will always be a small chance to improve,
+>with any song, due to the lottery aspect of the taskmaster, but I think
+>that the quickest way to learn should be by being taught by a more
+>experienced artist, or by practising other people's compositions.
+>Similarly, apart from maybe easy, purely vocal songs (or, I suppose,
+>whistled or hummed tunes), it shouldn't be possible to compose anything
+>until the person has some minimum level of skill, and then the composing
+>ability always lags behind the performing ability. Maybe you address
+>these points in a later section. 

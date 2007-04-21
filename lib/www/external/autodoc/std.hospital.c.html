@@ -1,0 +1,677 @@
+<html><head><title>File hospital.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/hospital.c</h2> This is a generalised hospital inheritable for the creation of NPCs.
+<p>
+The NPCs within the hospital are defined in the configuration files which
+are parsed by the hospital. The configuration files can define zones,
+groups and npcs.
+<p>
+A zone is a region of the mud. It can have any name you choose and is then
+used as the first parameter to load_random_npc(). A zone may be made up of
+other zones, groups and npcs.
+
+<p>
+A group is a group of NPCs. It may be made up of other groups and npcs. A
+group has a name by which it is referenced by zones and other groups.
+<p>
+An npc is the definition of a specific type of NPC.
+<p>Written by Taffyd<p>Started December 3, 1998.<h3>Example 1</h3>
+<pre>A typical hospital setup would look like this:
+
+void setup() {
+  set_save_file(SAVE + "/hospital");
+  set_data_directory(DATA + "/hospital");
+  set_log_directory(LOG + "/hospital");
+  set_npc_path(CHARS + "/hospital");
+  set_not_replaceable(1);
+
+  set_short("Our hospital");
+  set_long("This is the hospital.\n");
+}
+</pre>
+<h3>Example 2</h3>
+<pre>These are examples of zones, groups & npcs.
+
+(zone
+  (name "desert")
+  (busy 5)
+  (group
+    (name "vultures")
+    (chance 1)
+  )
+  (npc
+    ("name "lizard")
+    (chance 1)
+  )
+)
+
+(group
+  (name "vultures")
+  (transient "true")
+  (npc
+    (name "vulture")
+    (quantity 1 + 1d5)
+  )
+)
+
+(npc
+  (name "vulture")
+  (path "vulture")
+  (transient true)
+)
+(npc
+  (name "lizard")
+  (path "lizard")
+  (transient true)
+  (diurnal true)
+)
+
+The above configuration file defines a zone "desert". The zone has a
+business factor of 5 which means rooms in the zone will typically get a
+chance at cloning npcs 5% of the time (every 20 rooms).
+<p>
+The zone is made up of a group called "vultures" and an npc called
+"lizard".
+<p>
+The vultures group is transient (ie. the NPCs will be removed from the
+room when the player leaves the room, rather like wandering monsters) and
+contains 1 + 1d5 "vulture" npcs.
+<p>
+The vulture NPC is transient and can be found in the filename "vulture.c" in
+the path defined by set_npc_path(). The lizard NPC is also transient and
+diurnal (it only comes out during the day) and can be found in the filename
+"lizard.c" in the path defined by set_npc_path().
+
+<p></pre>
+<h3>Change history</h3>
+<dl><dt>Ceres November 14th 2002<br><dd>Altered to work as a hospital for terrain NPCs especially the transient
+ones. It now handles transient npcs as well as conditions for
+diurnal, nocturnal and seasonal npcs.
+<dt>Pinkfish March 10th<br><dd>Major rewrite of bits to make it use a lisp like data file format.
+<dt>Carmine April 9th<br><dd>Added some alignment-generation code.</dl>
+<hr><h2>Inherits</h2>
+This class inherits the following classes /std/hospital/alignment.c and /std/room.c<hr><h2>Includes</h2>
+This class includes the following files <a href="include.weather.h.html">/include/weather.h</a>, <a href="include.hospital.h.html">/include/hospital.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a> and <a href="include.data.h.html">/include/data.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_report"><b>do_report</b></a>()<dd>
+Prints a report of all the npcs in the hospital currently.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_compiling"><b>finish_compiling</b></a>(string, mapping)<dd>
+This is called by the data compiler when the system has
+finished compiling the data file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_item"><b>get_item</b></a>(object, string *)<dd>
+This function provides an interface to the armoury, selecting
+an item at random from the 'items' array and attempting to
+clone it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#hospital_log_file"><b>hospital_log_file</b></a>(string, string, mixed * args)<dd>
+This method provides log_file() functionality but for /d/am/log
+instead.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_group_under_max_population"><b>is_group_under_max_population</b></a>(string)<dd>
+This method checks to see if the number of npcs of this
+type is under the maximum population.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_npc_under_max_population"><b>is_npc_under_max_population</b></a>(string)<dd>
+THis method checks to see if the number of npcs of this
+type is under the maximum population.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_group_npcs"><b>load_group_npcs</b></a>(string)<dd>
+This method creates the npcs for the specificed group of npcs.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_npc_object"><b>load_npc_object</b></a>(string)<dd>
+This method loads the specific npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_random_npc"><b>load_random_npc</b></a>(string, int, int)<dd>
+This method randomly selects an NPC or a group of NPC's from
+the list of defined NPC's for the room/region.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_unique"><b>make_unique</b></a>(mixed)<dd>
+This method returns whether or not it is time to regenerate a
+unique NPC.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#npc_died"><b>npc_died</b></a>(object)<dd>
+This method is called when a specific npc dies so we can do some
+tracking on it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#npc_path"><b>npc_path</b></a>(string)<dd>
+This method expands the path for the given npc by combining the npc_path
+set in set_npc_path with the relative path defined in the configuration
+file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_data_directory"><b>query_data_directory</b></a>()<dd>
+This method returns the directory to scan for new files.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_debug_npc_info"><b>query_debug_npc_info</b></a>()<dd>
+This returns all the npcs in the debug data array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_deities"><b>query_deities</b></a>()<dd>
+This function returns an array of the gods in Ankh-Morpork
+<p>
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_disable_npc_generation"><b>query_disable_npc_generation</b></a>()<dd>
+This method returns the flag that disables the npc generation.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_group_info"><b>query_group_info</b></a>(string)<dd>
+This returns the group info class for the group in question.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_npc_current_population"><b>query_npc_current_population</b></a>(string, int)<dd>
+This method returns the current population of this npc
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_npc_info"><b>query_npc_info</b></a>(string)<dd>
+This returns the npc info class for the npc in question.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_npc_max_population"><b>query_npc_max_population</b></a>(string)<dd>
+This method returns the maximum population of this npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_registered_npcs"><b>query_registered_npcs</b></a>()<dd>
+This function returns the ids of all the NPCs which are registered with the 
+hospital, ie the ones that have to be specified with add_hospital_npc().
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_file"><b>query_save_file</b></a>()<dd>
+This returns the location where hospital data will be stored.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#regen_after_death"><b>regen_after_death</b></a>(object)<dd>
+This method is called by the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_unique"><b>reset_unique</b></a>(string)<dd>
+This method resets the unique status of the npc so it can be tested for
+loading over again.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#roll_dice"><b>roll_dice</b></a>(mixed)<dd>
+This method rolls the dice, if a dice is specified.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#scan_for_new_data"><b>scan_for_new_data</b></a>(int)<dd>
+This method scans through all the files and sees if anything has
+changed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_data_directory"><b>set_data_directory</b></a>(string)<dd>
+This method sets the directory to scan for new files.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_disable_npc_generation"><b>set_disable_npc_generation</b></a>(int)<dd>
+This method sets the flag which enables or disables npc generation.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_domain"><b>set_domain</b></a>(string)<dd>
+This method sets the domain string used when requesting things
+from the hospital.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_log_directory"><b>set_log_directory</b></a>(string)<dd>
+This method sets the directory in to which hospital_log_file will
+log by default.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_cache"><b>set_max_cache</b></a>(int)<dd>
+This method sets the maximum number of transient npcs of a given type
+that the hospital will cache.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_npc_path"><b>set_npc_path</b></a>(string)<dd>
+This method sets the directory for npcs.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_file"><b>set_save_file</b></a>(string)<dd>
+This method is used to set the save file for the hospital.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_report">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_report</b></a><pre>
+int do_report()
+</pre><dd>
+Prints a report of all the npcs in the hospital currently.
+<p>
+
+<dt><a name="get_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_item</b></a><pre>
+int get_item(object destination,
+             string * items)
+</pre><dd>
+This function provides an interface to the armoury, selecting
+an item at random from the 'items' array and attempting to
+clone it.
+<p>
+Any items of jewellery, clothing, weapons, armour or scabbards
+that are available in the armoury can be accessed using this
+function.
+<p><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>destination - where to place the item that is fetched
+from the armoury.
+<dd>items - an array of items, of which one will be selected,
+cloned, and then moved to destination.
+<p>
+<dt><b>Returns:</b>
+<dd>1 if the item was successfully created, 0 if it was not.
+
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.armoury.c.html">/obj/handlers/armoury.c</a></dl>
+
+<dt><a name="hospital_log_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hospital_log_file</b></a><pre>
+void hospital_log_file(string file,
+                       string format,
+                       mixed * args ...)
+</pre><dd>
+This method provides log_file() functionality but for /d/am/log
+instead.  You should use this method to record errors and whatever
+that are domain specific instead of using log_file().<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>file - the file name to log to. This will have /d/am/log/
+inserted before it.
+<dd>format - the text to log, can contain sprintf() format specifiers.
+<dd>args - the arguments for any sprintf format thingies
+
+<dt><b>Example:</b>
+<dd><pre>hospital_log_file("BAD_HOSPITAL_NPC", "%s: Bad NPC hospital data, %O.\n",
+ctime(time()), _regenerated_npcs);
+// This would log to /d/am/log/BAD_HOSPITAL_NPC.</pre></dl>
+
+<dt><a name="is_group_under_max_population">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_group_under_max_population</b></a><pre>
+int is_group_under_max_population(string name)
+</pre><dd>
+This method checks to see if the number of npcs of this
+type is under the maximum population.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>npc - the npc to check to see if it is under population max
+<dt><b>Returns:</b>
+<dd>1 if is under, 0 if is not
+
+</dl>
+
+<dt><a name="is_npc_under_max_population">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_npc_under_max_population</b></a><pre>
+int is_npc_under_max_population(string name)
+</pre><dd>
+THis method checks to see if the number of npcs of this
+type is under the maximum population.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>npc - the npc to check to see if it is under population max
+<dt><b>Returns:</b>
+<dd>1 if is under, 0 if is not
+
+</dl>
+
+<dt><a name="load_group_npcs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_group_npcs</b></a><pre>
+object * load_group_npcs(string group_name)
+</pre><dd>
+This method creates the npcs for the specificed group of npcs.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group_name - the name of the group
+<dt><b>Returns:</b>
+<dd>the npcs
+
+</dl>
+
+<dt><a name="load_npc_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_npc_object</b></a><pre>
+object load_npc_object(string npc_name)
+</pre><dd>
+This method loads the specific npc.  It will do everything it needs
+to create the npc.  In the case of unique npcs they are not cloned.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>npc_name - the name of the npc to load
+<dt><b>Returns:</b>
+<dd>the npc object
+
+</dl>
+
+<dt><a name="load_random_npc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_random_npc</b></a><pre>
+object * load_random_npc(string zone,
+                         int wealth,
+                         int busy)
+</pre><dd>
+This method randomly selects an NPC or a group of NPC's from
+the list of defined NPC's for the room/region.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>zone - This is a zone (as defined in the configuration files).
+<dd>wealth - How wealthy this particular part of this zone is.
+<dd>busy - How busy this particular part of this zone is.
+
+<dt><b>Returns:</b>
+<dd>Returns a group of NPCs randomly selected.
+
+</dl>
+
+<dt><a name="make_unique">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_unique</b></a><pre>
+int make_unique(mixed who)
+</pre><dd>
+This method returns whether or not it is time to regenerate a
+unique NPC. The regeneration time is controlled by the REGEN_TIME
+#define.
+<p><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>who - this is the name or object reference of the NPC
+<dt><b>Returns:</b>
+<dd>1 if it is time to make the unique NPC, or 0 if it is not.
+
+</dl>
+
+<dt><a name="npc_died">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>npc_died</b></a><pre>
+void npc_died(object ob)
+</pre><dd>
+This method is called when a specific npc dies so we can do some
+tracking on it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>npc_ob - the npc object
+
+</dl>
+
+<dt><a name="npc_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>npc_path</b></a><pre>
+string npc_path(string str)
+</pre><dd>
+This method expands the path for the given npc by combining the npc_path
+set in set_npc_path with the relative path defined in the configuration
+file.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>path - the path to expand
+<dt><b>Returns:</b>
+<dd>the expanded path
+
+</dl>
+
+<dt><a name="query_data_directory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_data_directory</b></a><pre>
+string query_data_directory()
+</pre><dd>
+This method returns the directory to scan for new files.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the directory to scan new data
+<dt><b>See also:</b>
+<dd><a href="#set_data_directory">set_data_directory()
+</a></dl>
+
+<dt><a name="query_debug_npc_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_debug_npc_info</b></a><pre>
+mapping query_debug_npc_info()
+</pre><dd>
+This returns all the npcs in the debug data array.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>this returns the debug information for the npcs
+
+</dl>
+
+<dt><a name="query_deities">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_deities</b></a><pre>
+string * query_deities()
+</pre><dd>
+This function returns an array of the gods in Ankh-Morpork
+<p>
+<p>
+
+<dt><a name="query_disable_npc_generation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_disable_npc_generation</b></a><pre>
+int query_disable_npc_generation()
+</pre><dd>
+This method returns the flag that disables the npc generation.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the flag that disables the npc generation
+<dt><b>See also:</b>
+<dd>set_disable_npc_generation
+.c</dl>
+
+<dt><a name="query_group_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_group_info</b></a><pre>
+class group_info query_group_info(string group)
+</pre><dd>
+This returns the group info class for the group in question.  THis should
+only be used for debugging.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the name of the group to get the info on
+<dt><b>Returns:</b>
+<dd>the class of the group
+
+</dl>
+
+<dt><a name="query_npc_current_population">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_npc_current_population</b></a><pre>
+int query_npc_current_population(string npc,
+                                 int clean)
+</pre><dd>
+This method returns the current population of this npc<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>npc - the name of the npc
+<dt><b>Returns:</b>
+<dd>the npc population
+
+</dl>
+
+<dt><a name="query_npc_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_npc_info</b></a><pre>
+class npc_info query_npc_info(string npc)
+</pre><dd>
+This returns the npc info class for the npc in question.  THis should
+only be used for debugging.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>npc - the name of the npc to get the info on
+<dt><b>Returns:</b>
+<dd>the class of the npc
+
+</dl>
+
+<dt><a name="query_npc_max_population">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_npc_max_population</b></a><pre>
+int query_npc_max_population(string npc)
+</pre><dd>
+This method returns the maximum population of this npc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>npc - the name of the npc
+<dt><b>Returns:</b>
+<dd>the npc population
+
+</dl>
+
+<dt><a name="query_registered_npcs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_registered_npcs</b></a><pre>
+string * query_registered_npcs()
+</pre><dd>
+This function returns the ids of all the NPCs which are registered with the 
+hospital, ie the ones that have to be specified with add_hospital_npc().
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>All the ids.
+
+</dl>
+
+<dt><a name="query_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_file</b></a><pre>
+string query_save_file()
+</pre><dd>
+This returns the location where hospital data will be stored.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_save_file">set_save_file()
+</a></dl>
+
+<dt><a name="regen_after_death">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>regen_after_death</b></a><pre>
+void regen_after_death(object dead_npc)
+</pre><dd>
+This method is called by the npc.death effect after an NPC that is handled
+by the hospital has died. It tells the room where it was generated to
+make a new NPC and to all sorts of funky things.
+<p>
+This is not fully implemented yet.
+<p>
+
+<dt><a name="reset_unique">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_unique</b></a><pre>
+void reset_unique(string who)
+</pre><dd>
+This method resets the unique status of the npc so it can be tested for
+loading over again.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>npc - the name of the npc
+
+</dl>
+
+<dt><a name="roll_dice">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>roll_dice</b></a><pre>
+int roll_dice(mixed die)
+</pre><dd>
+This method rolls the dice, if a dice is specified.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dice - the dice or number
+<dt><b>Returns:</b>
+<dd>the actual number
+
+</dl>
+
+<dt><a name="scan_for_new_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>scan_for_new_data</b></a><pre>
+int scan_for_new_data(int force)
+</pre><dd>
+This method scans through all the files and sees if anything has
+changed.
+<p>
+
+<dt><a name="set_data_directory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_data_directory</b></a><pre>
+void set_data_directory(string dir)
+</pre><dd>
+This method sets the directory to scan for new files. The data directory
+stores the configuration files for the hospital that define the zones,
+groups and npcs.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to scan for new files
+
+</dl>
+
+<dt><a name="set_disable_npc_generation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_disable_npc_generation</b></a><pre>
+void set_disable_npc_generation(int value)
+</pre><dd>
+This method sets the flag which enables or disables npc generation. This
+is mostly used for debugging.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - the new value of the flag
+
+</dl>
+
+<dt><a name="set_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_domain</b></a><pre>
+void set_domain(string domain)
+</pre><dd>
+This method sets the domain string used when requesting things
+from the hospital.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>domain - the domain name
+
+</dl>
+
+<dt><a name="set_max_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_cache</b></a><pre>
+void set_max_cache(int num)
+</pre><dd>
+This method sets the maximum number of transient npcs of a given type
+that the hospital will cache. 
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the maximum number
+
+</dl>
+
+<dt><a name="set_npc_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_npc_path</b></a><pre>
+void set_npc_path(string path)
+</pre><dd>
+This method sets the directory for npcs.  The filename for npcs defined
+in the configuration files is realtive to this path.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the director for npcs.
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="finish_compiling">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>finish_compiling</b></a><pre>
+void finish_compiling(string fname,
+                      mapping data)
+</pre><dd>
+This is called by the data compiler when the system has
+finished compiling the data file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>data - the data to deal with
+
+</dl>
+
+<dt><a name="set_log_directory">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_log_directory</b></a><pre>
+void set_log_directory(string new_dir)
+</pre><dd>
+This method sets the directory in to which hospital_log_file will
+log by default. If the directory does not exist, then it is set to
+DEFAULT_LOG_DIRECTORY.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_dir - the directory to log to.
+<dt><b>Example:</b>
+<dd><pre>set_log_directory( "/d/cwc/Bes_Pelargic/log" );
+// log directory is now /d/cwc/Bes_Pelargic/log</pre><dd><pre>
+// (cre) MacChirton: ithinkmykeyboardisbroken
+set_log_directory( "/d/cWc/BeS_pelarGic/lrg" );
+// Displays: "/d/cwc/hospital/bes_pelargic: Invalid log
+// directory, defaulting to /log"
+</pre></dl>
+
+<dt><a name="set_save_file">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_save_file</b></a><pre>
+void set_save_file(string new_save)
+</pre><dd>
+This method is used to set the save file for the hospital.  This
+file is where all of the hospitals NPC data is stored while it is
+not active and in between reboots.
+<p>
+If this file does not exist when the hospital is loaded, then the
+variables will be initialised to their defaults and
+<b>restore_default_npcs()</b> called.
+<p><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_save - the file name to save the hospital data in
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 03:04:54 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

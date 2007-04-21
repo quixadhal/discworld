@@ -1,142 +1,114 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: spells.c,v 1.2 2001/06/03 20:21:47 pinkfish Exp $
+ * $Log: spells.c,v $
+ * Revision 1.2  2001/06/03 20:21:47  pinkfish
+ * Change the variable name.
+ *
+ * Revision 1.1  1998/01/06 04:54:05  ceres
+ * Initial revision
+ * 
+*/
 #include "spells.h"
-mixed spells;
+
+nosave mixed *_spell_effects;
 
 void create() {
-  spells = ([ ]);
-}
+  _spell_effects = ({ });
+} /* create() */
 
-void spell_commands() {
-  add_action("show_spells", "spells");
-  add_action("cast", "cast");
-}
+/* temp for testing */
+mixed query_effects() { return _spell_effects; }
+int queue_commands() { return sizeof( _spell_effects ); }
 
-string help_spell(string str) {
-  if (!mappingp(spells))
-   spells = ([ ]);
-  if (!m_sizeof(spells))
-    return 0;
-  if (!spells[str])
-    return 0;
-  return (string)spells[str][S_OBJECT]->help(str);
-}
- 
-/*
- * all the spells stuff from here to the next silly comment
- */
-int show_spells(string str) {
-  string *frog;
-  int i;
+int add_spell_effect(int no_rnds, string type, string name, object callee,
+                     string func, mixed params) {
+  int i,j;
 
-  if (!mappingp(spells))
-   spells = ([ ]);
-  if (!m_sizeof(spells)) {
-    write("You don't know any spells.\n");
-    return 1;
-  }
+   if (strsrch(file_name(this_object()),"global")==-1)
+      tell_object(find_living("olorin"),
+                  sprintf("add_spell_effect in %s\n",
+                          file_name(this_object())));
+  if ((i=member_array(type, _spell_effects)) != -1)
+    if ((j=member_array(name, _spell_effects[i+1])) == -1)
+      _spell_effects[i+1] += ({ name, ({ no_rnds, callee, func, params }) });
+    else
+      _spell_effects[i+1][j+1] = ({ no_rnds, callee, func, params });
+  else
+    _spell_effects += ({ type, ({ name, ({ no_rnds, callee, func, params }) }) });
+} /* add_spell_effect() */
 
-  frog = m_indices(spells);
-  write("You know the following spells:\n");
-  printf("%#-*s\n", this_player()->query_cols(), implode(frog, "\n"));
-/* the above will use printf... but it is broken at the moment. */
-  return 1;
-}
-
-int cast(string str) {
+int remove_spell_effect(string name) {
   int i, j;
-  string *s,s1;
- 
-  if (!str) {
-    notify_fail("Usage: cast <spell> [<target>]\n");
-    return 0;
-  }
-  s = explode(str, " ");
-  s1 = s[0];
-  j = 1;
-  while (!spells[s1] && j < sizeof(s))
-    s1 = implode(s[0..j++], " ");
-  if (!spells[s1]) {
-    notify_fail("There is no such spell as "+str+"\n");
-    return 0;
-  }
-/* ok we found our spell...
- * cast it...
- * Or, at least try to ;)
- */
- return (int)call_other(spells[s1][S_OBJECT], spells[s1][S_FUNC],
-                                    implode(s[j..sizeof(s)], " "));
-}
 
-mixed query_spells() { return spells + ([ ]); }
-
-int add_spell(string name, mixed ob, mixed func) {
-  int i;
-  mapping tmp;
-
-  if (pointerp(spells)) {
-    tmp = ([ ]);
-    for (i=0;i<sizeof(spells);i+=2)
-      tmp[spells[i]] = spells[i+1];
-    spells = tmp;
-  }
-  if (!mappingp(spells))
-    spells = ([ ]);
-  spells[name] = ({ ob, func });
-  return 1;
-}
-
-int remove_spell(string name) {
-  int i;
-
-  spells = m_delete(spells, name);
-  return 1;
-}
-
-int query_spell(string type) {
-  if (!mappingp(spells)) return 0;
-  return spells[type];
-}
-
-int spell_teach(object *obs, string spell) {
-  int i;
-  object *succ, *me_low, *him_low;
-  string ret;
-
-  if (!mappingp(spells)) spells = ([ ]);
-  if (!spells[spell])
-    return 0;
-  succ = me_low = him_low = ({ });
-  for (i=0;i<sizeof(obs);i++) {
-    if (!living(obs[i]))
-      continue;
-    switch (spells[spell][0]->teach(obs[i], spell)) {
-      case 1 :
-        succ += ({ obs[i] });
-        break;
-      case -1 :
-        me_low += ({ obs[i] });
-        break;
-      case -2 :
-        him_low += ({ obs[i] });
-        break;
+   if (strsrch(file_name(this_object()),"global")==-1)
+      tell_object(find_living("olorin"),
+                  sprintf("remove_spell_effect in %s\n",
+                          file_name(this_object())));
+  for (i=0;i<sizeof(_spell_effects);i+=2)
+    if ((j=member_array(name, _spell_effects[i+1])) != -1) {
+      _spell_effects[i+1] = delete(_spell_effects[i+1], j, 2);
+      if (!sizeof(_spell_effects[i+1])) {
+        _spell_effects = delete(_spell_effects, i, 2);
+        i -= 2;
+      }
     }
-  }
-  if (!succ) {
-    ret = "";
-    if (sizeof(me_low))
-      ret += "You are too low a level to teach "+query_multiple_short(obs)+
-             " "+spell+".\n";
-    if (sizeof(him_low))
-      ret += query_multiple_short(obs)+" is too low a level to learn "+
-             spell+".\n";
-    write(ret);
-    return 1;
-  }
-  write("You successfuly teach "+query_multiple_short(succ)+" "+spell+".\n");
-  if (sizeof(me_low))
-    write("You are to low a level to teach "+query_multiple_short(obs-succ)+
-           " "+spell+".\n");
-  if (sizeof(him_low))
-    write(query_multiple_short(obs)+" is too low a level to learn "+
-          spell+".\n");
   return 1;
-}
+} /* remove_spell_effect() */
+
+mixed query_spell_effect(string name) {
+   int i;
+
+   if (strsrch(file_name(this_object()),"global")==-1)
+      tell_object(find_living("olorin"),
+                  sprintf("query_spell_effect in %s\n",
+                          file_name(this_object())));
+  if ((i=member_array(name, _spell_effects)) == -1)
+    return 0;
+  if (sizeof(_spell_effects[i+1]))
+    return _spell_effects[i..i]+_spell_effects[0..1];
+  return 0;
+} /* query_spell_effect() */
+
+mixed *query_spell_effects_type(string type) {
+  int i, j;
+  mixed *ret;
+
+  if ((i=member_array(type, _spell_effects)) == -1)
+    return ({ });
+  ret = ({ });
+  for (j=0;j<sizeof(_spell_effects);j+=2)
+    ret += ({ _spell_effects[i], _spell_effects[i+1][j..j+1] });
+  return ret;
+} /* query_spell_effects_type() */
+
+int do_spell_effects(object attacker) {
+  int i, j;
+
+  this_object()->remove_property("casting");
+  for (i=0;i<sizeof(_spell_effects);i+=2)
+    for (j=0;j<sizeof(_spell_effects[i+1]);j+=2) {
+      call_out("do_call_out_effect", 1, ({ _spell_effects[i+1][j+1], attacker }));
+      _spell_effects[i+1][j+1][SP_NO_RNDS]--;
+      if ( !_spell_effects[i+1][j+1][SP_NO_RNDS] || !_spell_effects[i+1][j+1][SP_OBJECT]) {
+        _spell_effects[i+1] = delete(_spell_effects[i+1], j, 2);
+        j -= 2;
+        if (!sizeof(_spell_effects[i+1])) {
+          _spell_effects = delete(_spell_effects, i, 2);
+          i -= 2;
+          break;
+        }
+      }
+    }
+    return 0;
+} /* do_spell_effects() */
+
+void do_call_out_effect(mixed *params) {
+  if (params[0][SP_OBJECT])
+    call_other(params[0][SP_OBJECT],
+             params[0][SP_FUNC],
+             params[1],
+             params[0][SP_PARAM],
+             params[0][SP_NO_RNDS]);
+} /* do_effect() */

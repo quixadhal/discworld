@@ -1,0 +1,52 @@
+.DT
+event_move_object
+Discworld events help
+event_move_object
+
+Name
+.SI 5
+event_move_object - Called on the object when it successfully moves.
+.EI
+
+Syntax
+.SI 5
+void event_move_object(mixed from, mixed to);
+.EI
+
+Description 
+.SP 5 5
+This is the function called on things when they are successfully
+moved, after the move has actually taken place and just before MOVE_OK
+is returned to the caller of move.  The from argument is where the
+object came from before it got to where it currently.  The to argument
+which should be equal to environment().  The call is made using a
+call_out so that shadows make use the event.  This event is not a true
+event in that it does not use the event system.  If anything
+substantial is to be done by event_move_object a call_out should be
+invoked so that move can return promptly.
+.EP
+
+Examples:
+.SI 5
+void event_move_object(mixed from, mixed to) {
+  call_out("this_npc_moved", 5, from, to);
+  }
+} /* event_move_object() */
+
+void this_npc_moved(mixed from, mixed to) {
+  /* Make the NPC go home again */
+  if (!query_following_route() && environment()!= MY_HOME )
+     this_object()->move_me_to( MY_HOME );
+} /* this_npc_moved() */
+.EI
+
+See also
+.SP 5 5
+move, event_enter, event_exit, event_destruct
+.EP
+
+
+
+
+
+

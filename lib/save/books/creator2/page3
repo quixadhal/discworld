@@ -1,0 +1,22 @@
+.DT
+basic calls
+Discworld Creator Help
+basic calls
+
+.SH How to resurrect a player, How to add a life to that max
+.SP 5 5
+When a player dies through a bug, it is sometimes necessary to
+resurrect her.  The simplest way to do this is with Oblilix's
+Resurrector, found in your bookcase.  However, the actual call
+can also be used:
+.EP
+.SI 5
+%^CYAN%^call remove_ghost() <player>%^RESET%^.
+For example:
+%^CYAN%^call remove_ghost() ycore%^RESET%^.
+In some cases, you may also want to replace, or adjust, the
+maximum number of lives a player has.  The call for this is:
+%^CYAN%^call adjust_max_deaths(number) <player>%^RESET%^.
+For example:
+%^CYAN%^call adjust_max_deaths(1) lagger%^RESET%^.
+.EI

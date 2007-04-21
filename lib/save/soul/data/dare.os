@@ -1,0 +1,1 @@
+({({"<string> <indirect:any-living>","<indirect:any-living> <string>","<indirect:any-living>",}),0,({({"You dare $hcname$.","$mcname$ dare$s$ $hcname$.","$mcname$ dare$s$ you.",0,0,0,}),({"You dare $hcname$ $arg$.","$mcname$ dare$s$ $hcname$ $arg$.","$mcname$ dare$s$ you $arg$.",({"to go creator","to read Godot's code","#",}),0,0,}),}),})

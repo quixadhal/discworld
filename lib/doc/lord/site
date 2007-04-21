@@ -1,0 +1,40 @@
+.DT
+site
+Discworld lord help
+site
+
+
+.SH Name
+.SI 5
+site - Stop certain IP addresses from logging on to the Disc
+.EI
+
+.SH Syntax
+.SI 5
+site <ip> <level> <reason>
+.EI
+
+.SH Description
+.SP 5 5
+Site allows you to siteban a particular IP or range of IPs.  There are three 
+levels of restrictions.  Level 1 means normal access (any previous bans are 
+lifted), level 2 means no new players can be created from the site, and 
+level 3 means that no-one can log in from the site.
+
+Level 2 is particularly useful in cases where someone is making an nuisiance 
+of themselves by logging in abusive newbies and spamming people / channels.  
+
+Sitebans are logged to /log/ACCESS... the reason you give when banning an 
+IP will be saved here also.
+
+The IP address is given in numerical form, such as '127.0.0.1'.
+.EP
+
+.SH Examples:
+.SI 5
+site 127.0.0.1 3 I really want to piss off people with shell access.
+.EI
+
+.SH See also
+.SP 5 5
+.EP

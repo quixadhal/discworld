@@ -1,0 +1,12 @@
+varargs void do_edit(string str, string end_f, object end_o);
+.SP 5 5
+The standard line editor thingy used in the mailer and on the buliten
+boards (and in fact anywhere I use an editor).  Is run by going
+this_player()->do_edit(string str, string end_f, object end_o);
+When the player has finished it calls the function end_o->end_f(str);
+where the string parsed is what the player typed in.  It is 0 if the
+player didnt type anything at all in.  The end_o is optional, if it is
+not given it is assumed to be previous_object().
+
+Hope this helps a bit...  Bing!
+.EP

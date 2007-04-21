@@ -1,0 +1,1 @@
+({({"<indirect:any-living>",}),({({"You trip up.","$mcname$ trip$s$ up.",(["standing":"sit",]),}),0,}),({({"You trip $hcname$.","$mcname$ trip$s$ $hcname$.","$mcname$ trip$s$ you.",0,0,(["standing":"sit",]),}),0,}),})

@@ -1,0 +1,145 @@
+.DT
+armoury
+Discworld Creator help
+armoury
+
+Name
+.SI 5
+/obj/handlers/armoury.c - This is the patented object recycler
+.EI
+
+Description
+
+.SP 5 5
+This object is used as a repository for standard armours and weapons.  It will recycle any of these items which are moved to /room/rubbish when they aren't needed any longer.  It is recommended that instead of desting items you move them to /room/rubbish instead.
+.EP
+
+Functions
+
+.SI 5
+object request_weapon( string word, int percent )
+.EI
+.SI 5
+object request_armour( string word, int percent )
+.EI
+.SI 5
+object request_clothing( string word, int percent )
+.EI
+.SI 5
+object request_jewellery( string word, int percent )
+.EI
+.SI 5
+object request_item( string word, int percent )
+.EI
+.SP 10 5
+Requests a weapon/armour/clothing/jewellery from the armoury. request_item() will return any of the above.
+.EP
+.SP 10 5
+The "word" parameter is the name of the requested item, essentially the
+filename without directory and with "_"'s changed to " "'s. 
+.EP
+.SP 10 5
+The "percent" parameter is used as measure of how good it is compared
+to a fully functional one.  So a 50% dagger is only 50%
+as good as a 100% one.
+.EP
+.SP 10 5
+For example, you can do:
+.EP
+
+.SI 15
+obj = ARMOURY->request_weapon( "long sword", 85 );
+.EI
+
+.SP 10 5
+to get a slightly worn long sword for your npc.  If you include <armoury.h>
+you'll get ARMOURY predefined, and your code won't bugger up if it's moved
+later:)
+.EP
+
+Action functions
+
+.SI 5
+int armour()
+.EI
+.SP 10 5
+Prints a listing of the armours stored here.  Only there for the
+add_action.
+.EP
+ 
+.SI 5
+int weapons()
+.EI
+.SP 10 5
+Prints a listing of all the weapons stored here.  Only there for the
+add_action.
+.EP
+ 
+.SI 5
+int clothing()
+.EI
+.SP 10 5
+Prints a listing of all the clothing stored here.  Only there for the
+add_action.
+.EP
+
+.SI 5
+int jewellery()
+.EI
+.SP 10 5
+Prints a listing of all the jewellery stored here.  Only there for the
+add_action.
+.EP
+
+.SI 5
+int request( string word )
+.EI
+.SP 10 5
+There for the add_action.  Calls the relevant request_? function.
+.EP
+ 
+.SI 5
+int rehash( )
+.EI
+.SP 10 5
+This function recalculates the list of known items.
+.EP
+
+Internal functions
+ 
+.SI 5
+mapping query_recycle()
+.EI
+.SP 10 5
+Returns a mapping holding all items that are ready for recycling.
+.EP
+
+.SI 5
+object recycle_check( string word )
+.EI
+.SP 10 5
+Checks the recycle thingie for an item fitting the word, and does a bit of
+house cleaning on the way.  Returns 0 if nothing was recyclable.
+.EP
+ 
+.SI 5
+void event_enter( object thing, string mess, object from )
+.EI
+.SP 10 5
+Puts every weapon, armour and clothing that are placed here, in the recycle
+mapping.
+.EP
+ 
+.SI 5
+int clean_up()
+.EI
+.SP 10 5
+Only there to prevent the room from being dested due to clean_up's :)
+.EP
+
+.SI 5
+mapping make_list(string base_dir, string *extensions)
+.EI
+.SP 10 5
+Recurses sub-directories below base_dir and returns a list of items whose filenames end with one of the extensions.
+.EP

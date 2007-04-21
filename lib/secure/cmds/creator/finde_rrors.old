@@ -1,0 +1,124 @@
+/*
+ * $Id: finde_rrors.c,v 1.2 2000/02/21 20:04:13 turrican Exp taffyd $
+ */
+/* finderrors command -*- LPC -*-
+ * Handles bugreports in a collection of dirs for a creator 
+ */
+
+#include <log.h>
+#include <board.h>
+#include <mail.h>
+
+inherit "/secure/cmds/creator/errors";
+
+#define HELPER "/obj/handlers/finderror_helper"
+
+protected string get_bug(int i);
+protected void request();
+
+mixed cmd(string str) {
+  string *temps;
+  int res, recursive;
+   
+  if (!str) {
+    str = (string)HELPER->get_next_dir(this_player()->query_name());
+    if (!str) {
+      return notify_fail("No error reports found.\n");
+    }
+    printf("Checking errors in %s\n", str);
+    return ::cmd(str);
+  } /* find the errors */
+  if (str == "count") {
+    temps = HELPER->query_dirs_count(this_player()->query_name());
+    if (sizeof(temps)) {
+      this_player()->
+        more_string(sprintf("Error reports are in the following dir(s):\n%s\n",
+                            implode(sort_array(temps, 1), "\n")));
+    } else {
+      printf("No directories with errors.\n");
+    }
+    return 1;
+  } /* count errors */
+  if (str == "list") {
+    temps = HELPER->query_dirs(this_player()->query_name());
+    if (sizeof(temps)) {
+      this_player()->
+        more_string(sprintf("Error reports will be checked in the following "
+                            "dirs:\n%s\n", implode(sort_array(temps, 1),
+                                                   "\n")));
+    } else {
+      printf("You haven't added any directories yet.\n");
+    }
+    return 1;
+  } /* list */
+  if (str == "print") {
+    temps = HELPER->query_dirs(this_player()->query_name());
+    if (sizeof(temps)) {
+      "/secure/cmds/creator/printe_rrors"->start_collect(this_player(), temps, 0);
+    } else {
+      printf("You haven't added any directories yet.\n");
+    }
+    return 1;
+  } /* list */
+  if (sscanf(str, "remove %s", str) == 1) {
+    recursive = 0;
+    if (str[0] != '/') 
+      str = this_player()->query_path() + "/" + str;
+    if (str[<1] == '0')
+      str = str[0..<2];
+    if (str[<1] == '*' ) {
+      str = str[0..<2];
+      recursive = 1;
+    }
+    if (str[<1] != '/' )
+      str += "/";
+    res = HELPER->remove_dir(this_player()->query_name(), str, recursive);
+    if (res >= 0) {
+      printf("%s removed.\n", str);
+    } else {
+      printf("%s was not in the list.\n", str);
+    }
+    return 1;
+  } /* remove */
+  if (sscanf(str, "add %s", str) == 1) {
+    recursive = 0;
+    if (str[0] != '/')
+      str = this_player()->query_path() + "/" + str;
+    if (str[<1] == '0')
+      str = str[0..<2];
+    if (str[<1] == '*') {
+      str = str[0..<2];
+      recursive = 1;
+    }
+    if (str[<1] != '/')
+      str += "/";
+    if (file_size(str) != -2) {
+      return notify_fail(str +" is not an existing directory.\n");
+    }
+    res = HELPER->add_dir(this_player()->query_name(), str, recursive);
+    if (recursive) {
+      if (res < 0) {
+        printf("%s added, the subdirectories are being added, "
+               "this may take a while.\n", str);
+      } else {
+        printf("%s was already in the list, the subdirectories are being "
+               "checked for newcomers.\n", str);
+      }
+    } else {
+      if (res < 0) {
+        printf("%s added.\n", str);
+      } else {
+        printf("%s was already in the list, but that's ok.\n", str);
+      }
+    }
+    return 1;
+  } /* add */
+  return notify_fail("Usage:\nfinderrors               to find the next "
+                     "directory with errors.\n"
+                     "finderrors add <path>    to add "
+                     "path to list of dirs to search.\nfinderrors remove "
+                     "<path> to remove path from list of dirs to search.\n"
+                     "finderrors list          to list the dirs to search.\n"
+                     "finderrors count         to list the dirs with reports "
+                     "in, and how many in each.\n");
+}

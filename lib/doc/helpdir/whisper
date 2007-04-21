@@ -3,24 +3,32 @@ whisper
 Discworld player help
 whisper
 
-Name
+.SH Name
 .SI 5
 whisper - Whisper to another person.
 .EI
 
-Syntax
+.SH Syntax
 .SI 5
-whisper <message> to <person>
+whisper [#lang] [@adverb] <message> to <person>
+whisper <person> [#lang] [@adverb] <message>
+whisper [#'lang'] [@adverb] <message> to <person>
+whisper <person> [#'lang'] [@adverb] <message>
 .EI
 
-Description
+.SH Description
 .SP 5 5
 This is similar to tell, except it only works in the current room and it
 tells everyone else in the room that you whispered to the person, but not
 what.  This command is great for inducing paranoia.
+
+The # and @ can be used to use a specific language and an adverb to the
+message.  You can use partial matching for a language, so for example
+#dj will make you speak in djelian.  You may also put the language name
+in quotes after the # to speak in languages which have spaces in them.
 .EP
 
-Examples
+.SH Examples
 .SI 5
 > whisper you are not a frog to pinkfish
 You whisper to Pinkfish: you are not a frog.
@@ -34,7 +42,7 @@ Message Pinkfish gets.
 Zoroaster whispers to you: you are not a frog.
 .EI
 
-See also
+.SH See also
 .SI 5
-say, lsay, shout, tell, emote
+say, lsay, shout, tell, emote, sayto
 .EI

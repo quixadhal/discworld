@@ -1,0 +1,48 @@
+.DT
+query_skill_tree
+DW_wibble creator help
+query_skill_tree
+
+.SH Name
+.SP 5 5
+query_skill_tree -  This method returns the skill and all of its parents leading up to it.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_skill_tree(string skill)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^skill%^RESET%^ - the skill to get the tree of
+.EI
+
+.SH Returns
+.SI 5
+the skill tree of the skill
+.EI
+
+.SH Defined in
+.SI 5
+/std/skills.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the skill and all of its parents leading up to
+it.
+.EP
+
+.SH Example 1
+.SI 5
+query_skill_tree("magic.methods.physical.binding")
+Returns: ({
+ "magic.methods.physical.binding",
+ "magic.methods.physical",
+ "magic.methods",
+ "magic"
+})
+.EI
+

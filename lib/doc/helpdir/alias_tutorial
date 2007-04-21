@@ -1,0 +1,243 @@
+.DT
+alias
+Discworld player help
+alias
+
+.SH Name
+.SI 5
+
+al[ias] - The discworld alias system.  This helpfile was first written by Maelin on the assassinsguild board and is used here with his permission.
+.EI
+
+.SH Syntax
+.SI 5
+
+alias [<name> [<definition>]]
+unalias <name>
+.EI
+
+.SH Description
+
+.SP 5 5
+Terms in this guide:
+.EP
+
+.SO 10 20 -30
+	alias	the short command you type that makes the MUD perform a pre-set series of commands
+	alias command	What you actually type in when you want to execute an alias
+	command chain	the long series of commands that the MUD runs when you execute an alias
+	arguments	any other things you type in after an alias command that are used in the command chain
+	function	a special part of an alias that is replaced with certain arguments of an alias command.  A function is enclosed within $ symbols.
+.EO
+
+.SP 5 5
+First, the command.  Alias is, in essence, used to store a series of commands that are run when you send a single alias command.  Typing 'alias' on its own will show you the list of alias commands you have set.  Its usage is very simple.
+.EP
+
+.SO 10 -10
+	alias <youralias> <command 1>;<command 2>;<command 3> [etc].
+.EO
+
+.SP 5 5
+All items inside < > symbols are replaced with things you decide.  Do not type the < > symbols. You can use an alias for just one command if you like, the ; symbols are just to show the MUD where one command ends and the next begins.  So, for example, if I wanted to make an alias to open my backpack, take out my quill pen, and close my backpack again, I would type the following:
+.EP
+
+.SO 10 -10
+	alias getquill open pack;get quill from pack;close pack
+.EO
+
+.SP 5 5
+Then, when I wanted my quill, I would just type:
+.EP
+
+.SO 10 -10
+	getquill
+.EO
+
+.SP 5 5
+and the MUD would get it from my pack for me.  But this is easy.  We want to make some more complicated aliases.  There are several special functions that make aliases very powerful indeed.  The first ones are for specifying arguments.
+.EP
+
+.SO 10 -10
+	$*$ 
+.EO
+
+.SP 5 5
+This function is used to mean 'all arguments following an alias command'.  Say for example that I wanted an alias to take things from my pack.  I would type:
+.EP
+
+.SO 10 -10
+	alias gfp open pack;get $*$ from pack;close pack
+.EO
+
+.SP 5 5
+(gfp for 'get from pack') and then, whenever I wanted to take something out of my pack, such as my bottle of scumble, I would just type:
+.EP
+
+.SO 10 -10
+	gfp green bottle
+.EO
+
+.SP 5 5
+and it would do the rest.  Now the next function is for extracting certain arguments from an alias command and using them.
+.EP
+
+.SO 10 -10
+	$1$
+	$3$
+.EO
+
+.SP 5 5
+These will be replaced in the command chain with whatever are your first, or third arguments, respectively.  This is very useful. Say I wanted a command to perform a series of five soul commands on TGGM, because he makes an excellent victim for abuse.  Every soul command is a single-word command, so I can type this in to make the alias:
+.EP
+
+.SO 10 -10
+	alias soultggm $1$ tggm;$2$ tggm;$3$ tggm;$4$ tggm;$5$ tggm
+.EO
+
+.SP 5 5
+Then, when I wanted to, say, bop him, then thwok him, then kick him, then slap him, and then strangle him, I would type this:
+.EP
+
+.SO 10 -10
+	soultggm bop thwok kick slap strangle
+.EO
+
+.SP 5 5
+and it would perform each of those commands on TGGM.  This next function expands on the previous one, making it more versatile.
+.EP
+
+.SO 10 -10
+	$*3$
+	$2*$
+.EO
+
+.SP 5 5
+When placed before a number, the * symbol means "all arguments up to and including", so the first example will mean "all arguments before argument 3 and argument 3 as well".  When it is placed after a number, the * means "all arguments including and following", so the second example means, "argument 2 and all arguments after argument 2".  These are quite possibly the most useful function of the alias command.  For example, say we wanted an alias to get an item from a closed container.  Since a container name is usually only one word ('pack', 'satchel', 'pouch') but an object name might be several words ('dart 3', 'worm sword', 'blue bottle') we make the container the first argument and the object everthing else:
+.EP
+
+.SO 10 -10
+	alias gf open $1$;get $2*$ from $1$;close $1$
+.EO
+
+.SP 5 5
+Then, when we want to get, say, our thieves' dagger from our satchel, we type
+.EP
+
+.SO 10 -10
+	gf satchel thieves' daggers
+.EO
+
+.SP 5 5
+and it will open the satchel, get the thieves' daggers from it, and close the satchel again.  The next function introduces default arguments to an alias.
+.EP
+
+.SO 10 -10
+	$arg1:tggm$
+	$arg3:all$
+.EO
+
+.SP 5 5
+This function will be replaced with whatever is specified on the left hand side of the : symbol, or, if what is specified there is not present in the alias command, with what is on the right hand side.  In the first example, the function will be replaced with the first argument of the alias command, or if there are no arguments in the alias command, it will use 'tggm' by default.  The second example will use argument 3 if there is a third argument, and if not, it will use 'all' instead.  This can be very useful.  Say we want a command to make the 'consider' command easier for us.  Usually we would want to consider everyone in a room, but sometimes we might just want to consider one person.  To make this alias, we would type:
+.EP
+
+.SO 10 -10
+	alias con consider $arg1:all$
+.EO
+
+.SP 5 5
+and then, we can type :
+.EP
+
+.SO 10 -10
+	con tggm
+.EO
+
+.SP 5 5
+to consider TGGM, or we can just type:
+.EP
+
+.SO 10 -10
+	con
+.EO
+
+.SP 5 5
+to consider everyone in the room.  The final function is a more powerful version of this one. Instead of using the argument or, if no argument is present, the default, this function will use one of two present defaults, depending on whether the argument is there, but will not actually use the argument.
+.EP
+
+.SO 10 -10
+	$ifarg:tggm$endif$
+	$ifarg:tggm$else$pupazz$endif$
+	$ifarg2:tggm$else$pupazz$endif$
+.EO
+
+.SP 5 5
+These two are rather complex.  The first function will do the following: if any arguments are given to the alias command, it will be replaced with 'tggm', but if no arguments are given, it will not be replaced with anything.  The second also checks if there is an argument, but unlike the first example, if there are no arguments it will be replaced with 'pupazz'. The third example is the same as the second but it concentrates on argument 2 instead of the entire argument chain.  This is rather complex and I will leave you to read the help file for an example of this one. 
+
+Note that you can put other functions inside this last function, like this:
+.EP
+
+.SO 10 -10
+	$ifarg:tggm $1$$else$pupazz$endif$
+.EO
+
+.SP 5 5
+Which will will, if there is an argument supplied, be replaced with 'tggm' followed by the first argument in the alias command, or, if no arguments are given, it will be replaced with 'pupazz'.
+
+Hopefully this has given you a better idea of how to use aliases.  Finally, I will give you some useful aliases that you may wish to copy and paste to use.
+.EP
+
+.SO 10 -10
+	alias bsabs backstab $2*$;abscond $1$ and ambush
+	bsabs north tough ephebian guard
+.EO
+
+.SP 5 5
+This command will backstab a person, then run in the direction you specify and go into ambush.  The reason you have to type the direction first is that a direction will always be a one-word thing, whereas a target might be two or more.
+
+This next alias is one of my personal favourites.  I recommend it for anyone who finds themselves joining clubs on a regular basis.
+.EP
+
+.SO 10 -10
+	alias clubsetup alias $2$ $1$;alias $2$t $1$ talk;alias $2$e $1$ emote;alias $2$h $1$ history;alias $2$a $1$ announcement;alias $2$i $1$ info;alias $2$? syntax $1$;alias $2$m $1$ members listening;alias $2$on $1$ mute off;alias $2$off $1$ mute on;frimble ClubSetup Alias by Maelin DeLaCroix
+.EO
+
+.SP 5 5
+This alias is designed to make other aliases.  To use it, you just type:
+.EP
+
+.SO 10 -10
+	clubsetup <clubname> <clubshortname>
+.EO
+
+.SP 5 5
+Say you want to set up a bunch of aliases to use the various commands of our Assassins club for young assassins needing help in the world with anything. The club is called 'collegium_sicarius', but you don't want to have to type that before all your commands in the club. You use the clubsetup alias like this:
+.EP
+
+.SO 10 -10
+	clubsetup collegium_sicarius cs
+.EO
+
+.SP 5 5
+And wait for it to finish. You now have a series of aliases, which are as follows:
+.EP
+
+.SO 10 10 -30
+	cs	This is the base replacement for 'collegium_sicarius' in all the commands you use.
+	cst	This command precedes any messages you wish to say on the club channel.
+	cse	This command precedes any emotes you wish to make on the club channel.
+	csh	This command shows you what has been said on the club channel recently.
+	csa	This command shows you the most recent announcement the club has had.
+	csi	This command gives you information about the club such as its description, members, hierarchy, etc.
+	cs?	This lists the commands you can use with your club badge.  Remember to replace 'collegium_sicarius' with 'cs'
+	csm	This command lists all the members of your club currently listening with their badges.
+	cson	This command turns the club channel on.
+	csoff	This command turns the club channel off.
+
+.EO
+
+.SH See also
+
+.SP 5 5
+nickname, ealias, qalias, unalias, finger
+.EP

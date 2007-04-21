@@ -1,0 +1,43 @@
+.DT
+add_service
+DW_wibble creator help
+add_service
+
+.SH Name
+.SP 5 5
+add_service -  This method adds a service to the list of services on offer.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int add_service(string service,
+                        string browse_info,
+                        string func,
+                        int cost,
+                        string * aliases)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^service%^RESET%^ - the name of the service
+%^BOLD%^cost%^RESET%^ - what it costs
+%^BOLD%^the%^RESET%^ - function which controls
+%^BOLD%^*aliases%^RESET%^ - an array of aliases for this service.
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/service_provider.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a service to the list of services on offer.
+.EP
+

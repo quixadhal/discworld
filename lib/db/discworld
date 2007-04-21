@@ -1,0 +1,40 @@
+#
+# Table structure for table 'cluster_contacts'
+#
+CREATE TABLE cluster_contacts (
+  cluster_number int(11) DEFAULT '0' NOT NULL,
+  contact varchar(255),
+  KEY cluster_number (cluster_number)
+);
+
+
+
+#
+# Table structure for table 'cluster_list'
+#
+CREATE TABLE cluster_list (
+  cluster_number int(11) DEFAULT '0' NOT NULL,
+  level int(11),
+  in_cluster int(11),
+  KEY cluster_number (cluster_number)
+);
+
+#
+# Table structure for table 'cluster_members'
+#
+CREATE TABLE cluster_members (
+  cluster_number int(11) DEFAULT '0' NOT NULL,
+  member varchar(255) DEFAULT '' NOT NULL,
+  KEY cluster_number (cluster_number),
+  KEY member (member)
+);
+
+#
+# Table structure for table 'roomexit'
+#
+CREATE TABLE roomexit (
+  id varchar(255) DEFAULT '' NOT NULL,
+  exit varchar(15),
+  dest varchar(255),
+  KEY bing (id)
+);

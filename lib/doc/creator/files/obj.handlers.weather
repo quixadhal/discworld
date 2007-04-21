@@ -1,0 +1,55 @@
+.DT
+Weather
+Discworld Creator Help
+Weather
+
+Name
+.SI 5
+/obj/handlers/weather.c - provides Discworld's weather
+.EI
+
+Description
+.SP 5 5
+The weather handler provides the weather and moon strings in the long descriptions of outside locations and the weather event messages to players (eg. It has started raining).
+
+There are two aspects to using the weather handler. 1. To make the climate in your new room different to the standard, 2. Using the weather handlers functions to find out things about the weather.
+.EP
+
+Climate control
+.SP 5 5
+This is performed using the property "climate". This property takes 3 parameters: temperature, cloud and wind speed.
+
+eg. add_property("climate", ({-5, -10, 10}))
+
+This would make the room 5 celcius colder than the norm for the disc, have 10% less cloud and the wind 10 miles per hour faster. If you never wanted any cloud you might choose -200 cloud. Never any wind -200 wind etc.
+
+If you need to completely override the normal weather system you can do so by defining the function room_weather.
+
+int *room_weather(int temperature, int cloud, int wind, int rain);
+
+room_weather should return an array of three integers giving the temperature, cloud, wind and rain you want your room to have. Note that this function may break some of the other room functions (such as query_raining()).
+.EP
+
+Functions
+.SP 5 5
+Here are a few functions you may wish to use:
+.EP
+
+.SI 5
+string query_moon_phase() - returns a string giving the phase of the moon
+int query_moon_state() - like above, but returns a number from 0-6
+int day_number() - the day of the year
+int minute_number() - the minute of the day
+string query_season() - returns the season as a string
+int query_day() - returns 0 for night, 10 for day and 1-9 during dawn/dusk
+int query_darkness(object env) - returns the darkness level in env
+int temperature_index(object env) - returns the actual temperature here
+int cloud_index(object env) - returns the actual amount of cloud here
+int rain_index(object env) - returns the actual amount of rain here
+int query_snowing(object env) - is it snowing here?
+int query_raining(object env) - is it raining here?
+.EI
+
+See also
+.SP 5 5
+.EP

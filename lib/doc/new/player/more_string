@@ -1,0 +1,41 @@
+.DT
+more_string
+Discworld Creator Help
+more_string
+
+.SH Name
+.SI 5
+more_string  Shows a multiline string to a player
+.EI
+
+.SH Syntax
+.SI 5
+varargs int more_string( string text, string bity, int noreline ) {
+.EI
+
+.SH Description
+.SI 5
+This is the thingie you should use if you want to present multiline 
+messages to the player that might be more that one page long.
+
+text is the test you want to show to the player.
+
+bity is the message used instead of the default "--- MORE"
+
+noreline I don't know what does, perhaps someone who do can document it.
+
+It returns 0 if the string was empty, calling notify_fail as well, and
+1 if the string should be shown, so it's safe to do as in the example.
+.EI
+
+.SH Examples:
+.SI 5
+int do_help() {
+   return this_player()->more_string( "Syntax: marry <person> to <person>\n" 
+              "  start performing wedding.\n\n"
+              "Syntax: marry them\n  finalize the wedding\n\n"
+  *lots of more lines*
+              "you type:marry them\n"
+              "you see :They are now married, you'd better tell them.\n" );
+} /* help() */
+.EI

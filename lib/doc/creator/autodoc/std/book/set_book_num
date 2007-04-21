@@ -1,0 +1,38 @@
+.DT
+set_book_num
+DW_wibble creator help
+set_book_num
+
+.SH Name
+.SP 5 5
+set_book_num -  This method sets the current number of the book.
+.EP
+
+.SH Syntax
+.SI 5
+void set_book_num(int num)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^num%^RESET%^ - the new book number
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/book.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the current number of the book.  This is assigned
+and used in conjunction with the book handler.
+.EP
+
+.SH See also
+.SP 5 5
+/obj/handlers/book_handler.c, /std/print_shop.c
+.EP
+

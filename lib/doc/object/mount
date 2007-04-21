@@ -1,0 +1,68 @@
+.DT
+mount
+Discworld player help
+mount
+
+.SH Name
+.SI 5
+mount - riding mounts around, what fun
+.EI
+
+.SH Syntax
+.SI 5
+mount <mount>
+tack <mount> with <tack>
+untack <tack> from <mount>
+dismount 
+walk <direction> {forever|roughly|intersection|roughly intersection}
+trot <direction> {forever|roughly|intersection|roughly intersection}
+canter <direction> {forever|roughly|intersection|roughly intersection}
+gallop <direction> {forever|roughly|intersection|roughly intersection}
+stop <mount>
+rustle <mount>
+lead <mount>
+name <mount> [as] <name>
+offer <food> to <mount>
+allow <person> to use <mount>
+disallow <person> from using use <mount>
+list people able to use <mount>
+tether <mount> to <object>
+untether <mount>
+.EI
+
+.SH Description
+.SP 5 5
+Horses and Camels are wonderful methods of wandering around the world from the nice
+high position of a saddle.
+
+When you set the mount to walk off in a specific direction you can
+set a modify which tells it how to walk in that direction.  If you set
+the 'forever' modifier it will keep walking in the specified direction
+until it cannot go that way any more.  If you specify the 'intersection'
+modify the mount will keep walking until the mount finds an intersection.
+If you specify the 'roughly' modifier the mount will attempt to keep
+going in the specified direction as much as it can.  The mount will
+always try and choose the a direction based on a weight, the weight is
+calculated based on the size of the exit, the closeness to the desired
+direction and if it not the exit it just came in on.
+
+The 'rustle' command allows a thief to steal a player killers mount, this
+will be a very very expensive proposition and is not able to be achieved
+when the mount is being ridden.
+
+The 'tack' and 'untack' commands allow you to dress your mount up in exciting
+tack!  Similarly obvious are the 'tether' and 'untether' commands that allow you to tether your
+mount to something.
+.EP
+
+.SH Example
+.SI 5
+> mount horse
+> walk horse northwest roughly
+> tether horse to bar
+.EI
+
+.SH See also
+.SP 5 5
+stable
+.EP

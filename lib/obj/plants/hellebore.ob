@@ -1,0 +1,16 @@
+::#Class:: "/obj/food.c"
+::Name:: "hellebore"
+::Short:: "hellebore"
+::Long:: "This is $pile_size$ of hellebore, $amount_size$.\n"
+::Adjective:: ({ "some" })
+::Property:: "determinate", "some "
+::Plural:: "hellebore"
+::$set_medium_alias:: "Hellebore"
+::$set_amount_types:: ([ "sprig": ({ 1, "sprigs" }),
+                         "bunch": ({ 50, "bunches" }) ])
+::Adjective:: ({ "sprig", "sprigs", "bunch", "bunches", "of" })
+::$set_pile_types:: ({ 50, "small", 100, "medium", "large" })
+::$add_eat_effect::"/std/effects/ingested/cum_poison", 200
+::$set_amount:: 1
+::$set_continuous::
+::$set_weight_unit:: ({ 1, 10 })

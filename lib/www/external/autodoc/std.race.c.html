@@ -1,0 +1,131 @@
+<html><head><title>File race.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/race.c</h2>
+This is called off of the monster to set up a race and
+profession...   Race should be first then profession..<p>Written by Pinkfish<p>Started Sometime in 1991
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.print_object.c.html">/std/basic/print_object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.race.h.html">/include/race.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#monster_heart_beat"><b>monster_heart_beat</b></a>(string, string, mixed, mixed)<dd>
+This method is called from inside the npc to do the heartbeat on the
+guild and race objects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_guild_path"><b>query_guild_path</b></a>(string)<dd>
+This method returns the path associated with the specified guild.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_guilds"><b>query_guilds</b></a>()<dd>
+This method returns all the current guilds in the race object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_race_path"><b>query_race_path</b></a>(string)<dd>
+This method returns the path associated with the specified race.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_races"><b>query_races</b></a>()<dd>
+This method returns all the current races in the race object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_valid_race"><b>query_valid_race</b></a>(string)<dd>
+This method checks to see if the specified race is valid or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_level"><b>set_level</b></a>(int, string, string)<dd>
+This method sets the level of the npc with the specified attributes.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="monster_heart_beat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>monster_heart_beat</b></a><pre>
+void monster_heart_beat(string race,
+                        string guild,
+                        mixed race_ob,
+                        mixed guild_ob)
+</pre><dd>
+This method is called from inside the npc to do the heartbeat on the
+guild and race objects.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>race - the race to do a heart beat on
+<dd>guild - the guild to do a heart beat on
+<dd>race_ob - the object to use for the race
+<dd>guild_ob - the object to use for the guild
+
+</dl>
+
+<dt><a name="query_guild_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_guild_path</b></a><pre>
+string query_guild_path(string guild_name)
+</pre><dd>
+This method returns the path associated with the specified guild.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>guild_name - the name of the guild
+<dt><b>Returns:</b>
+<dd>the path of the guild
+
+</dl>
+
+<dt><a name="query_guilds">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_guilds</b></a><pre>
+mapping query_guilds()
+</pre><dd>
+This method returns all the current guilds in the race object.  It is a
+mapping with matches between the name of the guild and guild object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the race mapping
+
+</dl>
+
+<dt><a name="query_race_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_race_path</b></a><pre>
+string query_race_path(string race_name)
+</pre><dd>
+This method returns the path associated with the specified race.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>race_name - the name of the race
+<dt><b>Returns:</b>
+<dd>the path of the race
+
+</dl>
+
+<dt><a name="query_races">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_races</b></a><pre>
+mapping query_races()
+</pre><dd>
+This method returns all the current races in the race object.  It is a
+mapping with matches between the name of the race and race object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the race mapping
+
+</dl>
+
+<dt><a name="query_valid_race">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_valid_race</b></a><pre>
+int query_valid_race(string race)
+</pre><dd>
+This method checks to see if the specified race is valid or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>race - the race to check for validity
+<dt><b>Returns:</b>
+<dd>1 if it exists, 0 if it does not
+
+</dl>
+
+<dt><a name="set_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_level</b></a><pre>
+void set_level(int lvl,
+               string race,
+               string guild)
+</pre><dd>
+This method sets the level of the npc with the specified attributes.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lvl - the level to set the npc at
+<dd>race - the race to set the npc with
+<dd>guild - the guild to set the npc with
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 04:05:30 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

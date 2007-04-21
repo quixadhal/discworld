@@ -1,0 +1,47 @@
+Inheritance map for /std/living/living.c
+
+/std/living/living.c +
+		     |
+		     +--- /std/container.c
+		     |
+		     +--- /std/living/stats
+		     |
+		     +--- /std/living/health
+		     |
+		     +--- /std/living/combat +
+		     |			     |
+		     |			     +--- /std/weapon.logic
+		     +--- /std/living/armour +
+		     |			     |
+		     |			     +--- /std/armour.logic
+		     +--- /std/living/gender
+		     |
+		     +--- /std/living/skills
+		     |
+		     +--- /std/living/money
+		     |
+		     +--- /std/living/spells
+		     |
+		     +--- /std/living/force
+
+int test_add(object ob, int flag)
+		Returns weather or not the object can be added to this
+		object.  The flag passed is the get paramater.
+int test_remove(object ob, int flag)
+		returns weather of not the object cen be droped or
+		removed from this objects inventory.
+void move_player(string dir, object|string dest, string message)
+		Moves the object from where they are to the destination
+		in the direction dir with the message message when they
+		leave the room.
+int cannot_get_stuff()
+		Returns 1.  This means that the player object cannot get
+		things from inside this object.
+mixed *stats()
+		Returns the stats of the object used by the stat
+		parameter on the player object.
+
+See also
+    std.living.armour, std.living.combat, std.living.gender, 
+    std.living.handle, std.living.health, std.living.skills, 
+    std.living.spells, std.living.stats, std.object, std.container

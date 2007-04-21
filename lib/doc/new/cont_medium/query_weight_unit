@@ -1,0 +1,34 @@
+.DT
+query_weight_unit
+Discworld cont_medium help
+query_weight_unit
+
+Name
+.SI 5
+query_weight_unit - The amount of this stuff.
+.EI
+
+Syntax
+.SI 5
+int *query_weight_unit();
+.EI
+
+Description
+.SP 5 5
+This returns an array of two elements:  ({ a, b }) means that b
+units have weight a.
+
+This allows you to define up less than the smallest weight weights
+for continuous items.  ie: For rice the weight unit would be
+something like ({ 200, 1 }) which means 200 of the objects weight
+1 weight unit.
+
+This is also used in food when the eat_effect is
+run to modify the number passed into the eat_effect.  So the number
+parsed in is the actual weight of the stuff eaten.
+.EP
+
+See also
+.SP 5 5
+set_weight_unit, query_amount, set_amount, add_eat_effect
+.EP

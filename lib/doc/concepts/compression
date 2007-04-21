@@ -1,0 +1,105 @@
+.DT
+compression
+Discworld player help
+compression
+
+.SH Name
+.SI 5 Using MCCP on Discworld
+.EI
+
+.SH Description
+.SP 5 5
+Lag when you are mudding can be very frustrating.  Whether it's due to a slow modem, your ISP, or lag at Discworld's end, it can cause a number of small four letter words to appear from even the most saintly player.
+
+To help alleviate this, Discworld MUD supports MCCP.
+.EP
+
+.SH What is MCCP?
+.SP 5 5
+MCCP stands for Mud Client Compression Protocol.  It compresses data in between your MUD client and the Discworld MUD server so that more data can be sent to your computer in less time.  This can cause a significant speed increase, and the effect is immediately noticeable.
+.EP
+
+.SH How can you use MCCP?
+.SP 5 5
+A number of MUD clients have built in support for MCCP.  MUSHclient, zMUD 6 and mcl all have native support for MCCP.  Refer to your MUD client's documentation for information on how to set this up in your MUD client
+.EP
+
+.SH What about other clients?
+.SP 5 5
+You can download tinyfugue source code with mccp extensions.  http://discworld.imaginary.com/external/taffyd/tf-40s1-mccp.zip
+
+For a more comprehensive listing of clients that have built in MCCP support, see the For More Information section at the bottom of the page.
+.EP
+
+.SH What if my client's MCCP implementation doesn't work with Discworld?
+.SP 5 5 
+Some versions of zMUD 6 experience problems when reconnecting to Discworld using MCCP.  This can cause a screen full of garbage text, disconnections or cause zMUD to crash.  This is a bug in zMUD and you should download an updated version from the zMUD home page.  You can also use mcclient to get around this (see below).
+.EP
+
+.SH How do I know if I'm connected with MCCP or not?
+.SP 5 5
+There is a command for this, just simply type "mccp" (without the quotes) and
+it will tell you if you're connected with it or not.
+.EP
+
+.SH I use GMud, zMUD 4.62, how can I use MCCP?
+.SP 5 5
+A small program called mcclient can be used to compress connections to Discworld through any MUD client.  Just download one of the following files and then follow the installation documentation.
+.EP
+
+.SO 4 -5 
+ 1.	mcclient binaries for Win32, http://www.randomly.org/projects/MCCP/mcclient_0_4.zip
+ 2.	mcclient source code (for Linux and Win32) http://www.randomly.org/projects/MCCP/mcclient-0.4.tar.gz
+.EO
+
+.SH Installing mcclient (Win32)
+.SP 5 5
+mcclient is a server application.  You define a list of machines that you want to connect to in mcclient.cfg, and when the application runs it creates a compressed socket connection from your machine to the target machine.
+
+Here are some step-by-step instructions.  Thanks to Kaos for the initial (and er very Witchy) version of this.
+.EP
+
+
+.SO 4 -5 
+ 1.	Download the mcclient binary package.
+ 2.	Extract it using a Zip file expander, like WinZip
+ 3.	Save the contents of the archive in a directory. eg: C:\Program Files\mcclient
+ 4.	Download a mcclient.cfg file to use with mcclient (http://discworld.imaginary.com:5678/mccp/mcclient.cfg), and save it in the same directory as the mcclient program.  This file will listen for connections on port 4242 of your machine, and then connect to discworld.imaginary.com on port 23.
+ 5.	Run the mcclient.exe application.  If you make a shortcut to the exe file, make sure that the Working Directory is correctly set to C:\Program Files\mcclient.  If your settings are correct, a DOS box will pop up with the following text:
+.EO
+
+.SI 10
+mcclient: initialising
+Local port 4242 redirects to remote host [216.254.34.56] discworld.imaginary.com:23
+Now accepting connections.
+.EI
+
+.SO 4 -5
+ 6.	If it doesn't load up, try another port.  On Windows machines most ports over 1024 are free.  If you open up mcclient.cfg in a text editor, you can change the port number to any one you want.
+ 7.	To use mcclient, you need to open up your MUD client and create a new connection.  Call this one "Discworld with MCCP" or something similar.  Then you need to set up your connection with the following data: 
+.EO
+
+.SI 10
+Host name: localhost (or 127.0.0.1) 
+Port: 4242 (or whatever you specified in mcclient.cfg) 
+.EI
+
+.SO 4 -5
+	Then just connect, and your MUD client will connect to the mcclient application.  Your connection will then be redirected to the Discworld MUD server, with mccp compression.
+ 8.	A few statistics will be displayed to the mcclient screen, you can just minimize it if you don't want it to take up room on the screen.  Make sure you don't close it by mistake, or your MUD connection will drop.
+ 9.	After you disconnect from the MUD, you can terminate the mcclient application by hitting Control-C.
+.EO
+
+.SH For more information
+.SP 5 5 
+More information about MCCP, MUD clients that support it and patches etc can be found at randomly.org's MCCP web pages.  http://www.randomly.org/projects/MCCP/index.html
+.EP
+
+.SP 5 5
+Questions regarding MCCP or mcclient can be mudmailed or emailed to our MCCP support volunteers, Taffyd or Wyvyrn.
+.EP
+
+.SH See also:
+.SP 5 5
+mccp
+.EP

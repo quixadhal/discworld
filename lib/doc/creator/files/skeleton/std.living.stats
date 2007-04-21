@@ -1,0 +1,436 @@
+.DT
+stats
+Discworld Creator help
+stats
+
+Name
+.SI 5
+/std/living/stats.c - object inherited by everything living
+.EI
+
+Description
+
+.SP 5 5
+/std/living/stats is the object that
+
+<description missing>
+.EP
+
+Functions
+
+ 
+int Con, Dex, Int, Str, Wis,
+    contmp, dextmp, inttmp, strtmp, wistmp,  
+.SI 5
+string stats_to_zap()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void zap_stat( string word )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_no_check()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void set_no_check( int i )
+.EI
+.SP 10 5
+.EP
+
+ 
+.SI 5
+int hp_base()
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int hp_gradient()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int scaled_weight()
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+void reset_hp()
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+void reset_gp()
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+void calc_increases()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int *show_rates()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void heart_beat()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+void reset_carry_cap()
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+void reset_all()
+.EI
+.SP 10 5
+.EP
+
+ 
+.SI 5
+void reset_all2()
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int query_con()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_dex()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_int()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_str()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_wis()
+.EI
+.SP 10 5
+.EP
+
+ 
+.SI 5
+int query_real_con()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_real_dex()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_real_int()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_real_str()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_real_wis()
+.EI
+.SP 10 5
+.EP
+
+                                   
+.SI 5
+int check( int number )
+.EI
+.SP 10 5
+.EP
+
+ 
+.SI 5
+int set_con( int number )
+.EI
+.SP 10 5
+.EP
+ 
+                
+.SI 5
+int set_dex( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int set_int( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int set_str( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int set_wis( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int adjust_con( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int adjust_dex( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int adjust_int( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int adjust_str( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int adjust_wis( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int query_tmp_con()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_tmp_dex()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_tmp_int()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_tmp_str()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_tmp_wis()
+.EI
+.SP 10 5
+.EP
+
+ 
+.SI 5
+int adjust_tmp_con( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int adjust_tmp_dex( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int adjust_tmp_int( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int adjust_tmp_str( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int adjust_tmp_wis( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int query_bonus_con()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_bonus_dex()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_bonus_int()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_bonus_str()
+.EI
+.SP 10 5
+.EP
+
+.SI 5
+int query_bonus_wis()
+.EI
+.SP 10 5
+.EP
+
+ 
+.SI 5
+int adjust_bonus_con( int number )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int adjust_bonus_dex( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int adjust_bonus_int( int number )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int adjust_bonus_str( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int adjust_bonus_wis( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+void update_tmps()
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int query_height()
+.EI
+.SP 10 5
+.EP
+
+ 
+.SI 5
+void set_height( int number )
+.EI
+.SP 10 5
+.EP
+ 
+.SI 5
+int query_base_weight()
+.EI
+.SP 10 5
+.EP
+
+ 
+.SI 5
+void set_base_weight( int number )
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+int query_weight()
+.EI
+.SP 10 5
+.EP
+ 
+ 
+.SI 5
+mixed *stats()
+.EI
+.SP 10 5
+.EP
+ 

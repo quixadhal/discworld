@@ -1,0 +1,67 @@
+.DT
+set_amount_types
+Discworld cont_medium help
+set_amount_types
+
+Name
+.SI 5
+set_amount_types - The amount types of this stuff.
+.EI
+
+Syntax
+.SI 5
+void set_amount_types(mapping types);
+.EI
+
+Description
+.SP 5 5
+This is used to give how large the different sorts of amount types
+are for the medium in question.  It is a mapping with the names
+of the amount types and the number of the medium which corresponds
+to them.
+.EP
+.SI 5
+
+([ "pinch": ({ 1, "pinches" }),
+   "handful": ({ 50, "handfuls" }) ])
+.EI
+
+.SP 5 5
+This would mean a pinch is 1 unit and a handful is 50 units.
+.EP
+
+Example
+.SI 5
+/* Food inherits cont_medium */
+inherit "/obj/food";
+ 
+void setup() {
+   set_name("rice");
+   set_long(
+"Little oval shaped hard nuggets, they are made almost totally "
+"of starch.\n");
+ 
+   /* Make it a continuous object */
+   set_continuous();
+   /* Set an alias to the medium so that it can be connected correctly */
+   set_medium_alias("RiceStuff");
+   /* How much of the stuff we have here */
+   set_amount(100);
+   /* 200 bits of rice weighs 1 weight unit */
+   set_weight_unit( ({ 1, 200 }) );
+   /* The name of a pile of them */
+   set_pile_name("pile");
+   /* The size of each of the amounts */
+   set_amount_types( ([ "pinch" : ({ 1, "pinches" }),
+                        "handful" : ({ 100, "handfuls" }),
+                        "bucket" : ({ 10000, "buckets" }) ]) );
+   /* The name for each of the sizes of piles */
+   set_pile_types(({ 400, "small", 800, "medium", 1600, "large", "huge" }) );
+} /* setup() */
+.EI
+
+See also
+.SP 5 5
+query_amount_types, set_continuous, reset_continuous, query_continuous,
+amount_size, set_amount, query_amount, adjust_amount
+.EP

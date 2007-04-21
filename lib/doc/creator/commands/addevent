@@ -1,0 +1,58 @@
+.DT
+addevent
+Discworld creator help
+addevent
+
+
+.SH Name
+.SI 5
+addevent - Adds a new entry to the player information database.
+.EI
+
+.SH Syntax
+.SI 5
+addevent <player-name> <event> [<comment>]
+.EI
+
+.SH Description
+.SP 5 5
+This commands adds a new entry to the player's dossier. The name of the
+creator who added it and the time at which it was added are also recorded.
+The player whose dossier is being modified doesn't have to be online. If the
+comment argument is provided, it is used as a single-line comment for the
+entry; otherwise, an editor is invoked so that multiple-line comment text
+could be entered.
+
+The following event types can be added using this command: "misc",
+"harassment", "discipline", "replace", and "alert". Please refer to
+the "playerinfo" command description for more information.
+.EP
+
+.SP 5 5
+To print all events that can be added with addevent, use "addevent list".
+.EP
+
+.SH Notes
+.SP 5 5
+Please remember that events for two different players end up in two different
+lists of entries; for this reason comments like "ditto" should be avoided.
+.EP
+
+.SP 5 5
+Alerts should be used whenever action needs to be taken but cannot at that
+time, due to the player being offline, not having the right information,
+etc.  For easy reference, the commands related to alerts can be found in
+'%^BOLD%^help alerts%^RESET%^'
+.EP
+
+
+.SH Examples:
+.SI 5
+> addevent belcar harassment He kept killing NPCs repeatedly!
+Belcar's dossier updated.
+.EI
+
+.SH See also
+.SP 5 5
+alerts, playerinfo, delevent, addalt, delalt
+.EP

@@ -1,0 +1,156 @@
+2. Syntax and add_command() Parameters
+======================================
+
+Much of the confusion surrounding add_command arises from the fact that
+there are actually two different functions with the same name.  One is a
+simul_efun and has three argument; the other is a local function defined
+in /global/new_parse and has four arguments.
+
+Simul_efun: add_command( string command, mixed pattern, function funct )
+
+/global/new_parse: add_command( string command, object ob, mixed pattern,
+function funct )
+
+In the following text, 'simul_efun' refers to the first case, and 'local
+function' refers to the second.
+
+The only difference between the two is the extra second argument in the
+local function.  The other three parameters are the same in either form.
+In fact, all the simul_efun does is call the local function, passing the
+command, ob and funct you've given, and adding previous_object() as the
+second argument.  So that
+
+  add_command( "verb", "pattern", (: func :) );
+
+becomes
+
+  this_player()->add_command( "verb", previous_object(), "pattern",
+                              (: func :) );
+
+2.1 add_command() Parameter 1: (string) command --------------------------
+---------------------
+
+The first argument to add_command must be a single word; it is the verb
+the player will type that triggers the parser to check for patterns
+associated with that verb.  It is mandatory in both the simul_efun and the
+local function.
+
+Example: this_player()->add_command( "water", this_object() );
+
+This is also the word that players can see the syntax for.  Ie:
+
+> syntax water Forms of syntax available for the command "water": water
+plant
+
+
+2.2 add_command() Parameter 2: (object) ob -------------------------------
+-----------
+
+Every command pattern that is successfully matched initiates a function
+call.  The second parameter to the local function form of add_command is
+the object in which the function that will be called is defined.
+
+This parameter is not required by the simul_efun; the simul_efun passes
+previous_object(), i.e. the object that added the command, to the local
+function.
+
+Since you will nearly always define the function that will be called
+within the same object that adds the command, the argument to this
+parameter is nearly always this_object().  It is possible, however, to
+pass a different object to this parameter, and the function will be called
+in that object instead.
+
+Examples:
+
+  add_command( "water", "plant" );         // previous_object() is assumed
+  this_player()->add_command( "water", this_object(), "plant" );
+  this_player()->add_command( "water", can, "plant" );
+
+In the first example (the simul_efun case), no object is passed; the
+simul_efun uses previous_object().
+
+The second example is the typical case, and uses this_object().
+
+In the third example, the parser will look for the function do_water in
+the object can, assuming that 'can' is a variable of type object that has
+been defined earlier in the code.
+
+
+2.3 add_command() Parameter 3: (mixed) pattern ---------------------------
+------------------
+
+The third argument passed to add_command can be a string or an array of
+strings.  These strings can include required words, optional words, and
+things in < > which can be thought of as "blanks" which the player or
+npc's input will fill in.  A complete discussion of how to write design
+these strings is in Section 3: Format Patterns.
+
+If the value passed is an array of strings, the command will be added for
+each member of the array.
+
+  this_player()->add_command( "water", this_object(), ({ "plant",
+  "flower", "daisy" }) );
+
+is the same as:
+
+  this_player()->add_command( "water", this_object(), "plant" );
+  this_player()->add_command( "water", this_object(), "flower" );
+  this_player()->add_command( "water", this_object(), "daisy" );
+
+
+The simul_efun form of the same add_command would be: add_command(
+"water", ({ "plant", "flower", "daisy" }) );
+
+The pattern argument is optional in the local function; if no format is
+passed, the default pattern "<direct:object>" is used. (See Section 3.1.3
+to learn what that means).  This only works in certain cases (never in
+rooms).  To avoid confusion it's best to pass something, even if that's
+simply the default "<direct:object>".
+
+The pattern argument is not optional in the simul_efun.
+
+See Section 3: Format Patterns for help in constructing pattern strings.
+
+2.4 add_command() Parameter 4: (function) funct --------------------------
+---------------------
+
+This argument is optional and often left out when adding commands.  Unless
+you specify otherwise, the parser assumes that the function to call upon a
+succesful match will be named "do_<verb>" where <verb> is the name of the
+command, ie: (string) command, the first argument you pass.  In the above
+examples, the function looked for by the parser would be named do_water in
+every case.
+
+Examples: add_command( "water", "plant" );               // calls
+"do_water"
+
+There are two situations when you want to pass a fourth argument and
+therefore override the default: 1) you might want to call a function other
+than do_<verb>, or 2) you might want to pass something other than the
+default arguments.  If you do decide to pass a fourth argument, it must be
+a function pointer.
+
+For a brief discussion of how function pointers work in this particular
+situation, see Section 4.7.
+
+If you are simply calling a function other than do_<verb> with all the
+default arguments, you needn't pass anything to the function pointer.
+
+Example:
+
+add_command( "fire", "gonne" );                   // calls do_fire
+add_command( "shoot", "gonne", (: do_fire :) );   // calls do_fire
+
+This will call the function "do_fire" when either command is used and will
+pass the same default arguments in both cases.
+
+Passing something other than the default arguments to the function pointer
+is a bit more tricky but very worthwhile, as it makes writing the function
+that will be called much easier.  Again, see Section 4.7 for a brief
+discussion on doing so.
+
+Note that unless you have good reason to name your function something
+besides do_<verb>, it's best to use this default function name even when
+passing specific arguments with a function pointer.  This makes it easier
+for others to understand your code because they will immediately look for
+a function with the default name and be able to find it.

@@ -1,0 +1,384 @@
+                    An tutorial on optimizing LPC
+                (specifically the MudOS 0.9.x variant)
+
+               Written by Luke Mewburn <zak@rmit.edu.au>
+
+                             Version: 1.2
+                             Date: 930321
+
+
+
+0. INTRODUCTION
+
+    I wrote this document after noticing that the growing trend in LP
+based muds is for more and more complexity and player orientated
+features.  This is fine, but due to the way that LPC works (only one
+part of the code being interpreted at once), badly written code can
+slow down the mud or cause `lag' to all other users on the mud.
+
+    Thus, I decided to find out the most efficient ways of performing
+
+common tasks and set about documenting them. I assume that the reader
+has had some programming experience, especially in C or LPC. But, even
+if you are a beginner, I still recommend that you read this because
+it's good to learn the correct way from the start.
+
+    Although I based most of my findings on a MudOS 0.9 driver, almost
+all of the points will be relevant to other LP v3 based drivers.  But,
+this does not guarantee that this document is correct for all non-MudOS
+drivers (such as Amylaar's 3.2@22 driver), given the increasing divergance
+in the driver code.
+
+    In code examples, assume the following definitions:
+        int i, j, max, bitfield;
+        object *list;
+        string *arr, name;
+
+
+    LPC, like C, supports the concept of `dynamic allocation'. This is
+where the driver only allocates memory when needed for various
+operations (and deallocates it when finished).  Unlike C, LPC will
+automatically deallocate memory when you are finished with it (i.e, when
+no LPC code references it anymore) - this is `garbage collection'.
+Strings (q.v) are handled dynamically, as are arrays and mappings
+(q.v).
+
+    Although dynamic allocation is useful to structured programming,
+it can be costly on CPU time. One of the aims of this document is to
+show you how to reap the benefits of dynamic allocation without the
+huge overheads of it.
+
+
+
+1. GENERAL POINTS
+
+    Before I show you how to speed up specific elements of your code,
+I'll mention a couple of well-known axioms in computer programming.
+
+    The first is `80% of the time spent executing an algorithm is
+in 20% of the code', or the `80/20' rule. (Sometimes quoted with 75/25
+or 90/10 as the figures). This well proven fact can be used to assist
+in improving your LPC. Don't spend your time constantly optimising every
+piece of code you write - there isn't the time. Concentrate on the
+commonly executed sections such as inner for-loops, etc.
+
+    The second is the choice of correct algorithm. Often a more
+complex algorithm is used when a simpler one will suffice, especially
+when for a small number of elements, simpler algorithms are more efficient.
+But, the tradeoff must be made between simplicity and speed.
+
+
+    As most (if any) drivers currently don't have more advanced
+optimization techniques for the LPC code (such as expression re-writing,
+and loop strength-reduction) you can assist by more intelligently writing
+your code.
+
+    A good speedup is to move a common constant expression/function
+out of a loop or loop test and into a temporary variable. The most
+obvious form of this is the use of 'sizeof(arr)' in a while/for
+condition (q.v). In other situations, there might be a function that
+is called inside the loop at each iteration, but that function will
+always return the same value - if that is the case, assign the result
+outside of the loop and access the temporary variable instead. E.g:
+
+        for ( i = 0; i < max ; i++)
+            if ( list[i] == some_condition )
+                do_something_with( list[i], this_player()->query("name") );
+    
+    the name can assume to be static, so the following can be done:
+
+        name = this_player()->query("name");
+        for ( i = 0; i < max ; i++)
+            if ( list[i] == some_condition )
+                do_something_with( list[i], name );
+
+
+    While not an actual code speedup, writing easy-to-read and
+consistantly formatted code can speed up debugging and changing. A lot
+of people have differing views on indenting, and I'm not going to
+start a jihad by forcing my style down your throats - just pick what
+is good for you and be consistant with it.
+
+
+
+2. DATA TYPES
+
+
+    LPC has (at least) the following data types: int, string, object,
+mixed, mapping. Arrays of these are also possible. Some notes on using
+some of these data types:
+
+2.1. INT
+
+    The integer data type is very efficient to use, as no dynamic
+allocation required to use it.  By using bitfields (e.g, hand-coded
+with #defines, (simulating ANSI c's enum's)), you can store a variety
+of flags information as well. This latter use is much faster than
+storing information of bit size, as long as you only need 32 bits.
+Example code to manipulate integer bit fields follows (assuming that
+VALUE is 1, 2, 4, 8, etc):
+
+        bitfield |= VALUE;      // set bit VALUE
+        bitfield &= ~VALUE;     // reset bit VALUE
+        bitfield & VALUE        // test bit VALUE
+
+If you want to set bit n, replace VALUE with (1 << n).
+
+
+2.2. STRINGS
+
+    Strings form the most commonly used data-type, but require dynamic
+allocation.  Constant strings (i.e, such as pure 'write' statements)
+are stored in a 'string table', so usually don't require extra memory
+for multiple copies.  String addition (with the + operator) can be a
+costly operation - memory allocation is done for _each_ addition at
+compile time. A common coding style used is something like:
+
+        write("This is a forest\n" +
+              "and is really boring.\n" +
+              "You are feeling sleepy\n");
+
+    Now, this is one of the _worst_ ways to represent constant strings
+- it's slow when the object is being compiled, and is not memory efficient
+either. Note that with MudOS 0.9.15 the `+' in a string addition is
+optional - but this only saves characters in the source file - again,
+it requires a dynamic memory allocation for each string within double
+quotes when the object is loaded.  Try something like:
+
+        write("\
+This is a forest\n\
+and is really boring.\n\
+You are feeling sleepy.\n\
+");
+
+    So that the string is stored as 1 chunk. You can usually store upto
+1 page of screen text before your parser chokes - so split up your
+paragraphs within this limit, using a separate write statement.
+
+    NOTE: If there is a space between the \ and the end of the line, the
+parser will barf.
+
+    UPDATE: From MudOS 0.9.14.3 onwards, there is a new operator for
+constant string assignment - `@', so the above could be written as:
+
+        write( @ENDMESSAGE
+This is a forest
+and is really boring
+You are feeling sleepy.
+ENDMESSAGE
+);
+
+    (The 'ENDMESSAGE' can be any string that won't occur in the main
+body, and it must start on a line of it's own, otherwise it won't be
+recognised as the 'end of message' delimeter).
+
+
+    Another inefficient method is something like:
+
+        write("Your name is " + this_player()->query("name") + "\n" +
+        "and your level is " + this_player()->query("level") + "\n");
+
+    If your driver supports printf(), try doing something like:
+
+        printf("Your name is %s\nand your level is %d\n",
+            this_player->query("name"), this_player->query("level") );
+
+
+    There are many other examples like this, so you get the general
+idea.
+
+    But, don't get me wrong - often you must use string addition, so
+don't try and use extremely long-winded and fancy techniques to avoid
+it (which will most likely end up being slower than the addition).
+
+
+2.3. FLOATS
+
+    With the 0.9.15 driver, a floating point data type was introduced.
+A variable can be declared as this with the `float' keyword. (For C
+programmers, LPC float is the same as the C `double' type).
+
+    A variety of operations such as cos, sin, (and associated
+operations), ln, and sqrt are available. This datatype can be
+optionally excluded from a driver at compile time, but I cannot see
+why this would be necessary.
+
+    Mathmatical operations on floats are not as fast as for integers -
+so remain with integer arithmatic wherever possible. If you need to
+use floats, implement them by precalculating results wherever
+possible, to cut down on the number of redundant operations (this is
+true for any code though).
+
+
+2.4. ARRAYS
+
+    Arrays are extremely useful, but like strings, if used incorrectly,
+can be very inefficient.
+
+    A loop which incrementally adds or removes an element can be very
+slow. Intelligent use of pre-allocation is the solution in this case.
+From /adm/daemons/cmd_d.c on TMI-2:
+
+        bin_ls = get_dir(path + "/");
+        result = ({ });
+        for (i = 0; i < sizeof(bin_ls); i++) {
+            if(sscanf(bin_ls[i], "_%s.c", tmp) == 1)
+                result += ({ tmp });
+        }
+        cmd_table[path]=result;
+    
+    Here, not all of the elements are selected, and those that are
+are modified before being assigned to the result array. This is a
+replacement:
+
+        bin_ls = get_dir(path + "/");
+        i = sizeof(bin_ls);
+        result = allocate(i);
+        j = 0;
+        while (i--) {           // see below for why `while' is used
+            if(sscanf(bin_ls[i], "_%s.c", tmp) == 1)
+               result[j++] = tmp;
+        }
+        cmd_table[path]=result[0..j-1];
+
+    Note how that since we know that result can only be <=
+sizeof(bin_ls), we allocate that much. Then, we add elements as we
+need them. Finally, before we use result, it's resized to the correct
+size (with the [0..j-1] operation).
+
+    [ Note, in previous versions of this document, I recommended that
+the filter_array() efun to be used - unfortunately, due to function
+
+
+    The major reason for the speed difference with preallocation is that
+the preallocation technique has a linear increase in time with respect
+to an increase in elements, and the array addition using += has exponential
+increase.
+
+
+2.5. MAPPINGS
+
+    Mappings are associative arrays - i.e, arrays which can be indexed
+on any basic datatype - int, string, or object. As a data structure,
+they are usually more efficient than arrays, and can be used to
+simulate `structs' that exists in C.
+
+    Due to the internal storage method of mappings, a performance gain
+can be obtained if you preallocate the mapping before use. This is most
+effective when you know that the mapping will almost always have x
+elements (which can increase), and won't usually have elements deleted
+that will bring the total below x. (i.e., when map_delete is used on a
+mapping which has been preallocated to x elements, but may have more
+than x elements used, and most of the x elements have been deleted with
+map_delete, then you will waste more memory as map_delete doesn't free
+up individual elements of a preallocated mapping back to the system).
+
+    A common use of preallocation would be in the emote daemon or in a
+standard object such as /std/user (or /obj/player). With the former, if
+you already have approximatly 200 elemets, don't initialize your mapping
+with:
+
+        emotemap = ([ ]);
+    
+    Instead use:
+
+        emotemap = allocate_mapping( 200 );
+
+
+
+3. CONTROL FLOW & LOOPING
+
+
+    An integral part of LPC programming, the control of execution flow
+(through tests, and as part of looping constructs) can be made more
+efficient through careful use of various forms of it.
+
+
+3.1. WHILE
+
+    The simplest (and quickest in the 'simple' case) way of looping.
+A common task is something like:
+
+        list = users();
+        for ( i = 0 ; i < sizeof(list) ; i++ )
+            do_something_with_item( list[i] );
+    
+    This is inefficient, especially since the sizeof(list) must be
+recalculated (see above under `General Points'). If you wish to traverse
+the list in ascending order, try something like:
+
+        max = sizeof(list);     // slight performance gain
+        i = -1;
+        while ( ++i < max )     // evaluate and increment at same time
+            do_something_with_item(list[i]);
+    
+    If the order of traversal is unimportant, the following is the
+fastest method:
+
+        i = sizeof(list);
+        while (i--)
+            do_something_with_item(list[i]);
+    
+    This is the 'simple condition while loop'. There is actually
+minimal difference between
+
+        for ( i = sizeof(list) ; i-- ; )   ;
+
+and the equivalent while loop, but it is a minor gain.
+
+
+3.2. FOR
+    
+    One of the most popular looping constructs, and, in situations
+where you need to perform an operation at the end of each test that is
+more complex than a simple test or decrement, it is useful. If a
+simple increment or decrement of a loop counter is required, the
+`while' is probably better suited to the task.
+
+    If the 'ending operation' is more complex, then the generic form:
+
+        for ( initialise ; test ; final ) {
+            main body
+        }
+    
+is `cleaner' than
+
+        initialise
+        while ( test ) {
+            main body
+            final
+        }
+    
+
+3.3. SWITCH
+
+    The switch statement should be used in preference to
+'if-then-else-...' based structures (if possible), as in most of the
+newer, more advanced drivers, the switch statement is optimized within
+the driver. Anyway, the code looks cleaner.
+
+    The other advantage of switch is the use of case ranges (a feature
+not found in C). If you wish to test for a range of elements,
+replacing
+
+        case 1:  case 2:  case 3:
+
+with
+
+        case 1..3:
+
+could be more efficient (on typing anyway...)
+
+
+
+4. SUMMARY
+
+    I'm sure that there are probably mistakes in this document, but
+nobody's perfect. 
+
+    The following people asked questions, provided suggestions, etc for
+version 1.1:
+    @TMI-2:             Blackthorn, Mobydick, Square, Alexus, Amylaar, Darin
+    @Ivory.tower:       Telsin, Vampyr
+    @Underdark:         Cynic, Brian
+

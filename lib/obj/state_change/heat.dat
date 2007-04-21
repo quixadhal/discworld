@@ -1,0 +1,74 @@
+## Water just boils off ##
+
+::item "heat:Water"::
+::->result:: "/obj/reagents/water.ob"
+::->factor:: 1.0
+::->func:: ({})
+
+## Achorion ##
+
+::item "heat:UnheatedAchorionPurple"::
+::->result:: "/obj/reagents/generic_liquid.ob"
+::->factor:: 0.5
+::->func:: ({
+      (: $2->set_name( "steeped_achorion" ) :),
+      (: $2->set_short( "purple-grey liquid" ) :),
+      (: $2->add_adjective( ({ "purple-grey", "liquid" }) ) :),
+      (: $2->set_long( "This is $amount_size$ of some purple-grey liquid.\n" ) :),
+      (: $2->set_medium_alias( "UndistilledAchorionPurple" ) :),
+    })
+
+## Weak Con poison ##
+
+::item "heat:UnheatedWeakConPoison"::
+::->result:: "/obj/reagents/con_poison.ob"
+::->factor:: 0.1
+::->func:: ({ (: $2->add_eat_effect( "/std/effects/poisons/con_new",
+    to_int( $3->query_skill_bonus( "covert.items.poisons" ) ) ) :) })
+
+## Con poison ##
+
+::item "heat:UnheatedConPoison"::
+::->result:: "/obj/reagents/con_poison.ob"
+::->factor:: 0.1
+::->func:: ({ (: $2->add_eat_effect( "/std/effects/poisons/con_new",
+    to_int( $3->query_skill_bonus( "covert.items.poisons" ) * 10 ) ) :) })
+
+## Confuse poison ##
+
+::item "heat:UnheatedConfusePoison"::
+::->result:: "/obj/reagents/confuse_poison.ob"
+::->factor:: 0.1
+::->func:: ({ (: $2->add_eat_effect( "/std/effects/poisons/confuse",
+    to_int( $3->query_skill_bonus( "covert.items.poisons" ) * 10 ) ) :) })
+
+## Smokebombs ##
+
+::item "heat:UnheatedSmokeBomb"::
+::->result:: "/obj/reagents/smokebomb.ob"
+::->factor:: 0.5
+::->func:: ({ (: $2->add_eat_effect( "/std/effects/poisons/smokebomb",
+    to_int( $3->query_skill_bonus( "covert.items.poisons" ) ) ) :) })
+
+## Toffee - for the hell of it :P ##
+
+::item "heat:SuGar"::
+::->result:: "/w/taffyd/reagents/caramelised_sugar.food"
+# Sugar defaults to a handful, which is 50 units.
+# One cup is 960 units.
+# 3 handfuls is (empirically!) approxiamtely a cup. 
+::->factor:: 6.4
+::->func:: ({})
+::->playtester:: 1
+
+::item "heat:CaramelisedSugar"::
+::->result:: "/w/taffyd/reagents/disgusting_brown_lump.food"
+::->factor:: 0.15625
+::->func:: ({ })
+::->playtester:: 1
+
+::item "heat:BrownSugar"::
+::->result:: "/obj/food/sweets/toffee.food"
+::->factor:: 1.0
+::->func:: ({})
+::->playtester:: 1

@@ -1,0 +1,33 @@
+.DT
+setup_delivery
+DW_wibble creator help
+setup_delivery
+
+.SH Name
+.SP 5 5
+setup_delivery -  This method adds the object into the login handler's static login calls  list.
+.EP
+
+.SH Syntax
+.SI 5
+void setup_delivery()
+.EI
+
+.SH Defined in
+.SI 5
+/std/delivery.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds the object into the login handler's static login calls 
+list.  It only ever needs to be called _once_, and doesn't need to be 
+called every time the object loads. 
+
+
+Once this is done, the object will automatically be loaded whenever someone logs on. 
+
+This must be called in order for the delivery system to work at all. 
+.EP
+

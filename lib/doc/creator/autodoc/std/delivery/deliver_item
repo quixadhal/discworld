@@ -1,0 +1,44 @@
+.DT
+deliver_item
+DW_wibble creator help
+deliver_item
+
+.SH Name
+.SP 5 5
+deliver_item -  This method is called when an item is being delivered to a player.
+.EP
+
+.SH Syntax
+.SI 5
+void deliver_item(string who,
+                  object ob,
+                  string sent_by)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^who%^RESET%^ - the person to deliver to
+%^BOLD%^ob%^RESET%^ - the object to deliver
+%^BOLD%^sent_by%^RESET%^ - the person that send the parcel
+%^BOLD%^position%^RESET%^ - its location in the recepient's delivery mapping.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/delivery.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when an item is being delivered to a player.  The 
+delivery message or the burdened mess is used depending on how the item
+is delivered, and then it is removed from the delivery mapping.
+
+
+Note that this routine uses add_message() to display movement messages to the player, instead of tell_object() or a traditional move message. This is so that the messages can be 'clumped' together properly, otherwise it just doesn't work. 
+
+
+.EP
+

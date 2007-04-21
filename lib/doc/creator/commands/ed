@@ -1,0 +1,207 @@
+.DT
+ed
+Discworld creator help
+ed
+
+.SH Name
+.SI 5
+ed - ye old line editor.
+.EI
+
+.SH Syntax
+.SI 5
+ed <file>
+ed <object>
+.EI
+
+.SH Description
+.SP 5 5
+Ed is the editor that you can use from inside the mud.  Following is the list
+of commands that can be obtained from inside ed by typing 'h'.  The file you
+specify will be expanded and if it matches to more than one file, the first
+file you specify will be used.  If the file cannot be written by you, it will
+also print [read only].  Any changes you make, will not be saved if that is the
+case.  Ed is very similar to ex and ed on unix machines so if you can find
+documentation for those commands, it will help you in ed.
+.EP
+.SI 5
+
+       Help for Ed  (V 2.0)
+---------------------------------
+     by Qixx [Update: 7/10/91]
+
+
+Commands
+--------
+.EI
+.SO 3 8 -15
+	/	search forward for pattern
+	?	search backward for a pattern
+	=	show current line number
+	a	append text starting after this line
+	A	like 'a' but with inverse autoindent mode
+	c	change current line, query for replacement text
+	d	delete line(s)
+	e	replace this file with another file
+	E	same as 'e' but works if file has been modified
+	f	show/change current file name
+	g	Search and execute command on any matching line.
+	h	help file (display this message)
+	i	insert text starting before this line
+	I	indent the entire code (Qixx version 1.0)
+	j	join lines together
+	k	mark this line with a character - later referenced as 'a
+	l	line line(s) with control characters displayed
+	m	move line(s) to specified line
+	n	toggle line numbering
+	p	print line(s) in range
+	q	quit editor
+	Q	quit editor even if file modified and not saved
+	r	read file into editor at end of file or behind the given line
+	s	search and replace
+	set	query, change or save option settings
+	t	move copy of line(s) to specified line
+	v	Search and execute command on any non-matching line.
+	x	save file and quit
+	w	write to current file (or specified file)
+	W	like the 'w' command but appends instead
+	z	display 20 lines, possible args are . + -
+	Z	display 40 lines, possible args are . + -
+.EO
+.SP 5 5
+
+For further information type 'hc' inside ed where c is the command you want
+help on.
+
+Some old help from 2.4.5....
+
+When in 'ed', the prompt is ':'.
+
+Ed has two modes, command mode and insert mode. The insert mode has
+no prompt. You exit the insert mode by typing a single '.' on a line.
+
+All commands have the following syntax:
+
+X,Ycmd
+
+or
+Xcmd
+.EP
+
+For example:
+.SI 5
+1,10p
+Will print line 1 to 10.
+1,5d
+Will delete line 1 to 5.
+8p
+Will print line 8.
+.EI
+
+.SP 5 5
+A '.' is the "current line". The current line is the last line
+referenced. If you want to print last line + 10 more:
+.EP
+.SI 5
+.,.+10p
+
+Commands that use a line range:
+If no line is given, then curent line is printed.
+
+.SO 5 8 -15
+	p	Print line.
+	d	Delete line.
+	l	Print line with control characters.
+	r file	Read in a file after the line specified.
+	s	Substitute patterns. See special documentation.
+	z	Print 10 lines.
+	a	Start insert mode after specified line. Exit with '.'<return>.
+	i	Start insert mode before specified line. Exit with '.'<return>.
+.EO
+
+.SI 5
+Commands used without line specification:
+
+.EI
+.SO 5 8 -15
+	q	Quit. Won't work if file is changed.
+	Q	Quit and discard all changes if not saved.
+	w	Write the file out.
+	w file	Write the file out with name 'file'.
+	e file	Edit a file.
+.EO
+
+.SP 5 5
+As line numbers '.' is current line, and '$' is last line of file.
+Thus '1,$p' will always print all of the file.
+
+Substitutions are very advanced.
+
+First a simple example:
+.EP
+
+.SI 5
+s/apa/bepa/
+.EI
+.SP 5 5
+This will substitue the 'apa' in current line to 'bepa'.
+If an 'p' is appended, you will also immediately see the result.
+.EP
+.SI 5
+1,$s/apa/bepa/
+.SP 5 5
+Same, but all lines in file. Only first occurence on every line.
+
+Any character can used instead of '/':
+.EP
+.SI 5
+s!apa!bepa!g
+.EI
+.SP 5 5
+The 'g' specifies that all occurences of apa on this line are changed to bepa.
+
+The pattern that are supposed to be replaced, can be a regular expression.
+
+Searching is done with:
+.EP
+.SI 5
+/hello/
+Find first line in of after current line.
+Just // will repeat the search.
+
+There are special characters that can be used in the pattern:
+.EI
+.SO 5 8 -15
+	.	Match any character.
+	x*	Match any numbers of x (0 or more).
+	[abc]	Match 'a', 'b' or 'c'.
+	[0-9]	Match any digit 0 - 9.
+	[a-z]	Match any lowercase letter.
+	\x	Match 'x' where 'x' can be any character except '(' and ')'.
+.EO
+
+Example:
+.SI 5
+s/ab.d/ABCD/
+.EI
+.SP 5 5
+Substitute any string 'abXd' against 'ABCD' where X can be any character.
+
+How to copy from a standard file.
+
+Enter ed. Then do 'r /room/vill_green.c'. Now you have something in the
+buffer. Change it into what you want it to be. Then 'w /players/peter/hall.c'.
+Or 'w hall.c'.
+.EP
+
+.SH Examples
+.SI 5
+ed /global/wiz*
+ed /ENTER
+ed test.c
+.EI
+
+.SH See also
+.SP 5 5
+more, cat, grep, le
+.EP

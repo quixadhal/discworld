@@ -1,0 +1,44 @@
+.DT
+exit_aliases
+Discworld Room Help
+exit_aliases
+
+Name
+.SI 5
+exit aliases - alternative forms of exit commands for convenience
+.EI
+
+Syntax
+.SI 5
+add_alias( mixed names, string word )
+remove_alias( mixed names, string word )
+query_aliases()
+.EI
+
+Description
+.SP 5 5
+Aliases are convenient extra forms that can be attached to certain
+exits.  In the above functions, the variable names is either a
+string or an array of strings and is, respectively, the alias or
+aliases for the direction passed in word.  Since, sometimes, the
+same alias could be used for more than one exit, remove_alias()
+requires both alias(es) and direction in order to remove the
+correct alias(es).
+.EP
+
+Examples
+.SI 5
+add_exit( "north", PATH +"dining_hall", "corridor" );
+add_alias( ({ "enter", "enter hall", "enter dining hall" }), "north" );
+
+add_exit( "board carriage", PATH +"carriage", "door" );
+add_alias( "board", "board carriage" );
+
+remove_exit( "board carriage" );
+remove_alias( "board", "board carriage" );
+.EI
+
+See also
+.SI 5
+exits
+.EI
