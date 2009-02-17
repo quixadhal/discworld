@@ -459,7 +459,7 @@ mapping query_static_auto_load()
  */
 void init_static_arg( mapping map )
 {
-   if ( !mappingp( map ) ) {
+   if ( !mapp( map ) ) {
       return;
    }
    
@@ -495,7 +495,7 @@ mapping query_dynamic_auto_load()
  */
 void init_dynamic_arg( mapping map, object )
 {
-   if ( !mappingp( map ) ) {
+   if ( !mapp( map ) ) {
       return;
    }
    if ( map[ "::" ] ) {

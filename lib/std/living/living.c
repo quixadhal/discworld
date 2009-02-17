@@ -650,7 +650,7 @@ int room_look() {
          this_object()->query_slave() ) )
       return 0;
    /* These need to be evaluated immediately, hence the bypass_queue() call. */
-   if(!mappingp(verbose))
+   if(!mapp(verbose))
      verbose = ([ ]);
 
    if(verbose && verbose["look"]) {
@@ -671,7 +671,7 @@ int room_look() {
  * @return the verbose mode of the player
  */
 int query_verbose(string type) {
-  if(!verbose || !mappingp(verbose)) {
+  if(!verbose || !mapp(verbose)) {
     verbose = ([ ]);
   }
   return verbose[type];
@@ -681,7 +681,7 @@ int query_verbose(string type) {
  * This method sets the verbosity for a given type.
  */
 void set_verbose(string type, int val) {
-  if(!verbose || !mappingp(verbose)) {
+  if(!verbose || !mapp(verbose)) {
     verbose = ([ ]);
   }
 
@@ -1464,7 +1464,7 @@ int can_find_match_reference_inside_object(object thing, object looker) {
  * @args God Name of God
  */
 int query_deity_favour( string god ) {
-  if ( !mappingp( deity_favour ) ) 
+  if ( !mapp( deity_favour ) ) 
     return 0;
 
   if ( !undefinedp( deity_favour[ god ] ) ) 
@@ -1479,7 +1479,7 @@ int query_deity_favour( string god ) {
  */
 void adjust_deity_favour( string god, int amount ) {
 
-  if ( !mappingp( deity_favour ) ) 
+  if ( !mapp( deity_favour ) ) 
     deity_favour = ([ ]);
   
   if ( !undefinedp( deity_favour[ god ] ) ) 

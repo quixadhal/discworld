@@ -86,7 +86,7 @@ int add_player_alias(string name, mixed *value) {
  * @see add_player_alias()
  */
 mixed *query_player_alias(string name) {
-  if(!mappingp(aliases))  {
+  if(!mapp(aliases))  {
     aliases = ([ ]);
     return 0;
   }
@@ -194,7 +194,7 @@ protected void exec_alias(string verb, string args) {
  * @see expand_alias()
  */
 protected string *run_alias(string verb, string args) {
-   if (!mappingp(aliases)) {
+   if (!mapp(aliases)) {
       aliases = ([ ]);
    }
    if (!aliases[verb] || is_doing_alias(verb)) {

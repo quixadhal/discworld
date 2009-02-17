@@ -21,8 +21,7 @@
 #define VALID_SOCKET(x) check_valid_socket((x), fd, get_socket_owner(fd), addr, port)
 
 #ifdef F_SOCKET_CREATE
-void
-f_socket_create (void)
+void f_socket_create (void)
 {
     int fd, num_arg = st_num_arg;
     svalue_t *arg;
@@ -33,9 +32,9 @@ f_socket_create (void)
     }
     if (check_valid_socket("create", -1, current_object, "N/A", -1)) {
 	if (num_arg == 2)
-	    fd = socket_create(arg[0].u.number, &arg[1], NULL);
+	    fd = socket_create((enum socket_mode)arg[0].u.number, &arg[1], NULL);
 	else {
-	    fd = socket_create(arg[0].u.number, &arg[1], &arg[2]);
+	    fd = socket_create((enum socket_mode)arg[0].u.number, &arg[1], &arg[2]);
 	}
         pop_n_elems(num_arg - 1);
         sp->u.number = fd;
@@ -129,7 +128,11 @@ f_socket_connect (void)
     fd = (sp - 3)->u.number;
     get_socket_address(fd, addr, &port, 0);
 
+#ifdef IPV6
+    if (!strcmp(addr, "::") && port == 0) {
+#else
     if (!strcmp(addr, "0.0.0.0") && port == 0) {
+#endif
 	/*
 	 * socket descriptor is not bound yet
 	 */
@@ -211,7 +214,7 @@ f_socket_release (void)
 {
     int fd, port;
     char addr[ADDR_BUF_SIZE];
-    
+
     if (!(sp->type & (T_STRING | T_FUNCTION))) {
 	bad_arg(3, F_SOCKET_RELEASE);
     }
@@ -225,7 +228,7 @@ f_socket_release (void)
     pop_stack();
     /* the object might have been dested an removed from the stack */
     if (sp->type == T_OBJECT)
-	free_object(sp->u.ob, "socket_release()");
+	free_object(&sp->u.ob, "socket_release()");
     sp--;
 }
 #endif
@@ -283,15 +286,21 @@ f_socket_address (void)
 /* This is so we can get the address of interactives as well. */
 
         if (!sp->u.ob->interactive) {
-            free_object(sp->u.ob, "f_socket_address:1");
+            free_object(&sp->u.ob, "f_socket_address:1");
             *sp = const0u;
             return;
 	}
+#ifdef IPV6
+        char tmp2[INET6_ADDRSTRLEN];
+        tmp = inet_ntop(AF_INET6, &sp->u.ob->interactive->addr.sin6_addr, &tmp2, INET6_ADDRSTRLEN);
+        sprintf(buf, "%s %d", tmp, ntohs(sp->u.ob->interactive->addr.sin6_port));
+#else
         tmp = inet_ntoa(sp->u.ob->interactive->addr.sin_addr);
-        sprintf(buf, "%s %d", tmp, 
+        sprintf(buf, "%s %d", tmp,
 		ntohs(sp->u.ob->interactive->addr.sin_port));
+#endif
 	str = string_copy(buf, "f_socket_address");
-        free_object(sp->u.ob, "f_socket_address:2");
+        free_object(&sp->u.ob, "f_socket_address:2");
         put_malloced_string(str);
         return;
     }
@@ -308,10 +317,10 @@ f_socket_status (void)
 {
      array_t *info;
      int i;
-     
+
      if (st_num_arg) {
 	 info = socket_status(sp->u.number);
-	 
+
 	 if (!info) {
 	     sp->u.number = 0;
 	 } else {

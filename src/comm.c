@@ -2,6 +2,7 @@
  *  comm.c -- communications functions and more.
  *            Dwayne Fontenot (Jacques@TMI)
  */
+
 #include "std.h"
 #include "comm.h"
 #include "main.h"
@@ -14,6 +15,23 @@
 #include "master.h"
 #include "add_action.h"
 #include "eval.h"
+#include "console.h"
+
+#ifndef ENOSR
+#define ENOSR 63
+#endif
+
+#ifndef ANSI_SUBSTITUTE
+#define ANSI_SUBSTITUTE 0x20
+#endif
+
+#ifndef ADDRFAIL_NOTIFY
+#define ADDRFAIL_NOTIFY 0
+#endif
+
+#ifndef MSG_NOSIGNAL
+#define MSG_NOSIGNAL 0
+#endif
 
 #define TELOPT_COMPRESS 85
 #define TELOPT_COMPRESS2 86
@@ -58,7 +76,7 @@ static unsigned char telnet_compress_v2_response[] = { IAC, SB,
 #endif
 static unsigned char telnet_do_mxp[]     = { IAC, DO, TELOPT_MXP };
 static unsigned char telnet_will_mxp[]     = { IAC, SB, TELOPT_MXP, IAC, SE };
-   
+
 //#ifdef DEBUGG
 //static char *slc_names[] = { SLC_NAMELIST };
 //#endif
@@ -81,12 +99,15 @@ static int call_function_interactive (interactive_t *, char *);
 static void print_prompt (interactive_t *);
 static void query_addr_name (object_t *);
 static void got_addr_number (char *, char *);
+#ifdef IPV6
+static void add_ip_entry (struct in6_addr, char *);
+#else
 static void add_ip_entry (long, char *);
+#endif
 static void new_user_handler (int);
 static void end_compression (interactive_t *);
 static void start_compression (interactive_t *);
 static int send_compressed (interactive_t *ip, unsigned char* data, int length);
-
 
 
 #ifdef NO_SNOOP
@@ -127,6 +148,9 @@ int inet_packets = 0;
 int inet_volume = 0;
 interactive_t **all_users = 0;
 int max_users = 0;
+#ifdef HAS_CONSOLE
+int has_console = -1;
+#endif
 
 /*
  * private local variables.
@@ -180,17 +204,21 @@ receive_snoop (const char * buf, int len, object_t * snooper)
  */
 void init_user_conn()
 {
+#ifdef IPV6
+	struct sockaddr_in6 sin;
+#else
     struct sockaddr_in sin;
-    unsigned int sin_len;
+#endif
+    socklen_t sin_len;
     int optval;
     int i;
     int have_fd6;
     int fd6_which = -1;
-    
+
     /* Check for fd #6 open as a valid socket */
     optval = 1;
     have_fd6 = (setsockopt(6, SOL_SOCKET, SO_REUSEADDR, (char *)&optval, sizeof(optval)) == 0);
-    
+
     for (i=0; i < 5; i++) {
 #ifdef F_NETWORK_STATS
         external_port[i].in_packets = 0;
@@ -199,6 +227,7 @@ void init_user_conn()
         external_port[i].out_volume = 0;
 #endif
         if (!external_port[i].port) {
+#if defined(FD6_KIND) && defined(FD6_PORT)
             if (!have_fd6) continue;
             fd6_which = i;
             have_fd6 = 0;
@@ -211,15 +240,22 @@ void init_user_conn()
             external_port[i].kind = FD6_KIND;
             external_port[i].port = FD6_PORT;
             external_port[i].fd = 6;
+#else
+            continue;
+#endif
         } else {
             /*
              * create socket of proper type.
              */
+#ifdef IPV6
+            if ((external_port[i].fd = socket(PF_INET6, SOCK_STREAM, 0)) == -1) {
+#else
             if ((external_port[i].fd = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
+#endif
                 debug_perror("init_user_conn: socket", 0);
                 exit(1);
             }
-            
+
             /*
              * enable local address reuse.
              */
@@ -233,12 +269,22 @@ void init_user_conn()
             /*
              * fill in socket address information.
              */
+#ifdef IPV6
+            sin.sin6_family = AF_INET6;
+            if(MUD_IP[0])
+            	inet_pton(AF_INET6, MUD_IP, &(sin.sin6_addr));
+            else
+            	sin.sin6_addr = in6addr_any;
+            sin.sin6_port = htons((u_short) external_port[i].port);
+#else
             sin.sin_family = AF_INET;
-            
-            if (MUD_IP[0]) sin.sin_addr.s_addr = inet_addr(MUD_IP);
-            else sin.sin_addr.s_addr = INADDR_ANY;
-            
+            if (MUD_IP[0])
+            	sin.sin_addr.s_addr = inet_addr(MUD_IP);
+            else
+            	sin.sin_addr.s_addr = INADDR_ANY;
             sin.sin_port = htons((u_short) external_port[i].port);
+#endif
+
             /*
              * bind name to socket.
              */
@@ -284,7 +330,7 @@ void init_user_conn()
     /*
      * register signal handler for SIGPIPE.
      */
-#if !defined(LATTICE) && defined(SIGPIPE)
+#if defined(SIGPIPE) && defined(SIGNAL_ERROR)
     if (signal(SIGPIPE, sigpipe_handler) == SIGNAL_ERROR) {
         debug_perror("init_user_conn: signal SIGPIPE",0);
         exit(5);
@@ -311,7 +357,16 @@ void ipc_remove()
 
 void init_addr_server (char * hostname, int addr_server_port)
 {
+#ifdef WIN32
+    WORD wVersionRequested = MAKEWORD(1,1);
+    WSADATA wsaData;
+    WSAStartup(wVersionRequested, &wsaData);
+#endif
+#ifdef IPV6
+    struct sockaddr_in6 server;
+#else
     struct sockaddr_in server;
+#endif
     struct hostent *hp;
     int server_fd;
     int optval;
@@ -321,7 +376,32 @@ void init_addr_server (char * hostname, int addr_server_port)
         return;
 
     if (!hostname) return;
+#ifdef IPV6
+    /*
+     * get network host data for hostname.
+     */
+    struct addrinfo hints, *res;
+    hints.ai_family = AF_INET6;
+    hints.ai_socktype = 0;
+    hints.ai_protocol = 0;
+    hints.ai_flags = AI_CANONNAME| AI_V4MAPPED;
 
+    if(getaddrinfo(hostname, "1234", &hints, &res)){
+    	//failed
+    	socket_perror("init_addr_server: getaddrinfo", 0);
+    	        return;
+    }
+
+    memcpy(&server, res->ai_addr, sizeof(server));
+    freeaddrinfo(res);
+    server.sin6_port = htons((u_short) addr_server_port);
+    //inet_pton(AF_INET6, hostname, &(server.sin6_addr));
+    //memcpy((char *) &server.sin6_addr, (char *) hp->h_addr, hp->h_length);
+     /*
+      * create socket of proper type.
+      */
+    server_fd = socket(AF_INET6, SOCK_STREAM, 0);
+#else
     /*
      * get network host data for hostname.
      */
@@ -347,6 +427,7 @@ void init_addr_server (char * hostname, int addr_server_port)
      * create socket of proper type.
      */
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
+#endif
     if (server_fd == INVALID_SOCKET) {  /* problem opening socket */
         socket_perror("init_addr_server: socket", 0);
         return;
@@ -364,11 +445,13 @@ void init_addr_server (char * hostname, int addr_server_port)
      * connect socket to server address.
      */
     if (connect(server_fd, (struct sockaddr *) & server, sizeof(server)) == -1) {
-        if (socket_errno == ECONNREFUSED)
-            debug_message("Connection to address server (%s %d) refused.\n",
-                          hostname, addr_server_port);
-        else 
-            socket_perror("init_addr_server: connect", 0);
+    	if(ADDRFAIL_NOTIFY){
+    		if (socket_errno == ECONNREFUSED && ADDRFAIL_NOTIFY)
+    			debug_message("Connection to address server (%s %d) refused.\n",
+    					hostname, addr_server_port);
+    		else
+    			socket_perror("init_addr_server: connect", 0);
+    	}
         OS_socket_close(server_fd);
         return;
     }
@@ -382,6 +465,9 @@ void init_addr_server (char * hostname, int addr_server_port)
         socket_perror("init_addr_server: set_socket_nonblocking 1", 0);
         return;
     }
+#ifdef WIN32
+        WSACleanup();
+#endif
 }
 
 /*
@@ -408,7 +494,7 @@ static int shadow_catch_message (object_t * ob, const char * str)
         ob = ob->shadowed;
     while (ob->shadowing) {
         copy_and_push_string(str);
-        if (apply(APPLY_CATCH_TELL, ob, 1, ORIGIN_DRIVER))      
+        if (apply(APPLY_CATCH_TELL, ob, 1, ORIGIN_DRIVER))
             /* this will work, since we know the */
             /* function is defined */
             return 1;
@@ -439,9 +525,6 @@ void add_message (object_t * who, const char * data, int len)
         putc(']', stderr);
         fwrite(data, len, 1, stderr);
 #endif
-#ifdef LATTICE
-        fflush(stderr);
-#endif
         return;
     }
     ip = who->interactive;
@@ -471,7 +554,7 @@ void add_message (object_t * who, const char * data, int len)
             if (ip->message_length == MESSAGE_BUF_SIZE)
                 break;
         }
-        if (*cp == '\n'
+        if (*cp == '\n' || *cp == -1
 #ifndef NO_BUFFER_TYPE
             && ip->connection_type != PORT_BINARY
 #endif
@@ -484,7 +567,7 @@ void add_message (object_t * who, const char * data, int len)
                 if (ip->message_length == (MESSAGE_BUF_SIZE - 1))
                     break;
             }
-            ip->message_buf[ip->message_producer] = '\r';
+            ip->message_buf[ip->message_producer] = (*cp == '\n')?'\r':-1;
             ip->message_producer = (ip->message_producer + 1)
                 % MESSAGE_BUF_SIZE;
             ip->message_length++;
@@ -499,7 +582,7 @@ void add_message (object_t * who, const char * data, int len)
 #ifdef FLUSH_OUTPUT_IMMEDIATELY
     flush_message(ip);
 #endif
-    
+
     add_message_calls++;
 }                               /* add_message() */
 
@@ -518,27 +601,19 @@ void add_vmessage (object_t *who, const char *format, ...)
      * if who->interactive is not valid, write message on stderr.
      * (maybe)
      */
-    if (!who || (who->flags & O_DESTRUCTED) || !who->interactive || 
+    if (!who || (who->flags & O_DESTRUCTED) || !who->interactive ||
         (who->interactive->iflags & (NET_DEAD | CLOSING))) {
 #ifdef NONINTERACTIVE_STDERR_WRITE
         putc(']', stderr);
         vfprintf(stderr, format, args);
 #endif
         va_end(args);
-#ifdef LATTICE
-        fflush(stderr);
-#endif
         return;
     }
     ip = who->interactive;
     new_string_data[0] = '\0';
-    /*
-     * this is dangerous since the data may not all fit into new_string_data
-     * but how to tell if it will without trying it first?  I suppose one
-     * could rewrite vsprintf to accept a maximum length (like strncpy) --
-     * have fun!
-     */
-    vsprintf(new_string_data, format, args);
+
+    vsnprintf(new_string_data, LARGEST_PRINTABLE_STRING, format, args);
     va_end(args);
     len = strlen(new_string_data);
 #ifdef SHADOW_CATCH_MESSAGE
@@ -595,7 +670,7 @@ void add_vmessage (object_t *who, const char *format, ...)
 #ifdef FLUSH_OUTPUT_IMMEDIATELY
     flush_message(ip);
 #endif
-    
+
     add_message_calls++;
 }                               /* add_message() */
 
@@ -603,7 +678,7 @@ void add_binary_message (object_t * who, unsigned char * data, int len)
 {
     interactive_t *ip;
     unsigned char *cp, *end;
-    
+
     /*
      * if who->interactive is not valid, bail
      */
@@ -645,7 +720,8 @@ int flush_message (interactive_t * ip)
     /*
      * if ip is not valid, do nothing.
      */
-    if (!ip || (ip->iflags & (NET_DEAD | CLOSING))) {
+    if (!ip || !ip->ob || !IP_VALID(ip, ip->ob) ||
+        (ip->ob->flags & O_DESTRUCTED) || (ip->iflags & (NET_DEAD | CLOSING))){
       //debug(connections, ("flush_message: invalid target!\n"));
         return 0;
     }
@@ -663,12 +739,12 @@ int flush_message (interactive_t * ip)
  */
 #ifdef HAVE_ZLIB
         if (ip->compressed_stream) {
-          num_bytes = send_compressed(ip, ip->message_buf +
+          num_bytes = send_compressed(ip, (unsigned char *)ip->message_buf +
                                       ip->message_consumer,  length);
         } else {
 #endif
         num_bytes = send(ip->fd, ip->message_buf + ip->message_consumer,
-                         length, ip->out_of_band);
+                         length, ip->out_of_band | MSG_NOSIGNAL);
 #ifdef HAVE_ZLIB
         }
 #endif
@@ -727,7 +803,7 @@ static void copy_chars (interactive_t * ip, char * from, int num_bytes)
 
 #if defined(NO_ANSI) && defined(STRIP_BEFORE_PROCESS_INPUT)
                     case 0x1b:
-                        ip->text[ip->text_end++] = 0x20;
+                        ip->text[ip->text_end++] = ANSI_SUBSTITUTE;
                         break;
 #endif
 
@@ -894,11 +970,13 @@ static void copy_chars (interactive_t * ip, char * from, int num_bytes)
                             add_binary_message(ip->ob, telnet_no_single, sizeof(telnet_no_single));
                         }
                         break;
+#ifdef HAVE_ZLIB
                     case TELOPT_COMPRESS2:
                         // If we are told not to use v2, then try v1.
                         add_binary_message(ip->ob, telnet_compress_send_request_v1,
                                     sizeof(telnet_compress_send_request_v1));
                         break;
+#endif
                 }
                 ip->state = TS_DATA;
                 break;
@@ -972,7 +1050,7 @@ static void copy_chars (interactive_t * ip, char * from, int num_bytes)
 
                                                 /* If the first octet is out of range, we don't support it */
                                                 /* If the default flag is not supported, we don't support it */
-                                                if (ip->sb_buf[x] >= NSLC || slc_default_flags[(int)ip->sb_buf[x]] == SLC_NOSUPPORT) {
+                                                if (ip->sb_buf[x] >= NSLC || slc_default_flags[ip->sb_buf[x]] == SLC_NOSUPPORT) {
                                                     slc_response[slc_length++] = SLC_NOSUPPORT;
                                                     slc_response[slc_length++] = ip->sb_buf[x + 2];
                                                     if ((unsigned char)ip->sb_buf[x + 2] == IAC)
@@ -982,41 +1060,41 @@ static void copy_chars (interactive_t * ip, char * from, int num_bytes)
 
                                                 switch ((ip->sb_buf[x + 1] & SLC_LEVELBITS)) {
                                                     case SLC_NOSUPPORT:
-                                                        if (slc_default_flags[(int)ip->sb_buf[x]] == SLC_CANTCHANGE) {
+                                                        if (slc_default_flags[ip->sb_buf[x]] == SLC_CANTCHANGE) {
                                                             slc_response[slc_length++] = SLC_CANTCHANGE;
-                                                            slc_response[slc_length++] = ip->slc[(int)ip->sb_buf[x]][1];
+                                                            slc_response[slc_length++] = ip->slc[ip->sb_buf[x]][1];
                                                             break;
                                                         }
                                                         slc_response[slc_length++] = SLC_ACK | SLC_NOSUPPORT;
                                                         slc_response[slc_length++] = ip->sb_buf[x + 2];
-                                                        ip->slc[(int)ip->sb_buf[x]][0] = SLC_NOSUPPORT;
-                                                        ip->slc[(int)ip->sb_buf[x]][1] = 0;
+                                                        ip->slc[ip->sb_buf[x]][0] = SLC_NOSUPPORT;
+                                                        ip->slc[ip->sb_buf[x]][1] = 0;
                                                         break;
 
                                                     case SLC_VARIABLE:
-                                                        if (slc_default_flags[(int)ip->sb_buf[x]] == SLC_CANTCHANGE) {
+                                                        if (slc_default_flags[ip->sb_buf[x]] == SLC_CANTCHANGE) {
                                                             slc_response[slc_length++] = SLC_CANTCHANGE;
-                                                            slc_response[slc_length++] = ip->slc[(int)ip->sb_buf[x]][1];
+                                                            slc_response[slc_length++] = ip->slc[ip->sb_buf[x]][1];
                                                             break;
                                                         }
                                                         slc_response[slc_length++] = SLC_ACK | SLC_VARIABLE;
                                                         slc_response[slc_length++] = ip->sb_buf[x + 2];
-                                                        ip->slc[(int)ip->sb_buf[x]][0] = ip->sb_buf[x + 1];
-                                                        ip->slc[(int)ip->sb_buf[x]][1] = ip->sb_buf[x + 2];
+                                                        ip->slc[ip->sb_buf[x]][0] = ip->sb_buf[x + 1];
+                                                        ip->slc[ip->sb_buf[x]][1] = ip->sb_buf[x + 2];
                                                         break;
 
                                                     case SLC_CANTCHANGE:
                                                         slc_response[slc_length++] = SLC_ACK | SLC_CANTCHANGE;
                                                         slc_response[slc_length++] = ip->sb_buf[x + 2];
-                                                        ip->slc[(int)ip->sb_buf[x]][0] = ip->sb_buf[x + 1];
-                                                        ip->slc[(int)ip->sb_buf[x]][1] = ip->sb_buf[x + 2];
+                                                        ip->slc[ip->sb_buf[x]][0] = ip->sb_buf[x + 1];
+                                                        ip->slc[ip->sb_buf[x]][1] = ip->sb_buf[x + 2];
                                                         break;
 
                                                     case SLC_DEFAULT:
-                                                        slc_response[slc_length++] = slc_default_flags[(int)ip->sb_buf[x]];
-                                                        slc_response[slc_length++] = slc_default_flags[(int)ip->sb_buf[x]];
-                                                        ip->slc[(int)ip->sb_buf[x]][0] = slc_default_flags[(int)ip->sb_buf[x]];
-                                                        ip->slc[(int)ip->sb_buf[x]][1] = slc_default_chars[(int)ip->sb_buf[x]];
+                                                        slc_response[slc_length++] = slc_default_flags[ip->sb_buf[x]];
+                                                        slc_response[slc_length++] = slc_default_flags[ip->sb_buf[x]];
+                                                        ip->slc[ip->sb_buf[x]][0] = slc_default_flags[ip->sb_buf[x]];
+                                                        ip->slc[ip->sb_buf[x]][1] = slc_default_chars[ip->sb_buf[x]];
                                                         break;
 
                                                     default:
@@ -1227,7 +1305,7 @@ static void get_user_data (interactive_t * ip)
                 ip->text_end += num_bytes;
 
                 p = ip->text + ip->text_start;
-                while ((nl = memchr(p, '\n', ip->text_end - ip->text_start))) {
+                while ((nl = ( char *)memchr(p, '\n', ip->text_end - ip->text_start))) {
                     ip->text_start = (nl + 1) - ip->text;
 
                     *nl = 0;
@@ -1236,7 +1314,7 @@ static void get_user_data (interactive_t * ip)
 
                     if (!(ip->ob->flags & O_DESTRUCTED)) {
                         char *str;
-                        
+
                         str = new_string(nl - p, "PORT_ASCII");
                         memcpy(str, p, nl - p + 1);
                         push_malloced_string(str);
@@ -1360,7 +1438,7 @@ static char *first_cmd_in_buf (interactive_t * ip)
          (ip->text[ip->text_start] == '\n' && ip->text[ip->text_start + 1] == '\r'))) {
         ip->text[ip->text_start++] = 0;
     }
-    
+
     ip->text[ip->text_start++] = 0;
     if (!cmd_in_buf(ip))
         ip->iflags &= ~CMD_IN_BUF;
@@ -1377,6 +1455,7 @@ void sigpipe_handler()
 #endif
 {
     debug(connections, ("SIGPIPE received."));
+    //don't comment the next line out, i'm pretty sure we'd crash on the next SIGPIPE, they're not worth it
     signal(SIGPIPE, sigpipe_handler);
 }                               /* sigpipe_handler() */
 
@@ -1401,6 +1480,11 @@ INLINE void make_selectmasks()
      */
     FD_ZERO(&readmask);
     FD_ZERO(&writemask);
+#ifdef HAS_CONSOLE
+    /* set up a console */
+    if(has_console > 0)
+      FD_SET(STDIN_FILENO, &readmask);
+#endif
     /*
      * set new user accept fd in readmask.
      */
@@ -1502,6 +1586,31 @@ INLINE void process_io()
             hname_handler();
         }
     }
+#ifdef HAS_CONSOLE
+    /* Process console input */
+    /* Note: need the has_console on the next line because linux (at least)
+             recycles fds, even STDIN_FILENO
+     */
+    if((has_console > 0) && FD_ISSET(STDIN_FILENO, &readmask)) {
+    	char s[1024];
+    	int sz;
+
+    	if((sz = read(STDIN_FILENO, s, 1023)) > 0) {
+    		s[sz-1] = '\0';
+    		console_command(s);
+    	}
+    	else if(sz == 0) {
+    		printf("Console exiting.  The MUD remains.\n");
+    		has_console = 0;
+    	}
+    	else {
+    		printf("Console read error: %d %d.  Closing console.\n", sz, errno);
+    		has_console = 0;
+    		restore_sigttin();
+    	}
+    }
+#endif
+
 }
 
 /*
@@ -1513,8 +1622,12 @@ INLINE void process_io()
 static void new_user_handler (int which)
 {
     int new_socket_fd;
+#ifdef IPV6
+    struct sockaddr_in6 addr;
+#else
     struct sockaddr_in addr;
-    unsigned int length;
+#endif
+    socklen_t length;
     int i, x;
     object_t *master, *ob;
     svalue_t *ret;
@@ -1522,7 +1635,7 @@ static void new_user_handler (int which)
     length = sizeof(addr);
     debug(connections, ("new_user_handler: accept on fd %d\n", external_port[which].fd));
     new_socket_fd = accept(external_port[which].fd,
-                           (struct sockaddr *) & addr, (unsigned int *) &length);
+                           (struct sockaddr *) & addr, &length);
     if (new_socket_fd < 0) {
 #ifdef EWOULDBLOCK
         if (socket_errno == EWOULDBLOCK) {
@@ -1547,7 +1660,15 @@ static void new_user_handler (int which)
         OS_socket_close(new_socket_fd);
         return;
     }
+#if !(linux) && !(sun) && !defined(MINGW) && !defined(__CYGWIN__)
+    i = 1;
 
+    if (setsockopt(new_socket_fd, 1, SO_NOSIGPIPE, &i, sizeof(i)) == -1)
+    {
+        socket_perror("new_user_handler: setsockopt SO_NOSIGPIPE", 0);
+        /* it's ok if this fails */
+    }
+#endif
     /* find the first available slot */
     for (i = 0; i < max_users; i++)
         if (!all_users[i]) break;
@@ -1603,7 +1724,7 @@ static void new_user_handler (int which)
 #ifdef HAVE_ZLIB
     master_ob->interactive->compressed_stream = NULL;
 #endif
-         
+
     master_ob->interactive->message_producer = 0;
     master_ob->interactive->message_consumer = 0;
     master_ob->interactive->message_length = 0;
@@ -1611,6 +1732,9 @@ static void new_user_handler (int which)
     master_ob->interactive->out_of_band = 0;
 #ifdef USE_ICONV
     master_ob->interactive->trans = get_translator("UTF-8");
+#else
+    master_ob->interactive->trans = (struct translation *) master_ob;
+    //never actually used, but avoids multiple ifdefs later on!
 #endif
     for (x = 0;  x < NSLC;  x++) {
         master_ob->interactive->slc[x][0] = slc_default_flags[x];
@@ -1625,9 +1749,14 @@ static void new_user_handler (int which)
     all_users[i]->external_port = which;
 #endif
     set_prompt("> ");
-    
+
     memcpy((char *) &all_users[i]->addr, (char *) &addr, length);
+#ifdef IPV6
+    char tmp[INET6_ADDRSTRLEN];
+    debug(connections, ("New connection from %s.\n", inet_ntop(AF_INET6, &addr.sin6_addr, &tmp, INET6_ADDRSTRLEN)));
+#else
     debug(connections, ("New connection from %s.\n", inet_ntoa(addr.sin_addr)));
+#endif
     num_user++;
     /*
      * The user object has one extra reference. It is asserted that the
@@ -1647,15 +1776,18 @@ static void new_user_handler (int which)
         if (master_ob->interactive)
             remove_interactive(master_ob, 0);
         else
-            free_object(master, "new_user");
+            free_object(&master, "new_user");
+#ifdef IPV6
+        debug_message("Connection from %s aborted.\n", inet_ntop(AF_INET6, &addr.sin6_addr, tmp, INET6_ADDRSTRLEN));
+#else
         debug_message("Connection from %s aborted.\n", inet_ntoa(addr.sin_addr));
+#endif
         return;
     }
     /*
      * There was an object returned from connect(). Use this as the user
      * object.
      */
-    free_object(master, "new_user");
     ob = ret->u.ob;
 #ifdef F_SET_HIDE
     if (ob->flags & O_HIDDEN)
@@ -1669,7 +1801,9 @@ static void new_user_handler (int which)
      * until proven wrong (after trying to call them).
      */
     ob->interactive->iflags |= (HAS_WRITE_PROMPT | HAS_PROCESS_INPUT);
-    
+
+    free_object(&master, "new_user");
+
     master_ob->flags &= ~O_ONCE_INTERACTIVE;
     master_ob->interactive = 0;
     add_ref(ob, "new_user");
@@ -1677,7 +1811,7 @@ static void new_user_handler (int which)
     if (addr_server_fd >= 0) {
         query_addr_name(ob);
     }
-    
+
     if (external_port[which].kind == PORT_TELNET) {
         /* Ask permission to ask them for their terminal type */
         add_binary_message(ob, telnet_do_ttype, sizeof(telnet_do_ttype));
@@ -1690,7 +1824,7 @@ static void new_user_handler (int which)
         // Ask them if they support mxp.
         add_binary_message(ob, telnet_do_mxp, sizeof(telnet_do_mxp));
     }
-    
+
     logon(ob);
     debug(connections, ("new_user_handler: end\n"));
     set_command_giver(0);
@@ -1721,7 +1855,7 @@ static char *get_user_command()
         if (ip->message_length) {
             object_t *ob = ip->ob;
             flush_message(ip);
-            if (!IP_VALID(ip, ob))
+            if (!IP_VALID(ip, ob) || (ip->iflags & NET_DEAD))
                 continue;
         }
 
@@ -1765,7 +1899,7 @@ static int escape_command (interactive_t * ip, char * user_command)
         return 1;
 #endif
 #if defined(F_INPUT_TO) || defined(F_GET_CHAR)
-    if (ip->input_to && !(ip->iflags & NOESC))
+    if (ip->input_to && ( !(ip->iflags & NOESC) && !(ip->iflags & I_SINGLE_CHAR) ) )
         return 1;
 #endif
     return 0;
@@ -1826,9 +1960,9 @@ int process_user_command()
     if (!(user_command = get_user_command()))
         return 0;
 
-    ip = command_giver->interactive;
+    if(command_giver) ip = command_giver->interactive;
     current_interactive = command_giver;    /* this is yuck phooey, sigh */
-    clear_notify(ip->ob);
+    if(ip) clear_notify(ip->ob);
     update_load_av();
     debug(connections, ("process_user_command: command_giver = /%s\n", command_giver->obname));
 
@@ -1939,7 +2073,7 @@ static void hname_handler()
 
     while (hname_buf_pos) {
         char *nl, *pp;
-            
+
         /* if there's no newline, there's more data to come */
         if (!(nl = strchr(hname_buf, '\n')))
             break;
@@ -1949,13 +2083,23 @@ static void hname_handler()
             *pp++ = 0;
             got_addr_number(pp, hname_buf);
 
-            if (isdigit(hname_buf[0])) {
-                unsigned long laddr;
+            if (isdigit(hname_buf[0]) || hname_buf[0] == ':') {
+
+#ifdef IPV6
+            	struct in6_addr addr;
+            	int ret;
+            	if(1 ==(ret = inet_pton(AF_INET6, hname_buf, &addr))) {
+            		if (strcmp(pp, "0") != 0)
+            		     add_ip_entry(addr, pp);
+            	}
+#else
+            	unsigned long laddr;
 
                 if ((laddr = inet_addr(hname_buf)) != INADDR_NONE) {
                     if (strcmp(pp, "0") != 0)
                         add_ip_entry(laddr, pp);
                 }
+#endif
             }
         }
 
@@ -1978,9 +2122,9 @@ void remove_interactive (object_t * ob, int dested)
      * so jumping out with an error would be bad.
      */
     interactive_t *ip = ob->interactive;
-    
+
     if (!ip) return;
-    
+
     if (ip->iflags & CLOSING) {
         if (!dested)
             debug_message("Double call to remove_interactive()\n");
@@ -2012,7 +2156,7 @@ void remove_interactive (object_t * ob, int dested)
         safe_apply(APPLY_NET_DEAD, ob, 0, ORIGIN_DRIVER);
         restore_command_giver();
     }
-    
+
 #ifndef NO_SNOOP
     if (ip->snooped_by) {
         ip->snooped_by->flags &= ~O_SNOOP;
@@ -2025,7 +2169,7 @@ void remove_interactive (object_t * ob, int dested)
       end_compression(ip);
     }
 #endif
-         
+
     debug(connections, ("remove_interactive: closing fd %d\n", ip->fd));
     if (OS_socket_close(ip->fd) == -1) {
         socket_perror("remove_interactive: close", 0);
@@ -2038,7 +2182,7 @@ void remove_interactive (object_t * ob, int dested)
     clear_notify(ip->ob);
 #if defined(F_INPUT_TO) || defined(F_GET_CHAR)
     if (ip->input_to) {
-        free_object(ip->input_to->ob, "remove_interactive");
+        free_object(&ip->input_to->ob, "remove_interactive");
         free_sentence(ip->input_to);
         if (ip->num_carry > 0)
             free_some_svalues(ip->carryover, ip->num_carry);
@@ -2053,7 +2197,7 @@ void remove_interactive (object_t * ob, int dested)
     FREE(ip);
     ob->interactive = 0;
     all_users[idx] = 0;
-    free_object(ob, "remove_interactive");
+    free_object(&ob, "remove_interactive");
     return;
 }                               /* remove_interactive() */
 
@@ -2081,20 +2225,37 @@ static int call_function_interactive (interactive_t * i, char * str)
      */
     if (sent->ob->flags & O_DESTRUCTED) {
         /* Sorry, the object has selfdestructed ! */
-        free_object(sent->ob, "call_function_interactive");
+        free_object(&sent->ob, "call_function_interactive");
         free_sentence(sent);
         i->input_to = 0;
         if (i->num_carry)
             free_some_svalues(i->carryover, i->num_carry);
         i->carryover = NULL;
         i->num_carry = 0;
+        i->input_to = 0;
+        if (i->iflags & SINGLE_CHAR) {
+            /*
+             * clear single character mode
+             */
+            i->iflags &= ~SINGLE_CHAR;
+#ifndef GET_CHAR_IS_BUFFERED
+            set_linemode(i);
+#else
+            was_single = 1;
+            if (i->iflags & NOECHO) {
+                was_noecho = 1;
+                i->iflags &= ~NOECHO;
+            }
+#endif
+        }
+
         return (0);
     }
     /*
      * We must all references to input_to fields before the call to apply(),
      * because someone might want to set up a new input_to().
      */
-    free_object(sent->ob, "call_function_interactive");
+
     /* we put the function on the stack in case of an error */
     STACK_INC;
     if (sent->flags & V_FUNCTION) {
@@ -2109,6 +2270,8 @@ static int call_function_interactive (interactive_t * i, char * str)
       ref_string(function);
     }
     ob = sent->ob;
+
+    free_object(&sent->ob, "call_function_interactive");
     free_sentence(sent);
 
     /*
@@ -2205,7 +2368,7 @@ void set_prompt (const char * str)
 static void print_prompt (interactive_t* ip)
 {
     object_t *ob = ip->ob;
-    
+
 #if defined(F_INPUT_TO) || defined(F_GET_CHAR)
     if (ip->input_to == 0) {
 #endif
@@ -2251,7 +2414,7 @@ int new_set_snoop (object_t * by, object_t * victim)
 {
     interactive_t *ip;
     object_t *tmp;
-    
+
     if (by->flags & O_DESTRUCTED)
         return 0;
     if (victim && (victim->flags & O_DESTRUCTED))
@@ -2267,7 +2430,7 @@ int new_set_snoop (object_t * by, object_t * victim)
          */
         if (by->flags & O_SNOOP) {
             int i;
-            
+
             for (i = 0; i < max_users; i++) {
                 if (all_users[i] && all_users[i]->snooped_by == by)
                     all_users[i]->snooped_by = 0;
@@ -2288,13 +2451,13 @@ int new_set_snoop (object_t * by, object_t * victim)
         /* the person snooping us, if any */
         tmp = (tmp->interactive ? tmp->interactive->snooped_by : 0);
     }
-    
+
     /*
      * Terminate previous snoop, if any.
      */
     if (by->flags & O_SNOOP) {
         int i;
-        
+
         for (i = 0; i < max_users; i++) {
             if (all_users[i] && all_users[i]->snooped_by == by)
                 all_users[i]->snooped_by = 0;
@@ -2389,7 +2552,7 @@ int query_addr_number (const char * name, svalue_t * call_back)
 
     debug(connections, ("query_addr_number: sent address server %s\n", dbuf));
 
-    if (OS_socket_write(addr_server_fd, buf, msglen + sizeof(int) + sizeof(int)) == -1) {
+    if (addr_server_fd && OS_socket_write(addr_server_fd, buf, msglen + sizeof(int) + sizeof(int)) == -1) {
         switch (socket_errno) {
         case EBADF:
             debug_message("Address server has closed connection.\n");
@@ -2443,7 +2606,7 @@ static void got_addr_number (char * number, char * name)
             && ipnumbertable[i].ob_to_call->flags & O_DESTRUCTED) {
             free_svalue(&ipnumbertable[i].call_back, "got_addr_number");
             free_string(ipnumbertable[i].name);
-            free_object(ipnumbertable[i].ob_to_call, "got_addr_number: ");
+            free_object(&ipnumbertable[i].ob_to_call, "got_addr_number: ");
             ipnumbertable[i].name = NULL;
         }
     for (i = 0; i < IPSIZE; i++) {
@@ -2451,10 +2614,10 @@ static void got_addr_number (char * number, char * name)
             /* Found one, do the call back... */
             theName = ipnumbertable[i].name;
             theNumber = number;
-            
+
             if (uisdigit(theName[0])) {
                 char *tmp;
-                
+
                 tmp = theName;
                 theName = theNumber;
                 theNumber = tmp;
@@ -2471,14 +2634,14 @@ static void got_addr_number (char * number, char * name)
             }
             push_number(i + 1);
             if (ipnumbertable[i].call_back.type == T_STRING)
-                safe_apply(ipnumbertable[i].call_back.u.string, 
+                safe_apply(ipnumbertable[i].call_back.u.string,
                            ipnumbertable[i].ob_to_call,
                            3, ORIGIN_INTERNAL);
             else
                 safe_call_function_pointer(ipnumbertable[i].call_back.u.fp, 3);
             free_svalue(&ipnumbertable[i].call_back, "got_addr_number");
             free_string(ipnumbertable[i].name);
-            free_object(ipnumbertable[i].ob_to_call, "got_addr_number: ");
+            free_object(&ipnumbertable[i].ob_to_call, "got_addr_number: ");
             ipnumbertable[i].name = NULL;
         }
     }
@@ -2487,7 +2650,11 @@ static void got_addr_number (char * number, char * name)
 #undef IPSIZE
 #define IPSIZE 200
 typedef struct {
+#ifdef IPV6
+	struct in6_addr addr;
+#else
     long addr;
+#endif
     char *name;
 } ipentry_t;
 
@@ -2504,6 +2671,10 @@ void mark_iptable() {
 }
 #endif
 
+#ifdef IPV6
+char ipv6addr[INET6_ADDRSTRLEN];
+#endif
+
 char *query_ip_name (object_t * ob)
 {
     int i;
@@ -2512,20 +2683,35 @@ char *query_ip_name (object_t * ob)
         ob = command_giver;
     if (!ob || ob->interactive == 0)
         return NULL;
+#ifdef IPV6
     for (i = 0; i < IPSIZE; i++) {
-        if (iptable[i].addr == ob->interactive->addr.sin_addr.s_addr &&
+        if (!memcmp(&iptable[i].addr, &ob->interactive->addr.sin6_addr, sizeof(ob->interactive->addr.sin6_addr)) &&
             iptable[i].name)
             return (iptable[i].name);
     }
+
+    inet_ntop(AF_INET6, &ob->interactive->addr.sin6_addr, ipv6addr, INET6_ADDRSTRLEN);
+    return ipv6addr;
+#else
+    for (i = 0; i < IPSIZE; i++) {
+            if (iptable[i].addr == ob->interactive->addr.sin_addr.s_addr &&
+                iptable[i].name)
+                return (iptable[i].name);
+    }
     return (inet_ntoa(ob->interactive->addr.sin_addr));
+#endif
 }
 
+#ifdef IPV6
+static void add_ip_entry (struct in6_addr addr, char * name)
+#else
 static void add_ip_entry (long addr, char * name)
+#endif
 {
     int i;
 
     for (i = 0; i < IPSIZE; i++) {
-        if (iptable[i].addr == addr)
+        if (!memcmp(&iptable[i].addr, &addr, sizeof(addr)))
             return;
     }
     iptable[ipcur].addr = addr;
@@ -2541,7 +2727,12 @@ char *query_ip_number (object_t * ob)
         ob = command_giver;
     if (!ob || ob->interactive == 0)
         return 0;
+#ifdef IPV6
+    inet_ntop(AF_INET6, &ob->interactive->addr.sin6_addr, ipv6addr, INET6_ADDRSTRLEN);
+        return &ipv6addr;
+#else
     return (inet_ntoa(ob->interactive->addr.sin_addr));
+#endif
 }
 
 #ifndef INET_NTOA_OK
@@ -2569,7 +2760,7 @@ char *inet_ntoa (struct in_addr ad)
 
 char *query_host_name()
 {
-    static char name[40];
+    static char name[400];
 
     gethostname(name, sizeof(name));
     name[sizeof(name) - 1] = '\0';      /* Just to make sure */
@@ -2587,7 +2778,7 @@ object_t *query_snoop (object_t * ob)
 object_t *query_snooping (object_t * ob)
 {
     int i;
-    
+
     if (!(ob->flags & O_SNOOP)) return 0;
     for (i = 0; i < max_users; i++) {
         if (all_users[i] && all_users[i]->snooped_by == ob)
@@ -2634,10 +2825,11 @@ int replace_interactive (object_t * ob, object_t * obfrom)
     ob->flags |= O_ONCE_INTERACTIVE;
     obfrom->flags &= ~O_ONCE_INTERACTIVE;
     add_ref(ob, "exec");
-    free_object(obfrom, "exec");
     if (obfrom == command_giver) {
         set_command_giver(ob);
     }
+
+    free_object(&obfrom, "exec");
     return (1);
 }                               /* replace_interactive() */
 #endif
@@ -2654,7 +2846,7 @@ int outbuf_extend (outbuffer_t * outbuf, int l)
     DEBUG_CHECK(l < 0, "Negative length passed to outbuf_extend.\n");
 
     l = (l > USHRT_MAX ? USHRT_MAX : l);
-    
+
     if (outbuf->buffer) {
         limit = MSTR_SIZE(outbuf->buffer);
         if (outbuf->real_size + l > limit) {
@@ -2679,7 +2871,7 @@ int outbuf_extend (outbuffer_t * outbuf, int l)
 void outbuf_add (outbuffer_t * outbuf, const char * str)
 {
     int l, limit;
-    
+
     if (!outbuf) return;
     l = strlen(str);
     if ((limit = outbuf_extend(outbuf, l)) > 0) {
@@ -2706,11 +2898,11 @@ void outbuf_addv (outbuffer_t *outbuf, const char *format, ...)
     V_VAR(outbuffer_t *, outbuf, args);
     V_VAR(char *, format, args);
 
-    vsprintf(buf, format, args);
+    vsnprintf(buf, LARGEST_PRINTABLE_STRING, format, args);
     va_end(args);
 
     if (!outbuf) return;
-    
+
     outbuf_add(outbuf, buf);
 }
 
@@ -2724,7 +2916,7 @@ void outbuf_push (outbuffer_t * outbuf) {
     sp->type = T_STRING;
     if (outbuf && outbuf->buffer) {
         outbuf->buffer = extend_string(outbuf->buffer, outbuf->real_size);
-        
+
         sp->subtype = STRING_MALLOC;
         sp->u.string = outbuf->buffer;
     } else {
@@ -2744,17 +2936,17 @@ void zlib_free(void* opaque, void* address) {
 
 static void end_compression (interactive_t *ip) {
     unsigned char dummy[1];
-  
+
     if (!ip->compressed_stream) {
         return ;
     }
-    
+
     ip->compressed_stream->avail_in = 0;
     ip->compressed_stream->next_in = dummy;
-      
+
     if (deflate(ip->compressed_stream, Z_FINISH) != Z_STREAM_END) {
     }
-        
+
     deflateEnd(ip->compressed_stream);
     FREE(ip->compressed_stream);
     ip->compressed_stream = NULL;
@@ -2762,7 +2954,7 @@ static void end_compression (interactive_t *ip) {
 
 static void start_compression (interactive_t *ip) {
     z_stream* zcompress;
-  
+
     if (ip->compressed_stream) {
         return ;
     }
@@ -2775,13 +2967,13 @@ static void start_compression (interactive_t *ip) {
     zcompress->zalloc = zlib_alloc;
     zcompress->zfree = zlib_free;
     zcompress->opaque = NULL;
-    
+
     if (deflateInit(zcompress, 9) != Z_OK) {
         FREE(zcompress);
         fprintf(stderr, "Compression failed.\n");
         return ;
     }
-      
+
     // Ok, compressing.
     ip->compressed_stream = zcompress;
 }
@@ -2794,9 +2986,9 @@ static int flush_compressed_output (interactive_t *ip) {
     if (!ip->compressed_stream) {
         return ret;
     }
-    
+
     zcompress = ip->compressed_stream;
-      
+
     /* Try to write out some data.. */
     len = zcompress->next_out - ip->compress_buf;
     if (len > 0) {
@@ -2810,37 +3002,41 @@ static int flush_compressed_output (interactive_t *ip) {
                 } else {
                     nBlock =  4096;
                 }
-                nWrite = send (ip->fd, &ip->compress_buf[iStart], nBlock,
-                               ip->out_of_band);
+                nWrite = send(ip->fd, &ip->compress_buf[iStart], nBlock,
+                              ip->out_of_band);
                 if (nWrite < 0) {
                   fprintf(stderr, "Error sending compressed data (%d)\n",
                           errno);
-                        
-                    if (errno == EAGAIN || errno == ENOSR) {
-		        ret = 2;
+
+                    if (errno == EAGAIN
+#ifndef WIN32
+                    		|| errno == ENOSR
+#endif
+                    		) {
+                    	ret = 2;
                         break;
                     }
-     
+
                     return FALSE; /* write error */
                 }
-   
+
                 if (nWrite <= 0) {
                     break;
                 }
             }
- 
+
         if (iStart) {
             /* We wrote "iStart" bytes */
             if (iStart < len) {
                 memmove(ip->compress_buf, ip->compress_buf+iStart, len -
                         iStart);
-                
+
             }
- 
+
             zcompress->next_out = ip->compress_buf + len - iStart;
         }
     }
-        
+
     return ret;
 }
 
@@ -2858,18 +3054,18 @@ static int send_compressed (interactive_t *ip, unsigned char* data, int length) 
 	  first = 0;
         zcompress->avail_out = COMPRESS_BUF_SIZE - (zcompress->next_out -
                                                    ip->compress_buf);
-        
+
         if (zcompress->avail_out) {
             deflate(zcompress, Z_SYNC_FLUSH);
         }
-        
+
         if(!( wr = flush_compressed_output(ip)))
           return 0;
     }
     return length;
 }
 #endif
-  
+
 #ifdef F_ACT_MXP
 void f_act_mxp(){
   add_binary_message(current_object, telnet_will_mxp, sizeof(telnet_will_mxp));

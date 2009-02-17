@@ -4,7 +4,7 @@ mixed data_return() {
   class reaction item;
   mapping data = ([ ]);
 
-  if (!mappingp(data["GroundDeadlyNightshade"])) data["GroundDeadlyNightshade"] = ([]);
+  if (!mapp(data["GroundDeadlyNightshade"])) data["GroundDeadlyNightshade"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/600, 1.0/1000 });
   item->result = "/obj/reagents/transient_liquid.ob";
@@ -34,7 +34,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["GroundDeadlyNightshade"]["LiquidCoffee"] = item;
-  if (!mappingp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
+  if (!mapp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 0, 2500 });
   item->result = "/obj/reagents/shimmer.ob";
@@ -50,7 +50,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["TransientCoffee"]["TransientPanic"] = item;
-  if (!mappingp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
+  if (!mapp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 0, 2500 });
   item->result = "/obj/reagents/shimmer.ob";
@@ -66,7 +66,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["TransientCoffee"]["TransientPerception"] = item;
-  if (!mappingp(data["GroundCoffee"])) data["GroundCoffee"] = ([]);
+  if (!mapp(data["GroundCoffee"])) data["GroundCoffee"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/60, 1.0/40 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -83,7 +83,7 @@ mixed data_return() {
         (: $3->set_medium_alias("LiquidCoffee") :)
     });
   data["GroundCoffee"]["Water"] = item;
-  if (!mappingp(data["GroundComfreyLeaf"])) data["GroundComfreyLeaf"] = ([]);
+  if (!mapp(data["GroundComfreyLeaf"])) data["GroundComfreyLeaf"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -99,7 +99,7 @@ mixed data_return() {
         :)
     });
   data["GroundComfreyLeaf"]["Water"] = item;
-  if (!mappingp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
+  if (!mapp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 400.0, 2400.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -115,7 +115,7 @@ mixed data_return() {
         :)
     });
   data["ComfreyTea"]["GroundYarrowLeaf"] = item;
-  if (!mappingp(data["GroundWildGarlic"])) data["GroundWildGarlic"] = ([]);
+  if (!mapp(data["GroundWildGarlic"])) data["GroundWildGarlic"] = ([]);
   item = new( class reaction );
   item->ratio = 200/2800.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -133,7 +133,7 @@ mixed data_return() {
             "magic.methods.physical.healing")) :)
    });
   data["GroundWildGarlic"]["Honey"] = item;
-  if (!mappingp(data["GroundCabbage"])) data["GroundCabbage"] = ([]);
+  if (!mapp(data["GroundCabbage"])) data["GroundCabbage"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -147,7 +147,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ShreddedVegetables") :),
     });
   data["GroundCabbage"]["GroundCarrot"] = item;
-  if (!mappingp(data["RanchSaladDressing"])) data["RanchSaladDressing"] = ([]);
+  if (!mapp(data["RanchSaladDressing"])) data["RanchSaladDressing"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.5});
   item->result = "/obj/reagents/generic_solid.ob";
@@ -159,7 +159,7 @@ mixed data_return() {
         (: $3->set_medium_alias("Coleslaw") :),
     });
   data["RanchSaladDressing"]["ShreddedVegetables"] = item;
-  if (!mappingp(data["GroundMolassesCookie"])) data["GroundMolassesCookie"] = ([]);
+  if (!mapp(data["GroundMolassesCookie"])) data["GroundMolassesCookie"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.7, 3.0});
   item->result = "/obj/reactions/generic_dough.ob";
@@ -172,7 +172,7 @@ mixed data_return() {
         (: $3->set_medium_alias("MedicinalDough") :),
     });
   data["GroundMolassesCookie"]["LispMedicine"] = item;
-  if (!mappingp(data["GroundRadish"])) data["GroundRadish"] = ([]);
+  if (!mapp(data["GroundRadish"])) data["GroundRadish"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.4,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -185,7 +185,7 @@ mixed data_return() {
         (: $3->set_medium_alias("RadishTea") :),
     });
   data["GroundRadish"]["Water"] = item;
-  if (!mappingp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
+  if (!mapp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.4,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -198,7 +198,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipTea") :),
     });
   data["GroundParsnip"]["Water"] = item;
-  if (!mappingp(data["GroundRadish"])) data["GroundRadish"] = ([]);
+  if (!mapp(data["GroundRadish"])) data["GroundRadish"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.2,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -211,7 +211,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipRadishTea") :),
     });
   data["GroundRadish"]["ParsnipTea"] = item;
-  if (!mappingp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
+  if (!mapp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.2,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -224,7 +224,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipRadishTea") :),
     });
   data["GroundParsnip"]["RadishTea"] = item;
-  if (!mappingp(data["ParsnipTea"])) data["ParsnipTea"] = ([]);
+  if (!mapp(data["ParsnipTea"])) data["ParsnipTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -237,7 +237,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipRadishTea") :),
     });
   data["ParsnipTea"]["RadishTea"] = item;
-  if (!mappingp(data["GroundOregano"])) data["GroundOregano"] = ([]);
+  if (!mapp(data["GroundOregano"])) data["GroundOregano"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1, 0.9});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -250,7 +250,7 @@ mixed data_return() {
         (: $3->set_medium_alias("LispMedicine") :),
     });
   data["GroundOregano"]["ParsnipRadishTea"] = item;
-  if (!mappingp(data["FungoidJuice"])) data["FungoidJuice"] = ([]);
+  if (!mapp(data["FungoidJuice"])) data["FungoidJuice"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.8/1, 2.2/1 });
   item->result = "/obj/reagents/generic_salve.ob";
@@ -269,7 +269,7 @@ mixed data_return() {
         :)
     });
   data["FungoidJuice"]["Water"] = item;
-  if (!mappingp(data["GroundComfrey"])) data["GroundComfrey"] = ([]);
+  if (!mapp(data["GroundComfrey"])) data["GroundComfrey"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -285,7 +285,7 @@ mixed data_return() {
         :)
     });
   data["GroundComfrey"]["Water"] = item;
-  if (!mappingp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
+  if (!mapp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 400.0, 2400.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -302,7 +302,7 @@ mixed data_return() {
         :)
     });
   data["ComfreyTea"]["GroundYarrow"] = item;
-  if (!mappingp(data["AurumPotable"])) data["AurumPotable"] = ([]);
+  if (!mapp(data["AurumPotable"])) data["AurumPotable"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -316,7 +316,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["AurumPotable"]["Cinoper"] = item;
-  if (!mappingp(data["HeatTransient"])) data["HeatTransient"] = ([]);
+  if (!mapp(data["HeatTransient"])) data["HeatTransient"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/d/sur/Haunted_House/transients/heated_kibrit";
@@ -325,7 +325,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["HeatTransient"]["Kibrit"] = item;
-  if (!mappingp(data["HeatedKibrit"])) data["HeatedKibrit"] = ([]);
+  if (!mapp(data["HeatedKibrit"])) data["HeatedKibrit"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.3,0.7});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -339,7 +339,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["HeatedKibrit"]["MercuricWater"] = item;
-  if (!mappingp(data["Realgar"])) data["Realgar"] = ([]);
+  if (!mapp(data["Realgar"])) data["Realgar"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/d/sur/Haunted_House/transients/vitriol&goldensolid";
@@ -348,7 +348,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["Realgar"]["YellowGelatinousLiquid"] = item;
-  if (!mappingp(data["AquaFortis"])) data["AquaFortis"] = ([]);
+  if (!mapp(data["AquaFortis"])) data["AquaFortis"] = ([]);
   item = new( class reaction );
   item->ratio = 0.0001;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -363,7 +363,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["AquaFortis"]["GoldenYellowSolid"] = item;
-  if (!mappingp(data["AquaFortis"])) data["AquaFortis"] = ([]);
+  if (!mapp(data["AquaFortis"])) data["AquaFortis"] = ([]);
   item = new( class reaction );
   item->ratio = 400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -378,7 +378,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["AquaFortis"]["GreenLump"] = item;
-  if (!mappingp(data["GreenLump"])) data["GreenLump"] = ([]);
+  if (!mapp(data["GreenLump"])) data["GreenLump"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/d/sur/Haunted_House/transients/heated_green_lump";
@@ -387,7 +387,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["GreenLump"]["HeatTransient"] = item;
-  if (!mappingp(data["HeatedGreenLump"])) data["HeatedGreenLump"] = ([]);
+  if (!mapp(data["HeatedGreenLump"])) data["HeatedGreenLump"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -402,7 +402,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slimesheep", 20) :)
     });
   data["HeatedGreenLump"]["Saffron"] = item;
-  if (!mappingp(data["Ectoplasm"])) data["Ectoplasm"] = ([]);
+  if (!mapp(data["Ectoplasm"])) data["Ectoplasm"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -417,7 +417,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["Ectoplasm"]["SheepUrine"] = item;
-  if (!mappingp(data["GreenGel"])) data["GreenGel"] = ([]);
+  if (!mapp(data["GreenGel"])) data["GreenGel"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8, 1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -432,7 +432,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["GreenGel"]["SpiderWeb"] = item;
-  if (!mappingp(data["HeatTransient"])) data["HeatTransient"] = ([]);
+  if (!mapp(data["HeatTransient"])) data["HeatTransient"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/d/sur/Haunted_House/transients/heated_tallow";
@@ -441,7 +441,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["HeatTransient"]["Tallow"] = item;
-  if (!mappingp(data["HeatedTallow"])) data["HeatedTallow"] = ([]);
+  if (!mapp(data["HeatedTallow"])) data["HeatedTallow"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.3, 0.7});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -455,7 +455,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["HeatedTallow"]["SpideryGel"] = item;
-  if (!mappingp(data["GreenTintedGoo"])) data["GreenTintedGoo"] = ([]);
+  if (!mapp(data["GreenTintedGoo"])) data["GreenTintedGoo"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.8,2.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -469,7 +469,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["GreenTintedGoo"]["PumpkinJuice"] = item;
-  if (!mappingp(data["BrownLiquid"])) data["BrownLiquid"] = ([]);
+  if (!mapp(data["BrownLiquid"])) data["BrownLiquid"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.0, 40.0});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -484,7 +484,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/babyslime", 20) :)
     });
   data["BrownLiquid"]["OctironFilings"] = item;
-  if (!mappingp(data["Kibrit"])) data["Kibrit"] = ([]);
+  if (!mapp(data["Kibrit"])) data["Kibrit"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -497,7 +497,7 @@ mixed data_return() {
         (: $3->set_medium_alias("KibritTalcum") :),
     });
   data["Kibrit"]["TalcumPowder"] = item;
-  if (!mappingp(data["AurumPotable"])) data["AurumPotable"] = ([]);
+  if (!mapp(data["AurumPotable"])) data["AurumPotable"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -513,7 +513,7 @@ mixed data_return() {
         (: $3->set_medium_alias("FrogRepellent") :),
     });
   data["AurumPotable"]["KibritTalcum"] = item;
-  if (!mappingp(data["GroundVenom"])) data["GroundVenom"] = ([]);
+  if (!mapp(data["GroundVenom"])) data["GroundVenom"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -529,7 +529,7 @@ mixed data_return() {
         :)
     });
   data["GroundVenom"]["Water"] = item;
-  if (!mappingp(data["VenomPoison"])) data["VenomPoison"] = ([]);
+  if (!mapp(data["VenomPoison"])) data["VenomPoison"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 400.0, 2400.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -546,7 +546,7 @@ mixed data_return() {
         :)
     });
   data["VenomPoison"]["GroundCatalyst"] = item;
-  if (!mappingp(data["GroundKlatchianFleabane"])) data["GroundKlatchianFleabane"] = ([]);
+  if (!mapp(data["GroundKlatchianFleabane"])) data["GroundKlatchianFleabane"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/50, 5.0/50 });
   item->result = "/obj/reagents/generic_salve.ob";
@@ -560,7 +560,7 @@ mixed data_return() {
         (: $3->add_adjective("lavender") :)
     });
   data["GroundKlatchianFleabane"]["Water"] = item;
-  if (!mappingp(data["GroundStinkingMayweed"])) data["GroundStinkingMayweed"] = ([]);
+  if (!mapp(data["GroundStinkingMayweed"])) data["GroundStinkingMayweed"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/50, 5.0/50 });
   item->result = "/obj/reagents/flea_salve.ob";
@@ -573,7 +573,7 @@ mixed data_return() {
         :)
     });
   data["GroundStinkingMayweed"]["PastyKlatchianFleabane"] = item;
-  if (!mappingp(data["GroundParsley"])) data["GroundParsley"] = ([]);
+  if (!mapp(data["GroundParsley"])) data["GroundParsley"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -588,7 +588,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/breath_fresh") :),
     });
   data["GroundParsley"]["Water"] = item;
-  if (!mappingp(data["GroundSage"])) data["GroundSage"] = ([]);
+  if (!mapp(data["GroundSage"])) data["GroundSage"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.4,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -602,7 +602,7 @@ mixed data_return() {
         (: $3->set_medium_alias("SageTea") :),
     });
   data["GroundSage"]["Water"] = item;
-  if (!mappingp(data["FeatherStir"])) data["FeatherStir"] = ([]);
+  if (!mapp(data["FeatherStir"])) data["FeatherStir"] = ([]);
   item = new( class reaction );
   item->ratio = 0.25;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -618,7 +618,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing")/30) :),
     });
   data["FeatherStir"]["SageTea"] = item;
-  if (!mappingp(data["GroundSpider"])) data["GroundSpider"] = ([]);
+  if (!mapp(data["GroundSpider"])) data["GroundSpider"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -632,7 +632,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/cum_poison", 5) :),
     });
   data["GroundSpider"]["Water"] = item;
-  if (!mappingp(data["GroundBasil"])) data["GroundBasil"] = ([]);
+  if (!mapp(data["GroundBasil"])) data["GroundBasil"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -647,7 +647,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundBasil"]["Water"] = item;
-  if (!mappingp(data["GroundThyme"])) data["GroundThyme"] = ([]);
+  if (!mapp(data["GroundThyme"])) data["GroundThyme"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.3,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -661,7 +661,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ThymeTea") :),
     });
   data["GroundThyme"]["Water"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -677,7 +677,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["GroundSpider"] = item;
-  if (!mappingp(data["FennelTea"])) data["FennelTea"] = ([]);
+  if (!mapp(data["FennelTea"])) data["FennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -693,7 +693,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["FennelTea"]["GroundSpider"] = item;
-  if (!mappingp(data["GroundFennel"])) data["GroundFennel"] = ([]);
+  if (!mapp(data["GroundFennel"])) data["GroundFennel"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -709,7 +709,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundFennel"]["SpiderTea"] = item;
-  if (!mappingp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
+  if (!mapp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({6.67,20});
   item->result = "/obj/reagents/antidote_elixir";
@@ -723,7 +723,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilSpiderTea"]["GroundFennel"] = item;
-  if (!mappingp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
+  if (!mapp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({6.67,20});
   item->result = "/obj/reagents/antidote_elixir";
@@ -737,7 +737,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) )  :),
     });
   data["BasilFennelTea"]["GroundSpider"] = item;
-  if (!mappingp(data["FennelSpiderTea"])) data["FennelSpiderTea"] = ([]);
+  if (!mapp(data["FennelSpiderTea"])) data["FennelSpiderTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({6.67,20});
   item->result = "/obj/reagents/antidote_elixir";
@@ -751,7 +751,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["FennelSpiderTea"]["GroundBasil"] = item;
-  if (!mappingp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
+  if (!mapp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.7,2.3});
   item->result = "/obj/reagents/antidote_elixir";
@@ -765,7 +765,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilSpiderTea"]["FennelTea"] = item;
-  if (!mappingp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
+  if (!mapp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.7,2.3});
   item->result = "/obj/reagents/antidote_elixir";
@@ -779,7 +779,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilFennelTea"]["SpiderTea"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.7,2.3});
   item->result = "/obj/reagents/antidote_elixir";
@@ -793,7 +793,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilTea"]["FennelSpiderTea"] = item;
-  if (!mappingp(data["GroundFennel"])) data["GroundFennel"] = ([]);
+  if (!mapp(data["GroundFennel"])) data["GroundFennel"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -807,7 +807,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundFennel"]["Water"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -821,7 +821,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["GroundFennel"] = item;
-  if (!mappingp(data["GroundBasil"])) data["GroundBasil"] = ([]);
+  if (!mapp(data["GroundBasil"])) data["GroundBasil"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -836,7 +836,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundBasil"]["SpiderTea"] = item;
-  if (!mappingp(data["FennelTea"])) data["FennelTea"] = ([]);
+  if (!mapp(data["FennelTea"])) data["FennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -850,7 +850,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["FennelTea"]["GroundBasil"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -865,7 +865,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["FennelTea"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -881,7 +881,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["SpiderTea"] = item;
-  if (!mappingp(data["FennelTea"])) data["FennelTea"] = ([]);
+  if (!mapp(data["FennelTea"])) data["FennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -897,7 +897,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["FennelTea"]["SpiderTea"] = item;
-  if (!mappingp(data["GroundEyebright"])) data["GroundEyebright"] = ([]);
+  if (!mapp(data["GroundEyebright"])) data["GroundEyebright"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.6,0.8});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -912,7 +912,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect"):),
     });
   data["GroundEyebright"]["Water"] = item;
-  if (!mappingp(data["GroundCarrot"])) data["GroundCarrot"] = ([]);
+  if (!mapp(data["GroundCarrot"])) data["GroundCarrot"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.6,0.8});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -926,7 +926,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["GroundCarrot"]["Water"] = item;
-  if (!mappingp(data["CarrotTea"])) data["CarrotTea"] = ([]);
+  if (!mapp(data["CarrotTea"])) data["CarrotTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -941,7 +941,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect"):),
     });
   data["CarrotTea"]["EyebrightTea"] = item;
-  if (!mappingp(data["CarrotTea"])) data["CarrotTea"] = ([]);
+  if (!mapp(data["CarrotTea"])) data["CarrotTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.25,1.6667});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -956,7 +956,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["CarrotTea"]["GroundEyebright"] = item;
-  if (!mappingp(data["EyebrightTea"])) data["EyebrightTea"] = ([]);
+  if (!mapp(data["EyebrightTea"])) data["EyebrightTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.25,1.6667});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -971,7 +971,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["EyebrightTea"]["GroundCarrot"] = item;
-  if (!mappingp(data["EyebrightCarrotTea"])) data["EyebrightCarrotTea"] = ([]);
+  if (!mapp(data["EyebrightCarrotTea"])) data["EyebrightCarrotTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({3.0,4.0});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -988,7 +988,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing")/10) :),
     });
   data["EyebrightCarrotTea"]["GroundBunnyEyeball"] = item;
-  if (!mappingp(data["BunnyEyeballTea"])) data["BunnyEyeballTea"] = ([]);
+  if (!mapp(data["BunnyEyeballTea"])) data["BunnyEyeballTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.5,2.0});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1005,7 +1005,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing")/10) :),
     });
   data["BunnyEyeballTea"]["EyebrightCarrotTea"] = item;
-  if (!mappingp(data["GroundBunnyEyeball"])) data["GroundBunnyEyeball"] = ([]);
+  if (!mapp(data["GroundBunnyEyeball"])) data["GroundBunnyEyeball"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1020,13 +1020,13 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["GroundBunnyEyeball"]["Water"] = item;
-  if (!mappingp(data["DriedSlug"])) data["DriedSlug"] = ([]);
+  if (!mapp(data["DriedSlug"])) data["DriedSlug"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/d/sur/Scrogden/items/slugsoup";
   item->result_amt = 1.0;
   data["DriedSlug"]["Water"] = item;
-  if (!mappingp(data["GroundFloppyMadman"])) data["GroundFloppyMadman"] = ([]);
+  if (!mapp(data["GroundFloppyMadman"])) data["GroundFloppyMadman"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1042,7 +1042,7 @@ mixed data_return() {
                "magic.methods.physical.brewing" ) / 10 ) :)
     });
   data["GroundFloppyMadman"]["Water"] = item;
-  if (!mappingp(data["SecondSightPotion"])) data["SecondSightPotion"] = ([]);
+  if (!mapp(data["SecondSightPotion"])) data["SecondSightPotion"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/2500;
   item->result = "/obj/reagents/ss_test.ob";
@@ -1056,7 +1056,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["SecondSightPotion"]["Water"] = item;
-  if (!mappingp(data["RamtopsScumble"])) data["RamtopsScumble"] = ([]);
+  if (!mapp(data["RamtopsScumble"])) data["RamtopsScumble"] = ([]);
   item = new( class reaction );
   item->ratio = 2400/400.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1070,7 +1070,7 @@ mixed data_return() {
         (: $3->set_medium_alias("SherbetScumble") :),
     });
   data["RamtopsScumble"]["Sherbet"] = item;
-  if (!mappingp(data["GroundThyme"])) data["GroundThyme"] = ([]);
+  if (!mapp(data["GroundThyme"])) data["GroundThyme"] = ([]);
   item = new( class reaction );
   item->ratio = 200/2800.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1099,7 +1099,7 @@ mixed data_return() {
   class reaction item;
   mapping data = ([ ]);
 
-  if (!mappingp(data["GroundDeadlyNightshade"])) data["GroundDeadlyNightshade"] = ([]);
+  if (!mapp(data["GroundDeadlyNightshade"])) data["GroundDeadlyNightshade"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/600, 1.0/1000 });
   item->result = "/obj/reagents/transient_liquid.ob";
@@ -1129,7 +1129,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["GroundDeadlyNightshade"]["LiquidCoffee"] = item;
-  if (!mappingp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
+  if (!mapp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 0, 2500 });
   item->result = "/obj/reagents/shimmer.ob";
@@ -1145,7 +1145,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["TransientCoffee"]["TransientPanic"] = item;
-  if (!mappingp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
+  if (!mapp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 0, 2500 });
   item->result = "/obj/reagents/shimmer.ob";
@@ -1161,7 +1161,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["TransientCoffee"]["TransientPerception"] = item;
-  if (!mappingp(data["GroundCoffee"])) data["GroundCoffee"] = ([]);
+  if (!mapp(data["GroundCoffee"])) data["GroundCoffee"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/60, 1.0/40 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1178,7 +1178,7 @@ mixed data_return() {
         (: $3->set_medium_alias("LiquidCoffee") :)
     });
   data["GroundCoffee"]["Water"] = item;
-  if (!mappingp(data["GroundComfreyLeaf"])) data["GroundComfreyLeaf"] = ([]);
+  if (!mapp(data["GroundComfreyLeaf"])) data["GroundComfreyLeaf"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1194,7 +1194,7 @@ mixed data_return() {
         :)
     });
   data["GroundComfreyLeaf"]["Water"] = item;
-  if (!mappingp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
+  if (!mapp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 400.0, 2400.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1210,7 +1210,7 @@ mixed data_return() {
         :)
     });
   data["ComfreyTea"]["GroundYarrowLeaf"] = item;
-  if (!mappingp(data["GroundWildGarlic"])) data["GroundWildGarlic"] = ([]);
+  if (!mapp(data["GroundWildGarlic"])) data["GroundWildGarlic"] = ([]);
   item = new( class reaction );
   item->ratio = 200/2800.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1228,7 +1228,7 @@ mixed data_return() {
             "magic.methods.physical.healing")) :)
    });
   data["GroundWildGarlic"]["Honey"] = item;
-  if (!mappingp(data["GroundCabbage"])) data["GroundCabbage"] = ([]);
+  if (!mapp(data["GroundCabbage"])) data["GroundCabbage"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -1242,7 +1242,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ShreddedVegetables") :),
     });
   data["GroundCabbage"]["GroundCarrot"] = item;
-  if (!mappingp(data["RanchSaladDressing"])) data["RanchSaladDressing"] = ([]);
+  if (!mapp(data["RanchSaladDressing"])) data["RanchSaladDressing"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.5});
   item->result = "/obj/reagents/generic_solid.ob";
@@ -1254,7 +1254,7 @@ mixed data_return() {
         (: $3->set_medium_alias("Coleslaw") :),
     });
   data["RanchSaladDressing"]["ShreddedVegetables"] = item;
-  if (!mappingp(data["GroundMolassesCookie"])) data["GroundMolassesCookie"] = ([]);
+  if (!mapp(data["GroundMolassesCookie"])) data["GroundMolassesCookie"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.7, 3.0});
   item->result = "/obj/reactions/generic_dough.ob";
@@ -1267,7 +1267,7 @@ mixed data_return() {
         (: $3->set_medium_alias("MedicinalDough") :),
     });
   data["GroundMolassesCookie"]["LispMedicine"] = item;
-  if (!mappingp(data["GroundRadish"])) data["GroundRadish"] = ([]);
+  if (!mapp(data["GroundRadish"])) data["GroundRadish"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.4,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1280,7 +1280,7 @@ mixed data_return() {
         (: $3->set_medium_alias("RadishTea") :),
     });
   data["GroundRadish"]["Water"] = item;
-  if (!mappingp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
+  if (!mapp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.4,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1293,7 +1293,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipTea") :),
     });
   data["GroundParsnip"]["Water"] = item;
-  if (!mappingp(data["GroundRadish"])) data["GroundRadish"] = ([]);
+  if (!mapp(data["GroundRadish"])) data["GroundRadish"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.2,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1306,7 +1306,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipRadishTea") :),
     });
   data["GroundRadish"]["ParsnipTea"] = item;
-  if (!mappingp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
+  if (!mapp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.2,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1319,7 +1319,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipRadishTea") :),
     });
   data["GroundParsnip"]["RadishTea"] = item;
-  if (!mappingp(data["ParsnipTea"])) data["ParsnipTea"] = ([]);
+  if (!mapp(data["ParsnipTea"])) data["ParsnipTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1332,7 +1332,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipRadishTea") :),
     });
   data["ParsnipTea"]["RadishTea"] = item;
-  if (!mappingp(data["GroundOregano"])) data["GroundOregano"] = ([]);
+  if (!mapp(data["GroundOregano"])) data["GroundOregano"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1, 0.9});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1345,7 +1345,7 @@ mixed data_return() {
         (: $3->set_medium_alias("LispMedicine") :),
     });
   data["GroundOregano"]["ParsnipRadishTea"] = item;
-  if (!mappingp(data["FungoidJuice"])) data["FungoidJuice"] = ([]);
+  if (!mapp(data["FungoidJuice"])) data["FungoidJuice"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.8/1, 2.2/1 });
   item->result = "/obj/reagents/generic_salve.ob";
@@ -1364,7 +1364,7 @@ mixed data_return() {
         :)
     });
   data["FungoidJuice"]["Water"] = item;
-  if (!mappingp(data["GroundComfrey"])) data["GroundComfrey"] = ([]);
+  if (!mapp(data["GroundComfrey"])) data["GroundComfrey"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1380,7 +1380,7 @@ mixed data_return() {
         :)
     });
   data["GroundComfrey"]["Water"] = item;
-  if (!mappingp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
+  if (!mapp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 400.0, 2400.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1397,7 +1397,7 @@ mixed data_return() {
         :)
     });
   data["ComfreyTea"]["GroundYarrow"] = item;
-  if (!mappingp(data["AurumPotable"])) data["AurumPotable"] = ([]);
+  if (!mapp(data["AurumPotable"])) data["AurumPotable"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1411,7 +1411,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["AurumPotable"]["Cinoper"] = item;
-  if (!mappingp(data["HeatTransient"])) data["HeatTransient"] = ([]);
+  if (!mapp(data["HeatTransient"])) data["HeatTransient"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/d/sur/Haunted_House/transients/heated_kibrit";
@@ -1420,7 +1420,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["HeatTransient"]["Kibrit"] = item;
-  if (!mappingp(data["HeatedKibrit"])) data["HeatedKibrit"] = ([]);
+  if (!mapp(data["HeatedKibrit"])) data["HeatedKibrit"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.3,0.7});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1434,7 +1434,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["HeatedKibrit"]["MercuricWater"] = item;
-  if (!mappingp(data["Realgar"])) data["Realgar"] = ([]);
+  if (!mapp(data["Realgar"])) data["Realgar"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/d/sur/Haunted_House/transients/vitriol&goldensolid";
@@ -1443,7 +1443,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["Realgar"]["YellowGelatinousLiquid"] = item;
-  if (!mappingp(data["AquaFortis"])) data["AquaFortis"] = ([]);
+  if (!mapp(data["AquaFortis"])) data["AquaFortis"] = ([]);
   item = new( class reaction );
   item->ratio = 0.0001;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -1458,7 +1458,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["AquaFortis"]["GoldenYellowSolid"] = item;
-  if (!mappingp(data["AquaFortis"])) data["AquaFortis"] = ([]);
+  if (!mapp(data["AquaFortis"])) data["AquaFortis"] = ([]);
   item = new( class reaction );
   item->ratio = 400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1473,7 +1473,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["AquaFortis"]["GreenLump"] = item;
-  if (!mappingp(data["GreenLump"])) data["GreenLump"] = ([]);
+  if (!mapp(data["GreenLump"])) data["GreenLump"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/d/sur/Haunted_House/transients/heated_green_lump";
@@ -1482,7 +1482,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["GreenLump"]["HeatTransient"] = item;
-  if (!mappingp(data["HeatedGreenLump"])) data["HeatedGreenLump"] = ([]);
+  if (!mapp(data["HeatedGreenLump"])) data["HeatedGreenLump"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1497,7 +1497,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slimesheep", 20) :)
     });
   data["HeatedGreenLump"]["Saffron"] = item;
-  if (!mappingp(data["Ectoplasm"])) data["Ectoplasm"] = ([]);
+  if (!mapp(data["Ectoplasm"])) data["Ectoplasm"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1512,7 +1512,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["Ectoplasm"]["SheepUrine"] = item;
-  if (!mappingp(data["GreenGel"])) data["GreenGel"] = ([]);
+  if (!mapp(data["GreenGel"])) data["GreenGel"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8, 1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1527,7 +1527,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["GreenGel"]["SpiderWeb"] = item;
-  if (!mappingp(data["HeatTransient"])) data["HeatTransient"] = ([]);
+  if (!mapp(data["HeatTransient"])) data["HeatTransient"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/d/sur/Haunted_House/transients/heated_tallow";
@@ -1536,7 +1536,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["HeatTransient"]["Tallow"] = item;
-  if (!mappingp(data["HeatedTallow"])) data["HeatedTallow"] = ([]);
+  if (!mapp(data["HeatedTallow"])) data["HeatedTallow"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.3, 0.7});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1550,7 +1550,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["HeatedTallow"]["SpideryGel"] = item;
-  if (!mappingp(data["GreenTintedGoo"])) data["GreenTintedGoo"] = ([]);
+  if (!mapp(data["GreenTintedGoo"])) data["GreenTintedGoo"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.8,2.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1564,7 +1564,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["GreenTintedGoo"]["PumpkinJuice"] = item;
-  if (!mappingp(data["BrownLiquid"])) data["BrownLiquid"] = ([]);
+  if (!mapp(data["BrownLiquid"])) data["BrownLiquid"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.0, 40.0});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1579,7 +1579,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/babyslime", 20) :)
     });
   data["BrownLiquid"]["OctironFilings"] = item;
-  if (!mappingp(data["Kibrit"])) data["Kibrit"] = ([]);
+  if (!mapp(data["Kibrit"])) data["Kibrit"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -1592,7 +1592,7 @@ mixed data_return() {
         (: $3->set_medium_alias("KibritTalcum") :),
     });
   data["Kibrit"]["TalcumPowder"] = item;
-  if (!mappingp(data["AurumPotable"])) data["AurumPotable"] = ([]);
+  if (!mapp(data["AurumPotable"])) data["AurumPotable"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -1608,7 +1608,7 @@ mixed data_return() {
         (: $3->set_medium_alias("FrogRepellent") :),
     });
   data["AurumPotable"]["KibritTalcum"] = item;
-  if (!mappingp(data["GroundVenom"])) data["GroundVenom"] = ([]);
+  if (!mapp(data["GroundVenom"])) data["GroundVenom"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1624,7 +1624,7 @@ mixed data_return() {
         :)
     });
   data["GroundVenom"]["Water"] = item;
-  if (!mappingp(data["VenomPoison"])) data["VenomPoison"] = ([]);
+  if (!mapp(data["VenomPoison"])) data["VenomPoison"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 400.0, 2400.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1641,7 +1641,7 @@ mixed data_return() {
         :)
     });
   data["VenomPoison"]["GroundCatalyst"] = item;
-  if (!mappingp(data["GroundKlatchianFleabane"])) data["GroundKlatchianFleabane"] = ([]);
+  if (!mapp(data["GroundKlatchianFleabane"])) data["GroundKlatchianFleabane"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/50, 5.0/50 });
   item->result = "/obj/reagents/generic_salve.ob";
@@ -1655,7 +1655,7 @@ mixed data_return() {
         (: $3->add_adjective("lavender") :)
     });
   data["GroundKlatchianFleabane"]["Water"] = item;
-  if (!mappingp(data["GroundStinkingMayweed"])) data["GroundStinkingMayweed"] = ([]);
+  if (!mapp(data["GroundStinkingMayweed"])) data["GroundStinkingMayweed"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/50, 5.0/50 });
   item->result = "/obj/reagents/flea_salve.ob";
@@ -1668,7 +1668,7 @@ mixed data_return() {
         :)
     });
   data["GroundStinkingMayweed"]["PastyKlatchianFleabane"] = item;
-  if (!mappingp(data["GroundParsley"])) data["GroundParsley"] = ([]);
+  if (!mapp(data["GroundParsley"])) data["GroundParsley"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1683,7 +1683,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/breath_fresh") :),
     });
   data["GroundParsley"]["Water"] = item;
-  if (!mappingp(data["GroundSage"])) data["GroundSage"] = ([]);
+  if (!mapp(data["GroundSage"])) data["GroundSage"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.4,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1697,7 +1697,7 @@ mixed data_return() {
         (: $3->set_medium_alias("SageTea") :),
     });
   data["GroundSage"]["Water"] = item;
-  if (!mappingp(data["FeatherStir"])) data["FeatherStir"] = ([]);
+  if (!mapp(data["FeatherStir"])) data["FeatherStir"] = ([]);
   item = new( class reaction );
   item->ratio = 0.25;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1713,7 +1713,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing")/30) :),
     });
   data["FeatherStir"]["SageTea"] = item;
-  if (!mappingp(data["GroundSpider"])) data["GroundSpider"] = ([]);
+  if (!mapp(data["GroundSpider"])) data["GroundSpider"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1727,7 +1727,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/cum_poison", 5) :),
     });
   data["GroundSpider"]["Water"] = item;
-  if (!mappingp(data["GroundBasil"])) data["GroundBasil"] = ([]);
+  if (!mapp(data["GroundBasil"])) data["GroundBasil"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1742,7 +1742,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundBasil"]["Water"] = item;
-  if (!mappingp(data["GroundThyme"])) data["GroundThyme"] = ([]);
+  if (!mapp(data["GroundThyme"])) data["GroundThyme"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.3,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1756,7 +1756,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ThymeTea") :),
     });
   data["GroundThyme"]["Water"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1772,7 +1772,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["GroundSpider"] = item;
-  if (!mappingp(data["FennelTea"])) data["FennelTea"] = ([]);
+  if (!mapp(data["FennelTea"])) data["FennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1788,7 +1788,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["FennelTea"]["GroundSpider"] = item;
-  if (!mappingp(data["GroundFennel"])) data["GroundFennel"] = ([]);
+  if (!mapp(data["GroundFennel"])) data["GroundFennel"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1804,7 +1804,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundFennel"]["SpiderTea"] = item;
-  if (!mappingp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
+  if (!mapp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({6.67,20});
   item->result = "/obj/reagents/antidote_elixir";
@@ -1818,7 +1818,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilSpiderTea"]["GroundFennel"] = item;
-  if (!mappingp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
+  if (!mapp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({6.67,20});
   item->result = "/obj/reagents/antidote_elixir";
@@ -1832,7 +1832,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) )  :),
     });
   data["BasilFennelTea"]["GroundSpider"] = item;
-  if (!mappingp(data["FennelSpiderTea"])) data["FennelSpiderTea"] = ([]);
+  if (!mapp(data["FennelSpiderTea"])) data["FennelSpiderTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({6.67,20});
   item->result = "/obj/reagents/antidote_elixir";
@@ -1846,7 +1846,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["FennelSpiderTea"]["GroundBasil"] = item;
-  if (!mappingp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
+  if (!mapp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.7,2.3});
   item->result = "/obj/reagents/antidote_elixir";
@@ -1860,7 +1860,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilSpiderTea"]["FennelTea"] = item;
-  if (!mappingp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
+  if (!mapp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.7,2.3});
   item->result = "/obj/reagents/antidote_elixir";
@@ -1874,7 +1874,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilFennelTea"]["SpiderTea"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.7,2.3});
   item->result = "/obj/reagents/antidote_elixir";
@@ -1888,7 +1888,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilTea"]["FennelSpiderTea"] = item;
-  if (!mappingp(data["GroundFennel"])) data["GroundFennel"] = ([]);
+  if (!mapp(data["GroundFennel"])) data["GroundFennel"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1902,7 +1902,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundFennel"]["Water"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1916,7 +1916,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["GroundFennel"] = item;
-  if (!mappingp(data["GroundBasil"])) data["GroundBasil"] = ([]);
+  if (!mapp(data["GroundBasil"])) data["GroundBasil"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1931,7 +1931,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundBasil"]["SpiderTea"] = item;
-  if (!mappingp(data["FennelTea"])) data["FennelTea"] = ([]);
+  if (!mapp(data["FennelTea"])) data["FennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1945,7 +1945,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["FennelTea"]["GroundBasil"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1960,7 +1960,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["FennelTea"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1976,7 +1976,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["SpiderTea"] = item;
-  if (!mappingp(data["FennelTea"])) data["FennelTea"] = ([]);
+  if (!mapp(data["FennelTea"])) data["FennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -1992,7 +1992,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["FennelTea"]["SpiderTea"] = item;
-  if (!mappingp(data["GroundEyebright"])) data["GroundEyebright"] = ([]);
+  if (!mapp(data["GroundEyebright"])) data["GroundEyebright"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.6,0.8});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2007,7 +2007,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect"):),
     });
   data["GroundEyebright"]["Water"] = item;
-  if (!mappingp(data["GroundCarrot"])) data["GroundCarrot"] = ([]);
+  if (!mapp(data["GroundCarrot"])) data["GroundCarrot"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.6,0.8});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2021,7 +2021,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["GroundCarrot"]["Water"] = item;
-  if (!mappingp(data["CarrotTea"])) data["CarrotTea"] = ([]);
+  if (!mapp(data["CarrotTea"])) data["CarrotTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2036,7 +2036,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect"):),
     });
   data["CarrotTea"]["EyebrightTea"] = item;
-  if (!mappingp(data["CarrotTea"])) data["CarrotTea"] = ([]);
+  if (!mapp(data["CarrotTea"])) data["CarrotTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.25,1.6667});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2051,7 +2051,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["CarrotTea"]["GroundEyebright"] = item;
-  if (!mappingp(data["EyebrightTea"])) data["EyebrightTea"] = ([]);
+  if (!mapp(data["EyebrightTea"])) data["EyebrightTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.25,1.6667});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2066,7 +2066,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["EyebrightTea"]["GroundCarrot"] = item;
-  if (!mappingp(data["EyebrightCarrotTea"])) data["EyebrightCarrotTea"] = ([]);
+  if (!mapp(data["EyebrightCarrotTea"])) data["EyebrightCarrotTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({3.0,4.0});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2083,7 +2083,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing")/10) :),
     });
   data["EyebrightCarrotTea"]["GroundBunnyEyeball"] = item;
-  if (!mappingp(data["BunnyEyeballTea"])) data["BunnyEyeballTea"] = ([]);
+  if (!mapp(data["BunnyEyeballTea"])) data["BunnyEyeballTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.5,2.0});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2100,7 +2100,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing")/10) :),
     });
   data["BunnyEyeballTea"]["EyebrightCarrotTea"] = item;
-  if (!mappingp(data["GroundBunnyEyeball"])) data["GroundBunnyEyeball"] = ([]);
+  if (!mapp(data["GroundBunnyEyeball"])) data["GroundBunnyEyeball"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2115,13 +2115,13 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["GroundBunnyEyeball"]["Water"] = item;
-  if (!mappingp(data["DriedSlug"])) data["DriedSlug"] = ([]);
+  if (!mapp(data["DriedSlug"])) data["DriedSlug"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/d/sur/Scrogden/items/slugsoup";
   item->result_amt = 1.0;
   data["DriedSlug"]["Water"] = item;
-  if (!mappingp(data["GroundFloppyMadman"])) data["GroundFloppyMadman"] = ([]);
+  if (!mapp(data["GroundFloppyMadman"])) data["GroundFloppyMadman"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2137,7 +2137,7 @@ mixed data_return() {
                "magic.methods.physical.brewing" ) / 10 ) :)
     });
   data["GroundFloppyMadman"]["Water"] = item;
-  if (!mappingp(data["SecondSightPotion"])) data["SecondSightPotion"] = ([]);
+  if (!mapp(data["SecondSightPotion"])) data["SecondSightPotion"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/2500;
   item->result = "/obj/reagents/ss_test.ob";
@@ -2151,7 +2151,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["SecondSightPotion"]["Water"] = item;
-  if (!mappingp(data["RamtopsScumble"])) data["RamtopsScumble"] = ([]);
+  if (!mapp(data["RamtopsScumble"])) data["RamtopsScumble"] = ([]);
   item = new( class reaction );
   item->ratio = 2400/400.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2165,7 +2165,7 @@ mixed data_return() {
         (: $3->set_medium_alias("SherbetScumble") :),
     });
   data["RamtopsScumble"]["Sherbet"] = item;
-  if (!mappingp(data["GroundThyme"])) data["GroundThyme"] = ([]);
+  if (!mapp(data["GroundThyme"])) data["GroundThyme"] = ([]);
   item = new( class reaction );
   item->ratio = 200/2800.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2194,7 +2194,7 @@ mixed data_return() {
   class reaction item;
   mapping data = ([ ]);
 
-  if (!mappingp(data["GroundDeadlyNightshade"])) data["GroundDeadlyNightshade"] = ([]);
+  if (!mapp(data["GroundDeadlyNightshade"])) data["GroundDeadlyNightshade"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/600, 1.0/1000 });
   item->result = "/obj/reagents/transient_liquid.ob";
@@ -2224,7 +2224,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["GroundDeadlyNightshade"]["LiquidCoffee"] = item;
-  if (!mappingp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
+  if (!mapp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 0, 2500 });
   item->result = "/obj/reagents/shimmer.ob";
@@ -2240,7 +2240,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["TransientCoffee"]["TransientPanic"] = item;
-  if (!mappingp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
+  if (!mapp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 0, 2500 });
   item->result = "/obj/reagents/shimmer.ob";
@@ -2256,7 +2256,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["TransientCoffee"]["TransientPerception"] = item;
-  if (!mappingp(data["GroundCoffee"])) data["GroundCoffee"] = ([]);
+  if (!mapp(data["GroundCoffee"])) data["GroundCoffee"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/60, 1.0/40 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2273,7 +2273,7 @@ mixed data_return() {
         (: $3->set_medium_alias("LiquidCoffee") :)
     });
   data["GroundCoffee"]["Water"] = item;
-  if (!mappingp(data["GroundComfreyLeaf"])) data["GroundComfreyLeaf"] = ([]);
+  if (!mapp(data["GroundComfreyLeaf"])) data["GroundComfreyLeaf"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2289,7 +2289,7 @@ mixed data_return() {
         :)
     });
   data["GroundComfreyLeaf"]["Water"] = item;
-  if (!mappingp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
+  if (!mapp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 400.0, 2400.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2305,7 +2305,7 @@ mixed data_return() {
         :)
     });
   data["ComfreyTea"]["GroundYarrowLeaf"] = item;
-  if (!mappingp(data["GroundWildGarlic"])) data["GroundWildGarlic"] = ([]);
+  if (!mapp(data["GroundWildGarlic"])) data["GroundWildGarlic"] = ([]);
   item = new( class reaction );
   item->ratio = 200/2800.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2323,7 +2323,7 @@ mixed data_return() {
             "magic.methods.physical.healing")) :)
    });
   data["GroundWildGarlic"]["Honey"] = item;
-  if (!mappingp(data["GroundCabbage"])) data["GroundCabbage"] = ([]);
+  if (!mapp(data["GroundCabbage"])) data["GroundCabbage"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -2337,7 +2337,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ShreddedVegetables") :),
     });
   data["GroundCabbage"]["GroundCarrot"] = item;
-  if (!mappingp(data["RanchSaladDressing"])) data["RanchSaladDressing"] = ([]);
+  if (!mapp(data["RanchSaladDressing"])) data["RanchSaladDressing"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.5});
   item->result = "/obj/reagents/generic_solid.ob";
@@ -2349,7 +2349,7 @@ mixed data_return() {
         (: $3->set_medium_alias("Coleslaw") :),
     });
   data["RanchSaladDressing"]["ShreddedVegetables"] = item;
-  if (!mappingp(data["GroundMolassesCookie"])) data["GroundMolassesCookie"] = ([]);
+  if (!mapp(data["GroundMolassesCookie"])) data["GroundMolassesCookie"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.7, 3.0});
   item->result = "/obj/reactions/generic_dough.ob";
@@ -2362,7 +2362,7 @@ mixed data_return() {
         (: $3->set_medium_alias("MedicinalDough") :),
     });
   data["GroundMolassesCookie"]["LispMedicine"] = item;
-  if (!mappingp(data["GroundRadish"])) data["GroundRadish"] = ([]);
+  if (!mapp(data["GroundRadish"])) data["GroundRadish"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.4,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2375,7 +2375,7 @@ mixed data_return() {
         (: $3->set_medium_alias("RadishTea") :),
     });
   data["GroundRadish"]["Water"] = item;
-  if (!mappingp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
+  if (!mapp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.4,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2388,7 +2388,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipTea") :),
     });
   data["GroundParsnip"]["Water"] = item;
-  if (!mappingp(data["GroundRadish"])) data["GroundRadish"] = ([]);
+  if (!mapp(data["GroundRadish"])) data["GroundRadish"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.2,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2401,7 +2401,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipRadishTea") :),
     });
   data["GroundRadish"]["ParsnipTea"] = item;
-  if (!mappingp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
+  if (!mapp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.2,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2414,7 +2414,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipRadishTea") :),
     });
   data["GroundParsnip"]["RadishTea"] = item;
-  if (!mappingp(data["ParsnipTea"])) data["ParsnipTea"] = ([]);
+  if (!mapp(data["ParsnipTea"])) data["ParsnipTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2427,7 +2427,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipRadishTea") :),
     });
   data["ParsnipTea"]["RadishTea"] = item;
-  if (!mappingp(data["GroundOregano"])) data["GroundOregano"] = ([]);
+  if (!mapp(data["GroundOregano"])) data["GroundOregano"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1, 0.9});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2440,7 +2440,7 @@ mixed data_return() {
         (: $3->set_medium_alias("LispMedicine") :),
     });
   data["GroundOregano"]["ParsnipRadishTea"] = item;
-  if (!mappingp(data["FungoidJuice"])) data["FungoidJuice"] = ([]);
+  if (!mapp(data["FungoidJuice"])) data["FungoidJuice"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.8/1, 2.2/1 });
   item->result = "/obj/reagents/generic_salve.ob";
@@ -2459,7 +2459,7 @@ mixed data_return() {
         :)
     });
   data["FungoidJuice"]["Water"] = item;
-  if (!mappingp(data["GroundComfrey"])) data["GroundComfrey"] = ([]);
+  if (!mapp(data["GroundComfrey"])) data["GroundComfrey"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2475,7 +2475,7 @@ mixed data_return() {
         :)
     });
   data["GroundComfrey"]["Water"] = item;
-  if (!mappingp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
+  if (!mapp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 400.0, 2400.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2492,7 +2492,7 @@ mixed data_return() {
         :)
     });
   data["ComfreyTea"]["GroundYarrow"] = item;
-  if (!mappingp(data["AurumPotable"])) data["AurumPotable"] = ([]);
+  if (!mapp(data["AurumPotable"])) data["AurumPotable"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2506,7 +2506,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["AurumPotable"]["Cinoper"] = item;
-  if (!mappingp(data["HeatTransient"])) data["HeatTransient"] = ([]);
+  if (!mapp(data["HeatTransient"])) data["HeatTransient"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/d/sur/Haunted_House/transients/heated_kibrit";
@@ -2515,7 +2515,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["HeatTransient"]["Kibrit"] = item;
-  if (!mappingp(data["HeatedKibrit"])) data["HeatedKibrit"] = ([]);
+  if (!mapp(data["HeatedKibrit"])) data["HeatedKibrit"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.3,0.7});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2529,7 +2529,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["HeatedKibrit"]["MercuricWater"] = item;
-  if (!mappingp(data["Realgar"])) data["Realgar"] = ([]);
+  if (!mapp(data["Realgar"])) data["Realgar"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/d/sur/Haunted_House/transients/vitriol&goldensolid";
@@ -2538,7 +2538,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["Realgar"]["YellowGelatinousLiquid"] = item;
-  if (!mappingp(data["AquaFortis"])) data["AquaFortis"] = ([]);
+  if (!mapp(data["AquaFortis"])) data["AquaFortis"] = ([]);
   item = new( class reaction );
   item->ratio = 0.0001;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -2553,7 +2553,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["AquaFortis"]["GoldenYellowSolid"] = item;
-  if (!mappingp(data["AquaFortis"])) data["AquaFortis"] = ([]);
+  if (!mapp(data["AquaFortis"])) data["AquaFortis"] = ([]);
   item = new( class reaction );
   item->ratio = 400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2568,7 +2568,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["AquaFortis"]["GreenLump"] = item;
-  if (!mappingp(data["GreenLump"])) data["GreenLump"] = ([]);
+  if (!mapp(data["GreenLump"])) data["GreenLump"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/d/sur/Haunted_House/transients/heated_green_lump";
@@ -2577,7 +2577,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["GreenLump"]["HeatTransient"] = item;
-  if (!mappingp(data["HeatedGreenLump"])) data["HeatedGreenLump"] = ([]);
+  if (!mapp(data["HeatedGreenLump"])) data["HeatedGreenLump"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2592,7 +2592,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slimesheep", 20) :)
     });
   data["HeatedGreenLump"]["Saffron"] = item;
-  if (!mappingp(data["Ectoplasm"])) data["Ectoplasm"] = ([]);
+  if (!mapp(data["Ectoplasm"])) data["Ectoplasm"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2607,7 +2607,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["Ectoplasm"]["SheepUrine"] = item;
-  if (!mappingp(data["GreenGel"])) data["GreenGel"] = ([]);
+  if (!mapp(data["GreenGel"])) data["GreenGel"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8, 1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2622,7 +2622,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["GreenGel"]["SpiderWeb"] = item;
-  if (!mappingp(data["HeatTransient"])) data["HeatTransient"] = ([]);
+  if (!mapp(data["HeatTransient"])) data["HeatTransient"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/d/sur/Haunted_House/transients/heated_tallow";
@@ -2631,7 +2631,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["HeatTransient"]["Tallow"] = item;
-  if (!mappingp(data["HeatedTallow"])) data["HeatedTallow"] = ([]);
+  if (!mapp(data["HeatedTallow"])) data["HeatedTallow"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.3, 0.7});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2645,7 +2645,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["HeatedTallow"]["SpideryGel"] = item;
-  if (!mappingp(data["GreenTintedGoo"])) data["GreenTintedGoo"] = ([]);
+  if (!mapp(data["GreenTintedGoo"])) data["GreenTintedGoo"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.8,2.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2659,7 +2659,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["GreenTintedGoo"]["PumpkinJuice"] = item;
-  if (!mappingp(data["BrownLiquid"])) data["BrownLiquid"] = ([]);
+  if (!mapp(data["BrownLiquid"])) data["BrownLiquid"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.0, 40.0});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2674,7 +2674,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/babyslime", 20) :)
     });
   data["BrownLiquid"]["OctironFilings"] = item;
-  if (!mappingp(data["Kibrit"])) data["Kibrit"] = ([]);
+  if (!mapp(data["Kibrit"])) data["Kibrit"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -2687,7 +2687,7 @@ mixed data_return() {
         (: $3->set_medium_alias("KibritTalcum") :),
     });
   data["Kibrit"]["TalcumPowder"] = item;
-  if (!mappingp(data["AurumPotable"])) data["AurumPotable"] = ([]);
+  if (!mapp(data["AurumPotable"])) data["AurumPotable"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -2703,7 +2703,7 @@ mixed data_return() {
         (: $3->set_medium_alias("FrogRepellent") :),
     });
   data["AurumPotable"]["KibritTalcum"] = item;
-  if (!mappingp(data["GroundVenom"])) data["GroundVenom"] = ([]);
+  if (!mapp(data["GroundVenom"])) data["GroundVenom"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2719,7 +2719,7 @@ mixed data_return() {
         :)
     });
   data["GroundVenom"]["Water"] = item;
-  if (!mappingp(data["VenomPoison"])) data["VenomPoison"] = ([]);
+  if (!mapp(data["VenomPoison"])) data["VenomPoison"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 400.0, 2400.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2736,7 +2736,7 @@ mixed data_return() {
         :)
     });
   data["VenomPoison"]["GroundCatalyst"] = item;
-  if (!mappingp(data["GroundKlatchianFleabane"])) data["GroundKlatchianFleabane"] = ([]);
+  if (!mapp(data["GroundKlatchianFleabane"])) data["GroundKlatchianFleabane"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/50, 5.0/50 });
   item->result = "/obj/reagents/generic_salve.ob";
@@ -2750,7 +2750,7 @@ mixed data_return() {
         (: $3->add_adjective("lavender") :)
     });
   data["GroundKlatchianFleabane"]["Water"] = item;
-  if (!mappingp(data["GroundStinkingMayweed"])) data["GroundStinkingMayweed"] = ([]);
+  if (!mapp(data["GroundStinkingMayweed"])) data["GroundStinkingMayweed"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/50, 5.0/50 });
   item->result = "/obj/reagents/flea_salve.ob";
@@ -2763,7 +2763,7 @@ mixed data_return() {
         :)
     });
   data["GroundStinkingMayweed"]["PastyKlatchianFleabane"] = item;
-  if (!mappingp(data["GroundParsley"])) data["GroundParsley"] = ([]);
+  if (!mapp(data["GroundParsley"])) data["GroundParsley"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2778,7 +2778,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/breath_fresh") :),
     });
   data["GroundParsley"]["Water"] = item;
-  if (!mappingp(data["GroundSage"])) data["GroundSage"] = ([]);
+  if (!mapp(data["GroundSage"])) data["GroundSage"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.4,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2792,7 +2792,7 @@ mixed data_return() {
         (: $3->set_medium_alias("SageTea") :),
     });
   data["GroundSage"]["Water"] = item;
-  if (!mappingp(data["FeatherStir"])) data["FeatherStir"] = ([]);
+  if (!mapp(data["FeatherStir"])) data["FeatherStir"] = ([]);
   item = new( class reaction );
   item->ratio = 0.25;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2808,7 +2808,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing")/30) :),
     });
   data["FeatherStir"]["SageTea"] = item;
-  if (!mappingp(data["GroundSpider"])) data["GroundSpider"] = ([]);
+  if (!mapp(data["GroundSpider"])) data["GroundSpider"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2822,7 +2822,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/cum_poison", 5) :),
     });
   data["GroundSpider"]["Water"] = item;
-  if (!mappingp(data["GroundBasil"])) data["GroundBasil"] = ([]);
+  if (!mapp(data["GroundBasil"])) data["GroundBasil"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2837,7 +2837,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundBasil"]["Water"] = item;
-  if (!mappingp(data["GroundThyme"])) data["GroundThyme"] = ([]);
+  if (!mapp(data["GroundThyme"])) data["GroundThyme"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.3,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2851,7 +2851,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ThymeTea") :),
     });
   data["GroundThyme"]["Water"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2867,7 +2867,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["GroundSpider"] = item;
-  if (!mappingp(data["FennelTea"])) data["FennelTea"] = ([]);
+  if (!mapp(data["FennelTea"])) data["FennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2883,7 +2883,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["FennelTea"]["GroundSpider"] = item;
-  if (!mappingp(data["GroundFennel"])) data["GroundFennel"] = ([]);
+  if (!mapp(data["GroundFennel"])) data["GroundFennel"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2899,7 +2899,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundFennel"]["SpiderTea"] = item;
-  if (!mappingp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
+  if (!mapp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({6.67,20});
   item->result = "/obj/reagents/antidote_elixir";
@@ -2913,7 +2913,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilSpiderTea"]["GroundFennel"] = item;
-  if (!mappingp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
+  if (!mapp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({6.67,20});
   item->result = "/obj/reagents/antidote_elixir";
@@ -2927,7 +2927,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) )  :),
     });
   data["BasilFennelTea"]["GroundSpider"] = item;
-  if (!mappingp(data["FennelSpiderTea"])) data["FennelSpiderTea"] = ([]);
+  if (!mapp(data["FennelSpiderTea"])) data["FennelSpiderTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({6.67,20});
   item->result = "/obj/reagents/antidote_elixir";
@@ -2941,7 +2941,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["FennelSpiderTea"]["GroundBasil"] = item;
-  if (!mappingp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
+  if (!mapp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.7,2.3});
   item->result = "/obj/reagents/antidote_elixir";
@@ -2955,7 +2955,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilSpiderTea"]["FennelTea"] = item;
-  if (!mappingp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
+  if (!mapp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.7,2.3});
   item->result = "/obj/reagents/antidote_elixir";
@@ -2969,7 +2969,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilFennelTea"]["SpiderTea"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.7,2.3});
   item->result = "/obj/reagents/antidote_elixir";
@@ -2983,7 +2983,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilTea"]["FennelSpiderTea"] = item;
-  if (!mappingp(data["GroundFennel"])) data["GroundFennel"] = ([]);
+  if (!mapp(data["GroundFennel"])) data["GroundFennel"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -2997,7 +2997,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundFennel"]["Water"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3011,7 +3011,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["GroundFennel"] = item;
-  if (!mappingp(data["GroundBasil"])) data["GroundBasil"] = ([]);
+  if (!mapp(data["GroundBasil"])) data["GroundBasil"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3026,7 +3026,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundBasil"]["SpiderTea"] = item;
-  if (!mappingp(data["FennelTea"])) data["FennelTea"] = ([]);
+  if (!mapp(data["FennelTea"])) data["FennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3040,7 +3040,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["FennelTea"]["GroundBasil"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3055,7 +3055,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["FennelTea"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3071,7 +3071,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["SpiderTea"] = item;
-  if (!mappingp(data["FennelTea"])) data["FennelTea"] = ([]);
+  if (!mapp(data["FennelTea"])) data["FennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3087,7 +3087,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["FennelTea"]["SpiderTea"] = item;
-  if (!mappingp(data["GroundEyebright"])) data["GroundEyebright"] = ([]);
+  if (!mapp(data["GroundEyebright"])) data["GroundEyebright"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.6,0.8});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3102,7 +3102,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect"):),
     });
   data["GroundEyebright"]["Water"] = item;
-  if (!mappingp(data["GroundCarrot"])) data["GroundCarrot"] = ([]);
+  if (!mapp(data["GroundCarrot"])) data["GroundCarrot"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.6,0.8});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3116,7 +3116,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["GroundCarrot"]["Water"] = item;
-  if (!mappingp(data["CarrotTea"])) data["CarrotTea"] = ([]);
+  if (!mapp(data["CarrotTea"])) data["CarrotTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3131,7 +3131,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect"):),
     });
   data["CarrotTea"]["EyebrightTea"] = item;
-  if (!mappingp(data["CarrotTea"])) data["CarrotTea"] = ([]);
+  if (!mapp(data["CarrotTea"])) data["CarrotTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.25,1.6667});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3146,7 +3146,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["CarrotTea"]["GroundEyebright"] = item;
-  if (!mappingp(data["EyebrightTea"])) data["EyebrightTea"] = ([]);
+  if (!mapp(data["EyebrightTea"])) data["EyebrightTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.25,1.6667});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3161,7 +3161,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["EyebrightTea"]["GroundCarrot"] = item;
-  if (!mappingp(data["EyebrightCarrotTea"])) data["EyebrightCarrotTea"] = ([]);
+  if (!mapp(data["EyebrightCarrotTea"])) data["EyebrightCarrotTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({3.0,4.0});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3178,7 +3178,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing")/10) :),
     });
   data["EyebrightCarrotTea"]["GroundBunnyEyeball"] = item;
-  if (!mappingp(data["BunnyEyeballTea"])) data["BunnyEyeballTea"] = ([]);
+  if (!mapp(data["BunnyEyeballTea"])) data["BunnyEyeballTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.5,2.0});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3195,7 +3195,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing")/10) :),
     });
   data["BunnyEyeballTea"]["EyebrightCarrotTea"] = item;
-  if (!mappingp(data["GroundBunnyEyeball"])) data["GroundBunnyEyeball"] = ([]);
+  if (!mapp(data["GroundBunnyEyeball"])) data["GroundBunnyEyeball"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3210,13 +3210,13 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["GroundBunnyEyeball"]["Water"] = item;
-  if (!mappingp(data["DriedSlug"])) data["DriedSlug"] = ([]);
+  if (!mapp(data["DriedSlug"])) data["DriedSlug"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/d/sur/Scrogden/items/slugsoup";
   item->result_amt = 1.0;
   data["DriedSlug"]["Water"] = item;
-  if (!mappingp(data["GroundFloppyMadman"])) data["GroundFloppyMadman"] = ([]);
+  if (!mapp(data["GroundFloppyMadman"])) data["GroundFloppyMadman"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3232,7 +3232,7 @@ mixed data_return() {
                "magic.methods.physical.brewing" ) / 10 ) :)
     });
   data["GroundFloppyMadman"]["Water"] = item;
-  if (!mappingp(data["SecondSightPotion"])) data["SecondSightPotion"] = ([]);
+  if (!mapp(data["SecondSightPotion"])) data["SecondSightPotion"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/2500;
   item->result = "/obj/reagents/ss_test.ob";
@@ -3246,7 +3246,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["SecondSightPotion"]["Water"] = item;
-  if (!mappingp(data["RamtopsScumble"])) data["RamtopsScumble"] = ([]);
+  if (!mapp(data["RamtopsScumble"])) data["RamtopsScumble"] = ([]);
   item = new( class reaction );
   item->ratio = 2400/400.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3260,7 +3260,7 @@ mixed data_return() {
         (: $3->set_medium_alias("SherbetScumble") :),
     });
   data["RamtopsScumble"]["Sherbet"] = item;
-  if (!mappingp(data["GroundThyme"])) data["GroundThyme"] = ([]);
+  if (!mapp(data["GroundThyme"])) data["GroundThyme"] = ([]);
   item = new( class reaction );
   item->ratio = 200/2800.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3289,7 +3289,7 @@ mixed data_return() {
   class reaction item;
   mapping data = ([ ]);
 
-  if (!mappingp(data["GroundDeadlyNightshade"])) data["GroundDeadlyNightshade"] = ([]);
+  if (!mapp(data["GroundDeadlyNightshade"])) data["GroundDeadlyNightshade"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/600, 1.0/1000 });
   item->result = "/obj/reagents/transient_liquid.ob";
@@ -3319,7 +3319,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["GroundDeadlyNightshade"]["LiquidCoffee"] = item;
-  if (!mappingp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
+  if (!mapp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 0, 2500 });
   item->result = "/obj/reagents/shimmer.ob";
@@ -3335,7 +3335,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["TransientCoffee"]["TransientPanic"] = item;
-  if (!mappingp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
+  if (!mapp(data["TransientCoffee"])) data["TransientCoffee"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 0, 2500 });
   item->result = "/obj/reagents/shimmer.ob";
@@ -3351,7 +3351,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["TransientCoffee"]["TransientPerception"] = item;
-  if (!mappingp(data["GroundCoffee"])) data["GroundCoffee"] = ([]);
+  if (!mapp(data["GroundCoffee"])) data["GroundCoffee"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/60, 1.0/40 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3368,7 +3368,7 @@ mixed data_return() {
         (: $3->set_medium_alias("LiquidCoffee") :)
     });
   data["GroundCoffee"]["Water"] = item;
-  if (!mappingp(data["GroundComfreyLeaf"])) data["GroundComfreyLeaf"] = ([]);
+  if (!mapp(data["GroundComfreyLeaf"])) data["GroundComfreyLeaf"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3384,7 +3384,7 @@ mixed data_return() {
         :)
     });
   data["GroundComfreyLeaf"]["Water"] = item;
-  if (!mappingp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
+  if (!mapp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 400.0, 2400.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3400,7 +3400,7 @@ mixed data_return() {
         :)
     });
   data["ComfreyTea"]["GroundYarrowLeaf"] = item;
-  if (!mappingp(data["GroundWildGarlic"])) data["GroundWildGarlic"] = ([]);
+  if (!mapp(data["GroundWildGarlic"])) data["GroundWildGarlic"] = ([]);
   item = new( class reaction );
   item->ratio = 200/2800.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3418,7 +3418,7 @@ mixed data_return() {
             "magic.methods.physical.healing")) :)
    });
   data["GroundWildGarlic"]["Honey"] = item;
-  if (!mappingp(data["GroundCabbage"])) data["GroundCabbage"] = ([]);
+  if (!mapp(data["GroundCabbage"])) data["GroundCabbage"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -3432,7 +3432,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ShreddedVegetables") :),
     });
   data["GroundCabbage"]["GroundCarrot"] = item;
-  if (!mappingp(data["RanchSaladDressing"])) data["RanchSaladDressing"] = ([]);
+  if (!mapp(data["RanchSaladDressing"])) data["RanchSaladDressing"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.5});
   item->result = "/obj/reagents/generic_solid.ob";
@@ -3444,7 +3444,7 @@ mixed data_return() {
         (: $3->set_medium_alias("Coleslaw") :),
     });
   data["RanchSaladDressing"]["ShreddedVegetables"] = item;
-  if (!mappingp(data["GroundMolassesCookie"])) data["GroundMolassesCookie"] = ([]);
+  if (!mapp(data["GroundMolassesCookie"])) data["GroundMolassesCookie"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.7, 3.0});
   item->result = "/obj/reactions/generic_dough.ob";
@@ -3457,7 +3457,7 @@ mixed data_return() {
         (: $3->set_medium_alias("MedicinalDough") :),
     });
   data["GroundMolassesCookie"]["LispMedicine"] = item;
-  if (!mappingp(data["GroundRadish"])) data["GroundRadish"] = ([]);
+  if (!mapp(data["GroundRadish"])) data["GroundRadish"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.4,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3470,7 +3470,7 @@ mixed data_return() {
         (: $3->set_medium_alias("RadishTea") :),
     });
   data["GroundRadish"]["Water"] = item;
-  if (!mappingp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
+  if (!mapp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.4,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3483,7 +3483,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipTea") :),
     });
   data["GroundParsnip"]["Water"] = item;
-  if (!mappingp(data["GroundRadish"])) data["GroundRadish"] = ([]);
+  if (!mapp(data["GroundRadish"])) data["GroundRadish"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.2,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3496,7 +3496,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipRadishTea") :),
     });
   data["GroundRadish"]["ParsnipTea"] = item;
-  if (!mappingp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
+  if (!mapp(data["GroundParsnip"])) data["GroundParsnip"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.2,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3509,7 +3509,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipRadishTea") :),
     });
   data["GroundParsnip"]["RadishTea"] = item;
-  if (!mappingp(data["ParsnipTea"])) data["ParsnipTea"] = ([]);
+  if (!mapp(data["ParsnipTea"])) data["ParsnipTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3522,7 +3522,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ParsnipRadishTea") :),
     });
   data["ParsnipTea"]["RadishTea"] = item;
-  if (!mappingp(data["GroundOregano"])) data["GroundOregano"] = ([]);
+  if (!mapp(data["GroundOregano"])) data["GroundOregano"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1, 0.9});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3535,7 +3535,7 @@ mixed data_return() {
         (: $3->set_medium_alias("LispMedicine") :),
     });
   data["GroundOregano"]["ParsnipRadishTea"] = item;
-  if (!mappingp(data["FungoidJuice"])) data["FungoidJuice"] = ([]);
+  if (!mapp(data["FungoidJuice"])) data["FungoidJuice"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.8/1, 2.2/1 });
   item->result = "/obj/reagents/generic_salve.ob";
@@ -3554,7 +3554,7 @@ mixed data_return() {
         :)
     });
   data["FungoidJuice"]["Water"] = item;
-  if (!mappingp(data["GroundComfrey"])) data["GroundComfrey"] = ([]);
+  if (!mapp(data["GroundComfrey"])) data["GroundComfrey"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3570,7 +3570,7 @@ mixed data_return() {
         :)
     });
   data["GroundComfrey"]["Water"] = item;
-  if (!mappingp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
+  if (!mapp(data["ComfreyTea"])) data["ComfreyTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 400.0, 2400.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3587,7 +3587,7 @@ mixed data_return() {
         :)
     });
   data["ComfreyTea"]["GroundYarrow"] = item;
-  if (!mappingp(data["AurumPotable"])) data["AurumPotable"] = ([]);
+  if (!mapp(data["AurumPotable"])) data["AurumPotable"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3601,7 +3601,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["AurumPotable"]["Cinoper"] = item;
-  if (!mappingp(data["HeatTransient"])) data["HeatTransient"] = ([]);
+  if (!mapp(data["HeatTransient"])) data["HeatTransient"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/d/sur/Haunted_House/transients/heated_kibrit";
@@ -3610,7 +3610,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["HeatTransient"]["Kibrit"] = item;
-  if (!mappingp(data["HeatedKibrit"])) data["HeatedKibrit"] = ([]);
+  if (!mapp(data["HeatedKibrit"])) data["HeatedKibrit"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.3,0.7});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3624,7 +3624,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["HeatedKibrit"]["MercuricWater"] = item;
-  if (!mappingp(data["Realgar"])) data["Realgar"] = ([]);
+  if (!mapp(data["Realgar"])) data["Realgar"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/d/sur/Haunted_House/transients/vitriol&goldensolid";
@@ -3633,7 +3633,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["Realgar"]["YellowGelatinousLiquid"] = item;
-  if (!mappingp(data["AquaFortis"])) data["AquaFortis"] = ([]);
+  if (!mapp(data["AquaFortis"])) data["AquaFortis"] = ([]);
   item = new( class reaction );
   item->ratio = 0.0001;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -3648,7 +3648,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["AquaFortis"]["GoldenYellowSolid"] = item;
-  if (!mappingp(data["AquaFortis"])) data["AquaFortis"] = ([]);
+  if (!mapp(data["AquaFortis"])) data["AquaFortis"] = ([]);
   item = new( class reaction );
   item->ratio = 400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3663,7 +3663,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["AquaFortis"]["GreenLump"] = item;
-  if (!mappingp(data["GreenLump"])) data["GreenLump"] = ([]);
+  if (!mapp(data["GreenLump"])) data["GreenLump"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/d/sur/Haunted_House/transients/heated_green_lump";
@@ -3672,7 +3672,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["GreenLump"]["HeatTransient"] = item;
-  if (!mappingp(data["HeatedGreenLump"])) data["HeatedGreenLump"] = ([]);
+  if (!mapp(data["HeatedGreenLump"])) data["HeatedGreenLump"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3687,7 +3687,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slimesheep", 20) :)
     });
   data["HeatedGreenLump"]["Saffron"] = item;
-  if (!mappingp(data["Ectoplasm"])) data["Ectoplasm"] = ([]);
+  if (!mapp(data["Ectoplasm"])) data["Ectoplasm"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8,1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3702,7 +3702,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["Ectoplasm"]["SheepUrine"] = item;
-  if (!mappingp(data["GreenGel"])) data["GreenGel"] = ([]);
+  if (!mapp(data["GreenGel"])) data["GreenGel"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.8, 1.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3717,7 +3717,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["GreenGel"]["SpiderWeb"] = item;
-  if (!mappingp(data["HeatTransient"])) data["HeatTransient"] = ([]);
+  if (!mapp(data["HeatTransient"])) data["HeatTransient"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/d/sur/Haunted_House/transients/heated_tallow";
@@ -3726,7 +3726,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["HeatTransient"]["Tallow"] = item;
-  if (!mappingp(data["HeatedTallow"])) data["HeatedTallow"] = ([]);
+  if (!mapp(data["HeatedTallow"])) data["HeatedTallow"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.3, 0.7});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3740,7 +3740,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["HeatedTallow"]["SpideryGel"] = item;
-  if (!mappingp(data["GreenTintedGoo"])) data["GreenTintedGoo"] = ([]);
+  if (!mapp(data["GreenTintedGoo"])) data["GreenTintedGoo"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.8,2.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3754,7 +3754,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/slime", 20) :)
     });
   data["GreenTintedGoo"]["PumpkinJuice"] = item;
-  if (!mappingp(data["BrownLiquid"])) data["BrownLiquid"] = ([]);
+  if (!mapp(data["BrownLiquid"])) data["BrownLiquid"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.0, 40.0});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3769,7 +3769,7 @@ mixed data_return() {
         (: $3->add_eat_effect( "/std/effects/ingested/babyslime", 20) :)
     });
   data["BrownLiquid"]["OctironFilings"] = item;
-  if (!mappingp(data["Kibrit"])) data["Kibrit"] = ([]);
+  if (!mapp(data["Kibrit"])) data["Kibrit"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -3782,7 +3782,7 @@ mixed data_return() {
         (: $3->set_medium_alias("KibritTalcum") :),
     });
   data["Kibrit"]["TalcumPowder"] = item;
-  if (!mappingp(data["AurumPotable"])) data["AurumPotable"] = ([]);
+  if (!mapp(data["AurumPotable"])) data["AurumPotable"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_solid.ob";
@@ -3798,7 +3798,7 @@ mixed data_return() {
         (: $3->set_medium_alias("FrogRepellent") :),
     });
   data["AurumPotable"]["KibritTalcum"] = item;
-  if (!mappingp(data["GroundVenom"])) data["GroundVenom"] = ([]);
+  if (!mapp(data["GroundVenom"])) data["GroundVenom"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3814,7 +3814,7 @@ mixed data_return() {
         :)
     });
   data["GroundVenom"]["Water"] = item;
-  if (!mappingp(data["VenomPoison"])) data["VenomPoison"] = ([]);
+  if (!mapp(data["VenomPoison"])) data["VenomPoison"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 400.0, 2400.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3831,7 +3831,7 @@ mixed data_return() {
         :)
     });
   data["VenomPoison"]["GroundCatalyst"] = item;
-  if (!mappingp(data["GroundKlatchianFleabane"])) data["GroundKlatchianFleabane"] = ([]);
+  if (!mapp(data["GroundKlatchianFleabane"])) data["GroundKlatchianFleabane"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/50, 5.0/50 });
   item->result = "/obj/reagents/generic_salve.ob";
@@ -3845,7 +3845,7 @@ mixed data_return() {
         (: $3->add_adjective("lavender") :)
     });
   data["GroundKlatchianFleabane"]["Water"] = item;
-  if (!mappingp(data["GroundStinkingMayweed"])) data["GroundStinkingMayweed"] = ([]);
+  if (!mapp(data["GroundStinkingMayweed"])) data["GroundStinkingMayweed"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0/50, 5.0/50 });
   item->result = "/obj/reagents/flea_salve.ob";
@@ -3858,7 +3858,7 @@ mixed data_return() {
         :)
     });
   data["GroundStinkingMayweed"]["PastyKlatchianFleabane"] = item;
-  if (!mappingp(data["GroundParsley"])) data["GroundParsley"] = ([]);
+  if (!mapp(data["GroundParsley"])) data["GroundParsley"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3873,7 +3873,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/breath_fresh") :),
     });
   data["GroundParsley"]["Water"] = item;
-  if (!mappingp(data["GroundSage"])) data["GroundSage"] = ([]);
+  if (!mapp(data["GroundSage"])) data["GroundSage"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.4,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3887,7 +3887,7 @@ mixed data_return() {
         (: $3->set_medium_alias("SageTea") :),
     });
   data["GroundSage"]["Water"] = item;
-  if (!mappingp(data["FeatherStir"])) data["FeatherStir"] = ([]);
+  if (!mapp(data["FeatherStir"])) data["FeatherStir"] = ([]);
   item = new( class reaction );
   item->ratio = 0.25;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3903,7 +3903,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing")/30) :),
     });
   data["FeatherStir"]["SageTea"] = item;
-  if (!mappingp(data["GroundSpider"])) data["GroundSpider"] = ([]);
+  if (!mapp(data["GroundSpider"])) data["GroundSpider"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3917,7 +3917,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/cum_poison", 5) :),
     });
   data["GroundSpider"]["Water"] = item;
-  if (!mappingp(data["GroundBasil"])) data["GroundBasil"] = ([]);
+  if (!mapp(data["GroundBasil"])) data["GroundBasil"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3932,7 +3932,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundBasil"]["Water"] = item;
-  if (!mappingp(data["GroundThyme"])) data["GroundThyme"] = ([]);
+  if (!mapp(data["GroundThyme"])) data["GroundThyme"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.3,0.6});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3946,7 +3946,7 @@ mixed data_return() {
         (: $3->set_medium_alias("ThymeTea") :),
     });
   data["GroundThyme"]["Water"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3962,7 +3962,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["GroundSpider"] = item;
-  if (!mappingp(data["FennelTea"])) data["FennelTea"] = ([]);
+  if (!mapp(data["FennelTea"])) data["FennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3978,7 +3978,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["FennelTea"]["GroundSpider"] = item;
-  if (!mappingp(data["GroundFennel"])) data["GroundFennel"] = ([]);
+  if (!mapp(data["GroundFennel"])) data["GroundFennel"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -3994,7 +3994,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundFennel"]["SpiderTea"] = item;
-  if (!mappingp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
+  if (!mapp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({6.67,20});
   item->result = "/obj/reagents/antidote_elixir";
@@ -4008,7 +4008,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilSpiderTea"]["GroundFennel"] = item;
-  if (!mappingp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
+  if (!mapp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({6.67,20});
   item->result = "/obj/reagents/antidote_elixir";
@@ -4022,7 +4022,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) )  :),
     });
   data["BasilFennelTea"]["GroundSpider"] = item;
-  if (!mappingp(data["FennelSpiderTea"])) data["FennelSpiderTea"] = ([]);
+  if (!mapp(data["FennelSpiderTea"])) data["FennelSpiderTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({6.67,20});
   item->result = "/obj/reagents/antidote_elixir";
@@ -4036,7 +4036,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["FennelSpiderTea"]["GroundBasil"] = item;
-  if (!mappingp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
+  if (!mapp(data["BasilSpiderTea"])) data["BasilSpiderTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.7,2.3});
   item->result = "/obj/reagents/antidote_elixir";
@@ -4050,7 +4050,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilSpiderTea"]["FennelTea"] = item;
-  if (!mappingp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
+  if (!mapp(data["BasilFennelTea"])) data["BasilFennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.7,2.3});
   item->result = "/obj/reagents/antidote_elixir";
@@ -4064,7 +4064,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilFennelTea"]["SpiderTea"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.7,2.3});
   item->result = "/obj/reagents/antidote_elixir";
@@ -4078,7 +4078,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing") ) ) :),
     });
   data["BasilTea"]["FennelSpiderTea"] = item;
-  if (!mappingp(data["GroundFennel"])) data["GroundFennel"] = ([]);
+  if (!mapp(data["GroundFennel"])) data["GroundFennel"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4092,7 +4092,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundFennel"]["Water"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4106,7 +4106,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["GroundFennel"] = item;
-  if (!mappingp(data["GroundBasil"])) data["GroundBasil"] = ([]);
+  if (!mapp(data["GroundBasil"])) data["GroundBasil"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4121,7 +4121,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["GroundBasil"]["SpiderTea"] = item;
-  if (!mappingp(data["FennelTea"])) data["FennelTea"] = ([]);
+  if (!mapp(data["FennelTea"])) data["FennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({5,10});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4135,7 +4135,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["FennelTea"]["GroundBasil"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4150,7 +4150,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["FennelTea"] = item;
-  if (!mappingp(data["BasilTea"])) data["BasilTea"] = ([]);
+  if (!mapp(data["BasilTea"])) data["BasilTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4166,7 +4166,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["BasilTea"]["SpiderTea"] = item;
-  if (!mappingp(data["FennelTea"])) data["FennelTea"] = ([]);
+  if (!mapp(data["FennelTea"])) data["FennelTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4182,7 +4182,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/weak_poison_cure") :),
     });
   data["FennelTea"]["SpiderTea"] = item;
-  if (!mappingp(data["GroundEyebright"])) data["GroundEyebright"] = ([]);
+  if (!mapp(data["GroundEyebright"])) data["GroundEyebright"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.6,0.8});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4197,7 +4197,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect"):),
     });
   data["GroundEyebright"]["Water"] = item;
-  if (!mappingp(data["GroundCarrot"])) data["GroundCarrot"] = ([]);
+  if (!mapp(data["GroundCarrot"])) data["GroundCarrot"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.6,0.8});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4211,7 +4211,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["GroundCarrot"]["Water"] = item;
-  if (!mappingp(data["CarrotTea"])) data["CarrotTea"] = ([]);
+  if (!mapp(data["CarrotTea"])) data["CarrotTea"] = ([]);
   item = new( class reaction );
   item->ratio = 1;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4226,7 +4226,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect"):),
     });
   data["CarrotTea"]["EyebrightTea"] = item;
-  if (!mappingp(data["CarrotTea"])) data["CarrotTea"] = ([]);
+  if (!mapp(data["CarrotTea"])) data["CarrotTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.25,1.6667});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4241,7 +4241,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["CarrotTea"]["GroundEyebright"] = item;
-  if (!mappingp(data["EyebrightTea"])) data["EyebrightTea"] = ([]);
+  if (!mapp(data["EyebrightTea"])) data["EyebrightTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.25,1.6667});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4256,7 +4256,7 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["EyebrightTea"]["GroundCarrot"] = item;
-  if (!mappingp(data["EyebrightCarrotTea"])) data["EyebrightCarrotTea"] = ([]);
+  if (!mapp(data["EyebrightCarrotTea"])) data["EyebrightCarrotTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({3.0,4.0});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4273,7 +4273,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing")/10) :),
     });
   data["EyebrightCarrotTea"]["GroundBunnyEyeball"] = item;
-  if (!mappingp(data["BunnyEyeballTea"])) data["BunnyEyeballTea"] = ([]);
+  if (!mapp(data["BunnyEyeballTea"])) data["BunnyEyeballTea"] = ([]);
   item = new( class reaction );
   item->ratio = ({1.5,2.0});
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4290,7 +4290,7 @@ mixed data_return() {
     query_skill_bonus("magic.methods.physical.brewing")/10) :),
     });
   data["BunnyEyeballTea"]["EyebrightCarrotTea"] = item;
-  if (!mappingp(data["GroundBunnyEyeball"])) data["GroundBunnyEyeball"] = ([]);
+  if (!mapp(data["GroundBunnyEyeball"])) data["GroundBunnyEyeball"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4305,13 +4305,13 @@ mixed data_return() {
         (: $3->add_eat_effect("/std/effects/ingested/blind_protect") :),
     });
   data["GroundBunnyEyeball"]["Water"] = item;
-  if (!mappingp(data["DriedSlug"])) data["DriedSlug"] = ([]);
+  if (!mapp(data["DriedSlug"])) data["DriedSlug"] = ([]);
   item = new( class reaction );
   item->ratio = ({0.1,0.2});
   item->result = "/d/sur/Scrogden/items/slugsoup";
   item->result_amt = 1.0;
   data["DriedSlug"]["Water"] = item;
-  if (!mappingp(data["GroundFloppyMadman"])) data["GroundFloppyMadman"] = ([]);
+  if (!mapp(data["GroundFloppyMadman"])) data["GroundFloppyMadman"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/400;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4327,7 +4327,7 @@ mixed data_return() {
                "magic.methods.physical.brewing" ) / 10 ) :)
     });
   data["GroundFloppyMadman"]["Water"] = item;
-  if (!mappingp(data["SecondSightPotion"])) data["SecondSightPotion"] = ([]);
+  if (!mapp(data["SecondSightPotion"])) data["SecondSightPotion"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/2500;
   item->result = "/obj/reagents/ss_test.ob";
@@ -4341,7 +4341,7 @@ mixed data_return() {
         (: $3->start_reaction() :)
     });
   data["SecondSightPotion"]["Water"] = item;
-  if (!mappingp(data["RamtopsScumble"])) data["RamtopsScumble"] = ([]);
+  if (!mapp(data["RamtopsScumble"])) data["RamtopsScumble"] = ([]);
   item = new( class reaction );
   item->ratio = 2400/400.0;
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -4355,7 +4355,7 @@ mixed data_return() {
         (: $3->set_medium_alias("SherbetScumble") :),
     });
   data["RamtopsScumble"]["Sherbet"] = item;
-  if (!mappingp(data["GroundThyme"])) data["GroundThyme"] = ([]);
+  if (!mapp(data["GroundThyme"])) data["GroundThyme"] = ([]);
   item = new( class reaction );
   item->ratio = 200/2800.0;
   item->result = "/obj/reagents/generic_liquid.ob";

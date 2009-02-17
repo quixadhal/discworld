@@ -5,14 +5,14 @@ class reaction item;
 mapping data = ([ ]);
 
 mixed data_return_0() {
-  if (!mappingp(data["TeaLeaf"])) data["TeaLeaf"] = ([]);
+  if (!mapp(data["TeaLeaf"])) data["TeaLeaf"] = ([]);
   item = new( class reaction );
   item->ratio = 1.0/100;
   item->result = "/obj/reagents/weak_black_tea.ob";
   item->result_amt = 1.0;
   item->func = ({ });
   data["TeaLeaf"]["Water"] = item;
-  if (!mappingp(data["BatGuano"])) data["BatGuano"] = ([]);
+  if (!mapp(data["BatGuano"])) data["BatGuano"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 0.8, 1.2 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -34,7 +34,7 @@ mixed data_return_0() {
  *  accordance with the prophecy.
  */;
   data["BatGuano"]["Water"] = item;
-  if (!mappingp(data["BlueHealingWater"])) data["BlueHealingWater"] = ([]);
+  if (!mapp(data["BlueHealingWater"])) data["BlueHealingWater"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0, 1.0 });
   item->result = "/obj/reagents/generic_liquid.ob";
@@ -53,7 +53,7 @@ mixed data_return_0() {
         (: $3->add_eat_effect( "/std/effects/ingested/drunk", 50 ) :),
     });
   data["BlueHealingWater"]["BrewedComfreyYarrowTea"] = item;
-  if (!mappingp(data["BlueHealingWater"])) data["BlueHealingWater"] = ([]);
+  if (!mapp(data["BlueHealingWater"])) data["BlueHealingWater"] = ([]);
   item = new( class reaction );
   item->ratio = ({ 1.0, 1.0 });
   item->result = "/obj/reagents/generic_liquid.ob";

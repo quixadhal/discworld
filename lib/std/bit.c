@@ -309,7 +309,7 @@ mixed query_dynamic_auto_load() {
 
 /** @ignore yes */
 void init_dynamic_arg(mixed arg, object) {
-  if (mappingp(arg)) {
+  if (mapp(arg)) {
     ::init_dynamic_arg(arg);
     return ;
   }

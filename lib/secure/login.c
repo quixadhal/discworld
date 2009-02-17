@@ -171,7 +171,7 @@ protected void finish_compiling(string fname, mapping data) {
           thing["event"] = ({ thing["event"] });
         
         foreach(event in thing["event"]) {
-          if(mappingp(event) && stringp(event["data"]) &&
+          if(mapp(event) && stringp(event["data"]) &&
              stringp(event["new-state"])) {
             _states[thing["name"]]->events[event["data"]] = event["new-state"];
             debug_log("Event %s new state %s", event["data"],

@@ -31,7 +31,7 @@ string array_to_string( mixed *args ) {
          args[ i ] = array_to_string( args[ i ] );
          continue;
       }
-      if ( mappingp( args[ i ] ) ) {
+      if ( mapp( args[ i ] ) ) {
          args[ i ] = mapping_to_string( args[ i ] );
          continue;
       }
@@ -50,7 +50,7 @@ string mapping_to_string( mapping map ) {
    int i;
    mixed *args;
 
-   if( !mappingp( map ) ) { 
+   if( !mapp( map ) ) { 
       /* If this breaks badly, blame the idiot calling this function
        * with a functionpointer instead of a mapping as argument!
        * Olorin
@@ -64,7 +64,7 @@ string mapping_to_string( mapping map ) {
                array_to_string( map[ args[ i ] ] ) );
          continue;
       }
-      if ( mappingp( map[ args[ i ] ] ) ) {
+      if ( mapp( map[ args[ i ] ] ) ) {
          args[ i ] = sprintf( "%O : %s", args[ i ],
                mapping_to_string( map[ args[ i ] ] ) );
          continue;

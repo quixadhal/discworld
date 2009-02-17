@@ -90,7 +90,7 @@ void buy_something(object player, mixed arg, int id) {
    /* Ok.  Now we try and buy something... */
    items = environment(player)->query_menu_items();
    rabbit = ({ });
-   if (mappingp(items)) {
+   if (mapp(items)) {
       stuff = keys(items);
 
       place = environment(player)->query_property( "place" );

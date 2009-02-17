@@ -9,7 +9,7 @@
 #include "network_incl.h"
 
 #define DFAULT_PROTO 0		/* use the appropriate protocol    */
-#define MAX_CONNS 4		/* max number of connections       */
+#define MAX_CONNS 32		/* max number of connections       */
 #define SNAME_LEN 64		/* length of symbolic name string  */
 #define MAX_EVENTS_IN_QUEUE        100
 #define MAX_EVENTS_TO_PROCESS      100
@@ -32,7 +32,11 @@ typedef struct conn *conn_ptr;
 typedef struct conn {
     int fd;			/* file descriptor                 */
     int state;			/* connection state                */
+#ifndef IPV6
     struct sockaddr_in addr;	/* address struct for connected    */
+#else
+    struct sockaddr_in6 addr;
+#endif
     char sname[SNAME_LEN];	/* symbolic name of connected host */
     int leftover;		/* unprocessed bytes in data queue */
     char buf[IN_BUF_SIZE];

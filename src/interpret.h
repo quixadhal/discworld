@@ -14,7 +14,7 @@
 #define PUSH_WHAT      (3 << 6)
 #define PUSH_MASK      (0xff ^ (PUSH_WHAT))
 
-#define SWITCH_CASE_SIZE ((int)(2 + sizeof(char *)))
+#define SWITCH_CASE_SIZE (2 + sizeof(char *))
 
 /* Trace defines */
 #ifdef TRACE
@@ -60,7 +60,7 @@ typedef struct control_stack_s {
 #endif
     short framekind;
     union {
-        int table_index;
+        long table_index;
         funptr_t *funp;
     } fr;
     object_t *ob;               /* Current object */
@@ -153,12 +153,12 @@ typedef struct {
         if ((x)->subtype == STRING_MALLOC && MSTR_REF((x)->u.string) == 1) { \
             ssj_res = (char *) extend_string((x)->u.string, ssj_len); \
             if (!ssj_res) fatal("Out of memory!\n"); \
-            (void) strcpy(ssj_res + ssj_r, (y)->u.string); \
+            (void) strcpy(ssj_res + ssj_r, (y)->u.string);	\
             free_string_svalue(y); \
         } else { \
             ssj_res = (char *) new_string(ssj_len, z); \
-            strcpy(ssj_res, (x)->u.string); \
-            strcpy(ssj_res + ssj_r, (y)->u.string); \
+            strcpy(ssj_res, (x)->u.string);	       \
+            strcpy(ssj_res + ssj_r, (y)->u.string);	       \
             free_string_svalue(y); \
             free_string_svalue(x); \
             (x)->subtype = STRING_MALLOC; \
@@ -252,7 +252,6 @@ extern unsigned int apply_low_call_others;
 extern unsigned int apply_low_cache_hits;
 extern unsigned int apply_low_slots_used;
 extern unsigned int apply_low_collisions;
-extern int function_index_offset;
 extern int simul_efun_is_loading;
 extern program_t fake_prog;
 extern svalue_t global_lvalue_byte;
@@ -300,8 +299,8 @@ INLINE void push_mapping (mapping_t *);
 INLINE void push_refed_mapping (mapping_t *);
 INLINE void push_class (array_t *);
 INLINE void push_refed_class (array_t *);
-INLINE void push_malloced_string (char *);
-INLINE void push_shared_string (char *);
+INLINE void push_malloced_string (const char *);
+INLINE void push_shared_string (const char *);
 INLINE void push_constant_string (const char *);
 INLINE void pop_stack (void);
 INLINE void pop_n_elems (int);
@@ -318,11 +317,12 @@ void setup_variables (int, int, int);
 
 void process_efun_callback (int, function_to_call_t *, int);
 svalue_t *call_efun_callback (function_to_call_t *, int);
+svalue_t *safe_call_efun_callback (function_to_call_t *, int);
 const char *type_name (int c);
 void bad_arg (int, int);
 void bad_argument (svalue_t *, int, int, int);
 void check_for_destr (array_t *);
-int is_static (char *, object_t *);
+int is_static (const char *, object_t *);
 int apply_low (const char *, object_t *, int);
 svalue_t *apply (const char *, object_t *, int, int);
 svalue_t *call_function_pointer (funptr_t *, int);
@@ -335,11 +335,11 @@ void call_function (program_t *, int);
 void mark_apply_low_cache (void);
 void translate_absolute_line (int, unsigned short *, int *, int *);
 char *add_slash (const char * const);
-int strpref (char *, char *);
+int strpref (const char *, const char *);
 array_t *get_svalue_trace (void);
-void do_trace (char *, char *, char *);
+void do_trace (const char *, const char *, const char *);
 const char *dump_trace (int);
-void opcdump (char *);
+void opcdump (const char *);
 int inter_sscanf (svalue_t *, svalue_t *, svalue_t *, int);
 char * get_line_number_if_any (void);
 char *get_line_number (char *, const program_t *);

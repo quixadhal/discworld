@@ -110,7 +110,7 @@ mapping query_dynamic_auto_load() {
  * @ignore yes
  */
 void init_static_arg( mapping map ) {
-   if ( !mappingp( map ) )
+   if ( !mapp( map ) )
       return;
    if ( map[ "::" ] )
       armour::init_static_arg( map[ "::" ] );

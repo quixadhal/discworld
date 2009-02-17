@@ -108,7 +108,7 @@ static void mark_block (u *);
 static char *esbrk (u);
 static int resort_free_list (void);
 #ifdef DEBUG
-static void walk_new_small_malloced (void (* ()));
+static void walk_new_small_malloced (void (*func) (POINTER, int));
 #endif
 
 #define s_size_ptr(p)	(p)
@@ -169,7 +169,7 @@ POINTER CDECL smalloc_malloc (size_t size)
 	next_unused = (u *) large_malloc(SMALL_CHUNK_SIZE + SIZEOF_PTR, 1);
 	if (next_unused == 0)
 	    return 0;
-	
+
 	*next_unused = (u) last_small_chunk;
 	last_small_chunk = next_unused++;
 	count_up(small_chunk_stat, SMALL_CHUNK_SIZE +  SIZEOF_PTR);
@@ -209,7 +209,7 @@ static int malloc_size_mask()
 
 static int malloced_size (POINTER ptr)
 {
-    return (int) (((u *) ptr)[-1] & MASK);
+    return (((u *) ptr)[-1] & MASK);
 }
 
 SFREE_RETURN_TYPE CDECL smalloc_free (POINTER ptr)
@@ -266,7 +266,7 @@ int fit_style = BEST_FIT;
 static void show_block (u * ptr)
 {
     printf("[%c%d: %d]  ", (*ptr & THIS_BLOCK ? '+' : '-'),
-	   (int) ptr, (int)(*ptr & MASK));
+	   ptr, (*ptr & MASK));
 }
 
 #ifdef FIT_STYLE_FAST_FIT
@@ -298,8 +298,8 @@ typedef struct free_block_s {
 /* some compilers don't understand forward declarations of static vars. */
 extern free_block_t dummy2;
 
-static free_block_t dummy = { 
-    /* size */ 0, 
+static free_block_t dummy = {
+    /* size */ 0,
     /* parent */ &dummy2,
     /* left */ 0,
     /* right */ 0,
@@ -309,8 +309,8 @@ static free_block_t dummy = {
 free_block_t dummy2 =
 {
     /* size */ 0,
-    /* parent */ 0, 
-    /* left */ &dummy, 
+    /* parent */ 0,
+    /* left */ &dummy,
     /* right */ 0,
     /* balance */ -1
 };
@@ -1033,19 +1033,6 @@ static char *esbrk (u size)
     return (addr);
 
 #else
-#ifdef LATTICE
-
-    extern void *sbrkx();
-    void *addr = NULL;
-
-    addr = (char *)sbrkx(size);
-    if ((char *) addr == (char *) (-1))
-	return NULL;
-
-    count_up(sbrk_stat, size);
-    return addr;
-
-#else
 
 #ifndef linux
     extern char *sbrkx();
@@ -1054,7 +1041,7 @@ static char *esbrk (u size)
     static char *current_break = 0;
 
     if (current_break == 0)
-	current_break = sbrkx(0);
+	current_break = (char *)sbrkx(0);
     if (brk(current_break + size) == -1)
 	return 0;
 
@@ -1062,7 +1049,6 @@ static char *esbrk (u size)
     current_break += size;
     return current_break - size;
 
-#endif				/* LATTICE */
 #endif				/* NeXT */
 #else				/* not SBRK_OK */
 
@@ -1429,8 +1415,7 @@ POINTER CDECL smalloc_calloc (size_t nelem, size_t sizel)
  * Functions below can be used to debug malloc.
  */
 
-static void walk_new_small_malloced(func)
-    void (*func) (POINTER, int);
+static void walk_new_small_malloced(void (*func) (POINTER, int))
 {
     int i;
     u *p, *q;
@@ -1466,88 +1451,4 @@ static void walk_new_small_malloced(func)
 }
 #endif
 
-#if 0
 
-int debug_smalloc = 0;
-
-/*
- * Verify that the free list is correct. The upper limit compared to
- * is very machine dependant.
- */
-verify_sfltable()
-{
-    u *p;
-    int i, j;
-    extern int end;
-
-    if (!debug_smalloc)
-	return;
-    if (unused_size > SMALL_CHUNK_SIZE)
-	apa();
-    for (i = 0; i < SMALL_BLOCK_MAX; i++) {
-	for (j = 0, p = sfltable[i]; p; p = *(u **) (p + 1), j++) {
-	    if (p < (u *) & end || p > (u *) 0xfffff)
-		apa();
-	    if (*p - 2 != i)
-		apa();
-	}
-	if (p >= next_unused && p < next_unused + (unused_size >> 2))
-	    apa();
-    }
-    p = free_list;
-    while (p) {
-	if (p >= next_unused && p < next_unused + (unused_size >> 2))
-	    apa();
-	p = l_next_ptr(p);
-    }
-}
-
-verify_free (u * ptr)
-{
-    u *p;
-    int i, j;
-
-    if (!debug_smalloc)
-	return;
-    for (i = 0; i < SMALL_BLOCK_MAX; i++) {
-	for (j = 0, p = sfltable[i]; p; p = *(u **) (p + 1), j++) {
-	    if (*p - 2 != i)
-		apa();
-	    if (ptr >= p && ptr < p + *p)
-		apa();
-	    if (p >= ptr && p < ptr + *ptr)
-		apa();
-	    if (p >= next_unused && p < next_unused + (unused_size >> 2))
-		apa();
-	}
-    }
-
-    p = free_list;
-    while (p) {
-	if (ptr >= p && ptr < p + (*p & MASK))
-	    apa();
-	if (p >= ptr && p < ptr + (*ptr & MASK))
-	    apa();
-	if (p >= next_unused && p < next_unused + (unused_size >> 2))
-	    apa();
-	p = l_next_ptr(p);
-    }
-    if (ptr >= next_unused && ptr < next_unused + (unused_size >> 2))
-	apa();
-}
-
-apa()
-{
-    int i;
-
-    i / 0;
-}
-
-static char *ref;
-test_malloc (char * p)
-{
-    if (p == ref)
-	printf("Found 0x%x\n", p);
-}
-
-#endif				/* 0 (never) */

@@ -31,7 +31,7 @@
 /**
  * This is the port the mud is on.
  */
-#define PORT_MUD (mud_name() == "Discworld") ? 23 : 4242
+#define PORT_MUD (mud_name() == "Discworld") ? 23 : 6677
 /**
  * This is the port the ftp server runs on.
  */

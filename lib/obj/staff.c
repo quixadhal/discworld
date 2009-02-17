@@ -104,7 +104,7 @@ void init_dynamic_arg( mapping map ) {
 } /* init_dynamic_arg() */
 
 void init_static_arg( mapping map ) {
-   if ( !mappingp( map ) )
+   if ( !mapp( map ) )
       return;
   if ( map[ "::" ] )
     weapon::init_static_arg( map[ "::" ] );

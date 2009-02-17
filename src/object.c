@@ -114,9 +114,9 @@ INLINE int svalue_save_size (svalue_t * v)
 #else
 	      len = res < 0 ? (res = (-res) & 0x7fffffffffffffff,3) : 2;
 #endif
-            while (res>9) { 
-		res /= 10; 
-		len++; 
+            while (res>9) {
+		res /= 10;
+		len++;
 	    }
             return len;
         }
@@ -125,7 +125,7 @@ INLINE int svalue_save_size (svalue_t * v)
         {
             char buf[256];
             sprintf(buf, "%f", v->u.real);
-            return (int)(strlen(buf)+1);
+            return (strlen(buf)+1);
         }
 
     default:
@@ -201,16 +201,16 @@ INLINE void save_svalue (svalue_t * v, char ** buf)
 		len++;
 		neg = 1;
 #if SIZEOF_LONG == 4
-		res = (-res) & 0x7fffffff; 
+		res = (-res) & 0x7fffffff;
 #else
-		res = (-res) & 0x7fffffffffffffff; 
+		res = (-res) & 0x7fffffffffffffff;
 #endif
 	    }
 
             fact = res;
-            while (fact > 9) { 
-		fact /= 10; 
-		len++; 
+            while (fact > 9) {
+		fact /= 10;
+		len++;
 	    }
             *(cp = (*buf += len)) = '\0';
             do {
@@ -290,7 +290,7 @@ restore_internal_size (const char ** str, int is_mapping, int depth)
                     if (!restore_internal_size(str, 0, save_svalue_depth++))
                         return 0;
                 } else { return 0;}
-                
+
                 if (*(cp = *str) != delim) { return 0;}
                 cp++;
                 size++;
@@ -397,7 +397,7 @@ restore_size (const char ** str, int is_mapping)
                     *str = ++cp;
                     if (!restore_internal_size(str, 0, save_svalue_depth++)) return -1;
                 } else { return -1; }
-                
+
                 if (*(cp = *str) != delim) { return -1;}
                 cp++;
                 size++;
@@ -463,23 +463,23 @@ restore_interior_string (char ** val, svalue_t * sv)
 
         case '\\':
             {
-                char *new = cp - 1;
+                char *news = cp - 1;
 
-                if ((*new++ = *cp++)) {
+                if ((*news++ = *cp++)) {
                     while ((c = *cp++) != '"') {
                         if (c == '\\') {
-                            if (!(*new++ = *cp++)) return ROB_STRING_ERROR;
+                            if (!(*news++ = *cp++)) return ROB_STRING_ERROR;
                         }
                         else {
                             if (c == '\r')
-                                *new++ = '\n';
-                            else *new++ = c;
+                                *news++ = '\n';
+                            else *news++ = c;
                         }
                     }
                     if (c == '\0') return ROB_STRING_ERROR;
-                    *new = '\0';
+                    *news = '\0';
                     *val = cp;
-                    newstr = new_string(len = (new - start),
+                    newstr = new_string(len = (news - start),
                                               "restore_string");
                     strcpy(newstr, start);
                     sv->u.string = newstr;
@@ -509,11 +509,11 @@ restore_interior_string (char ** val, svalue_t * sv)
     return 0;
 }
 
-static int parse_numeric (char ** cpp, unsigned char c, svalue_t * dest) 
+static int parse_numeric (char ** cpp, unsigned char c, svalue_t * dest)
 {
     char *cp = *cpp;
     long res, neg;
-    
+
     if (c == '-') {
         neg = 1;
         res = 0;
@@ -523,7 +523,7 @@ static int parse_numeric (char ** cpp, unsigned char c, svalue_t * dest)
     } else
       neg = 0;
     res = c - '0';
-    
+
     while ((c = *cp++) && isdigit(c)) {
         res *= 10;
         res += c - '0';
@@ -537,7 +537,7 @@ static int parse_numeric (char ** cpp, unsigned char c, svalue_t * dest)
             c = '0';
         }
         if (!isdigit(c)) return 0;
-        
+
         do {
             f1 += (c - '0')/f2;
             f2 *= 10;
@@ -546,7 +546,7 @@ static int parse_numeric (char ** cpp, unsigned char c, svalue_t * dest)
         f1 += res;
         if (c == 'e') {
             int expo = 0;
-            
+
             if ((c = *cp++) == '+') {
                 while ((c = *cp++) && isdigit(c)) {
                     expo *= 10;
@@ -562,7 +562,7 @@ static int parse_numeric (char ** cpp, unsigned char c, svalue_t * dest)
             } else
                 return 0;
         }
-            
+
         dest->type = T_REAL;
         dest->u.real = (neg ? -f1 : f1);
         *cpp = cp;
@@ -570,7 +570,7 @@ static int parse_numeric (char ** cpp, unsigned char c, svalue_t * dest)
     } else if (c == 'e') {
         int expo = 0;
         float f1;
-        
+
         if ((c = *cp++) == '+') {
             while ((c = *cp++) && isdigit(c)) {
                 expo *= 10;
@@ -585,7 +585,7 @@ static int parse_numeric (char ** cpp, unsigned char c, svalue_t * dest)
             f1 = res * pow(10.0, -expo);
         } else
             return 0;
-        
+
         dest->type = T_REAL;
         dest->u.real = (neg ? -f1 : f1);
         *cpp = cp;
@@ -611,7 +611,8 @@ INLINE_STATIC void add_map_stats (mapping_t * m, int count)
 static int
 restore_mapping (char **str, svalue_t * sv)
 {
-    int size, i, mask, oi, count = 0;
+    int size, i, mask, count = 0;
+    unsigned long oi;
     char c;
     mapping_t *m;
     svalue_t key, value;
@@ -619,9 +620,9 @@ restore_mapping (char **str, svalue_t * sv)
     char *cp = *str;
     int err;
 
-    if (save_svalue_depth) size = sizes[save_svalue_depth-1]; 
+    if (save_svalue_depth) size = sizes[save_svalue_depth-1];
     else if ((size = restore_size((const char **)str, 1)) < 0) return 0;
-    
+
     if (!size) {
         *str += 2;
         sv->u.map = allocate_mapping(0);
@@ -631,7 +632,7 @@ restore_mapping (char **str, svalue_t * sv)
     m = allocate_mapping(size >> 1); /* have to clean up after this or */
     a = m->table;                    /* we'll leak */
     mask = m->table_size;
-    
+
     while (1) {
         switch (c = *cp++) {
         case '"':
@@ -643,7 +644,7 @@ restore_mapping (char **str, svalue_t * sv)
                 cp++;
                 break;
             }
-            
+
         case '(':
             {
                 save_svalue_depth++;
@@ -667,14 +668,14 @@ restore_mapping (char **str, svalue_t * sv)
                 cp++;
                 break;
             }
-            
+
         case ':':
             {
                 key.u.number = 0;
                 key.type = T_NUMBER;
                 break;
             }
-            
+
         case ']':
             *str = ++cp;
             add_map_stats(m, count);
@@ -688,14 +689,14 @@ restore_mapping (char **str, svalue_t * sv)
             if (!parse_numeric(&cp, c, &key))
                 goto key_numeral_error;
             break;
-            
+
         default:
             goto generic_key_error;
         }
 
         /* At this point, key is a valid, referenced svalue and we're
            responsible for it */
-        
+
         switch (c = *cp++) {
         case '"':
             {
@@ -706,7 +707,7 @@ restore_mapping (char **str, svalue_t * sv)
                 cp++;
                 break;
             }
-            
+
         case '(':
             {
                 save_svalue_depth++;
@@ -729,7 +730,7 @@ restore_mapping (char **str, svalue_t * sv)
                 cp++;
                 break;
             }
-            
+
         case '-':
         case '0': case '1': case '2': case '3': case '4':
         case '5': case '6': case '7': case '8': case '9':
@@ -743,14 +744,14 @@ restore_mapping (char **str, svalue_t * sv)
                 value.type = T_NUMBER;
                 break;
             }
-            
+
         default:
             goto generic_value_error;
         }
 
         /* both key and value are valid, referenced svalues */
 
-        oi = MAP_POINTER_HASH(key.u.number);
+        oi = MAP_SVAL_HASH(key);
         i = oi & mask;
         if ((elt2 = elt = a[i])) {
             do {
@@ -778,7 +779,7 @@ restore_mapping (char **str, svalue_t * sv)
                 error("Out of memory\n");
             }
         }
-        
+
         if (++count > MAX_MAPPING_SIZE) {
             add_map_stats(m, count -1);
             free_mapping(m);
@@ -786,7 +787,7 @@ restore_mapping (char **str, svalue_t * sv)
             free_svalue(&value, "restore_mapping: mapping too large");
             mapping_too_large();
         }
-        
+
         elt = new_map_node();
         *elt->values = key;
         *(elt->values + 1) = value;
@@ -817,7 +818,7 @@ restore_mapping (char **str, svalue_t * sv)
 
 INLINE_STATIC int
 restore_class (char ** str, svalue_t * ret)
-{   
+{
     int size;
     char c;
     array_t *v;
@@ -826,7 +827,7 @@ restore_class (char ** str, svalue_t * ret)
     int err;
 
     if (save_svalue_depth) size = sizes[save_svalue_depth-1];
-    else if ((size = restore_size((const char **)str,0)) < 0) return ROB_CLASS_ERROR; 
+    else if ((size = restore_size((const char **)str,0)) < 0) return ROB_CLASS_ERROR;
 
     v = allocate_class_by_size(size); /* after this point we have to clean up
                                          or we'll leak */
@@ -904,7 +905,7 @@ restore_class (char ** str, svalue_t * ret)
 
 INLINE_STATIC int
 restore_array (char ** str, svalue_t * ret)
-{   
+{
     int size;
     char c;
     array_t *v;
@@ -913,7 +914,7 @@ restore_array (char ** str, svalue_t * ret)
     int err;
 
     if (save_svalue_depth) size = sizes[save_svalue_depth-1];
-    else if ((size = restore_size((const char **)str,0)) < 0) return ROB_ARRAY_ERROR; 
+    else if ((size = restore_size((const char **)str,0)) < 0) return ROB_ARRAY_ERROR;
 
     v = allocate_array(size); /* after this point we have to clean up
                                  or we'll leak */
@@ -1007,30 +1008,29 @@ restore_string (char * val, svalue_t * sv)
 
         case '\\':
             {
-                char *new = cp - 1;
-
-                if ((*new++ = *cp++)) {
-                    while ((c = *cp++) != '"') {
+                char *news = cp - 1;
+                if ((*news++ = *cp++)) {
+                    while ((c = *cp++) != '"' && c) {
                         if (c == '\\') {
-                            if (!(*new++ = *cp++)) return ROB_STRING_ERROR;
-                        }
-                        else {
+                            if (!(*news++ = *cp++))
+                            	return ROB_STRING_ERROR;
+                        } else {
                             if (c == '\r')
-                                *new++ = '\n';
-                            else *new++ = c;
+                                *news++ = '\n';
+                            else
+                            	*news++ = c;
                         }
                     }
-                    if ((c == '\0') || (*cp != '\0')) return ROB_STRING_ERROR;
-                    *new = '\0';
-                    newstr = new_string(new - start,
-                                              "restore_string");
+                    if ((c == '\0') || (*cp != '\0'))
+                    	return ROB_STRING_ERROR;
+                    *news = '\0';
+                    newstr = new_string(news - start, "restore_string");
                     strcpy(newstr, start);
                     sv->u.string = newstr;
                     sv->type = T_STRING;
                     sv->subtype = STRING_MALLOC;
                     return 0;
                 }
-                else return ROB_STRING_ERROR;
             }
 
         case '\0':
@@ -1059,7 +1059,7 @@ restore_svalue (char * cp, svalue_t * v)
 {
     int ret;
     char c;
-    
+
     switch (c = *cp++) {
     case '"':
         return restore_string(cp, v);
@@ -1082,14 +1082,14 @@ restore_svalue (char * cp, svalue_t * v)
             sizes = (int *) 0;
         }
         return ret;
-        
+
     case '-':
     case '0': case '1': case '2': case '3': case '4':
     case '5': case '6': case '7': case '8': case '9':
         if (!parse_numeric(&cp, c, v))
             return ROB_NUMERAL_ERROR;
         break;
-        
+
     default:
         v->type = T_NUMBER;
         v->u.number = 0;
@@ -1106,7 +1106,7 @@ safe_restore_svalue (char * cp, svalue_t * v)
     int ret;
     svalue_t val;
     char c;
-    
+
     val.type = T_NUMBER;
     switch (c = *cp++) {
     case '"':
@@ -1131,11 +1131,11 @@ safe_restore_svalue (char * cp, svalue_t * v)
                     FREE((char *) sizes);
                 sizes = (int *) 0;
             }
-            if (ret) 
+            if (ret)
                 return ret;
             break;
         }
-        
+
     case '-':
     case '0': case '1': case '2': case '3': case '4':
     case '5': case '6': case '7': case '8': case '9':
@@ -1152,7 +1152,7 @@ safe_restore_svalue (char * cp, svalue_t * v)
     return 0;
 }
 
-static int fgv_recurse (program_t * prog, int * idx, 
+static int fgv_recurse (program_t * prog, int * idx,
                           char * name, unsigned short * type,
                           int check_nosave) {
     int i;
@@ -1179,7 +1179,7 @@ int find_global_variable (program_t * prog, const char * const name,
                             unsigned short * type, int check_nosave) {
     int idx = 0;
     char *str = findstring(name);
-    
+
     if (str && fgv_recurse(prog, &idx, str, type, check_nosave))
         return idx;
 
@@ -1196,7 +1196,7 @@ restore_object_from_line (object_t * ob, char * line, int noclear)
     svalue_t *sv = ob->variables;
     int rc;
     unsigned short t;
-    
+
 
     if (line[0] == '#') { /* ignore 'comments' in savefiles */
         return ;
@@ -1252,7 +1252,7 @@ restore_object_from_gzip (object_t * ob,
     const char* tmp = "";
     int idx;
     int t;
-    
+
     t = 65536 << *count; //should be big enough most of the time
     if (buff && buffsize < t) {
         FREE(buff);
@@ -1260,7 +1260,7 @@ restore_object_from_gzip (object_t * ob,
     }
 
     if(!buff){
-	buff = DXALLOC(t, TAG_TEMPORARY, "restore_object: 6");
+      buff = (char *)DXALLOC(t, TAG_TEMPORARY, "restore_object: 6");
 	buffsize = t;
     }
 
@@ -1275,15 +1275,9 @@ restore_object_from_gzip (object_t * ob,
         tmp = gzgets(gzf, buff, t);
 
         if (buff[t - 2] != 0 && buff[t - 2] != '\n' && !gzeof(gzf)) {
-	    //prevent trying smaller buffers again
-	   t/=65536;
-	   *count = 0;
-	   while(t>>=1){
-	       (*count)++;
-	   }
            return -1; //retry with bigger buffer
         }
-        
+
         if (buff[0]) {
             char *tmp2 = strchr(buff, '\n');
             if (tmp2) {
@@ -1309,11 +1303,11 @@ restore_object_from_buff (object_t * ob, char * theBuff,
     svalue_t *sv = ob->variables;
     int rc;
     unsigned short t;
-    
+
     nextBuff = theBuff;
     while ((buff = nextBuff) && *buff) {
         svalue_t *v;
- 
+
         if ((tmp = strchr(buff, '\n'))) {
             *tmp = '\0';
             if (tmp > buff && tmp[-1] == '\r')
@@ -1340,7 +1334,7 @@ static int save_object_recurse (program_t * prog, svalue_t **
 #else
 static int save_object_recurse (program_t * prog, svalue_t **
                                   svp, int type, int save_zeros,
-                                  FILE * f) 
+                                  FILE * f)
 #endif
 {
     int i;
@@ -1349,7 +1343,7 @@ static int save_object_recurse (program_t * prog, svalue_t **
     int theSize;
     int oldSize;
     char *new_str, *p;
-    
+
     for (i = 0; i < prog->num_inherited; i++) {
 #ifdef HAVE_ZLIB
         if (!(tmp = save_object_recurse(prog->inherit[i].prog, svp,
@@ -1357,7 +1351,7 @@ static int save_object_recurse (program_t * prog, svalue_t **
                                  save_zeros, f, gzf)))
 #else
 
-        if (!(tmp = save_object_recurse(prog->inherit[i].prog, svp, 
+        if (!(tmp = save_object_recurse(prog->inherit[i].prog, svp,
                                  prog->inherit[i].type_mod | type,
                                  save_zeros, f)))
 #endif
@@ -1437,7 +1431,7 @@ save_object (object_t * ob, const char * file, int save_zeros)
 #ifdef HAVE_ZLIB
     gzFile gzf;
     int save_compressed;
-    
+
     if (save_zeros & 2) {
         save_compressed = 1;
         save_zeros &= ~2;
@@ -1476,7 +1470,7 @@ save_object (object_t * ob, const char * file, int save_zeros)
 
     file = check_valid_path(name, ob, "save_object", 1);
     free_string_svalue(sp--);
-    if (!file) 
+    if (!file)
         error("Denied write permission in save_object().\n");
 
     strcpy(save_name, ob->obname);
@@ -1513,7 +1507,7 @@ save_object (object_t * ob, const char * file, int save_zeros)
     v = ob->variables;
 #ifdef HAVE_ZLIB
     success = save_object_recurse(ob->prog, &v, 0, save_zeros, f, gzf);
-    
+
     if (gzf && gzclose(gzf)) {
         debug_perror("save_object", file);
         success = 0;
@@ -1536,15 +1530,6 @@ save_object (object_t * ob, const char * file, int save_zeros)
         unlink(file);
 #endif
         if (rename(tmp_name, file) < 0) {
-#ifdef LATTICE
-            /* AmigaDOS won't overwrite when renaming */
-            if (errno == EEXIST) {
-                unlink(file);
-                if (rename(tmp_name, file) >= 0) {
-                    return success;
-                }
-            }
-#endif
             debug_perror("save_object", file);
             debug_message("Failed to rename /%s to /%s\n", tmp_name, file);
             debug_message("Failed to save object!\n");
@@ -1576,7 +1561,7 @@ save_variable (svalue_t * var)
 {
     int theSize;
     char *new_str, *p;
-    
+
     save_svalue_depth = 0;
     theSize = svalue_save_size(var);
     new_str = new_string(theSize - 1, "save_variable");
@@ -1589,7 +1574,7 @@ save_variable (svalue_t * var)
 
 static void cns_just_count (int * idx, program_t * prog) {
     int i;
-    
+
     for (i = 0; i < prog->num_inherited; i++)
         cns_just_count(idx, prog->inherit[i].prog);
     *idx += prog->num_variables_defined;
@@ -1597,7 +1582,7 @@ static void cns_just_count (int * idx, program_t * prog) {
 
 static void cns_recurse (object_t * ob, int * idx, program_t * prog) {
     int i;
-    
+
     for (i = 0; i < prog->num_inherited; i++) {
         if (prog->inherit[i].type_mod & DECL_NOSAVE)
             cns_just_count(idx, prog->inherit[i].prog);
@@ -1627,7 +1612,7 @@ int restore_object (object_t * ob, const char * file, int noclear)
 #ifdef HAVE_ZLIB
     int pos;
     gzFile gzf;
-    int count = 0;
+    static int count = 0;
 #else
     FILE *f;
     // Try and keep one buffer for droping all the restores into
@@ -1642,7 +1627,7 @@ int restore_object (object_t * ob, const char * file, int noclear)
     len = strlen(file);
     if (file[len-2] == '.' && file[len - 1] == 'c')
         len -= 2;
-    
+
     if (sel == -1) sel = strlen(SAVE_EXTENSION);
     if (strcmp(file + len - sel, SAVE_EXTENSION) == 0)
         len -= sel;
@@ -1680,13 +1665,8 @@ int restore_object (object_t * ob, const char * file, int noclear)
 
 
 #ifdef HAVE_ZLIB
-#  ifdef LATTICE
-    gzf = NULL;
-    if ((stat(file, &st) == -1) || !(gzf = fopen(file, "r"))) {
-#  else
     gzf = gzopen(file, "r");
     if (!gzf) {
-#  endif
         if (gzf) {
             (void)gzclose(gzf);
         }
@@ -1710,14 +1690,9 @@ int restore_object (object_t * ob, const char * file, int noclear)
     gzclose(gzf);
 
 #else
-#ifdef LATTICE
-    f = NULL;
-    if ((stat(file, &st) == -1) || !(f = fopen(file, "r"))) {
-#else
     f = fopen(file, "r");
     if (!f || fstat(fileno(f), &st) == -1) {
-#endif
-        if (f) 
+        if (f)
             (void)fclose(f);
         return 0;
     }
@@ -1726,7 +1701,7 @@ int restore_object (object_t * ob, const char * file, int noclear)
         (void)fclose(f);
         return 0;
     }
-    
+
     if (tmp_len > buff_len) {
         if (theBuff) {
             FREE(theBuff);
@@ -1735,7 +1710,7 @@ int restore_object (object_t * ob, const char * file, int noclear)
         buff_len = tmp_len;
     }
 #ifdef WIN32
-    tmp_len = read(_fileno(f), theBuff, i);
+    tmp_len = read(_fileno(f), theBuff, tmp_len);
 #else
     fread(theBuff, 1, tmp_len, f);
 #endif
@@ -1743,14 +1718,14 @@ int restore_object (object_t * ob, const char * file, int noclear)
     fclose(f);
     theBuff[tmp_len] = '\0';
     current_object = ob;
-    
+
     /* This next bit added by Armidale@Cyberworld 1/1/93
      * If 'noclear' flag is not set, all non-static variables will be
      * initialized to 0 when restored.
      */
     if (!noclear)
         clear_non_statics(ob);
-    
+
     restore_object_from_buff(ob, theBuff, noclear);
 #endif
     current_object = save;
@@ -1762,8 +1737,8 @@ int restore_object (object_t * ob, const char * file, int noclear)
 void restore_variable (svalue_t * var, char * str)
 {
     int rc;
-
     rc = restore_svalue(str, var);
+
     if (rc & ROB_ERROR) {
         *var = const0; /* clean up */
         if (rc & ROB_GENERAL_ERROR)
@@ -1820,13 +1795,13 @@ void dealloc_object (object_t * ob, const char * from)
 
     if (!(ob->flags & O_DESTRUCTED)) {
         if(ob->next_all != ob)
-	  /* This is fatal, and should never happen. */
-	  fatal("FATAL: Object 0x%x /%s ref count 0, but not destructed (from %s).\n",
-		ob, ob->obname, from);
-	else {
-	  destruct_object(ob);
-	  return;
-	}
+            /* This is fatal, and should never happen. */
+            fatal("FATAL: Object 0x%x /%s ref count 0, but not destructed (from %s).\n",
+                  ob, ob->obname, from);
+        else {
+            destruct_object(ob);
+            return;
+        }
     }
     DEBUG_CHECK(ob->interactive, "Tried to free an interactive object.\n");
     /*
@@ -1837,7 +1812,7 @@ void dealloc_object (object_t * ob, const char * from)
         tot_alloc_object_size -=
             (ob->prog->num_variables_total - 1) * sizeof(svalue_t) +
             sizeof(object_t);
-        free_prog(ob->prog);
+        free_prog(&ob->prog);
         ob->prog = 0;
     }
     if (ob->replaced_program) {
@@ -1857,14 +1832,15 @@ void dealloc_object (object_t * ob, const char * from)
         SETOBNAME(ob, 0);
     }
 #ifdef DEBUG
-    for (tmp = obj_list_dangling;  tmp != ob;  tmp = tmp->next_all)
-        prev_all = tmp;
+    prev_all = ob->prev_all;
     if (prev_all){
       prev_all->next_all = ob->next_all;
-      ob->prev_all = prev_all;
+      if(ob->next_all)
+        ob->next_all->prev_all = prev_all;
     } else {
       obj_list_dangling = ob->next_all;
-      obj_list_dangling->prev_all = 0;
+      if(obj_list_dangling)
+	     obj_list_dangling->prev_all = 0;
     }
     ob->next_all = 0;
     ob->prev_all = 0;
@@ -1874,24 +1850,33 @@ void dealloc_object (object_t * ob, const char * from)
     FREE((char *) ob);
 }
 
-void free_object (object_t * ob, const char * const from)
+void free_object (object_t ** ob, const char * const from)
 {
-    ob->ref--;
+    //note that we get a pointer to a pointer unlike MudOS where it's a pointer to the object
+	//this is so we can clear the variable holding the reference as that shouldn't be used anymore
+	//after freeing it! don't set to NULL as that might still hide such bugs, and I suspect it may
+	//be related to some of the corrupted memory crashes (which dw stopped doing, oh well, I'm sure it
+	//will be back.) Better to find and fix than to hide!
+  if(*ob)
+    (*ob)->ref--;
 
-    if (ob->ref > 0)
-        return;
-    dealloc_object(ob, from);
+  if ((*ob)->ref > 0) {
+    *ob = (object_t *)9;
+    return;
+  }
+  dealloc_object(*ob, from);
+  *ob = (object_t *)1;
 }
 
 /*
  * Allocate an empty object, and set all variables to 0. Note that a
  * 'object_t' already has space for one variable. So, if no variables
- * are needed, we allocate a space that is smaller than 'object_t'. This
- * unused (last) part must of course (and will not) be referenced.
+ * are needed, we waste one svalue worth of memory (or we'd write too
+ * much memory in copying the NULL_object over.
  */
 object_t *get_empty_object (int num_var)
 {
-    static object_t NULL_object;
+  //static object_t NULL_object;
     object_t *ob;
     int size = sizeof(object_t) +
     (num_var - !!num_var) * sizeof(svalue_t);
@@ -1906,7 +1891,9 @@ object_t *get_empty_object (int num_var)
      * assignment, so use it.
      */
     //*ob = NULL_object; gives a warning on const pointers
-    memcpy(ob, &NULL_object, sizeof NULL_object);
+    //memcpy(ob, &NULL_object, sizeof NULL_object);
+    //screw the "bull machines" we're in the 21st century now
+    memset(ob, 0, sizeof(object_t));
     ob->ref = 1;
     for (i = 0; i < num_var; i++)
         ob->variables[i] = const0u;
@@ -1965,7 +1952,7 @@ void reload_object (object_t * obj)
 
     if (!obj->prog)
         return;
-    for (i = 0; i < (int) obj->prog->num_variables_total; i++) {
+    for (i = 0; i < obj->prog->num_variables_total; i++) {
         free_svalue(&obj->variables[i], "reload_object");
         obj->variables[i] = const0u;
     }
@@ -1983,7 +1970,7 @@ void reload_object (object_t * obj)
     if (obj->shadowed && !obj->shadowing) {
         object_t *ob2;
         object_t *otmp;
-        
+
         for (ob2 = obj->shadowed; ob2;) {
             otmp = ob2;
             ob2 = ob2->shadowed;
@@ -2083,7 +2070,7 @@ void save_command_giver (object_t * ob)
 void restore_command_giver (void)
 {
     if (command_giver)
-        free_object(command_giver, "command_giver_error_handler");
+        free_object(&command_giver, "command_giver_error_handler");
     DEBUG_CHECK(cgsp == command_giver_stack, "command_giver stack underflow");
     command_giver = *(cgsp--);
 }
@@ -2092,7 +2079,7 @@ void restore_command_giver (void)
 void set_command_giver (object_t * ob)
 {
     if (command_giver)
-        free_object(command_giver, "set_command_giver");
+        free_object(&command_giver, "set_command_giver");
 
     command_giver = ob;
     if (command_giver != 0)

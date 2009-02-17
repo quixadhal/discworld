@@ -351,7 +351,7 @@ void init_dynamic_arg( mapping bing ) {
   log_file(base_name(this_object()) + ".log",
            "%s Loading.\n", ctime(time())[4..18]);
 #endif  
-  if ( !mappingp( bing ) ) {
+  if ( !mapp( bing ) ) {
 #ifdef DEBUG_INVENTORY  
   log_file(base_name(this_object()) + ".log",
            "%s no mapping to load.\n", ctime(time())[4..18]);

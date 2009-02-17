@@ -414,7 +414,7 @@ varargs int add_skill_level( string skill, int lvl, mixed exp ) {
       return 0;
    }
    
-   if (!new_skills || (!mappingp(new_skills))) {
+   if (!new_skills || (!mapp(new_skills))) {
       new_skills = ([ ]);
    }
    if (skill[0] == '.') {

@@ -44,7 +44,7 @@ void init_dynamic_arg( mapping arg ) {
 
 /** @ignore yes */ 
 void init_static_arg( mapping map ) {
-   if ( !mappingp( map ) ) {
+   if ( !mapp( map ) ) {
       return ;
    }
    if ( map[ "::" ] ) {

@@ -1,0 +1,40 @@
+.DT
+is_fighting_bottle_smashed
+Dead DW2 creator help
+is_fighting_bottle_smashed
+
+.SH Name
+.SP 5 5
+is_fighting_bottle_smashed -  This method checks to see if the person doing the drinking can hold onto their bottle without loosing it while in combat.
+.EP
+
+.SH Syntax
+.SI 5
+int is_fighting_bottle_smashed(object player,
+                               object me)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player%^RESET%^ - the player doing the drinking
+%^BOLD%^me%^RESET%^ - the object being drunk 
+.EI
+
+.SH Returns
+.SI 5
+1 if the bottle is stopped, 0 if it is not.EI
+
+.SH Defined in
+.SI 5
+/obj/vessel.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the person doing the drinking can hold onto
+their bottle without loosing it while in combat.  Warning!  This code
+may be used in other objects to deal with handling drinking while in
+combat.
+.EP
+

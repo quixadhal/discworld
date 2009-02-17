@@ -1045,7 +1045,7 @@ mapping query_dynamic_auto_load() {
 
 /** @ignore yes */
 void init_dynamic_arg( mapping map, object ) {
-  if ( !mappingp( map ) )
+  if ( !mapp( map ) )
     return;
   if ( map[ "::" ] )
     ::init_dynamic_arg( map[ "::" ]);
@@ -1084,7 +1084,7 @@ mapping query_static_auto_load() {
 
 /** @ignore yes */
 void init_static_arg( mapping map ) {
-   if ( !mappingp( map ) )
+   if ( !mapp( map ) )
       return;
    if ( map[ "::" ] )
       ::init_static_arg( map[ "::" ] );
@@ -1094,7 +1094,7 @@ void init_static_arg( mapping map ) {
       weight_unit = map[ "weight_unit" ];
    if ( stringp( map[ "pile_name" ] ) )
       pile_name = map[ "pile_name" ];
-   if ( mappingp( map[ "amount_types" ] ) )
+   if ( mapp( map[ "amount_types" ] ) )
       set_amount_types(map[ "amount_types" ]);
    if ( pointerp( map[ "pile_types" ] ) )
       pile_types = map[ "pile_types" ];

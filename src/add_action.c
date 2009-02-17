@@ -2,7 +2,7 @@
 #include "comm.h"
 #include "backend.h"
 #include "add_action.h"
-
+#include "eval.h"
 #ifndef NO_ADD_ACTION
 
 #define MAX_VERB_BUFF 100
@@ -62,12 +62,12 @@ void clear_notify (object_t * ob)
     ip->default_err_message.s = 0;
 }
 
-INLINE_STATIC int hash_living_name (char * str)
+INLINE_STATIC int hash_living_name (const char *str)
 {
-    return whashstr(str, 20) & (CFG_LIVING_HASH_SIZE - 1);
+    return whashstr(str) & (CFG_LIVING_HASH_SIZE - 1);
 }
 
-object_t *find_living_object (char * str, int user)
+object_t *find_living_object (const char* str, int user)
 {
     object_t **obp, *tmp;
     object_t **hl;
@@ -119,7 +119,7 @@ void remove_living_name (object_t * ob)
 	    break;
 	hl = &(*hl)->next_hashed_living;
     }
-    DEBUG_CHECK1(*hl == 0, 
+    DEBUG_CHECK1(*hl == 0,
 		 "remove_living_name: Object named %s no in hash list.\n",
 		 ob->living_name);
     *hl = ob->next_hashed_living;
@@ -128,7 +128,7 @@ void remove_living_name (object_t * ob)
     ob->living_name = 0;
 }
 
-static void set_living_name (object_t * ob, char * str)
+static void set_living_name (object_t * ob, const char *str)
 {
     int flags = ob->flags & O_ENABLE_COMMANDS;
     object_t **hl;
@@ -160,7 +160,7 @@ void setup_new_commands (object_t * dest, object_t * item)
      * Setup the new commands. The order is very important, as commands in
      * the room should override commands defined by the room. Beware that
      * init() in the room may have moved 'item' !
-     * 
+     *
      * The call of init() should really be done by the object itself (except in
      * the -o mode). It might be too slow, though :-(
      */
@@ -227,7 +227,7 @@ static void enable_commands (int num)
 	return;
 
     debug(d_flag, ("Enable commands /%s (ref %d)",
-		   current_object->name, current_object->ref));
+		   current_object->obname, current_object->ref));
 
     if (num) {
 	current_object->flags |= O_ENABLE_COMMANDS;
@@ -265,8 +265,8 @@ static int user_parser (char * buff)
     char *user_verb = 0;
     int where;
     int save_illegal_sentence_action;
-    
-    debug(d_flag, ("cmd [/%s]: %s\n", command_giver->name, buff));
+
+    debug(d_flag, ("cmd [/%s]: %s\n", command_giver->obname, buff));
 
     /* strip trailing spaces. */
     for (p = buff + strlen(buff) - 1; p >= buff; p--) {
@@ -309,7 +309,7 @@ static int user_parser (char * buff)
     for (s = command_giver->sent; s; s = s->next) {
 	svalue_t *ret;
 	object_t *command_object;
-	    
+
 	if (s->flags & (V_NOSPACE | V_SHORT)) {
 	    if (strncmp(buff, s->verb, strlen(s->verb)) != 0)
 		continue;
@@ -324,12 +324,12 @@ static int user_parser (char * buff)
 
 	if (!(s->flags & V_FUNCTION))
 	    debug(d_flag, ("Local command %s on /%s",
-			   s->function.s, s->ob->name));
+			   s->function.s, s->ob->obname));
 
 	if (s->flags & V_NOSPACE) {
 	    int l1 = strlen(s->verb);
 	    int l2 = strlen(verb_buff);
-	    
+
 	    if (l1 < l2)
 		last_verb = verb_buff + l1;
 	    else
@@ -346,7 +346,7 @@ static int user_parser (char * buff)
 	 * the origin is the driver and it will be allowed.
 	 */
 	where = (current_object ? ORIGIN_EFUN : ORIGIN_DRIVER);
-	
+
 	/*
 	 * Remember the object, to update moves.
 	 */
@@ -367,11 +367,11 @@ static int user_parser (char * buff)
 	    ret = apply(s->function.s, s->ob, 1, where);
 	}
 	/* s may be dangling at this point */
-	
+
 	restore_command_giver();
-	
+
 	last_verb = 0;
-	
+
 	/* was this the right verb? */
 	if (ret == 0) {
 	    /* is it still around?  Otherwise, ignore this ...
@@ -388,7 +388,7 @@ static int user_parser (char * buff)
 		}
 	    }
 	}
-	
+
 	if (ret && (ret->type != T_NUMBER || ret->u.number != 0)) {
 #ifdef PACKAGE_MUDLIB_STATS
 	    if (command_giver && command_giver->interactive
@@ -413,7 +413,7 @@ static int user_parser (char * buff)
     }
     notify_no_command();
     illegal_sentence_action = save_illegal_sentence_action;
-    
+
     return 0;
 }
 
@@ -456,7 +456,7 @@ int parse_command (char * str, object_t * ob)
  * If the call is from a shadow, make it look like it is really from
  * the shadowed object.
  */
-static void add_action (svalue_t * str, char * cmd, int flag)
+static void add_action (svalue_t * str, const char *cmd, int flag)
 {
     sentence_t *p;
     object_t *ob;
@@ -507,7 +507,7 @@ static void add_action (svalue_t * str, char * cmd, int flag)
  * if success.  If command_giver, remove his action, otherwise
  * remove current_object's action.
  */
-static int remove_action (char * act, char * verb)
+static int remove_action (const char *act, const char *verb)
 {
     object_t *ob;
     sentence_t **s;
@@ -520,7 +520,7 @@ static int remove_action (char * act, char * verb)
     if (ob) {
 	for (s = &ob->sent; *s; s = &((*s)->next)) {
 	    sentence_t *tmp;
-	    
+
 	    if (((*s)->ob == current_object) && (!((*s)->flags & V_FUNCTION))
 		&& !strcmp((*s)->function.s, act)
 		&& !strcmp((*s)->verb, verb)) {
@@ -572,7 +572,7 @@ void remove_sent (object_t * ob, object_t * user)
 void
 f_add_action (void)
 {
-    int flag;
+    long flag;
 
     if (st_num_arg == 3) {
 	flag = (sp--)->u.number;
@@ -608,12 +608,12 @@ f_add_action (void)
  */
 void f_command (void)
 {
-    int rc = 0;
+    long rc = 0;
 
     if (current_object && !(current_object->flags & O_DESTRUCTED))
     {
 	char buff[1000];
-	int save_eval_cost = eval_cost;
+	int save_eval_cost = get_eval();
 
 	if (SVALUE_STRLEN(sp) > sizeof(buff) - 1)
 	    error("Too long command.\n");
@@ -622,7 +622,11 @@ void f_command (void)
 	buff[sizeof(buff) - 1] = 0;
 
 	if (parse_command(buff, current_object))
-	    rc = save_eval_cost - eval_cost;
+#ifndef WIN32
+	  rc = save_eval_cost - get_eval();
+#else
+          rc = 1;
+#endif
     }
 
     free_string_svalue(sp);
@@ -687,10 +691,10 @@ void f_find_player (void)
 void f_living (void)
 {
     if (sp->u.ob->flags & O_ENABLE_COMMANDS) {
-	free_object(sp->u.ob, "f_living:1");
+	free_object(&sp->u.ob, "f_living:1");
 	*sp = const1;
     } else {
-	free_object(sp->u.ob, "f_living:2");
+	free_object(&sp->u.ob, "f_living:2");
 	*sp = const0;
     }
 }
@@ -734,7 +738,7 @@ void f_query_verb (void)
 #ifdef F_REMOVE_ACTION
 void f_remove_action (void)
 {
-    int success;
+    long success;
 
     success = remove_action((sp - 1)->u.string, sp->u.string);
     free_string_svalue(sp--);

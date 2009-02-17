@@ -439,7 +439,7 @@ mixed compile_data( string *path ) {
                     break;
                   case DC_MAPPING:
                     if (j) {
-                        file_data += "  if (!mappingp(data" + cur_index + "))"
+                        file_data += "  if (!mapp(data" + cur_index + "))"
                           + " data" + cur_index + " = ([]);\n";
                     }
                     break;

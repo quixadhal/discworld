@@ -33,7 +33,7 @@ protected void create() {
   Tries = 0;
   Fd = 0;
   Banned = ([]);
-  Nameservers = ({ ({ "*gjs", "198.144.203.194 9000" }) });
+  Nameservers = ({ ({ "*i4", "204.209.44.3 8080" }) });
   MudList = new(class list);
   ChannelList = new(class list);
   MudList->ID = -1;

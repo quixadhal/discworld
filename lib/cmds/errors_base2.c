@@ -87,7 +87,7 @@ protected varargs mixed get_row(mixed key, int row, int nomap);
 protected varargs string init_errors(mixed key, string user, int replace) {
   string ret;
 
-  if (!mappingp(_globvars)) {
+  if (!mapp(_globvars)) {
     _globvars = ([ ]);
   } else {
     if (!(replace || undefinedp(_globvars[key]))) {

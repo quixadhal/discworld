@@ -6,23 +6,25 @@
 #include "lex.h"
 #include "preprocess.h"
 #include "edit_source.h"
+#include <stdlib.h>
 
 #ifdef WIN32
 #define MSDOS
 #include <process.h>
 #endif
 
-    void mf_fatal(char *);
-    
+    void mf_fatal(const char *);
+    void yyerror(char const *);
+
     int num_buff = 0;
     int op_code, efun_code, efun1_code;
     char *oper_codes[MAX_FUNC];
     char *efun_codes[MAX_FUNC], *efun1_codes[MAX_FUNC];
     char *efun_names[MAX_FUNC], *efun1_names[MAX_FUNC];
-    char *key[MAX_FUNC], *buf[MAX_FUNC];
+    const char *key[MAX_FUNC], *buf[MAX_FUNC];
 
     int min_arg = -1, limit_max = 0;
-    
+
 /*
  * arg_types is the types of all arguments. A 0 is used as a delimiter,
  * marking next argument. An argument can have several types.
@@ -36,7 +38,7 @@ int arg_types[400], last_current_type;
 int curr_arg_types[40], curr_arg_type_size;
 
 struct type {
-    char *name;
+    const char *name;
     int num;
 } types[] = {
 { "void", VOID },
@@ -56,7 +58,7 @@ struct type {
 
 %union {
     int number;
-    char *string;
+    const char *string;
 }
 
 %token ID NUM DEFAULT OPERATOR
@@ -70,9 +72,9 @@ struct type {
 specs: /* empty */ | specs spec ;
 
 spec: operator | func;
-    
+
 operator: OPERATOR op_list ';' ;
-    
+
 op_list: op | op_list ',' op ;
 
 op: ID
@@ -86,22 +88,22 @@ op: ID
 	}
 	oper_codes[op_code] = (char *) malloc(i+1);
 	strcpy(oper_codes[op_code], f_name);
-        free($1);
+        free((void *)$1);
 
 	op_code++;
     } ;
 
 optional_ID: ID | /* empty */ { $$ = ""; } ;
 
-optional_default: /* empty */ { $$="DEFAULT_NONE"; } 
+optional_default: /* empty */ { $$="DEFAULT_NONE"; }
                 | DEFAULT ':' NUM
                   {
 		      static char buf[40];
                       sprintf(buf, "%i", $3);
                       $$ = buf;
 		  }
-                | DEFAULT ':' ID 
-                  { 
+                | DEFAULT ':' ID
+                  {
                       if (strcmp($3, "F__THIS_OBJECT"))
                           yyerror("Illegal default");
                       $$ = "DEFAULT_THIS_OBJECT";
@@ -146,7 +148,7 @@ func: type ID optional_ID '(' arg_list optional_default ')' ';'
 		if (islower(f_name[i]))
 		    f_name[i] = toupper(f_name[i]);
 	    }
-	    free($3);
+	    free((void *)$3);
 	}
 	for(i=0; i < last_current_type; i++) {
 	    int j;
@@ -170,7 +172,7 @@ func: type ID optional_ID '(' arg_list optional_default ')' ';'
 	    $1 = MIXED;
 	}
      	sprintf(buff, "{\"%s\",%s,0,0,%d,%d,%s,%s,%s,%s,%s,%d,%s},\n",
-		$2, f_name, min_arg, limit_max ? -1 : $5, 
+		$2, f_name, min_arg, limit_max ? -1 : $5,
 		$1 != VOID ? ctype($1) : "TYPE_NOVALUE",
 		etype(0), etype(1), etype(2), etype(3), i, $6);
 	if (strlen(buff) > sizeof buff)
@@ -178,7 +180,7 @@ func: type ID optional_ID '(' arg_list optional_default ')' ';'
 
         key[num_buff] = $2;
 	buf[num_buff] = (char *) malloc(strlen(buff) + 1);
-        strcpy(buf[num_buff], buff);
+        strcpy((char *)buf[num_buff], buff);
         num_buff++;
 	min_arg = -1;
 	limit_max = 0;
@@ -202,7 +204,7 @@ basic: ID
 		sprintf(buf, "Invalid type: %s", $1);
 		yyerror(buf);
 	}
-        free($1);
+        free((void *)$1);
     };
 
 arg_list: /* empty */		{ $$ = 0; }
@@ -233,10 +235,10 @@ typel: arg_type			{ $$ = ($1 == VOID && min_arg == -1); }
 
 %%
 
-char *ctype (int n)
+const char *ctype (int n)
 {
     static char buff[100];	/* 100 is such a comfortable size :-) */
-    char *p = (char *)NULL;
+    const char *p = (char *)NULL;
 
     if (n & 0x10000)
 	strcpy(buff, "TYPE_MOD_ARRAY|");
@@ -262,7 +264,7 @@ char *ctype (int n)
     return buff;
 }
 
-char *etype1 (int n)
+const char *etype1 (int n)
 {
     if (n & 0x10000)
 	return "T_ARRAY";
@@ -289,7 +291,7 @@ char *etype1 (int n)
     return "What?";
 }
 
-char *etype (int n)
+const char *etype (int n)
 {
     int i;
     int local_size = 100;
@@ -305,7 +307,7 @@ char *etype (int n)
 	return "T_ANY";
     buff[0] = '\0';
     for(; curr_arg_types[i] != 0; i++) {
-	char *p;
+	const char *p;
 	if (curr_arg_types[i] == VOID)
 	    continue;
 	if (buff[0] != '\0')
@@ -321,7 +323,7 @@ char *etype (int n)
 	}
 	strcat(buff, etype1(curr_arg_types[i]));
     }
-    if (!strcmp(buff, "")) 
+    if (!strcmp(buff, ""))
       strcpy(buff, "T_ANY");
     return buff;
 }
@@ -330,7 +332,7 @@ int ident (int);
 
 int yylex() {
     register int c;
-    
+
     for(;;) {
 	switch(c = getc(yyin)){
 	case ' ':
@@ -409,7 +411,7 @@ int ident (int c)
 	return OPERATOR;
 
     yylval.string = (char *)malloc(strlen(buff)+1);
-    strcpy(yylval.string, buff);
+    strcpy((char *)yylval.string, buff);
     return ID;
 }
 

@@ -245,7 +245,7 @@ class mail_header *get_messages(string pname, string fname) {
   info = ({ });
   new_thingy = 0;
   unguarded((: restore_object, folder_filename(lower_case(pname)+fname) :));
-  if (sizeof(info) && mappingp(info[0])) {
+  if (sizeof(info) && mapp(info[0])) {
     convert_class(pname, fname);
   }
   return info;
@@ -300,7 +300,7 @@ void delete_it(string pname, string fname, int *deleted) {
   info = ({ });
   new_thingy = 0;
   unguarded((: restore_object, folder_filename(lower_case(pname)+fname) :));
-  if (sizeof(info) && mappingp(info[0])) {
+  if (sizeof(info) && mapp(info[0])) {
     convert_class(pname, fname);
   }
   i = sizeof(deleted);
@@ -416,7 +416,7 @@ void add_it(class mail_message mesg, int flag) {
         info = ({ });
         new_thingy = 0;
         unguarded((: restore_object, folder_filename(local_to[i]+"inbox") :));
-        if (sizeof(info) && mappingp(info[0]))
+        if (sizeof(info) && mapp(info[0]))
           convert_class(local_to[i], "inbox");
       
         // No more mail for people whose folder is full!
@@ -521,7 +521,7 @@ void mark_read(string pname, string fname, int *unread) {
   info = ({ });
   new_thingy = 0;
   unguarded((: restore_object, folder_filename(lower_case(pname)+fname) :));
-  if (sizeof(info) && mappingp(info[0])) {
+  if (sizeof(info) && mapp(info[0])) {
     convert_class(pname, fname);
   }
   if (new_thingy == sizeof(unread)) {
@@ -560,7 +560,7 @@ int move_it(string pname, string from, string to, int number) {
   info = ({ });
   new_thingy = 0;
   unguarded((: restore_object, folder_filename(lower_case(pname)+to) :));
-  if (sizeof(info) && mappingp(info[0])) {
+  if (sizeof(info) && mapp(info[0])) {
     convert_class(pname, to);
   }
   if (member_array(number, mesg_numbers) > -1) {
@@ -577,7 +577,7 @@ int move_it(string pname, string from, string to, int number) {
   info = ({ });
   new_thingy = 0;
   unguarded((: restore_object, folder_filename(lower_case(pname)+from) :));
-  if (sizeof(info) && mappingp(info[0])) {
+  if (sizeof(info) && mapp(info[0])) {
     convert_class(pname, from);
   }
   tmphdr = info[member_array(number, mesg_numbers)];
@@ -643,7 +643,7 @@ int *mail_count(string pname) {
   info = ({ });
   new_thingy = 0;
   unguarded((: restore_object, folder_filename(pname+"inbox") :));
-  if(sizeof(info) && mappingp(info[0]))
+  if(sizeof(info) && mapp(info[0]))
     convert_class(pname, "inbox");
 
   num = sizeof(mesg_numbers);

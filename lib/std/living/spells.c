@@ -45,7 +45,7 @@ void create() {
  * @return the help string of the spell
  */
 string help_spell(string str) {
-   if (!mappingp(spells)) {
+   if (!mapp(spells)) {
      spells = ([ ]);
    }
    if (!m_sizeof(spells)) {
@@ -62,7 +62,7 @@ string help_spell(string str) {
  * @return the spells
  */
 mapping query_spells() {
-   if (!mappingp(spells)) {
+   if (!mapp(spells)) {
       spells = ([ ]);
    }
    return spells;
@@ -96,7 +96,7 @@ int add_spell(string name, mixed ob, mixed func) {
          tmp[spells[i]] = spells[i+1];
       spells = tmp;
    }
-   if (!mappingp(spells)) {
+   if (!mapp(spells)) {
       spells = ([ ]);
    }
    spells[name] = ({ ob, func });

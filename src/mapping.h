@@ -6,7 +6,23 @@
 #ifndef _MAPPING_H
 #define _MAPPING_H
 
-#define MAP_POINTER_HASH(x) (((POINTER_INT)x) >> 4)
+#define MAP_SVAL_HASH(x) sval_hash(x)
+#include "hash.h"
+#include "stralloc.h"
+//#define MAP_SVAL_HASH(x) (((POINTER_INT)((x).u.number)) >> 5)
+static unsigned long sval_hash(svalue_t x){
+    switch(x.type)
+    {
+        case T_STRING:
+            return HASH(BLOCK(x.u.string));
+        case T_NUMBER:
+            return (unsigned long)x.u.number;
+        case T_OBJECT:
+            //return HASH(BLOCK(x.u.ob->obname));
+        default:
+            return (unsigned long)(((POINTER_INT)((x).u.number)) >> 5);
+    }
+}
 
 typedef struct mapping_node_s {
     struct mapping_node_s *next;
@@ -83,7 +99,7 @@ INLINE mapping_t *allocate_mapping (int);
 INLINE mapping_t *allocate_mapping2 (array_t *, svalue_t *);
 INLINE void free_mapping (mapping_t *);
 INLINE svalue_t *find_in_mapping (mapping_t *, svalue_t *);
-svalue_t *find_string_in_mapping (mapping_t *, char *);
+svalue_t *find_string_in_mapping (mapping_t *, const char *);
 INLINE svalue_t *find_for_insert (mapping_t *, svalue_t *, int);
 INLINE void absorb_mapping (mapping_t *, mapping_t *);
 INLINE void mapping_delete (mapping_t *, svalue_t *);

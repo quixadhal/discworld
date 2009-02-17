@@ -15,7 +15,7 @@ nosave int lag, lastlag, maxlag, minlag, burstlag, users;
 #define DEBUG
 
 // minimum time between reboots (3600 == 1 hour)
-#define MIN_TIME 28800
+#define MIN_TIME 219599
 
 // max time between reboots (133200 == 1 day 13 hours). The driver gets
 // slower and slower if we stay up too long.

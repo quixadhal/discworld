@@ -765,7 +765,7 @@ varargs string query_dossier( object source, string player, int lastn ) {
         access_log: ([ ]) );
    }
 
-   if ( mappingp( dossier->access_log ) ) 
+   if ( mapp( dossier->access_log ) ) 
      log = dossier->access_log;
    else
      log = ([ ]);

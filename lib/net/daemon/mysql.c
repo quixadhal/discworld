@@ -78,7 +78,8 @@ protected void setup() {
 
    _fd = eventCreateSocket("127.0.0.1", 7865);
    if (_fd < 0) {
-      printf("Bad fd.\n");
+      // This has been commented out for my sanity
+      //printf("Bad fd.\n");
       remove_call_out(_callout_id);
       _callout_id = call_out("setup", 10);
       //

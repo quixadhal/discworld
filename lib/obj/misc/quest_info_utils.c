@@ -53,7 +53,7 @@ void set_quest_param(mixed player, string key, mixed value)
    
    info = LIBRARY->query_player_quest_info(player, _quest_name);
    
-   if (!mappingp(info))
+   if (!mapp(info))
       info = ([ ]);
    
    info[key] = value;
@@ -72,7 +72,7 @@ mixed query_quest_param(mixed player, string key)
 
    info = LIBRARY->query_player_quest_info(player, _quest_name);
 
-   if (!mappingp(info))
+   if (!mapp(info))
       return 0;
       
    return info[key];

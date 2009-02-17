@@ -174,7 +174,7 @@ void load_it() {
   int i;
   
   unguarded((: restore_object, SAVE_FILE :));
-  if (mappingp(soul_commands)) {
+  if (mapp(soul_commands)) {
     /* Ok, we convert it to the new format... */
     soul_command_names = ([ ]);
     names = keys(soul_commands);
@@ -814,7 +814,7 @@ private string position_command(mixed bing) {
   if (stringp(bing)) {
     return bing;
   }
-  if (mappingp(bing)) {
+  if (mapp(bing)) {
     return bing["cmd"];
   }
   return 0;
@@ -854,7 +854,7 @@ private string *position_string(object ob, mapping position, int) {
     } else if (position["default"]) {
       new_pos = position["default"];
     }
-    if (mappingp(new_pos)) {
+    if (mapp(new_pos)) {
       return ({ new_pos["self"], new_pos["target"], new_pos["rest"] });
     }
     if (new_pos && new_pos != "ignore" &&

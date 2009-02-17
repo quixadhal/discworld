@@ -104,7 +104,7 @@ void add_goal_to_npc(object npc,
    string goal_name;
 
 tell_creator("pinkfish", "Adding goal %O to npc(%O).\n", base_name(this_object()), stuff);
-   if (!mappingp(extra_plans)) {
+   if (!mapp(extra_plans)) {
       extra_plans = ([ ]);
    }
    goal_name = base_name(this_object());

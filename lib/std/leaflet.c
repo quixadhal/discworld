@@ -91,7 +91,7 @@ mapping query_dynamic_auto_load() {
 } /* query_dynamic_auto_load() */
 
 void init_dynamic_arg( mapping map ) {
-   if ( !mappingp( map ) ) {
+   if ( !mapp( map ) ) {
       return;
    }
    if ( map[ "::" ] ) {

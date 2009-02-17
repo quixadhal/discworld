@@ -1,0 +1,148 @@
+Discworld Bundle FAQ
+
+Written by Cratylus @ Dead Souls, October 2006, updated Feb 2009
+**********************************************
+
+What is the first thing I should know?
+---------------
+The Discworld Bundle is NOT DEAD SOULS. It is the Discworld mudlib,
+which is a completely different set of files than those distributed
+with Dead Souls. I, Cratylus, am not the author of Discworld, and
+you can consider this an official disclaim of any credit for its
+brilliance or blame for its pitfalls.
+
+What is the second thing I should know?
+---------------
+The authors and maintainers of the official Discworld mudlib
+do not take responsibility for this bundle. This is a strictly
+"third party" deal which they will not support in any way. You
+are free to download and use it, but you are not entitled to
+receive support from anyone. Note that I can't give you
+authorization to distribute it either, since I am not the
+copyright holder. If you want to mirror it, you'd be wise
+to ask the Discworld/FluffOS guys first, like I did.
+
+Who is this for?
+---------------
+The Discworld bundle is absolutely not for newbie admins. This
+is not intended to be a "get started on your own mud the
+easy way!" sort of deal. I am making it available as a
+courtesy and favor to mudlib hobbyists who have an interest
+in tinkering with this lib. But if what you're looking for
+is a quick-start kit for your own mud, I strongly recommend
+you stop reading now and look elsewhere, because even though
+the Discworld Bundle makes installation easiER, it does not
+necessarily make it eaSY.
+
+What is Discworld?
+---------------
+You're best off reading the official definition on the
+Wikipedia entry for the mud itself: http://en.wikipedia.org/wiki/Discworld_MUD
+
+And this is the entry for the mudlib: http://en.wikipedia.org/wiki/Discworld_mudlib
+
+
+Aren't you the Dead Souls maintainer? What's your angle here?
+---------------
+I am indeed the maintainer of a different mudlib
+called Dead Souls (which I am not ashamed to plug
+here by pointing you to its Wikipedia entry: http://en.wikipedia.org/wiki/Dead_Souls_MUDlib )
+However, I have a general affection for the LP mud codebase family.
+During some experimentation I found that I had a
+relatively easier way of installing Discworld that people
+could take advantage of, and it seemed like a nice thing
+to do, making it available generally.
+
+I'm not afraid that people will use Discworld instead of
+Dead Souls. For one thing, I think that "more LPmuds",
+regardless of the codebase, is a net plus for DS. And
+anyway, what kind of lib author would I be, if I was
+afraid to let people compare my work side by side with that
+of others? Let the chips fall where they may.
+
+
+Why were you working on Discworld?
+---------------
+During Dead Souls development I decided to take a serious look
+at database integration. I discovered that the work done
+on Dead Souls before I became the maintainer lacked the
+core lib systems that were needed to have the lib and
+driver communicate with a database.
+
+So I started messing around with other libs, to see how they
+did it, to get some inspiration.
+
+
+Well, you wasted your time. It doesn't work.
+---------------
+There is such a vast and bewildering array of operating
+system and development software and system hardware architecture
+combinations out there that there is simply no way for
+me to guarantee that the bundle will work for everyone...
+or indeed for most.
+
+I can assure you that the bundle puts you much much closer
+to a successful DW start than you'd be without it. If it
+still doesn't work out of the box, there are a few pointers
+I might suggest:
+
+* I haven't tested this on Cygwin or any other Windows emulation
+or native windows compilation suite. For all I know it is not
+possible to get it to work on Windows.
+
+* DW/FluffOS expects your system to have some common libraries.
+If you don't have zlib or iconv, or they're in an exotic location, or
+your library search path is munged, you will probably experience
+some level of sadness. If sadness what you feel, try ensuring
+that none of those three conditions apply to you. Alternately,
+disable such things in the local_options file.
+
+* Because dw seems to make frequent use of compression both
+for data storage and connections, some events appear to take
+an inordinately long period of time. This will be especially
+noticeable on slower computers. Just be patient. There's a 30
+second pause at the logon for reading the TOS. I don't know
+why it's there. I left it, since it's so odd that I figure
+someone must have thought it was really important.
+
+* Do NOT under ANY CIRCUMSTANCES attempt to contact Discworld
+mud personnel or Discworld mudlib maintainers to complain that
+this bundle is lame or to ask for help with it. It'll be like
+asking Bill Joy to come over and help you install Solaris. His
+involvement with the development of UNIX doesn't entitle you to
+help from him, and the Discworld people don't deserve to be
+exposed to noob brainwaves from people who think they are owed assistance.
+
+* Perhaps the most important thing you can read is this:
+http://www.catb.org/%7Eesr/faqs/smart-questions.html
+Note that the people on that page also are not to be contacted for support.
+
+
+It works, but the thing keeps rebooting every 20 minutes.
+---------------
+Edit /obj/handlers/garbage.c
+
+#define NO_TIMED_REBOOT 1
+
+Or adjust MIN_TIME and MAX_TIME.
+
+
+I want to have working MXP, MCCP, BFD, PDQ.
+---------------
+You got me there. I never claimed to be a Discworld expert. I
+can set it up so it's not impossible to install, but after that,
+getting it to work *well* is on you.
+
+
+Where can I get support for Discworld lib, then?
+---------------
+Once it is installed, it might not be unreasonable to
+ask for advice on the discworld-chat line. Certainly it's
+a good idea to review all the docs at the Discworld site:
+http://discworld.atuin.net/lpc/about/mudlib.html
+
+You're also welcome to visit the LPMuds.net discussion forum
+and chat there, but don't expect quick turnaround on your
+questions. Discworld lib experts are fewer and far between
+than they once were, so you may have to wait a little
+for a helpful response.

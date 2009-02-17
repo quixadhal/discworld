@@ -373,7 +373,7 @@ private string *process_stuff(string name,
       }
    } else {
       ret = ({ name, fname, "" });
-      if (mappingp(docs)) {
+      if (mapp(docs)) {
          fluff = docs;
       } else {
          fluff = ([ ]);

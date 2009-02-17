@@ -10,12 +10,14 @@ inherit "/secure/master/directory_assignments";
 #include <log.h>
 #include <player_handler.h>
 
-#define TRUSTEES ([ ROOT : 1, "Admin" : 1, "offler" : 1, \
-                     "pinkfish"  : 1, "ember"     : 1, \
-                     "ceres"     : 1, "turrican"  : 1, \
-                     "brandobas" : 1, "sojan"     : 1, \
-                     "hobbes"    : 1, "wodan"     : 1, \
-                     "taffyd"    : 1,])
+//#define TRUSTEES ([ ROOT : 1, "Admin" : 1, "offler" : 1, \
+//                     "pinkfish"  : 1, "ember"     : 1, \
+//                     "ceres"     : 1, "turrican"  : 1, \
+//                     "brandobas" : 1, "sojan"     : 1, \
+//                     "hobbes"    : 1, "wodan"     : 1, \
+//                     "taffyd"    : 1,])
+
+#define TRUSTEES ([ ROOT : 1, "cratylus" : 1,])
 
 #define READ_MASK 1
 #define WRITE_MASK 2

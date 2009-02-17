@@ -5,9 +5,9 @@
  * port.c
  */
 #ifndef _FUNC_SPEC_
-int random_number (int);
-int get_current_time (void);
-char *time_string (time_t);
+long random_number (long);
+long get_current_time (void);
+const char *time_string (time_t);
 void init_usec_clock (void);
 void get_usec_clock (long *, long *);
 int get_cpu_times (unsigned long *, unsigned long *);

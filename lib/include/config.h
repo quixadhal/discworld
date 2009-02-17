@@ -43,11 +43,11 @@
 /**
  * The web address to use for the site.
  */
-#define CONFIG_WEB_ADDRESS "http://plum.lost.nu:5678/"
+#define CONFIG_WEB_ADDRESS "http://dead-souls.net/"
 
 /**
  * The web address to use external for the site.
  */
-#define CONFIG_EXTERNAL_WEB_ADDRESS "http://plum.lost.nu:5678/external/"
+#define CONFIG_EXTERNAL_WEB_ADDRESS "http://dead-souls.net/"
 
 #endif /* __SYS__CONFIG */

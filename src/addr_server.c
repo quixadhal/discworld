@@ -9,6 +9,11 @@
 #include "file_incl.h"
 #include "port.h"
 
+#ifdef MINGW
+#include <ws2tcpip.h>
+#define AI_V4MAPPED 0
+#endif
+
 #ifdef DEBUG_MACRO
 int debug_level = DBG_addr_server;
 #endif				/* DEBUG_MACRO */
@@ -51,9 +56,9 @@ void conn_data_handler (int);
 int index_by_fd (int);
 void terminate (int);
 
-void debug_perror (char *, char *);
+void debug_perror (const char *, const char *);
 
-void debug_perror (char * what, char * file) {
+void debug_perror (const char * what, const char * file) {
     if (file)
 	fprintf(stderr, "System Error: %s:%s:%s\n", what, file, port_strerror(errno));
     else
@@ -81,8 +86,12 @@ void init_conns()
  */
 void init_conn_sock (int port_num, char * ipaddress)
 {
+#ifdef IPV6
+	struct sockaddr_in6 sin;
+#else
     struct sockaddr_in sin;
-    int sin_len;
+#endif
+    socklen_t sin_len;
     int optval;
 #ifdef WINSOCK
     WSADATA WSAData;
@@ -94,7 +103,11 @@ void init_conn_sock (int port_num, char * ipaddress)
     /*
      * create socket of proper type.
      */
+#ifdef IPV6
+    if ((conn_fd = socket(AF_INET6, SOCK_STREAM, 0)) == INVALID_SOCKET) {
+#else
     if ((conn_fd = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
+#endif
 	socket_perror("init_conn_sock: socket", 0);
 	exit(1);
     }
@@ -110,9 +123,18 @@ void init_conn_sock (int port_num, char * ipaddress)
     /*
      * fill in socket address information.
      */
+#ifdef IPV6
+    sin.sin6_family = AF_INET6;
+    if(ipaddress)
+       	inet_pton(AF_INET6, ipaddress, &(sin.sin6_addr));
+    else
+       	sin.sin6_addr = in6addr_any;
+    sin.sin6_port = htons((u_short) port_num);
+#else
     sin.sin_family = AF_INET;
     sin.sin_addr.s_addr = (ipaddress ? inet_addr(ipaddress) : INADDR_ANY);
     sin.sin_port = htons((u_short) port_num);
+#endif
     /*
      * bind name to socket.
      */
@@ -131,7 +153,7 @@ void init_conn_sock (int port_num, char * ipaddress)
     /*
      * register signal handler for SIGPIPE.
      */
-#if !defined(LATTICE) && defined(SIGPIPE) /* windows has no SIGPIPE */
+#if defined(SIGPIPE) && defined(SIGNAL_ERROR)/* windows has no SIGPIPE */
     if (signal(SIGPIPE, sigpipe_handler) == SIGNAL_ERROR) {
 	socket_perror("init_conn_sock: signal SIGPIPE", 0);
 	exit(5);
@@ -282,14 +304,19 @@ void handle_top_event()
  */
 void new_conn_handler()
 {
+
+#ifdef IPV6
+	struct sockaddr_in6 client;
+#else
     struct sockaddr_in client;
-    int client_len;
+#endif
+    socklen_t client_len;
     struct hostent *c_hostent;
     int new_fd;
     int conn_index;
 
     client_len = sizeof(client);
-    new_fd = accept(conn_fd, (struct sockaddr *) & client, (int *) &client_len);
+    new_fd = accept(conn_fd, (struct sockaddr *) & client, &client_len);
     if (new_fd == -1) {
 	socket_perror("new_conn_handler: accept", 0);
 	return;
@@ -309,8 +336,6 @@ void new_conn_handler()
 	return;
     }
     /* get some information about new connection */
-    c_hostent = gethostbyaddr((char *) &client.sin_addr.s_addr,
-			      sizeof(client.sin_addr.s_addr), AF_INET);
     for (conn_index = 0; conn_index < MAX_CONNS; conn_index++) {
 	if (all_conns[conn_index].state == CONN_CLOSED) {
 	    DBG(("new_conn_handler: opening conn index %d", conn_index));
@@ -318,10 +343,10 @@ void new_conn_handler()
 	    all_conns[conn_index].fd = new_fd;
 	    all_conns[conn_index].state = CONN_OPEN;
 	    all_conns[conn_index].addr = client;
-	    if (c_hostent)
-		strcpy(all_conns[conn_index].sname, c_hostent->h_name);
-	    else
-		strcpy(all_conns[conn_index].sname, "<unknown>");
+
+	    char portname[256];
+	    if(getnameinfo(&client, sizeof(client), all_conns[conn_index].sname, SNAME_LEN, portname, 255, NI_NAMEREQD|NI_NUMERICHOST))
+	    	strcpy(all_conns[conn_index].sname, "<unknown>");
 	    total_conns++;
 	    return;
 	}
@@ -516,28 +541,35 @@ int ip_by_name (int conn_index, char * buf)
 
 int name_by_ip (int conn_index, char * buf)
 {
-    long addr;
-    struct hostent *hp;
+    struct addrinfo hints, *res;
+    hints.ai_family = AF_INET6;
+    hints.ai_socktype = 0;
+    hints.ai_protocol = 0;
+    hints.ai_flags = AI_CANONNAME| AI_V4MAPPED;
     static char out_buf[OUT_BUF_SIZE];
 
-    if ((addr = inet_addr(&buf[sizeof(int)])) == -1) {
-	sprintf(out_buf, "%s 0\n", &buf[sizeof(int)]);
-	DBG(("name_by_ip: malformed address request."));
-	OS_socket_write(all_conns[conn_index].fd, out_buf, strlen(out_buf));
-	return 0;
+    if(getaddrinfo(&buf[sizeof(int)], "0", &hints, &res)){
+    	//failed
+    	sprintf(out_buf, "%s 0\n", &buf[sizeof(int)]);
+    	DBG(("name_by_ip: malformed address request."));
+    	OS_socket_write(all_conns[conn_index].fd, out_buf, strlen(out_buf));
+    	return 0;
     }
-    if ((hp = gethostbyaddr((char *) &addr, sizeof(addr), AF_INET))) {
-	sprintf(out_buf, "%s %s\n", &buf[sizeof(int)], hp->h_name);
-	DBG(("%s", out_buf));
-	OS_socket_write(all_conns[conn_index].fd, out_buf, strlen(out_buf));
+    char tmpbuf[80], tmpp[80];
+    int ret;
+    if(ret = getnameinfo(res->ai_addr, res->ai_addrlen, tmpbuf, 79, tmpp, 79, NI_NAMEREQD|NI_NUMERICSERV)){
+    	sprintf(out_buf, "%s 0\n", &buf[sizeof(int)]);
+    	DBG(("%s", out_buf));
+    	OS_socket_write(all_conns[conn_index].fd, out_buf, strlen(out_buf));
+    	DBG(("name_by_ip: unable to resolve address."));
+    	freeaddrinfo(res);
+    	return 0;
+    }
+    sprintf(out_buf, "%s %s\n", &buf[sizeof(int)], tmpbuf);
+    DBG(("%s", out_buf));
+    OS_socket_write(all_conns[conn_index].fd, out_buf, strlen(out_buf));
+    freeaddrinfo(res);
 	return 1;
-    } else {
-	sprintf(out_buf, "%s 0\n", &buf[sizeof(int)]);
-	DBG(("%s", out_buf));
-	OS_socket_write(all_conns[conn_index].fd, out_buf, strlen(out_buf));
-	DBG(("name_by_ip: unable to resolve address."));
-	return 0;
-    }
 }
 
 int index_by_fd (int fd)
@@ -594,9 +626,6 @@ int main (int argc, char ** argv)
 	fprintf(stderr, "addr_server: first arg must be port number.\n");
 	exit(1);
     }
-#if defined(LATTICE) && defined(AMITCP)
-    init_conns();
-#endif
     init_conn_sock(addr_server_port, ipaddress);
     while (1) {
 	/*
@@ -634,12 +663,11 @@ int main (int argc, char ** argv)
 }
 
 #ifdef WIN32
-void debug_message P1V(char *, fmt)
+void debug_message(char *fmt, ...)
 {
-    static char deb_buf[100];
+    static char deb_buf[1024];
     static char *deb = deb_buf;
     va_list args;
-    V_DCL(char *fmt);
 
     V_START(args, fmt);
     V_VAR(char *, fmt, args);

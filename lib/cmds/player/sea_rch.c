@@ -148,7 +148,7 @@ void search_callout(object who, string str) {
            continue;
 
          hide_invis =  ob->query_hide_invis();
-         if(mappingp(hide_invis)) {
+         if(mapp(hide_invis)) {
             types = m_indices( hide_invis );
          } else {
             types = ({});

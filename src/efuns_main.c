@@ -38,7 +38,7 @@ void
 f_all_inventory (void)
 {
     array_t *vec = all_inventory(sp->u.ob, 0);
-    free_object(sp->u.ob, "f_all_inventory");
+    free_object(&sp->u.ob, "f_all_inventory");
     sp->type = T_ARRAY;
     sp->u.arr = vec;
 }
@@ -79,7 +79,7 @@ void
 f_allocate_mapping (void)
 {
     array_t *arr;
-    
+
     if (st_num_arg == 2) {
         if ((sp-1)->type != T_ARRAY)
             error("Bad argument 1 to allocate_mapping()\n");
@@ -114,16 +114,16 @@ f_bind (void)
 
     if (ob == old_fp->hdr.owner) {
         /* no change */
-        free_object(ob, "bind nop");
+        free_object(&ob, "bind nop");
         sp--;
         return;
     }
-    
+
     if (old_fp->hdr.type == (FP_LOCAL | FP_NOT_BINDABLE))
         error("Illegal to rebind a pointer to a local function.\n");
     if (old_fp->hdr.type & FP_NOT_BINDABLE)
         error("Illegal to rebind a functional that references globals or local functions.\n");
-    
+
     /* the object doing the binding */
     push_object(current_object);
 
@@ -132,11 +132,11 @@ f_bind (void)
 
     /* the new owner */
     push_object(ob);
-    
+
     res = apply_master_ob(APPLY_VALID_BIND, 3);
     if (!MASTER_APPROVED(res))
         error("Master object denied permission to bind() function pointer.\n");
-    
+
     new_fp = ALLOCATE(funptr_t, TAG_FUNP, "f_bind");
     *new_fp = *old_fp;
     new_fp->hdr.ref = 1;
@@ -325,7 +325,7 @@ f_call_stack (void)
         error("First argument of call_stack() must be 0, 1, 2, or 3.\n");
 
     ret = allocate_empty_array(n);
-    
+
     switch (sp->u.number) {
     case 0:
         ret->item[0].type = T_STRING;
@@ -368,7 +368,7 @@ f_call_stack (void)
         ret->item[0].type = T_STRING;
         ret->item[0].subtype = STRING_CONSTANT;
         ret->item[0].u.string = origin_name(caller_type);
-        
+
         for (i = 1; i < n; i++) {
             ret->item[i].type = T_STRING;
             ret->item[i].subtype = STRING_CONSTANT;
@@ -433,7 +433,7 @@ f_clear_bit (void)
     ind = bit / 6;
     bit %= 6;
     len = SVALUE_STRLEN(sp);
-    if (ind >= len) 
+    if (ind >= len)
         return;         /* return first arg unmodified */
     unlink_string_svalue(sp);
     str = (char *)sp->u.string;
@@ -449,7 +449,7 @@ void
 f_clonep (void)
 {
     if ((sp->type == T_OBJECT) && (sp->u.ob->flags & O_CLONE)) {
-        free_object(sp->u.ob, "f_clonep");
+        free_object(&sp->u.ob, "f_clonep");
         *sp = const1;
     } else {
         free_svalue(sp, "f_clonep");
@@ -464,11 +464,8 @@ f__new (void)
 {
     svalue_t *arg = sp - st_num_arg + 1;
     object_t *ob;
-    int tmp_eval = get_eval();
 
     ob = clone_object(arg->u.string, st_num_arg - 1);
-    
-    set_eval(tmp_eval);
 
     free_string_svalue(sp);
     if (ob) {
@@ -523,7 +520,8 @@ f_crc32 (void)
 void
 f_ctime (void)
 {
-    char *cp, *nl, *p;
+    const char *cp, *nl;
+    char *p;
     int l;
     if(st_num_arg)
       cp = time_string((time_t)sp->u.number);
@@ -550,7 +548,7 @@ f_deep_inherit_list (void)
     array_t *vec;
 
     vec = deep_inherit_list(sp->u.ob);
-    free_object(sp->u.ob, "f_deep_inherit_list");
+    free_object(&sp->u.ob, "f_deep_inherit_list");
     put_array(vec);
 }
 #endif
@@ -573,12 +571,12 @@ f_clear_debug_level (void) {
     debug_level_clear(sp->u.string);
 }
 
-void     
+void
 f_debug_levels (void) {
     /* not in debug.h since debug.h is included in many places that don't
        know about mapping_t */
     mapping_t *debug_levels (void);
-    
+
     push_refed_mapping(debug_levels());
 }
 #endif
@@ -592,7 +590,7 @@ f_deep_inventory (void)
     array_t *vec;
 
     vec = deep_inventory(sp->u.ob, 0);
-    free_object(sp->u.ob, "f_deep_inventory");
+    free_object(&sp->u.ob, "f_deep_inventory");
     put_array(vec);
 }
 #endif
@@ -630,36 +628,64 @@ f_ed (void)
 
     if (!st_num_arg) {
         /* ed() */
-        ed_start(0, 0, 0, 0, 0);
+        ed_start(0, 0, 0, 0, 0, 0);
     } else if (st_num_arg == 1) {
         /* ed(fname) */
-        ed_start(sp->u.string, 0, 0, 0, 0);
+        ed_start(sp->u.string, 0, 0, 0, 0, 0);
         pop_stack();
     } else if (st_num_arg == 2) {
-        /* ed(fname,exitfn) */
-        ed_start((sp - 1)->u.string, 0, sp->u.string, 0, current_object);
+        /* ed(fname,exitfn) / ed(fname, scroll_lines) */
+        if(sp->type == T_STRING)
+          ed_start((sp - 1)->u.string, 0, sp->u.string, 0, current_object, 0);
+        else if(sp->type == T_NUMBER)
+          ed_start((sp - 1)->u.string, 0, 0, 0, 0, sp->u.number);
+        else
+          bad_argument(sp, T_NUMBER | T_STRING, 2, F_ED);
         pop_2_elems();
     } else if (st_num_arg == 3) {
-        /* ed(fname,exitfn,restricted) / ed(fname,writefn,exitfn) */
+        /* ed(fname,exitfn,restricted) / ed(fname,writefn,exitfn) /
+           ed(fname,exitfn,scroll_lines) */
         if (sp->type == T_NUMBER) {
-            ed_start((sp - 2)->u.string, 0, (sp - 1)->u.string, sp->u.number,
-                     current_object);
+            if(sp->u.number == 1)
+              ed_start((sp - 2)->u.string, 0, (sp - 1)->u.string, sp->u.number,
+                       current_object, 0);
+            else
+              ed_start((sp - 2)->u.string, 0, (sp - 1)->u.string, 0,
+                       current_object, sp->u.number);
         } else if (sp->type == T_STRING) {
             ed_start((sp - 2)->u.string, (sp - 1)->u.string, sp->u.string, 0,
-                     current_object);
+                     current_object, 0);
         } else {
             bad_argument(sp, T_NUMBER | T_STRING, 3, F_ED);
         }
         pop_3_elems();
-    } else {                    /* st_num_arg == 4 */
-        /* ed(fname,writefn,exitfn,restricted) */
+    } else if (st_num_arg == 4) {
+        /* ed(fname,writefn,exitfn,restricted) /
+           ed(fname,writefn,exitfn,scroll_lines) */
         if (!((sp - 1)->type == T_STRING))
             bad_argument(sp - 1, T_STRING, 3, F_ED);
         if (!(sp->type == T_NUMBER))
             bad_argument(sp, T_NUMBER, 4, F_ED);
-        ed_start((sp - 3)->u.string, (sp - 2)->u.string, (sp - 1)->u.string,
-                 sp->u.number, current_object);
+        if(sp->u.number == 1)
+          ed_start((sp - 3)->u.string, (sp - 2)->u.string, (sp - 1)->u.string,
+                   sp->u.number, current_object, 0);
+        else
+          ed_start((sp - 3)->u.string, (sp - 2)->u.string, (sp - 1)->u.string,
+                   0, current_object, sp->u.number);
         pop_n_elems(4);
+    } else { /* st_num_arg == 5 */
+        /* ed(fname, writefn, exitfn, restricted, scroll_lines) */
+        if(!(sp->type == T_NUMBER))
+          bad_argument(sp, T_NUMBER, 5, F_ED);
+        if(!((sp-1)->type == T_NUMBER))
+          bad_argument(sp-1, T_NUMBER, 4, F_ED);
+        if(!((sp-2)->type == T_STRING))
+          bad_argument(sp-2, T_STRING, 3, F_ED);
+
+        ed_start((sp - 4)->u.string, (sp - 3)->u.string, (sp - 2)->u.string,
+                 (sp - 1)->u.number, current_object, sp->u.number);
+
+        pop_n_elems(5);
     }
 }
 #endif
@@ -668,7 +694,7 @@ f_ed (void)
 void f_ed_cmd (void)
 {
     char *res;
-    
+
     if (current_object->flags & O_DESTRUCTED)
         error("destructed objects can't use ed.\n");
 
@@ -692,11 +718,21 @@ void f_ed_cmd (void)
 void f_ed_start (void)
 {
     char *res;
-    char *fname;
+    const char *fname;
     int restr = 0;
+    int scroll_lines = 20;
 
-    if (st_num_arg == 2)
-        restr = (sp--)->u.number;
+    if (st_num_arg == 3) {
+      scroll_lines = (sp--)->u.number;
+      restr = (sp--)->u.number;
+    }
+
+    if (st_num_arg == 2) {
+        if(sp->u.number == 1)
+          restr = (sp--)->u.number;
+        else
+          scroll_lines = (sp--)->u.number;
+    }
 
     if (st_num_arg)
         fname = sp->u.string;
@@ -709,14 +745,14 @@ void f_ed_start (void)
     if (current_object->flags & O_IN_EDIT)
         error("ed_start() called while an ed session is already started.\n");
 
-    res = object_ed_start(current_object, fname, restr);
+    res = object_ed_start(current_object, fname, restr, scroll_lines);
 
     if (fname) free_string_svalue(sp);
     else {
         STACK_INC;
         sp->type = T_STRING;
     }
-    
+
     if (res) {
         sp->subtype = STRING_MALLOC;
         sp->u.string = res;
@@ -746,12 +782,12 @@ f_error (void)
     if (sp->u.string[l - 1] == '\n')
         l--;
     if (l > 2045) l = 2045;
-    
+
     err_buf[0] = '*';
     strncpy(err_buf + 1, sp->u.string, l);
     err_buf[l + 1] = '\n';
     err_buf[l + 2] = 0;
-    
+
     error_handler(err_buf);
 }
 #endif
@@ -770,20 +806,20 @@ void
 f_environment (void)
 {
     object_t *ob;
-    
+
     if (st_num_arg) {
         if ((ob = sp->u.ob)->flags & O_DESTRUCTED)
             error("environment() of destructed object.\n");
         ob = ob->super;
-        free_object((sp--)->u.ob, "f_environment");
+        free_object(&(sp--)->u.ob, "f_environment");
     } else if (!(current_object->flags & O_DESTRUCTED))
         ob = current_object->super;
-    else 
+    else
 	error("environment() of destructed object.\n");
 
-    if (ob && object_visible(ob)) 
+    if (ob && object_visible(ob))
 	push_object(ob);
-    else 
+    else
 	push_number(0);
 }
 #endif
@@ -798,9 +834,9 @@ f_exec (void)
 
     /* They might have been destructed */
     if (sp->type == T_OBJECT)
-        free_object(sp->u.ob, "f_exec:1");
+        free_object(&sp->u.ob, "f_exec:1");
     if ((--sp)->type == T_OBJECT)
-        free_object(sp->u.ob, "f_exec:2");
+        free_object(&sp->u.ob, "f_exec:2");
     put_number(i);
 }
 #endif
@@ -812,7 +848,7 @@ f_explode (void)
     array_t *vec;
 
     int len = SVALUE_STRLEN(sp-1);
-    
+
     vec = explode_string((sp - 1)->u.string, len,
                          sp->u.string, SVALUE_STRLEN(sp));
     free_string_svalue(sp--);
@@ -829,7 +865,7 @@ f_file_name (void)
 
     /* This function now returns a leading '/' */
     res = (char *) add_slash(sp->u.ob->obname);
-    free_object(sp->u.ob, "f_file_name");
+    free_object(&sp->u.ob, "f_file_name");
     put_malloced_string(res);
 }
 #endif
@@ -880,15 +916,15 @@ void
 f_find_object (void)
 {
     object_t *ob;
-    
+
     if ((sp--)->u.number)
         ob = find_object(sp->u.string);
     else
         ob = find_object2(sp->u.string);
     free_string_svalue(sp);
-    if (ob && object_visible(ob)) { 
+    if (ob && object_visible(ob)) {
         /* find_object only returns undested objects */
-        put_unrefed_undested_object(ob, "find_object"); 
+        put_unrefed_undested_object(ob, "find_object");
     } else
         *sp = const0;
 }
@@ -924,7 +960,7 @@ f_function_profile (void)
         prog->function_table[j].children = 0;
 
     }
-    free_object(ob, "f_function_profile");
+    free_object(&ob, "f_function_profile");
     put_array(vec);
 }
 #endif
@@ -938,12 +974,12 @@ f_function_exists (void)
     int l;
     object_t *ob;
     int flag = 0;
-    
+
     if (st_num_arg > 1) {
         if (st_num_arg > 2)
             flag = (sp--)->u.number;
-        ob = (sp--)->u.ob;
-        free_object(ob, "f_function_exists");
+        ob = sp->u.ob;
+        free_object(&(sp--)->u.ob, "f_function_exists");
     } else {
         if (current_object->flags & O_DESTRUCTED) {
             free_string_svalue(sp);
@@ -1037,7 +1073,7 @@ f_implode (void)
     array_t *arr;
     int flag;
     svalue_t *args;
-    
+
     if (st_num_arg == 3) {
         args = (sp - 2);
         if (args[1].type == T_STRING)
@@ -1053,7 +1089,7 @@ f_implode (void)
     if (args[1].type == T_STRING) {
         /* st_num_arg == 2 here */
         char *str;
-            
+
         str = implode_string(arr, sp->u.string,
                              SVALUE_STRLEN(sp));
         free_string_svalue(sp--);
@@ -1061,12 +1097,10 @@ f_implode (void)
         put_malloced_string(str);
     } else { /* function */
         funptr_t *funp = args[1].u.fp;
-            
+
         /* this pulls the extra arg off the stack if it exists */
         implode_array(funp, arr, args, flag);
-        sp--;
-        free_funp(funp);
-        free_array(arr);
+        pop_stack();
     }
 }
 #endif
@@ -1086,11 +1120,11 @@ f_in_edit (void)
         eb = find_ed_buffer(sp->u.ob);
 #endif
     if (eb && (fn = eb->fname)) {
-        free_object(sp->u.ob, "f_in_edit:1");
+        free_object(&sp->u.ob, "f_in_edit:1");
         put_malloced_string(add_slash(fn));
         return;
     }
-    free_object(sp->u.ob, "f_in_edit:1");
+    free_object(&sp->u.ob, "f_in_edit:1");
     *sp = const0;
     return;
 }
@@ -1103,7 +1137,7 @@ f_in_input (void)
     int i;
 
     i = sp->u.ob->interactive && sp->u.ob->interactive->input_to;
-    free_object(sp->u.ob, "f_in_input");
+    free_object(&sp->u.ob, "f_in_input");
     put_number(i != 0);
 }
 #endif
@@ -1135,12 +1169,12 @@ f_inherits (void)
     base = (sp--)->u.ob;
     ob = find_object2(sp->u.string);
     if (!ob) {
-        free_object(base, "f_inherits");
+        free_object(&base, "f_inherits");
         assign_svalue(sp, &const0);
         return;
     }
     i = inherits(base->prog, ob->prog);
-    free_object(base, "f_inherits");
+    free_object(&base, "f_inherits");
     free_string_svalue(sp);
     put_number(i);
 }
@@ -1153,7 +1187,7 @@ f_shallow_inherit_list (void)
     array_t *vec;
 
     vec = inherit_list(sp->u.ob);
-    free_object(sp->u.ob, "f_inherit_list");
+    free_object(&sp->u.ob, "f_inherit_list");
     put_array(vec);
 }
 #endif
@@ -1189,7 +1223,7 @@ f_interactive (void)
     int i;
 
     i = (sp->u.ob->interactive != 0);
-    free_object(sp->u.ob, "f_interactive");
+    free_object(&sp->u.ob, "f_interactive");
     put_number(i);
 }
 #endif
@@ -1205,7 +1239,7 @@ f_has_mxp (void)
        i = sp->u.ob->interactive->iflags & USING_MXP;
        i = !!i; //force 1 or 0
     }
-    free_object(sp->u.ob, "f_has_mxp");
+    free_object(&sp->u.ob, "f_has_mxp");
     put_number(i);
 }
 #endif
@@ -1227,10 +1261,10 @@ void
 f_functionp (void)
 {
     int i;
-    
+
     if (sp->type == T_FUNCTION) {
         i = sp->u.fp->hdr.type;
-        if (sp->u.fp->hdr.args) 
+        if (sp->u.fp->hdr.args)
             i |= FP_HAS_ARGUMENTS;
         if (!sp->u.fp->hdr.owner || (sp->u.fp->hdr.owner->flags & O_DESTRUCTED))
             i |= FP_OWNER_DESTED;
@@ -1418,14 +1452,14 @@ f_match_path (void)
     svalue_t *nvalue;
     mapping_t *map;
     char *tmpstr;
-    
+
     value = &const0u;
 
-    tmpstr = DMALLOC(SVALUE_STRLEN(sp) + 1, TAG_STRING, "match_path");
+    tmpstr = (char *)DMALLOC(SVALUE_STRLEN(sp) + 1, TAG_STRING, "match_path");
 
     src = sp->u.string;
     dst = tmpstr;
-    
+
     while (*src != '\0') {
         while (*src != '/' && *src != '\0')
             *dst++ = *src++;
@@ -1436,7 +1470,7 @@ f_match_path (void)
         }
         *dst = '\0';
         nvalue = find_string_in_mapping((sp - 1)->u.map, tmpstr);
-        
+
         if (nvalue != &const0u)
             value = nvalue;
     }
@@ -1469,7 +1503,7 @@ f_member_array (void)
 
         i = (sp--)->u.number;
         if (i<0) bad_arg(3, F_MEMBER_ARRAY);
-    } else 
+    } else
 	i = 0;
 
     if (sp->type == T_STRING) {
@@ -1519,38 +1553,50 @@ f_member_array (void)
                 }
                 break;
             case T_NUMBER:
-                if (find->u.number == sv->u.number) break;
+                if (find->u.number == sv->u.number)
+                	break;
                 continue;
             case T_REAL:
-                if (find->u.real == sv->u.real) break;
+                if (find->u.real == sv->u.real)
+                	break;
                 continue;
             case T_ARRAY:
-                if (find->u.arr == sv->u.arr) break;
+                if (find->u.arr == sv->u.arr)
+                	break;
                 continue;
+            case T_CLASS:
+            	if (find->u.arr == sv->u.arr)
+            		break;
+            	continue;
             case T_OBJECT:
             {
                 if (sv->u.ob->flags & O_DESTRUCTED) {
                     assign_svalue(sv, &const0u);
                     continue;
                 }
-                if (find->u.ob == sv->u.ob) break;
+                if (find->u.ob == sv->u.ob)
+                	break;
                 continue;
             }
             case T_MAPPING:
-                if (find->u.map == sv->u.map) break;
+                if (find->u.map == sv->u.map)
+                	break;
                 continue;
             case T_FUNCTION:
-                if (find->u.fp == sv->u.fp) break;
+                if (find->u.fp == sv->u.fp)
+                	break;
                 continue;
 #ifndef NO_BUFFER_TYPE
             case T_BUFFER:
-                if (find->u.buf == sv->u.buf) break;
+                if (find->u.buf == sv->u.buf)
+                	break;
                 continue;
 #endif
             default:
                 if (sv->type == T_OBJECT && (sv->u.ob->flags & O_DESTRUCTED)) {
                     assign_svalue(sv, &const0u);
-                    if (find->type == T_NUMBER && !find->u.number) break;
+                    if (find->type == T_NUMBER && !find->u.number)
+                    	break;
                 }
                 continue;
             }
@@ -1591,7 +1637,7 @@ f_message (void)
     case T_NUMBER:
         if (args[2].u.number == 0) {
             int len = SVALUE_STRLEN(args + 1);
-            
+
             /* this is really bad and probably should be rm'ed -Beek;
              * on the other hand, we don't have a debug_message() efun yet.
              * Well, there is one in contrib now ...
@@ -1661,10 +1707,10 @@ f_move_object (void)
         if (!(o2 = find_object(sp->u.string)) || !object_visible(o2))
             error("move_object failed: could not find destination\n");
     }
-    
+
     if ((o1 = current_object)->flags & O_DESTRUCTED)
         error("move_object(): can't move a destructed object\n");
-    
+
     move_object(o1, o2);
     pop_stack();
 }
@@ -1735,6 +1781,13 @@ void f_mud_status (void)
 #else
         outbuf_add(&ob, "<Array statistics disabled, no information available>\n");
 #endif
+#ifdef CLASS_STATS
+        outbuf_addv(&ob, "Classes:\t\t\t%8d %8d\n", num_classes,
+                    total_class_size);
+#else
+        outbuf_add(&ob, "<Class statistics disabled, no information available>\n");
+#endif
+
         outbuf_addv(&ob, "Mappings:\t\t\t%8d %8d\n", num_mappings,
                     total_mapping_size);
         outbuf_addv(&ob, "Mappings(nodes):\t\t%8d\n", total_mapping_nodes);
@@ -1750,6 +1803,9 @@ void f_mud_status (void)
     tot += total_prog_block_size +
 #ifdef ARRAY_STATS
         total_array_size +
+#endif
+#ifdef CLASS_STATS
+        total_class_size +
 #endif
         total_mapping_size +
         tot_alloc_sentence * sizeof(sentence_t) +
@@ -1770,7 +1826,7 @@ void
 f_objectp (void)
 {
     if (sp->type == T_OBJECT && !(sp->u.ob->flags & O_DESTRUCTED)) {
-        free_object(sp->u.ob, "f_objectp");
+        free_object(&sp->u.ob, "f_objectp");
         *sp = const1;
     } else {
         free_svalue(sp, "f_objectp");
@@ -1820,7 +1876,7 @@ f_present (void)
     int num_arg = st_num_arg;
     svalue_t *arg = sp - num_arg + 1;
     object_t *ob;
-    
+
 #if !defined(NO_RESETS) && defined(LAZY_RESETS)
     if (num_arg == 2) {
         try_reset(arg[1].u.ob);
@@ -1840,7 +1896,7 @@ f_previous_object (void)
     control_stack_t *p;
     int i;
     object_t *ob;
-    
+
     if ((i = sp->u.number) > 0) {
         if (i >= CFG_MAX_CALL_DEPTH) {
             sp->u.number = 0;
@@ -1870,10 +1926,10 @@ f_previous_object (void)
                 v->item[0].type = T_OBJECT;
                 v->item[0].u.ob = previous_ob;
                 add_ref(previous_ob, "previous_object(-1)");
-            } else 
+            } else
 		v->item[0] = const0u;
             i = 1;
-        } else 
+        } else
 	    i = 0;
         do {
             if ((p->framekind & FRAME_OB_CHANGE) && (ob = p->prev_ob)) {
@@ -1905,7 +1961,7 @@ f_printf (void)
 {
     int num_arg = st_num_arg;
     char *ret;
-    
+
     if (command_giver) {
         ret = string_print_formatted((sp - num_arg + 1)->u.string,
                                      num_arg - 1, sp - num_arg + 2);
@@ -1914,7 +1970,7 @@ f_printf (void)
             FREE_MSTR(ret);
         }
     }
-    
+
     pop_n_elems(num_arg);
 }
 #endif
@@ -1981,7 +2037,7 @@ f_query_idle (void)
     int i;
 
     i = query_idle(sp->u.ob);
-    free_object(sp->u.ob, "f_query_idle");
+    free_object(&sp->u.ob, "f_query_idle");
     put_number(i);
 }
 #endif
@@ -1993,7 +2049,7 @@ f_query_ip_name (void)
     char *tmp;
 
     tmp = query_ip_name(st_num_arg ? sp->u.ob : 0);
-    if (st_num_arg) free_object((sp--)->u.ob, "f_query_ip_name");
+    if (st_num_arg) free_object(&(sp--)->u.ob, "f_query_ip_name");
     if (!tmp) push_number(0);
     else share_and_push_string(tmp);
 }
@@ -2006,7 +2062,7 @@ f_query_ip_number (void)
     char *tmp;
 
     tmp = query_ip_number(st_num_arg ? sp->u.ob : 0);
-    if (st_num_arg) free_object((sp--)->u.ob, "f_query_ip_number");
+    if (st_num_arg) free_object(&(sp--)->u.ob, "f_query_ip_number");
     if (!tmp) push_number(0);
     else share_and_push_string(tmp);
 }
@@ -2025,15 +2081,15 @@ void
 f_query_privs (void)
 {
     object_t *ob;
-    
+
     ob = sp->u.ob;
     if (ob->privs != NULL) {
-        free_object(ob, "f_query_privs");
         sp->type = T_STRING;
         sp->u.string = make_shared_string(ob->privs);
         sp->subtype = STRING_SHARED;
+	free_object(&ob, "f_query_privs");
     } else {
-        free_object(ob, "f_query_privs");
+        free_object(&ob, "f_query_privs");
         *sp = const0;
     }
 }
@@ -2044,9 +2100,9 @@ void
 f_query_snooping (void)
 {
     object_t *ob;
-    
+
     ob = query_snooping(sp->u.ob);
-    free_object(sp->u.ob, "f_query_snooping");
+    free_object(&sp->u.ob, "f_query_snooping");
     if (ob) { put_unrefed_undested_object(ob, "query_snooping"); }
     else *sp = const0;
 }
@@ -2057,9 +2113,9 @@ void
 f_query_snoop (void)
 {
     object_t *ob;
-    
+
     ob = query_snoop(sp->u.ob);
-    free_object(sp->u.ob, "f_query_snoop");
+    free_object(&sp->u.ob, "f_query_snoop");
     if (ob) { put_unrefed_undested_object(ob, "query_snoop"); }
     else *sp = const0;
 }
@@ -2168,11 +2224,11 @@ f_receive (void)
     if (sp->type == T_STRING) {
         if (current_object->interactive) {
             int len = SVALUE_STRLEN(sp);
-            
+
             if (len > LARGEST_PRINTABLE_STRING)
                 error("Printable strings limited to length of %d.\n",
                       LARGEST_PRINTABLE_STRING);
-                
+
             add_message(current_object, sp->u.string, len);
         }
         free_string_svalue(sp--);
@@ -2195,10 +2251,10 @@ f_reg_assoc (void) {
     array_t *vec;
 
     arg = sp - st_num_arg + 1;
-    
+
     if (!(arg[2].type == T_ARRAY))
         error("Bad argument 3 to reg_assoc()\n");
-    
+
     vec = reg_assoc(arg[0].u.string, arg[1].u.arr, arg[2].u.arr, st_num_arg > 3 ? &arg[3] : &const0);
 
     if (st_num_arg == 4)
@@ -2220,7 +2276,7 @@ f_regexp (void)
 
     if (st_num_arg > 2) {
         if (!(sp->type == T_NUMBER)) error("Bad argument 3 to regexp()\n");
-        if (sp[-2].type == T_STRING) error("3rd argument illegal for regexp(string, string)\n"); 
+        if (sp[-2].type == T_STRING) error("3rd argument illegal for regexp(string, string)\n");
         flag = (sp--)->u.number;
     } else flag = 0;
     if (sp[-1].type == T_STRING) {
@@ -2329,7 +2385,7 @@ void
 f_replace_string (void)
 {
     int plen, rlen, dlen, slen, first, last, cur, j;
-    
+
     const char *pattern;
     const char *replace;
     register const char *src;
@@ -2341,7 +2397,7 @@ f_replace_string (void)
     char *climit;
     int probe;
     int skip;
-    
+
     if (st_num_arg > 5) {
         error("Too many args to replace_string.\n");
         pop_n_elems(st_num_arg);
@@ -2351,11 +2407,11 @@ f_replace_string (void)
     src = arg->u.string;
     first = 0;
     last = 0;
-    
+
     if (st_num_arg >= 4) {
         CHECK_TYPES((arg+3), T_NUMBER, 4, F_REPLACE_STRING);
         first = (arg+3)->u.number;
-        
+
         if (st_num_arg == 4) {
             last = first;
             first = 0;
@@ -2365,10 +2421,10 @@ f_replace_string (void)
             last = sp->u.number;
         }
     }
-        
+
     if (!last)
         last = max_string_length;
-    
+
     if (first > last) {         /* just return it */
         pop_n_elems(st_num_arg - 1);
         return;
@@ -2377,7 +2433,7 @@ f_replace_string (void)
     plen = SVALUE_STRLEN(arg+1);
     if (!plen) {
         pop_n_elems(st_num_arg - 1);    /* just return it */
-        
+
         return;
     }
     replace = (arg+2)->u.string;
@@ -2390,7 +2446,7 @@ f_replace_string (void)
         unlink_string_svalue(arg);
         src = arg->u.string;
     }
-    
+
     if (plen > 1) {
         /* build skip table */
         for (j = 0; j < 256; j++) {
@@ -2404,11 +2460,11 @@ f_replace_string (void)
         flimit = slimit - plen + 1;
         probe = plen - 1;
     }
-    
+
     if (rlen <= plen) {
         /* in string replacement */
         dst2 = dst1 = (char *)arg->u.string;
-        
+
         if (plen > 1) { /* pattern length > 1, jump table most efficient */
             while (src < flimit) {
                 if ((skip = skip_table[(unsigned char)src[probe]])) {
@@ -2443,7 +2499,7 @@ f_replace_string (void)
                 while (*src) {
                     if (*src == *pattern) {
                         cur++;
-                    
+
                         if (cur >= first && cur <= last) {
                             *(char *)src = *replace;
                         }
@@ -2481,13 +2537,13 @@ f_replace_string (void)
         pop_n_elems(st_num_arg - 1);
     } else {
         dst2 = dst1 = new_string(max_string_length, "f_replace_string: 2");
-        
+
         if (plen > 1) {
             while (src < flimit) {
                 if ((skip = skip_table[(unsigned char)src[probe]])) {
                     for (climit = dst2 + skip; dst2 < climit; *dst2++ = *src++)
                         ;
-                    
+
                 } else if (memcmp(src, pattern, plen) == 0) {
                     cur++;
                     if ((cur >= first) && (cur <= last)) {
@@ -2507,10 +2563,10 @@ f_replace_string (void)
                         if (max_string_length - dlen <= 0) {
                             pop_n_elems(st_num_arg);
                             push_svalue(&const0u);
-                            
+
                             FREE_MSTR(dst1);
                             return;
-                        }                           
+                        }
                         memcpy(dst2, src, plen);
                         dst2 += plen;
                         src += plen;
@@ -2519,7 +2575,7 @@ f_replace_string (void)
                     if (max_string_length - dlen <= 1) {
                         pop_n_elems(st_num_arg);
                         push_svalue(&const0u);
-                        
+
                         FREE_MSTR(dst1);
                         return;
                     }
@@ -2598,11 +2654,7 @@ f_restore_object (void)
 
     flag = (st_num_arg > 1) ? (sp--)->u.number : 0;
 
-    tmp_eval = get_eval();
-
     flag = restore_object(current_object, sp->u.string, flag);
-
-    set_eval(tmp_eval);
 
     free_string_svalue(sp);
     put_number(flag);
@@ -2665,13 +2717,9 @@ f_save_object (void)
     } else {
         flag = 0;
     }
-    
-    tmp_eval = get_eval();
 
     flag = save_object(current_object, sp->u.string, flag);
 
-    set_eval(tmp_eval);
-    
     free_string_svalue(sp);
     put_number(flag);
 }
@@ -2797,10 +2845,9 @@ f_set_heart_beat (void)
 void
 f_query_heart_beat (void)
 {
-    object_t *ob;
-    
-    free_object(ob = sp->u.ob, "f_query_heart_beat");
-    put_number(query_heart_beat(ob));
+    int num = query_heart_beat(sp->u.ob);
+    free_object(&sp->u.ob, "f_query_heart_beat");
+    put_number(num);
 }
 #endif
 
@@ -2857,8 +2904,8 @@ f_set_privs (void)
     } else {
         ob->privs = make_shared_string(sp->u.string);
         free_string_svalue(sp--);
-    }       
-    free_object(ob, "f_set_privs");
+    }
+    free_object(&ob, "f_set_privs");
     sp--;
 }
 #endif
@@ -2872,7 +2919,7 @@ f_shadow (void)
     ob = (sp - 1)->u.ob;
     if (!((sp--)->u.number)) {
         ob = ob->shadowed;
-        free_object(sp->u.ob, "f_shadow:1");
+        free_object(&sp->u.ob, "f_shadow:1");
         if (ob) {
           add_ref(ob, "shadow(ob, 0)");
           sp->u.ob = ob;
@@ -2885,7 +2932,7 @@ f_shadow (void)
     }
     if (validate_shadowing(ob)) {
         if (current_object->flags & O_DESTRUCTED) {
-            free_object(ob, "f_shadow:2");
+            free_object(&ob, "f_shadow:2");
             *sp = const0;
             return;
         }
@@ -2896,12 +2943,12 @@ f_shadow (void)
             ob = ob->shadowed;
         current_object->shadowing = ob;
         ob->shadowed = current_object;
-        free_object(sp->u.ob, "f_shadow:3");
+        free_object(&sp->u.ob, "f_shadow:3");
         add_ref(ob, "shadow(ob, 1)");
         sp->u.ob = ob;
         return;
     }
-    free_object(sp->u.ob, "f_shadow:4");
+    free_object(&sp->u.ob, "f_shadow:4");
     *sp = const0;
 }
 #endif
@@ -2976,17 +3023,17 @@ f_snoop (void)
      */
     if (st_num_arg == 1) {
         if (!new_set_snoop(sp->u.ob, 0) || (sp->u.ob->flags & O_DESTRUCTED)) {
-            free_object(sp->u.ob, "f_snoop:1");
+            free_object(&sp->u.ob, "f_snoop:1");
             *sp = const0;
         }
     } else {
-        if (!new_set_snoop((sp - 1)->u.ob, sp->u.ob) || 
+        if (!new_set_snoop((sp - 1)->u.ob, sp->u.ob) ||
             (sp->u.ob->flags & O_DESTRUCTED)) {
-            free_object((sp--)->u.ob, "f_snoop:2");
-            free_object(sp->u.ob, "f_snoop:3");
+            free_object(&(sp--)->u.ob, "f_snoop:2");
+            free_object(&sp->u.ob, "f_snoop:3");
             *sp = const0;
         } else {
-            free_object((--sp)->u.ob, "f_snoop:4");
+            free_object(&(--sp)->u.ob, "f_snoop:4");
             sp->u.ob = (sp+1)->u.ob;
         }
     }
@@ -3024,7 +3071,7 @@ f_stat (void)
     const char *path;
     array_t *v;
     object_t *ob;
-    
+
     path = check_valid_path((--sp)->u.string, current_object, "stat", 0);
     if (!path) {
         free_string_svalue(sp);
@@ -3094,13 +3141,13 @@ f_strsrch (void)
         /* start at left */
     } else if (!((sp+1)->u.number)) {
         if (!little[1])         /* 1 char srch pattern */
-            pos = strchr(big, (int) little[0]);
+            pos = strchr(big, little[0]);
         else
             pos = (char *)strstr(big, little);
         /* start at right */
     } else {                    /* XXX: maybe test for -1 */
         if (!little[1])         /* 1 char srch pattern */
-            pos = strrchr(big, (int) little[0]);
+            pos = strrchr(big, little[0]);
         else {
             char c = *little;
 
@@ -3124,7 +3171,7 @@ f_strsrch (void)
     if (!pos)
         i = -1;
     else
-        i = (int) (pos - big);
+        i = pos - big;
     if (sp->type == T_STRING) free_string_svalue(sp);
     free_string_svalue(--sp);
     put_number(i);
@@ -3202,7 +3249,7 @@ f_tell_room (void)
     int num_arg = st_num_arg;
     svalue_t *arg = sp - num_arg + 1;
     object_t *ob;
-    
+
     if (arg->type == T_OBJECT) {
         ob = arg[0].u.ob;
     } else {                    /* must be a string... */
@@ -3261,7 +3308,7 @@ f_next_bit (void)
     int start = (sp--)->u.number;
     int len = SVALUE_STRLEN(sp);
     int which, bit=0, value;
-    
+
     if (!len || start / 6 >= len) {
         free_string_svalue(sp);
         put_number(-1);
@@ -3397,18 +3444,18 @@ f__to_int (void)
     switch(sp->type) {
         case T_REAL:
             sp->type = T_NUMBER;
-            sp->u.number = (int) sp->u.real;
+            sp->u.number = (long) sp->u.real;
             break;
         case T_STRING:
         {
-            int temp;
+            long temp;
             char *p;
-            
+
             temp = strtol(sp->u.string, &p, 10);
             if (*p) {
                 /* have to be a little careful here.  Checkign if p ==
                  * sp->u.string isn't good enough.
-                 * 
+                 *
                  * Odd cases:
                  * to_int("  foo")  // p == sp->u.string + 2
                  *
@@ -3492,8 +3539,8 @@ f_userp (void)
 {
     int i;
 
-    i = (int) sp->u.ob->flags & O_ONCE_INTERACTIVE;
-    free_object(sp->u.ob, "f_userp");
+    i = sp->u.ob->flags & O_ONCE_INTERACTIVE;
+    free_object(&sp->u.ob, "f_userp");
     put_number(i != 0);
 }
 #endif
@@ -3512,8 +3559,8 @@ f_wizardp (void)
 {
     int i;
 
-    i = (int) sp->u.ob->flags & O_IS_WIZARD;
-    free_object(sp->u.ob, "f_wizardp");
+    i = sp->u.ob->flags & O_IS_WIZARD;
+    free_object(&sp->u.ob, "f_wizardp");
     put_number(i != 0);
 }
 #endif
@@ -3524,8 +3571,8 @@ f_virtualp (void)
 {
     int i;
 
-    i = (int) sp->u.ob->flags & O_VIRTUAL;
-    free_object(sp->u.ob, "f_virtualp");
+    i = sp->u.ob->flags & O_VIRTUAL;
+    free_object(&sp->u.ob, "f_virtualp");
     put_number(i != 0);
 }
 #endif
@@ -3551,7 +3598,7 @@ f_write_bytes (void)
             int netint;
             char *netbuf;
 
-            if (!sp->u.number) 
+            if (!sp->u.number)
 		bad_arg(3, F_WRITE_BYTES);
             netint = htonl(sp->u.number);       /* convert to network
                                                  * byte-order */
@@ -3683,7 +3730,7 @@ f_memory_info (void)
 {
     long mem;
     object_t *ob;
-    
+
     if (st_num_arg == 0) {
         int res, tot;
 
@@ -3694,6 +3741,9 @@ f_memory_info (void)
         tot = total_prog_block_size +
 #ifdef ARRAY_STATS
             total_array_size +
+#endif
+#ifdef CLASS_STATS
+            total_class_size +
 #endif
             total_mapping_size +
             tot_alloc_object_size +
@@ -3716,7 +3766,7 @@ f_memory_info (void)
        included or not to be more accurate -- Marius, 30-Jul-2000 */
     mem = ob->prog->total_size;
     mem += (data_size(ob) + sizeof(object_t));
-    free_object(ob, "f_memory_info");
+    free_object(&ob, "f_memory_info");
     put_number(mem);
 }
 #endif
@@ -3726,7 +3776,7 @@ void
 f_reload_object (void)
 {
     reload_object(sp->u.ob);
-    free_object((sp--)->u.ob, "f_reload_object");
+    free_object(&(sp--)->u.ob, "f_reload_object");
 }
 #endif
 
@@ -3735,11 +3785,11 @@ void
 f_query_shadowing (void)
 {
     object_t *ob;
-    
+
     if ((sp->type == T_OBJECT) && (ob = sp->u.ob)->shadowing) {
         add_ref(ob->shadowing, "query_shadowing(ob)");
         sp->u.ob = ob->shadowing;
-        free_object(ob, "f_query_shadowing");
+        free_object(&ob, "f_query_shadowing");
     } else {
         free_svalue(sp, "f_query_shadowing");
         *sp = const0;
@@ -3753,12 +3803,12 @@ f_set_reset (void)
 {
     if (st_num_arg == 2) {
         (sp - 1)->u.ob->next_reset = current_time + sp->u.number;
-        free_object((--sp)->u.ob, "f_set_reset:1");
+        free_object(&(--sp)->u.ob, "f_set_reset:1");
         sp--;
     } else {
         sp->u.ob->next_reset = current_time + TIME_TO_RESET / 2 +
             random_number(TIME_TO_RESET / 2);
-        free_object((sp--)->u.ob, "f_set_reset:2");
+        free_object(&(sp--)->u.ob, "f_set_reset:2");
     }
 }
 #endif
@@ -3787,7 +3837,7 @@ f_flush_messages (void) {
         pop_stack();
     } else {
         int i;
-        
+
         for (i = 0; i < max_users; i++) {
             if (all_users[i] && !(all_users[i]->iflags & CLOSING))
                 flush_message(all_users[i]);
@@ -3801,7 +3851,7 @@ void
 f_first_inventory (void)
 {
     object_t *ob;
-    
+
     ob = first_inventory(sp);
     free_svalue(sp, "f_first_inventory");
     if (ob) { put_unrefed_undested_object(ob, "first_inventory"); }
@@ -3814,9 +3864,9 @@ void
 f_next_inventory (void)
 {
     object_t *ob;
-    
+
     ob = sp->u.ob->next_inv;
-    free_object(sp->u.ob, "f_next_inventory");
+    free_object(&sp->u.ob, "f_next_inventory");
 
 #ifdef F_SET_HIDE
     while (ob && (ob->flags & O_HIDDEN) && !object_visible(ob))

@@ -311,41 +311,41 @@ mapping query_sizes( string dir ) {
 void del( string dir, string room ) {
    check_dir( dir );
 #if !efun_defined(db_exec)
-   if (mappingp(map)) {
+   if (mapp(map)) {
      map_delete( map, room );
    } else {
      map = ([ ]);
    }
 #endif
-   if (mappingp(shorts)) {
+   if (mapp(shorts)) {
      map_delete( shorts, room );
    } else {
      shorts = ([ ]);
    }
-   if (mappingp(movezones)) {
+   if (mapp(movezones)) {
      map_delete( movezones, room );
    } else {
      movezones = ([ ]);
    }
-   if (mappingp(changetimes)) {
+   if (mapp(changetimes)) {
      map_delete( changetimes, room );
    } else {
      changetimes = ([ ]);
    }
 #if !efun_defined(db_exec)
-   if (mappingp(clusters)) {
+   if (mapp(clusters)) {
      map_delete( clusters, room );
    } else {
      clusters = ([ ]);
    }
 #endif
 #ifdef COORDS
-   if (mappingp(coords)) {
+   if (mapp(coords)) {
      map_delete( coords, room );
    } else {
      coords = ([ ]);
    }
-   if (mappingp(sizes)) {
+   if (mapp(sizes)) {
      map_delete( sizes, room );
    } else {
      sizes = ([ ]);

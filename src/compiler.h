@@ -43,11 +43,10 @@ typedef struct {
 #define A_STRING_NEXT           14      /* next prog string in hash chain */
 #define A_STRING_REFS           15      /* reference count of prog string */
 #define A_INCLUDES              16      /* list of included files */
-#define A_PATCH                 17      /* for save_binary() */
-#define A_FUNCTIONALS           18
-#define A_FUNCTION_DEFS         19
-#define A_VAR_TEMP              20      /* table of variables */
-#define NUMAREAS                22
+#define A_FUNCTIONALS           17
+#define A_FUNCTION_DEFS         18
+#define A_VAR_TEMP              19      /* table of variables */
+#define NUMAREAS                20
 
 #define TREE_MAIN               0
 #define TREE_INIT               1
@@ -116,7 +115,7 @@ typedef struct compiler_temp_t {
     struct program_s *prog; /* inherited if nonzero */
     union {
         function_t *func;
-        int index;
+        long index;
     } u;
     struct compiler_temp_t *next;
 } compiler_temp_t;
@@ -249,7 +248,7 @@ parse_node_t *throw_away_mapping (parse_node_t *);
 #define realloc_mem_block(m) do { \
     mem_block_t *M = m; \
     M->max_size <<= 1; \
-    M->block = DREALLOC(M->block, M->max_size, TAG_COMPILER, "realloc_mem_block"); \
+    M->block = (char *)DREALLOC(M->block, M->max_size, TAG_COMPILER, "realloc_mem_block"); \
 } while (0)
 
 #define add_to_mem_block(n, data, size) do { \
@@ -261,7 +260,7 @@ parse_node_t *throw_away_mapping (parse_node_t *);
             mbp->max_size <<= 1; \
         } while (mbp->current_size + Size > mbp->max_size); \
         \
-        mbp->block = DREALLOC(mbp->block, mbp->max_size, TAG_COMPILER, "insert_in_mem_block"); \
+        mbp->block = (char *)DREALLOC(mbp->block, mbp->max_size, TAG_COMPILER, "insert_in_mem_block"); \
     } \
     memcpy(mbp->block + mbp->current_size, data, Size); \
     mbp->current_size += Size; \
@@ -278,8 +277,8 @@ char *allocate_in_mem_block (int n, int size)
         do {
             mbp->max_size <<= 1;
         } while (mbp->current_size + size > mbp->max_size);
-        
-        mbp->block = DREALLOC(mbp->block, mbp->max_size, TAG_COMPILER, "insert_in_mem_block");
+
+        mbp->block = (char *)DREALLOC(mbp->block, mbp->max_size, TAG_COMPILER, "insert_in_mem_block");
     }
     ret = mbp->block + mbp->current_size;
     mbp->current_size += size;

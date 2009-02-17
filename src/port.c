@@ -1,12 +1,12 @@
 #include "std.h"
 #include "port.h"
-#include "lint.h"
 #include "file_incl.h"
 #include "network_incl.h"
 #include <unistd.h>
+#ifndef MINGW
 #include <sys/mman.h>
-
-#if defined(WIN32) || defined(LATTICE)
+#endif
+#if defined(WIN32)
 int dos_style_link (char * x, char * y) {
     char link_cmd[100];
     sprintf(link_cmd, "copy %s %s", x, y);
@@ -29,7 +29,7 @@ time_t time (time_t *);
 /*
  * Return a pseudo-random number in the range 0 .. n-1
  */
-int random_number (int n)
+long random_number (long n)
 {
 #if defined(RAND) || defined(DRAND48)
     static char called = 0;
@@ -46,9 +46,13 @@ int random_number (int n)
 	called = 1;
     }				/* endif */
 #  ifdef RAND
-    return 1 + (int) ((float)n * rand() / (RAND_MAX+1.0);
+#    ifdef MINGW
+    return rand() % n;
+#    else
+    return 1 + (long) ((float)n * rand() / (RAND_MAX+1.0);
+#endif
 #  else
-    return (int)(drand48() * n);
+    return (long)(drand48() * n);
 #  endif
 #else
 #  ifdef RANDOM
@@ -68,14 +72,14 @@ int random_number (int n)
  * of seconds since 1970.
  */
 
-int get_current_time()
+long get_current_time()
 {
-    return (int) time(0l);	/* Just use the old time() for now */
+    return time(0l);	/* Just use the old time() for now */
 }
 
-char *time_string (time_t t)
+const char *time_string (time_t t)
 {
-    char *res = ctime(&t);
+    const char *res = ctime(&t);
     if(!res)
       res = "ctime failed";
     return res;
@@ -108,20 +112,8 @@ get_usec_clock (long * sec, long * usec)
            *sec = 0;
     *usec = GETUSCLK();
 #else
-#ifdef LATTICE
-    unsigned int clock[2];
-
-    if (timer(clock)) {
-	*sec = time(0);
-	*usec = 0;
-    } else {
-	*sec = clock[0];
-	*usec = clock[1];
-    }
-#else
     *sec = time(0);
     *usec = 0;
-#endif
 #endif
 #endif
 }
@@ -210,18 +202,7 @@ get_cpu_times (unsigned long * secs, unsigned long * usecs)
     return 1;
 #else				/* end then TIMES */
 
-#ifdef LATTICE			/* start LATTICE */
-    unsigned int clock[2];
-
-    if (timer(clock))
-	return 0;
-
-    *secs = clock[0];
-    *usecs = clock[1];
-    return 1;
-#else
     return 0;
-#endif				/* end LATTICE */
 #endif				/* end TIMES */
 #endif				/* end else GET_PROCESS_STATS */
 #endif				/* end else RUSAGE */
@@ -296,7 +277,7 @@ void * sbrkx(long size){
     if(tmp != end)
       return NULL;
   }
-  
+
   newsize = (long)end + size;
   result = end;
   end = newsize;
@@ -308,7 +289,7 @@ void * sbrkx(long size){
 
   if(tmp != (void *) 0x41000000)
     return NULL;
-  
+
   tsize = newsize;
   return result;
 }
@@ -316,6 +297,8 @@ void * sbrkx(long size){
 #else
 
 void *sbrkx(long size){
+#ifndef MINGW
   return sbrk(size);
+#endif
 }
 #endif

@@ -1,0 +1,191 @@
+<html><head><title>File state_changer.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/state_changer.c</h2>
+State Changer Inheritable!
+You can use this to write a device which will change the states of
+things.<p>Written by Terano<p>Started 30/9/02
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.vessel.c.html">/obj/vessel.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.effect.h.html">/include/effect.h</a> and <a href="include.tasks.h.html">/include/tasks.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#beginning"><b>beginning</b></a>(object, object, int)<dd>
+Some effect stuff to save on call outs.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_action"><b>do_action</b></a>(object *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_empty"><b>do_empty</b></a>(object *, string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_fill"><b>do_fill</b></a>(object *, mixed *, mixed *, mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#end"><b>end</b></a>(object, object, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#extra_look"><b>extra_look</b></a>(object)<dd>
+Something to mask!
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#long"><b>long</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_message"><b>parse_message</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_busy"><b>query_busy</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_classification"><b>query_classification</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_abort_message"><b>set_abort_message</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_command"><b>set_command</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_command_mess"><b>set_command_mess</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_duration"><b>set_duration</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_end_func"><b>set_end_func</b></a>(function)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_end_message"><b>set_end_message</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_fail_func"><b>set_fail_func</b></a>(function)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_fail_message"><b>set_fail_message</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_fail_process"><b>set_fail_process</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_gp_cost"><b>set_gp_cost</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_gp_type"><b>set_gp_type</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_interim_message"><b>set_interim_message</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_process"><b>set_process</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_running_inv_mess"><b>set_running_inv_mess</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_skill"><b>set_skill</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_start_func"><b>set_start_func</b></a>(function)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_start_message"><b>set_start_message</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#show_message"><b>show_message</b></a>(object, object, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_add"><b>test_add</b></a>(object, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_remove"><b>test_remove</b></a>(object, int, mixed)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="beginning">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>beginning</b></a><pre>
+object beginning(object apparatus,
+                 object tp,
+                 int id)
+</pre><dd>
+Some effect stuff to save on call outs.
+<p>
+
+<dt><a name="do_action">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_action</b></a><pre>
+int do_action(object * obs)
+</pre>
+<dt><a name="do_empty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_empty</b></a><pre>
+int do_empty(object * dest,
+             string me,
+             string him,
+             string prep)
+</pre>
+<dt><a name="do_fill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_fill</b></a><pre>
+int do_fill(object * to,
+            mixed * args_b,
+            mixed * args_a,
+            mixed * args)
+</pre>
+<dt><a name="end">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>end</b></a><pre>
+object end(object apparatus,
+           object tp,
+           int id)
+</pre>
+<dt><a name="extra_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>extra_look</b></a><pre>
+string extra_look(object ob)
+</pre><dd>
+Something to mask!
+<p>
+
+<dt><a name="long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>long</b></a><pre>
+string long(string word,
+            int dark)
+</pre>
+<dt><a name="parse_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_message</b></a><pre>
+string parse_message(string message)
+</pre>
+<dt><a name="query_busy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_busy</b></a><pre>
+int query_busy()
+</pre>
+<dt><a name="query_classification">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_classification</b></a><pre>
+string query_classification()
+</pre>
+<dt><a name="set_abort_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_abort_message</b></a><pre>
+void set_abort_message(string message)
+</pre>
+<dt><a name="set_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_command</b></a><pre>
+void set_command(string _command)
+</pre>
+<dt><a name="set_command_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_command_mess</b></a><pre>
+void set_command_mess(string message)
+</pre>
+<dt><a name="set_duration">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_duration</b></a><pre>
+void set_duration(int _duration)
+</pre>
+<dt><a name="set_end_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_end_func</b></a><pre>
+void set_end_func(function f)
+</pre>
+<dt><a name="set_end_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_end_message</b></a><pre>
+void set_end_message(string message)
+</pre>
+<dt><a name="set_fail_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_fail_func</b></a><pre>
+void set_fail_func(function f)
+</pre>
+<dt><a name="set_fail_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_fail_message</b></a><pre>
+void set_fail_message(string message)
+</pre>
+<dt><a name="set_fail_process">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_fail_process</b></a><pre>
+void set_fail_process(string _process)
+</pre>
+<dt><a name="set_gp_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_gp_cost</b></a><pre>
+void set_gp_cost(int gp)
+</pre>
+<dt><a name="set_gp_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_gp_type</b></a><pre>
+void set_gp_type(string type)
+</pre>
+<dt><a name="set_interim_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_interim_message</b></a><pre>
+void set_interim_message(string message)
+</pre>
+<dt><a name="set_process">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_process</b></a><pre>
+void set_process(string _process)
+</pre>
+<dt><a name="set_running_inv_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_running_inv_mess</b></a><pre>
+void set_running_inv_mess(string mess)
+</pre>
+<dt><a name="set_skill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_skill</b></a><pre>
+void set_skill(string _skill,
+               int _base_bonus)
+</pre>
+<dt><a name="set_start_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_start_func</b></a><pre>
+void set_start_func(function f)
+</pre>
+<dt><a name="set_start_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_start_message</b></a><pre>
+void set_start_message(string message)
+</pre>
+<dt><a name="show_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>show_message</b></a><pre>
+object show_message(object apparatus,
+                    object tp,
+                    int id)
+</pre>
+<dt><a name="test_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_add</b></a><pre>
+int test_add(object ob,
+             int flag)
+</pre>
+<dt><a name="test_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_remove</b></a><pre>
+int test_remove(object ob,
+                int flag,
+                mixed dest)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 07 Oct 2006 01:00:05 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

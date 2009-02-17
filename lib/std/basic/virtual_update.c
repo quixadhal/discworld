@@ -69,7 +69,7 @@ void init_virtual_object()
       if (file_size(virt_name) != -1 &&
           query_property("virtual time") < stat(virt_name)[1]) {
          stat_temp = (VIRTUAL_HANDLER)->new_data(virt_name);
-         if (mappingp(stat_temp)) {
+         if (mapp(stat_temp)) {
             init_static_arg(stat_temp);
             add_property("virtual time", time());
          }

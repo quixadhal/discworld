@@ -11,24 +11,8 @@
 #include "port.h"
 #include "master.h"
 
-/* Removed due to hideousness: if you want to add it back, note that
- * we don't want redefinitions, and that some systems define major() in
- * one place, some in both, etc ...
- */
-#if 0
-#ifdef INCL_SYS_SYSMACROS_H
-/* Why yes, this *is* a kludge! */
-#  ifdef major
-#    undef major
-#  endif
-#  ifdef minor
-#    undef minor
-#  endif
-#  ifdef makedev
-#    undef makedev
-#  endif
-#  include <sys/sysmacros.h>
-#endif
+#ifdef PACKAGE_COMPRESS
+#include <zlib.h>
 #endif
 
 int legal_path (const char *);
@@ -144,11 +128,7 @@ array_t *get_dir (const char * path, int flags)
         return 0;
 
     if (strlen(path) < 2) {
-#ifndef LATTICE
         temppath[0] = path[0] ? path[0] : '.';
-#else
-        temppath[0] = path[0];
-#endif
         temppath[1] = '\000';
         p = temppath;
     } else {
@@ -172,11 +152,7 @@ array_t *get_dir (const char * path, int flags)
             *p = '\0';
         } else {
             strcpy(regexppath, p);
-#ifndef LATTICE
             strcpy(temppath, ".");
-#else
-            strcpy(temppath, "");
-#endif
         }
         do_match = 1;
     } else if (*p != '\0' && strcmp(temppath, ".")) {
@@ -186,9 +162,6 @@ array_t *get_dir (const char * path, int flags)
         encode_stat(&v->item[0], flags, p, &st);
         return v;
     }
-/*#ifdef LATTICE
-        if (temppath[0]=='.') temppath[0]=0;
-#endif*/
 #ifdef WIN32
     FileHandle = -1;
     FileCount = 1;
@@ -271,10 +244,7 @@ array_t *get_dir (const char * path, int flags)
     rewinddir(dirp);
     endtemp = temppath + strlen(temppath);
 
-#ifdef LATTICE
-    if (endtemp != temppath)
-#endif
-        strcat(endtemp++, "/");
+    strcat(endtemp++, "/");
 
     for (i = 0, de = readdir(dirp); i < count; de = readdir(dirp)) {
 #ifdef USE_STRUCT_DIRENT
@@ -351,14 +321,10 @@ int legal_path (const char * path)
         if (p)
             p++;                /* step over `/' */
     }
-#if defined(AMIGA) || defined(LATTICE) || defined(WIN32)
+#if defined(WIN32)
     /*
      * I don't know what the proper define should be, just leaving an
      * appropriate place for the right stuff to happen here - Wayfarer
-     */
-    /*
-     * fail if there's a ':' since on AmigaDOS this means it's a logical
-     * device!
      */
     /* Could be a drive thingy for os2. */
     if (strchr(path, ':'))
@@ -412,7 +378,9 @@ void smart_log (const char * error_file, int line, const char * what, int flag)
 int write_file (const char * file, const char * str, int flags)
 {
     FILE *f;
-
+#ifdef PACKAGE_COMPRESS
+    gzFile gf;
+#endif
 #ifdef WIN32
     char fmode[3];
 #endif
@@ -420,6 +388,14 @@ int write_file (const char * file, const char * str, int flags)
     file = check_valid_path(file, current_object, "write_file", 1);
     if (!file)
         return 0;
+#ifdef PACKAGE_COMPRESS
+    if(flags & 2){
+      gf = gzopen(file, (flags & 1)?"w":"a");
+      if(!gf)
+	error("Wrong permissions for opening file /%s for %s.\n\"%s\"\n",
+	      file, (flags & 1) ? "overwrite" : "append", port_strerror(errno));
+    } else {
+#endif
 #ifdef WIN32
     fmode[0] = (flags & 1) ? 'w' : 'a';
     fmode[1] = 't';
@@ -429,129 +405,146 @@ int write_file (const char * file, const char * str, int flags)
     f = fopen(file, (flags & 1) ? "w" : "a");
 #endif
     if (f == 0) {
-        error("Wrong permissions for opening file /%s for %s.\n\"%s\"\n",
-              file, (flags & 1) ? "overwrite" : "append", port_strerror(errno));
+      error("Wrong permissions for opening file /%s for %s.\n\"%s\"\n",
+	    file, (flags & 1) ? "overwrite" : "append", port_strerror(errno));
     }
-    fwrite(str, strlen(str), 1, f);
-    fclose(f);
+#ifdef PACKAGE_COMPRESS
+    }
+    if(flags & 2){
+      gzwrite(gf, str, strlen(str));
+    }else
+#endif
+      fwrite(str, strlen(str), 1, f);
+#ifdef PACKAGE_COMPRESS
+    if(flags & 2)
+      gzclose(gf);
+    else
+#endif
+      fclose(f);
     return 1;
 }
 
-char *read_file (const char * file, int start, int len) {
-    struct stat st;
-    FILE *f;
-    int lastchunk, chunk, ssize, fsize;
-    char *str, *p, *p2;
-    
-    if (len < 0)
-        return 0;
-    
-    file = check_valid_path(file, current_object, "read_file", 0);
-    
-    if (!file)
-        return 0;
-    
-    /*
-     * file doesn't exist, or is really a directory
-     */
-    if (stat(file, &st) == -1 || (st.st_mode & S_IFDIR))
-        return 0;
+char *read_file(const char * file, int start, int len) {
+	struct stat st;
+#ifndef PACKAGE_COMPRESS
+	FILE *f;
+#else
+	gzFile f;
+#endif
+	int chunk;
+	char *str, *p, *p2;
 
-    f = fopen(file, FOPEN_READ);
-    if (f == 0)
-        return 0;
-    
-#ifndef LATTICE
-    if (fstat(fileno(f), &st) == -1)
-        fatal("Could not stat an open file.\n");
+	if (len < 0)
+		return 0;
+
+	file = check_valid_path(file, current_object, "read_file", 0);
+
+	if (!file)
+		return 0;
+
+	/*
+	 * file doesn't exist, or is really a directory
+	 */
+	if (stat(file, &st) == -1 || (st.st_mode & S_IFDIR))
+		return 0;
+#ifndef PACKAGE_COMPRESS
+	f = fopen(file, FOPEN_READ);
+#else
+	f = gzopen(file, "rb");
+#endif
+	if (f == 0)
+		return 0;
+
+	if (start < 1)
+		start = 1;
+	if (len == 0)
+		len = 2*READ_FILE_MAX_SIZE;
+
+	str = new_string(2*READ_FILE_MAX_SIZE, "read_file: str");
+	if (st.st_size== 0) {
+		/* zero length file */
+		str[0] = 0;
+#ifndef PACKAGE_COMPRESS
+		fclose(f);
+#else
+		gzclose(f);
+#endif
+		str = extend_string(str, 0); /* fix string length */
+		return str;
+	}
+
+	do {
+#ifndef PACKAGE_COMPRESS
+		chunk = fread(str, 1, 2*READ_FILE_MAX_SIZE, f);
+#else 
+		chunk = gzread(f, str, 2*READ_FILE_MAX_SIZE);
+#endif
+		if (chunk < 1)
+			goto free_str;
+		p = str;
+		while (start > 1) {
+			/* skip newlines */
+			p2 = (char *)memchr(p, '\n', 2*READ_FILE_MAX_SIZE+str-p);
+			if (p2) {
+				p = p2 + 1;
+				start--;
+			} else
+				break;
+		}
+	} while (start > 1);
+
+	p2 = str;
+	while (1) {
+		char c;
+
+		c = *p++;
+		if (p-str > chunk) {
+			if (chunk == 2*READ_FILE_MAX_SIZE) {
+				goto free_str;	//file too big
+			} else
+				break; //reached the end
+		}
+		
+		if (p2-str > READ_FILE_MAX_SIZE)
+			goto free_str;  //file too big
+		
+		if (c == '\0') {
+			FREE_MSTR(str);
+#ifndef PACKAGE_COMPRESS
+			fclose(f);
+#else
+			gzclose(f);
+#endif
+			error("Attempted to read '\\0' into string!\n");
+		}
+		if (c != '\r' || *p != '\n') {
+			*p2++ = c;
+			if (c == '\n' && --len == 0)
+				break; /* done */
+		}
+	}
+
+	*p2 = 0;
+	str = extend_string(str, p2 - str); /* fix string length */
+
+#ifndef PACKAGE_COMPRESS
+	fclose(f);
+#else
+	gzclose(f);
 #endif
 
-    /* lastchunk = the size of the last chunk we read
-     * chunk = size of the next chunk we will read (always < fsize)
-     * fsize = amount left in file
-     */
-    lastchunk = chunk = ssize = fsize = st.st_size;
-    if (fsize > READ_FILE_MAX_SIZE)
-        lastchunk = chunk = ssize = READ_FILE_MAX_SIZE;
+	return str;
 
-    /* Can't shortcut out if size > max even if start and len aren't
-       specified, since we still need to check for \0, and \r's may pull the
-       size into range */
+	/* Error path: unwind allocated resources */
 
-    if (start < 1) start = 1; 
-    if (len == 0) len = READ_FILE_MAX_SIZE; 
-    
-    str = new_string(ssize, "read_file: str"); 
-    if (fsize == 0) { 
-        /* zero length file */ 
-        str[0] = 0; 
-        fclose(f);
-        return str;
-    }
-
-    do {
-        /* read another chunk */
-        if (fsize == 0 || fread(str, chunk, 1, f) != 1)
-            goto free_str;
-        p = str;
-        lastchunk = chunk;
-        fsize -= chunk;
-        if (chunk > fsize) chunk = fsize;
-    
-        while (start > 1) {
-            /* skip newlines */
-            p2 = memchr(p, '\n', str + lastchunk - p);
-            if (p2) {
-                p = p2 + 1;
-                start--;
-            } else
-                break; /* get another chunk */
-        }
-    } while (start > 1); /* until we've skipped enough */
-
-    p2 = str;
-    while (1) {
-        char c;
-
-        if (p == str + lastchunk) {
-            /* need another chunk */
-            if (chunk > ssize - (p2 - str))
-                chunk = ssize - (p2 - str); /* space remaining */
-            if (fsize == 0) break; /* nothing left */
-            if (chunk == 0 || fread(p2, chunk, 1, f) != 1)
-                goto free_str;
-            p = p2;
-            lastchunk = chunk + (p2 - str); /* fudge since we didn't
-                                               start at str */
-            fsize -= chunk;
-            if (chunk > fsize) chunk = fsize;
-        }
-
-        c = *p++;
-        if (c == '\0') {
-            FREE_MSTR(str);
-            fclose(f);
-            error("Attempted to read '\\0' into string!\n");    
-        }
-        if (c != '\r' || *p != '\n') {
-            *p2++ = c;
-            if (c == '\n' && --len == 0)
-                break; /* done */
-        }
-    }
-
-    *p2 = 0;
-    str = extend_string(str, p2 - str); /* fix string length */
-    fclose(f);
-    
-    return str;
-    
-    /* Error path: unwind allocated resources */
-
-  free_str:
-    FREE_MSTR(str);
-    fclose(f);
-    return 0;
+free_str: 
+	FREE_MSTR(str);
+#ifndef PACKAGE_COMPRESS
+	fclose(f);
+#else
+	gzclose(f);
+#endif
+	return 0;
 }
 
 char *read_bytes (const char * file, int start, int len, int * rlen)
@@ -567,17 +560,11 @@ char *read_bytes (const char * file, int start, int len, int * rlen)
                             "read_bytes", 0);
     if (!file)
         return 0;
-#ifdef LATTICE
-    if (stat(file, &st) == -1)
-        return 0;
-#endif
     fptr = fopen(file, "rb");
     if (fptr == NULL)
         return 0;
-#ifndef LATTICE
     if (fstat(fileno(fptr), &st) == -1)
         fatal("Could not stat an open file.\n");
-#endif
     size = st.st_size;
     if (start < 0)
         start = size + start;
@@ -646,10 +633,8 @@ int write_bytes (const char * file, int start, const char * str, int theLength)
     if (fptr == NULL) {
         return 0;
     }
-#ifndef LATTICE
     if (fstat(fileno(fptr), &st) == -1)
         fatal("Could not stat an open file.\n");
-#endif
     size = st.st_size;
     if (start < 0)
         start = size + start;
@@ -675,9 +660,10 @@ int file_size (const char * file)
 {
     struct stat st;
     long ret;
+    char *t;
 #ifdef WIN32
     int needs_free = 0, len;
-    char *p;
+    const char *p;
 #endif
 
     file = check_valid_path(file, current_object, "file_size", 0);
@@ -690,9 +676,10 @@ int file_size (const char * file)
     if (*p == '/') {
         needs_free = 1;
         p = file;
-        file = new_string(len - 1, "file_size");
-        memcpy(file, p, len - 1);
-        file[len-1] = 0;
+        t = new_string(len - 1, "file_size");
+        memcpy(t, p, len - 1);
+        t[len-1] = 0;
+        file = t;
     }
 #endif
 
@@ -760,10 +747,8 @@ const char *check_valid_path (const char * path, object_t * call_object, const c
     
     if (path[0] == '/')
         path++;
-#ifndef LATTICE
     if (path[0] == '\0')
         path = ".";
-#endif
     if (legal_path(path))
         return path;
 
@@ -1148,7 +1133,7 @@ void dump_file_descriptors (outbuffer_t * out)
         if (fstat(i, &stbuf) == -1)
             continue;
 
-#if !defined(LATTICE) && !defined(WIN32)
+#if !defined(WIN32)
         if (S_ISCHR(stbuf.st_mode) || S_ISBLK(stbuf.st_mode))
             dev = stbuf.st_rdev;
         else

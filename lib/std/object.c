@@ -357,7 +357,7 @@ mapping query_dynamic_auto_load() {
  */
 void init_static_arg( mapping map ) {
 
-   if ( !mappingp( map ) ) {
+   if ( !mapp( map ) ) {
       return;
    }
    if ( !undefinedp( map[ "name" ] ) ) {
@@ -423,7 +423,7 @@ void set_player( object thing ) { player = thing; }
 void init_dynamic_arg( mapping map, object ) {
    int recycle;
 
-   if ( !mappingp( map ) )
+   if ( !mapp( map ) )
       return;
    /*
     * Because recycling is needs to be preserved into new objects from

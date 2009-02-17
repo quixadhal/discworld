@@ -116,7 +116,7 @@ string www_request(string name, mapping names, class http_request req) {
       "<h2>Player Information Centre</h2>";
   ret += "<!-- " + req->user+ "(ps: to whoever noticed this, sorry, your right) -->\n";
     
-  if (mappingp(names) && names["player"]) {
+  if (mapp(names) && names["player"]) {
     string finger;
 
     names["player"] = htmlify_no_address(names["player"]);
@@ -170,7 +170,7 @@ string www_request(string name, mapping names, class http_request req) {
   if (!req->user) {
      ret += "<hr width=50%>\n <center><b>"
             "<a href=\"http://discworld.imaginary.com:5678/secure/finger.c";
-     if (mappingp(names) && names["player"]) {
+     if (mapp(names) && names["player"]) {
         ret += "?player=" + names["player"];
      }
      ret += "\">[ Login ]</a></b></center>\n";

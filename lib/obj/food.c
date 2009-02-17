@@ -887,7 +887,7 @@ mapping query_eat_effects() {
  * @param map The eat effects mapping.
  */
 void set_eat_effects(mapping map) {
-   if (mappingp(map)) {
+   if (mapp(map)) {
       _eat_effects = map;
    }
 }                               /* set_eat_effects() */
@@ -924,7 +924,7 @@ int add_eat_effect(mixed word,
       _eat_effects = ([ ]);
    }
 
-   if (mappingp(word)) {
+   if (mapp(word)) {
       int num;
       string name;
 
@@ -1807,7 +1807,7 @@ mapping query_static_auto_load()
  */
 void init_static_arg(mapping map)
 {
-   if (!mappingp(map)) {
+   if (!mapp(map)) {
       return;
    }
    if (map["::"]) {
@@ -1850,7 +1850,7 @@ mapping query_dynamic_auto_load()
  */
 void init_dynamic_arg(mapping map, object)
 {
-   if (!mappingp(map)) {
+   if (!mapp(map)) {
       return;
    }
    if (map["::"]) {
@@ -1860,7 +1860,7 @@ void init_dynamic_arg(mapping map, object)
    if (undefinedp(_eat_effects)) {
       _eat_effects = ([ ]);
    } else {
-      if (mappingp(map["eat_effects"])) {
+      if (mapp(map["eat_effects"])) {
          _eat_effects = map["eat_effects"];
       }
    }

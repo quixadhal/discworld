@@ -33,7 +33,8 @@ nosave mapping term_cache;
  * @return the stripped string
  */
 string strip_colours(string str) {
-  if (!mappingp(term_cache)) {
+  if (!mapp(term_cache)) {
+  //if (1) {
     if (catch(term_cache = TERM_HANDLER->set_term_type("dumb"))) {
       term_cache = ([ ]);
     }

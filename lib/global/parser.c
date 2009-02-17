@@ -461,7 +461,7 @@ protected mixed bit3() {
           break;
         }
         pos++;
-        if (mappingp(val1)) {
+        if (mapp(val1)) {
           /* Anything is a legal index... */
           val1 = val1[val2];
         } else if (pointerp(val1)) {
@@ -550,7 +550,7 @@ mixed expr() {
       case TOK_ASSIGN :
         pos++;
         val2 = expr();
-        if (pointerp(val1) || mappingp(val1)) {
+        if (pointerp(val1) || mapp(val1)) {
           printf("Cannot use an array or mapping as a variable name.\n");
         } else {
           this_player()->set_obvar(val1, val2);

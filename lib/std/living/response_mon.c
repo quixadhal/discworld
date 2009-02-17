@@ -150,7 +150,7 @@ void set_respond_to_with( mixed map ) {
   mixed *old_keys;
   int i;
 
-  if ( mappingp( map ) ) {
+  if ( mapp( map ) ) {
 #ifdef DEBUG
     log_file("BAD_RESPONSE", "set_respond_to_with() called by %O (%s)\n",
              previous_object(), previous_object()->query_name());

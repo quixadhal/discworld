@@ -99,7 +99,7 @@ mapping merge_effects(mapping effects_a, mapping effects_m, int q_a, int q_m) {
     string key;
     mapping ret = ([ ]);
 
-    if(!mappingp(effects_a) || !mappingp(effects_m))
+    if(!mapp(effects_a) || !mapp(effects_m))
       return 0;
 
     q_t = q_a + q_m;

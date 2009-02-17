@@ -10,6 +10,8 @@
 #include "make_func.h"
 #include "cc.h"
 #include "hash.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 #ifdef WIN32
 #include <process.h>
@@ -81,14 +83,14 @@ static incstate *inctop = 0;
 #define CHAR_QUOTE 1
 #define STRING_QUOTE 2
 
-static void add_define (const char *, int, char *);
+static void add_define (const char *, int, const char *);
 
 #ifdef WIN32
 #include <io.h>
 
 int compile(char *command) {
    FILE *tf = fopen("trash_me.bat","wt+");
-   
+
    fprintf(tf,"%s%s\n%s",
         "@echo off\n",
       command,
@@ -110,7 +112,7 @@ int compile (char * str) {
 }
 #endif
 
-#if defined(WIN32) || defined(LATTICE)
+#if defined(WIN32)
 int dos_style_link (char * x, char * y) {
     char link_cmd[100];
     sprintf(link_cmd, "copy %s %s", x, y);
@@ -118,13 +120,13 @@ int dos_style_link (char * x, char * y) {
 }
 #endif
 
-void yyerror (char * str)
+void yyerror (const char * str)
 {
     fprintf(stderr, "%s:%d: %s\n", current_file, current_line, str);
     exit(1);
 }
 
-void mf_fatal (char * str)
+void mf_fatal (const char * str)
 {
     yyerror(str);
 }
@@ -135,7 +137,7 @@ void yywarn (char * str)
        which we don't want to see */
 }
 
-void yyerrorp (char * str)
+void yyerrorp (const char * str)
 {
     char buff[200];
     sprintf(buff, str, ppchar);
@@ -143,7 +145,7 @@ void yyerrorp (char * str)
     exit(1);
 }
 
-static void add_input (char * p)
+static void add_input (const char * p)
 {
     int l = strlen(p);
 
@@ -154,12 +156,10 @@ static void add_input (char * p)
 
 #define SKIPW(foo) while (isspace(*foo)) foo++;
 
-static char *skip_comment(tmp, flag)
-     char *tmp;
-     int flag;
+static char *skip_comment(char *tmp, int flag)
 {
     int c;
-    
+
     for (;;) {
         while ((c = *++tmp) !=  '*') {
             if (c == EOF) yyerror("End of file in a comment");
@@ -480,8 +480,7 @@ static int exgetc()
     return c;
 }
 
-static int skip_to(token, atoken)
-    char *token, *atoken;
+static int skip_to(const char *token, const char *atoken)
 {
     char b[20], *p, *end;
     int c;
@@ -531,7 +530,7 @@ static int skip_to(token, atoken)
 
 #include "preprocess.c"
 
-static int maybe_open_input_file (char * fn) {
+static int maybe_open_input_file (const char * fn) {
     if ((yyin = fopen(fn, "r")) == NULL) {
         return 0;
     }
@@ -542,14 +541,14 @@ static int maybe_open_input_file (char * fn) {
     return 1;
 }
 
-static void open_input_file (char * fn) {
+static void open_input_file (const char * fn) {
     if (!maybe_open_input_file(fn)) {
         perror(fn);
         exit(-1);
     }
 }
 
-static void open_output_file (char * fn) {
+static void open_output_file (const char * fn) {
     if ((yyout = fopen(fn, "w")) == NULL) {
         perror(fn);
         exit(-1);
@@ -561,7 +560,7 @@ static void close_output_file() {
     yyout = 0;
 }
 
-static char *protect (char * p) {
+static char *protect (const char * p) {
     static char buf[1024];
     char *bufp = buf;
 
@@ -583,15 +582,15 @@ create_option_defines() {
     open_output_file(OPTION_DEFINES);
     fprintf(yyout, "{\n");
     for (i = 0; i < DEFHASH; i++) {
-        for (p = defns[i]; p; p = p->next) 
+        for (p = defns[i]; p; p = p->next)
             if (!(p->flags & DEF_IS_UNDEFINED)) {
                 count++;
-                fprintf(yyout, "  \"__%s__\", \"%s\",\n", 
+                fprintf(yyout, "  \"__%s__\", \"%s\",\n",
                         p->name, protect(p->exps));
                 if (strncmp(p->name, "PACKAGE_", 8)==0) {
                     int len;
                     char *tmp, *t;
-                    
+
                     len = strlen(p->name + 8);
                     t = tmp = (char *)malloc(len + 1);
                     strcpy(tmp, p->name + 8);
@@ -714,7 +713,7 @@ preprocess() {
                 }
                 *yyp++ = c;
             }
-            
+
             if (outp) {
                 if (yyout) sp_buf = *(oldoutp = outp);
                 *outp++ = 0;
@@ -744,7 +743,7 @@ preprocess() {
                 handle_endif();
             } else if (!strcmp("undef", yyp)) {
                 defn_t *d;
-                
+
                 deltrail();
                 if ((d = lookup_definition(outp))) {
                     d->flags |= DEF_IS_UNDEFINED;
@@ -791,9 +790,9 @@ preprocess() {
             fprintf(yyout, "%s", yyp);
             if (pragmas & PRAGMA_NOTE_CASE_START) {
                 static int line_to_print;
-                
+
                 line_to_print = 0;
-                
+
                 if (!in_c_case) {
                     while (isalunum(*yyp2)) yyp2++;
                     while (isspace(*yyp2)) yyp2++;
@@ -802,7 +801,7 @@ preprocess() {
                         yyp2++;
                     }
                 }
-                
+
                 if (in_c_case) {
                     while ((c = *yyp2++)) {
                         switch(c) {
@@ -812,7 +811,7 @@ preprocess() {
                                     line_to_print = 1;
                                 break;
                             }
-                            
+
                           case '}':
                             {
                                 if (!cquote) {
@@ -820,19 +819,19 @@ preprocess() {
                                 }
                                 break;
                             }
-                            
+
                           case '"':
                             if (!(cquote & CHAR_QUOTE)) cquote ^= STRING_QUOTE;
                             break;
-                            
+
                           case '\'':
                             if (!(cquote & STRING_QUOTE)) cquote ^= CHAR_QUOTE;
                             break;
-                            
+
                           case '\\':
                             if (cquote && *yyp2) yyp2++;
                             break;
-                            
+
                           case '/':
                             if (!cquote) {
                                 if ((c = *yyp2) == '*') {
@@ -843,18 +842,18 @@ preprocess() {
                                 }
                             }
                             break;
-                            
+
                           case ':':
                             if (!cquote && !block_nest)
                                 yyerror("Case started before ending previous case with ;");
                             break;
-                            
+
                           case ';':
                             if (!cquote && !block_nest) in_c_case = 0;
                         }
                     }
                 }
-                
+
                 if (line_to_print)
                     fprintf(yyout, "#line %d \"%s\"\n", current_line + 1,current_file);
 
@@ -890,12 +889,12 @@ preprocess() {
 void make_efun_tables()
 {
 #define NUM_FILES     5
-    static char* outfiles[NUM_FILES] = { 
-        EFUN_TABLE, OPC_PROF, OPCODES, EFUN_PROTO, EFUN_DEFS 
+    static const char* outfiles[NUM_FILES] = {
+        EFUN_TABLE, OPC_PROF, OPCODES, EFUN_PROTO, EFUN_DEFS
     };
     FILE *files[NUM_FILES];
     int i;
-    
+
     fprintf(stderr, "Building efun tables ...\n");
     for (i = 0; i < NUM_FILES; i++) {
         files[i] = fopen(outfiles[i], "w");
@@ -903,7 +902,7 @@ void make_efun_tables()
             fprintf(stderr, "make_func: unable to open %s\n", outfiles[i]);
             exit(-1);
         }
-        fprintf(files[i], 
+        fprintf(files[i],
                 "/*\n\tThis file is automatically generated by make_func.\n");
         fprintf(files[i],
                 "\tdo not make any manual changes to this file.\n*/\n\n");
@@ -920,7 +919,7 @@ void make_efun_tables()
     for (i = 0; i < op_code; i++) {
         fprintf(files[2],"#define %-30s %d\n", oper_codes[i], i+1);
     }
-    
+
     fprintf(files[2],"\n/* 1 arg efuns */\n#define BASE %d\n\n", op_code+1);
     for (i = 0; i < efun1_code; i++) {
         fprintf(files[0],"\tf_%s,\n", efun1_names[i]);
@@ -946,13 +945,13 @@ void make_efun_tables()
         fprintf(stderr, "You have way too many efuns.  Contact the MudOS developers if you really need this many.\n");
     }
     fprintf(files[2],"\n/* efuns */\n#define NUM_OPCODES %d\n\n", efun_code + efun1_code + op_code);
-    
+
     /* Now sort the main_list */
     for (i = 0; i < num_buff; i++) {
        int j;
        for (j = 0; j < i; j++)
            if (strcmp(key[i], key[j]) < 0) {
-              char *tmp;
+              const char *tmp;
               tmp = key[i]; key[i] = key[j]; key[j] = tmp;
               tmp = buf[i]; buf[i] = buf[j]; buf[j] = tmp;
            }
@@ -992,10 +991,10 @@ static void handle_local_defines(int check) {
     }
     if ((p = lookup_define("DEBUG")))
         p->flags &= ~DEF_IS_NOT_LOCAL;
-        
+
     ppchar = '#';
     preprocess();
-    
+
     if ((p = lookup_define("_OPTIONS_H_")))
         p->flags |= DEF_IS_UNDEFINED;
 
@@ -1063,7 +1062,7 @@ static void handle_build_func_spec (char * command) {
     sprintf(buf, "%s %s >%s", command, FUNC_SPEC, FUNC_SPEC_CPP);
     system(buf);
     for (i = 0; i < num_packages; i++) {
-        sprintf(buf, "%s -I. packages/%s_spec.c >>%s", 
+        sprintf(buf, "%s -I. packages/%s_spec.c >>%s",
                 command, packages[i], FUNC_SPEC_CPP);
         system(buf);
     }
@@ -1090,7 +1089,7 @@ static void handle_process (char * file) {
         exit(-1);
     }
     *(buf + l - 4) = 0;
-    
+
     fprintf(stderr, "Creating '%s' from '%s' ...\n", buf, file);
 
 #ifdef DEBUG
@@ -1107,7 +1106,7 @@ static void handle_process (char * file) {
 
 static void handle_build_efuns() {
     void yyparse();
-    
+
     num_buff = op_code = efun_code = efun1_code = 0;
 
     open_input_file(FUNC_SPEC_CPP);
@@ -1115,7 +1114,7 @@ static void handle_build_efuns() {
     make_efun_tables();
 }
 
-static handle_applies() {
+static void handle_applies() {
     FILE *f = fopen("applies", "r");
     FILE *out = fopen("applies.h", "w");
     FILE *table = fopen("applies_table.c", "w");
@@ -1123,10 +1122,10 @@ static handle_applies() {
     char *colon;
     char *p;
     int apply_number = 0;
-    
+
     fprintf(out, "/* autogenerated from 'applies' */\n#ifndef APPLIES_H\n#define APPLIES_H\n\nextern char *applies_table[];\n\n/* the folowing must be the first character of __INIT */\n#define APPLY___INIT_SPECIAL_CHAR\t\t'#'\n");
-    fprintf(table, "/* autogenerated from 'applies' */\n\nchar *applies_table[] = {\n");
-    
+    fprintf(table, "/* autogenerated from 'applies' */\n\nconst char *applies_table[] = {\n");
+
     while (fgets(buf, 8192, f)) {
         buf[strlen(buf)-1] = 0;
         if (buf[0] == '#') break;
@@ -1159,7 +1158,7 @@ static handle_applies() {
             fprintf(table, "\t\"%s\",\n", buf);
         }
     }
-    
+
     fprintf(table, "};\n");
     fprintf(out, "\n#define NUM_MASTER_APPLIES\t%i\n\n#endif\n", apply_number);
 
@@ -1173,8 +1172,8 @@ static void handle_malloc() {
     int unlink(char *);
     int link(char *, char *);
 #endif
-    
-    char *the_malloc = 0, *the_wrapper = 0;
+
+    const char *the_malloc = 0, *the_wrapper = 0;
 
     if (lookup_define("SYSMALLOC"))
         the_malloc = "sysmalloc.c";
@@ -1214,17 +1213,17 @@ static void handle_malloc() {
         perror("link malloc.c");
 }
 
-static int check_include2 (char * tag, char * file,
-                             char * before, char * after) {
+static int check_include2 (const char * tag, const char * file,
+                             const char * before, const char * after) {
     char buf[1024];
     FILE *ct;
 
     printf("Checking for include file <%s> ... ", file);
     ct = fopen("comptest.c", "w");
-    fprintf(ct, "#include \"configure.h\"\n#include \"std_incl.h\"\n%s\n#include <%s>\n%s\n", 
+    fprintf(ct, "#include \"configure.h\"\n#include \"std_incl.h\"\n%s\n#include <%s>\n%s\n",
             before, file, after);
      fclose(ct);
-     
+
     sprintf(buf, "%s %s -c comptest.c " TO_DEV_NULL, COMPILER, CFLAGS);
     if (!compile(buf)) {
         fprintf(yyout, "#define %s\n", tag);
@@ -1237,7 +1236,7 @@ static int check_include2 (char * tag, char * file,
     return 0;
 }
 
-static int check_include (char * tag, char * file) {
+static int check_include (const char * tag, const char * file) {
     char buf[1024];
     FILE *ct;
 
@@ -1245,7 +1244,7 @@ static int check_include (char * tag, char * file) {
     ct = fopen("comptest.c", "w");
     fprintf(ct, "#include \"configure.h\"\n#include \"std_incl.h\"\n#include \"file_incl.h\"\n#include <%s>\n", file);
     fclose(ct);
-    
+
     sprintf(buf, "%s %s -c comptest.c " TO_DEV_NULL, COMPILER, CFLAGS);
     if (!compile(buf)) {
         fprintf(yyout, "#define %s\n", tag);
@@ -1258,15 +1257,15 @@ static int check_include (char * tag, char * file) {
     return 0;
 }
 
-static int check_library (char * lib) {
+static int check_library (const char * lib) {
     char buf[1024];
     FILE *ct;
 
     printf("Checking for library %s ... ", lib);
     ct = fopen("comptest.c", "w");
-    fprintf(ct, "int main() { exit(0); }\n");
+    fprintf(ct, "int main() { return 0; }\n");
     fclose(ct);
-    
+
     sprintf(buf, "%s %s comptest.c %s" TO_DEV_NULL, COMPILER, CFLAGS, lib);
     if (!compile(buf)) {
         fprintf(yyout, " %s", lib);
@@ -1287,7 +1286,7 @@ static int check_ret_type (char * tag, char * pre,
     ct = fopen("comptest.c", "w");
     fprintf(ct, "%s\n\n%s%s();\n", pre, type, func);
     fclose(ct);
-    
+
     sprintf(buf, "%s %s -c comptest.c >/dev/null 2>&1", COMPILER, CFLAGS);
     if (!system(buf)) {
         fprintf(yyout, "#define %s\n", tag);
@@ -1300,14 +1299,14 @@ static int check_ret_type (char * tag, char * pre,
 #endif
 
 /* This should check a.out existence, not exit value */
-static int check_prog (char * tag, char * pre, char * code, int andrun) {
+static int check_prog (const char * tag, const char * pre, const char * code, int andrun) {
     char buf[1024];
     FILE *ct;
 
     ct = fopen("comptest.c", "w");
     fprintf(ct, "#include \"configure.h\"\n#include \"std_incl.h\"\n%s\n\nint main() {%s}\n", (pre ? pre : ""), code);
     fclose(ct);
-    
+
     sprintf(buf, "%s %s comptest.c -o comptest" TO_DEV_NULL, COMPILER, CFLAGS);
     if (!compile(buf) && (!andrun || !system("./comptest"))) {
         if (tag) {
@@ -1320,7 +1319,7 @@ static int check_prog (char * tag, char * pre, char * code, int andrun) {
     return 0;
 }
 
-static int check_code (char * pre, char * code) {
+static int check_code (const char * pre, const char * code) {
     char buf[1024];
     FILE *ct;
     int rc;
@@ -1339,11 +1338,11 @@ static int check_code (char * pre, char * code) {
 static void check_linux_libc() {
     char buf[1024];
     FILE *ct;
-    
+
     ct = fopen("comptest.c", "w");
     fprintf(ct, "int main() { }\n");
     fclose(ct);
-    
+
     sprintf(buf, "%s -g comptest.c -o comptest >/dev/null 2>&1", COMPILER);
     if (system(buf)) {
         fprintf(stderr, "   libg.a/so installed wrong, trying workaround ...\n");
@@ -1356,7 +1355,7 @@ static void check_linux_libc() {
     }
 }
 
-static char *memmove_prog = "\
+static const char *memmove_prog = "\
 char buf[80];\n\
 strcpy(buf,\"0123456789ABCDEF\");\n\
 memmove(&buf[1],&buf[4],13);\n\
@@ -1365,7 +1364,7 @@ memmove(&buf[8],&buf[6],9);\n\
 if(strcmp(buf,\"0456789A9ABCDEF\")) exit(-1);\n\
 return 0;\n";
 
-static int check_memmove (char * tag, char * str) {
+static int check_memmove (const char * tag, const char * str) {
     return check_prog(tag, str, memmove_prog, 1);
 }
 
@@ -1383,8 +1382,8 @@ static void find_memmove() {
     fprintf(yyout, "#define MEMMOVE_MISSING\n");
 }
 
-static void verbose_check_prog (char * msg, char * def, char * pre,
-                                  char * prog, int andrun) {
+static void verbose_check_prog (const char * msg, const char * def, const char * pre,
+                                  const char * prog, int andrun) {
     printf("%s ...", msg);
     if (check_prog(def, pre, prog, andrun))
         printf(" exists\n");
@@ -1394,11 +1393,11 @@ static void verbose_check_prog (char * msg, char * def, char * pre,
 static int check_configure_version() {
     char buf[1024];
     FILE *ct;
-    
+
     ct = fopen("comptest.c", "w");
     fprintf(ct, "#include \"configure.h\"\n\n#if CONFIGURE_VERSION < %i\nthrash and die\n#endif\n\nint main() { }\n", CONFIGURE_VERSION);
     fclose(ct);
-    
+
     sprintf(buf, "%s %s comptest.c -o comptest " TO_DEV_NULL, COMPILER, CFLAGS);
     return !compile(buf);
 }
@@ -1407,7 +1406,7 @@ static void handle_configure() {
     if (check_configure_version()) return;
 
     open_output_file("configure.h");
-    
+
 #ifndef WIN32
     check_include("INCL_STDLIB_H", "stdlib.h");
     check_include("INCL_UNISTD_H", "unistd.h");
@@ -1434,7 +1433,7 @@ static void handle_configure() {
             check_include("INCL_VALUES_H", "values.h");
         fprintf(yyout, "#define USHRT_MAX  (MAXSHORT)\n");
     }
-    
+
     check_include("INCL_NETINET_IN_H", "netinet/in.h");
     check_include("INCL_ARPA_INET_H", "arpa/inet.h");
 
@@ -1519,7 +1518,7 @@ static void handle_configure() {
     } else {
         printf("Using System V signals.\n");
     }
-    
+
     printf("Checking if signal() returns SIG_ERR on error ...");
     if (check_prog("SIGNAL_ERROR SIG_ERR", 0, "if (signal(0, 0) == SIG_ERR) ;", 0)) {
         printf(" yes\n");
@@ -1528,19 +1527,17 @@ static void handle_configure() {
         printf(" no\n");
     }
 
-    printf("Checking for inline ...");
-    if (!check_prog("INLINE inline", "inline void foo() { }", "foo();", 0)) {
-        printf(" __inline ...");
-        if (!check_prog("INLINE __inline", "__inline void foo() {}", "foo();", 0)) {
+    printf("Not Checking for inline ...(usage in driver code all broken anyway)");
+    //if (!check_prog("INLINE inline", "inline void foo() { }", "foo();", 0)) {
+        //printf(" __inline ...");
+        //if (!check_prog("INLINE __inline", "__inline void foo() {}", "foo();", 0)) {
             fprintf(yyout, "#define INLINE\n");
-        }
-    }
+        //}
+    //}
     printf(" const ...\n");
     if (!check_prog("CONST const", "int foo(const int *, const int *);", "", 0))
         fprintf(yyout, "#define CONST\n");
-    
-    verbose_check_prog("Checking for ualarm()", "HAS_UALARM",
-                       "", "ualarm(0, 0);", 0);
+
     verbose_check_prog("Checking for strerror()", "HAS_STRERROR",
                        "", "strerror(12);", 0);
     verbose_check_prog("Checking for POSIX getcwd()", "HAS_GETCWD",
@@ -1561,7 +1558,7 @@ static void handle_configure() {
         fprintf(yyout, "#define BIGENDIAN 1\n");
         fflush(yyout);
     } else printf("little\n");
-    
+
     find_memmove();
 #endif
 
@@ -1579,11 +1576,11 @@ static void handle_configure() {
         printf("WARNING: could not find a 32 bit integral type.\n");
         exit(-1);
     }
-    
+
     /* PACKAGE_DB stuff */
     if (lookup_define("PACKAGE_DB")) {
         /* -I would be nicer for added include paths, but we don't have an easy way to
-         * set -I paths right now 
+         * set -I paths right now
          */
         if (lookup_define("USE_MSQL")) {
             if (!(check_include("INCL_LOCAL_MSQL_H", "/usr/local/include/msql.h")
@@ -1602,12 +1599,17 @@ static void handle_configure() {
             }
         }
     }
-    
+
     fprintf(yyout, "#define CONFIGURE_VERSION   %i\n\n", CONFIGURE_VERSION);
 
     close_output_file();
 
 #ifdef WIN32
+    system("echo Windows detected. Applying libs.");
+    if (lookup_define("HAVE_ZLIB")){
+        system("echo  -lwsock32 -lws2_32 -lz> system_libs");
+    }
+        else system("echo  -lwsock32 -lws2_32 > system_libs");
     system("copy windows\\configure.h tmp.config.h");
     system("type configure.h >> tmp.config.h");
     system("del configure.h");
@@ -1621,16 +1623,17 @@ static void handle_configure() {
     check_library("-ly");
 
     /* don't add -lcrypt if crypt() is in libc.a */
-    if (!check_prog(0, "#include \"lint.h\"", 
+    if (!check_prog(0, "#include \"lint.h\"",
                     "char *x = crypt(\"foo\", \"bar\");", 0))
         check_library("-lcrypt");
     /* don't add -lmalloc if malloc() works */
     if (!check_prog(0, "", "char *x = malloc(100);", 0))
         check_library("-lmalloc");
 
+    /* we don't currently use it anywhere
     if (!check_prog(0, "", "void *x = dlopen(0, 0);", 0))
         check_library("-ldl");
-    
+    */
     check_library("-lsocket");
     check_library("-linet");
     check_library("-lnsl");
@@ -1638,8 +1641,20 @@ static void handle_configure() {
     check_library("-lseq");
     check_library("-lm");
 
+    if (lookup_define("CYGWIN"))
+            check_library("-liconv");
+
+
+    if (lookup_define("MINGW")){
+        check_library("-lwsock32");
+        check_library("-lws2_32");
+    }
+
     if (lookup_define("HAVE_ZLIB"))
         check_library("-lz");
+
+    if (lookup_define("PACKAGE_ASYNC"))
+        check_library("-lrt");
 
     fprintf(stderr, "Checking for flaky Linux systems ...\n");
     check_linux_libc();
@@ -1658,7 +1673,9 @@ static void handle_configure() {
         if (!(check_library("-lmysqlclient") ||
               check_library("-L/usr/local/lib -lmysqlclient") ||
               check_library("-L/usr/local/lib/mysql -lmysqlclient") ||
-              check_library("-L/usr/local/mysql/lib -lmysqlclient"))) {
+              check_library("-L/usr/local/mysql/lib -lmysqlclient") ||
+              check_library("-L/usr/lib64/mysql -lmysqlclient") ||
+              check_library("-L/usr/lib/mysql -lmysqlclient"))) {
             fprintf(stderr, "Cannot find libmysqlclient.a, compilation is going to fail miserably\n");
         }
     }

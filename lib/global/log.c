@@ -17,5 +17,5 @@ void set_last_error(mapping err) {
 }
 
 mapping get_last_error() {
-  return (mappingp(last_error)?last_error:0);
+  return (mapp(last_error)?last_error:0);
 }

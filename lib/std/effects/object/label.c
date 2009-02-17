@@ -55,7 +55,7 @@ object create_store(mapping map,
    if ( objectp( player ) ) {
       store->set_player( player );
    }
-   if ( mappingp( map ) ) {
+   if ( mapp( map ) ) {
       store->init_dynamic_arg( map );
    }
    return store;

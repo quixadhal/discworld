@@ -298,7 +298,7 @@ string query_connection(string terrain, int *co_ords, string direc) {
     connections = unguarded((: read_file,
                               RESTORE_PATH + terrain +"/"+ co_ords[0] :));
     connection_info = restore_variable(connections);
-    if (!mappingp(float_cache[terrain])) {
+    if (!mapp(float_cache[terrain])) {
       float_cache[terrain] = ([ co_ords[0] : connection_info ]);
     } else {
       float_cache[terrain][co_ords[0]] = connection_info;
@@ -333,7 +333,7 @@ int query_connected(string terrain, int *co_ords) {
     connections = unguarded((: read_file,
                               RESTORE_PATH + terrain +"/"+ co_ords[0] :));
     connection_info = restore_variable(connections);
-    if (!mappingp(float_cache[terrain])) {
+    if (!mapp(float_cache[terrain])) {
       float_cache[terrain] = ([ co_ords[0] : connection_info ]);
     } else {
       float_cache[terrain][co_ords[0]] = connection_info;
@@ -398,7 +398,7 @@ private int add_connection(string terrain, int *co_ords, string direc,
       unguarded((: write_file, RESTORE_PATH + terrain + "/" + co_ords[0],
                    save_variable(connection_info), 1 :));
     }
-    if (!mappingp(float_cache[terrain])) {
+    if (!mapp(float_cache[terrain])) {
       float_cache[terrain] = ([ co_ords[0] : connection_info ]);
     } else {
       float_cache[terrain][co_ords[0]] = connection_info;

@@ -140,7 +140,7 @@ protected void create() {
    call_out("clean_sockets", 180);
    unguarded((: restore_object, SAVE_FILE :));
 #ifdef TRACK_PAGE_STATS
-   if (!mappingp(http_stats)) {
+   if (!mapp(http_stats)) {
       http_stats = ([]);
    }
 #endif  
@@ -1595,7 +1595,7 @@ private void get_file(class http_request req) {
          mod_date = str[0];
          str = str[1];
       }
-      if (mappingp(str)) {
+      if (mapp(str)) {
          location = str["location"];
          mod_date = str["mod_date"];
          req->status_line = str["status"];

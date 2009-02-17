@@ -42,4 +42,5 @@ mixed unguarded(function f) {
   } else {
     return master_ob->apply_unguarded(f);
   }
-} /* unguarded() */
+return 1;
+} 

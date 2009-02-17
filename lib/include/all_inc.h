@@ -7,7 +7,6 @@
 
 //optimize and save_types are off because they can crash us
 
-#pragma save_binary
 #pragma strict_types
 #pragma warnings
 #pragma no_save_types
@@ -18,7 +17,7 @@
 #define m_indices(map) (keys(map))
 #define m_sizeof(map) (sizeof(map))
 #define m_values(map) (values(map))
-#define mappingp(x) (mapp(x))
+//#define mapp(x) (mapp(x))
 
 #ifndef __SENSIBLE_MODIFIERS__
 #define nosave static

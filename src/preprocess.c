@@ -8,10 +8,13 @@ static void handle_cond (int);
 #undef DXALLOC
 #define DXALLOC(x, y, z) malloc(x)
 #undef FREE
+void free(void *);
 #define FREE(x)   free(x)
 #undef ALLOCATE
+void *malloc(size_t);
 #define ALLOCATE(x, y, z) (x *)malloc(sizeof(x))
 #undef DREALLOC
+void *realloc(void *, size_t);
 #define DREALLOC(w, x, y, z) realloc(w, x)
 #endif
 
@@ -40,7 +43,7 @@ defn_t *lookup_define (const char * s)
         return p;
 }
 
-static void add_define (const char * name, int nargs, char * exps)
+static void add_define (const char * name, int nargs, const char * exps)
 {
     defn_t *p = lookup_definition(name);
     int h, len;
@@ -71,10 +74,10 @@ static void add_define (const char * name, int nargs, char * exps)
             }
             if (nargs != p->nargs || strcmp(exps, p->exps)) {
                 char buf[200 + NSIZE];
-                
+
                 sprintf(buf, "redefinition of #define %s\n", name);
                 yywarn(buf);
-                
+
                 p->exps = (char *)DREALLOC(p->exps, len + 1, TAG_COMPILER, "add_define: redef");
                 memcpy(p->exps, exps, len);
                 p->exps[len] = 0;
@@ -100,9 +103,9 @@ static void add_define (const char * name, int nargs, char * exps)
 }
 
 #ifdef LEXER
-static void handle_elif (char * sp) 
+static void handle_elif (char * sp)
 #else
-static void handle_elif() 
+static void handle_elif()
 #endif
 {
     if (iftop) {
@@ -157,7 +160,7 @@ static void handle_endif (void) {
     if (iftop && (iftop->state == EXPECT_ENDIF ||
                   iftop->state == EXPECT_ELSE)) {
         ifstate_t *p = iftop;
-        
+
         iftop = p->next;
         FREE((char *) p);
     } else {
@@ -324,8 +327,8 @@ static int cond_get_exp (int priority)
         }
         value2 = cond_get_exp(optab2[x + 2]);
         switch (optab2[x + 1]) {
-        case MULT: 
-            value *= value2; 
+        case MULT:
+            value *= value2;
             break;
         case DIV:
             if (value2)

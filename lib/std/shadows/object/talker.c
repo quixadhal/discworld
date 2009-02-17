@@ -327,7 +327,7 @@ int handle_history_command(string channel, class talker_args args) {
 } /* handle_history_command() */
 
 string query_colour_status( class talker_args args ) {
-  if ( !mappingp( args->colour ) ) {
+  if ( !mapp( args->colour ) ) {
     return "off";
   }
 
@@ -353,7 +353,7 @@ int set_channel_colour(class talker_args args, string channel, string colour) {
   if ( !channel || !colour )
     return 0;
 
-  if ( !mappingp( args->colour ) ) {
+  if ( !mapp( args->colour ) ) {
     args->colour = DEFAULT_COLOUR_WITH(colour);
   }
 
@@ -365,7 +365,7 @@ int set_channel_colour(class talker_args args, string channel, string colour) {
 varargs string query_channel_colour( class talker_args args, string channel ) {
   string colour;
 
-  if ( !mappingp( args ) ) {
+  if ( !mapp( args ) ) {
     return DEFAULT_COLOUR;
   }
 
@@ -632,7 +632,7 @@ void receive(string channel, string sender, string text, object *receivers) {
     colour = args->colour;
   }
 
-  if(mappingp(args->colour) && query_colour_status( args ) == "on") {
+  if(mapp(args->colour) && query_colour_status( args ) == "on") {
     if (!( colour = args->colour[ channel ] ) ) {
       if(!(colour = args->colour[(EFFECTS + "talker")->
                                 normalise_name(channel)])) {
@@ -846,7 +846,7 @@ protected string format_channel_colour( string colour ) {
 int handle_colour_list(mixed *colour_args, class talker_args args) {
   string channel;
 
-  if (!mappingp(args->colour) || query_colour_status( args ) == "off" ) {
+  if (!mapp(args->colour) || query_colour_status( args ) == "off" ) {
     add_failed_mess( "You currently have talker colours disabled.  Use "
                      "\"talker colour on\" to turn them on.\n" );
     return 0;

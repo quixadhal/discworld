@@ -289,7 +289,7 @@ mixed stats() {
                      array_to_string( v[ i ] ) }) });
       continue;
     }
-    if ( mappingp( v[ i ] ) ) {
+    if ( mapp( v[ i ] ) ) {
       res += ({ ({ "(" + k[ i ] + (bing ? ":"+bing : "") + ")",
                      mapping_to_string( v[ i ] ) }) });
       continue;

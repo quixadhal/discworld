@@ -93,7 +93,7 @@ protected varargs mixed get_row(mixed key, int row, int nomap);
 protected varargs string init_errors(mixed key, string user, int replace) {
   string ret;
 
-  if (!mappingp(globvars)) {
+  if (!mapp(globvars)) {
     globvars = ([ ]);
   } else {
     if (!(replace || undefinedp(globvars[key]))) {
@@ -387,7 +387,7 @@ protected int set_status(mixed key, int row, string status) {
   
   /* Currently, this can't fail because of missing commit/rollback
      facilities in MySQL. We only actually save this later on. */
-  if (!mappingp(ERRORS))
+  if (!mapp(ERRORS))
     ERRORS = ([ ]);
   if (!classp(ERRORS[realrow])) {
     ERRORS[realrow] = new(class _report, row : realrow);
@@ -410,7 +410,7 @@ protected int set_status(mixed key, int row, string status) {
 protected int set_type(mixed key, int row, string type) {
   /* Currently, this can't fail because of missing commit/rollback
      facilities in MySQL. We only actually save this later on. */
-  if (!mappingp(ERRORS))
+  if (!mapp(ERRORS))
     ERRORS = ([ ]);
   row = ROWS[row];
   if (!classp(ERRORS[row])) {
@@ -434,7 +434,7 @@ protected int forward_bug(mixed key, int row, string directory) {
 
   /* Currently, this can't fail because of missing commit/rollback
      facilities in MySQL. We only actually save this later on. */
-  if (!mappingp(ERRORS))
+  if (!mapp(ERRORS))
     ERRORS = ([ ]);
   if (!classp(ERRORS[realrow])) {
     ERRORS[realrow] = new(class _report, row : realrow);

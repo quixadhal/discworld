@@ -1,97 +1,93 @@
 ###############################################################################
-#              Customizable runtime config file for MudOS v21                 #
-###############################################################################
+#              Customizable runtime config file for FluffOS                   #
 # NOTE: All paths specified here are relative to the mudlib directory except  #
 #       for mudlib directory, and binary directory.                           #
 # Lines beginning with a # or a newline are ignored.                          #
 ###############################################################################
-
 # name of this mud
-name : testsuite
+name : SampleName
 
-# for machines with multiple IP addresses, this specifies which one to use.  this
-# replaces the SERVER_IP compile-time define.
-#mud ip : 255.255.255.255
+# port number to accept users on
+external_port_1 : telnet 4000
 
-# if MudOS inherits an open file descriptor #6 from its parent process, it uses
-# that as an additional login port.  the 'port #' for internal purposes (debug
-# messages, argument to connect, etc.) and kind should be set here.  acceptable
-# port types are: ascii, binary, mud or telnet.  this replaces the FD6_KIND and
-# FD6_PORT compile-time defines.
-#fd6 kind : telnet
-#fd6 port : 23
+# absolute pathname of mudlib
+mudlib directory : /CHANGE/THIS/PATH/lib
+
+# absolute pathname of driver/config dir
+binary directory : /CHANGE/THIS/PATH/bin
 
 # the address server is an external program that lets the mud translate
 # internet names to numbers (and vice versa).  select an unused port.
 address server ip : localhost
-address server port : 9997
+address server port : 8099
 
-# absolute pathname of mudlib
-mudlib directory : /home/mmessier/mudos/mudos/beta/testsuite
-
-# absolute pathname of driver/config dir
-binary directory : /home/mmessier/mudos/mudos/beta/testsuite
+# fd6 stuff is what allows portbind to work properly. If
+# you want to have the mud accept connections on port 23 but run
+# as non-root, you uncomment the two fd6 lines below and issue the
+# appropriate portbind command to start the mud.
+#fd6 port : 23
+#fd6 kind : telnet
 
 # debug.log and author/domain stats are stored here
 log directory : /log
 
 # the directories which are searched by #include <...>
 # for multiple dirs, separate each path with a ':'
-include directories : /include
+include directories : /secure/include:/include
 
 # Directory to save binaries in.  (if BINARIES is defined)
-save binaries directory : /binaries
+save binaries directory : /secure/save/binaries
 
 # the file which defines the master object
-master file : /single/master
+master file : /secure/daemon/master
 
 # the file where all global simulated efuns are defined.
-simulated efun file : /single/simul_efun
+simulated efun file : /secure/sefun/sefun
 
 # file to swap out objects; not used if time to swap is 0
-swap file : /single/swapfile
+swap file : /secure/tmp/swap
 
 # alternate debug.log file name (assumed to be in specified 'log directory')
-debug log file : debug.log
+debug log file : runtime
 
 # This is an include file which is automatically #include'd in all objects
-global include file : "/include/globals.h"
+global include file : <global.h>
 
 # if an object is left alone for a certain time, then the
 # function clean_up will be called. This function can do anything,
 # like destructing the object. If the function isn't defined by the
 # object, then nothing will happen.
 # This time should be substantially longer than the swapping time.
-time to clean up : 1200
+time to clean up : 2100000000
 
 # How long time until an unused object is swapped out.
 # Machine with too many players and too little memory: 900 (15 minutes)
 # Machine with few players and lot of memory: 10000
 # Machine with infinite memory: 0 (never swap).
-time to swap : 600
+time to swap : 0
 
 # How many seconds until an object is reset again.
-time to reset : 1800
+time to reset : 2100000000
 
 # Maximum number of bits in a bit field. They are stored in printable
 # strings, 6 bits per byte.
 maximum bits in a bitfield : 1200
 
 # Max number of local variables in a function.
-maximum local variables : 30
+maximum local variables : 35
 
 # Maximum amount of "eval cost" per thread - execution is halted when 
 # it is exceeded.
-maximum evaluation cost : 500000
+maximum evaluation cost : 5000000
 
 # This is the maximum array size allowed for one single array.
-maximum array size : 15000
+maximum array size : 64000
 
 # This is the maximum allowed size of a variable of type 'buffer'.
 maximum buffer size : 400000
 
 # Max size for a mapping
-maximum mapping size : 15000
+maximum mapping size : 64000
 
 # Max inherit chain size
 inherit chain size : 30
@@ -104,7 +100,7 @@ maximum read file size : 200000
 
 # max number of bytes you allow to be read and written with read_bytes 
 # and write_bytes
-maximum byte transfer : 200000
+maximum byte transfer : 10000
 
 # Reserve an extra memory area from malloc(), to free when we run out
 # of memory and allow the mudlib to shutdown.
@@ -129,11 +125,7 @@ object table size : 1501
 default fail message : What?
 
 # default message when error() occurs (optional)
-default error message :
-
-# the external ports we support
-external_port_1 : telnet 4000
-external_port_2 : binary 4001
+default error message : Something *REALLY* bad just happened.
 
 ###############################################################################
 #          The following aren't currently used or implemented (yet)           #

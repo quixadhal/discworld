@@ -89,7 +89,7 @@ private int count_errors() {
 private void finished_next_dir( object player, int status, mixed data ) {
     // tell_creator( player, "%O, %O\n", status, data );
 
-    if ( sizeof( data ) != 1 || !mappingp( data[0] ) ) { 
+    if ( sizeof( data ) != 1 || !mapp( data[0] ) ) { 
         tell_object( player, "Unable to find the next directory "   
             "with errors.\n" );
     }

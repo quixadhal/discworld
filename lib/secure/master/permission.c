@@ -435,7 +435,7 @@ mapping query_permissions() {
       continue;
     }
     tmp = (mapping)master_ob->query_access();
-    if (mappingp(tmp))
+    if (mapp(tmp))
       blue += tmp;
   }
   return permissions + blue;

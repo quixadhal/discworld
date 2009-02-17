@@ -1,36 +1,40 @@
 #include "std.h"
 #include "main.h"
 #include "comm.h"
+#include "uvalarm.h"
+#include <time.h>
+#include "backend.h"
 
 int outoftime = 0;
+struct timeval tv;
+int lasttime;
 
-void set_eval(int time){
+void set_eval(int etime){
 #ifndef WIN32
-#ifdef SIGALRM
-  signal(SIGALRM, sigalrm_handler);
-#endif
-  
-#ifdef HAS_UALARM
-  ualarm(max_cost, 0);
-#else
-  alarm(max_cost/1000000); /* defined in config.h */
-#endif
+  long diff;
+  if((diff = time(0)-current_time) > 1){
+	  diff *= 1000000;
+	  if(diff > max_cost*100){
+		  //put some hard limit to eval times
+		  outoftime = 1;
+		  return;
+	  }
+  }
+  signal(SIGVTALRM, sigalrm_handler);
+  uvalarm(etime, 0);
+  gettimeofday(&tv, NULL);
 #endif
   outoftime = 0;
+
 }
 
 int get_eval(){
-  int ret;
 #ifndef WIN32
-#ifdef HAS_UALARM
-  ret = ualarm(2*max_cost, 0);
-  ualarm(ret, 0);
-  return ret;
+  struct timeval now;
+  gettimeofday(&now, NULL);
+  return max_cost - (1000000*(now.tv_sec - tv.tv_sec))-(now.tv_usec - tv.tv_usec);
 #else
-  ret = alarm(0);
-  alarm(ret);
-  return ret*1000000;
-#endif
+  return 100;
 #endif
 }
 

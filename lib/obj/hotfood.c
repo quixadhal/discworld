@@ -412,7 +412,7 @@ mapping query_static_auto_load(){
  * @ignore yes
  */
 void init_static_arg( mapping map ){
-   if ( !mappingp( map ) ) return; 
+   if ( !mapp( map ) ) return; 
    if ( map[ "::" ] ) ::init_static_arg( map[ "::" ] );
    _cool_level = map[ "cool_level" ];
    _cool_rate = map[ "cool rate" ];
@@ -433,7 +433,7 @@ mapping query_dynamic_auto_load(){
  * @ignore yes
  */
 void init_dynamic_arg( mapping map, object ){
-   if ( !mappingp( map ) ) return;
+   if ( !mapp( map ) ) return;
    if ( map[ "::" ] ) ::init_dynamic_arg( map[ "::" ] );
    _cool_level = map[ "cool_level" ];
    _cool_rate = map[ "cool rate" ];

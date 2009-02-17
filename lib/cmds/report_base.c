@@ -522,7 +522,7 @@ void end_of_edit(string body)
       }
       if (_use_last_error) {
          last_error = (mapping) this_player()->get_last_error();
-         if (mappingp(last_error)) {
+         if (mapp(last_error)) {
             trace = (string) master()->standard_trace(last_error, 1);
             this_player()->set_last_error(0);
          }

@@ -8,7 +8,11 @@
  *      make it consistent with the rest of the code, you will find a
  *      modified version of Henry Specer's regular expression library.
  *      Henry's functions were modified to provide the minimal regular
- *      expression matching, as required by (c) 1986 by University of Toronto.
+ *      expression matching, as required by P1003.  Henry's code was
+ *      copyrighted, and copy of the copyright message and restrictions
+ *      are provided, verbatim, below:
+ *
+ *      Copyright (c) 1986 by University of Toronto.
  *      Written by Henry Spencer.  Not derived from licensed software.
  *
  *      Permission is granted to anyone to use this software for any
@@ -192,19 +196,19 @@
 #  ifndef CHARBITS
 #    define CHARBITS      0xff
 #  endif
-#  define UCHARAT(p)    ((int)*(unsigned char *)(p))
+#  define UCHARAT(p)    (*(unsigned char *)(p))
 #else
 #  ifndef CHARBITS
 #    define CHARBITS      0xff
-#    define       UCHARAT(p)      ((int)*(unsigned char *)(p))
+#    define       UCHARAT(p)      (*(unsigned char *)(p))
 #  else
-#    define       UCHARAT(p)      ((int)*(p)&CHARBITS)
+#    define       UCHARAT(p)      (*(p)&CHARBITS)
 #  endif
 #endif
 #else
 #  undef CHARBITS
 #  define CHARBITS 0xff
-#  define UCHARAT(p)      ((int) *(unsigned char *)(p))
+#  define UCHARAT(p)      (*(unsigned char *)(p))
 #endif
 
 #define ISWORDPART(c) ( isalnum((unsigned char)c) || (c) == '_' )
@@ -290,7 +294,7 @@ regexp *regcomp (unsigned char * exp,
         FAIL("NULL argument\n");
 
     exp2 = (short *)
-        DXALLOC((strlen((char *)exp) + 1) * (sizeof(short[8]) / sizeof(char[8])), 
+        DXALLOC((strlen((char *)exp) + 1) * (sizeof(short[8]) / sizeof(char[8])),
                 TAG_TEMPORARY, "regcomp: 1");
     for (scan = exp, dest = exp2; (c = *scan++);) {
         switch (c) {
@@ -364,7 +368,7 @@ regexp *regcomp (unsigned char * exp,
     }
 
     /* Allocate space. */
-    r = (regexp *) DXALLOC(sizeof(regexp) + (unsigned) regsize, 
+    r = (regexp *) DXALLOC(sizeof(regexp) + (unsigned) regsize,
                            TAG_TEMPORARY, "regcomp: 2");
     if (r == (regexp *) NULL) {
         FREE(exp2);
@@ -624,7 +628,7 @@ static char *regatom (int * flagp)
         ret = regnode(WORDEND);
         break;
     case LSQBRAC:{
-            register int class;
+            register int classs;
             register int classend;
 
             if (*regparse == CARET) {   /* Complement of range. */
@@ -640,12 +644,12 @@ static char *regatom (int * flagp)
                     if (*regparse == RSQBRAC || *regparse == '\0')
                         regc('-');
                     else {
-                        class = (CHARBITS & *(regparse - 2)) + 1;
+                        classs = (CHARBITS & *(regparse - 2)) + 1;
                         classend = (CHARBITS & *(regparse));
-                        if (class > classend + 1)
+                        if (classs > classend + 1)
                             FAIL("invalid [] range\n");
-                        for (; class <= classend; class++)
-                            regc(class);
+                        for (; classs <= classend; classs++)
+                            regc(classs);
                         regparse++;
                     }
                 } else
@@ -1207,12 +1211,12 @@ void regdump (regexp * r)
     s = r->program + 1;
     while (op != END) {         /* While that wasn't END last time... */
         op = OP(s);
-        printf("%2d%s", (int) (s - r->program), regprop(s));    /* Where, what. */
+        printf("%2d%s", (s - r->program), regprop(s));    /* Where, what. */
         nxt = regnext(s);
         if (nxt == (char *) NULL)       /* nxt ptr. */
             printf("(0)");
         else
-            printf("(%d)", (int) ((s - r->program) + (nxt - s)));
+            printf("(%d)", ((s - r->program) + (nxt - s)));
         s += 3;
         if (op == ANYOF || op == ANYBUT || op == EXACTLY) {
             /* Literal string, where present. */

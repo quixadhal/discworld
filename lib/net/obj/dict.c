@@ -63,7 +63,7 @@ void create() {
 } /* create() */
 
 string calculate_short() {
-  if ( !mappingp( _connections ) )
+  if ( !mapp( _connections ) )
     return "dictionary";
     
   if ( _connections[ this_player() ] ) {
