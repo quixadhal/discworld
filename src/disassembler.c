@@ -28,18 +28,29 @@ f_dump_prog (void)
     int narg = st_num_arg;
     
     if (st_num_arg == 2) {
+      if ((sp-1)->type != T_OBJECT) 
+        bad_argument(sp-1, T_OBJECT, 1, F_DUMP_PROG);
+
         ob = sp[-1].u.ob;
         d = sp->u.number;
         where = 0;
     } else if (st_num_arg == 3) {
+      if ((sp-2)->type != T_OBJECT) 
+        bad_argument(sp-2, T_OBJECT, 1, F_DUMP_PROG);
+
         ob = sp[-2].u.ob;
         d = sp[-1].u.number;
         where = (sp->type == T_STRING) ? sp->u.string : 0;
     } else {
+      if (sp->type != T_OBJECT) 
+        bad_argument(sp, T_OBJECT, 1, F_DUMP_PROG);
+
         ob = sp->u.ob;
         d = 0;
         where = 0;
     }
+
+
     if (!(prog = ob->prog)) {
         error("No program for object.\n");
     } else {
@@ -228,7 +239,7 @@ disassemble (FILE * f, char * code, int start, int end, program_t * prog)
 {
     extern int num_simul_efun;
 
-    long i, j, instr, iarg, is_efun, ri;
+    long i, j, instr, iarg, ri;
     unsigned short sarg;
     unsigned short offset;
     char *pc, buff[2048];
@@ -273,8 +284,6 @@ disassemble (FILE * f, char * code, int start, int end, program_t * prog)
         }
 
         fprintf(f, "%04x: ", (unsigned) (pc - code));
-
-        is_efun = (instr = EXTRACT_UCHAR(pc)) >= BASE;
 
         pc++;
         buff[0] = 0;
@@ -524,7 +533,7 @@ disassemble (FILE * f, char * code, int start, int end, program_t * prog)
             case FP_ANONYMOUS:
             case FP_ANONYMOUS | FP_NOT_BINDABLE:
                 COPY_SHORT(&sarg, &pc[2]);
-                sprintf(buff, "<anonymous function, %d args, %d locals, ends at %04x>\nCode:",
+                sprintf(buff, "<anonymous function, %d args, %d locals, ends at %04ld>\nCode:",
                         pc[0], pc[1], (pc + 3 + sarg - code));
                 pc += 4;
                 break;
@@ -532,23 +541,21 @@ disassemble (FILE * f, char * code, int start, int end, program_t * prog)
             break;
 
         case F_NUMBER:
+        {
+            LPC_INT iarg_tmp;
 
-            COPY_INT(&iarg, pc);
-            sprintf(buff, "%ld", iarg);
-#if SIZEOF_LONG == 4
-            pc += 4;
-#else
-            pc += 8;
-#endif
+            COPY_INT(&iarg_tmp, pc);
+            sprintf(buff, "%ld", iarg_tmp);
+            pc += sizeof(LPC_INT);
             break;
-
+        }
         case F_REAL:
             {
-                float farg;
+                LPC_FLOAT farg;
 
                 COPY_FLOAT(&farg, pc);
                 sprintf(buff, "%f", farg);
-                pc += 4;
+                pc += sizeof(LPC_FLOAT);
                 break;
             }
 
@@ -613,9 +620,9 @@ disassemble (FILE * f, char * code, int start, int end, program_t * prog)
                         COPY_SHORT(&sarg, pc + SIZEOF_PTR);
                         if (ttype == 1 || !parg) {
                             if (sarg == 1)
-                                fprintf(f, "\t%-4ld\t<range start>\n", (long)parg);
+                                fprintf(f, "\t%-4ld\t<range start>\n", (LPC_INT)parg);
                             else
-                                fprintf(f, "\t%-4ld\t%04x\n", (long)parg, addr+sarg);
+                                fprintf(f, "\t%-4ld\t%04x\n", (LPC_INT)parg, addr+sarg);
                         } else {
                             fprintf(f, "\t\"%s\"\t%04x\n",
                             disassem_string(parg), addr+sarg);

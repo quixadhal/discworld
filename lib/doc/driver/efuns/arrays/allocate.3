@@ -1,0 +1,16 @@
+.\"allocate an array
+.TH allocate 3 "5 Sep 1994" MudOS "LPC Library Functions"
+
+.SH NAME
+allocate() - allocate an array
+
+.SH SYNOPSIS
+mixed *allocate( int size );
+
+.SH DESCRIPTION
+Allocate an array of <size> elements.  The number of elements must be >= 0
+and not bigger than a system maximum (usually ~10000).  All elements are
+initialized to 0.
+
+.SH SEE ALSO
+sizeof(3), allocate_mapping(3)

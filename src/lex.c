@@ -30,6 +30,7 @@
 #include "file.h"
 #include "main.h"
 #include "cc.h"
+#include "master.h"
 
 #define NELEM(a) (sizeof (a) / sizeof((a)[0]))
 #define LEX_EOF ((unsigned char) EOF)
@@ -139,7 +140,9 @@ static keyword_t reswords[] =
 #endif
     {"case", L_CASE, 0},
     {"catch", L_CATCH, 0},
+#ifdef STRUCT_CLASS
     {"class", L_CLASS, 0},
+#endif
 #ifdef COMPAT_32
     {"closure", L_BASIC_TYPE, TYPE_FUNCTION},
 #endif
@@ -184,6 +187,9 @@ static keyword_t reswords[] =
     {"status", L_BASIC_TYPE, TYPE_NUMBER},
 #endif
     {"string", L_BASIC_TYPE, TYPE_STRING},
+#ifdef STRUCT_STRUCT
+    {"struct", L_CLASS, 0},
+#endif
     {"switch", L_SWITCH, 0},
     {"time_expression", L_TIME_EXPRESSION, 0},
     {"varargs", L_TYPE_MODIFIER, FUNC_VARARGS },
@@ -224,7 +230,7 @@ static void add_define (const char *, int, const char *);
 static void add_predefine (const char *, int, const char *);
 static int expand_define (void);
 static void add_input (const char *);
-static int cond_get_exp (int);
+static long cond_get_exp (int);
 static void merge (char *name, char *dest);
 static void add_quoted_predefine (const char *, const char *);
 static void lexerror (const char *);
@@ -251,9 +257,9 @@ static void yyerrorp (const char *);
 #define LEXER
 #include "preprocess.c"
 
-int lookup_predef(char * name)
+int lookup_predef(const char * name)
 {
-    int x;
+    unsigned int x;
 
     for(x = 0; x < (sizeof(predefs) / sizeof(keyword_t)); x++)
     {
@@ -394,10 +400,11 @@ inc_open (char * buf, char * name, int check_local)
 {
     int i, f;
     char *p;
-
+	const char *tmp;
     if (check_local) {
         merge(name, buf);
-        if ((f = open(buf, O_RDONLY)) != -1)
+        tmp = check_valid_path(buf, master_ob, "include", 0);
+        if (tmp && (f = open(tmp, O_RDONLY)) != -1)
             return f;
     }
     /*
@@ -409,7 +416,8 @@ inc_open (char * buf, char * name, int check_local)
     }
     for (i = 0; i < inc_list_size; i++) {
         sprintf(buf, "%s/%s", inc_list[i], name);
-        if ((f = open(buf, O_RDONLY)) != -1) {
+        tmp = check_valid_path(buf, master_ob, "include", 0);
+        if (tmp && (f = open(tmp, O_RDONLY)) != -1) {
             return f;
         }
     }
@@ -437,7 +445,7 @@ include_error (const char * msg, int global)
 static void
 handle_include (char * name, int global)
 {
-    char *p, *nameptr;
+    char *p;
     static char buf[MAXLINE];
     incstate_t *is;
     int delim, f;
@@ -457,16 +465,17 @@ handle_include (char * name, int global)
         }
         return;
     }
-    name = nameptr = string_copy(name, "handle_include");
+    name = string_copy(name, "handle_include");
+    push_malloced_string(name);
     delim = *name++ == '"' ? '"' : '>';
     for (p = name; *p && *p != delim; p++);
     if (!*p) {
-        FREE_MSTR(nameptr);
+        pop_stack();
         include_error("Missing trailing \" or > in #include", global);
         return;
     }
     if (strlen(name) > sizeof(buf) - 100) {
-        FREE_MSTR(nameptr);
+        pop_stack();
         include_error("Include name too long.", global);
         return;
     }
@@ -496,7 +505,7 @@ handle_include (char * name, int global)
         sprintf(buf, "Cannot #include %s", name);
         include_error(buf, global);
     }
-    FREE_MSTR(nameptr);
+    pop_stack();
 }
 
 static int
@@ -544,7 +553,7 @@ get_terminator (char * terminator)
 static int
 get_array_block (char * term)
 {
-    int termlen;                /* length of terminator */
+    unsigned int termlen;       /* length of terminator */
     char *array_line[NUMCHUNKS];/* allocate memory in chunks */
     int header, len;            /* header length; position in chunk */
     int startpos, startchunk;   /* start of line */
@@ -685,7 +694,7 @@ get_array_block (char * term)
 static int
 get_text_block (char * term)
 {
-    int termlen;                /* length of terminator */
+    unsigned int termlen;       /* length of terminator */
     char *text_line[NUMCHUNKS]; /* allocate memory in chunks */
     int len;                    /* position in chunk */
     int startpos, startchunk;   /* start of line */
@@ -1054,7 +1063,16 @@ static void refill_buffer() {
 
             size = correct_read(yyin_desc, p, MAXLINE);
             cur_lbuf->buf_end = p += size;
-            if (size < MAXLINE) { *(last_nl = p) = LEX_EOF; return; }
+            if (size < MAXLINE) {
+            	*(last_nl = p) = LEX_EOF;
+            	if(*(last_nl-1) != '\n'){
+            		if(size +1 > MAXLINE)
+            			yyerror("No newline at end of file.");
+            		*p++ = '\n';
+            		*(last_nl = p) = LEX_EOF;
+            	}
+            	return;
+			}
             while (*--p != '\n');
             if (p == outp - 1) {
                 lexerror("Line too long.");
@@ -1106,7 +1124,14 @@ static void refill_buffer() {
             end = p += size;
             if (flag) cur_lbuf->buf_end = p;
             if (size < MAXLINE) {
-                *(last_nl = p) = LEX_EOF; return;
+            	*(last_nl = p) = LEX_EOF;
+            	if(*(last_nl-1) != '\n'){
+            		if(size +1 > MAXLINE)
+            			yyerror("No newline at end of file.");
+            		*p++ = '\n';
+            		*(last_nl = p) = LEX_EOF;
+            	}
+            	return;
             }
             while (*--p != '\n');
             if (p == outp - 1) {
@@ -1169,7 +1194,7 @@ int yylex()
     static char partial[MAXLINE + 5];   /* extra 5 for safety buffer */
     static char terminator[MAXLINE + 5];
     int is_float;
-    float myreal;
+    LPC_FLOAT myreal;
     char *partp;
 
     register char *yyp;
@@ -1945,8 +1970,8 @@ int yylex()
             outp--;
             *yyp = 0;
             if (is_float) {
-                sscanf(yytext, "%f", &myreal);
-                yylval.real = (float)myreal;
+                sscanf(yytext, "%lf", &myreal);
+                yylval.real = myreal;
                 return L_REAL;
             } else {
                 yylval.number = atol(yytext);
@@ -1996,8 +2021,6 @@ parse_identifier:
                         ident_hash_elem_t *ihe;
                         if ((ihe = lookup_ident(yytext))) {
                             if (ihe->token & IHE_RESWORD) {
-                                int temptok;
-                                
                                 if (function_flag) {
                                     function_flag = 0;
                                     add_input(yytext);
@@ -2005,14 +2028,7 @@ parse_identifier:
                                     return L_FUNCTION_OPEN;
                                 }
                                 yylval.number = ihe->sem_value;
-                                
-                                temptok = ihe->token & TOKEN_MASK;
-                                
-                                if(temptok == L_BASIC_TYPE || temptok == L_TYPE_MODIFIER)
-                                {
-                                    yylval.type = ihe->sem_value;
-                                }
-                                return temptok;
+                                return ihe->token & TOKEN_MASK;
                             }
                             if (function_flag) {
                                 int val;
@@ -2123,22 +2139,11 @@ static void add_quoted_predefine (const char * def, const char * val)
 
 void add_predefines()
 {
-    char save_buf[80];
+    char save_buf[1024];
     int i;
-    long tmp;
     lpc_predef_t *tmpf;
 
     add_predefine("MUDOS", -1, "");
-    get_version(save_buf);
-    add_quoted_predefine("__VERSION__", save_buf);
-    sprintf(save_buf, "%d", external_port[0].port);
-    add_predefine("__PORT__", -1, save_buf);
-    for (i = 0; i < 2 * NUM_OPTION_DEFS; i += 2) {
-        add_predefine(option_defs[i], -1, option_defs[i+1]);
-    }
-    add_quoted_predefine("__ARCH__", ARCH);
-    add_quoted_predefine("__COMPILER__", COMPILER);
-    add_quoted_predefine("__OPTIMIZATION__", OPTIMIZE);
     add_predefine("FLUFFOS", -1, "");
 #ifdef WIN32
     add_predefine("__WIN32__", -1, "");
@@ -2167,6 +2172,16 @@ void add_predefines()
     sprintf(save_buf, "%d", 64);
 #endif
     add_predefine("__FD_SETSIZE__", -1, save_buf);
+    get_version(save_buf);
+    add_quoted_predefine("__VERSION__", save_buf);
+    sprintf(save_buf, "%d", external_port[0].port);
+    add_predefine("__PORT__", -1, save_buf);
+    for (i = 0; i < 2 * NUM_OPTION_DEFS; i += 2) {
+        add_predefine(option_defs[i], -1, option_defs[i+1]);
+    }
+    add_quoted_predefine("__ARCH__", ARCH);
+    add_quoted_predefine("__COMPILER__", COMPILER);
+    add_quoted_predefine("__OPTIMIZATION__", OPTIMIZE);
 
     /* Backwards Compat */
 #ifndef CDLIB
@@ -2184,6 +2199,9 @@ void add_predefines()
 #ifdef DEBUG_MACRO
     add_predefine("HAS_DEBUG_LEVEL", -1, "");
 #endif
+#ifdef DEBUG
+    add_predefine("__DEBUG__", -1, "");
+#endif
     for (tmpf = lpc_predefs; tmpf; tmpf = tmpf->next) {
         char namebuf[NSIZE];
         char mtext[MLEN];
@@ -2196,13 +2214,16 @@ void add_predefines()
             fatal("MLEN exceeded");
         add_predefine(namebuf, -1, mtext);
     }
-    sprintf(save_buf, "%ld", sizeof(long));
-    add_predefine("SIZEOFINT", -1, save_buf);
-    tmp = (long)1<<31;
-    if(tmp > 0)
-      tmp = (long)1<<63;
-    sprintf(save_buf, "%ld", tmp-1);
+    sprintf(save_buf, "%ld", sizeof(LPC_INT));
+    add_predefine("SIZEOFINT", -1, save_buf);    
+    sprintf(save_buf, "%ld", LPC_INT_MAX);
     add_predefine("MAX_INT", -1, save_buf);
+    sprintf(save_buf, "%ld", LPC_INT_MIN);
+    add_predefine("MIN_INT", -1, save_buf);
+    sprintf(save_buf, "%lf", LPC_FLOAT_MAX);
+    add_predefine("MAX_FLOAT", -1, save_buf);
+    sprintf(save_buf, "%lf", LPC_FLOAT_MIN);
+    add_predefine("MIN_FLOAT", -1, save_buf);
 }
 
 void start_new_file (int f)
@@ -2280,7 +2301,7 @@ static void int_add_instr_name (const char * name, int n, short t)
 
 static void init_instrs()
 {
-    int i, n;
+    unsigned int i, n;
 
     for (i = 0; i < BASE; i++) {
         instrs[i].ret_type = -1;
@@ -3444,7 +3465,7 @@ static void add_keyword_t (const char * name, keyword_t * entry) {
 }
 
 void init_identifiers() {
-    int i;
+    unsigned int i;
     ident_hash_elem_t *ihe;
 
     init_instrs();

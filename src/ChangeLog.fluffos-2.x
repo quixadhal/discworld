@@ -2,6 +2,258 @@ As MudOS is moving too slow to keep our driver hacks apart, we now call our own
 FluffOS :), note: where it says Cratylus, I got it from his version, usually
 someone else did the work, but I don't know how to find who did what there.
 
+FluffOS 2.27
+Fixed Changelog name for 2.26
+fix incorrect sha1() hashes  (Voltara <voltara@gmail.com>)
+Fix db.c with PACKAGE_ASYNC. (mactorg@lpmuds.net)
+allow floating point for heart beat interval
+added extra file:linenumber result for call_stack(4)
+fix call_other type errors as warnings and some timezone leaking bugs (driver timezone would be changed after efun/error in efun)
+Fix a valgrind complain in posix_timer.c (Yucong Sun <sunyucong@gmail.com>)
+Testsuit fixes. (Yucong Sun <sunyucong@gmail.com>)
+compile with C99  (Yucong Sun <sunyucong@gmail.com>)
+Unbreak DEBUG_MALLOC & CHECK_MEMORY, now everything is accounted for. (Yucong Sun <sunyucong@gmail.com>)
+Crypto package multiple fixes and enhancements (Voltara <voltara@gmail.com>)
+Code cleanup/fixes (Yucong Sun <sunyucong@gmail.com>)
+LPC MIN_INT, MAX_FLOAT, MIN_FLOAT predefines. (Yucong Sun <sunyucong@gmail.com>)
+Added POSIX_TIMERS alternative for eval timer (Voltara <voltara@gmail.com>)
+IPV6 compile fix on unbuntu. (Yucong Sun <sunyucong@gmail.com>)
+
+FluffOS 2.26
+Compile warning fixes (sunyc@lpmuds.net)
+add_action moved objects fix (vorpal@lpmuds.net)
+Properly report 64 bit linux when starting (sunyc@lpmuds.net)
+heart_beat() now sets current_interactive 
+Changes for C99 (sunyc@lpmuds.net)
+GMCP telnet negotiation now following the correct protocol, probably
+Websocket support, add a port in the config file with type websocket, when it
+	gets a connection on that it will ask the master object for a
+	connection as usual, this object will need to do the websocket
+	handshake, incoming data will go to process_input(), after finishing
+	the handshake call websocket_handshake_done(), after calling that it
+	will act like a normal user connection on the mud side, the other side
+	is a binary websocket. I suggest you change to the normal login object
+	after the handshake.
+Added a break at the end of mssp activation to stop it from turning on mccp as
+	well
+Stop skipping next user input when we get user input (no idea why that was 
+	there) 
+	(vorpal@lpmuds.net)
+Several LPC stack fixes (sunyc@lpmuds.net)
+Added several missing type checks (sunyc@lpmuds.net)
+Fixed wrong int/long variable types, this includes fixing sha1, so if you used
+	that for passwords on 64bit, you'll need to figure out how to get 
+	around sha1 results changing.(sunyc@lpmuds.net, me (with suggestions from 
+	(vorpal@lpmuds.net)))
+sizeof now returns an actual number (reported by vorpal@lpmuds.net)
+Fixed crasher in local_time() (sunyc@lpmuds.net)
+Overflow improvement on eval_cost calculation (sunyc@lpmuds.net)
+Stop reading past the end of the read data in read_file()
+Fixed possible crasher in using floats
+Fixed crasher in call_other type warnings (sunyc@lpmuds.net)
+Several testsuite improvements (sunyc@lpmuds.net)
+Added GCmalloc (sunyc@lpmuds.net)
+Mapping fix for 32bit
+Fixed crasher in f_unique_mapping (reported by sunyc@lpmuds.net)
+options.h fixes (sunyc@lpmuds.net, me)
+Added placeholder for now missing old binary config (sunyc@lpmuds.net)
+File closing fix for compressed files (sunyc@lpmuds.net)
+Fixed zonetime crasher (sunyc@lpmuds.net)
+Fixed is_daylight_savings_time crasher (sunyc@lpmuds.net)
+Fixed remove_get_char crasher (reported by sunyc@lpmuds.net)
+
+FluffOS 2.25
+Fixed the defer() fix 
+Added new test_load() efun which will try to load a file, it will return 0 when 
+      it failed, 1 when the file can load, and error if there was a compilation
+      error
+
+FluffOS 2.24
+LPC floats are now C doubles
+number of structs (or classes) allowed is now 127 
+defer() now hopefully notices if you try to change this_player, so it won't
+	then destroy the change after the deffered function finishes
+changed something for the terminal_colours_replace apply, but can't remember
+	what (need to release more often!)
+added some flags in debug_info
+added some argument checking to replace() (dwlib.c)
+a fix in pcre (woom) (again, can't remember what was fixed)
+
+FluffOS 2.23
+added a terminal_colour_replace apply, this will be called with every string between two %^ delimiters, and will be replaced with whatever is returned.
+fixed protocol number for GMCP
+fixed sprintf code for MSSP uptime
+added defer efun, it takes a function pointer that will be called when the current function ends (even if that was caused by a runtime)
+the old range behaviour warning for negative array indexes is now optional
+the driver can now be compiled to use either struct or class for structs, or even allow both
+fixed crasher in uniq_array
+fixed crasher in socket_status
+added missing ',' in non iconv driver pcre support
+FluffOS 2.22
+fixed potential crasher in pcre_extract
+removed limit for number of matches in pcre efuns
+added classes() efun (woom)
+	classes(ob) returns a list of class names available in ob
+	classes(ob, 1) returns the same list, with all the fields in the class (type and name)
+you can now have more than 256 Globals (qwer@lpmuds.net)
+added postgres support (unagi@lpmuds.net)
+fixed zmp crash
+removed some obsolete malloc options
+FluffOS 2.21
+small cleanup in malloc32
+added gmcp support
+      gmcp_enable() gets called when a user has gmcp
+      gmcp() will get called with any received message
+      send_gmcp(string) will send the string as a gmcp message
+      has_gmcp(object) returns if the object supports gmcp
+fixed sorting when the compare function returns values that don't fit in a 32 bit int.
+fixed memory leak in sorting
+new deep_inventory functionality (tiz)
+    it can now take an array of objects, and a function pointer that can return
+    0 don't include this object or it's contents
+    1 do include
+    2 include this object but not it's contents
+    3 don't include this object but do add the contents
+    the function will be called with one object from the inventory (for each object looked at)
+fixed memory leak in new deep_inventory
+added pcre support (Volothamp@Final Realms)
+      string pcre_version(void);
+      version of the pcre lib
+      mixed pcre_match(string | string *, string, void | int);
+      like the regexp efun
+      mixed *pcre_assoc(string, string *, mixed *, mixed | void);
+      like reg_assoc
+      string *pcre_extract(string, string);
+      extract matching parts
+      string pcre_replace(string, string, string *);
+      string replace, one entry in the array for each match
+      string pcre_replace_callback(string, string, string | function, ...);
+      string replace uses a callback to get the replace string (called with the matched string and match number, starting with 0)
+      mapping pcre_cache(void);
+      returns content of the pcre cache (not all that useful)
+fixed memory leaks in pcre efuns
+fixed crashers in pcre efuns
+small optimisation in reg_assoc and pcre_assoc
+fixed memory leak in compiling files
+restore_object will no longer randomly set 0 values as undefined
+fixed crasher in asking for an unused config setting
+sprintf buffer is now big enough for max string size
+fixed crasher in async_db_exec (never seen for real, but it was possible!)
+db_fetch will no longer randomly return some 0s as undefined
+dwlib package now has a replace_dollars function which searches for patterns starting with a $ only, otherwise the same as replace() (but faster as it only scans once)
+
+FluffOS 2.20
+more error checks in malloc64
+bigger arrays   (up to 2^31 elements)
+bigger mappings (see arrays)
+more efficient clean_up()
+setting sockets to close on exec done in a more compatible way (only worked on rather new linux kernels)
+no longer sends mccp messages when already compressed (fixes older cmud versions)
+some cleanups for compiler warnings
+new roulette_wheel() efun in the dwlib package (Woom)
+new replace_objects() efun int the dwlib package (replaces all object references in the argument with filenames recursively)
+check_valid_path apply now also used for compile paths (source files)
+32BIT fix (Kalinash)
+use less chars for string hashes (faster)
+correctly do tables in (s)printf with utf-8 strings
+use the already existing precalculated string hashes more often
+save string length for bigger strings as well instead of using strlen on strings > 64k all the time
+NetBSD IPV6 fix (Tiz)
+fixed crasher in reference_allowed() (in dwlib.c)
+
+FluffOS 2.19
+attempt to fix string block alignments. hopefuly helps sparc64
+open sockets as close on exec if available (so they don't end up in external programs started from the driver) 
+fix conflict between ed and solaris (both used the same define!)
+fix bug with freeing an object table in backend.c
+some fixes for sparc64 (Kalinash)
+added missing Mysql data types so they don't always get returned as 0 anymore
+changed some optional efun args to default to 0 instead for slightly cleaner code (Woom)
+new addition to pluralize() (diff from Cratylus)
+
+FluffOS 2.18
+compiles for netbsd (tiz)
+make more empty arrays point to the_null_array, saves memory and allows 
+     comparing with ({}) to see if arrays are empty (reported by Woom)
+clear this_user etc when runtimes get us all the way back to backend()
+fix the inherits() return value if the inherit was indirectly inherited
+     (reported by Woom)
+member_array now return -1 for failure if you search beyond the end of the array
+     (reported by Woom)
+no longer loops forever when adding a reference whole destructing things with
+     too many references
+fixed crasher in async db_exec
+fixed crasher in filedescriptor leak fix
+parser changed to be less strict (Cratylus)
+stop wasting memory if repeat_string would exceed max string size (reported by woom)
+fixed crasher in pragma optimize
+
+FluffOS 2.17
+math package updates: Added vector norm, dotprod, distance, angle.
+     Also added log2() and round() which works on floats (surprisingly useful).
+     Added int args to the efuns as apppropriate (Hamlet)
+fixed above so the int args actually work without needing casts for the result
+fixed 64bit malloc for large allocations (never happened on dw, so I doubt it was a problem!)
+added 32bit malloc (malloc32) which is sysmalloc with realloc replaced by 
+      malloc->memcpy->free, saves lots of memory
+telnet environment support (Cratylus)
+windows compile fix for add_action (Cratylus)
+added dtrace support! just define DTRACE in local_options if you have it
+zmp support
+    zmp calls from the client result in an apply on the player object
+    	zmp_command(string command, string *args);
+    sending zmp is done with
+    	send_zmp(string command, string *args);
+    check if a player supports zmp, returns 1 if they do, 0 otherwise.
+    	has_zmp(object player) 
+    note: zmp protocol is just a way to transfer information for zmp packages,
+    	  You'll still need to implement those in LPC
+fixed the use of select()
+compiles with C++ again (with dw's local_options anyway)
+even more places to look for mysql libs
+fixed profiling recursive functions
+fixed profiling when a runtime error happens
+fixed filedescriptor leak with compressed save files
+fixed crasher in unloading object programs (this should have happened constantly
+      , so there's probably a bug preventing this from actually happening most 
+      of the time).
+the driver now finishes all async IO before finishing shutdown()
+blocked socket fix for lpc network sockets (Hamlet)
+package async now does sql!
+	async_db_exec(int db, string request, function callback);
+	don't use the same database handle with this call if you also use it
+	with db_exec(), just make an extra connection for your async sql.
+new efun restore_from_string(string savedata), does what it says on the tin, 
+    the string format is the same as a save file.
+added optional int argument to request_term_size().  If 0, the client is asked 
+     _not_ to offer any further term size updates (Hamlet, suggested by Detah)
+
+FluffOS 2.16
+improved single char mode support (Cratylus)
+	 this includes some new efuns:
+	      int query_charmode(object);
+	      int remove_charmode(object);
+	      int remove_get_char(object);
+efun to send nullbytes (Raudhrskal)
+     int send_nullbyte(object);
+improved ed failure mess (Cratylus)
+new no arguments version of save_object, which returns the save string
+fix to stop iconv looping forever
+faster hashing for big strings (now stops after 1000 chars)
+some new predefines (Cratylus)
+async io fixes, sadly now requires pthreads
+parser update (Cratylus)
+sqlite support (Ajandurah@Demonslair)
+compile warning fixes (Ajandurah@Demonslair)
+crypto and sha1 package (Ajandurah@Demonslair)
+added MSSP support, the driver will call get_mud_stats() on the master ob, 
+      which should return a mapping with the keys/values, if a value is an 
+      array of strings they'll all be sent as values for that key. The driver
+      send the NAME (from config file) PLAYERS and UPTIME values if the 
+      function doesn't exist, if it does but didn't include one of those fields
+      the driver will add the field as those are required.
+new malloc option malloc64 which tries to avoid needing big copies on realloc by spreading all allocations a few MB apart in virtual memory.
+
 FluffOS 2.15:
 IPV6 support
 class stats (Skullslayer@Realms of the Dragon)

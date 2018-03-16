@@ -27,6 +27,7 @@
 #include "efun_protos.h"
 #include "add_action.h"
 #include "eval.h"
+#include "interpret.h"
 
 int call_origin = 0;
 
@@ -162,16 +163,16 @@ static void print_cache_stats (outbuffer_t * ob)
     outbuf_add(ob, "Function cache information\n");
     outbuf_add(ob, "-------------------------------\n");
     outbuf_addv(ob, "%% cache hits:    %10.2f\n",
-             100 * ((double) apply_low_cache_hits / apply_low_call_others));
+             100 * ((LPC_FLOAT) apply_low_cache_hits / apply_low_call_others));
     outbuf_addv(ob, "call_others:     %10lu\n", apply_low_call_others);
     outbuf_addv(ob, "cache hits:      %10lu\n", apply_low_cache_hits);
     outbuf_addv(ob, "cache size:      %10lu\n", APPLY_CACHE_SIZE);
     outbuf_addv(ob, "slots used:      %10lu\n", apply_low_slots_used);
     outbuf_addv(ob, "%% slots used:    %10.2f\n",
-                100 * ((double) apply_low_slots_used / APPLY_CACHE_SIZE));
+                100 * ((LPC_FLOAT) apply_low_slots_used / APPLY_CACHE_SIZE));
     outbuf_addv(ob, "collisions:      %10lu\n", apply_low_collisions);
     outbuf_addv(ob, "%% collisions:    %10.2f\n",
-             100 * ((double) apply_low_collisions / apply_low_call_others));
+             100 * ((LPC_FLOAT) apply_low_collisions / apply_low_call_others));
 }
 
 void f_cache_stats (void)
@@ -259,7 +260,7 @@ f_call_out (void)
     svalue_t *arg = sp - st_num_arg + 1;
     int num = st_num_arg - 2;
 #ifdef CALLOUT_HANDLES
-    int ret;
+    LPC_INT ret;
 
     if (!(current_object->flags & O_DESTRUCTED)) {
         ret = new_call_out(current_object, arg, arg[1].u.number, num, arg + 2);
@@ -321,8 +322,8 @@ f_call_stack (void)
     int i, n = csp - &control_stack[0] + 1;
     array_t *ret;
 
-    if (sp->u.number < 0 || sp->u.number > 3)
-        error("First argument of call_stack() must be 0, 1, 2, or 3.\n");
+    if (sp->u.number < 0 || sp->u.number > 4)
+        error("First argument of call_stack() must be 0, 1, 2, 3, or 4.\n");
 
     ret = allocate_empty_array(n);
 
@@ -375,7 +376,25 @@ f_call_stack (void)
             ret->item[i].u.string = origin_name((csp-i+1)->caller_type);
         }
         break;
+    case 4:
+        for (i = 0; i < n; i++) {
+             ret->item[i].type = T_STRING;
+             if (1 ||((csp - i)->framekind & FRAME_MASK) == FRAME_FUNCTION || ((csp - i)->framekind & FRAME_MASK) == FRAME_FUNP) {
+                 const program_t *prog = (i ? (csp-i+1)->prog : current_prog);
+                 int index = (csp-i)->fr.table_index;
+                 char *progc = (i ? (csp-i+1)->pc:pc);
+                 function_t *cfp = &prog->function_table[index];
+             	ret->item[i].type = T_STRING;
+             	ret->item[i].subtype = STRING_MALLOC;
+             	ret->item[i].u.string = string_copy(get_line_number(progc, prog), "call_stack");
+             } else {
+                 ret->item[i].subtype = STRING_CONSTANT;
+                 ret->item[i].u.string = (((csp - i)->framekind & FRAME_MASK) == FRAME_CATCH) ? "CATCH" : "<function>";
+             }
+         }
+         break;
     }
+
     put_array(ret);
 }
 #endif
@@ -569,6 +588,7 @@ f_set_debug_level (void)
 void
 f_clear_debug_level (void) {
     debug_level_clear(sp->u.string);
+    pop_stack();
 }
 
 void
@@ -588,10 +608,26 @@ void
 f_deep_inventory (void)
 {
     array_t *vec;
+    int args = st_num_arg;
+    if(st_num_arg==2 && sp->type == T_FUNCTION && ((sp-1)->type==T_ARRAY || (sp-1)->type==T_OBJECT) ) {
+        if((sp-1)->type==T_ARRAY)
+            vec = deep_inventory_array((sp-1)->u.arr, 1 , sp->u.fp); 
+        else /*(sp-1)->type==T_OBJECT*/
+            vec = deep_inventory((sp-1)->u.ob, 0 , sp->u.fp);
+    }
+    else if(st_num_arg==1 && (sp->type==T_FUNCTION || sp->type==T_ARRAY || sp->type==T_OBJECT) ) {
+        if(sp->type==T_FUNCTION)
+            vec = deep_inventory(current_object, 0 , sp->u.fp);
+	else if(sp->type==T_ARRAY)
+	    vec = deep_inventory_array(sp->u.arr, 1 , 0);
+	else /*sp->type==T_OBJECT*/
+            vec = deep_inventory(sp->u.ob, 0 , 0);
+    }
+    else
+        vec = &the_null_array;
 
-    vec = deep_inventory(sp->u.ob, 0);
-    free_object(&sp->u.ob, "f_deep_inventory");
-    put_array(vec);
+    pop_n_elems(args);
+    push_refed_array(vec);
 }
 #endif
 
@@ -631,10 +667,15 @@ f_ed (void)
         ed_start(0, 0, 0, 0, 0, 0);
     } else if (st_num_arg == 1) {
         /* ed(fname) */
+        if (!(sp->type == T_STRING))
+            bad_argument(sp, T_STRING, 1, F_ED);
         ed_start(sp->u.string, 0, 0, 0, 0, 0);
         pop_stack();
     } else if (st_num_arg == 2) {
         /* ed(fname,exitfn) / ed(fname, scroll_lines) */
+        if (!((sp - 1)->type == T_STRING))
+            bad_argument(sp - 1, T_STRING, 1, F_ED);
+
         if(sp->type == T_STRING)
           ed_start((sp - 1)->u.string, 0, sp->u.string, 0, current_object, 0);
         else if(sp->type == T_NUMBER)
@@ -645,6 +686,11 @@ f_ed (void)
     } else if (st_num_arg == 3) {
         /* ed(fname,exitfn,restricted) / ed(fname,writefn,exitfn) /
            ed(fname,exitfn,scroll_lines) */
+        if (!((sp - 1)->type == T_STRING))
+            bad_argument(sp - 1, T_STRING, 2, F_ED);
+        if (!((sp - 2)->type == T_STRING))
+            bad_argument(sp - 2, T_STRING, 1, F_ED);
+
         if (sp->type == T_NUMBER) {
             if(sp->u.number == 1)
               ed_start((sp - 2)->u.string, 0, (sp - 1)->u.string, sp->u.number,
@@ -662,10 +708,15 @@ f_ed (void)
     } else if (st_num_arg == 4) {
         /* ed(fname,writefn,exitfn,restricted) /
            ed(fname,writefn,exitfn,scroll_lines) */
-        if (!((sp - 1)->type == T_STRING))
-            bad_argument(sp - 1, T_STRING, 3, F_ED);
         if (!(sp->type == T_NUMBER))
             bad_argument(sp, T_NUMBER, 4, F_ED);
+        if (!((sp - 1)->type == T_STRING))
+            bad_argument(sp - 1, T_STRING, 3, F_ED);
+        if (!((sp - 2)->type == T_STRING))
+            bad_argument(sp - 2, T_STRING, 2, F_ED);
+        if (!((sp - 3)->type == T_STRING))
+            bad_argument(sp - 3, T_STRING, 1, F_ED);
+
         if(sp->u.number == 1)
           ed_start((sp - 3)->u.string, (sp - 2)->u.string, (sp - 1)->u.string,
                    sp->u.number, current_object, 0);
@@ -681,6 +732,10 @@ f_ed (void)
           bad_argument(sp-1, T_NUMBER, 4, F_ED);
         if(!((sp-2)->type == T_STRING))
           bad_argument(sp-2, T_STRING, 3, F_ED);
+        if(!((sp-3)->type == T_STRING))
+          bad_argument(sp-3, T_STRING, 2, F_ED);
+        if(!((sp-4)->type == T_STRING))
+          bad_argument(sp-4, T_STRING, 1, F_ED);
 
         ed_start((sp - 4)->u.string, (sp - 3)->u.string, (sp - 2)->u.string,
                  (sp - 1)->u.number, current_object, sp->u.number);
@@ -779,7 +834,7 @@ f_error (void)
     int l = SVALUE_STRLEN(sp);
     char err_buf[2048];
 
-    if (sp->u.string[l - 1] == '\n')
+    if (l && sp->u.string[l - 1] == '\n')
         l--;
     if (l > 2045) l = 2045;
 
@@ -874,7 +929,7 @@ f_file_name (void)
 void
 f_file_size (void)
 {
-    long i = file_size(sp->u.string);
+    LPC_INT i = file_size(sp->u.string);
     free_string_svalue(sp);
     put_number(i);
 }
@@ -1146,7 +1201,7 @@ f_in_input (void)
 int
 inherits (program_t * prog, program_t * thep)
 {
-    int j, k = prog->num_inherited;
+    int j, k = prog->num_inherited, l;
     program_t *pg;
 
     for (j = 0; j < k; j++) {
@@ -1154,8 +1209,8 @@ inherits (program_t * prog, program_t * thep)
             return 1;
         if (!strcmp(pg->filename, thep->filename))
             return 2;
-        if (inherits(pg, thep))
-            return 1;
+        if ((l=inherits(pg, thep)))
+            return l;
     }
     return 0;
 }
@@ -1241,6 +1296,35 @@ f_has_mxp (void)
     }
     free_object(&sp->u.ob, "f_has_mxp");
     put_number(i);
+}
+#endif
+
+#ifdef F_HAS_ZMP
+void f_has_zmp (void)
+{
+	int i=0;
+
+	if (sp->u.ob->interactive)
+	{
+		i = sp->u.ob->interactive->iflags & USING_ZMP;
+		i = !!i; //force 1 or 0
+	}
+	free_object(&sp->u.ob, "f_has_zmp");
+	put_number(i);
+}
+#endif
+
+#ifdef F_HAS_GMCP
+void f_has_gmcp(){
+	int i=0;
+
+	if (sp->u.ob->interactive)
+	{
+		i = sp->u.ob->interactive->iflags & USING_GMCP;
+		i = !!i; //force 1 or 0
+	}
+	free_object(&sp->u.ob, "f_has_zmp");
+	put_number(i);
 }
 #endif
 
@@ -1507,7 +1591,7 @@ f_member_array (void)
 	i = 0;
 
     if (sp->type == T_STRING) {
-        char *res;
+        const char *res;
         if(flag & 2)
           error("member_array: can not search backwards in strings");
         CHECK_TYPES(sp-1, T_NUMBER, 1, F_MEMBER_ARRAY);
@@ -1602,7 +1686,7 @@ f_member_array (void)
             }
             break;
         }
-        if (i == size)
+        if (i >= size)
             i = -1;                     /* Return -1 for failure */
         free_array(v);
         free_svalue(find, "f_member_array");
@@ -2059,7 +2143,7 @@ f_query_ip_name (void)
 void
 f_query_ip_number (void)
 {
-    char *tmp;
+    const char *tmp;
 
     tmp = query_ip_number(st_num_arg ? sp->u.ob : 0);
     if (st_num_arg) free_object(&(sp--)->u.ob, "f_query_ip_number");
@@ -2255,7 +2339,7 @@ f_reg_assoc (void) {
     if (!(arg[2].type == T_ARRAY))
         error("Bad argument 3 to reg_assoc()\n");
 
-    vec = reg_assoc(arg[0].u.string, arg[1].u.arr, arg[2].u.arr, st_num_arg > 3 ? &arg[3] : &const0);
+    vec = reg_assoc(arg, arg[1].u.arr, arg[2].u.arr, st_num_arg > 3 ? &arg[3] : &const0);
 
     if (st_num_arg == 4)
         pop_3_elems();
@@ -2488,7 +2572,8 @@ f_replace_string (void)
                     *dst2++ = *src++;
                 }
             }
-            memcpy(dst2, src, slimit - src);
+            memmove(dst2, src, slimit - src);
+            //memcpy(dst2, src, slimit - src);
             dst2 += (slimit - src);
             *dst2 = 0;
             arg->u.string = extend_string(dst1, dst2 - dst1);
@@ -2650,7 +2735,7 @@ f_resolve (void)
 void
 f_restore_object (void)
 {
-    int flag, tmp_eval;
+    int flag;
 
     flag = (st_num_arg > 1) ? (sp--)->u.number : 0;
 
@@ -2710,18 +2795,39 @@ f_rmdir (void)
 void
 f_save_object (void)
 {
-    int flag, tmp_eval;
-
-    if (st_num_arg == 2) {
+    int flag;
+    if (st_num_arg == 2 ) {
         flag = (sp--)->u.number;
+        if(sp->type != T_STRING)
+        	error("first argument must be a string for save_object with 2 args");
     } else {
         flag = 0;
     }
 
-    flag = save_object(current_object, sp->u.string, flag);
+    if(st_num_arg == 1 && sp->type == T_NUMBER)
+    	flag = sp->u.number;
 
-    free_string_svalue(sp);
-    put_number(flag);
+    if(st_num_arg && sp->type == T_STRING){
+    	flag = save_object(current_object, sp->u.string, flag);
+
+    	free_string_svalue(sp);
+    	put_number(flag);
+    } else {
+    	pop_n_elems(st_num_arg);
+    	char *saved = new_string(MAX_STRING_LENGTH, "save_object_str");
+    	push_malloced_string(saved);
+        int left = MAX_STRING_LENGTH;
+        flag = save_object_str(current_object, flag, saved, left);
+        if(!flag){
+        	pop_stack();
+        	push_undefined();
+        } else {
+        	saved = new_string(strlen(sp->u.string), "save_object_str2");
+        	strcpy(saved, sp->u.string);
+        	pop_stack();
+        	push_malloced_string(saved);
+        }
+    }
 }
 #endif
 
@@ -3008,8 +3114,7 @@ f_sizeof (void)
         i = 0;
         free_svalue(sp, "f_sizeof");
     }
-    sp->type = T_NUMBER;
-    sp->u.number = i;
+    put_number(i);
 }
 #endif
 
@@ -3157,7 +3262,7 @@ f_strsrch (void)
                 do {
                     if (*pos == c) break;
                 } while (--pos >= big);
-                if (*pos != c) {
+                if (pos < big) {
                     pos = NULL;
                     break;
                 }
@@ -3387,6 +3492,8 @@ f_this_player (void)
 }
 #endif
 
+int playerchanged;
+
 #ifdef F_SET_THIS_PLAYER
 void
 f_set_this_player (void)
@@ -3396,6 +3503,7 @@ f_set_this_player (void)
     else
         set_command_giver(sp->u.ob);
     pop_stack();
+    playerchanged = 1;
 }
 #endif
 
@@ -3421,12 +3529,12 @@ f_time (void)
 void
 f__to_float (void)
 {
-    double temp = 0;
+    LPC_FLOAT temp = 0;
 
     switch(sp->type) {
         case T_NUMBER:
             sp->type = T_REAL;
-            sp->u.real = (double) sp->u.number;
+            sp->u.real = (LPC_FLOAT) sp->u.number;
             break;
         case T_STRING:
             sscanf(sp->u.string, "%lf", &temp);
@@ -3444,11 +3552,11 @@ f__to_int (void)
     switch(sp->type) {
         case T_REAL:
             sp->type = T_NUMBER;
-            sp->u.number = (long) sp->u.real;
+            sp->u.number = (LPC_INT) sp->u.real;
             break;
         case T_STRING:
         {
-            long temp;
+            LPC_INT temp;
             char *p;
 
             temp = strtol(sp->u.string, &p, 10);
@@ -3695,9 +3803,7 @@ f_write_file (void)
 {
     int flags = 0;
 
-    if (st_num_arg == 3) {
-        flags = (sp--)->u.number;
-    }
+    flags = (sp--)->u.number;
     flags = write_file((sp - 1)->u.string, sp->u.string, flags);
     free_string_svalue(sp--);
     free_string_svalue(sp);
@@ -3728,7 +3834,7 @@ void f_reclaim_objects (void)
 void
 f_memory_info (void)
 {
-    long mem;
+    LPC_INT mem;
     object_t *ob;
 
     if (st_num_arg == 0) {
@@ -3878,5 +3984,20 @@ f_next_inventory (void)
         sp->u.ob = ob;
     } else
         *sp = const0;
+}
+#endif
+
+#ifdef F_DEFER
+void f_defer(){
+	struct defer_list *newlist = (struct defer_list *)MALLOC(sizeof(struct defer_list));
+	newlist->next = csp->defers;
+	newlist->func = *sp--;
+	if(command_giver){
+		push_object(command_giver);
+		newlist->tp = *sp--;
+	}
+	else
+		newlist->tp = const0;
+	csp->defers = newlist;
 }
 #endif

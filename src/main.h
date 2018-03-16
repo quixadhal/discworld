@@ -12,6 +12,7 @@
 #define PORT_BINARY      2
 #define PORT_ASCII       3
 #define PORT_MUD         4
+#define PORT_WEBSOCKET	 5
 
 typedef struct {
     int kind;
@@ -35,7 +36,7 @@ extern int comp_flag;
 extern int time_to_clean_up;
 extern const char *default_fail_message;
 extern time_t boot_time;
-extern int max_cost;
+extern LPC_INT max_cost;
 extern int max_array_size;
 extern int max_buffer_size;
 extern int max_string_length;

@@ -329,7 +329,7 @@ static void copy_new_function (program_t * prog, int index,
     ihe->dn.function_num = where;
 }
 
-static int find_class_member (int which, char * name, unsigned char * type) {
+static int find_class_member (int which, char * name, unsigned short * type) {
     int i;
     class_def_t *cd;
     class_member_entry_t *cme;
@@ -351,7 +351,7 @@ static int find_class_member (int which, char * name, unsigned char * type) {
     }
 }
 
-int lookup_any_class_member (char * name, unsigned char * type) {
+int lookup_any_class_member (char * name, unsigned short * type) {
     int nc = mem_block[A_CLASS_DEF].current_size / sizeof(class_def_t);
     int i, ret = -1, nret;
     char *s = findstring(name);
@@ -388,7 +388,7 @@ int lookup_any_class_member (char * name, unsigned char * type) {
     return ret;
 }
 
-int lookup_class_member (int which, char * name, unsigned char * type) {
+int lookup_class_member (int which, char * name, unsigned short * type) {
     char *s = findstring(name);
     int ret;
 
@@ -853,6 +853,8 @@ int compatible_types (int t1, int t2)
                t2 == (TYPE_MOD_ARRAY | TYPE_ANY) || (t1 == t2);
     } else if (t2 & TYPE_MOD_ARRAY)
         return 0;
+    if(t1>10 || t1 < 0)
+      fatal("compiler.c: unknown type in compatible_types()");
     return compatible[t1] & (1 << t2);
 #endif
 }
@@ -2448,7 +2450,7 @@ static program_t *epilog (void) {
 #ifdef DEBUG
     if (p - (char *)prog != size) {
         fprintf(stderr, "Program size miscalculated for /%s.\n", prog->filename);
-        fprintf(stderr, "is: %i, expected: %i\n", p-(char *)prog, size);
+        fprintf(stderr, "is: %ld, expected: %d\n", p-(char *)prog, size);
     }
 #endif
 
@@ -2628,7 +2630,7 @@ static int string_case_compare(void *c1, void *c2) {
 
 void prepare_cases (parse_node_t * pn, int start) {
     parse_node_t **ce_start, **ce_end, **ce;
-    long end, last_key, this_key;
+    LPC_INT end, last_key, this_key;
     int direct = 1;
 
     ce_start = (parse_node_t **)&mem_block[A_CASES].block[start];

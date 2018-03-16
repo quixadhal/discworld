@@ -9,7 +9,7 @@
 #include "network_incl.h"
 
 #define DFAULT_PROTO 0		/* use the appropriate protocol    */
-#define MAX_CONNS 32		/* max number of connections       */
+#define MAX_CONNS 4		/* max number of connections       */
 #define SNAME_LEN 64		/* length of symbolic name string  */
 #define MAX_EVENTS_IN_QUEUE        100
 #define MAX_EVENTS_TO_PROCESS      100

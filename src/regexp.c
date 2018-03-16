@@ -192,7 +192,7 @@
  * Just use 8 bits for now.
  */
 #if 0
-#if defined(linux)
+#if defined(__linux__)
 #  ifndef CHARBITS
 #    define CHARBITS      0xff
 #  endif
@@ -1211,12 +1211,12 @@ void regdump (regexp * r)
     s = r->program + 1;
     while (op != END) {         /* While that wasn't END last time... */
         op = OP(s);
-        printf("%2d%s", (s - r->program), regprop(s));    /* Where, what. */
+        printf("%2ld%s", (s - r->program), regprop(s));    /* Where, what. */
         nxt = regnext(s);
         if (nxt == (char *) NULL)       /* nxt ptr. */
             printf("(0)");
         else
-            printf("(%d)", ((s - r->program) + (nxt - s)));
+            printf("(%ld)", ((s - r->program) + (nxt - s)));
         s += 3;
         if (op == ANYOF || op == ANYBUT || op == EXACTLY) {
             /* Literal string, where present. */

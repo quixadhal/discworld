@@ -65,11 +65,12 @@
  *   * Faster than SMALLOC but more memory overhead.
  *   * Requires sbrk().
  */
-#define SYSMALLOC
+#undef SYSMALLOC
 #undef SMALLOC
 #undef BSDMALLOC
 #undef MMALLOC
-
+#define MALLOC64
+#undef MALLOC32
 /* You may optionally choose one (or none) of these malloc wrappers.  These
  * can be used in conjunction with any of the above malloc packages.
  *
@@ -538,7 +539,7 @@
  *   resolution is 1/60 of a second, then any time less than approxmately 15k
  *   microseconds will resolve to zero (0).
  */
-#undef PROFILE_FUNCTIONS
+#define PROFILE_FUNCTIONS
 
 /* NO_BUFFER_TYPE: if this is #define'd then LPC code using the 'buffer'
  *   type won't be allowed to compile (since the 'buffer' type won't be
@@ -644,7 +645,7 @@
 #endif
 
 /* PACKAGE_DB: efuns for external database access using msql */
-#undef PACKAGE_DB
+#define PACKAGE_DB
 
 /* If PACKAGE_DB is defined above, you must pick ONE of the following supported
  * databases
@@ -752,7 +753,7 @@
  * 14      16384           256k
  * 16      65536             1M
  */
-#define APPLY_CACHE_BITS 14
+#define APPLY_CACHE_BITS 16
 
 /* CACHE_STATS: define this if you want call_other (apply_low) cache 
  * statistics.  Causes HAS_CACHE_STATS to be defined in all LPC objects.
@@ -812,7 +813,7 @@
 /* MAX_LOCAL: maximum number of local variables allowed per LPC function */
 #define CFG_MAX_LOCAL_VARIABLES		50
 /* Increasing max global vars beyond 256 is not recommended */
-#define CFG_MAX_GLOBAL_VARIABLES         256
+#define CFG_MAX_GLOBAL_VARIABLES         65530
 
 #define CFG_EVALUATOR_STACK_SIZE 	3000000
 #define CFG_COMPILER_STACK_SIZE		600000
@@ -894,12 +895,9 @@
 
 #define PROG_REF_TYPE short
 #undef HAS_CONSOLE
-
 #define IPV6
-#undef PACKAGE_DSLIB
-#undef PARSE_DEBUG
-#define FLUFFOS
-#undef BINARIES
-#undef ALLOW_INHERIT_AFTER_GLOBAL_VARIABLES
-#undef ANSI_SUBSTITUTE
+#undef PACKAGE_CRYPTO
+#undef PACKAGE_SHA1
+#undef DTRACE
+#define PACKAGE_PCRE
 #endif

@@ -13,32 +13,6 @@
 
 #endif
 
-/* smalloc - choice between replacement or wrapper */
-#if defined(SMALLOC) && !defined(SYSMALLOC)
-#  ifdef SBRK_OK
-#    define smalloc_malloc        malloc
-#    define smalloc_free          free
-#    define smalloc_realloc       realloc
-#    define smalloc_calloc        calloc
-#  else
-#    define MALLOC(x)       smalloc_malloc(x)
-#    define FREE(x)         smalloc_free(x)
-#    define REALLOC(x,y)    smalloc_realloc(x,y)
-#    define CALLOC(x,y)     smalloc_calloc(x,y)
-#  endif
-#endif
-
-/* bsdmalloc - always a replacement */
-#if defined(BSDMALLOC) && !defined(SYSMALLOC)
-#define MALLOC(x)       bsdmalloc_malloc(x)
-#define FREE(x)         bsdmalloc_free(x)
-#define REALLOC(x,y)    bsdmalloc_realloc(x,y)
-#define CALLOC(x,y)     bsdmalloc_calloc(x,y)
-#ifndef _FUNC_SPEC_
-#include "bsdmalloc.h"
-#endif
-#endif
-
 #ifdef MMALLOC 
 #define MALLOC(x)       mmalloc(x)
 #define FREE(x)         mfree(x)
@@ -58,6 +32,44 @@ void *mmalloc(int size);
 #define REALLOC(x,y)    gnurealloc(x,y)
 #define CALLOC(x,y)     gnucalloc(x,y)
 
+#endif
+
+#ifdef MALLOC64
+#define MALLOC(x)       malloc64(x)
+#define FREE(x)         free64(x)
+#define REALLOC(x,y)    realloc64(x,y)
+#define CALLOC(x,y)     calloc64(x,y)
+#ifndef _FUNC_SPEC_
+void free64(void *block);
+void *realloc64(void *block, int size);
+void *calloc64(int num, int size);
+void *malloc64(int size);
+#endif
+#endif
+
+#ifdef MALLOC32
+#define MALLOC(x)       malloc32(x)
+#define FREE(x)         free32(x)
+#define REALLOC(x,y)    realloc32(x,y)
+#define CALLOC(x,y)     calloc32(x,y)
+#ifndef _FUNC_SPEC_
+void free32(void *block);
+void *realloc32(void *block, int size);
+void *calloc32(int num, int size);
+void *malloc32(int size);
+#endif
+#endif
+
+#ifdef GCMALLOC
+#define MALLOC_NEED_INIT 1
+#define MALLOC(x)       GC_MALLOC((x))
+#define FREE(x)        
+#define REALLOC(x,y)    GC_REALLOC((x),(y))
+#define CALLOC(x,y)     GC_MALLOC(((x)*(y)))
+#ifndef _FUNC_SPEC_
+#include <gc/gc.h>
+void malloc_init();
+#endif
 #endif
 
 #define DXALLOC(x,tag,desc)     xalloc(x)

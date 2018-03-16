@@ -17,7 +17,8 @@ inherit "/secure/master/directory_assignments";
 //                     "hobbes"    : 1, "wodan"     : 1, \
 //                     "taffyd"    : 1,])
 
-#define TRUSTEES ([ ROOT : 1, "cratylus" : 1,])
+//#define TRUSTEES ([ ROOT : 1, "cratylus" : 1,])
+#define TRUSTEES ([ ROOT : 1, "quixadhal" : 1,])
 
 #define READ_MASK 1
 #define WRITE_MASK 2

@@ -512,7 +512,7 @@ restore_interior_string (char ** val, svalue_t * sv)
 static int parse_numeric (char ** cpp, unsigned char c, svalue_t * dest)
 {
     char *cp = *cpp;
-    long res, neg;
+    LPC_INT res, neg;
 
     if (c == '-') {
         neg = 1;
@@ -529,7 +529,7 @@ static int parse_numeric (char ** cpp, unsigned char c, svalue_t * dest)
         res += c - '0';
     }
     if (c == '.') {
-        float f1 = 0.0, f2 = 10.0;
+        LPC_FLOAT f1 = 0.0, f2 = 10.0;
 
         c = *cp++;
         if (!c) {
@@ -569,7 +569,7 @@ static int parse_numeric (char ** cpp, unsigned char c, svalue_t * dest)
         return 1;
     } else if (c == 'e') {
         int expo = 0;
-        float f1;
+        LPC_FLOAT f1;
 
         if ((c = *cp++) == '+') {
             while ((c = *cp++) && isdigit(c)) {
@@ -593,6 +593,7 @@ static int parse_numeric (char ** cpp, unsigned char c, svalue_t * dest)
     } else {
         dest->type = T_NUMBER;
         dest->u.number = (neg ? -res : res);
+        dest->subtype = 0;
         *cpp = cp;
         return 1;
     }
@@ -673,6 +674,7 @@ restore_mapping (char **str, svalue_t * sv)
             {
                 key.u.number = 0;
                 key.type = T_NUMBER;
+		key.subtype = 0;
                 break;
             }
 
@@ -742,6 +744,7 @@ restore_mapping (char **str, svalue_t * sv)
             {
                 value.u.number = 0;
                 value.type = T_NUMBER;
+                value.subtype = 0;
                 break;
             }
 
@@ -1250,7 +1253,6 @@ restore_object_from_gzip (object_t * ob,
     static char *buff = NULL;
     static long buffsize = 0;
     const char* tmp = "";
-    int idx;
     int t;
 
     t = 65536 << *count; //should be big enough most of the time
@@ -1260,14 +1262,13 @@ restore_object_from_gzip (object_t * ob,
     }
 
     if(!buff){
-      buff = (char *)DXALLOC(t, TAG_TEMPORARY, "restore_object: 6");
+      buff = (char *)DXALLOC(t, TAG_PERMANENT, "restore_object: 6");
 	buffsize = t;
     }
 
     t = buffsize;
 
     while (!gzeof(gzf) && tmp != Z_NULL) {
-        idx = 0;
         buff[t - 2] = 0;
         // gzgets appaears to pay attension to zero termination even on short
         // strings
@@ -1291,22 +1292,16 @@ restore_object_from_gzip (object_t * ob,
     }
     return 0;
 }
-#else
+#endif
 
-static void
+void
 restore_object_from_buff (object_t * ob, char * theBuff,
                             int noclear)
 {
-    char *buff, *nextBuff, *tmp,  *space;
-    char var[100];
-    int idx;
-    svalue_t *sv = ob->variables;
-    int rc;
-    unsigned short t;
+    char *buff, *nextBuff, *tmp;
 
     nextBuff = theBuff;
     while ((buff = nextBuff) && *buff) {
-        svalue_t *v;
 
         if ((tmp = strchr(buff, '\n'))) {
             *tmp = '\0';
@@ -1319,7 +1314,7 @@ restore_object_from_buff (object_t * ob, char * theBuff,
         restore_object_from_line(ob, buff, noclear);
     }
 }
-#endif
+
 
 /*
  * Save an object to a file.
@@ -1377,7 +1372,7 @@ static int save_object_recurse (program_t * prog, svalue_t **
             if (new_str) {
                 FREE(new_str);
             }
-        new_str = (char *)DXALLOC(theSize, TAG_TEMPORARY, "save_object: 2");
+        new_str = (char *)DXALLOC(theSize, TAG_PERMANENT, "save_object: 2");
             oldSize = theSize;
         }
 
@@ -1405,6 +1400,75 @@ static int save_object_recurse (program_t * prog, svalue_t **
                 return 0;
             }
             }
+        }
+    }
+    if (new_str) {
+        FREE(new_str);
+    }
+    return textsize;
+}
+
+/*
+ * Save an object to a file.
+ * The routine checks with the function "valid_write()" in /obj/master.c
+ * to assertain that the write is legal.
+ * If 'save_zeros' is set, 0 valued variables will be saved
+ */
+
+static int save_object_recurse_str (program_t * prog, svalue_t **svp, int type, int save_zeros, char *buf, int bufsize){
+    int i;
+    int textsize = 1;
+    int tmp;
+    int theSize;
+    int oldSize;
+    char *new_str, *p;
+
+    for (i = 0; i < prog->num_inherited; i++) {
+        if (!(tmp = save_object_recurse_str(prog->inherit[i].prog, svp,
+                                 prog->inherit[i].type_mod | type,
+                                 save_zeros, buf+textsize-1, bufsize)))
+            return 0;
+        textsize += tmp - 1;
+    }
+    if (type & DECL_NOSAVE) {
+        (*svp) += prog->num_variables_defined;
+        return 1;
+    }
+    oldSize = -1;
+    new_str = NULL;
+    for (i = 0; i < prog->num_variables_defined; i++) {
+        if (prog->variable_types[i] & DECL_NOSAVE) {
+            (*svp)++;
+            continue;
+        }
+        save_svalue_depth = 0;
+        theSize = svalue_save_size(*svp);
+        if(textsize+theSize + 2 +  strlen(prog->variable_table[i])> bufsize)
+        	return 0;
+        // Try not to malloc/free too much.
+
+        if (theSize > oldSize) {
+            if (new_str) {
+                FREE(new_str);
+            }
+        new_str = (char *)DXALLOC(theSize, TAG_PERMANENT, "save_object: 2");
+            oldSize = theSize;
+        }
+
+        *new_str = '\0';
+        p = new_str;
+        save_svalue((*svp)++, &p);
+        DEBUG_CHECK(p - new_str != theSize - 1, "Length miscalculated in save_object!");
+        if (save_zeros || new_str[0] != '0' || new_str[1] != 0) { /* Armidale */
+        	if (sprintf(buf+textsize-1, "%s %s\n", prog->variable_table[i], new_str) < 0) {
+        		debug_perror("save_object: fprintf", 0);
+        	    FREE(new_str);
+        	    return 0;
+        	}
+        	textsize += theSize;
+            textsize += strlen(prog->variable_table[i]);
+            textsize ++;
+
         }
     }
     if (new_str) {
@@ -1551,6 +1615,40 @@ save_object (object_t * ob, const char * file, int save_zeros)
     return success;
 }
 
+int
+save_object_str (object_t *ob, int save_zeros, char *saved, int size)
+{
+    char *p;
+    int success;
+    svalue_t *v;
+    char *now = saved;
+    int left;
+    if (ob->flags & O_DESTRUCTED)
+        return 0;
+    strcpy(now, "#/");
+    now+=2;
+    strcpy(now, ob->obname);
+    if ((p = strrchr(now, '#')) != 0)
+        *p = '\0';
+    p = now + strlen(now) - 1;
+    if (*p != 'c' && *(p - 1) != '.')
+        strcat(p, ".c");
+    now = now + strlen(now);
+	*now++ = '\n';
+	left = size - (now - saved);
+	*now = 0;
+    /*
+     * Write the save-files to different directories, just in case
+     * they are on different file systems.
+     */
+    v = ob->variables;
+    success = save_object_recurse_str(ob->prog, &v, 0, save_zeros, now, left);
+
+    if (!success) {
+        debug_message("Failed to completely save file. string size too small?.\n");
+    }
+    return success;
+}
 
 /*
  * return a string representing an svalue in the form that save_object()
@@ -1598,7 +1696,7 @@ static void cns_recurse (object_t * ob, int * idx, program_t * prog) {
     *idx += prog->num_variables_defined;
 }
 
-static void clear_non_statics (object_t * ob) {
+void clear_non_statics (object_t * ob) {
     int idx = 0;
     cns_recurse(ob, &idx, ob->prog);
 }
@@ -1680,6 +1778,14 @@ int restore_object (object_t * ob, const char * file, int noclear)
     if (!noclear) {
         clear_non_statics(ob);
     }
+    error_context_t econ;
+    save_context(&econ);
+    if (SETJMP(econ.context)){
+        restore_context(&econ);
+        pop_context(&econ);
+        gzclose(gzf);
+        return 0;
+    }
     while((restore_object_from_gzip(ob, gzf, noclear, &count))){
 	  count++;
           gzseek(gzf, 0, SEEK_SET);
@@ -1688,7 +1794,7 @@ int restore_object (object_t * ob, const char * file, int noclear)
 	  }
     }
     gzclose(gzf);
-
+    pop_context(&econ);
 #else
     f = fopen(file, "r");
     if (!f || fstat(fileno(f), &st) == -1) {
@@ -1706,7 +1812,7 @@ int restore_object (object_t * ob, const char * file, int noclear)
         if (theBuff) {
             FREE(theBuff);
         }
-        theBuff = DXALLOC(tmp_len + 1, TAG_TEMPORARY, "restore_object: 4");
+        theBuff = DXALLOC(tmp_len + 1, TAG_PERMANENT, "restore_object: 4");
         buff_len = tmp_len;
     }
 #ifdef WIN32
@@ -1788,7 +1894,7 @@ void tell_object (object_t * ob, const char * str, int len)
 void dealloc_object (object_t * ob, const char * from)
 {
 #ifdef DEBUG
-    object_t *tmp, *prev_all = 0;
+    object_t *prev_all = 0;
 #endif
 
     debug(d_flag, ("free_object: /%s.\n", ob->obname));

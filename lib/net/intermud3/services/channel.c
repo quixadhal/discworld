@@ -229,7 +229,7 @@ void eventSendChannelWhoRequest(string channel, string mud) {
                             channel }));
 }
 
-string GetLocalChannel(string channel) {
+string oldGetLocalChannel(string channel) {
   switch (channel) {
   case "imud_code":
     return "intercre";
@@ -241,6 +241,12 @@ string GetLocalChannel(string channel) {
     return "dwchat";
   }
   return 0;
+}
+
+#include "creator.h"
+
+string GetLocalChannel(string channel) {
+    return allocate_mapping(values(INTERMUD_MAP), keys(INTERMUD_MAP))[channel] || 0;
 }
 
 void eventRegisterChannels(mapping list) {

@@ -7,16 +7,25 @@
 #include "compiler.h"
 #include "generate.h"
 
-static void ins_real (double);
+/*
+ * Macro for inserting global variable indices.
+ */
+
+#if CFG_MAX_GLOBAL_VARIABLES <= 256
+#define INS_GLOBAL_INDEX ins_byte
+#elif CFG_MAX_GLOBAL_VARIABLES <= 65536
+#define INS_GLOBAL_INDEX ins_short
+#else
+#error CFG_MAX_GLOBAL_VARIABLES must not be greater than 65536
+#endif
+
+static void ins_real (LPC_FLOAT);
 static void ins_short (short);
 static void upd_short (int, int, const char *);
 static void ins_byte (unsigned char);
 static void upd_byte (int, unsigned char);
-static void write_number (long);
-static void ins_int (long);
-#if SIZEOF_PTR == 8
-static void ins_long (long);
-#endif
+static void write_number (LPC_INT);
+static void ins_int (LPC_INT);
 void i_generate_node (parse_node_t *);
 static void i_generate_if_branch (parse_node_t *, int);
 static void i_generate_loop (int, parse_node_t *, parse_node_t *,
@@ -38,11 +47,11 @@ static parse_node_t *branch_list[3];
 static int nforward_branches, nforward_branches_max;
 static int *forward_branches = 0;
 
-static void ins_real (double l)
-{
-    float f = (float)l;
+static void ins_real (LPC_FLOAT l)
+ {
+    LPC_FLOAT f = l;
 
-    if (prog_code + 4 > prog_code_max) {
+    if (prog_code + sizeof(double) > prog_code_max) {
         mem_block_t *mbp = &mem_block[A_PROGRAM];
 
         UPDATE_PROGRAM_SIZE;
@@ -73,13 +82,14 @@ static void ins_short (short l)
 }
 
 /*
- * Store a 4 byte number. It is stored in such a way as to be sure
+ * Store a 8 byte number. It is stored in such a way as to be sure
  * that correct byte order is used, regardless of machine architecture.
  */
-static void ins_int (long l)
+// FIXME: needs ins_int32 & ins_int64 to support 32bit compile.
+static void ins_int (LPC_INT l)
 {
 
-    if (prog_code + SIZEOF_LONG > prog_code_max) {
+    if (prog_code + sizeof(LPC_INT) > prog_code_max) {
         mem_block_t *mbp = &mem_block[A_PROGRAM];
         UPDATE_PROGRAM_SIZE;
         realloc_mem_block(mbp);
@@ -89,25 +99,6 @@ static void ins_int (long l)
     }
     STORE_INT(prog_code, l);
 }
-
-/*
- * Store a 8 byte number. It is stored in such a way as to be sure
- * that correct byte order is used, regardless of machine architecture.
- */
-#if SIZEOF_PTR == 8
-static void ins_long (long l)
-{
-    if (prog_code + 8 > prog_code_max) {
-        mem_block_t *mbp = &mem_block[A_PROGRAM];
-        UPDATE_PROGRAM_SIZE;
-        realloc_mem_block(mbp);
-
-        prog_code = mbp->block + mbp->current_size;
-        prog_code_max = mbp->block + mbp->max_size;
-    }
-    STORE_PTR(prog_code, l);
-}
-#endif
 
 static void upd_short (int offset, int l, const char * where)
 {
@@ -224,7 +215,7 @@ static void write_small_number (int val) {
     ins_byte(val);
 }
 
-static void write_number (long val)
+static void write_number (LPC_INT val)
 {
     if ((val & ~0xff) == 0)
         write_small_number(val);
@@ -238,11 +229,7 @@ static void write_number (long val)
             ins_short(val);
         } else {
             ins_byte(F_NUMBER);
-#if SIZEOF_LONG == 4
             ins_int(val);
-#else
-	    ins_long(val);
-#endif
         }
     }
 }
@@ -343,7 +330,11 @@ try_to_push (int kind, int value) {
             }
             ins_byte(F_BYTE);
         }
-        ins_byte(value);
+        if (kind == PUSH_GLOBAL) {
+            INS_GLOBAL_INDEX(value);
+        } else {
+            ins_byte(value);
+        }
         return 1;
     }
     return 0;
@@ -403,18 +394,21 @@ i_generate_node (parse_node_t * expr) {
         }
         end_pushes();
         ins_byte(expr->v.number);
-        ins_byte(expr->l.number);
+
+        if ((expr->v.number == F_GLOBAL) ||
+                (expr->v.number == F_GLOBAL_LVALUE)) {
+            INS_GLOBAL_INDEX(expr->l.number);
+        } else {
+            ins_byte(expr->l.number);
+        }
+
         break;
     case NODE_OPCODE_2:
         end_pushes();
         ins_byte(expr->v.number);
         ins_byte(expr->l.number);
         if (expr->v.number == F_LOOP_COND_NUMBER)
-#if SIZEOF_LONG == 8
-            ins_long(expr->r.number);
-#else
-	    ins_int(expr->r.number);
-#endif
+	          ins_int(expr->r.number);
         else
             ins_byte(expr->r.number);
         break;
@@ -535,6 +529,7 @@ i_generate_node (parse_node_t * expr) {
     case NODE_FOREACH:
         {
             int tmp = 0;
+            int left_is_global = 0;
 
             i_generate_node(expr->v.expr);
             end_pushes();
@@ -554,9 +549,31 @@ i_generate_node (parse_node_t * expr) {
                     tmp |= FOREACH_REF;
             }
             ins_byte(tmp);
-            ins_byte(expr->l.expr->l.number);
-            if (expr->r.expr)
-                ins_byte(expr->r.expr->l.number);
+
+            if (tmp & FOREACH_MAPPING) {
+                if (tmp & FOREACH_LEFT_GLOBAL) {
+                    left_is_global = 1;
+                }
+            } else {
+                if (tmp & FOREACH_RIGHT_GLOBAL) {
+                    left_is_global = 1;
+                }
+            }
+
+            if (left_is_global == 1) {
+                INS_GLOBAL_INDEX(expr->l.expr->l.number);
+            } else {
+                ins_byte(expr->l.expr->l.number);
+            }
+
+            if (expr->r.expr) {
+
+                if (tmp & FOREACH_RIGHT_GLOBAL) {
+                    INS_GLOBAL_INDEX(expr->r.expr->l.number);
+                } else {
+                    ins_byte(expr->r.expr->l.number);
+                }
+            }
         }
         break;
     case NODE_CASE_NUMBER:
@@ -995,10 +1012,10 @@ void
 i_generate_final_program (int x) {
     if (!x) {
         UPDATE_PROGRAM_SIZE;
-/* This needs work
- * if (pragmas & PRAGMA_OPTIMIZE)
- *     optimize_icode(0, 0, 0);
- */
+	/* This needs more work */
+//		if (pragmas & PRAGMA_OPTIMIZE)
+//			optimize_icode(0, 0, 0);
+ 
         save_file_info(current_file_id, current_line - current_line_saved);
         switch_to_line(-1); /* generate line numbers for the end */
     }
@@ -1009,7 +1026,7 @@ i_generate_final_program (int x) {
  */
 void
 optimize_icode (char * start, char * pc, char * end) {
-    int instr;
+    int instr = 0, prev;
     if (start == 0) {
         /* we don't optimize the initializer block right now b/c all the
          * stuff we do (jump threading, etc) can't occur there.
@@ -1023,6 +1040,7 @@ optimize_icode (char * start, char * pc, char * end) {
         }
     }
     while (pc < end) {
+    	prev = instr;
         switch (instr = EXTRACT_UCHAR(pc++)) {
 #if SIZEOF_LONG == 4
         case F_NUMBER:
@@ -1040,12 +1058,17 @@ optimize_icode (char * start, char * pc, char * end) {
         case F_CALL_FUNCTION_BY_ADDRESS:
             pc += 3;
             break;
+        case F_BRANCH_NE:
+        case F_BRANCH_GE:
+        case F_BRANCH_LE:
+        case F_BRANCH_EQ:
         case F_BRANCH:
         case F_BRANCH_WHEN_ZERO:
         case F_BRANCH_WHEN_NON_ZERO:
         case F_BBRANCH:
         case F_BBRANCH_WHEN_ZERO:
         case F_BBRANCH_WHEN_NON_ZERO:
+        case F_BBRANCH_LT:
             {
                 char *tmp;
                 short sarg;
@@ -1128,6 +1151,9 @@ optimize_icode (char * start, char * pc, char * end) {
         case F_CATCH:
         case F_AGGREGATE:
         case F_AGGREGATE_ASSOC:
+        case F_NEXT_FOREACH:
+        case F_GLOBAL:
+        case F_GLOBAL_LVALUE:
         case F_STRING:
 #ifdef F_JUMP_WHEN_ZERO
         case F_JUMP_WHEN_ZERO:
@@ -1138,8 +1164,6 @@ optimize_icode (char * start, char * pc, char * end) {
 #endif
             pc += 2;
             break;
-        case F_GLOBAL_LVALUE:
-        case F_GLOBAL:
         case F_SHORT_STRING:
         case F_LOOP_INCR:
         case F_WHILE_DEC:
@@ -1151,6 +1175,7 @@ optimize_icode (char * start, char * pc, char * end) {
         case F_PARSE_COMMAND:
         case F_BYTE:
         case F_NBYTE:
+        case F_TRANSFER_LOCAL:
             pc++;
             break;
         case F_FUNCTION_CONSTRUCTOR:
@@ -1175,28 +1200,43 @@ optimize_icode (char * start, char * pc, char * end) {
         case F_SWITCH:
             {
                 unsigned short stable, etable;
+                char *swstart = pc;
                 pc++; /* table type */
                 LOAD_SHORT(stable, pc);
                 LOAD_SHORT(etable, pc);
                 pc += 2; /* def */
-                DEBUG_CHECK(stable < pc - start || etable < pc - start
+            	//break; //doesn't seem to work!
+                printf("stable: %x pc %p swstart %p etable %x\n", stable, (void *)pc, (void *)swstart, etable);
+                DEBUG_CHECK(stable < pc - swstart || etable < pc - swstart
                             || etable < stable,
                             "Error in switch table found while optimizing\n");
                 /* recursively optimize the inside of the switch */
                 optimize_icode(start, pc, start + stable);
-                pc = start + etable;
+                pc = swstart + etable;
                 break;
             }
+        case F_PUSH:
+        {
+        	pc+=EXTRACT_UCHAR(pc);
+        	pc++;
+        	break;
+        }
+        case F_EFUNV:
+        	pc++;
         case F_EFUN0:
         case F_EFUN1:
         case F_EFUN2:
         case F_EFUN3:
-        case F_EFUNV:
             instr = EXTRACT_UCHAR(pc++) + ONEARG_MAX;
         default:
-            if ((instr >= BASE) &&
-                (instrs[instr].min_arg != instrs[instr].max_arg))
-                pc++;
+        	if(instr < BASE || instr > NUM_OPCODES)
+        		printf("instr %d prev %d\n", instr, prev);
+        	if(!instr || instr > NUM_OPCODES)
+        		fatal("illegal opcode");
+        	prev = instr;
+//            if ((instr >= BASE) &&
+//                (instrs[instr].min_arg != instrs[instr].max_arg))
+//                pc++;
         }
     }
 }

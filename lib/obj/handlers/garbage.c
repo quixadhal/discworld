@@ -34,7 +34,7 @@ nosave int lag, lastlag, maxlag, minlag, burstlag, users;
 #define ROOM_STABLE_DELAY 10800
 
 #define NO_AUTO_REBOOT 1
-//#define NO_TIMED_REBOOT 1
+#define NO_TIMED_REBOOT 1
 
 #define REBOOTS_PER_CRASH 6 
 #define CHANGE_SPEED 6

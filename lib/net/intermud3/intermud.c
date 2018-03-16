@@ -33,7 +33,11 @@ protected void create() {
   Tries = 0;
   Fd = 0;
   Banned = ([]);
-  Nameservers = ({ ({ "*i4", "204.209.44.3 8080" }) });
+  //Nameservers = ({ ({ "*gjs", "198.144.203.194 9000" }) });   // Old, defunct I3 server (San Bruno, California (CA), United States (US), North America (NA))
+  //Nameservers = ({ ({ "*dalet", "97.107.133.86 8787" }) });   // Newark, New Jersey (NJ), United States (US), North America (NA)
+  Nameservers = ({ ({ "*i4", "204.209.44.3 8080" }) });         // Edmonton, Alberta (AB), Canada (CA), North America (NA)
+  //Nameservers = ({ ({ "*Kelly", "150.101.219.57 8080" }) });  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
+  //Nameservers = ({ ({ "*wpr", "195.242.99.94 8080" }) });     // Netherlands (NL), Europe (EU)
   MudList = new(class list);
   ChannelList = new(class list);
   MudList->ID = -1;
@@ -96,7 +100,9 @@ protected void eventRead(int fd, mixed *packet) {
     return;
   case "mudlist":
     if( sizeof(packet) != 8 ) return;
-    if( packet[6] == MudList->ID ) return; 
+    // Due to changes in the way the mudlist is broken into multiple packets,
+    // this check is no longer valid.
+    //if( packet[6] == MudList->ID ) return; 
     if( packet[2] != Nameservers[0][0] ) return;
     MudList->ID = packet[6];
     foreach(cle, val in packet[7]) {

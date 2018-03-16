@@ -1,17 +1,15 @@
 #!/bin/sh
-ENABLE_M64=0
-export ENABLE_M64
 
 if test $# -ne 0; then
     case $1 in
         develop)
 	    echo Preparing to build developmental version of MudOS driver ...
-	    OPTIMIZE="-O0 -Wall -Wundef -DPEDANTIC -pedantic -Wmissing-declarations"
+	    OPTIMIZE="-Wall -Wundef -DPEDANTIC -pedantic"
 	    DEBUG="-g -DDEBUG -DDEBUG_MACRO"
             ;;
         debug)
 	    echo Preparing to build debugging version of MudOS driver ...
-	    OPTIMIZE="-O0"
+	    OPTIMIZE=
 	    DEBUG="-g -DDEBUG"
             ;;
         *)
@@ -200,24 +198,29 @@ xlc comptest.c
 if test $? -eq 0; then
     CC=xlc
     if test "${DEBUG-x}" = "x"; then
-        OPTIMIZE=${OPTIMIZE-"-O2 -Q -qMAXMEM=16000"}
+        OPTIMIZE=${OPTIMIZE-"-O3 -Q -qMAXMEM=16000"}
     fi
 else
     gcc comptest.c
     if test $? -eq 0; then
         CC="gcc"
         if test "${DEBUG-x}" = "x"; then
-            OPTIMIZE=${OPTIMIZE-"-O2"}
+            OPTIMIZE=${OPTIMIZE-"-O3"}
         fi
-        if (test $? -eq 0); then
-            if (test $ENABLE_M64 -eq 1); then
-                CC="gcc -m64"
-                OPTIMIZE=$OPTIMIZE" -DM64"
-            fi
+        $CC -std=c99 -D_GNU_SOURCE comptest.c
+        if test $? -eq 0; then
+            CC="$CC -std=c99 -D_GNU_SOURCE"
         fi
-        echo "CC: "$CC
-	GNUC=1
-	CCFLAGS=-D__USE_FIXED_PROTOTYPES__
+        $CC -m64 comptest.c
+        if test $? -eq 0; then
+            CC="$CC -m64"
+        fi
+	      $CC -flto comptest.c
+        if test $? -eq 0; then
+            CC="$CC -flto"
+        fi
+	      GNUC=1
+      	CCFLAGS="-D__USE_FIXED_PROTOTYPES__"
     else
         clcc comptest.c
         if test $? -eq 0; then
@@ -238,7 +241,7 @@ Oh darn it's not gcc
 END
 		    cc comptest.c
 		    if test $? -eq 0; then
-			OPTIMIZE=${OPTIMIZE-"-O2"}
+			OPTIMIZE=${OPTIMIZE-"-O3"}
 			GNUC=1
 		    fi
                 fi
@@ -321,16 +324,29 @@ int if_you_are_reading_this_you_must_be_bored() { return 1; }
 END
 $CC -c comptest.c
 
-ar rcu comptest.a comptest.o
-if test $? -ne 0; then
-    echo "FATAL ERROR: Could not find ar."
-    exit
-fi
-ranlib comptest.a
+gcc-ar rcu comptest.a comptest.o
 if test $? -eq 0; then
-    RANLIB=ranlib    
+    AR=gcc-ar
 else
-    RANLIB=/bin/true
+    ar rcu comptest.a comptest.o
+    if test $? -eq 0; then
+        AR=ar
+    else
+        echo "FATAL ERROR: Could not find gcc-ar."
+        exit
+    fi
+fi
+gcc-ranlib comptest.a
+if test $? -eq 0; then
+    RANLIB=gcc-ranlib
+else
+    ranlib comptest.a
+    if test $? -eq 0; then
+        RANLIB=ranlib
+    else
+        echo "FATAL ERROR: Could not find gcc-ranlib."
+        exit
+    fi
 fi
 
 #
@@ -382,12 +398,12 @@ END
 case $ARCH in
     AIX)
         OSFLAGS="$OSFLAGS -D_BSD -D_ALL_SOURCE"
-	CFLAGS="$CFLAGS -D_BSD -D_ALL_SOURCE"
+	      CFLAGS="$CFLAGS -D_BSD -D_ALL_SOURCE"
         ;;    
     Solaris)
-	OSFLAGS="$OSFLAGS -DSunOS_5"
-	CFLAGS="$CFLAGS -DSunOS_5"
-	;;
+      	OSFLAGS="$OSFLAGS -DSunOS_5"
+      	CFLAGS="$CFLAGS -DSunOS_5"
+      	;;
 esac
 #don't use dynamic at the moment
 #    Linux*)
@@ -426,6 +442,7 @@ echo CFLAGS=$CFLAGS >>Makefile.tmp
 echo CC=$CC >>Makefile.tmp
 echo YACC=$YACC >>Makefile.tmp
 echo RANLIB=$RANLIB >>Makefile.tmp
+echo AR=$AR >>Makefile.tmp
 echo A=a >>Makefile.tmp
 echo O=o >>Makefile.tmp
 echo A_OUT=$A_OUT >>Makefile.tmp

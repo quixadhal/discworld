@@ -181,6 +181,8 @@ void setup_new_commands (object_t * dest, object_t * item)
 	    continue;
 	if (ob->flags & O_DESTRUCTED)
 	    error("An object was destructed at call of " APPLY_INIT "()\n");
+	if (dest != ob->super)
+	    error("An object was moved at call of " APPLY_INIT "()\n");
 	if (ob->flags & O_ENABLE_COMMANDS) {
 	    save_command_giver(ob);
 	    (void) apply(APPLY_INIT, item, 0, ORIGIN_DRIVER);
@@ -396,7 +398,7 @@ static int user_parser (char * buff)
 		&& !(command_giver->flags & O_IS_WIZARD)
 #endif
 		)
-		add_moves(&command_object->stats, 1);
+		add_moves(&s->ob->stats, 1);
 #endif
 	    if (!illegal_sentence_action)
 		illegal_sentence_action = save_illegal_sentence_action;
@@ -572,7 +574,7 @@ void remove_sent (object_t * ob, object_t * user)
 void
 f_add_action (void)
 {
-    long flag;
+    LPC_INT flag;
 
     if (st_num_arg == 3) {
 	flag = (sp--)->u.number;
@@ -608,12 +610,12 @@ f_add_action (void)
  */
 void f_command (void)
 {
-    long rc = 0;
+    LPC_INT rc = 0;
 
     if (current_object && !(current_object->flags & O_DESTRUCTED))
     {
 	char buff[1000];
-	int save_eval_cost = get_eval();
+	LPC_INT save_eval_cost = get_eval();
 
 	if (SVALUE_STRLEN(sp) > sizeof(buff) - 1)
 	    error("Too long command.\n");
@@ -623,10 +625,14 @@ void f_command (void)
 
 	if (parse_command(buff, current_object))
 #ifndef WIN32
-	  rc = save_eval_cost - get_eval();
+             rc = save_eval_cost - get_eval();
 #else
-          rc = 1;
+             rc = 1;
 #endif
+             // Make sure we at least return 1 eval cost.
+             if (rc <= 0) {
+               rc = 1;
+             }
     }
 
     free_string_svalue(sp);
@@ -738,7 +744,7 @@ void f_query_verb (void)
 #ifdef F_REMOVE_ACTION
 void f_remove_action (void)
 {
-    long success;
+    LPC_INT success;
 
     success = remove_action((sp - 1)->u.string, sp->u.string);
     free_string_svalue(sp--);

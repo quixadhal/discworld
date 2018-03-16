@@ -82,11 +82,12 @@ void call_out(string | function, int,...);
 int member_array(mixed, string | mixed *, void | int, void | int);
 int input_to(string | function,...);
 int random(int);
+void defer(function);
 
 #ifndef NO_ENVIRONMENT
 object environment(void | object);
 object *all_inventory(object default: F__THIS_OBJECT);
-object *deep_inventory(object default: F__THIS_OBJECT);
+object *deep_inventory(object | object * | function, void|function default: F__THIS_OBJECT);
 object first_inventory(object|string default: F__THIS_OBJECT);
 object next_inventory(object default: F__THIS_OBJECT);
 void say(string, void | object | object *);
@@ -117,7 +118,7 @@ void set_this_user set_this_player(object | int);
 string lower_case(string);
 string replace_string(string, string, string,...);
 int restore_object(string, void | int);
-int save_object(string, void | int);
+mixed save_object(string | int | void, void | int);
 string save_variable(mixed);
 mixed restore_variable(string);
 object *users();
@@ -203,7 +204,7 @@ void message(mixed, mixed, string | string * | object | object *,
     mixed read_buffer(string | buffer, void | int, void | int);
     int write_buffer(string | buffer, int, string | buffer | int);
 #endif
-    int write_file(string, string, void | int);
+    int write_file(string, string, int default:0);
     int rename(string, string);
     int write_bytes(string, int, string);
 
@@ -226,7 +227,7 @@ void message(mixed, mixed, string | string * | object | object *,
 
     string crypt(string, string | int);
     string oldcrypt(string, string | int);
-   
+
     string ctime(int|void);
     int exec(object, object);
     mixed *localtime(int);
@@ -281,6 +282,10 @@ void message(mixed, mixed, string | string * | object | object *,
  */
     int interactive(object default:F__THIS_OBJECT);
     int has_mxp(object default:F__THIS_OBJECT);
+    int has_zmp(object default:F__THIS_OBJECT);
+    void send_zmp(string, string *);
+    int has_gmcp(object default:F__THIS_OBJECT);
+    void send_gmcp(string);
     string in_edit(object default:F__THIS_OBJECT);
     int in_input(object default:F__THIS_OBJECT);
     int userp(object);
@@ -399,8 +404,9 @@ void message(mixed, mixed, string | string * | object | object *,
     string arr_to_str(int *);
 #endif
     void act_mxp();
+    void websocket_handshake_done();
     void request_term_type();
     void start_request_term_type();
-    void request_term_size();
+    void request_term_size(void | int);
 /* shutdown is at the end because it is only called once per boot cycle :) */
     void shutdown(void | int);

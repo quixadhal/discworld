@@ -1,0 +1,12 @@
+MudOS hints for DECStation Ultrix:
+
+in the Makefile,
+ you'll need to uncomment UALARM_C and UALARM_O
+ make sure RESOLV is commented out
+ use smalloc for best memory performance
+
+MudOS seems to compile fine with the system's cc.  Use -O2 for maximum
+optimization.
+
+I ran into problems when running a gcc-compiled version of the driver on
+an Ultrix DECstation (-bobf).

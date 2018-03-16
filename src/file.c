@@ -484,7 +484,7 @@ char *read_file(const char * file, int start, int len) {
 		p = str;
 		while (start > 1) {
 			/* skip newlines */
-			p2 = (char *)memchr(p, '\n', 2*READ_FILE_MAX_SIZE+str-p);
+			p2 = (char *)memchr(p, '\n', chunk+str-p);
 			if (p2) {
 				p = p2 + 1;
 				start--;
@@ -660,8 +660,8 @@ int file_size (const char * file)
 {
     struct stat st;
     long ret;
-    char *t;
 #ifdef WIN32
+    char *t;
     int needs_free = 0, len;
     const char *p;
 #endif
@@ -710,6 +710,16 @@ int file_size (const char * file)
 const char *check_valid_path (const char * path, object_t * call_object, const char * const  call_fun, int writeflg)
 {
     svalue_t *v;
+
+    if(!master_ob && !call_object){
+    	//early startup, ignore security
+    	extern svalue_t apply_ret_value;
+        free_svalue(&apply_ret_value, "check_valid_path");
+        apply_ret_value.type = T_STRING;
+        apply_ret_value.subtype = STRING_MALLOC;
+        path = apply_ret_value.u.string = string_copy(path, "check_valid_path");
+    	return path;
+    }
 
     if (call_object == 0 || call_object->flags & O_DESTRUCTED)
         return 0;

@@ -9,7 +9,7 @@ typedef struct array_s {
 #ifdef DEBUG
     int extra_ref;
 #endif
-    unsigned short size;
+    int size;
 #ifdef PACKAGE_MUDLIB_STATS
     statgroup_t stats;          /* creator of the array */
 #endif
@@ -48,7 +48,8 @@ array_t *children (const char *);
 array_t *livings (void);
 array_t *objects (funptr_t *);
 array_t *all_inventory (object_t *, int);
-array_t *deep_inventory (object_t *, int);
+array_t *deep_inventory (object_t *, int, funptr_t *);
+array_t *deep_inventory_array (array_t *, int, funptr_t *);
 array_t *filter (array_t *, funptr_t *, svalue_t *);
 array_t *builtin_sort_array (array_t *, int);
 array_t *fp_sort_array (array_t *, funptr_t *);
@@ -59,11 +60,11 @@ void map_array (svalue_t *arg, int num_arg);
 array_t *intersect_array (array_t *, array_t *);
 int match_single_regexp (const char *, const char *);
 array_t *match_regexp (array_t *, const char *, int);
-array_t *reg_assoc (const char *, array_t *, array_t *, svalue_t *);
+array_t *reg_assoc (svalue_t *, array_t *, array_t *, svalue_t *);
 void dealloc_array (array_t *);
 array_t *union_array (array_t *, array_t *);
 array_t *copy_array (array_t * p);
-array_t *resize_array (array_t * p, unsigned short n);
+array_t *resize_array (array_t * p, unsigned int n);
 
 #define ALLOC_ARRAY(nelem) \
     (array_t *)DXALLOC(sizeof (array_t) + \

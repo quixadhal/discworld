@@ -119,9 +119,9 @@
 /* catered for mini-applications (compared to say, C++ or    */
 /* java)..for now - Sym                                      */
 
-#define TYPE_MOD_ARRAY          0x0040        /* Pointer to a basic type */
+#define TYPE_MOD_ARRAY          0x8000        /* Pointer to a basic type */
 #define TYPE_MOD_CLASS          0x0080        /* a class */
-#define CLASS_NUM_MASK          0x003f
+#define CLASS_NUM_MASK          0x007f
 
 #define LOCAL_MOD_REF           0x0100
 #define LOCAL_MOD_UNUSED        0x0200
@@ -201,7 +201,7 @@ typedef struct program_s {
     unsigned short last_inherited;
     unsigned PROG_REF_TYPE ref;                 /* Reference count */
     unsigned short func_ref;
-#ifdef DEBUG
+#ifdef DEBUGMALLOC_EXTENSIONS
     int extra_ref;              /* Used to verify ref count */
     int extra_func_ref;
 #endif

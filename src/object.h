@@ -48,6 +48,7 @@
 #ifndef OLD_ED
 #define O_IN_EDIT               0x2000  /* object has an ed buffer open      */
 #endif
+#define O_BEING_DESTRUCTED      0x4000
 #ifndef NO_SNOOP
 #define O_SNOOP                 0x8000
 #endif
@@ -125,6 +126,7 @@ typedef int (* get_objectsfn_t) (object_t *, void *);
 #ifdef DEBUG
 #define add_ref(ob, str) SAFE(\
                               if(ob->ref++ > 32000){\
+                            	  ob->flags |= O_BEING_DESTRUCTED;\
 				destruct_object(ob);\
 				error("ref count too high!\n");\
 			      } \
@@ -133,7 +135,7 @@ typedef int (* get_objectsfn_t) (object_t *, void *);
                                      ob->obname, ob->ref, str));\
                               )
 #else
-#define add_ref(ob, str) if(ob->ref++ > 32000){destruct_object(ob);error("ref count too high!\n");}
+#define add_ref(ob, str) if(ob->ref++ > 32000){ob->flags|=O_BEING_DESTRUCTED;destruct_object(ob);error("ref count too high!\n");}
 #endif
 
 #define ROB_STRING_ERROR 1
@@ -160,6 +162,7 @@ INLINE int svalue_save_size (svalue_t *);
 INLINE void save_svalue (svalue_t *, char **);
 INLINE int restore_svalue (char *, svalue_t *);
 int save_object (object_t *, const char *, int);
+int save_object_str (object_t *, int, char *, int);
 char *save_variable (svalue_t *);
 int restore_object (object_t *, const char *, int);
 void restore_variable (svalue_t *, char *);
@@ -185,5 +188,6 @@ void mark_command_giver_stack (void);
 void save_command_giver (object_t *);
 void restore_command_giver (void);
 void set_command_giver (object_t *);
-
+void clear_non_statics (object_t * ob);
+void restore_object_from_buff (object_t * ob, char * theBuff, int noclear);
 #endif

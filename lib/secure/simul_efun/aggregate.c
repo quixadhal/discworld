@@ -1,5 +1,27 @@
+/*  -*- LPC -*-  */
+/*
+ * $Locker:  $
+ * $Id: thing_to_string.c,v 1.2 1998/03/24 07:28:59 pinkfish Exp $
+ * $Log: thing_to_string.c,v $
+ * Revision 1.2  1998/03/24 07:28:59  pinkfish
+ * Add some docs to make the simulefuns more usefully lookupable.
+ *
+ * Revision 1.1  1998/01/06 05:13:15  ceres
+ * Initial revision
+ * 
+*/
 string mapping_to_string( mapping map );
 
+/**
+ * Cotains some simul_efuns.
+ * @author Pinkfish
+ */
+/**
+ * This method converts and input array into a string.
+ * @param args the array to convert
+ * @return the string value of the array
+ * @see mapping_to_string()
+ */
 string array_to_string( mixed *args ) {
    int i;
 
@@ -18,6 +40,12 @@ string array_to_string( mixed *args ) {
    return "({ "+ implode( args, ", " ) +" })";
 } /* array_to_string() */
 
+/**
+ * This method converts and input mapping into a string.
+ * @param args the mapping to convert
+ * @return the string value of the mapping
+ * @see array_to_string()
+ */
 string mapping_to_string( mapping map ) {
    int i;
    mixed *args;
@@ -52,6 +80,17 @@ void alt_move(mixed dest, object ob){
   evaluate(bind((:move_object, dest:), ob));
 }
 
+/*
+ * $Locker:  $
+ * $Id: extract.c,v 1.2 1998/03/24 07:28:59 pinkfish Exp $
+ * $Log: extract.c,v $
+ * Revision 1.2  1998/03/24 07:28:59  pinkfish
+ * Add some docs to make the simulefuns more usefully lookupable.
+ *
+ * Revision 1.1  1998/01/06 05:13:15  ceres
+ * Initial revision
+ * 
+*/
 varargs string extract(string str, int start, int end) {
   if (end)
     return str[start..end];

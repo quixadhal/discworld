@@ -1343,7 +1343,11 @@ mixed add_to_queue(string event) {
  */
 mixed display_terms(string event) {
   write(LOGIN_HANDLER->get_message(FILE_PATH+ "/TERMS"));
-  call_out("terms_delayed", 30);
+  // 30 seconds is excessive unless you really have something useful for
+  // the players to read, and even then it would be better to use
+  // a pager or something similar.
+  //call_out("terms_delayed", 30);
+  call_out("terms_delayed", 3);
   return "ok";
 }
 

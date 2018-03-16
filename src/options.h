@@ -5,7 +5,7 @@
 #ifndef _OPTIONS_H_
 #define _OPTIONS_H_
 
-/* 
+/*
  * YOU PROBABLY DO NOT WANT TO MODIFY THIS FILE.
  *
  * Do 'cp options.h local_options' and edit that instead.  local_options,
@@ -53,23 +53,19 @@
  *   * No statistics.
  *   * SYSMALLOC incurs no additional CPU or memory overhead.
  *
- * SMALLOC:
- *   * Satoria's smalloc.
- *   * Statistics available. (see wrappers and DO_MSTATS)
- *   * Faster than most system mallocs with modest ammount of memory overhead.
- *   * Can fall back onto system malloc if sbrk() not ok.
- *
- * BSDMALLOC:
- *   * BSD (Berkeley Software Distributions) malloc.
- *   * Statistics available. (see wrappers and DO_MSTATS)
- *   * Faster than SMALLOC but more memory overhead.
- *   * Requires sbrk().
+ * MALLOC64
+ *   * Wodan's malloc, uses system malloc for small allocations and spreads
+ *   * large allocations through the 64 bit memory space
+ *   * won't work on 32 bit systems.
+ * MALLOC32
+ *   * fixes realloc by always doing a malloc/memcpy/free instead, try this
+ *   * if you use more memory than expected (or MALLOC64 on a 64bit system).
  */
 #define SYSMALLOC
-#undef SMALLOC
-#undef BSDMALLOC
 #undef MMALLOC
-
+#undef MALLOC64
+#undef MALLOC32
+#undef GCMALLOC /* needs -lgc in system_libs */
 /* You may optionally choose one (or none) of these malloc wrappers.  These
  * can be used in conjunction with any of the above malloc packages.
  *
@@ -121,7 +117,7 @@
  * DEBUGMALLOC_EXTENSIONS) causes the driver to check for memory
  * corruption due to writing before the start or end of a block.  This
  * also adds the check_memory() efun.  Takes a considerable ammount
- * more memory.  Mainly for debugging.  
+ * more memory.  Mainly for debugging.
  */
 #undef CHECK_MEMORY
 
@@ -167,7 +163,7 @@
  * are ever stripped.  So the example above gives
  * ({ "", "", "x", "y", "", "z", "", "" }).
  */
-#define SANE_EXPLODE_STRING
+#undef SANE_EXPLODE_STRING
 #undef REVERSIBLE_EXPLODE_STRING
 
 /* CAST_CALL_OTHERS: define this if you want to require casting of call_other's;
@@ -185,7 +181,7 @@
  * Compat status: Easy to support, and also on the "It's a bug!  No, it's
  * a feature!" religious war list.
  */
-#define NONINTERACTIVE_STDERR_WRITE
+#undef NONINTERACTIVE_STDERR_WRITE
 
 /* NO_LIGHT: define this to disable the set_light() and driver maintenance
  *   of light levels in objects.  You can simulate it via LPC if you want...
@@ -195,12 +191,12 @@
 #define NO_LIGHT
 
 /* NO_ADD_ACTION: define this to remove add_action, commands, livings, etc.
- * process_input() then becomes the only way to deal with player input. 
+ * process_input() then becomes the only way to deal with player input.
  *
- * Compat status: next to impossible to simulate, hard to replace, and 
+ * Compat status: next to impossible to simulate, hard to replace, and
  * very, very widely used.
  */
-#undef NO_ADD_ACTION
+#define NO_ADD_ACTION
 
 /* NO_SNOOP: disables the snoop() efun and all related functionality.
  */
@@ -210,7 +206,7 @@
    process_input() then becomes the only way to deal with player input. */
 
 /* NO_ENVIRONMENT: define this to remove the handling of object containment
- * relationships by the driver 
+ * relationships by the driver
  *
  * Compat status: hard to simulate efficiently, and very widely used.
  */
@@ -238,23 +234,28 @@
 #undef OLD_TYPE_BEHAVIOR
 
 /* OLD_RANGE_BEHAVIOR: define this if you want negative indexes in string
- * or buffer range values (not lvalue, i.e. x[-2..-1]; for e.g. not 
- * x[-2..-1] = foo, the latter is always illegal) to mean counting from the 
- * end 
+ * or buffer range values (not lvalue, i.e. x[-2..-1]; for e.g. not
+ * x[-2..-1] = foo, the latter is always illegal) to mean counting from the
+ * end
  *
  * Compat status: Not horribly difficult to replace reliance on this, but not
  * trivial, and cannot be simulated.
  */
 #undef OLD_RANGE_BEHAVIOR
 
+/* define to get a warning for code that might use the old range behavior
+ * when you're not actually using the old range behavior*/
+#undef WARN_OLD_RANGE_BEHAVIOR
+
+
 /* OLD_ED: ed() efun backwards compatible with the old version.  The new
  * version requires/allows a mudlib front end.
  *
  * Compat status: Easily simulated.
  */
-#undef OLD_ED
+#define OLD_ED
 
-/* In ed auto-indent, 
+/* In ed auto-indent,
  * 1) does the case line get indented after the switch() ?
  * 2) How far do we indent? (this can also be set in the mudlib)
  */
@@ -274,7 +275,7 @@
  *     else, and if you don't know that, you probably don't have any reason
  *     to care about the old meaning).
  */
-#undef SENSIBLE_MODIFIERS
+#define SENSIBLE_MODIFIERS
 
 /****************************************************************************
  *                           MISCELLANEOUS                                  *
@@ -287,16 +288,16 @@
  ****************************************************************************/
 
 /*
- * Define this in order to use Fermat@Equilibria's MD5 based crypt() instead 
+ * Define this in order to use Fermat@Equilibria's MD5 based crypt() instead
  * of the operating system's.  It has the advantage of giving the same value
  * on all architectures, and being stronger than the standard UNIX crypt().
  */
-#define CUSTOM_CRYPT
+#undef CUSTOM_CRYPT
 
 /*
  * Some minor tweaks that make it a bit easier to run code designed to run
  * on LPmud 3.2/3.2.1.  Currently has the following effects:
- * 
+ *
  * . m_indices() and m_values() are synonyms for keys() and values(),
  *   respectively
  * . map_delete() returns it's first argument
@@ -316,7 +317,7 @@
  * Similarly for arrays ...
  */
 #define ARRAY_STATS
-
+#define CLASS_STATS
 /* LOG_CATCHES: define this to cause errors that are catch()'d to be
  *   sent to the debug log anyway.
  *
@@ -339,7 +340,7 @@
  *
  * The only down side is some people like their logs shorter
  */
-#undef ARGUMENTS_IN_TRACEBACK
+#define ARGUMENTS_IN_TRACEBACK
 
 /* LOCALS_IN_TRACEBACK: similar to ARGUMENTS_IN_TRACEBACK, but for local
  *   variables.  The output looks more or less like:
@@ -349,7 +350,7 @@
  * Same as above.  Tends to produce even longer logs, but very useful for
  * tracking errors.
  */
-#undef LOCALS_IN_TRACEBACK
+#define LOCALS_IN_TRACEBACK
 
 /* MUDLIB_ERROR_HANDLER: If you define this, the driver doesn't do any
  *   handling of runtime errors, other than to turn the heartbeats of
@@ -367,7 +368,7 @@
  *   config files by default.  If you don't wish to use this define, you may
  *   always specify a full path to the config file when starting the driver.
  */
-#define CONFIG_FILE_DIR "./"
+#define CONFIG_FILE_DIR "/home/atuin/bin"
 
 /* DEFAULT_PRAGMAS:  This should be a sum of pragmas you want to always
  * be on, i.e.
@@ -390,14 +391,12 @@
  * PRAGMA_SAVE_TYPES:   save the types of function arguments for checking
  *                      calls to functions in this object by objects that
  *                      inherit it.
- * PRAGMA_SAVE_BINARY:  save a compiled binary version of this file for
- *                      faster loading next time it is needed.
  * PRAGMA_OPTIMIZE:     make a second pass over the generated code to
- *                      optimize it further.  Currently does jump threading.
+ *                      optimize it further.  Currently maybe broken.
  * PRAGMA_ERROR_CONTEXT:include some text telling where on the line a
  *                      compilation error occured.
  */
-#define DEFAULT_PRAGMAS 0
+#define DEFAULT_PRAGMAS PRAGMA_WARNINGS + PRAGMA_STRICT_TYPES + PRAGMA_ERROR_CONTEXT
 
 /* supress warnings about unused arguments; only warn about unused local
  * variables.  Makes older code (where argument names were required) compile
@@ -431,7 +430,7 @@
  *   (ASCII 27) to be replaced with a space ' ' before the string is passed
  *   to the action routines added with add_action.
  *
- * STRIP_BEFORE_PROCESS_INPUT allows the location where the stripping is 
+ * STRIP_BEFORE_PROCESS_INPUT allows the location where the stripping is
  * done to be controlled.  If it is defined, then process_input() doesn't
  * see ANSI characters either; if it is undefined ESC chars can be processed
  * by process_input(), but are stripped before add_actions are called.
@@ -447,9 +446,9 @@
 /* OPCPROF: define this if you wish to enable OPC profiling. Allows a dump
  *   of the # of times each efun is invoked (via the opcprof() efun).
  */
-#define OPCPROF
+#undef OPCPROF
 
-/* OPCPROF_2D: define this if you wish to enable 2-D OPC profiling. Allows a 
+/* OPCPROF_2D: define this if you wish to enable 2-D OPC profiling. Allows a
  *   dump of the # of times each *pair* of eoperators is invoked.
  *
  * You can't use this and OPCPROF at the same time.
@@ -476,7 +475,7 @@
 #define CALLOUT_HANDLES
 
 /* FLUSH_OUTPUT_IMMEDIATELY: Causes output to be written to sockets
- * immediately after being generated.  Useful for debugging.  
+ * immediately after being generated.  Useful for debugging.
  */
 #undef FLUSH_OUTPUT_IMMEDIATELY
 
@@ -490,19 +489,19 @@
  * [NOTE: for those who'd rather do such things at the mudlib level, look at
  *  the inherits() efun and the 'valid_object' apply to master.]
  */
-#define PRIVS
+#undef PRIVS
 
 /* INTERACTIVE_CATCH_TELL: define this if you want catch_tell called on
  *   interactives as well as NPCs.  If this is defined, user.c will need a
  *   catch_tell(msg) method that calls receive(msg);
 */
-#define INTERACTIVE_CATCH_TELL
+#undef INTERACTIVE_CATCH_TELL
 
-/* RECEIVE_ED: define this if you want normal ed output to go to a 
+/* RECEIVE_ED: define this if you want normal ed output to go to a
      receive_ed() apply in the player ob.  Some errors still go directly
      to output.  Useful for post-processing (perhaps colorizing?) ed
      output. Prototype:  mixed receive_ed(string txt, string fname);
-     If fname, return a string that ed will output, 0 to let ed handle 
+     If fname, return a string that ed will output, 0 to let ed handle
      the output in the default way, or 1 to handle the output yourself.
      If fname == 0, output is help text and you may return any of the above
      or an array of strings that will be more'ed.
@@ -548,23 +547,6 @@
  */
 #undef NO_BUFFER_TYPE
 
-/* BINARIES: define this to enable the 'save_binary' pragma.
- *   This pragma, when set in a program, will cause it to save a
- *   binary image when loaded, so that subsequent loadings will
- *   be much faster.  The binaries are saved in the directory
- *   specified in the configuration file.  The binaries will not
- *   load if the LPC source or any of the inherited or included
- *   files are out of date, in which case the file is compiled
- *   normally (and may save a new binary).
- *
- *   In order to save the binary, valid_save_binary() is called
- *   in master.c, and is passed the name of the source file.  If
- *   this returns a non-zero value, the binary is allowed to be
- *   saved.  Allowing any file by any wizard to be saved as a
- *   binary is convenient, but may take up a lot of disk space.
- */
-#undef BINARIES
-
 /* ARRAY_RESERVED_WORD: If this is defined then the word 'array' can
  *   be used to define arrays, as in:
  *
@@ -572,7 +554,7 @@
  *
  * A side effect is that 'array' cannot be a variable or function name.
  */
-#define ARRAY_RESERVED_WORD
+#undef ARRAY_RESERVED_WORD
 
 /* REF_RESERVED_WORD: If this is defined then the word 'ref' can be
  *   used to pass arguments to functions by value.  Example:
@@ -587,7 +569,7 @@
  *
  * Note: ref must be used in *both* places; this is intentional.  It protects
  * against passing references to routines which don't intend to return values
- * through their arguments, and against forgetting to pass a reference 
+ * through their arguments, and against forgetting to pass a reference
  * to a function which wants one (or accidentally having a variable modified!)
  */
 #define REF_RESERVED_WORD
@@ -617,13 +599,13 @@
 /* PACKAGE_MATRIX: determines whether or not the 3d graphics efuns (for floats)
  *   are included - see packages/matrix.spec for a list.
  */
-#define PACKAGE_MATRIX
+#undef PACKAGE_MATRIX
 
 /* PACKAGE_MUDLIB_STATS: define this to enable domain and author stats
  *   maintenance by the driver.  These mudlib stats are more domain
  *   based than user based, and replaces the traditional wiz_list stats.
  */
-#define PACKAGE_MUDLIB_STATS
+#undef PACKAGE_MUDLIB_STATS
 
 /* PACKAGE_SOCKETS: define this to enable the socket efunctions.  This
  *   causes HAS_SOCKETS to be defined for all LPC objects.
@@ -633,15 +615,17 @@
 /* PACKAGE_PARSER: Natural language parsing efuns for interactive fiction
  *   type applications
  */
-#define PACKAGE_PARSER
+#undef PACKAGE_PARSER
 
 /* PACKAGE_EXTERNAL: Allows the driver to exec() commands specified in the
  * config file.
  */
-#undef PACKAGE_EXTERNAL
+#define PACKAGE_EXTERNAL
 
 /* NUM_EXTERNAL_CMDS: the number of external commands supported */
+#ifdef PACKAGE_EXTERNAL
 #define NUM_EXTERNAL_CMDS 100
+#endif
 
 /* PACKAGE_DB: efuns for external database access using msql */
 #undef PACKAGE_DB
@@ -650,10 +634,9 @@
  * databases
  */
 #ifdef PACKAGE_DB
-#undef USE_MSQL 
-#undef MSQL
+#undef USE_MSQL
 #define USE_MYSQL 2
-#define MY_SQL
+#undef USE_POSTGRES
 #endif
 
 /****************************************************************************
@@ -673,18 +656,18 @@
  * PACKAGE_UIDS: define this if you want a driver that does use uids.
  *
  */
-#undef PACKAGE_UIDS
+#define PACKAGE_UIDS
 
 /*PACKAGE DWLIB: some discworld mudlib simuls coded in C (well just one right
   now) */
 
-#undef PACKAGE_DWLIB
+#define PACKAGE_DWLIB
 
 /* AUTO_SETEUID: when an object is created it's euid is automatically set to
  *   the equivalent of seteuid(getuid(this_object())).  undef AUTO_SETEUID
  *   if you would rather have the euid of the created object be set to 0.
  */
-#undef AUTO_SETEUID
+#define AUTO_SETEUID
 
 /* AUTO_TRUST_BACKBONE: define this if you want objects with the backbone
  *   uid to automatically be trusted and to have their euid set to the uid of
@@ -698,7 +681,7 @@
  * Most of these options will probably be of no interest to many users.  *
  *************************************************************************/
 
-/* USE_32BIT_ADDRESSES: Use 32 bits for addresses of function, instead of 
+/* USE_32BIT_ADDRESSES: Use 32 bits for addresses of function, instead of
  * the usual 16 bits.  This increases the maximum program size from 64k
  * of LPC bytecode (NOT source) to 4 GB.  Branches are still 16 bits,
  * imposing a 64k limit on catch(), if(), switch(), loops, and most other
@@ -711,26 +694,18 @@
  */
 #undef USE_32BIT_ADDRESSES
 
-/* HEARTBEAT_INTERVAL: define heartbeat interval in microseconds (us).
- *   1,000,000 us = 1 second.  The value of this macro specifies
- *   the frequency with which the heart_beat method will be called in
- *   those LPC objects which have called set_heart_beat(1).
- *
- * [NOTE: if ualarm() isn't available, alarm() is used instead.  Since
- *  alarm() requires its argument in units of a second, we map 1 - 1,000,000 us
- *  to an actual interval of one (1) second and 1,000,001 - 2,000,000 maps to
- *  an actual interval of two (2) seconds, etc.]
+/* HEARTBEAT_INTERVAL: define heartbeat interval in seconds.
  */
 #define HEARTBEAT_INTERVAL 1
 
-/* 
+/*
  * CALLOUT_CYCLE_SIZE: This is the number of slots in the call_out list.
  * It should be approximately the average number of active call_outs, or
  * a few times smaller.  It should also be a power of 2, and also be relatively
  * prime to any common call_out lengths.  If all this is too confusing, 32
  * isn't a bad number :-)
  */
-#define CALLOUT_CYCLE_SIZE 32
+#define CALLOUT_CYCLE_SIZE 512
 
 /* LARGEST_PRINTABLE_STRING: defines the size of the vsprintf() buffer in
  *   comm.c's add_message(). Instead of blindly making this value larger,
@@ -745,7 +720,7 @@
 
 /* APPLY_CACHE_BITS: defines the number of bits to use in the call_other cache
  *   (in interpret.c).
- * 
+ *
  * Memory overhead is (1 << APPLY_CACHE_BITS)*16.
  * [assuming 32 bit pointers and 16 bit shorts]
  *
@@ -757,9 +732,9 @@
  * 14      16384           256k
  * 16      65536             1M
  */
-#define APPLY_CACHE_BITS 11
+#define APPLY_CACHE_BITS 20
 
-/* CACHE_STATS: define this if you want call_other (apply_low) cache 
+/* CACHE_STATS: define this if you want call_other (apply_low) cache
  * statistics.  Causes HAS_CACHE_STATS to be defined in all LPC objects.
  */
 #define CACHE_STATS
@@ -767,7 +742,7 @@
 /* TRACE: define this to enable the trace() and traceprefix() efuns.
  *   (keeping this undefined will cause the driver to run faster).
  */
-#undef TRACE
+#define TRACE
 
 /* RUNTIME_LOADING: On systems which support it, it allows LPC->C compilation
  * 'on the fly' without having to recompile the driver.
@@ -816,14 +791,18 @@
  */
 /* MAX_LOCAL: maximum number of local variables allowed per LPC function */
 #define CFG_MAX_LOCAL_VARIABLES         50
-/* Increasing max global vars beyond 256 is not recommended */
-#define CFG_MAX_GLOBAL_VARIABLES         256
+
+/* CFG_MAX_GLOBAL_VARIABLES: This value determines the maximum number of
+ *   global variables per object.  The maximum value is 65536.  There is
+ *   a marginal memory increase for a value over 256.
+ */
+#define CFG_MAX_GLOBAL_VARIABLES        65536
 
 #define CFG_EVALUATOR_STACK_SIZE        3000
-#define CFG_COMPILER_STACK_SIZE         600000
+#define CFG_COMPILER_STACK_SIZE         600
 #define CFG_MAX_CALL_DEPTH              150
 /* This must be one of 4, 16, 64, 256, 1024, 4096 */
-#define CFG_LIVING_HASH_SIZE		256
+#define CFG_LIVING_HASH_SIZE            256
 
 /* NEXT_MALLOC_DEBUG: define this if using a NeXT and you want to enable
  *   the malloc_check() and/or malloc_debug() efuns.  Run the 'man malloc_debug'
@@ -861,13 +840,13 @@
  * will only get flushed if get_char() is not called from the first get_char()'s
  * LPC callback handler.
  */
-#define GET_CHAR_IS_BUFFERED
+#undef GET_CHAR_IS_BUFFERED
 
 /* PACKAGE_COMPRESS: Enable MCCP support and compressed save files
    SAVE_GZ_EXTENSION: save extension for compressed files
  */
-#undef HAVE_ZLIB
-#undef PACKAGE_COMPRESS
+#define HAVE_ZLIB
+#define PACKAGE_COMPRESS
 #define SAVE_GZ_EXTENSION ".o.gz"
 
 /* CALL_OTHER_TYPE_CHECK: enable type checking for call_other()
@@ -884,25 +863,55 @@
  */
 #define WARN_TAB
 
-/* USE_ICONV: Use iconv to translate input and output from/to the users char 
+/* USE_ICONV: Use iconv to translate input and output from/to the users char
  * encoding
  */
-#undef USE_ICONV
+#define USE_ICONV
 
 /* WOMBLES: don't allow spaces between start/end of array/mapping/functional token chars so ({1,2,3}) still works, but ( { 1 , 2 , 3 } ) doesn't and ({ 1 , 2 , 3 }) does.*/
-#undef WOMBLES
+#define WOMBLES
 
 /* ALLOW_INHERIT_AFTER_FUNCTION: allow inheriting after functions have been defined (this includes prototypes). This caused crashes in v22.2a but it may have been fixed since */
-#define ALLOW_INHERIT_AFTER_FUNCTION
-#undef ALLOW_INHERIT_AFTER_GLOBAL_VARIABLES
-/*PACKAGE_ASYNC: adds some efuns for asyncronous IO */
-#undef PACKAGE_ASYNC
+#undef ALLOW_INHERIT_AFTER_FUNCTION
 
-#define PACKAGE_DSLIB
-#define PROG_REF_TYPE int
-#define PARSE_DEBUG
-#define FLUFFOS
+/*PACKAGE_ASYNC: adds some efuns for asyncronous IO */
+#define PACKAGE_ASYNC
+
+/*PACKAGE_SHA1: adds a function to calculate the sha1 hash of a string sha1(string).  Use PACKAGE_CRYPTO instead if possible. */
+#undef PACKAGE_SHA1
+
+/*PACKAGE_CRYPTO: adds a function that does multiple hash types hash(hash, string), needs openssl lib and includes and -lssl in system_libs*/
+#undef PACKAGE_CRYPTO
+
+/* PROG_REF_TYPE size of program ref counter:
+ * char for 8 bit, short for 16, int for 32,
+ * long long for 64 (completely useless on 32 bit machines though!) */
+#define PROG_REF_TYPE short
+
+/* HAS_CONSOLE: If defined, the driver can take the argument -C
+ *   which will give the driver an interactive console (you can type
+ *   commands at the terminal.)  Backgrounding the driver will turn off
+ *   the console, but sending signal SIGTTIN (kill -21) to the driver can
+ *   turn it back on.  Typing 'help' will display commands available.
+ *   The intent is to allow the inspection of things that are difficult
+ *   to inspect from inside the mud.
+ */
 #define HAS_CONSOLE
-#define ANSI_SUBSTITUTE 0x1e
+
+/* IPV6: Use IP version 6 instead of 4, for most people the only difference 
+ * will be that numerical IP addresses get ::ffff: added in front.*/
+#define IPV6
+
+/* static user space dtrace probes, try them if you have dtrace! */
+#undef DTRACE
+
+/* use class keyword for lpc structs */
+#define STRUCT_CLASS
+
+/* use struct keyword for lpc structs */
+#define STRUCT_STRUCT
+
+/* use POSIX timers for eval_cost */
+#define POSIX_TIMERS
 #endif
 

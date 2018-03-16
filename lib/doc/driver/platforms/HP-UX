@@ -1,0 +1,14 @@
+MudOS hints for HP-UX:
+ 
+in the Makefile,
+ make sure RESOLV is commented out
+ uncomment UALARM_C and UALARM_O
+ uncomment EXTRALIBS=-lBSD
+ use smalloc for best memory/speed performance--system malloc is way slow
+ 
+PA-RISC machines (at least):
+ MudOS runs fine compiled with cc under HP-UX 7.x and 8.x.  It does not work
+  with 9.0x's cc (might be OK if you turn off optimization?).
+ With cc, use OPTIMIZE=+O3 +Obb3000 for maximum optimization.
+
+Use gcc if possible.

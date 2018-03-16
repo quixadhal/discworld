@@ -24,6 +24,13 @@
 static int opc_eoper[BASE];
 #endif
 
+
+#ifdef DTRACE
+#include <sys/sdt.h>
+#else
+#define DTRACE_PROBE3(x,y,z,zz,zzz)
+#endif
+
 #ifdef OPCPROF_2D
 /* warning, this is typically 4 * 100 * 100 = 40k */
 static int opc_eoper_2d[BASE+1][BASE+1];
@@ -47,7 +54,6 @@ static const char *type_names[] = {
 #ifdef PACKAGE_UIDS
 extern userid_t *backbone_uid;
 #endif
-extern int max_cost;
 extern int call_origin;
 static int find_line (char *, const program_t *, const char **, int *);
 INLINE void push_indexed_lvalue (int);
@@ -59,13 +65,25 @@ INLINE_STATIC void do_loop_cond_number (void);
 INLINE_STATIC void do_loop_cond_local (void);
 static void do_catch (char *, unsigned short);
 int last_instructions (void);
-static float _strtof (char *, char **);
+static LPC_FLOAT _strtof (char *, char **);
 #ifdef TRACE_CODE
 static char *get_arg (int, int);
 #endif
 
 #ifdef DEBUG
 int stack_in_use_as_temporary = 0;
+#endif
+
+/*
+ * Macro for extracting global variable indices.
+ */
+
+#if CFG_MAX_GLOBAL_VARIABLES <= 256
+#define READ_GLOBAL_INDEX READ_UCHAR
+#elif CFG_MAX_GLOBAL_VARIABLES <= 65536
+#define READ_GLOBAL_INDEX READ_USHORT
+#else
+#error CFG_MAX_GLOBAL_VARIABLES must not be greater than 65536
 #endif
 
 int inter_sscanf (svalue_t *, svalue_t *, svalue_t *, int);
@@ -200,7 +218,7 @@ void push_object (object_t * ob)
 {
   STACK_INC;
 
-  if (!ob || (ob->flags & O_DESTRUCTED)) {
+  if (!ob || (ob->flags & O_DESTRUCTED) || ob->flags & O_BEING_DESTRUCTED) {
     *sp = const0u;
     return;
   }
@@ -297,7 +315,7 @@ int validate_shadowing (object_t * ob)
  * Push a number on the value stack.
  */
 INLINE void
-push_number (long n)
+push_number (LPC_INT n)
 {
   STACK_INC;
   sp->type = T_NUMBER;
@@ -306,7 +324,7 @@ push_number (long n)
 }
 
 INLINE void
-push_real (float n)
+push_real (LPC_FLOAT n)
 {
   STACK_INC;
   sp->type = T_REAL;
@@ -420,7 +438,7 @@ void unlink_string_svalue (svalue_t * s) {
  * Use the free_svalue() define to call this
  */
 #ifdef DEBUG
-INLINE void int_free_svalue (svalue_t * v, char * tag)
+INLINE void int_free_svalue (svalue_t * v, const char * tag)
 #else
      INLINE void int_free_svalue (svalue_t * v)
 #endif
@@ -1209,36 +1227,71 @@ push_control_stack (int frkind)
   csp->pc = pc;
   csp->function_index_offset = function_index_offset;
   csp->variable_index_offset = variable_index_offset;
+  csp->defers = NULL;
 }
 
 /*
  * Pop the control stack one element, and restore registers.
  * extern_call must not be modified here, as it is used imediately after pop.
  */
+
+extern int playerchanged;
+
 void pop_control_stack()
 {
   DEBUG_CHECK(csp == (control_stack - 1),
               "Popped out of the control stack\n");
-#ifdef PROFILE_FUNCTIONS
-  if ((csp->framekind & FRAME_MASK) == FRAME_FUNCTION) {
-    long secs, usecs, dsecs;
-    function_t *cfp = &current_prog->function_table[csp->fr.table_index];
-    int stof = 0;
-
-    get_cpu_times((unsigned long *) &secs, (unsigned long *) &usecs);
-    dsecs = (((secs - csp->entry_secs) * 1000000)
-             + (usecs - csp->entry_usecs));
-    cfp->self += dsecs;
-
-    while((csp-stof) != control_stack){
-      if (((csp-stof-1)->framekind & FRAME_MASK) == FRAME_FUNCTION) {
-	(csp-stof)->prog->function_table[(csp-stof-1)->fr.table_index].children += dsecs;
-	break;
-      }
-      stof++;
-    }
+#ifdef DTRACE
+  if ((csp->framekind & FRAME_MASK) == FRAME_FUNCTION){
+    DTRACE_PROBE3(fluffos, lpc__return, current_object->obname, current_prog->function_table[csp->fr.table_index].funcname, current_prog->filename);
   }
 #endif
+#ifdef PROFILE_FUNCTIONS
+  if ((csp->framekind & FRAME_MASK) == FRAME_FUNCTION) {
+	  long secs, usecs, dsecs;
+	  function_t *cfp = &current_prog->function_table[csp->fr.table_index];
+	  int stof = 0;
+
+	  get_cpu_times((unsigned long *) &secs, (unsigned long *) &usecs);
+	  dsecs = (((secs - csp->entry_secs) * 1000000)
+			  + (usecs - csp->entry_usecs));
+	  cfp->self += dsecs;
+
+	  while((csp-stof) != control_stack){
+		  if (((csp-stof-1)->framekind & FRAME_MASK) == FRAME_FUNCTION) {
+			  function_t *parent = &((csp-stof)->prog->function_table[(csp-stof-1)->fr.table_index]);
+			  if(parent != cfp) //if it's recursion it's not really a child
+				  parent->children += dsecs;
+			  break;
+		  }
+		  stof++;
+	  }
+  }
+#endif
+  struct defer_list *stuff = csp->defers;
+  csp->defers = 0;
+  while(stuff){
+	  function_to_call_t ftc;
+	  memset(&ftc, 0, sizeof ftc);
+	  ftc.f.fp = stuff->func.u.fp;
+	  int s = outoftime;
+	  if(outoftime)
+		  set_eval(max_cost);
+	  save_command_giver(stuff->tp.u.ob);
+	  playerchanged = 0;
+	  safe_call_efun_callback(&ftc, 0);
+	  object_t *cgo = command_giver;
+	  restore_command_giver();
+	  if(playerchanged)
+		  set_command_giver(cgo);
+	  outoftime = s;
+	  free_svalue(&(stuff->func), "pop_stack");
+	  free_svalue(&(stuff->tp), "pop_stack");
+
+	  struct defer_list* old = stuff;
+	  stuff = stuff->next;
+	  FREE(old);
+  }
   current_object = csp->ob;
   current_prog = csp->prog;
   previous_ob = csp->prev_ob;
@@ -1480,6 +1533,8 @@ setup_new_frame (int findex)
     do_trace_call(findex);
   }
 #endif
+   DTRACE_PROBE3(fluffos, lpc__entry, current_object->obname, current_prog->function_table[findex].funcname, current_prog->filename);
+
   return &current_prog->function_table[findex];
 }
 
@@ -1535,6 +1590,8 @@ INLINE function_t *setup_inherited_frame (int findex)
     do_trace_call(findex);
   }
 #endif
+  DTRACE_PROBE3(fluffos, lpc__entry, csp->ob->obname, current_prog->function_table[findex].funcname, current_prog->filename);
+
   return &current_prog->function_table[findex];
 }
 
@@ -1577,11 +1634,12 @@ void setup_fake_frame (funptr_t * fun) {
   csp->fp = fp;
   csp->prog = current_prog;
   csp->pc = pc;
-  pc = (char *)&fake_program;
   csp->function_index_offset = function_index_offset;
   csp->variable_index_offset = variable_index_offset;
-  caller_type = ORIGIN_FUNCTION_POINTER;
   csp->num_local_variables = 0;
+
+  pc = (char *)&fake_program;
+  caller_type = ORIGIN_FUNCTION_POINTER;
   current_prog = &fake_prog;
   previous_ob = current_object;
   current_object = fun->hdr.owner;
@@ -1697,7 +1755,7 @@ INLINE_STATIC void do_loop_cond_local()
 INLINE_STATIC void do_loop_cond_number()
 {
   svalue_t *s1;
-  long i;
+  LPC_INT i;
 
   s1 = fp + EXTRACT_UCHAR(pc++); /* a from (a < b) */
   LOAD_INT(i, pc);
@@ -1833,8 +1891,8 @@ eval_instruction (char * p)
 #ifdef DEBUG
   int num_arg;
 #endif
-  long i, n;
-  float real;
+  LPC_INT i, n;
+  LPC_FLOAT real;
   svalue_t *lval;
   int instruction;
 #if defined(TRACE_CODE) || defined(TRACE) || defined(OPCPROF) || defined(OPCPROF_2D)
@@ -1858,7 +1916,7 @@ eval_instruction (char * p)
       char *f;
       int l;
       /* this could be much more efficient ... */
-      get_line_number_info(&f, &l);
+      get_line_number_info((const char**)&f, &l);
       show_lpc_line(f, l);
     }
 #  endif
@@ -2257,7 +2315,7 @@ eval_instruction (char * p)
 
         /* The optimizer has asserted this won't be used again.  Make
          * it look like a number to avoid double frees. */
-        s->type |= T_FREED;
+        s->type = T_NUMBER;
         break;
       }
     case F_LOCAL:
@@ -2581,7 +2639,7 @@ eval_instruction (char * p)
           STACK_INC;
           sp->type = T_LVALUE;
           if (flags & FOREACH_LEFT_GLOBAL) {
-            sp->u.lvalue = find_value(EXTRACT_UCHAR(pc++) + variable_index_offset);
+              sp->u.lvalue = find_value((int)(READ_GLOBAL_INDEX(pc) + variable_index_offset));
           } else {
             sp->u.lvalue = fp + EXTRACT_UCHAR(pc++);
           }
@@ -2603,7 +2661,7 @@ eval_instruction (char * p)
         if (flags & FOREACH_RIGHT_GLOBAL) {
           STACK_INC;
           sp->type = T_LVALUE;
-          sp->u.lvalue = find_value((EXTRACT_UCHAR(pc++) + variable_index_offset));
+          sp->u.lvalue = find_value((int)(READ_GLOBAL_INDEX(pc) + variable_index_offset));
         } else if (flags & FOREACH_REF) {
           ref_t *ref = make_ref();
           svalue_t *loc = fp + EXTRACT_UCHAR(pc++);
@@ -3044,7 +3102,7 @@ eval_instruction (char * p)
       {
         svalue_t *s;
 
-        s = find_value((EXTRACT_UCHAR(pc++) + variable_index_offset));
+        s = find_value((int) (READ_GLOBAL_INDEX(pc) + variable_index_offset));
 
         /*
          * If variable points to a destructed object, replace it
@@ -3421,7 +3479,7 @@ eval_instruction (char * p)
     case F_GLOBAL_LVALUE:
       STACK_INC;
       sp->type = T_LVALUE;
-      sp->u.lvalue = find_value((EXTRACT_UCHAR(pc++) +
+      sp->u.lvalue = find_value((int) (READ_GLOBAL_INDEX(pc) +
                                        variable_index_offset));
       break;
     case F_INDEX_LVALUE:
@@ -3979,12 +4037,16 @@ void mark_apply_low_cache() {
 }
 #endif
 
-void check_co_args2 (unsigned short *types, int num_arg, const char *name, const char *ob_name){
-  int argc = num_arg;
+void check_co_args2 (unsigned short *types, int num_arg, const char *name, const char *ob_name, int sparg){
+  int argc = sparg;
   int exptype, i = 0;
   do{
     argc--;
-    exptype = convert_type(types[i++]);
+    if((types[i] & DECL_MODS) == LOCAL_MOD_REF)
+    	exptype = T_REF;
+    else
+    	exptype = convert_type(types[i]);
+    i++;
     if(exptype == T_ANY)
       continue;
 
@@ -3993,21 +4055,24 @@ void check_co_args2 (unsigned short *types, int num_arg, const char *name, const
       if((sp-argc)->type == T_NUMBER && !(sp-argc)->u.number)
         continue;
       sprintf(buf, "Bad argument %d in call to %s() in %s\nExpected: %s Got %s.\n",
-              num_arg - argc, name, ob_name,
+              i, name, ob_name,
               type_name(exptype), type_name((sp-argc)->type));
 #ifdef CALL_OTHER_WARN
       if(current_prog){
         const char *file;
         int line;
-        find_line(pc, current_prog, &file, &line);
+        get_line_number_info(&file, &line);
+        int prsave = pragmas;
+        pragmas &= ~PRAGMA_ERROR_CONTEXT;
         smart_log(file, line, buf, 1);
+        pragmas = prsave;
       } else
         smart_log("driver", 0, buf, 1);
 #else
       error(buf);
 #endif
     }
-  } while (argc);
+  } while (i<num_arg);
 }
 
 void check_co_args (int num_arg, const program_t * prog, function_t * fun, int findex) {
@@ -4021,8 +4086,11 @@ void check_co_args (int num_arg, const program_t * prog, function_t * fun, int f
     if(current_prog){
       const char *file;
       int line;
-      find_line(pc, current_prog, &file, &line);
+      int prsave = pragmas;
+      pragmas &= ~PRAGMA_ERROR_CONTEXT;
+      get_line_number_info(&file, &line);
       smart_log(file, line, buf, 1);
+      pragmas = prsave;
     } else
       smart_log("driver", 0, buf, 1);
 #else
@@ -4030,10 +4098,11 @@ void check_co_args (int num_arg, const program_t * prog, function_t * fun, int f
 #endif
   }
 
-  if(num_arg && prog->type_start &&
+  int num_arg_check = MIN(num_arg, fun->num_arg);
+  if(num_arg_check && prog->type_start &&
      prog->type_start[findex] != INDEX_START_NONE)
     check_co_args2(&prog->argument_types[prog->type_start[findex]], num_arg,
-                   fun->funcname, prog->filename);
+                   fun->funcname, prog->filename, num_arg);
 #endif
 }
 
@@ -4146,8 +4215,8 @@ int apply_low (const char * fun, object_t * ob, int num_arg)
           do_trace_call(findex);
         }
 #endif
-
-        previous_ob = current_object;
+        DTRACE_PROBE3(fluffos, lpc__entry, ob->obname, fun, current_prog->filename);
+	previous_ob = current_object;
         current_object = ob;
         IF_DEBUG(save_csp = csp);
         call_program(current_prog, funp->address);
@@ -4155,6 +4224,9 @@ int apply_low (const char * fun, object_t * ob, int num_arg)
         DEBUG_CHECK(save_csp - 1 != csp,
                     "Bad csp after execution in apply_low.\n");
         return 1;
+      } else {
+    	  pop_n_elems(num_arg);
+    	  return 0;
       }
     } /* when we come here, the cache has told us
        * that the function isn't defined in the
@@ -4173,10 +4245,9 @@ int apply_low (const char * fun, object_t * ob, int num_arg)
     } else {
       if (entry->funp){
         free_string((char *)entry->funp);
-	entry->funp = 0;
+        entry->funp = 0;
       }
     }
-
 #ifdef CACHE_STATS
     if (!entry->funp) {
       apply_low_slots_used++;
@@ -4184,6 +4255,7 @@ int apply_low (const char * fun, object_t * ob, int num_arg)
       apply_low_collisions++;
     }
 #endif
+    entry->funp = 0;
     sfun = fun;
     prog = find_function_by_name2(ob, &sfun, &findex, &runtime_index,
                                   &fio, &vio);
@@ -4245,6 +4317,7 @@ int apply_low (const char * fun, object_t * ob, int num_arg)
         previous_ob = current_object;
         current_object = ob;
         IF_DEBUG(save_csp = csp);
+        DTRACE_PROBE3(fluffos, lpc__entry, ob->obname, fun, current_prog->filename);
         call_program(current_prog, funp->address);
 
         DEBUG_CHECK(save_csp - 1 != csp,
@@ -4254,6 +4327,9 @@ int apply_low (const char * fun, object_t * ob, int num_arg)
          * resulting value is always returned on the stack.
          */
         return 1;
+      } else {
+    	  pop_n_elems(num_arg);
+    	  return 0;
       }
     }
 
@@ -4310,7 +4386,6 @@ svalue_t *apply (const char * fun, object_t * ob, int num_arg,
     }
   }
 #endif
-
   IF_DEBUG(expected_sp = sp - num_arg);
   if (apply_low(fun, ob, num_arg) == 0)
     return 0;
@@ -4364,10 +4439,10 @@ void call___INIT (object_t * ob)
   caller_type = ORIGIN_DRIVER;
   csp->num_local_variables = 0;
 
-  setup_new_frame(num_functions - 1 + progp->last_inherited);
   previous_ob = current_object;
 
   current_object = ob;
+  setup_new_frame(num_functions - 1 + progp->last_inherited);
   IF_DEBUG(save_csp = csp);
   call_program(current_prog, cfp->address);
 
@@ -4553,9 +4628,9 @@ void call_direct (object_t * ob, int offset, int origin, int num_arg) {
   caller_type = origin;
   csp->num_local_variables = num_arg;
   current_prog = prog;
-  funp = setup_new_frame(offset);
   previous_ob = current_object;
   current_object = ob;
+  funp = setup_new_frame(offset);
   call_program(current_prog, funp->address);
 }
 
@@ -4609,6 +4684,10 @@ static int find_line (char * p, const program_t * progp,
   while (offset > *lns) {
     offset -= *lns;
     lns += (sizeof(ADDRESS_TYPE) + 1);
+    if(offset > progp->program_size || offset < 0) {
+      debug_message("Something is wrong when looking for line number, bail out.");
+      return 0;
+    }
   }
 
 #if !defined(USE_32BIT_ADDRESSES)
@@ -4624,48 +4703,43 @@ static int find_line (char * p, const program_t * progp,
   return 0;
 }
 
-static void get_explicit_line_number_info (char * p, const program_t * prog,
+static void get_explicit_line_number_info (char * p, const program_t * progp,
                                              const char ** ret_file, int * ret_line) {
-  find_line(p, prog, ret_file, ret_line);
+  int i = find_line(p, progp, ret_file, ret_line);
+
+  switch (i) {
+  case 1:
+    *ret_file =  "(no program)";
+    break;
+  case 2:
+    *ret_file = "(fake)";
+    break;
+  case 3:
+    *ret_file = "(compiled program)";
+    break;
+  case 4:
+    *ret_file = "(no line numbers)";
+    break;
+  case 5:
+    *ret_file = "(includes too deep)";
+  }
   if (!(*ret_file))
-    *ret_file = prog->filename;
+    *ret_file = progp->filename;
 }
 
 void get_line_number_info (const char ** ret_file, int * ret_line)
 {
-  find_line(pc, current_prog, ret_file, ret_line);
-  if (!(*ret_file))
-    *ret_file = current_prog->filename;
+  get_explicit_line_number_info(pc, current_prog, ret_file, ret_line);
 }
 
 char* get_line_number (char * p, const program_t * progp)
 {
   static char buf[256];
-  int i;
   const char *file;
   int line;
 
-  i = find_line(p, progp, &file, &line);
+  get_explicit_line_number_info(p, progp, &file, &line);
 
-  switch (i) {
-  case 1:
-    strcpy(buf, "(no program)");
-    return buf;
-  case 2:
-    *buf = 0;
-    return buf;
-  case 3:
-    strcpy(buf, "(compiled program)");
-    return buf;
-  case 4:
-    strcpy(buf, "(no line numbers)");
-    return buf;
-  case 5:
-    strcpy(buf, "(includes too deep)");
-    return buf;
-  }
-  if (!file)
-    file = progp->filename;
   sprintf(buf, "/%s:%d", file, line);
   return buf;
 }
@@ -5114,7 +5188,7 @@ int inter_sscanf (svalue_t * arg, svalue_t * s0, svalue_t * s1, int num_arg)
   int number_of_matches;
   int skipme;     /* Encountered a '*' ? */
   int base = 10;
-  long num;
+  LPC_INT num;
   const char *match;
   char old_char;
   const char *tmp;
@@ -5178,18 +5252,20 @@ int inter_sscanf (svalue_t * arg, svalue_t * s0, svalue_t * s1, int num_arg)
       /* fallthrough */
     case 'd':
       {
+        LPC_INT tmp_num;
+
         tmp = in_string;
-        num = strtol((char *)in_string, (char **)&in_string, base);
+        tmp_num = strtol((char *)in_string, (char **)&in_string, base);
         if (tmp == in_string) return number_of_matches;
         if (!skipme) {
-          SSCANF_ASSIGN_SVALUE_NUMBER(num);
+          SSCANF_ASSIGN_SVALUE_NUMBER(tmp_num);
         }
         base = 10;
         continue;
       }
     case 'f':
       {
-        float tmp_num;
+        LPC_FLOAT tmp_num;
 
         tmp = in_string;
         tmp_num = _strtof((char *)in_string, (char **)&in_string);
@@ -5410,7 +5486,7 @@ int inter_sscanf (svalue_t * arg, svalue_t * s0, svalue_t * s1, int num_arg)
         }
       case 'f':
         {
-          float tmp_num = _strtof((char *)in_string, (char **)&in_string);
+          LPC_FLOAT tmp_num = _strtof((char *)in_string, (char **)&in_string);
           if (!skipme2) {
             SSCANF_ASSIGN_SVALUE(T_REAL, u.real, tmp_num);
           }
@@ -5675,10 +5751,10 @@ int strpref (const char * p, const char * s)
   return 1;
 }
 
-static float _strtof (char * nptr, char ** endptr)
+static LPC_FLOAT _strtof (char * nptr, char ** endptr)
 {
   register char *s = nptr;
-  register float acc;
+  register LPC_FLOAT acc;
   register int neg, c, any, divv;
 
   divv = 1;
@@ -5704,10 +5780,10 @@ static float _strtof (char * nptr, char ** endptr)
     } else
       break;
     if (divv == 1) {
-      acc *= (float) 10;
-      acc += (float) c;
+      acc *= (LPC_FLOAT) 10;
+      acc += (LPC_FLOAT) c;
     } else {
-      acc += (float) c / (float) divv;
+      acc += (LPC_FLOAT) c / (LPC_FLOAT) divv;
       divv *= 10;
     }
     any = 1;
@@ -5759,22 +5835,15 @@ void restore_context (error_context_t * econ) {
   _in_reference_allowed = 0;
 #endif
   /* unwind the command_giver stack to the saved position */
+
+  while(csp > econ->save_csp)
+    pop_control_stack();
+
   while (cgsp != econ->save_cgsp)
     restore_command_giver();
   DEBUG_CHECK(csp < econ->save_csp, "csp is below econ->csp before unwinding.\n");
-  if (csp > econ->save_csp) {
-    /* Unwind the control stack to the saved position */
-#ifdef PROFILE_FUNCTIONS
-    /* PROFILE_FUNCTIONS needs current_prog to be correct in
-       pop_control_stack() */
-    if (csp > econ->save_csp + 1) {
-      csp = econ->save_csp + 1;
-      current_prog = (csp+1)->prog;
-    } else
-#endif
-      csp = econ->save_csp + 1;
-    pop_control_stack();
-  }
+
+
   pop_n_elems(sp - econ->save_sp);
   refp = global_ref_list;
   while (refp) {

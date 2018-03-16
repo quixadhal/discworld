@@ -7,6 +7,6 @@
 
 #define NO_CHANNELS ({ "admin", "fluffy", "liaison", "playtesters" })
 #define ADDITIONAL_CHANNELS ({ "code", "cre", "liaison" })
-#define INTERMUD_MAP ([ "dwchat" : "discworld-chat", "dwcre" : "discworld-cre", "intergossip" : "imud_gossip", "intercre" : "imud_code"])
+#define INTERMUD_MAP ([ "dwchat" : "discworld-chat", "dwcre" : "discworld-cre", "intergossip" : "imud_gossip", "intercre" : "imud_code", "wiley" : "wileymud", "url" : "url", "fluffos" : "fluffos", ])
 
 #endif /* _CREATOR_H */

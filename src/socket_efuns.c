@@ -246,7 +246,6 @@ int socket_create (enum socket_mode mode, svalue_t * read_callback, svalue_t * c
     default:
         return EEMODENOTSUPP;
     }
-
     i = find_new_socket();
     if (i >= 0) {
 #ifdef IPV6
@@ -270,6 +269,9 @@ int socket_create (enum socket_mode mode, svalue_t * read_callback, svalue_t * c
             OS_socket_close(fd);
             return EENONBLOCK;
         }
+#ifdef FD_CLOEXEC
+        fcntl(fd, F_SETFD, FD_CLOEXEC);
+#endif
         lpc_socks[i].fd = fd;
         lpc_socks[i].flags = S_HEADER;
 
@@ -316,6 +318,7 @@ int socket_bind (int fd, int port, const char * addr)
 #else
     struct sockaddr_in sin;
 #endif
+    memset(&sin, 0, sizeof(sin));
     if (fd < 0 || fd >= max_lpc_socks)
         return EEFDRANGE;
     if (lpc_socks[fd].state == STATE_CLOSED ||
@@ -367,7 +370,7 @@ int socket_bind (int fd, int port, const char * addr)
 #ifdef IPV6
     char tmp[INET6_ADDRSTRLEN];
     debug(sockets, ("socket_bind: bound socket %d to %s.%d\n",
-                 fd, inet_ntop(AF_INET6, &lpc_socks[fd].l_addr.sin6_addr, &tmp, INET6_ADDRSTRLEN),
+                 fd, inet_ntop(AF_INET6, &lpc_socks[fd].l_addr.sin6_addr, (char *)&tmp, INET6_ADDRSTRLEN),
                  ntohs(lpc_socks[fd].l_addr.sin6_port)));
 
 #else
@@ -458,6 +461,7 @@ int socket_accept (int fd, svalue_t * read_callback, svalue_t * write_callback)
      * properly inherit the nonblocking property from the listening socket.
      * Marius, 19-Jun-2000: this happens on other platforms as well, so just
      * do it for everyone
+     * better reset the close on exec as well then
      */
     if (set_socket_nonblocking(accept_fd, 1) == -1) {
         socket_perror("socket_accept: set_socket_nonblocking 1", 0);
@@ -465,11 +469,14 @@ int socket_accept (int fd, svalue_t * read_callback, svalue_t * write_callback)
         return EENONBLOCK;
     }
 
+#ifdef FD_CLOEXEC
+    fcntl(accept_fd, F_SETFD, FD_CLOEXEC);
+#endif
+
+
     i = find_new_socket();
     if (i >= 0) {
         fd_set wmask;
-        struct timeval t;
-        int nb;
 
         lpc_socks[i].fd = accept_fd;
         lpc_socks[i].flags = S_HEADER |
@@ -477,15 +484,9 @@ int socket_accept (int fd, svalue_t * read_callback, svalue_t * write_callback)
 
         FD_ZERO(&wmask);
         FD_SET(accept_fd, &wmask);
-        t.tv_sec = 0;
-        t.tv_usec = 0;
-#ifndef hpux
-        nb = select(FD_SETSIZE, (fd_set *) 0, &wmask, (fd_set *) 0, &t);
-#else
-        nb = select(FD_SETSIZE, (int *) 0, (int *) &wmask, (int *) 0, &t);
-#endif
+
         if (!(FD_ISSET(accept_fd, &wmask)))
-            lpc_socks[i].flags |= S_BLOCKED;
+        	lpc_socks[i].flags |= S_BLOCKED;
 
         lpc_socks[i].mode = lpc_socks[fd].mode;
         lpc_socks[i].state = STATE_DATA_XFER;
@@ -646,7 +647,7 @@ int socket_write (int fd, svalue_t * message, const char * name)
                 DMALLOC(len + 5, TAG_TEMPORARY, "socket_write: default");
             if (buf == NULL)
                 fatal("Out of memory");
-            *(INT_32 *) buf = htonl((long) len);
+            *(uint32_t *) buf = htonl((uint32_t) len);
             len += 4;
             buf[4] = '\0';
             p = buf + 4;
@@ -862,7 +863,7 @@ void socket_read_select_handler (int fd)
             buf[cc] = '\0';
 #ifdef IPV6
             char tmp[INET6_ADDRSTRLEN];
-            sprintf(addr, "%s %d", inet_ntop(AF_INET6, &sin.sin6_addr, &tmp, INET6_ADDRSTRLEN),
+            sprintf(addr, "%s %d", inet_ntop(AF_INET6, &sin.sin6_addr, tmp, INET6_ADDRSTRLEN),
                                 ntohs(sin.sin6_port));
 #else
             sprintf(addr, "%s %d", inet_ntoa(sin.sin_addr),
@@ -938,7 +939,7 @@ void socket_read_select_handler (int fd)
                     DMALLOC(lpc_socks[fd].r_len + 1, TAG_TEMPORARY, "socket_read_select_handler");
                 if (lpc_socks[fd].r_buf == NULL)
                     fatal("Out of memory");
-                debug(sockets, ("read_socket_handler: svalue len is %lu\n",
+                debug(sockets, ("read_socket_handler: svalue len is %d.\n",
                              lpc_socks[fd].r_len));
             }
             if (lpc_socks[fd].r_off < lpc_socks[fd].r_len) {
@@ -1316,12 +1317,16 @@ static int socket_name_to_sin (const char * name, struct sockaddr_in * sin)
     hints.ai_family = AF_INET6;
     hints.ai_socktype = 0;
     hints.ai_protocol = 0;
+#ifndef AI_V4MAPPED
+    hints.ai_flags = AI_CANONNAME;
+#else
     hints.ai_flags = AI_CANONNAME| AI_V4MAPPED;
+#endif
 
     if(getaddrinfo(addr, "1234", &hints, &res)){
     	//failed
     	socket_perror("socket_name_to_sin: getaddrinfo", 0);
-    	        return;
+    	return 0;
     }
     struct sockaddr_in6 tmp;
     memcpy(&tmp, res->ai_addr, sizeof(tmp));
@@ -1368,7 +1373,7 @@ static char *inet_address (struct sockaddr_in * sin)
     if (!memcmp(&sin->sin6_addr, &in6addr_any, sizeof(in6addr_any)))
         strcpy(addr, "*");
     else
-        inet_ntop(AF_INET6, &sin->sin6_addr, &addr, INET6_ADDRSTRLEN);
+        inet_ntop(AF_INET6, &sin->sin6_addr, addr, INET6_ADDRSTRLEN);
     strcat(addr, ".");
     if (ntohs(sin->sin6_port) == 0)
         strcpy(port, "*");
@@ -1441,7 +1446,8 @@ array_t *socket_status (int which)
     ret->item[4].u.string = string_copy(inet_address(&lpc_socks[which].r_addr),
                                         "socket_status");
 
-    if (lpc_socks[which].owner_ob && !(lpc_socks[which].owner_ob->flags & O_DESTRUCTED)) {
+    // Fix per Kalinash's suggestion, if (!(lpc_socks[which].flags & STATE_FLUSHING) && ...
+    if (!(lpc_socks[which].flags != STATE_FLUSHING) && lpc_socks[which].owner_ob && !(lpc_socks[which].owner_ob->flags & O_DESTRUCTED)) {
         ret->item[5].type = T_OBJECT;
         ret->item[5].u.ob = lpc_socks[which].owner_ob;
         add_ref(lpc_socks[which].owner_ob, "socket_status");
