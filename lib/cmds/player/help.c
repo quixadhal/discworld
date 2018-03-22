@@ -35,7 +35,7 @@ int file_help(string name);
 void rehash_dirs();
 mixed *query_help_on(string name, int creator, int, int);
 mixed *create_help_files(string *names, string nroff_dir);
-private mapping read_directories(string *directories, int recurse);
+/* private */ mapping read_directories(string *directories, int recurse);
 private mapping read_synonyms();
 private string letter_name(int letter, mixed *things);
 private string start_letter( mixed *things );
@@ -651,7 +651,84 @@ private mapping read_synonyms() {
  * @param directories the directories to recursively read
  * @return a mapping with the locations of the help files
  */
-private mapping read_directories(string *directories, int recurse) {
+/* private */ mapping read_directories(string *directories, int recurse) {
+    string *files;
+    string fname;
+    string kname;
+    int i;
+    string dir;
+    string target;
+    mapping ret;
+
+    ret = ([ ]);
+    for (i = 0; i < sizeof(directories); i++) {
+        dir = directories[i];
+        files = get_dir(dir + "*") - ({ "ERROR_REPORTS", "old", "RCS", ".", ".."  });
+        foreach (fname in files) {
+            target = dir + fname;
+            if (file_size(target) == -2) {
+                // Directory
+                if (recurse) {
+                    target = dir + fname + "/";
+                    if (member_array(target, directories) == -1) {
+                        // only add if it's not already in the list
+                        directories += ({ target  });
+                        // instead of recursing, just add to the array of directories...
+                        // ret += read_directories( ({ dir + fname + "/" }), 1 );
+                    }
+                }
+            } else {
+                /* Make lowercase */
+                kname = lower_case(fname);
+
+                /* Remove man page endings */
+                switch( kname[<2..<1] ) {
+                    case ".1":
+                    case ".2":
+                    case ".3":
+                    case ".4":
+                    case ".5":
+                    case ".6":
+                    case ".7":
+                    case ".8":
+                    case ".9":
+                        kname = kname[0..<3];
+                        break;
+                    default:
+                        break;
+                }
+
+                if (!ret[kname]) {
+                    // keyword did not exist in mapping yet
+                    ret[kname] = ({ target });
+                } else {
+                    if (member_array(target, ret[kname]) == -1) {
+                        // keyword exists, but not with this target
+                        ret[kname] += ({ target });
+                    }
+                }
+
+                /* Turn '_' into spaces... */
+                if (strsrch(kname, "_") > 0) {
+                    kname = replace(kname, "_", " ");
+                    if (!ret[kname]) {
+                        // keyword did not exist in mapping yet
+                        ret[kname] = ({ target });
+                    } else {
+                        if (member_array(target, ret[kname]) == -1) {
+                            // keyword exists, but not with this target
+                            ret[kname] += ({ target });
+                        }
+                    }
+                }
+            } // File
+        } // foreach fname in files
+    } // for i in directories
+
+    return ret;
+} /* read_directories() */
+
+private mapping old_read_directories(string *directories, int recurse) {
    string *files;
    string fname;
    int i;
