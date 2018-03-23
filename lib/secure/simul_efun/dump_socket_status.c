@@ -6,6 +6,7 @@
  *
  */
 
+#if !efun_defined(dump_socket_status)
 string dump_socket_status() {
     string ret = @END
 Fd    State      Mode       Local Address          Remote Address
@@ -18,3 +19,4 @@ END;
 
     return ret;
 }
+#endif

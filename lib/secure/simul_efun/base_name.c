@@ -30,6 +30,7 @@
  * @param val the ob or string name
  * @return the base name of the object
  */
+#if !efun_defined(base_name)
 string base_name(mixed val) {
   string name, base;
 
@@ -46,3 +47,4 @@ string base_name(mixed val) {
 
   return name;
 } 
+#endif
