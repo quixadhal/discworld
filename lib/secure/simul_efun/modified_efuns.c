@@ -343,18 +343,16 @@ varargs void log_file(string name, string fmt, mixed *args ...) {
 
 mapping query_loggers() { return _loggers; }
 
+#ifdef MUD_NAME
 /**
  * This method returns the name of the mud.
  *
  * @return the name of the mud
  */
 string mud_name() {
-#ifdef MUD_NAME
   return capitalize(MUD_NAME);
-#else
-  return "MUD_NAME not set!";
-#endif
 } /* mud_name() */
+#endif
 
 /**
  * Write the file out to the screen.  This should  not be used if possible.
