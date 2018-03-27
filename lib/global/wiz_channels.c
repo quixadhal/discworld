@@ -249,7 +249,7 @@ private int channel_cmd(string mess) {
   }
   
   if(INTERMUD_MAP[channel]) {
-    user_event(this_object(), "intermud_tell", start, mess, channel);
+    //user_event(this_object(), "intermud_tell", start, mess, channel);
     
     if(channel == "dwchat") {
       things = children(TALKER);

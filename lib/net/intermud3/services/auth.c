@@ -8,16 +8,16 @@
 private nosave mapping sessions = ([]);
 
 void eventReceiveAuthRequest(mixed *packet) {
-  int key;
+    int key;
 
-  if (file_name(previous_object()) != INTERMUD_D) return;
-  if (sizeof(packet) != 6) return;
-  key = random(time()); /* XXX - Is this guaranteed to be unique ?? */
-  if (!packet[2]) return;
-  sessions[packet[2]] = key;
-  call_out("eventTimeout", TIMEOUT, packet[2]);
-  INTERMUD_D->eventExternWrite(({"auth-mud-reply", 5, mud_name(), 0,
-			 packet[2], 0, key}));
+    if (file_name(previous_object()) != INTERMUD_D) return;
+    if (sizeof(packet) != 6) return;
+    key = random(time()); /* XXX - Is this guaranteed to be unique ?? */
+    if (!packet[2]) return;
+    sessions[packet[2]] = key;
+    call_out("eventTimeout", TIMEOUT, packet[2]);
+    INTERMUD_D->eventExternWrite(({"auth-mud-reply", 5, mud_name(), 0,
+                packet[2], 0, key}));
 }
 
 void eventTimeout(string mudname) {

@@ -22,11 +22,13 @@
 #else
 
 #include <network.h>
+#define SAVE_INTERMUD "/net/save/services"
 
 mapping GetServices();
 
 protected void create() {
   seteuid(getuid());
+  unguarded((: restore_object, SAVE_INTERMUD :));
 }
 
 #include "/net/intermud3/services/auth.c"
@@ -41,57 +43,57 @@ protected void create() {
 mapping GetServices() {
     return ([
 #ifdef whatsthis
-	     "amcp" : "1.1",
+            "amcp" : "1.1",
 #endif
 #ifdef SERVICE_AUTH
-	     "auth" : 1,
+            "auth" : 1,
 #endif
 #ifdef SERVICE_CHANNEL
-	     "channel" : 1,
+            "channel" : 1,
 #endif
 #ifdef SERVICE_EMOTETO
-	     "emoteto" : 1,
+            "emoteto" : 1,
 #endif
 #ifdef SERVICE_FILE
-	     "file" : 1,
+            "file" : 1,
 #endif
 #ifdef SERVICE_FINGER
-	     "finger" : 1,
+            "finger" : 1,
 #endif
 #ifdef SERVICE_LOCATE
-	     "locate" : 1,
+            "locate" : 1,
 #endif
 #ifdef SERVICE_MAIL
-	     "mail" : 1,
+            "mail" : 1,
 #endif
 #ifdef SERVICE_NEWS
-	     "news" : 1,
+            "news" : 1,
 #endif
 #ifdef SERVICE_TELL
-	     "tell" : 1,
+            "tell" : 1,
 #endif
 #ifdef SERVICE_UCACHE
-	     "ucache" : 1,
+            "ucache" : 1,
 #endif
 #ifdef SERVICE_WHO
-	     "who" : 1,
+            "who" : 1,
 #endif
 #ifdef PORT_FTP
-	     "ftp" : PORT_FTP,
+            "ftp" : PORT_FTP,
 #endif
 #ifdef PORT_HTTP
-	     "http" : PORT_HTTP,
+            "http" : PORT_HTTP,
 #endif
 #ifdef PORT_NNTP
-	     "nntp" : PORT_NNTP,
+            "nntp" : PORT_NNTP,
 #endif
 #ifdef PORT_RCP
-	     "rcp" : PORT_RCP,
+            "rcp" : PORT_RCP,
 #endif
 #ifdef PORT_SMTP
-	     "smtp" : PORT_SMTP,
+            "smtp" : PORT_SMTP,
 #endif
-	     ]);
+            ]);
 }
 
 void eventShutdown(int secs) {

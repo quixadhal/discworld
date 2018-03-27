@@ -13,7 +13,331 @@
 #define TALKER "/std/shadows/object/talker"
 #define HIST "/obj/handlers/hist_handler"
 
+#include <localtime.h>
+#include <term.h>
+#include <network.h>
+#define SAVE_INTERMUD "/net/save/services"
+
+nosave mapping hour_colors = ([
+        0   : "%^BOLD%^BLACK%^",
+        1   : "%^BOLD%^BLACK%^",
+        2   : "%^BOLD%^BLACK%^",
+        3   : "%^BOLD%^BLACK%^",
+        4   : "%^RED%^",
+        5   : "%^RED%^",
+        6   : "%^ORANGE%^",
+        7   : "%^ORANGE%^",
+        8   : "%^YELLOW%^",
+        9   : "%^YELLOW%^",
+        10  : "%^GREEN%^",
+        11  : "%^GREEN%^",
+        12  : "%^BOLD%^GREEN%^",
+        13  : "%^BOLD%^GREEN%^",
+        14  : "%^BOLD%^WHITE%^",
+        15  : "%^BOLD%^WHITE%^",
+        16  : "%^BOLD%^CYAN%^",
+        17  : "%^BOLD%^CYAN%^",
+        18  : "%^CYAN%^",
+        19  : "%^CYAN%^",
+        20  : "%^BOLD%^BLUE%^",
+        21  : "%^BOLD%^BLUE%^",
+        22  : "%^BLUE%^",
+        23  : "%^BLUE%^",
+        ]);
+
+nosave mapping channel_colors = ([
+        "admin"             : "%^BOLD%^MAGENTA%^",
+        "fluffy"            : "%^BOLD%^MAGENTA%^",
+        "playtesters"       : "%^BOLD%^MAGENTA%^",
+
+        "code"              : "%^BOLD%^GREEN%^",
+        "cre"               : "%^BOLD%^GREEN%^",
+        "liaison"           : "%^BOLD%^GREEN%^",
+
+        "dchat"             : "%^CYAN%^",
+        "ds"                : "%^YELLOW%^",
+        "free_speech"       : "%^BOLD%^RED%^",
+        "skylib"            : "%^BOLD%^MAGENTA%^",
+
+        "dwchat"            : "%^BOLD%^WHITE%^",
+        "discworld-chat"    : "%^BOLD%^WHITE%^",
+        "dwcre"             : "%^YELLOW%^",
+        "discworld-cre"     : "%^YELLOW%^",
+        "intergossip"       : "%^GREEN%^",
+        "imud_gossip"       : "%^GREEN%^",
+        "intercre"          : "%^ORANGE%^",
+        "imud_code"         : "%^ORANGE%^",
+        "wiley"             : "%^YELLOW%^",
+        "wileymud"          : "%^YELLOW%^",
+
+        "url"               : "%^BOLD%^WHITE%^",
+        "fluffos"           : "%^YELLOW%^",
+
+        "default"           : "%^BOLD%^BLUE%^",
+        ]);
+
+nosave string* chat_colors = ({
+        "%^RED%^",
+        "%^GREEN%^",
+        "%^ORANGE%^",
+        "%^BLUE%^",
+        "%^MAGENTA%^",
+        "%^CYAN%^",
+        "%^BOLD%^BLACK%^",
+        "%^BOLD%^RED%^",
+        "%^BOLD%^GREEN%^",
+        "%^YELLOW%^",
+        "%^BOLD%^BLUE%^",
+        "%^BOLD%^MAGENTA%^",
+        "%^BOLD%^CYAN%^",
+        "%^BOLD%^WHITE%^",
+
+        "%^B_RED%^BOLD%^WHITE%^",
+        "%^B_GREEN%^BOLD%^WHITE%^",
+        "%^B_BLUE%^BOLD%^WHITE%^",
+        "%^B_MAGENTA%^BOLD%^WHITE%^",
+
+        "%^B_RED%^YELLOW%^",
+        "%^B_GREEN%^YELLOW%^",
+        "%^B_BLUE%^YELLOW%^",
+        "%^B_MAGENTA%^YELLOW%^",
+
+        "%^B_RED%^BLACK%^",
+        "%^B_GREEN%^BLACK%^",
+        "%^B_MAGENTA%^BLACK%^",
+        "%^B_CYAN%^BLACK%^",
+        "%^B_ORANGE%^BLACK%^",
+        "%^B_WHITE%^BLACK%^",
+        });
+
+mapping chatters = ([ ]);
+mapping renamed_chatters = ([ ]);
+int chat_counter = 0;
+
+// Get the raw data from localtime(), adjusted to be GMT
+// if desired.
+varargs mixed *getRawTimeBits(int the_time, int use_local) {
+    mixed *bits;
+
+    if(undefinedp(the_time))
+        the_time = time();
+
+    bits = localtime(the_time);
+    if( !use_local ) {
+        // Add GMT offset if we aren't using local time
+        bits = localtime(the_time + bits[LT_GMTOFF]);
+        bits[LT_ZONE] = "GMT";
+    }
+    return bits;
+}
+
+// Get the date and time as an ISO formatted string.
+varargs string timestamp(int the_time, int use_local) {
+    string ret;
+    mixed *bits;
+
+    bits = getRawTimeBits(the_time, use_local);
+    ret = sprintf("%04d-%02d-%02d %02d:%02d:%02d %s",
+            bits[LT_YEAR], bits[LT_MON]+1, bits[LT_MDAY],
+            bits[LT_HOUR], bits[LT_MIN], bits[LT_SEC],
+            bits[LT_ZONE]);
+    return ret;
+}
+
+// Get an hour::minute timestamp
+varargs string getDayTime(int the_time, int use_local) {
+    string ret;
+    mixed *bits;
+
+    bits = getRawTimeBits(the_time, use_local);
+    ret = sprintf("%02d:%02d", bits[LT_HOUR], bits[LT_MIN]);
+    return ret;
+}
+
+// Get an hour:minute timestamp with daytime color.
+varargs string getColorDayTime(string prefix, string suffix, int the_time, int use_local) {
+    string ret;
+    mixed *bits;
+
+    bits = getRawTimeBits(the_time, use_local);
+    if(undefinedp(prefix))
+        prefix = "";
+    if(undefinedp(suffix))
+        suffix = "";
+    ret = sprintf("%s%s%02d:%02d%s%s", 
+            hour_colors[bits[LT_HOUR]], prefix,
+            bits[LT_HOUR], bits[LT_MIN],
+            suffix, "%^RESET%^"
+            );
+    return ret;
+}
+
+string getChannelColor(string ch) {
+    if(member_array(lower_case(ch), keys(channel_colors)) >= 0)
+        // If we have a color defined for this channel, use it!
+        return channel_colors[lower_case(ch)];
+    else
+        return channel_colors["default"];
+}
+
+varargs string getColorChannelName(string ch, string prefix, string suffix) {
+    string the_color;
+
+    if(undefinedp(prefix))
+        prefix = "";
+    if(undefinedp(suffix))
+        suffix = "";
+    the_color = getChannelColor(ch);
+
+    return the_color + prefix + ch + suffix + "%^RESET%^";
+}
+
+// Sets a particular user to be a particular color.
+int setSpeakerColor(string who, string color) {
+    string shortwho;
+
+    shortwho = lower_case(explode(who, "@")[0]);
+    if(member_array(shortwho, keys(renamed_chatters)) >= 0) {
+        shortwho = renamed_chatters[shortwho];
+    }
+    if(member_array(shortwho,keys(chatters)) >= 0) {
+        chatters[shortwho] = color;
+        unguarded((: save_object, SAVE_INTERMUD :));
+        return 1;
+    }
+    return 0;
+}
+
+// Rename a chatter, putting their old name in a renamed mapping.
+int renameChatter(string who, string to, int keep_source_color) {
+    string shortwho;
+    string shortto;
+
+    shortwho = lower_case(explode(who, "@")[0]);
+    shortto = lower_case(explode(to, "@")[0]);
+    if (member_array(shortwho,keys(chatters)) < 0) {
+        // If the source doesn't exist, there's nothing to do.
+        return 0;
+    }
+    // Copy the source value to the destination and then nuke the source.
+    renamed_chatters[shortwho] = shortto;
+    if(keep_source_color)
+        chatters[shortto] = chatters[shortwho];
+    map_delete( chatters, shortwho);
+    unguarded((: save_object, SAVE_INTERMUD :));
+    return 1;
+}
+
+// Figure out what color to make this guy.
+string getSpeakerColor(string who) {
+    string color;
+    string shortwho;
+
+    shortwho = lower_case(explode(who, "@")[0]);
+    if(member_array(shortwho, keys(renamed_chatters)) >= 0) {
+        shortwho = renamed_chatters[shortwho];
+    }
+    if (member_array(shortwho,keys(chatters)) >= 0) {
+        color = chatters[shortwho];
+    } else {
+        color = chat_colors[chat_counter % sizeof(chat_colors)];
+        chatters[shortwho] = color;
+        chat_counter++;
+        unguarded((: save_object, SAVE_INTERMUD :));
+    }
+    return color;
+}
+
+// Show who is mapped to a particular color.
+mapping mapSpeakerColors() {
+    int i;
+    mixed *k;
+    mixed *v;
+    mixed m;
+    k = keys(chatters);
+    v = values(chatters);
+    m = ([]);
+
+    for(i = 0; i < sizeof(k); i++) {
+        m[v[i]] = undefinedp(m[v[i]]) ? ({ k[i] }) : m[v[i]] + ({ k[i] });
+    }
+
+    return m;
+}
+
+// Output a semi-pretty screen of colors mapped to speaker names.
+varargs string showSpeakerColors(string who) {
+    int i;
+    mapping m;
+    string s = "";
+    mixed *k;
+    int t = 0;
+    int w;
+    string color;
+    string t_name = this_player()->query_term_name() || "dumb";
+    mapping c_map = (mapping)TERM_HANDLER->set_term_type(t_name);
+
+    if(!undefinedp(who)) {
+        string shortwho = lower_case(explode(who, "@")[0]);
+        if(member_array(shortwho, keys(renamed_chatters)) >= 0) {
+            shortwho = renamed_chatters[shortwho];
+        }
+        if(member_array(shortwho,keys(chatters)) >= 0) {
+            color = chatters[shortwho];
+        }
+    }
+    //w= this_player()->GetScreen()[0] || 80;
+    w = 80;
+    m = mapSpeakerColors();
+    k = sort_array(keys(m), 1);
+    for(i = 0; i < sizeof(k); i++) {
+        string nk;
+        int c;
+        string * lines;
+        int j;
+
+        if(!undefinedp(color)) {
+            if(k[i] != color) {
+                continue;
+            }
+        }
+        nk = replace_string(k[i], "%^", "");
+        c = sizeof(m[k[i]]);
+        if(undefinedp(color)) {
+            lines = explode( terminal_colour(implode(sort_array(m[k[i]], 1), ", "), c_map, w - 30, 0), "\n");
+            for(j = 1; j < sizeof(lines); j++) {
+                lines[j] = sprintf("%%^RESET%%^%29s%s%s", "", k[i], lines[j]);
+            }
+            s += sprintf("(%4d) %-20s: %s%s%s\n", c, nk, k[i], implode(lines, "\n"), "%^RESET%^");
+        } else {
+            s += sprintf("(%d) %s: %s%s%s\n", c, nk, k[i], implode(sort_array(m[k[i]], 1), ", "), "%^RESET%^");
+        }
+
+        t += c;
+    }
+    if(undefinedp(color)) {
+        s += sprintf("(%4d) Total\n", t);
+    }
+
+    return s;
+}
+
+// Add the speaker's color to their name.
+varargs string getColorSpeakerName(string speaker, string prefix, string suffix) {
+    string the_color;
+
+    if(undefinedp(prefix)) prefix = "";
+    if(undefinedp(suffix)) suffix = "";
+    the_color = getSpeakerColor(speaker);
+
+    return the_color + prefix + speaker + suffix + "%^RESET%^";
+}
+
+// original code below here
+
 string GetLocalChannel(string ch);
+varargs void eventSendChannel(string who, string ch, string msg, int emote,
+                              string target, string targmsg);
 
 void eventReceiveChannelWhoReply(mixed *packet) {
   object ob;
@@ -89,7 +413,122 @@ void eventReceiveChannelUserRequest(mixed *packet) {
                              packet[2], 0, packet[6], visname, gender }));
 }
 
+nosave mapping globals = ([]), files = ([]), ret = ([]);
+#define CMD_NUM 1
+#define TP globals[fd]
+#define RET ret[fd]
+#define CMDS cmds[this_player()]
+
 void eventReceiveChannelMessage(mixed *packet) {
+    object *people, *things;
+    //mixed *urls;
+    string url_regexp;
+    //int i;
+    string line;
+    string match;
+    string *matches;
+    int fd;
+    string *bits;
+
+    if (file_name(previous_object()) != INTERMUD_D) {
+        return;
+    }
+
+    // packet[0] == "channel_m"
+    // packet[1] == 5
+    // packet[2] == originating MUD name (MUD_NAME if local)
+    // packet[3] == originating user name
+    // packet[4] == 0
+    // packet[5] == 0
+    // packet[6] == channel name
+    // packet[7] == visual name (pretty name) of user
+    // packet[8] == message
+
+    //if (packet[2] == mud_name() || !GetLocalChannel(packet[6])) {
+    if (!GetLocalChannel(packet[6])) {
+        return;
+    }
+
+    // get list of people who are listening to the channel
+    people = filter(users(), (: $1->check_not_ignored($(packet[2])) && 
+                $1->check_not_ignored($(packet[3])) && 
+                $1->check_not_ignored($(packet[7])) && 
+                $1->check_not_ignored($(packet[3]) + "@" + $(packet[2])) &&
+                $1->check_not_ignored($(packet[7]) + "@" + $(packet[2]))
+                :));
+
+    // Filter out ANSI codes and BEEP?
+    packet[8] = replace(packet[8], ({ sprintf("%c", 7), "!",
+                sprintf("%c", 27), "ESC" }));
+
+    // Send the event to listeners
+    // event(listeners, "intermud_tell", speaker@mud, message, channel)
+    event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+            packet[8], GetLocalChannel((string)packet[6]));
+
+    // Scan the message to see if there's a URL in it.
+    if( GetLocalChannel((string)packet[6]) != "url" ) {
+        //url_regexp = "(https?\\:\\/\\/[\\w.-]+(?:\\.[\\w\\.-]+)+(?:\\:[\\d]+)?[\\w\\-\\.\\~\\:\\/\\?\\#[\\]\\@\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\=\\%]+)";
+        url_regexp = "(https?://[^ ]+?)(?:[ ]|$)";
+        foreach( line in explode(packet[8], "\n") ) {
+            matches = pcre_extract(line, url_regexp);
+            foreach( match in matches ) {
+                //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+                //        sprintf("Found URL: %s", match), "DEBUG__" + GetLocalChannel((string)packet[6]));
+                bits = ({ "wiley", match, GetLocalChannel((string)packet[6]), packet[3] });
+                fd = external_start(CMD_NUM, bits, "read_call_back", "write_call_back", "close_call_back");
+                if( fd < 0 ) {
+                    event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+                            "Untiny failed to spawn.", "DEBUG__" + GetLocalChannel((string)packet[6]));
+                } else {
+                    TP = this_player();
+                    RET = "";
+                    //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+                    //        sprintf("Spawning untiny %s on descriptor %d", implode(bits, " "), fd),
+                    //        "DEBUG__" + GetLocalChannel((string)packet[6]));
+                }
+            }
+        }
+    }
+
+    // Handle chat channel for mortals
+    if ((string)packet[6] == "discworld-chat") {
+        if ( strsrch( packet[8], "%^" ) != -1 ) {
+           packet[8] = strip_colours( packet[8] );
+        }
+
+        things = children(TALKER);
+        things -= ({ find_object(TALKER) });
+        things->receive("intermud", sprintf("%s@%s", packet[7], packet[2]),
+                packet[8]);
+        HIST->add_chat_history( "intermud", sprintf( "%s wisped: ",
+                    packet[7] + "@" + packet[2] ), packet[8] );   
+    }
+    /* 
+       CHAT_D->eventSendChannel(packet[7] + "@" + packet[2], packet[6],
+       packet[8]); */
+}
+
+void read_call_back(int fd, mixed mess) {
+    RET += mess;
+}
+
+void write_call_back(int fd) {
+    tell_object(TP, "untiny: The write_call_back() was called, somehow...\n");
+}
+
+void close_call_back(int fd) {
+    if(RET != "")
+        //tell_object(TP, RET);
+        eventSendChannel("URLbot", "url", RET);
+    else
+        tell_object(TP, "untiny: no result.\n");
+
+    map_delete(ret, fd);
+    map_delete(globals, fd);
+}
+
+void old_eventReceiveChannelMessage(mixed *packet) {
   object *people, *things;
 
   if (file_name(previous_object()) != INTERMUD_D) {

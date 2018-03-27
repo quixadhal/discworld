@@ -15,6 +15,7 @@
 #include <player.h>
 #include <telnet.h>
 #include <term.h>
+#include <network.h>
 #include <tune.h>
 #include <language.h>
 #include <broadcaster.h>
@@ -2422,6 +2423,41 @@ void event_inter_creator_tell(object ob, string mname, string pname,
  * @param emote if it is an emote
  */
 void event_intermud_tell(object ob, string start, string mess,
+        string channel, object ig) {
+    int u; // used to pass undef as a value
+    string tmp;
+    string hdr;
+    string the_time;
+    string the_chan;
+    string the_fool;
+    int indent_width;
+
+    if (!this_object()->query_creator() || check_earmuffs("intermud-all", 0)
+            || check_earmuffs(channel, 0) || this_object() == ig) {
+        return ;
+    }
+
+    the_time = SERVICES_D->getColorDayTime(u,u,u,1); // get local time
+    the_chan = SERVICES_D->getColorChannelName(channel, "[", "]");
+    the_fool = SERVICES_D->getColorSpeakerName(start, "", ":");
+
+    // HH:MM <channel> speaker: message
+    hdr = implode( ({ the_time, the_chan, the_fool, "" }), " ");
+
+    //indent_width = 6 + strlen(channel) + 3 + strlen(start) + 2;
+    //indent_width = 6 + strlen(channel) + 3;
+    indent_width = 6;
+
+    tmp = fix_string("%s%s%%^RESET%%^\n", cols, indent_width, 0, hdr, mess);
+
+    if (has_mxp(this_object())) {
+        efun::tell_object(this_object(), fix_for_mxp(tmp));
+    } else {
+        efun::tell_object(this_object(), tmp);
+    }
+} /* event_intermud_tell() */
+
+void old_event_intermud_tell(object ob, string start, string mess,
                          string channel, object ig) {
   string tmp;
 

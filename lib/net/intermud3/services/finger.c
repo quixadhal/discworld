@@ -14,14 +14,14 @@ void eventReceiveFingerRequest(mixed *packet) {
     object demon;
 
     if( !(ret = 
-        (mixed *)"/secure/finger"->remote_finger(lower_case(packet[6]))) ) {
+                (mixed *)"/secure/finger"->remote_finger(lower_case(packet[6]))) ) {
         INTERMUD_D->eventExternWrite(({ "error", 5, mud_name(), 0, packet[2],
-                                  packet[3], "unk-user",
-                                  "No one going by the name of "+
-                                  capitalize(packet[6]) + " has ever visited "+
-                                  "Discworld.",
-				  packet }));
-	return;
+                    packet[3], "unk-user",
+                    "No one going by the name of "+
+                    capitalize(packet[6]) + " has ever visited "+
+                    "Discworld.",
+                    packet }));
+        return;
     }
     demon = clone_object("/net/daemon/chars/in_finger_demon");
     demon->setup_finger(lower_case(packet[6]));
@@ -32,9 +32,9 @@ void eventReceiveFingerRequest(mixed *packet) {
 void eventReceiveFingerReply(mixed *packet) {
     object ob;
     string fing;
-    
+
     if( file_name(previous_object()) != INTERMUD_D ) return;
-    
+
     if( !( ob = find_player( _finger_ids[ lower_case(packet[5]) ] ) ) ) 
         return;
 
@@ -47,7 +47,7 @@ void eventReceiveFingerReply(mixed *packet) {
     else fing += packet[6] + "\n";
     fing += "Email: " + (packet[9] ? packet[9] : "Confidential") + "\n";
     fing += ((packet[11] != -1) ? "On since: " + packet[10]  : 
-	     "Last logged in: " + packet[10]);
+            "Last logged in: " + packet[10]);
     if( packet[11] != -1 ) fing += " (idle " + packet[11] + " seconds)\n";
     else fing += "\n";
     fing += "Site: " + (packet[12] ? packet[12] : "Confidential") + "\n";
@@ -58,14 +58,14 @@ void eventReceiveFingerReply(mixed *packet) {
 void eventSendFingerRequest(string who, string where) {
     string pl;
     string crname; 
-    
+
     // This is the person who sent the request. 
     if( !(pl = (string)this_player(1)->query_name()) ) return;
-    
+
     crname = lower_case( crypt( pl, 0 ) ); 
 
     _finger_ids[ crname ] = pl; 
 
     INTERMUD_D->eventExternWrite( ({ "finger-req", 5, mud_name(), crname, where, 0, 
-			       who }) );
+                who }) );
 }

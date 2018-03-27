@@ -19,7 +19,8 @@ int valid_socket(object ob, string func, mixed *info) {
     }
   } else {
     if (fname[0..11] == "/secure/cmds" ||
-        fname[0..19] == "/secure/rcs_handler")
+        fname[0..18] == "/secure/rcs_handler" ||
+        fname[0..14] == "/net/intermud3/")
       return 1;
   }
   
