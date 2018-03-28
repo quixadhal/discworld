@@ -47,12 +47,21 @@ void write_call_back(int fd) {
 }
 
 void close_call_back(int fd) {
-    if(RET != "")
-        //tell_object(TP, RET);
-        SERVICES_D->eventSendChannel("URLbot", "url", RET);
-    else
-        tell_object(TP, "untiny: no result.\n");
+    string result;
+    //mixed *debug_arr;
 
+    if(RET != "") {
+        result = RET;
+        while( result != "" && ( result[<1..<1] == "\n" || result[<1..<1] == "\r" ) ) {
+            result = result[0..<2];
+        }
+        //debug_arr = explode(result, "");
+        //tell_object(TP, sprintf("%O", debug_arr));
+        tell_object(TP, result + "\n");
+        //SERVICES_D->eventSendChannel("URLbot", "url", RET);
+    } else {
+        tell_object(TP, "untiny: no result.\n");
+    }
     map_delete(ret, fd);
     map_delete(globals, fd);
 }
