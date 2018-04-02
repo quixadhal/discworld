@@ -45,6 +45,21 @@ nosave mapping hour_colors = ([
         23  : "%^BLUE%^",
         ]);
 
+nosave mapping month_colors = ([
+        0   : "%^BOLD%^BLACK%^",
+        1   : "%^BOLD%^BLACK%^",
+        2   : "%^RED%^",
+        3   : "%^ORANGE%^",
+        4   : "%^YELLOW%^",
+        5   : "%^GREEN%^",
+        6   : "%^BOLD%^GREEN%^",
+        7   : "%^BOLD%^WHITE%^",
+        8   : "%^BOLD%^CYAN%^",
+        9   : "%^CYAN%^",
+        10  : "%^BOLD%^BLUE%^",
+        11  : "%^BLUE%^",
+        ]);
+
 nosave mapping channel_colors = ([
         "admin"             : "%^BOLD%^MAGENTA%^",
         "fluffy"            : "%^BOLD%^MAGENTA%^",
@@ -114,6 +129,16 @@ mapping chatters = ([ ]);
 mapping renamed_chatters = ([ ]);
 int chat_counter = 0;
 
+mapping urls = ([ ]);
+
+// Simple accessor for others to get URL data from us.
+mapping getUrlData() {
+    if(!mapp(urls))
+        urls = ([ ]);
+
+    return urls;
+}
+
 // Get the raw data from localtime(), adjusted to be GMT
 // if desired.
 varargs mixed *getRawTimeBits(int the_time, int use_local) {
@@ -141,6 +166,30 @@ varargs string timestamp(int the_time, int use_local) {
             bits[LT_YEAR], bits[LT_MON]+1, bits[LT_MDAY],
             bits[LT_HOUR], bits[LT_MIN], bits[LT_SEC],
             bits[LT_ZONE]);
+    return ret;
+}
+
+// A colorized version of the full timestamp
+varargs string getColorTimestamp(string prefix, string suffix, int the_time, int use_local) {
+    string ret;
+    mixed *bits;
+
+    bits = getRawTimeBits(the_time, use_local);
+    if(undefinedp(prefix))
+        prefix = "";
+    if(undefinedp(suffix))
+        suffix = "";
+
+    ret = sprintf("%s%s%04d-%02d-%02d %s%s%02d:%02d:%02d %s%s%s%s%s",
+            month_colors[bits[LT_MON]],
+            prefix,
+            bits[LT_YEAR], bits[LT_MON]+1, bits[LT_MDAY],
+            "%^RESET%^", hour_colors[bits[LT_HOUR]],
+            bits[LT_HOUR], bits[LT_MIN], bits[LT_SEC],
+            "%^RESET%^", month_colors[bits[LT_MON]],
+            bits[LT_ZONE],
+            suffix, "%^RESET%^"
+            );
     return ret;
 }
 
@@ -421,9 +470,7 @@ nosave mapping globals = ([]), files = ([]), ret = ([]);
 
 void eventReceiveChannelMessage(mixed *packet) {
     object *people, *things;
-    //mixed *urls;
     string url_regexp;
-    //int i;
     string line;
     string match;
     string *matches;
@@ -476,16 +523,45 @@ void eventReceiveChannelMessage(mixed *packet) {
                 //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
                 //        sprintf("Found URL: %s", match), "DEBUG__" + GetLocalChannel((string)packet[6]));
                 bits = ({ "wiley", match, GetLocalChannel((string)packet[6]), packet[3] });
-                fd = external_start(CMD_NUM, bits, "read_call_back", "write_call_back", "close_call_back");
-                if( fd < 0 ) {
-                    event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
-                            "Untiny failed to spawn.", "DEBUG__" + GetLocalChannel((string)packet[6]));
-                } else {
-                    TP = this_player();
-                    RET = "";
+
+                if(!mapp(urls))
+                    urls = ([ ]);
+
+                if(member_array(match, keys(urls)) >= 0 && mapp(urls[match])) {
+                    // We've seen this URL before...
                     //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
-                    //        sprintf("Spawning untiny %s on descriptor %d", implode(bits, " "), fd),
-                    //        "DEBUG__" + GetLocalChannel((string)packet[6]));
+                    //        sprintf("DEBUG 1: %s, %O", match, urls[match]), "DEBUG__" + GetLocalChannel((string)packet[6]));
+                    eventSendChannel("URLbot", "url", sprintf("%s {%s@%s found this on %s}",
+                                urls[match]["result"],
+                                urls[match]["user"], urls[match]["mud"],
+                                getColorTimestamp("", "", urls[match]["time"])));
+                } else {
+                    // It's a new URL, save some info about it...
+                    // The result string is empty until the callback can fill it in.
+                    urls[match] = ([
+                            "time"      : time(),
+                            "channel"   : packet[6],
+                            "user"      : packet[3],
+                            "mud"       : packet[2],
+                            "result"    : "",
+                            ]);
+                    unguarded((: save_object, SAVE_INTERMUD :));
+                    //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+                    //        sprintf("DEBUG 2: %s, %O", match, urls[match]), "DEBUG__" + GetLocalChannel((string)packet[6]));
+
+                    // And then go deal with it...
+                    fd = external_start(CMD_NUM, bits, "read_call_back", "write_call_back", "close_call_back");
+                    if( fd < 0 ) {
+                        event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+                                "Untiny failed to spawn.", "DEBUG__" + GetLocalChannel((string)packet[6]));
+                    } else {
+                        TP = this_player();
+                        RET = "";
+                        files[fd] = match;
+                        //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+                        //        sprintf("Spawning untiny %s on descriptor %d", implode(bits, " "), fd),
+                        //        "DEBUG__" + GetLocalChannel((string)packet[6]));
+                    }
                 }
             }
         }
@@ -528,12 +604,15 @@ void close_call_back(int fd) {
         }
         //debug_arr = explode(result, "");
         //tell_object(TP, sprintf("%O", debug_arr));
+        urls[files[fd]]["result"] = result;
+        unguarded((: save_object, SAVE_INTERMUD :));
         eventSendChannel("URLbot", "url", result);
     } else {
         tell_object(TP, "untiny: no result.\n");
     }
     map_delete(ret, fd);
     map_delete(globals, fd);
+    map_delete(files, fd);
 }
 
 void old_eventReceiveChannelMessage(mixed *packet) {
