@@ -40,9 +40,16 @@ mixed cmd(string arg) {
                     if((pos = strsrch(result, " is ")) >= 0) {
                         // We probably found title information
                         result = result[(pos + 4)..];
-                    } else if((pos = strsrch(result, "http://tinyurl.com/")) >= 0) {
-                        // We got a tinyurl anyways
-                        result = "%^GREEN%^" + result[pos..(pos+27)] + "%^RESET%^";
+                    } else if((pos = strsrch(result, " :: ")) >= 0) {
+                        // This should catch any tinyurl forms that my script generates.
+                        int pos2;
+
+                        if((pos2 = strsrch(result[0..pos], "%^GREEN%^http")) >= 0) {
+                            result = result[pos2..(pos)] + "%^RESET%^";
+                        }
+                    //} else if((pos = strsrch(result, "http://tinyurl.com/")) >= 0) {
+                    //    // We got a tinyurl anyways
+                    //    result = "%^GREEN%^" + result[pos..(pos+27)] + "%^RESET%^";
                     }
                     tell_object(this_player(), sprintf("%-10.10s %-15s %-25s %s\n",
                                 SERVICES_D->timestamp(url_data[url]["time"]),
