@@ -139,6 +139,46 @@ mapping getUrlData() {
     return urls;
 }
 
+// the_time should be a time value
+// channel is packet[6]
+// user is packet[3]
+// mud is packet[2]
+varargs int addUrl(string match, int the_time, string channel, string user, string mud) {
+    if(undefinedp(match) || !stringp(match) || match == "")
+        return 0;
+
+    if(undefinedp(the_time))
+        the_time = time();
+    if(undefinedp(channel))
+        channel = "pts/1";
+    if(undefinedp(user))
+        user = "root";
+    if(undefinedp(mud))
+        mud = "localhost";
+
+    if(!mapp(urls))
+        urls = ([ ]);
+
+    if(member_array(match, keys(urls)) >= 0 && mapp(urls[match])) {
+        if((member_array("counter", keys(urls[match])) < 0) || urls[match]["counter"] == 0) {
+            // Legacy data, need to add this key as a 1 value.
+            urls[match]["counter"] = 1;
+        }
+        urls[match]["counter"] = urls[match]["counter"] + 1;
+    } else {
+        urls[match] = ([
+                "counter"   : 1,
+                "time"      : the_time,
+                "channel"   : channel,
+                "user"      : user,
+                "mud"       : mud,
+                "result"    : "",
+                ]);
+    }
+    unguarded((: save_object, SAVE_INTERMUD :));
+    return urls[match]["counter"];
+}
+
 // Get the raw data from localtime(), adjusted to be GMT
 // if desired.
 varargs mixed *getRawTimeBits(int the_time, int use_local) {
@@ -520,10 +560,38 @@ void eventReceiveChannelMessage(mixed *packet) {
         foreach( line in explode(packet[8], "\n") ) {
             matches = pcre_extract(line, url_regexp);
             foreach( match in matches ) {
+                int count;
                 //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
                 //        sprintf("Found URL: %s", match), "DEBUG__" + GetLocalChannel((string)packet[6]));
-                bits = ({ "wiley", match, GetLocalChannel((string)packet[6]), packet[3] });
+                count = addUrl(match, time(), packet[6], packet[3], packet[2]);
 
+                if(count < 1)
+                    continue;   // Somehow, match isn't valid so just skip this one.
+                if(count == 1) {
+                    // It's a new URL, save some info about it...
+                    // The result string is empty until the callback can fill it in.
+                    bits = ({ "wiley", match, GetLocalChannel((string)packet[6]), packet[3] });
+                    fd = external_start(CMD_NUM, bits, "read_call_back", "write_call_back", "close_call_back");
+                    if( fd < 0 ) {
+                        event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+                                "Untiny failed to spawn.", "DEBUG__" + GetLocalChannel((string)packet[6]));
+                    } else {
+                        TP = this_player();
+                        RET = "";
+                        files[fd] = match;
+                        //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+                        //        sprintf("Spawning untiny %s on descriptor %d", implode(bits, " "), fd),
+                        //        "DEBUG__" + GetLocalChannel((string)packet[6]));
+                    }
+                } else {
+                    // We've seen this URL before...
+                    eventSendChannel("URLbot", "url", sprintf("%s {%s@%s refound this for the %s time, from %s}",
+                                urls[match]["result"],
+                                packet[3], packet[2], ordinal(urls[match]["counter"]),
+                                getColorTimestamp("", "", urls[match]["time"])));
+                }
+
+                /*
                 if(!mapp(urls))
                     urls = ([ ]);
 
@@ -539,6 +607,7 @@ void eventReceiveChannelMessage(mixed *packet) {
                     // It's a new URL, save some info about it...
                     // The result string is empty until the callback can fill it in.
                     urls[match] = ([
+                            "counter"   : 1,
                             "time"      : time(),
                             "channel"   : packet[6],
                             "user"      : packet[3],
@@ -563,6 +632,7 @@ void eventReceiveChannelMessage(mixed *packet) {
                         //        "DEBUG__" + GetLocalChannel((string)packet[6]));
                     }
                 }
+                */
             }
         }
     }
