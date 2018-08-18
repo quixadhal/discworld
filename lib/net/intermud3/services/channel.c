@@ -576,7 +576,10 @@ void eventReceiveChannelMessage(mixed *packet) {
 
     channel_name = GetLocalChannel(packet[6]) || packet[6];
 
-    /*
+    // Filter out ANSI codes and BEEP?
+    //packet[8] = replace(packet[8], ({ sprintf("%c", 7), "!",
+    //            sprintf("%c", 27), "ESC" }));
+
     // get list of people who are listening to the channel
     people = filter(users(), (: $1->check_not_ignored($(packet[2])) && 
                 $1->check_not_ignored($(packet[3])) && 
@@ -584,19 +587,13 @@ void eventReceiveChannelMessage(mixed *packet) {
                 $1->check_not_ignored($(packet[3]) + "@" + $(packet[2])) &&
                 $1->check_not_ignored($(packet[7]) + "@" + $(packet[2]))
                 :));
-                */
-    people = users();
-
-    // Filter out ANSI codes and BEEP?
-    packet[8] = replace(packet[8], ({ sprintf("%c", 7), "!",
-                sprintf("%c", 27), "ESC" }));
+    //people = users();
 
     // Send the event to listeners
     // event(listeners, "intermud_tell", speaker@mud, message, channel)
-    //if (GetLocalChannel(packet[6])) {
-
-    event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
-          packet[8], channel_name);
+    if (GetLocalChannel(packet[6]))
+        event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+              packet[8], channel_name);
 
     // Scan the message to see if there's a URL in it.
     if( channel_name != "url" ) {
@@ -606,27 +603,30 @@ void eventReceiveChannelMessage(mixed *packet) {
             matches = pcre_extract(line, url_regexp);
             foreach( match in matches ) {
                 int count;
-                //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
-                //        sprintf("Found URL: %s", match), "DEBUG__" + GetLocalChannel((string)packet[6]));
+                //event(users(), "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+                //      sprintf("Found URL: %s", match), "DEBUG__" + GetLocalChannel((string)packet[6]));
                 count = addUrl(match, time(), channel_name, packet[3], packet[2]);
 
-                if(count < 1)
+                if(count < 1) {
+                    event(users(), "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+                          sprintf("0 count URL: %s", match), "DEBUG__" + GetLocalChannel((string)packet[6]));
                     continue;   // Somehow, match isn't valid so just skip this one.
+                }
                 if(count == 1) {
                     // It's a new URL, save some info about it...
                     // The result string is empty until the callback can fill it in.
                     bits = ({ "wiley", match, channel_name, packet[3] });
                     fd = external_start(CMD_NUM, bits, "read_call_back", "write_call_back", "close_call_back");
                     if( fd < 0 ) {
-                        event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+                        event(users(), "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
                                 "Untiny failed to spawn.", "DEBUG__" + channel_name);
                     } else {
                         TP = this_player();
                         RET = "";
                         files[fd] = match;
-                        //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
-                        //        sprintf("Spawning untiny %s on descriptor %d", implode(bits, " "), fd),
-                        //        "DEBUG__" + GetLocalChannel((string)packet[6]));
+                        //event(users(), "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+                        //      sprintf("Spawning untiny %s on descriptor %d", implode(bits, " "), fd),
+                        //      "DEBUG__" + GetLocalChannel((string)packet[6]));
                     }
                 } else {
                     // We've seen this URL before...
@@ -866,13 +866,12 @@ void eventRegisterChannels(mapping list) {
     // Don't try registering on channels we don't care about anyway.
     //
     if (!local) {
-      //INTERMUD_D->eventExternWrite(({ "channel-listen", 5, mud_name(), 0, ns, 
-                                //0, channel, 0 }));
-//      log_file("channels", "New channel: " + local + " recognized " +
-//         ctime(time()) + "\nValue: " + sprintf("%O", val) + "\n\n");
+      //INTERMUD_D->eventExternWrite(({ "channel-listen", 5, mud_name(), 0, ns, 0, channel, 1 }));
+      INTERMUD_D->eventExternWrite(({ "channel-listen", 5, mud_name(), 0, ns, 0, channel, 1 }));
+      log_file("channels", "Unmapped channel: " + channel + " recognized " +
+         ctime(time()) + "\nValue: " + sprintf("%O", val) + "\n\n");
     } else {
-      INTERMUD_D->eventExternWrite(({ "channel-listen", 5, mud_name(), 0, ns,
-                                0, channel, 1 }));
+      INTERMUD_D->eventExternWrite(({ "channel-listen", 5, mud_name(), 0, ns, 0, channel, 1 }));
     }
   }
 }

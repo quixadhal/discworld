@@ -122,6 +122,8 @@ protected void eventRead(int fd, mixed *packet) {
     SERVICES_D->eventReceiveChannelEmote(packet);
     break;
   case "channel-m":
+    //event(users(), "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
+    //               "Got channel message", "DEBUG__" + (string)packet[6]);
     SERVICES_D->eventReceiveChannelMessage(packet);
     break;
   case "chan-who-reply":
