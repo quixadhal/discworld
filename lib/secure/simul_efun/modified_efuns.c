@@ -918,6 +918,26 @@ void input_to(mixed fun, mixed flag, mixed args ...){
   efun::input_to(f, flag, previous_object(), fun, args);
 }
 
+#if efun_defined(hash)
+string md5( string data ) {
+    string result;
+
+    result = efun::hash("md5", data);
+    if( stringp(result) )
+        return result;
+    return 0;
+}
+
+string sha256( string data ) {
+    string result;
+
+    result = efun::hash("sha256", data);
+    if( stringp(result) )
+        return result;
+    return 0;
+}
+#endif
+
 
 #if 0
 private nosave function _wrap = function(mixed func, mixed *args) {
