@@ -96,3 +96,69 @@ varargs string extract(string str, int start, int end) {
     return str[start..end];
   return str[start..];
 } /* extract() */
+
+/*
+ * Works like explode with REVERSIBLE_EXPLODE_STRING, that is:
+ * implode(explode(str, del), del)==str
+ */
+string* rexplode(string str, string del)
+{
+#ifdef __REVERSIBLE_EXPLODE_STRING__
+   return explode(str, del);
+#elif defined(__SANE_EXPLODE_STRING__)
+   if(!strlen(str))
+      return ({""});
+   return explode(del+str+del, del);
+#else
+   string *leading = ({ });
+   string *trailing = ({ });
+   int del_length = 0;
+
+   //error("Define REVERSIBLE_EXPLODE_STRING or SANE_EXPLODE_STRING");
+   if(!strlen(str))
+      return ({ });
+   if(!strlen(del))
+       return explode(str, del);
+
+   del_length = strlen(del);
+
+   while(strlen(str) >= del_length && str[0..(del_length-1)] == del) {
+       // We found a leading delimiter!
+       leading = leading + ({ "" });
+       str = str[(del_length)..];
+   }
+   while(strlen(str) >= del_length && str[<(del_length)..<1] == del) {
+       // We also have a trailing delimiter.
+       trailing = trailing + ({ "" });
+       str = str[0..<(del_length+1)];
+   }
+   return leading + explode(str, del) + trailing;
+#endif
+}
+
+/*
+ * Works like explode with SANE_EXPLODE_STRING, that is like
+ * reversible_explode_string but a single delimiter is removed
+ * from the both start and end of the output array if present.
+ */
+string* sexplode(string str, string del)
+{
+#ifdef __REVERSIBLE_EXPLODE_STRING__
+   mixed m;
+   if(!strlen(str))
+      return ({});
+   m=explode(str, del);
+   if(m[<1]=="")
+      m=m[0..<2];
+   if(!strlen(str))
+      return ({});
+   if(m[0]=="")
+      m=m[1..<1];
+   return m;
+#elif defined(__SANE_EXPLODE_STRING__)
+   return explode(str, del);
+#else
+   error("Define REVERSIBLE_EXPLODE_STRING or SANE_EXPLODE_STRING");
+#endif
+}
+

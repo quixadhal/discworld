@@ -14,22 +14,56 @@ mapping url_data;
 mixed cmd(string arg) {
     string *bits;
     int count;
+    string extra;
+    int *bins;
+    int extended = 0;
 
     if(!arg) {
-        return notify_fail("urlrep --list\n");
+        return notify_fail("urlrep --list | --remove <url>\n");
     } else {
         bits = explode(arg, " ") - ({0,""});
+        extra = implode(bits[1..], " ");
         switch(lower_case(bits[0])) {
+            case "count":
+            case "-count":
+            case "--count":
+            case "-c":
+                url_data = SERVICES_D->getUrlData();
+                count = 0;
+                bins = ({ });
+                foreach( string url in sort_array( keys(url_data),
+                           (: url_data[$1]["time"] <= url_data[$2]["time"] ? -1 : 1 :)) ) {
+                    count = url_data[url]["counter"];
+                    bins[count]++;
+                }
+                foreach( int i in bins ) {
+                    tell_object(this_player(), sprintf("\n%d urls were found %d times.\n",
+                                i, bins[i]));
+                }
+                break;
+            case "extended":
+            case "-extended":
+            case "--extended":
+            case "-x":
+                extended = 1;
             case "list":
             case "-list":
             case "--list":
             case "-l":
-                tell_object(this_player(), sprintf("\n%-10.10s %-15s %-25s %-5s %s\n",
-                            "Date", "Channel", "Speaker", "Count", "URL Info"));
-                tell_object(this_player(), sprintf("%-10.10s %-15s %-25s %-5s %s\n",
-                            "----------", "---------------",
-                            "-------------------------", "-----",
-                            "------------------------------"));
+                if(!undefinedp(extra) && extra == "url") {
+                    tell_object(this_player(), sprintf("\n%-10.10s %-35s %-5s %s\n",
+                                "Date", "Info", "Count", "URL"));
+                    tell_object(this_player(), sprintf("%-10.10s %-35.35s %-5s %s\n",
+                                "----------", "-----------------------------------",
+                                "-----", "------------------------------"));
+                } else {
+                    tell_object(this_player(), sprintf("\n%-10.10s %-15s %-25s %-5s %s\n",
+                                "Date", "Channel", "Speaker", "Count", "URL Info"));
+                    tell_object(this_player(), sprintf("%-10.10s %-15s %-25s %-5s %s\n",
+                                "----------", "---------------",
+                                "-------------------------", "-----",
+                                "------------------------------"));
+                }
                 url_data = SERVICES_D->getUrlData();
                 count = 0;
                 foreach( string url in sort_array( keys(url_data),
@@ -51,13 +85,38 @@ mixed cmd(string arg) {
                     //    // We got a tinyurl anyways
                     //    result = "%^GREEN%^" + result[pos..(pos+27)] + "%^RESET%^";
                     }
-                    tell_object(this_player(), sprintf("%-10.10s %-15s %-25s %5d %s\n",
-                                SERVICES_D->timestamp(url_data[url]["time"]),
-                                SERVICES_D->GetLocalChannel(url_data[url]["channel"]),
-                                implode( ({ url_data[url]["user"], url_data[url]["mud"] }), "@"),
-                                url_data[url]["counter"],
-                                result
-                                ));
+                    result = strip_colours(result);
+                    if(!undefinedp(extra) && extra == "url") {
+                        // sprintf is buggy as hell for formatting...
+                        string tmp_output;
+                        string tmp_time = SERVICES_D->timestamp(url_data[url]["time"]);
+                        string tmp_result = result + "------------------------------";
+                        string tmp_count = "     " + url_data[url]["counter"];
+                        tmp_time = tmp_time[0..9];
+                        tmp_result = tmp_result[0..34];
+                        tmp_count = tmp_count[<5..<1];
+                        tmp_output = tmp_time + " " + tmp_result + " " + tmp_count + " " + url + "\n";
+                        tell_object(this_player(), tmp_result + "\n");
+                        /*
+                        tell_object(this_player(), sprintf("%-:10s %-:25s %:5d %s\n",
+                                    SERVICES_D->timestamp(url_data[url]["time"]),
+                                    result,
+                                    url_data[url]["counter"],
+                                    url
+                                    ));
+                                    */
+                    } else {
+                        tell_object(this_player(), sprintf("%-10.10s %-15s %-25s %5d %s\n",
+                                    SERVICES_D->timestamp(url_data[url]["time"]),
+                                    SERVICES_D->GetLocalChannel(url_data[url]["channel"]),
+                                    implode( ({ url_data[url]["user"], url_data[url]["mud"] }), "@"),
+                                    url_data[url]["counter"],
+                                    result
+                                    ));
+                    }
+                    if(extended) {
+                        tell_object(this_player(), "URL: " + url + "\n");
+                    }
                     /*
                     tell_object(this_player(), sprintf("%-10.10s %-15s %-25s %5s %-30.30s\n",
                                 "",
@@ -75,8 +134,22 @@ mixed cmd(string arg) {
                             count == 1 ? "" : "s"
                             ));
                 break;
+            case "delete":
+            case "-delete":
+            case "--delete":
+            case "remove":
+            case "-remove":
+            case "--remove":
+                url_data = SERVICES_D->getUrlData();
+
+                if(undefinedp(url_data[extra])) {
+                    tell_object(this_player(), sprintf("\nURL %s not found by URLbot.\n", extra));
+                } else {
+                    SERVICES_D->deleteUrl(extra);
+                }
+                break;
             default:
-                return notify_fail("urlrep --list\n");
+                return notify_fail("urlrep --list | --delete <url>\n");
                 break;
         }
     }

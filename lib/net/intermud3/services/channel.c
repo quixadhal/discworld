@@ -139,6 +139,17 @@ mapping getUrlData() {
     return urls;
 }
 
+// Way to delete a URL from our saved data set.
+int deleteUrl(string url) {
+    if(undefinedp(url) || !stringp(url) || url == "")
+        return 0;
+
+    if(!mapp(urls))
+        urls = ([ ]);
+    map_delete(urls, url);
+    unguarded((: save_object, SAVE_INTERMUD :));
+}
+
 // the_time should be a time value
 // channel is packet[6]
 // user is packet[3]
@@ -256,6 +267,34 @@ varargs string getColorDayTime(string prefix, string suffix, int the_time, int u
     ret = sprintf("%s%s%02d:%02d%s%s", 
             hour_colors[bits[LT_HOUR]], prefix,
             bits[LT_HOUR], bits[LT_MIN],
+            suffix, "%^RESET%^"
+            );
+    return ret;
+}
+
+// Get a year-month-day datestamp
+varargs string getDate(int the_time, int use_local) {
+    string ret;
+    mixed *bits;
+
+    bits = getRawTimeBits(the_time, use_local);
+    ret = sprintf("%04d-%02d-%02d", bits[LT_YEAR], bits[LT_MON]+1, bits[LT_MDAY]);
+    return ret;
+}
+
+// Get a year-month-day datestamp with month color.
+varargs string getColorDate(string prefix, string suffix, int the_time, int use_local) {
+    string ret;
+    mixed *bits;
+
+    bits = getRawTimeBits(the_time, use_local);
+    if(undefinedp(prefix))
+        prefix = "";
+    if(undefinedp(suffix))
+        suffix = "";
+    ret = sprintf("%s%s%04d-%02d-%02d%s%s", 
+            month_colors[bits[LT_MON]], prefix,
+            bits[LT_YEAR], bits[LT_MON]+1, bits[LT_MDAY],
             suffix, "%^RESET%^"
             );
     return ret;
@@ -516,6 +555,7 @@ void eventReceiveChannelMessage(mixed *packet) {
     string *matches;
     int fd;
     string *bits;
+    string channel_name;
 
     if (file_name(previous_object()) != INTERMUD_D) {
         return;
@@ -531,11 +571,12 @@ void eventReceiveChannelMessage(mixed *packet) {
     // packet[7] == visual name (pretty name) of user
     // packet[8] == message
 
-    //if (packet[2] == mud_name() || !GetLocalChannel(packet[6])) {
-    if (!GetLocalChannel(packet[6])) {
-        return;
-    }
+    //if (packet[2] == mud_name() || !GetLocalChannel(packet[6])) return;
+    //if (!GetLocalChannel(packet[6])) return;
 
+    channel_name = GetLocalChannel(packet[6]) || packet[6];
+
+    /*
     // get list of people who are listening to the channel
     people = filter(users(), (: $1->check_not_ignored($(packet[2])) && 
                 $1->check_not_ignored($(packet[3])) && 
@@ -543,6 +584,8 @@ void eventReceiveChannelMessage(mixed *packet) {
                 $1->check_not_ignored($(packet[3]) + "@" + $(packet[2])) &&
                 $1->check_not_ignored($(packet[7]) + "@" + $(packet[2]))
                 :));
+                */
+    people = users();
 
     // Filter out ANSI codes and BEEP?
     packet[8] = replace(packet[8], ({ sprintf("%c", 7), "!",
@@ -550,11 +593,13 @@ void eventReceiveChannelMessage(mixed *packet) {
 
     // Send the event to listeners
     // event(listeners, "intermud_tell", speaker@mud, message, channel)
+    //if (GetLocalChannel(packet[6])) {
+
     event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
-            packet[8], GetLocalChannel((string)packet[6]));
+          packet[8], channel_name);
 
     // Scan the message to see if there's a URL in it.
-    if( GetLocalChannel((string)packet[6]) != "url" ) {
+    if( channel_name != "url" ) {
         //url_regexp = "(https?\\:\\/\\/[\\w.-]+(?:\\.[\\w\\.-]+)+(?:\\:[\\d]+)?[\\w\\-\\.\\~\\:\\/\\?\\#[\\]\\@\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\=\\%]+)";
         url_regexp = "(https?://[^ ]+?)(?:[ ]|$)";
         foreach( line in explode(packet[8], "\n") ) {
@@ -563,18 +608,18 @@ void eventReceiveChannelMessage(mixed *packet) {
                 int count;
                 //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
                 //        sprintf("Found URL: %s", match), "DEBUG__" + GetLocalChannel((string)packet[6]));
-                count = addUrl(match, time(), packet[6], packet[3], packet[2]);
+                count = addUrl(match, time(), channel_name, packet[3], packet[2]);
 
                 if(count < 1)
                     continue;   // Somehow, match isn't valid so just skip this one.
                 if(count == 1) {
                     // It's a new URL, save some info about it...
                     // The result string is empty until the callback can fill it in.
-                    bits = ({ "wiley", match, GetLocalChannel((string)packet[6]), packet[3] });
+                    bits = ({ "wiley", match, channel_name, packet[3] });
                     fd = external_start(CMD_NUM, bits, "read_call_back", "write_call_back", "close_call_back");
                     if( fd < 0 ) {
                         event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
-                                "Untiny failed to spawn.", "DEBUG__" + GetLocalChannel((string)packet[6]));
+                                "Untiny failed to spawn.", "DEBUG__" + channel_name);
                     } else {
                         TP = this_player();
                         RET = "";
@@ -585,54 +630,12 @@ void eventReceiveChannelMessage(mixed *packet) {
                     }
                 } else {
                     // We've seen this URL before...
-                    eventSendChannel("URLbot", "url", sprintf("%s {%s@%s refound this for the %s time, from %s}",
+                    eventSendChannel("URLbot", "url", sprintf("%s {%s@%s linked this for the %s time, from %s}",
                                 urls[match]["result"],
                                 packet[3], packet[2], ordinal(urls[match]["counter"]),
-                                getColorTimestamp("", "", urls[match]["time"])));
+                                getColorDate("", "", urls[match]["time"])));
                 }
 
-                /*
-                if(!mapp(urls))
-                    urls = ([ ]);
-
-                if(member_array(match, keys(urls)) >= 0 && mapp(urls[match])) {
-                    // We've seen this URL before...
-                    //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
-                    //        sprintf("DEBUG 1: %s, %O", match, urls[match]), "DEBUG__" + GetLocalChannel((string)packet[6]));
-                    eventSendChannel("URLbot", "url", sprintf("%s {%s@%s found this on %s}",
-                                urls[match]["result"],
-                                urls[match]["user"], urls[match]["mud"],
-                                getColorTimestamp("", "", urls[match]["time"])));
-                } else {
-                    // It's a new URL, save some info about it...
-                    // The result string is empty until the callback can fill it in.
-                    urls[match] = ([
-                            "counter"   : 1,
-                            "time"      : time(),
-                            "channel"   : packet[6],
-                            "user"      : packet[3],
-                            "mud"       : packet[2],
-                            "result"    : "",
-                            ]);
-                    unguarded((: save_object, SAVE_INTERMUD :));
-                    //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
-                    //        sprintf("DEBUG 2: %s, %O", match, urls[match]), "DEBUG__" + GetLocalChannel((string)packet[6]));
-
-                    // And then go deal with it...
-                    fd = external_start(CMD_NUM, bits, "read_call_back", "write_call_back", "close_call_back");
-                    if( fd < 0 ) {
-                        event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
-                                "Untiny failed to spawn.", "DEBUG__" + GetLocalChannel((string)packet[6]));
-                    } else {
-                        TP = this_player();
-                        RET = "";
-                        files[fd] = match;
-                        //event(people, "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
-                        //        sprintf("Spawning untiny %s on descriptor %d", implode(bits, " "), fd),
-                        //        "DEBUG__" + GetLocalChannel((string)packet[6]));
-                    }
-                }
-                */
             }
         }
     }

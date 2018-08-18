@@ -151,3 +151,175 @@ string query_times(int num) {
 
   return retval;
 }
+
+string query_japan_digit(int num, int kana) {
+    if (num == 0) {
+        return kana ? "〇" : "nuru";
+    }
+    switch( num % 10 ) {
+        case 1:
+            return kana ? "一" : "ichi";
+        case 2:
+            return kana ? "二" : "ni";
+        case 3:
+            return kana ? "三" : "san";
+        case 4:
+            return kana ? "四" : "yon";
+        case 5:
+            return kana ? "五" : "go";
+        case 6:
+            return kana ? "六" : "roku";
+        case 7:
+            return kana ? "七" : "nana";
+        case 8:
+            return kana ? "八" : "hachi";
+        case 9:
+            return kana ? "九" : "kyu";
+        default:
+            return "";
+    }
+}
+
+string query_japan_tens(int num, int kana) {
+    string val = "";
+
+    if( num < 10 ) return query_japan_digit(num, kana);
+
+    switch(( num / 10 ) % 10 ) {
+        case 0:
+            val = "";
+            break;
+        case 1:
+            val = kana ? "十" : "ju";
+            break;
+        default:
+            val = query_japan_digit(num/10, kana) + (kana ? "十" : "ju");
+            break;
+    }
+    return val + query_japan_digit(num, kana);
+}
+
+string query_japan_hundreds(int num, int kana) {
+    string val = "";
+
+    if( num < 100 ) return query_japan_tens(num, kana);
+
+    switch(( num / 100 ) % 10 ) {
+        case 0:
+            val = "";
+            break;
+        case 1:
+            val = kana ? "百" : "hyaku";
+            break;
+        case 3:
+            val = kana ? "三百" : "sanbyaku";
+            break;
+        case 6:
+            val = kana ? "六百" : "roppyaku";
+            break;
+        case 8:
+            val = kana ? "八百" : "happyaku";
+            break;
+        default:
+            val = query_japan_digit(num/100, kana) + (kana ? "百" : "kyaku");
+            break;
+    }
+    return val + query_japan_tens(num, kana);
+}
+
+string query_japan_thousands(int num, int kana) {
+    string val = "";
+
+    if( num < 1000 ) return query_japan_hundreds(num, kana);
+
+    switch(( num / 1000 ) % 10 ) {
+        case 0:
+            val = "";
+            break;
+        case 1:
+            val = kana ? "千" : "sen";
+            break;
+        case 3:
+            val = kana ? "三千" : "sanzen";
+            break;
+        case 5:
+            val = kana ? "五千" : "gozen";
+            break;
+        case 8:
+            val = kana ? "八千" : "hassen";
+            break;
+        default:
+            val = query_japan_digit(num/1000, kana) + (kana ? "千" : "sen");
+            break;
+    }
+    return val + query_japan_hundreds(num, kana);
+}
+
+string query_japan_tenthousands(int num, int kana) {
+    string val = "";
+
+    if( num < 10000 ) return query_japan_thousands(num, kana);
+
+    switch(( num / 10000 ) % 10 ) {
+        case 1:
+            val = kana ? "一万" : "ichiman";
+            break;
+        case 2:
+            val = kana ? "二万" : "niman";
+            break;
+        case 3:
+            val = kana ? "三万" : "sanman";
+            break;
+        case 4:
+            val = kana ? "四万" : "yonman";
+            break;
+        case 5:
+            val = kana ? "五万" : "goman";
+            break;
+        case 6:
+            val = kana ? "六万" : "rokuman";
+            break;
+        case 7:
+            val = kana ? "七万" : "nanaman";
+            break;
+        case 8:
+            val = kana ? "八万" : "hachiman";
+            break;
+        case 9:
+            val = kana ? "九万" : "kyuman";
+            break;
+        default:
+            val = "";
+            break;
+    }
+    return val + query_japan_thousands(num, kana);
+}
+
+string query_japan_hundredthousands(int num, int kana) {
+    string val = "";
+
+    if( num < 100000 ) return query_japan_tenthousands(num, kana);
+
+    val = query_japan_tens( (num/10000), kana);
+
+    return val + query_japan_tenthousands(num, kana);
+}
+
+// 10,000 -> 10
+// 100K -> 100
+// 1M -> 1000
+// 10M -> 10K
+string query_japan_tenmillions(int num, int kana) {
+    string val = "";
+
+    if( num < 1000000 ) return query_japan_hundredthousands(num, kana);
+
+    val = query_japan_hundreds( (num/10000), kana);
+
+    return val + query_japan_hundredthousands(num, kana);
+}
+
+string query_japan_num(int num, int kana) {
+    return query_japan_hundredthousands(num, kana);
+}
+
