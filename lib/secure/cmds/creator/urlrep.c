@@ -51,24 +51,25 @@ mixed cmd(string arg) {
             case "--list":
             case "-l":
                 if(!undefinedp(extra) && extra == "url") {
-                    tell_object(this_player(), sprintf("\n%-10.10s %-35s %-5s %s\n",
-                                "Date", "Info", "Count", "URL"));
-                    tell_object(this_player(), sprintf("%-10.10s %-35.35s %-5s %s\n",
+                    tell_object(this_player(), sprintf("\n%-10.10s %-35s %-5s %-8s %s\n",
+                                "Date", "Info", "Count", "Checksum", "URL"));
+                    tell_object(this_player(), sprintf("%-10.10s %-35.35s %-5s %-8s %s\n",
                                 "----------", "-----------------------------------",
-                                "-----", "------------------------------"));
+                                "-----", "--------", "--------------------------"));
                 } else {
-                    tell_object(this_player(), sprintf("\n%-10.10s %-15s %-25s %-5s %s\n",
-                                "Date", "Channel", "Speaker", "Count", "URL Info"));
-                    tell_object(this_player(), sprintf("%-10.10s %-15s %-25s %-5s %s\n",
+                    tell_object(this_player(), sprintf("\n%-10.10s %-15s %-25s %-5s %-8s %s\n",
+                                "Date", "Channel", "Speaker", "Count", "Checksum", "Title"));
+                    tell_object(this_player(), sprintf("%-10.10s %-15s %-25s %-5s %-8s %s\n",
                                 "----------", "---------------",
-                                "-------------------------", "-----",
-                                "------------------------------"));
+                                "-------------------------", "-----", "--------",
+                                "--------------------------"));
                 }
                 url_data = SERVICES_D->getUrlData();
                 count = 0;
-                foreach( string url in sort_array( keys(url_data),
+                foreach( string checksum in sort_array( keys(url_data),
                            (: url_data[$1]["time"] <= url_data[$2]["time"] ? -1 : 1 :)) ) {
-                    string result = url_data[url]["result"];
+                    string url = url_data[checksum]["url"];
+                    string result = url_data[checksum]["result"];
                     int pos;
 
                     if((pos = strsrch(result, " is ")) >= 0) {
@@ -89,13 +90,13 @@ mixed cmd(string arg) {
                     if(!undefinedp(extra) && extra == "url") {
                         // sprintf is buggy as hell for formatting...
                         string tmp_output;
-                        string tmp_time = SERVICES_D->timestamp(url_data[url]["time"]);
+                        string tmp_time = SERVICES_D->timestamp(url_data[checksum]["time"]);
                         string tmp_result = result + "------------------------------";
-                        string tmp_count = "     " + url_data[url]["counter"];
+                        string tmp_count = "     " + url_data[checksum]["counter"];
                         tmp_time = tmp_time[0..9];
                         tmp_result = tmp_result[0..34];
                         tmp_count = tmp_count[<5..<1];
-                        tmp_output = tmp_time + " " + tmp_result + " " + tmp_count + " " + url + "\n";
+                        tmp_output = tmp_time + " " + tmp_result + " " + tmp_count + " " + checksum + " " +url + "\n";
                         tell_object(this_player(), tmp_result + "\n");
                         /*
                         tell_object(this_player(), sprintf("%-:10s %-:25s %:5d %s\n",
@@ -106,11 +107,12 @@ mixed cmd(string arg) {
                                     ));
                                     */
                     } else {
-                        tell_object(this_player(), sprintf("%-10.10s %-15s %-25s %5d %s\n",
-                                    SERVICES_D->timestamp(url_data[url]["time"]),
-                                    SERVICES_D->GetLocalChannel(url_data[url]["channel"]),
-                                    implode( ({ url_data[url]["user"], url_data[url]["mud"] }), "@"),
-                                    url_data[url]["counter"],
+                        tell_object(this_player(), sprintf("%-10.10s %-15s %-25s %5d %8s %s\n",
+                                    SERVICES_D->timestamp(url_data[checksum]["time"]),
+                                    //SERVICES_D->GetLocalChannel(url_data[checksum]["channel"]),
+                                    url_data[checksum]["channel"],
+                                    implode( ({ url_data[checksum]["user"], url_data[checksum]["mud"] }), "@"),
+                                    url_data[checksum]["counter"], checksum,
                                     result
                                     ));
                     }
@@ -145,9 +147,16 @@ mixed cmd(string arg) {
                 if(undefinedp(url_data[extra])) {
                     tell_object(this_player(), sprintf("\nURL %s not found by URLbot.\n", extra));
                 } else {
+                    tell_object(this_player(), sprintf("\nURL %s deleted from URLbot.\n", extra));
                     SERVICES_D->deleteUrl(extra);
                 }
                 break;
+            case "wipe":
+            case "-wipe":
+            case "--wipe":
+                tell_object(this_player(), sprintf("\nALL URL data deleted!\n"));
+                SERVICES_D->wipeUrls();
+
             default:
                 return notify_fail("urlrep --list | --delete <url>\n");
                 break;

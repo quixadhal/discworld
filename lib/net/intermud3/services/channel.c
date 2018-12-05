@@ -140,14 +140,22 @@ mapping getUrlData() {
 }
 
 // Way to delete a URL from our saved data set.
-int deleteUrl(string url) {
-    if(undefinedp(url) || !stringp(url) || url == "")
+int deleteUrl(string checksum) {
+    if(undefinedp(checksum) || !stringp(checksum) || checksum == "")
         return 0;
 
     if(!mapp(urls))
         urls = ([ ]);
-    map_delete(urls, url);
+    map_delete(urls, checksum);
     unguarded((: save_object, SAVE_INTERMUD :));
+    return 1;
+}
+
+// You really shouldn't call this, unless you really want to...
+int wipeUrls() {
+    urls = ([ ]);
+    unguarded((: save_object, SAVE_INTERMUD :));
+    return 1;
 }
 
 // the_time should be a time value
@@ -155,7 +163,13 @@ int deleteUrl(string url) {
 // user is packet[3]
 // mud is packet[2]
 varargs int addUrl(string match, int the_time, string channel, string user, string mud) {
+    string checksum;
+
     if(undefinedp(match) || !stringp(match) || match == "")
+        return 0;
+
+    checksum = sprintf("%08x", crc32(match));
+    if(undefinedp(checksum) || !stringp(checksum) || checksum == "")
         return 0;
 
     if(undefinedp(the_time))
@@ -170,14 +184,15 @@ varargs int addUrl(string match, int the_time, string channel, string user, stri
     if(!mapp(urls))
         urls = ([ ]);
 
-    if(member_array(match, keys(urls)) >= 0 && mapp(urls[match])) {
-        if((member_array("counter", keys(urls[match])) < 0) || urls[match]["counter"] == 0) {
+    if(member_array(checksum, keys(urls)) >= 0 && mapp(urls[checksum])) {
+        if((member_array("counter", keys(urls[checksum])) < 0) || urls[checksum]["counter"] == 0) {
             // Legacy data, need to add this key as a 1 value.
-            urls[match]["counter"] = 1;
+            urls[checksum]["counter"] = 1;
         }
-        urls[match]["counter"] = urls[match]["counter"] + 1;
+        urls[checksum]["counter"] = urls[checksum]["counter"] + 1;
     } else {
-        urls[match] = ([
+        urls[checksum] = ([
+                "url"       : match,
                 "counter"   : 1,
                 "time"      : the_time,
                 "channel"   : channel,
@@ -187,7 +202,7 @@ varargs int addUrl(string match, int the_time, string channel, string user, stri
                 ]);
     }
     unguarded((: save_object, SAVE_INTERMUD :));
-    return urls[match]["counter"];
+    return urls[checksum]["counter"];
 }
 
 // Get the raw data from localtime(), adjusted to be GMT
@@ -603,6 +618,9 @@ void eventReceiveChannelMessage(mixed *packet) {
             matches = pcre_extract(line, url_regexp);
             foreach( match in matches ) {
                 int count;
+                string checksum;
+
+                checksum = sprintf("%08x", crc32(match));
                 //event(users(), "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
                 //      sprintf("Found URL: %s", match), "DEBUG__" + GetLocalChannel((string)packet[6]));
                 count = addUrl(match, time(), channel_name, packet[3], packet[2]);
@@ -623,7 +641,7 @@ void eventReceiveChannelMessage(mixed *packet) {
                     } else {
                         TP = this_player();
                         RET = "";
-                        files[fd] = match;
+                        files[fd] = checksum;
                         //event(users(), "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
                         //      sprintf("Spawning untiny %s on descriptor %d", implode(bits, " "), fd),
                         //      "DEBUG__" + GetLocalChannel((string)packet[6]));
@@ -631,9 +649,9 @@ void eventReceiveChannelMessage(mixed *packet) {
                 } else {
                     // We've seen this URL before...
                     eventSendChannel("URLbot", "url", sprintf("%s {%s@%s linked this for the %s time, from %s}",
-                                urls[match]["result"],
-                                packet[3], packet[2], ordinal(urls[match]["counter"]),
-                                getColorDate("", "", urls[match]["time"])));
+                                urls[checksum]["result"],
+                                packet[3], packet[2], ordinal(urls[checksum]["counter"]),
+                                getColorDate("", "", urls[checksum]["time"])));
                 }
 
             }
