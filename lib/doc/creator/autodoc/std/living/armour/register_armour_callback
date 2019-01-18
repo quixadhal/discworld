@@ -1,0 +1,41 @@
+.DT
+register_armour_callback
+Disk World creator help
+register_armour_callback
+
+.SH Name
+.SP 5 5
+register_armour_callback -  Register a callback for magical protection.
+.EP
+
+.SH Syntax
+.SI 5
+int register_armour_callback(int level,
+mixed callback,
+mixed data)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^level%^RESET%^ - How close the protection is to the skin.
+%^BOLD%^callback%^RESET%^ - The object & function to be called.
+%^BOLD%^data%^RESET%^ - Any extra data to be passed.
+.EI
+
+.SH Returns
+.SI 5
+an ID to identify this callback.
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/armour.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Register a callback for magical protection.
+
+.EP
+

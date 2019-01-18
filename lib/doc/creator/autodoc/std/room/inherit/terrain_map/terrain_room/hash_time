@@ -1,0 +1,36 @@
+.DT
+hash_time
+Disk World creator help
+hash_time
+
+.SH Name
+.SP 5 5
+hash_time -  This produces a deterministicly static value that only exists for a specific period of time, before moving.
+.EP
+
+.SH Syntax
+.SI 5
+int hash_time(int mod,
+int period)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^mod%^RESET%^ - the modulus to get the random number over
+%^BOLD%^period%^RESET%^ - the period the number should remain constant
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/terrain_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This produces a deterministicly static value that only exists for a
+specific period of time, before moving.  You can use this for movable
+oasises for example.
+.EP
+

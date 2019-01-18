@@ -1,0 +1,40 @@
+.DT
+query_language_magic
+Disk World creator help
+query_language_magic
+
+.SH Name
+.SP 5 5
+query_language_magic -  Determine if it is a magical language.
+.EP
+
+.SH Syntax
+.SI 5
+int query_language_magic(string str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the language to test
+.EI
+
+.SH Returns
+.SI 5
+1 if it is magical, 0 if it is not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/languages.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Determine if it is a magical language.
+A magical langage gets a function called on it's object whenever it
+is read even if the person knows the language.  It is also the language
+spells are written in.
+
+.EP
+

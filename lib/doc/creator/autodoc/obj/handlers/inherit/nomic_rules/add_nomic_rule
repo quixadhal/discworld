@@ -1,0 +1,42 @@
+.DT
+add_nomic_rule
+Disk World creator help
+add_nomic_rule
+
+.SH Name
+.SP 5 5
+add_nomic_rule -  This method adds a nomic rule into the system.
+.EP
+
+.SH Syntax
+.SI 5
+int add_nomic_rule(string area,
+int type,
+string creator,
+string text)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area the rule is added in
+%^BOLD%^type%^RESET%^ - the type of rule to add
+%^BOLD%^creator%^RESET%^ - the person that created the rule
+%^BOLD%^text%^RESET%^ - the text associated with the rule
+.EI
+
+.SH Returns
+.SI 5
+the new number of the rule, NOMIC_ERROR on fai;l
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/nomic_rules.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a nomic rule into the system.
+.EP
+

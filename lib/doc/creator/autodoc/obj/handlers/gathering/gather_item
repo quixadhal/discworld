@@ -1,0 +1,44 @@
+.DT
+gather_item
+Disk World creator help
+gather_item
+
+.SH Name
+.SP 5 5
+gather_item -  This method attempts to gather some items in the environment of the specified player.
+.EP
+
+.SH Syntax
+.SI 5
+object * gather_item(string word,
+object player)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the item to try and gather
+%^BOLD%^player%^RESET%^ - the player doing the gathering
+.EI
+
+.SH Returns
+.SI 5
+an array of gathered objects.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/gathering.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method attempts to gather some items in the environment of
+the specified player.
+.EP
+
+.SH See also
+.SP 5 5
+query_item(), add_item()
+
+.EP
+

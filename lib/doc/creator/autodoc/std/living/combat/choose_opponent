@@ -1,0 +1,43 @@
+.DT
+choose_opponent
+Disk World creator help
+choose_opponent
+
+.SH Name
+.SP 5 5
+choose_opponent -  Choose an opponent and attack them.
+.EP
+
+.SH Syntax
+.SI 5
+class attack choose_opponent(class attack att)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^class%^RESET%^ - attack
+.EI
+
+.SH Returns
+.SI 5
+class attack
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Choose an opponent and attack them.
+
+This method must fill in the opponent variable. If no opponent is chosen
+the attack will be aborted.
+
+PRE: Attacker information has been filled in.
+POST: opponent must be chosen or the attack will be aborted.
+
+.EP
+

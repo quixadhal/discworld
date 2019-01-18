@@ -1,0 +1,38 @@
+.DT
+set_owned_id
+Disk World creator help
+set_owned_id
+
+.SH Name
+.SP 5 5
+set_owned_id -  This method sets the owned id to use for this room.
+.EP
+
+.SH Syntax
+.SI 5
+void set_owned_id(string id)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^id%^RESET%^ - the id to set the room to use
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/club_owned_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the owned id to use for this room.  The id is then
+used to query the club controller to see who owns the room.
+.EP
+
+.SH See also
+.SP 5 5
+query_owned_id()
+
+.EP
+

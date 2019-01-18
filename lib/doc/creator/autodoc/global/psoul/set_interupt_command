@@ -1,0 +1,61 @@
+.DT
+set_interupt_command
+Disk World creator help
+set_interupt_command
+
+.SH Name
+.SP 5 5
+set_interupt_command -  Sets the function to be executed if the command is interrupted.
+.EP
+
+.SH Syntax
+.SI 5
+void set_interupt_command(mixed func,
+mixed ob,
+mixed arg)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^func%^RESET%^ - the function to call back
+%^BOLD%^ob%^RESET%^ - the object to call the function on
+%^BOLD%^arg%^RESET%^ - the argument to pass to the function
+.EI
+
+.SH Defined in
+.SI 5
+/global/psoul.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Sets the function to be executed if the command is interrupted.
+It is also executed if teh command finished.  If it is interrupted
+the first arguement to the called function will be the amount of time
+it had left to complete.  If it complets successfuly, this
+argument will be 0.  If the first argument is a function pointer,
+this will be used instead.
+
+Eg: set_interupt_command("frog", this_object());
+
+void frog(int time_left, mixed arg) { 
+
+... 
+
+} 
+.EP
+
+.SH Example 1
+.SI 5
+...
+void frog(int time_left, mixed arg);
+...
+set_interupt_commant((: frog :));
+...
+void frog(int time_left, mixed arg) {
+   ...
+} /* frog() */
+
+.EI
+

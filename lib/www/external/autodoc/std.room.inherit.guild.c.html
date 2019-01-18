@@ -1,0 +1,172 @@
+<html><head><title>File guild.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Includes</h2>
+This class includes the following files <a href="include.config.h.html">/include/config.h</a>, <a href="include.tune.h.html">/include/tune.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.skills.h.html">/include/skills.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_command"><b>add_command</b></a>(string, string *, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_spell"><b>add_spell</b></a>(string, string *, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_primaries"><b>check_primaries</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_spells_commands"><b>check_spells_commands</b></a>(string *, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#confirm_leave"><b>confirm_leave</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_advance"><b>do_advance</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_advance_by"><b>do_advance_by</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_advance_internal"><b>do_advance_internal</b></a>(string, int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_advance_to"><b>do_advance_to</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_cost"><b>do_cost</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_cost_all"><b>do_cost_all</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_cost_by"><b>do_cost_by</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_cost_internal"><b>do_cost_internal</b></a>(string, int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_cost_primaries"><b>do_cost_primaries</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_cost_to"><b>do_cost_to</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_info"><b>do_info</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_join"><b>do_join</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_leave"><b>do_leave</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#filter_primaries"><b>filter_primaries</b></a>(mixed *, string, string *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#join2"><b>join2</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_commands"><b>query_commands</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_our_guild"><b>query_our_guild</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill_cost"><b>query_skill_cost</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_spells"><b>query_spells</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_start_pos"><b>query_start_pos</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_teaching_person"><b>query_teaching_person</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_cost_div"><b>set_cost_div</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_guild"><b>set_guild</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_teaching_person"><b>set_teaching_person</b></a>(object)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_command</b></a><pre>
+void add_command(string name,
+string * blue,
+int lvl)
+</pre>
+<dt><a name="add_spell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_spell</b></a><pre>
+void add_spell(string name,
+string * blue,
+int lvl)
+</pre>
+<dt><a name="check_primaries">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_primaries</b></a><pre>
+int check_primaries(string lpath,
+string g_o)
+</pre>
+<dt><a name="check_spells_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_spells_commands</b></a><pre>
+void check_spells_commands(string * sk,
+int lvl)
+</pre>
+<dt><a name="confirm_leave">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>confirm_leave</b></a><pre>
+void confirm_leave(string str)
+</pre>
+<dt><a name="do_advance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_advance</b></a><pre>
+int do_advance(string skill)
+</pre>
+<dt><a name="do_advance_by">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_advance_by</b></a><pre>
+int do_advance_by(string skill,
+int num)
+</pre>
+<dt><a name="do_advance_internal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_advance_internal</b></a><pre>
+int do_advance_internal(string skill,
+int to,
+int by)
+</pre>
+<dt><a name="do_advance_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_advance_to</b></a><pre>
+int do_advance_to(string skill,
+int num)
+</pre>
+<dt><a name="do_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_cost</b></a><pre>
+int do_cost(string skill)
+</pre>
+<dt><a name="do_cost_all">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_cost_all</b></a><pre>
+int do_cost_all(int brief)
+</pre>
+<dt><a name="do_cost_by">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_cost_by</b></a><pre>
+int do_cost_by(string skill,
+int num)
+</pre>
+<dt><a name="do_cost_internal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_cost_internal</b></a><pre>
+int do_cost_internal(string skill,
+int to,
+int by)
+</pre>
+<dt><a name="do_cost_primaries">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_cost_primaries</b></a><pre>
+int do_cost_primaries()
+</pre>
+<dt><a name="do_cost_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_cost_to</b></a><pre>
+int do_cost_to(string skill,
+int num)
+</pre>
+<dt><a name="do_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_info</b></a><pre>
+int do_info()
+</pre>
+<dt><a name="do_join">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_join</b></a><pre>
+int do_join(string str)
+</pre>
+<dt><a name="do_leave">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_leave</b></a><pre>
+int do_leave(string str)
+</pre>
+<dt><a name="filter_primaries">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>filter_primaries</b></a><pre>
+mixed * filter_primaries(mixed * tmp_skills,
+string skill_path,
+string * primaries)
+</pre>
+<dt><a name="join2">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>join2</b></a><pre>
+int join2(string str)
+</pre>
+<dt><a name="query_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_commands</b></a><pre>
+mapping query_commands()
+</pre>
+<dt><a name="query_our_guild">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_our_guild</b></a><pre>
+string query_our_guild()
+</pre>
+<dt><a name="query_skill_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill_cost</b></a><pre>
+int query_skill_cost(string skill,
+int offset)
+</pre>
+<dt><a name="query_spells">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_spells</b></a><pre>
+mapping query_spells()
+</pre>
+<dt><a name="query_start_pos">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_start_pos</b></a><pre>
+string query_start_pos()
+</pre>
+<dt><a name="query_teaching_person">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_teaching_person</b></a><pre>
+object query_teaching_person()
+</pre>
+<dt><a name="set_cost_div">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_cost_div</b></a><pre>
+void set_cost_div(int number)
+</pre>
+<dt><a name="set_guild">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_guild</b></a><pre>
+varargs void set_guild(string word1,
+string word2)
+</pre>
+<dt><a name="set_teaching_person">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_teaching_person</b></a><pre>
+void set_teaching_person(object ob)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 05:35:27 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

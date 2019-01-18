@@ -1,6 +1,6 @@
 .DT
 food.c
-DW_wibble autodoc help
+Disk World autodoc help
 food.c
 
 .SH Description
@@ -76,7 +76,7 @@ This class inherits the following classes /std/basic/virtual_update and /obj/con
 
 .SH Includes
 .SP 5 5
-This class includes the following files /include/move_failures.h, /include/bits_controller.h, /include/drinks.h, /include/playtesters.h and /include/weapon.h.
+This class includes the following files /include/weapon.h, /include/move_failures.h, /include/bits_controller.h, /include/drinks.h and /include/playtesters.h.
 .EP
 
 .SH Public Functions

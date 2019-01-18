@@ -1,0 +1,40 @@
+.DT
+set_extra_sell_check
+Disk World creator help
+set_extra_sell_check
+
+.SH Name
+.SP 5 5
+set_extra_sell_check -  This method sets the extra sell function for the shop.
+.EP
+
+.SH Syntax
+.SI 5
+void set_extra_sell_check(function func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^func%^RESET%^ - the extra sell function
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/craft_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the extra sell function for the shop.  The extra sell
+function is called after the sell process is almost finished.  It can
+check for extra things needed in the sell process, like which page of
+the book to browse.
+.EP
+
+.SH See also
+.SP 5 5
+query_extra_sell_check(), complete_sell()
+
+.EP
+

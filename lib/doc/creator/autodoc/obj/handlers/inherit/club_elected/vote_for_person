@@ -1,0 +1,47 @@
+.DT
+vote_for_person
+Disk World creator help
+vote_for_person
+
+.SH Name
+.SP 5 5
+vote_for_person -  This method sets up a vote for a specific person for a position.
+.EP
+
+.SH Syntax
+.SI 5
+int vote_for_person(string club_name,
+string position,
+string person,
+string voter)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club to make the vote in
+%^BOLD%^position%^RESET%^ - the position you are voting for
+%^BOLD%^person%^RESET%^ - the person to vote for
+%^BOLD%^voter%^RESET%^ - the person doing the voting
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets up a vote for a specific person for a position.
+.EP
+
+.SH See also
+.SP 5 5
+start_election(), finish_nomination(), nominate_person()
+
+.EP
+

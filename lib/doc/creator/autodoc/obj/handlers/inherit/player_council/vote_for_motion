@@ -1,0 +1,42 @@
+.DT
+vote_for_motion
+Disk World creator help
+vote_for_motion
+
+.SH Name
+.SP 5 5
+vote_for_motion -  This method votes for the specified ammentment/whatever.
+.EP
+
+.SH Syntax
+.SI 5
+int vote_for_motion(string area,
+int id,
+int vote_type,
+string voter)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area to vote in
+%^BOLD%^id%^RESET%^ - the id to vote for
+%^BOLD%^vote_type%^RESET%^ - the type of the vote
+%^BOLD%^voter%^RESET%^ - the person is voting
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/player_council.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method votes for the specified ammentment/whatever.
+.EP
+

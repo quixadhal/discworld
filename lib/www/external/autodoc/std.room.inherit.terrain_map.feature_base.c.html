@@ -1,0 +1,308 @@
+<html><head><title>File feature_base.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/terrain_map/feature_base.c</h2>
+This is a stand alone feature handler for dealing with features that
+span over multiple terrains.<p>Written by Pinkfish<p>Started Mon Apr  1 12:15:24 PST 2002
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.inherit.terrain_map.distance_str.c.html">/std/room/inherit/terrain_map/distance_str.c</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_feature_pos"><b>feature_pos</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_feature_desc"><b>calc_feature_desc</b></a>(mapping, int, int)<dd>
+This function needs to be overridden to display the actual
+message to the feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#filter_distances"><b>filter_distances</b></a>(mapping)<dd>
+This method filters the returned descs to make sure they are all
+within the needed range.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_inside_region"><b>is_inside_region</b></a>(int, int, int, int)<dd>
+This method determines if the feature is inside the specified region
+or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_blocking"><b>query_blocking</b></a>()<dd>
+This method returns the blocking status of the feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_feature_desc_from"><b>query_feature_desc_from</b></a>(int, int, int, int)<dd>
+This is the function used by the system to find the message for this
+feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_day_range"><b>query_max_day_range</b></a>()<dd>
+This method returns the maximum range the feature can be seen at.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_night_range"><b>query_max_night_range</b></a>()<dd>
+This method returns the maximum range the feature can be seen at.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_range"><b>query_max_range</b></a>()<dd>
+This method returns the maximum possible range the item can be seen
+at.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_min_range"><b>query_min_range</b></a>()<dd>
+This method returns the minimum range the  feature can be seen at.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_range_offset"><b>query_range_offset</b></a>()<dd>
+This method returns the range offset.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_region_ob"><b>query_region_ob</b></a>()<dd>
+This method returns the region object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_blocking"><b>set_blocking</b></a>(int)<dd>
+This method sets the blocking status of the feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_day_range"><b>set_max_day_range</b></a>(int)<dd>
+This method sets the maximum range for the feature to be seen at.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_night_range"><b>set_max_night_range</b></a>(int)<dd>
+This method sets the maximum range for the feature to be seen at.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_min_range"><b>set_min_range</b></a>(int)<dd>
+This method sets the minimum range for the feature to be seen at.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_range_offset"><b>set_range_offset</b></a>(int)<dd>
+This method sets the range offset.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_region"><b>set_region</b></a>(mixed)<dd>
+This method sets the region to use for the system.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="calc_feature_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_feature_desc</b></a><pre>
+string calc_feature_desc(mapping direc,
+int night,
+int visibility)
+</pre><dd>
+This function needs to be overridden to display the actual
+message to the feature.  The direc argument is a mapping of the
+form, key = direction, value = distance.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>direc - the directions and distances
+<dd>night - the night feature
+<dt><b>Returns:</b>
+<dd>the feature descriptions
+
+</dl>
+
+<dt><a name="filter_distances">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>filter_distances</b></a><pre>
+mapping filter_distances(mapping direcs)
+</pre><dd>
+This method filters the returned descs to make sure they are all
+within the needed range.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>direcs - the mappings of directions and distance
+
+</dl>
+
+<dt><a name="is_inside_region">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_inside_region</b></a><pre>
+int is_inside_region(int x1,
+int y1,
+int x2,
+int y2)
+</pre><dd>
+This method determines if the feature is inside the specified region
+or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x1 - the top x
+<dd>y1 - the top y
+<dd>x2 - the bottom x
+<dd>y2 - the bottom y
+
+</dl>
+
+<dt><a name="query_blocking">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_blocking</b></a><pre>
+int query_blocking()
+</pre><dd>
+This method returns the blocking status of the feature.  This will only work
+with local features and not distant features.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the blocking status of the features
+
+</dl>
+
+<dt><a name="query_feature_desc_from">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_feature_desc_from</b></a><pre>
+mapping query_feature_desc_from(int x,
+int y,
+int z,
+int no_filter)
+</pre><dd>
+This is the function used by the system to find the message for this
+feature.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x-coordinate
+<dd>y - the y-coordinate
+<dd>z - the z-coordinate
+<dd>no_filter - whether or not to filter by distance
+
+</dl>
+
+<dt><a name="query_max_day_range">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_day_range</b></a><pre>
+int query_max_day_range()
+</pre><dd>
+This method returns the maximum range the feature can be seen at.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maximum range of the feature
+
+</dl>
+
+<dt><a name="query_max_night_range">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_night_range</b></a><pre>
+int query_max_night_range()
+</pre><dd>
+This method returns the maximum range the feature can be seen at.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maximum range of the feature
+
+</dl>
+
+<dt><a name="query_max_range">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_range</b></a><pre>
+int query_max_range()
+</pre><dd>
+This method returns the maximum possible range the item can be seen
+at.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maximum possible range
+
+</dl>
+
+<dt><a name="query_min_range">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_min_range</b></a><pre>
+int query_min_range()
+</pre><dd>
+This method returns the minimum range the  feature can be seen at.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the minimum range of the feature
+
+</dl>
+
+<dt><a name="query_range_offset">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_range_offset</b></a><pre>
+int query_range_offset()
+</pre><dd>
+This method returns the range offset.  The offset is added to the
+distance of the feature for calculating the distance.  If the
+point is inside the offset the distance is ignored and the
+distance it then calculated from the edge of the offset.  This
+can be used to generate circular features.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current range offset
+
+</dl>
+
+<dt><a name="query_region_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_region_ob</b></a><pre>
+object query_region_ob()
+</pre><dd>
+This method returns the region object.  This should be used
+for setup calls.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the region object
+
+</dl>
+
+<dt><a name="set_blocking">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_blocking</b></a><pre>
+int set_blocking(int blocking)
+</pre><dd>
+This method sets the blocking status of the feature.  This will only work
+with local features and not distant features.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>blocking - the blocking flag
+
+</dl>
+
+<dt><a name="set_max_day_range">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_day_range</b></a><pre>
+void set_max_day_range(int range)
+</pre><dd>
+This method sets the maximum range for the feature to be seen at.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>range - the maximum range to be seen at
+
+</dl>
+
+<dt><a name="set_max_night_range">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_night_range</b></a><pre>
+void set_max_night_range(int range)
+</pre><dd>
+This method sets the maximum range for the feature to be seen at.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>range - the maximum range to be seen at
+
+</dl>
+
+<dt><a name="set_min_range">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_min_range</b></a><pre>
+void set_min_range(int range)
+</pre><dd>
+This method sets the minimum range for the feature to be seen at.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>range - the minimum range to be seen at
+
+</dl>
+
+<dt><a name="set_range_offset">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_range_offset</b></a><pre>
+void set_range_offset(int offset)
+</pre><dd>
+This method sets the range offset.  The offset is added to the
+distance of the feature for calculating the distance.  If the
+point is inside the offset the distance is ignored and the
+distance it then calculated from the edge of the offset.  This
+can be used to generate circular features.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>offset - the offset to use
+
+</dl>
+
+<dt><a name="set_region">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_region</b></a><pre>
+void set_region(mixed region)
+</pre><dd>
+This method sets the region to use for the system.  If the region is
+set as a string, then that region is cloned, if it is set as and
+object, it is just used.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>region - the region to use
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_feature_pos">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>feature_pos</b></a><pre>
+class feature_pos {
+int xstart;
+int ystart;
+int width;
+int height;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 11:02:51 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

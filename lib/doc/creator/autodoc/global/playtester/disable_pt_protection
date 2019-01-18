@@ -1,0 +1,32 @@
+.DT
+disable_pt_protection
+Disk World creator help
+disable_pt_protection
+
+.SH Name
+.SP 5 5
+disable_pt_protection -  This method sets the PT as no longer being under room protection.
+.EP
+
+.SH Syntax
+.SI 5
+int disable_pt_protection()
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.
+.EI
+
+.SH Defined in
+.SI 5
+/global/playtester.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the PT as no longer being under room protection.  Room protection does not 
+expire and lasts until it is switched off.  It also over-rides personal protection.  
+.EP
+

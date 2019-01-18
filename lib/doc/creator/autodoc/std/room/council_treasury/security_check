@@ -1,0 +1,35 @@
+.DT
+security_check
+Disk World creator help
+security_check
+
+.SH Name
+.SP 5 5
+security_check -  This will check to see if the player attempting an action is allowed to perform that action.
+.EP
+
+.SH Syntax
+.SI 5
+int security_check(object player,
+int type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player%^RESET%^ - The player attempting the action
+%^BOLD%^type%^RESET%^ - The type of action (deposting, reading logs, etc.).
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/council_treasury.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This will check to see if the player attempting an action is allowed to
+perform that action.
+.EP
+

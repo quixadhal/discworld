@@ -1,0 +1,46 @@
+.DT
+insert
+Disk World creator help
+insert
+
+.SH Name
+.SP 5 5
+insert -  This method inserts an element into the array.
+.EP
+
+.SH Syntax
+.SI 5
+mixed insert(mixed arr,
+mixed el,
+int pos)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^arr%^RESET%^ - the array to insert the element into.
+%^BOLD%^el%^RESET%^ - the element to insert
+%^BOLD%^pos%^RESET%^ - the position at which to insert it
+.EI
+
+.SH Returns
+.SI 5
+the array with the element inserted into it
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/array.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method inserts an element into the array.  This method is obsolete
+and should not be used.  It inserts an element into the array at the
+specified point.
+This function accepts strings as well as arrays.
+
+
+The code to do this is: "arr[0..pos-1] + ({ el }) + arr[pos..]". 
+.EP
+

@@ -1,0 +1,36 @@
+.DT
+we_moved
+Disk World creator help
+we_moved
+
+.SH Name
+.SP 5 5
+we_moved -  This method should be called when an object is moved.
+.EP
+
+.SH Syntax
+.SI 5
+void we_moved(object from,
+object to)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^from%^RESET%^ - the object we came from
+%^BOLD%^to%^RESET%^ - the object we are going to
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/close_lock_container.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method should be called when an object is moved.  This will
+remove itself from the leaving container and add itself to the
+new one.
+.EP
+

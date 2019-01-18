@@ -1,0 +1,39 @@
+.DT
+do_assign_bug_to
+Disk World creator help
+do_assign_bug_to
+
+.SH Name
+.SP 5 5
+do_assign_bug_to -  This method changes who the bug is assigned to.
+.EP
+
+.SH Syntax
+.SI 5
+int do_assign_bug_to(int id,
+string assigned_to,
+function finished)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^id%^RESET%^ - the id of the bug to change
+%^BOLD%^assigned_to%^RESET%^ - the person it is assigned to
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/error_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method changes who the bug is assigned to.
+.EP
+

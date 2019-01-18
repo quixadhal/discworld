@@ -1,0 +1,33 @@
+.DT
+insert_into_tasks
+Disk World creator help
+insert_into_tasks
+
+.SH Name
+.SP 5 5
+insert_into_tasks -   Insert an element into the tasks array.
+.EP
+
+.SH Syntax
+.SI 5
+int insert_into_tasks(int i,
+mixed temp)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/project_management.c
+.EI
+
+.SH Description
+.SP 5 5
+
+ Insert an element into the tasks array.  It will do this 
+ alphabetically to ensure that the binary search algorithim
+ can locate projects.
+ @param i the index of the project to insert into.
+ @param temp the element to insert
+ @returns the index of the inserted element.
+
+.EP
+

@@ -1,0 +1,42 @@
+.DT
+query_skill_bonus
+Disk World creator help
+query_skill_bonus
+
+.SH Name
+.SP 5 5
+query_skill_bonus -  This method returns the skill bonus for the specified skill.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int query_skill_bonus(string skill,
+int use_base_stats)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^skill%^RESET%^ - the skill to get the bonus for
+%^BOLD%^use_base_stats%^RESET%^ - tells the system not to use the real stat values
+.EI
+
+.SH Returns
+.SI 5
+the skill bonus
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/skills.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the skill bonus for the specified skill.
+It returns the skill + all its bonsues for stats/whatever.
+It first checks to see if the skill is in it's cache.   THe
+real stat values are ones not modified by bonuses or temporary
+values.
+.EP
+

@@ -1,0 +1,41 @@
+.DT
+broadcast_discuss_message
+Disk World creator help
+broadcast_discuss_message
+
+.SH Name
+.SP 5 5
+broadcast_discuss_message -  This method sends a message to all the discussion items in the club and then marks the club as changed if any of them return a non-zero value.
+.EP
+
+.SH Syntax
+.SI 5
+void broadcast_discuss_message(string club_name,
+int message,
+string arg1,
+string arg2)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^message%^RESET%^ - the message number
+%^BOLD%^arg1%^RESET%^ - the first arguement
+%^BOLD%^arg2%^RESET%^ - the second arguement
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_discuss.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sends a message to all the discussion items in the club
+and then marks the club as changed if any of them return a non-zero
+value.  This is used for events like a member being removed of a
+position being changed in name.
+.EP
+

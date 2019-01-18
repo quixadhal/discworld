@@ -1,0 +1,42 @@
+.DT
+query_death_reason
+Disk World creator help
+query_death_reason
+
+.SH Name
+.SP 5 5
+query_death_reason -  With this function here, creators will be able to point and laugh when someone dies by drowning in a water room because they'll see the death reason in an inform.
+.EP
+
+.SH Syntax
+.SI 5
+string query_death_reason()
+.EI
+
+.SH Returns
+.SI 5
+the reason for death.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+With this function here, creators will be able to point and laugh when
+someone dies by drowning in a water room because they'll see the death
+reason in an inform.  It will also show up in the death log.  It would be a
+good idea to mask this function to return a reason more specific to the
+place where the drowning may occur (such as "drowning in the Djel"), or at
+least a humorous one (such as "failing to realise that scuba gear hasn't
+been invented yet") so that creators will have something to laugh at.
+.EP
+
+.SH See also
+.SP 5 5
+do_death
+
+.EP
+

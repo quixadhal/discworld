@@ -1,0 +1,39 @@
+.DT
+quit
+Disk World creator help
+quit
+
+.SH Name
+.SP 5 5
+quit -  A forced quit.
+.EP
+
+.SH Syntax
+.SI 5
+int quit()
+.EI
+
+.SH Returns
+.SI 5
+0 if it failed, non zero if it succeeded..EI
+
+.SH Defined in
+.SI 5
+/global/player.c
+.EI
+
+.SH Description
+.SP 5 5
+
+A forced quit.
+This is the function called by external objects to quit
+a player. It avoids checks for things like being in combat.
+
+.EP
+
+.SH See also
+.SP 5 5
+do_quit(), quit_alt(), efun::command()
+
+.EP
+

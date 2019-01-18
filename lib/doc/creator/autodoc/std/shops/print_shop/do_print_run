@@ -1,0 +1,44 @@
+.DT
+do_print_run
+Disk World creator help
+do_print_run
+
+.SH Name
+.SP 5 5
+do_print_run -  This method does the actual print run.
+.EP
+
+.SH Syntax
+.SI 5
+void do_print_run(object ob,
+int number,
+int cost,
+string language)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object to print
+%^BOLD%^number%^RESET%^ - the number to print
+%^BOLD%^cost%^RESET%^ - the cost of the object
+%^BOLD%^the%^RESET%^ - language to translate things to
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/print_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method does the actual print run.  It creates all the objects
+and makes the player pay for them all.
+.EP
+
+.SH See also
+.SP 5 5
+do_print_copies()
+
+.EP
+

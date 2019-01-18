@@ -1,0 +1,147 @@
+<html><head><title>File pawn_shop.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/inherit/pawn_shop.c</h2>
+This inherit is under development.  Use at your own risk.
+All bug reports to me, please.
+
+This is an inherit for pawn shops, which buy your items from you, but also
+keep them for a short period of time for you to buy them back, before they
+go into the shop's general inventory.
+
+It is built around the general store inherit /std/shop.
+<p>Started 21st September 2002
+<hr><h2>Inherits</h2>
+This class inherits the following classes /std/shop.c<hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_pawn"><b>do_pawn</b></a>(object *)<dd>
+This handles pawning items to the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language"><b>query_language</b></a>()<dd>
+This returns the language that the shop is using for receipts.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pawn_markup"><b>query_pawn_markup</b></a>()<dd>
+This returns the percentage that the shop will mark reclaim prices up by.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pawn_mess"><b>query_pawn_mess</b></a>()<dd>
+This returns the message given out when somebody pawns something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pawn_ttl"><b>query_pawn_ttl</b></a>()<dd>
+This returns the time to live of pawned items, in seconds.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_language"><b>set_language</b></a>(string)<dd>
+This sets the language that the shop will use for receipts.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_pawn_markup"><b>set_pawn_markup</b></a>(int)<dd>
+This sets the percentage that the shop will mark reclaim prices up by.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_pawn_mess"><b>set_pawn_mess</b></a>(mixed)<dd>
+This sets the message given out when somebody pawns something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_pawn_ttl"><b>set_pawn_ttl</b></a>(int)<dd>
+This sets the time to live of pawned items, in seconds.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_pawn">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_pawn</b></a><pre>
+int do_pawn(object * in_obs)
+</pre><dd>
+This handles pawning items to the shop.
+<p>
+
+<dt><a name="query_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language</b></a><pre>
+string query_language()
+</pre><dd>
+This returns the language that the shop is using for receipts.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>[string] The language receipts are written in.
+
+</dl>
+
+<dt><a name="query_pawn_markup">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pawn_markup</b></a><pre>
+int query_pawn_markup()
+</pre><dd>
+This returns the percentage that the shop will mark reclaim prices up by.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>[int] The percentage to add to reclaim prices.
+
+</dl>
+
+<dt><a name="query_pawn_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pawn_mess</b></a><pre>
+string query_pawn_mess()
+</pre><dd>
+This returns the message given out when somebody pawns something.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>[string] The message given when something is successfully pawned.
+
+</dl>
+
+<dt><a name="query_pawn_ttl">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pawn_ttl</b></a><pre>
+int query_pawn_ttl()
+</pre><dd>
+This returns the time to live of pawned items, in seconds.  That is, the
+length of time between an item's being pawned and the shop selling that
+item to recoup its costs.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>[int] The time in seconds before the shop will sell a pawned item.
+
+</dl>
+
+<dt><a name="set_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_language</b></a><pre>
+void set_language(string lang)
+</pre><dd>
+This sets the language that the shop will use for receipts.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - The language to write receipts in.
+
+</dl>
+
+<dt><a name="set_pawn_markup">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_pawn_markup</b></a><pre>
+void set_pawn_markup(int percent)
+</pre><dd>
+This sets the percentage that the shop will mark reclaim prices up by.
+The default is 20%.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>percent - The percentage to add to reclaim prices.
+
+</dl>
+
+<dt><a name="set_pawn_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_pawn_mess</b></a><pre>
+void set_pawn_mess(mixed mess)
+</pre><dd>
+This sets the message given out when somebody pawns something.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - The message given when something is successfully pawned.
+
+</dl>
+
+<dt><a name="set_pawn_ttl">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_pawn_ttl</b></a><pre>
+void set_pawn_ttl(int ttl)
+</pre><dd>
+This sets the time to live of pawned items, in seconds.  That is, the
+length of time between an item being pawned and the shop selling that
+item to recoup its costs.  The default is one week realtime.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ttl - The time in seconds before the shop will sell a pawned item.
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 03:56:21 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

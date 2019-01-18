@@ -1,0 +1,31 @@
+<html><head><title>File pub_shop.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/pub_shop.c</h2>
+Based on the original "pub.c" code, this version allows you to buy an
+actual drink (inna glass) instead of just forcefeeding you with whatever
+you purchase.  You can also create food and serve it on plates, in boxes,
+or whatever.
+<p>
+The items on sale are either cloned from the armoury, cloned from a file
+or cloned in the "create_item()" code in the pub code itself.  Containers
+for these items are done in the same way, using the "create_container()"
+function.  This is the same as the "create_object()" system in
+"item_shop.c".  You can also buy items for other people (or groups of
+other people) in the pub.
+<p>
+There are several standard glasses and plates available for drinks and
+food in the "pub_shop.h" header file, if you don't want to create the
+glasses and plates yourself.  These plates use the "/obj/misc/plate.c"
+inheritable file.
+<p>
+A "counter" will automatically be placed in the pub.  If any item cannot
+be moved into the person who ordered it (i.e they are carrying too much )
+it will be placed on the counter.  Empty glasses and so on will be
+cleared from the counter after 3 seconds.  To ensure that this happens,
+make sure that the container object you use has the property "pub item"
+added to it.  Items will only be cleared if they are empty.<p><b>See also:</b><br><a href="std.shops.inherit.pub.c.html">/std/shops/inherit/pub.c</a>, <a href="include.shops.pub_shop.h.html">/include/shops/pub_shop.h</a> and /include/volumes.h
+
+Added help file as requested by Gin on August 2001
+<p>Written by Lemming<p>Started 23/10/1999<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a> and <a href="std.shops.inherit.pub.c.html">/std/shops/inherit/pub.c</a><hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 01:28:29 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

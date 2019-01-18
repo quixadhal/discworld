@@ -1,0 +1,63 @@
+<html><head><title>File glass.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/misc/glass.c</h2>
+A nice little inheritable and constructible glass object thing.
+<p>Written by Taffyd
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.vessel.c.html">/obj/vessel.c</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_static_arg"><b>init_static_arg</b></a>(mapping)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_glass"><b>make_glass</b></a>(string, string, string, int, int)<dd>
+This function is used to transform the glass into a new type of glass, changing the 
+short descriptions and adding aliases and adjectives.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="init_static_arg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_static_arg</b></a><pre>
+void init_static_arg(mapping map)
+</pre>
+<dt><a name="make_glass">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_glass</b></a><pre>
+void make_glass(string drink,
+string glass_description,
+string glass_size,
+int amount,
+int has_contents)
+</pre><dd>
+This function is used to transform the glass into a new type of glass, changing the 
+short descriptions and adding aliases and adjectives.
+
+If the 'contents' parameter is 1, then the glass is automatically filled
+up with a drink made from /obj/reagents/generic_liquid.ob
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>drink - The name of the drink to be created
+<dd>glass_description - The description given when there is something in the glass.
+<dd>glass_size - The size of the glass, (in words), for example "large glass",
+<dd>amount - The amount of liquid the glass should hold.
+<dd>has_contents - Fill the glass up with 'drink'.
+<dt><b>See also:</b>
+<dd><a href="obj.bottle.c.html">/obj/bottle.c</a><dt><b>Example:</b>
+<dd><pre>// Create a large glass of tomato juice
+
+glass = clone_object("/obj/glass");
+glass->make_glass("tomato juice", "Red, thick, delicious.\n",
+     "large glass", 4000, 1);
+glass->move(this_object());
+</pre><dd><pre>
+inherit "/obj/glass";
+
+void setup() {
+// Do your own configuration of the glass, then call make_glass
+
+    ...
+    make_glass("chocolate milkshake", "Yumm...", "shot glass", 100, 0);
+    ...
+// Place your own contents in, do other funky stuff.
+}
+</pre></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 12:41:08 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

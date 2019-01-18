@@ -1,0 +1,41 @@
+.DT
+finish_comments
+Disk World creator help
+finish_comments
+
+.SH Name
+.SP 5 5
+finish_comments -  This method updates the comments based on the query results.
+.EP
+
+.SH Syntax
+.SI 5
+void finish_comments(int type,
+mixed data,
+function finished,
+class error_complete * errors,
+string ids,
+string query)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - type type
+%^BOLD%^fdata%^RESET%^ - the return data from the query
+%^BOLD%^function%^RESET%^ - finsiished the finished function
+%^BOLD%^errors%^RESET%^ - the errors results we are updating
+%^BOLD%^query%^RESET%^ - the ids list we are using
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/error_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method updates the comments based on the query results.
+.EP
+

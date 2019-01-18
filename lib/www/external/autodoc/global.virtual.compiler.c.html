@@ -1,0 +1,125 @@
+<html><head><title>File compiler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Includes</h2>
+This class includes the following files <a href="include.virtual.h.html">/include/virtual.h</a>, /global/virtual/compiler.h and /global/virtual/virtual.h<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_arm"><b>compile_arm</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_clo"><b>compile_clo</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_clotrans"><b>compile_clotrans</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_cont"><b>compile_cont</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_food"><b>compile_food</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_imp"><b>compile_imp</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_mon"><b>compile_mon</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_ob"><b>compile_ob</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_r"><b>compile_r</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_sca"><b>compile_sca</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_wep"><b>compile_wep</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_clone"><b>do_clone</b></a>(object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#extract_arguments"><b>extract_arguments</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#initialize_methods"><b>initialize_methods</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#prop_to_fun"><b>prop_to_fun</b></a>(string, mapping, string, string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_return_ob"><b>query_return_ob</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_debug_status"><b>set_debug_status</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_return_ob"><b>set_return_ob</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#str_to_var"><b>str_to_var</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#strip_string"><b>strip_string</b></a>(string)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="compile_arm">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_arm</b></a><pre>
+object compile_arm(string name,
+int clone)
+</pre>
+<dt><a name="compile_clo">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_clo</b></a><pre>
+object compile_clo(string name,
+int clone)
+</pre>
+<dt><a name="compile_clotrans">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_clotrans</b></a><pre>
+object compile_clotrans(string name,
+int clone)
+</pre>
+<dt><a name="compile_cont">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_cont</b></a><pre>
+object compile_cont(string name,
+int clone)
+</pre>
+<dt><a name="compile_food">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_food</b></a><pre>
+object compile_food(string name,
+int clone)
+</pre>
+<dt><a name="compile_imp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_imp</b></a><pre>
+object compile_imp(string name,
+int clone)
+</pre>
+<dt><a name="compile_mon">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_mon</b></a><pre>
+object compile_mon(string name,
+int clone)
+</pre>
+<dt><a name="compile_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_ob</b></a><pre>
+object compile_ob(string name,
+int clone)
+</pre>
+<dt><a name="compile_r">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_r</b></a><pre>
+object compile_r(string name,
+int clone)
+</pre>
+<dt><a name="compile_sca">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_sca</b></a><pre>
+object compile_sca(string name,
+int clone)
+</pre>
+<dt><a name="compile_wep">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_wep</b></a><pre>
+object compile_wep(string name,
+int clone)
+</pre>
+<dt><a name="do_clone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_clone</b></a><pre>
+void do_clone(object dest,
+string str)
+</pre>
+<dt><a name="extract_arguments">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>extract_arguments</b></a><pre>
+mixed * extract_arguments(string str)
+</pre>
+<dt><a name="initialize_methods">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>initialize_methods</b></a><pre>
+void initialize_methods()
+</pre>
+<dt><a name="prop_to_fun">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>prop_to_fun</b></a><pre>
+object prop_to_fun(string file,
+mapping funs,
+string virt_class,
+string virt_include,
+int clone)
+</pre>
+<dt><a name="query_return_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_return_ob</b></a><pre>
+object query_return_ob()
+</pre>
+<dt><a name="set_debug_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_debug_status</b></a><pre>
+int set_debug_status(int d_stat)
+</pre>
+<dt><a name="set_return_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_return_ob</b></a><pre>
+void set_return_ob(object ob)
+</pre>
+<dt><a name="str_to_var">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>str_to_var</b></a><pre>
+mixed str_to_var(string str)
+</pre>
+<dt><a name="strip_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>strip_string</b></a><pre>
+string strip_string(string str)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 04:13:06 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,116 @@
+<html><head><title>File torch.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.holdable.c.html">/std/basic/holdable.c</a> and <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.fuel_handler.h.html">/include/fuel_handler.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#consume_fuel"><b>consume_fuel</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_dowse"><b>do_dowse</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_extinguish"><b>do_extinguish</b></a>(object *,, , )<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_light"><b>do_light</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_warning"><b>do_warning</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_it"><b>finish_it</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#held_this_item"><b>held_this_item</b></a>(int, object, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_dynamic_arg"><b>init_dynamic_arg</b></a>(mapping)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_static_arg"><b>init_static_arg</b></a>(mapping)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move"><b>move</b></a>(mixed, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#out_of_fuel"><b>out_of_fuel</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dynamic_auto_load"><b>query_dynamic_auto_load</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_fuel"><b>query_fuel</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_lit"><b>query_lit</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_static_auto_load"><b>query_static_auto_load</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_torch"><b>query_torch</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#self_light"><b>self_light</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_fuel"><b>set_fuel</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_shorts"><b>setup_shorts</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="consume_fuel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>consume_fuel</b></a><pre>
+void consume_fuel()
+</pre>
+<dt><a name="do_dowse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_dowse</b></a><pre>
+int do_dowse()
+</pre>
+<dt><a name="do_extinguish">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_extinguish</b></a><pre>
+int do_extinguish(object *, string,
+ string,
+ string)
+</pre>
+<dt><a name="do_light">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_light</b></a><pre>
+int do_light()
+</pre>
+<dt><a name="do_warning">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_warning</b></a><pre>
+void do_warning()
+</pre>
+<dt><a name="finish_it">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_it</b></a><pre>
+int finish_it()
+</pre>
+<dt><a name="held_this_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>held_this_item</b></a><pre>
+int held_this_item(int type,
+object holder,
+mixed arg)
+</pre>
+<dt><a name="init_dynamic_arg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_dynamic_arg</b></a><pre>
+void init_dynamic_arg(mapping arg)
+</pre>
+<dt><a name="init_static_arg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_static_arg</b></a><pre>
+void init_static_arg(mapping arg)
+</pre>
+<dt><a name="move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move</b></a><pre>
+varargs int move(mixed ob,
+string mess1,
+string mess2)
+</pre>
+<dt><a name="out_of_fuel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>out_of_fuel</b></a><pre>
+void out_of_fuel()
+</pre>
+<dt><a name="query_dynamic_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dynamic_auto_load</b></a><pre>
+mixed query_dynamic_auto_load()
+</pre>
+<dt><a name="query_fuel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_fuel</b></a><pre>
+int query_fuel()
+</pre>
+<dt><a name="query_lit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_lit</b></a><pre>
+int query_lit()
+</pre>
+<dt><a name="query_static_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_static_auto_load</b></a><pre>
+mapping query_static_auto_load()
+</pre>
+<dt><a name="query_torch">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_torch</b></a><pre>
+int query_torch()
+</pre>
+<dt><a name="self_light">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>self_light</b></a><pre>
+void self_light()
+</pre>
+<dt><a name="set_fuel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_fuel</b></a><pre>
+void set_fuel(int f)
+</pre>
+<dt><a name="setup_shorts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_shorts</b></a><pre>
+void setup_shorts()
+</pre>
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 17:14:48 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

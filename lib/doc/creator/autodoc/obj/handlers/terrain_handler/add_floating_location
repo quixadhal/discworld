@@ -1,0 +1,49 @@
+.DT
+add_floating_location
+Disk World creator help
+add_floating_location
+
+.SH Name
+.SP 5 5
+add_floating_location -  This method adds a new floating location for a terrain.
+.EP
+
+.SH Syntax
+.SI 5
+int add_floating_location(string terrain,
+string file,
+int * co_ords,
+int level)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^terrain%^RESET%^ - the terrain name
+%^BOLD%^file%^RESET%^ - the file name
+%^BOLD%^co_ords%^RESET%^ - the coordinates for the location (either a single coordinate
+or 2 forming a bounding rectangle)
+%^BOLD%^level%^RESET%^ - the level of this location
+.EI
+
+.SH Returns
+.SI 5
+1 if it succeeds, 0 if it fails (wrong coordinates or location
+already present).EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/terrain_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a new floating location for a terrain.
+.EP
+
+.SH See also
+.SP 5 5
+add_fixed_location()
+
+.EP
+

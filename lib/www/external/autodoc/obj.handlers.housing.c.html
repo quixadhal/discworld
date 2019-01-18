@@ -1,0 +1,609 @@
+<html><head><title>File housing.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/housing.c</h2>
+A handler to track player houses.  This handler should only be used for
+general houses that are available for sale or rent. Don't add club or
+special (eg. guildmaster) houses here or they'll get sold or rented :)
+
+The handler stores information about registered player houses, makes houses
+vacant if their owners are idle and charges rent on rented houses.
+<p>Written by Ceres
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.nomic_system.h.html">/include/nomic_system.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.housing.h.html">/include/housing.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a> and <a href="include.login_handler.h.html">/include/login_handler.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_housing"><b>housing</b></a>
+<dd>
+This class stores all the data about a given house.
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_house"><b>add_house</b></a>(string, string *, string, string, int)<dd>
+Add a new house to the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_rooms"><b>add_rooms</b></a>(string, string *)<dd>
+Add secondary rooms to a house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change"><b>change</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#modify_house"><b>modify_house</b></a>(string, string *, string, string, int)<dd>
+Modify a houses information.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_address"><b>query_address</b></a>(string)<dd>
+Find out the address of a house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_housing_area_citizenships"><b>query_all_housing_area_citizenships</b></a>()<dd>
+This method returns all of the current mappings between the housing
+area and the citizenship.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank"><b>query_bank</b></a>(string)<dd>
+Return which bank account rent will be removed from for a house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_house"><b>query_house</b></a>(string)<dd>
+Check if a given house is registered.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_housing_area_bank"><b>query_housing_area_bank</b></a>(string)<dd>
+This method returns the current mappings between the housing area and the
+initial bank to use.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_housing_area_citizenship"><b>query_housing_area_citizenship</b></a>(string)<dd>
+This method returns the current mappings between the housing area and the
+required citizenship.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_housing_area_place"><b>query_housing_area_place</b></a>(string)<dd>
+This method returns the current mappings between the housing area and the
+money area ("Ankh-Morpork", "Counterweight Continent", etc) to use.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_owner"><b>query_owner</b></a>(string)<dd>
+Find out the current owner of this house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_region"><b>query_region</b></a>(string)<dd>
+Find out the region a house is in for sale/rental purposes.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rooms"><b>query_rooms</b></a>(string)<dd>
+Get a list of the houses rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_type"><b>query_type</b></a>(string)<dd>
+Find out the type of a house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_vacant"><b>query_vacant</b></a>(string)<dd>
+Function to get a list of houses that are vacant in a given region.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value"><b>query_value</b></a>(string)<dd>
+Find out the current value of a house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_house"><b>remove_house</b></a>(string)<dd>
+Remove a house from the list of houses
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_housing_area_citizenship"><b>remove_housing_area_citizenship</b></a>(string)<dd>
+This method removes the mapping between a housing area and it's citizenship
+requirements.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_rooms"><b>remove_rooms</b></a>(string, string *)<dd>
+Remove secondary rooms from a house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#rename_house"><b>rename_house</b></a>(string, string)<dd>
+Rename a house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_address"><b>set_address</b></a>(string, string)<dd>
+Set the address of this house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bank"><b>set_bank</b></a>(string, string)<dd>
+Set the bank account to be used for rent on this house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_for_sale"><b>set_for_sale</b></a>(string)<dd>
+Mark a house as being For Sale this puts it in the list of possible
+houses to go into the vacant list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_housing_area_citizenship"><b>set_housing_area_citizenship</b></a>(string, string)<dd>
+This method sets a mapping between a housing area and the citizenship
+required to hold a house there.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_housing_area_money"><b>set_housing_area_money</b></a>(string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_in_arrears"><b>set_in_arrears</b></a>(string)<dd>
+Mark a house as being in arrears.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_owner"><b>set_owner</b></a>(string, string)<dd>
+Set the owner of this house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_region"><b>set_region</b></a>(string, string)<dd>
+Set the region of this house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_type"><b>set_type</b></a>(string, int)<dd>
+Set the type of a house.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_under_offer"><b>set_under_offer</b></a>(string)<dd>
+Mark a house as being Under Offer (to prevent anyone else trying to sell
+it too.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_value"><b>set_value</b></a>(string, int)<dd>
+Set the value of a particular house.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_house">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_house</b></a><pre>
+int add_house(string house,
+string * other_rooms,
+string address,
+string region,
+int type)
+</pre><dd>
+Add a new house to the handler.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - the basename of the house
+<dd>other_rooms - an array of other rooms in the house
+<dd>address - a string for the address
+<dd>region - the region (used for house sales)
+<dd>type - an integer. 1 for owned, 0 for rented.
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure
+
+</dl>
+
+<dt><a name="add_rooms">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_rooms</b></a><pre>
+int add_rooms(string house,
+string * rooms)
+</pre><dd>
+Add secondary rooms to a house.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - the basename of the house
+<dd>an - array of basenames for the rooms
+<dt><b>Returns:</b>
+<dd>1 for success 0 for failure
+
+</dl>
+
+<dt><a name="change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change</b></a><pre>
+int change()
+</pre>
+<dt><a name="modify_house">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>modify_house</b></a><pre>
+int modify_house(string house,
+string * other_rooms,
+string address,
+string region,
+int type)
+</pre><dd>
+Modify a houses information.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - the basename of the house
+<dd>other_rooms - an array of other rooms in the house
+<dd>address - a string for the address
+<dd>region - the region (used for house sales)
+<dd>type - an integer. 1 for owned, 0 for rented.
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure
+
+</dl>
+
+<dt><a name="query_address">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_address</b></a><pre>
+string query_address(string house)
+</pre><dd>
+Find out the address of a house.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dt><b>Returns:</b>
+<dd>the address.
+
+</dl>
+
+<dt><a name="query_all_housing_area_citizenships">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_housing_area_citizenships</b></a><pre>
+mapping query_all_housing_area_citizenships()
+</pre><dd>
+This method returns all of the current mappings between the housing
+area and the citizenship.  This shouuld not be used for anything
+except debugging.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the housing area stuff
+
+</dl>
+
+<dt><a name="query_bank">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank</b></a><pre>
+string query_bank(string house)
+</pre><dd>
+Return which bank account rent will be removed from for a house.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dt><b>Returns:</b>
+<dd>the bank name.
+
+</dl>
+
+<dt><a name="query_house">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_house</b></a><pre>
+int query_house(string house)
+</pre><dd>
+Check if a given house is registered.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dt><b>Returns:</b>
+<dd>1 if its registered, 0 otherwise.
+
+</dl>
+
+<dt><a name="query_housing_area_bank">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_housing_area_bank</b></a><pre>
+string query_housing_area_bank(string area)
+</pre><dd>
+This method returns the current mappings between the housing area and the
+initial bank to use.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check
+<dt><b>Returns:</b>
+<dd>the initial bank used, DEFAULT_BANK if none set
+
+</dl>
+
+<dt><a name="query_housing_area_citizenship">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_housing_area_citizenship</b></a><pre>
+string query_housing_area_citizenship(string area)
+</pre><dd>
+This method returns the current mappings between the housing area and the
+required citizenship.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check
+<dt><b>Returns:</b>
+<dd>the citizenship required, 0 if none
+
+</dl>
+
+<dt><a name="query_housing_area_place">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_housing_area_place</b></a><pre>
+string query_housing_area_place(string area)
+</pre><dd>
+This method returns the current mappings between the housing area and the
+money area ("Ankh-Morpork", "Counterweight Continent", etc) to use.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check
+<dt><b>Returns:</b>
+<dd>the money area used, DEFAULT_PLACE if none set
+
+</dl>
+
+<dt><a name="query_owner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_owner</b></a><pre>
+string query_owner(string house)
+</pre><dd>
+Find out the current owner of this house.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dt><b>Returns:</b>
+<dd>the owners name.
+
+</dl>
+
+<dt><a name="query_region">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_region</b></a><pre>
+string query_region(string house)
+</pre><dd>
+Find out the region a house is in for sale/rental purposes.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dt><b>Returns:</b>
+<dd>the region.
+
+</dl>
+
+<dt><a name="query_rooms">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rooms</b></a><pre>
+string * query_rooms(string house)
+</pre><dd>
+Get a list of the houses rooms.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dt><b>Returns:</b>
+<dd>a list of rooms.
+
+</dl>
+
+<dt><a name="query_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_type</b></a><pre>
+int query_type(string house)
+</pre><dd>
+Find out the type of a house. ie. Whether it's rented or owned.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dt><b>Returns:</b>
+<dd>the type.
+
+</dl>
+
+<dt><a name="query_vacant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_vacant</b></a><pre>
+string * query_vacant(string region)
+</pre><dd>
+Function to get a list of houses that are vacant in a given region.
+This function is used by the auction system or other sales mechanism.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>region - Region to list houses in
+<dt><b>Returns:</b>
+<dd>a list of houses.
+
+</dl>
+
+<dt><a name="query_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value</b></a><pre>
+int query_value(string house)
+</pre><dd>
+Find out the current value of a house.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dt><b>Returns:</b>
+<dd>the value.
+
+</dl>
+
+<dt><a name="remove_house">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_house</b></a><pre>
+int remove_house(string house)
+</pre><dd>
+Remove a house from the list of houses
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - the basename of the house
+<dt><b>Returns:</b>
+<dd>1 for success 0 for failure
+
+</dl>
+
+<dt><a name="remove_housing_area_citizenship">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_housing_area_citizenship</b></a><pre>
+void remove_housing_area_citizenship(string area)
+</pre><dd>
+This method removes the mapping between a housing area and it's citizenship
+requirements.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the housing area to remove the link from
+
+</dl>
+
+<dt><a name="remove_rooms">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_rooms</b></a><pre>
+int remove_rooms(string house,
+string * rooms)
+</pre><dd>
+Remove secondary rooms from a house.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - the basename of the house
+<dd>an - array of basenames for the rooms
+<dt><b>Returns:</b>
+<dd>1 for success 0 for failure
+
+</dl>
+
+<dt><a name="rename_house">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rename_house</b></a><pre>
+int rename_house(string house,
+string newhouse)
+</pre><dd>
+Rename a house. This will remove the "main" room and replace it with
+another.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - the current basename of the house
+<dd>newhouse - the new basename.
+
+</dl>
+
+<dt><a name="set_address">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_address</b></a><pre>
+int set_address(string house,
+string address)
+</pre><dd>
+Set the address of this house.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dd>address - The new address of the house
+<dt><b>Returns:</b>
+<dd>1 for success 0 for failure
+
+</dl>
+
+<dt><a name="set_bank">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bank</b></a><pre>
+int set_bank(string house,
+string bank)
+</pre><dd>
+Set the bank account to be used for rent on this house.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dd>owner - The new bank to use
+<dt><b>Returns:</b>
+<dd>1 for success 0 for failure
+
+</dl>
+
+<dt><a name="set_for_sale">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_for_sale</b></a><pre>
+int set_for_sale(string house)
+</pre><dd>
+Mark a house as being For Sale this puts it in the list of possible
+houses to go into the vacant list.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - the basename of the house
+<dt><b>Returns:</b>
+<dd>1 for success 0 for failure
+
+</dl>
+
+<dt><a name="set_housing_area_citizenship">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_housing_area_citizenship</b></a><pre>
+void set_housing_area_citizenship(string area,
+string citizenship)
+</pre><dd>
+This method sets a mapping between a housing area and the citizenship
+required to hold a house there.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the housing area to link
+<dd>citizenship - the citizenship the housing area needs
+
+</dl>
+
+<dt><a name="set_housing_area_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_housing_area_money</b></a><pre>
+void set_housing_area_money(string area,
+string bank,
+string place)
+</pre>
+<dt><a name="set_in_arrears">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_in_arrears</b></a><pre>
+int set_in_arrears(string house)
+</pre><dd>
+Mark a house as being in arrears.  This is the step just prior to being
+repossessed.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - the basename of the house
+<dt><b>Returns:</b>
+<dd>1 for success 0 for failure
+
+</dl>
+
+<dt><a name="set_owner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_owner</b></a><pre>
+int set_owner(string house,
+string owner)
+</pre><dd>
+Set the owner of this house.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dd>owner - The new owner of the house
+<dt><b>Returns:</b>
+<dd>1 for success 0 for failure
+
+</dl>
+
+<dt><a name="set_region">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_region</b></a><pre>
+int set_region(string house,
+string region)
+</pre><dd>
+Set the region of this house.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dd>region - The new region of the house
+<dt><b>Returns:</b>
+<dd>1 for success 0 for failure
+
+</dl>
+
+<dt><a name="set_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_type</b></a><pre>
+int set_type(string house,
+int type)
+</pre><dd>
+Set the type of a house. ie. Whether it's rented or owned.
+(1 for rented, 0 for owned).
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - The basename of the house
+<dt><b>Returns:</b>
+<dd>the type.
+
+</dl>
+
+<dt><a name="set_under_offer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_under_offer</b></a><pre>
+int set_under_offer(string house)
+</pre><dd>
+Mark a house as being Under Offer (to prevent anyone else trying to sell
+it too.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - the basename of the house
+<dt><b>Returns:</b>
+<dd>1 for success 0 for failure
+
+</dl>
+
+<dt><a name="set_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_value</b></a><pre>
+int set_value(string house,
+int value)
+</pre><dd>
+Set the value of a particular house.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>house - the basename of the house
+<dd>value - the value in monetary units.
+<dt><b>Returns:</b>
+<dd>1 for success 0 for failure
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_housing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>housing</b></a><pre>
+class housing {
+string * other_rooms;
+string owner;
+string address;
+string region;
+int type;
+int value;
+string bank;
+}
+
+</pre><dd>
+This class stores all the data about a given house. The class is used
+within the houses mapping. The key of the mapping is the basename of the
+house (the filename of the main room) and the value is this class, which
+explains why this class doesn't have a name or filename field for the house.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 19:36:35 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

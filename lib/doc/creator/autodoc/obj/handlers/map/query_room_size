@@ -1,0 +1,33 @@
+.DT
+query_room_size
+Disk World creator help
+query_room_size
+
+.SH Name
+.SP 5 5
+query_room_size -  This method returns the size of the room, it will attempt to load the room if it is not in map handlers current rooms.
+.EP
+
+.SH Syntax
+.SI 5
+int * query_room_size(string room)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^room%^RESET%^ - the room to find the size of
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the size of the room, it will attempt to load
+the room if it is not in map handlers current rooms.
+.EP
+

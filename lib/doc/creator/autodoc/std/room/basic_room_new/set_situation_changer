@@ -1,0 +1,54 @@
+.DT
+set_situation_changer
+Disk World creator help
+set_situation_changer
+
+.SH Name
+.SP 5 5
+set_situation_changer -  Set a situation changer (in place of the default).
+.EP
+
+.SH Syntax
+.SI 5
+varargs object set_situation_changer(mixed changer)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^changer%^RESET%^ - optional parameter specifying either a path for
+the changer object or an existing object to use.
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room_new.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Set a situation changer (in place of the default).
+If there is no argument you get the default:
+/std/room/basic/situation_changer.
+You call this before any other situation related functions.
+If you create your own changer it should inherit one of
+/std/room/basic/situation_changer or
+/std/room/basic/multiroom_situation_changer or
+otherwsie provide the functionality of those objects.
+.EP
+
+.SH Example 1
+.SI 5
+If you have a special changer object used for more than one room
+then in setup for those rooms you should have:
+set_situation_changer(load_object("/w/me/mychanger"));
+Where /w/me/mychanger inherits 
+/std/room/basic/multiroom_situation_changer
+
+.EI
+
+.SH See also
+.SP 5 5
+add_situation, start_situation, automate_situation, change_situation
+.EP
+

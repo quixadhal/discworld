@@ -1,0 +1,38 @@
+.DT
+bulk_delete
+Disk World creator help
+bulk_delete
+
+.SH Name
+.SP 5 5
+bulk_delete -  This method forces a bulk delete on a certain letter.
+.EP
+
+.SH Syntax
+.SI 5
+int bulk_delete(string word)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the letter to bulk delete
+.EI
+
+.SH Returns
+.SI 5
+0 on falure and 1 on success
+.EI
+
+.SH Defined in
+.SI 5
+/global/lord.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method forces a bulk delete on a certain letter.
+This letter will then be checked to see if any of
+those players have timed out and should be deleted.
+.EP
+

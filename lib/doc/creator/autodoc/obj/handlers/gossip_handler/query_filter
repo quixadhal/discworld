@@ -1,0 +1,32 @@
+.DT
+query_filter
+Disk World creator help
+query_filter
+
+.SH Name
+.SP 5 5
+query_filter -  The current words we are filtering.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_filter()
+.EI
+
+.SH Returns
+.SI 5
+the current filter array
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/gossip_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The current words we are filtering.  If any of these words are in the
+gossip, we filter it out and do not save it.
+.EP
+

@@ -1,0 +1,51 @@
+.DT
+a_short
+Disk World creator help
+a_short
+
+.SH Name
+.SP 5 5
+a_short -  This method returns the "indeterminate" short.
+.EP
+
+.SH Syntax
+.SI 5
+varargs string a_short(int flag)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^flag%^RESET%^ - If this flag is set, do not bring the player out of hiding.
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/desc.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the "indeterminate" short.  This function returns a
+string that the message system replaces, when messages are printed, by the
+determinate of the object and its short as given by pretty_short. The
+string should not be stored, since the object to which it refers may
+not later exist; it can be processed with convert_message.
+
+
+The return of this function needs more processing before the player sees it. In general you will not need to worry about this.
+.EP
+
+.SH Example 1
+.SI 5
+"a poor beggar"
+"the Weasel"
+"Detritus"
+
+.EI
+
+.SH See also
+.SP 5 5
+set_short(), short(), the_short(), poss_short(), one_short(), /global/events->convert_message()
+.EP
+

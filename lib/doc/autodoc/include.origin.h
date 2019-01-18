@@ -1,0 +1,42 @@
+.DT
+origin.h
+Disk World autodoc help
+origin.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^ORIGIN_BACKEND%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ORIGIN_CALL_OTHER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ORIGIN_DRIVER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ORIGIN_EFUN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ORIGIN_FUNCTION_POINTER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ORIGIN_FUNCTIONAL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ORIGIN_INTERNAL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ORIGIN_LOCAL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ORIGIN_SIMUL_EFUN%^RESET%^
+.EI
+

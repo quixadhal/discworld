@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["deregister_corpse":({({"void",}),({({"object",}),"ob",}),(["main":({"This method deregisters the corpse from us.  We forget about it andit wombles off into the ether.",}),"param":({"corpse the corpse to deregister",}),]),}),"save_corpse":({({"void",}),({({"object",}),"ob",}),(["main":({"This method will save the corpse data out to a nice file.",}),"param":({"ob the object to save",}),]),}),"register_corpse":({({"void",}),({({"object",}),"ob",}),(["main":({"This method registers the corpse with us.",}),"param":({"corpse the corpse to register",}),]),}),"stats":({({"mixed","*",}),({}),([]),}),"query_next_corpse_id":({({"int",}),({}),(["main":({"This method returns the next corpse id.",}),"return":({"the next corpse id",}),]),}),"create_corpse":({({"object",}),({({"string",}),"name",({"int",}),"id",}),(["main":({"This method creates the specific corpse.",}),"param":({"name the player name to create it for","id the id to create",}),"return":({"the new corpse",}),]),}),"check_corpses":({({"void",}),({}),(["main":({"This goes through the current list of corpses and tries to find them,if not it creates them.",}),]),}),"find_player_corpses":({({"object","*",}),({({"string",}),"player",}),(["main":({"Finds all of the corpses for the player.",}),"param":({"player the name of the player to find the corpses of",}),"return":({"the list of player corpses",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"A small handler to keep track of corpses.",}),"started":({"Thu Jun 13 17:22:06 PDT 2002",}),"author":({"Pinkfish",}),])
+define_docs (["CORPSE_SAVE_FILE":([]),"CORPSE_SAVE_DIR":([]),"CORPSE_OBJECT":([]),"CORPSE_RAM_DIR":([]),])
+includes (["/include/player_handler.h":1522061544,])
+class_docs (["corpse_data":({0,({({"id",({"int",}),}),}),([]),}),])
+file_name "/obj/handlers/corpse_handler.c"
+last_changed 1522061544

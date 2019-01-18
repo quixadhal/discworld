@@ -1,0 +1,36 @@
+.DT
+set_monitor
+Disk World creator help
+set_monitor
+
+.SH Name
+.SP 5 5
+set_monitor -  Set the hit point minitor.
+.EP
+
+.SH Syntax
+.SI 5
+void set_monitor(int i)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^i%^RESET%^ - the new value for the hit point monitor flag
+
+.EI
+
+.SH Defined in
+.SI 5
+/global/player.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Set the hit point minitor.  This sets the value of the hit point
+monitor flag.  If it is set to 0, the monitor is turned off.  If
+it is set to 1 the monitor is turned on, higher values cause the monitor
+to be displayed every N heartbeats.
+
+.EP
+

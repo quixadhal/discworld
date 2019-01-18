@@ -1,0 +1,45 @@
+.DT
+calc_change
+Disk World creator help
+calc_change
+
+.SH Name
+.SP 5 5
+calc_change -  This method calculates the change of a certain value from a given money array.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * calc_change(int value,
+mixed * mon_array)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^value%^RESET%^ - the value of the change to calculate
+%^BOLD%^mon_array%^RESET%^ - the money array to determine the change from
+.EI
+
+.SH Returns
+.SI 5
+the money array containing the change to use.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method calculates the change of a certain value from a
+given money array.   This makes sure that the change does not include
+money that does not actually exist.
+.EP
+
+.SH See also
+.SP 5 5
+make_payment(), pay_amount_from()
+
+.EP
+

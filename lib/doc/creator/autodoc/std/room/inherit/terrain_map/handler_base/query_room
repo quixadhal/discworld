@@ -1,0 +1,47 @@
+.DT
+query_room
+Disk World creator help
+query_room
+
+.SH Name
+.SP 5 5
+query_room -  This method queries the path of a room.
+.EP
+
+.SH Syntax
+.SI 5
+mixed query_room(int x,
+int y,
+int z)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^room_path%^RESET%^ - the full pathname of the room to be cloned.
+.EI
+
+.SH Returns
+.SI 5
+the cloned/loaded room, or 0 if it could not be cloned/loaded.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method queries the path of a room. If it takes the form:
+'/d/full/path/name.c:x:y' where x and y are integers, it clones
+a new room at the specified coordinates, sets it up fully, and returns it.
+If the room path is of the standard form, it simply returns the loaded
+room.
+.EP
+
+.SH See also
+.SP 5 5
+load_room_at, query_room_at
+
+.EP
+

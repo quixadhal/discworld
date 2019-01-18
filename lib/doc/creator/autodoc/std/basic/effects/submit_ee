@@ -1,0 +1,94 @@
+.DT
+submit_ee
+Disk World creator help
+submit_ee
+
+.SH Name
+.SP 5 5
+submit_ee -  This submits an effect event schedule.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void submit_ee(mixed fun,
+mixed interval,
+int flags,
+mixed event_args)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^fun%^RESET%^ - the function to call
+%^BOLD%^interval%^RESET%^ - the interval specifier
+%^BOLD%^flags%^RESET%^ - the flags for the event
+%^BOLD%^event_args%^RESET%^ - additional (optional) args passed to fun
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/effects.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This submits an effect event schedule.  It will call "function name" in your
+effect object after the interval specified in interval_spec, with behaviour
+modified by flags.  Addtional args may optionally be sent to "function name"
+as well.  If none are passed, args == 0.
+interval_spec can be one of:
+
+.EP
+.SP 5 5
+n 
+.EP
+.SP 8 5
+time in seconds 
+.EP
+.SP 5 5
+({ m, n }) 
+.EP
+.SP 8 5
+minimum time m seconds, maximum time n seconds, simple random distribution 
+.EP
+.SP 5 5
+({ m, n, r }) 
+.EP
+.SP 8 5
+as for the ({ m, n }) case, except the random factor is effectively "rolled" r times ... the higher r is, the more likely the interval is to be close to (m + n)/2. 
+.EP
+.SP 5 5
+flags may be: 
+.EP
+.SP 8 5
+EE_REMOVE 
+.EP
+.SP 11 5
+remove the effect from the player aftert the function call 
+.EP
+.SP 8 5
+EE_CONTINUOUS 
+.EP
+.SP 11 5
+do it repeatedly. Default (EE_ONCE) is only do it once. 
+.EP
+.SP 8 5
+EE_ONCE 
+.EP
+.SP 11 5
+do it once 
+.EP
+.SP 5 5
+These are defined in /include/effect.h 
+
+Only one EE_REMOVE can be in place at a time. Subsequent EE_REMOVEs will wipe previous ones. 
+
+NB: submit_ee can ONLY be called from the effect object itself in the course of a beginning/handler/end call, or from the effect shadow.
+.EP
+
+.SH See also
+.SP 5 5
+submit_ee2(), /include/effect.h, add_effect()
+.EP
+

@@ -1,0 +1,40 @@
+.DT
+check_playtester
+Disk World creator help
+check_playtester
+
+.SH Name
+.SP 5 5
+check_playtester -  This method should never ever be used.
+.EP
+
+.SH Syntax
+.SI 5
+int check_playtester( string)
+.EI
+
+.SH Returns
+.SI 5
+Always returns 0.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playtesters.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method should never ever be used.  Use of this call is meant to be
+broken.  Old code that uses check_playtester() probably meant to use
+query_playtester().  Use this instead (or better, query_tester()).  If you
+wish to hire a playtester using this call (which is what it actually did!),
+please look at hire_playtester() and add_playtester().
+.EP
+
+.SH See also
+.SP 5 5
+query_playtester(), query_tester(), hire_playtester(), add_playtester()
+.EP
+

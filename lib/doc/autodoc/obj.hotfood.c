@@ -1,6 +1,6 @@
 .DT
 hotfood.c
-DW_wibble autodoc help
+Disk World autodoc help
 hotfood.c
 
 .SH Description
@@ -39,6 +39,6 @@ This class inherits the following classes /obj/food.
 
 .SH Includes
 .SP 5 5
-This class includes the following files /include/weather.h and /include/bits_controller.h.
+This class includes the following files /include/bits_controller.h and /include/weather.h.
 .EP
 

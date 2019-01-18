@@ -1,0 +1,42 @@
+.DT
+after_attack
+Disk World creator help
+after_attack
+
+.SH Name
+.SP 5 5
+after_attack -  This function is called after it's all over and done (just before the costs are charged).
+.EP
+
+.SH Syntax
+.SI 5
+class attack after_attack(class attack att)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^class%^RESET%^ - attack
+.EI
+
+.SH Returns
+.SI 5
+class attack
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function is called after it's all over and done (just before the
+costs are charged). It can be used to do any special outcomes that
+we may decide on.
+Note that if you override this function in a special be absolutely certain
+you know what you're doing if you return R_ABORT or R_DONE. Use of either
+of these two could cause really nasty side-effects.
+
+.EP
+

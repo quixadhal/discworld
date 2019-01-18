@@ -1,0 +1,44 @@
+.DT
+query_room_chats
+Disk World creator help
+query_room_chats
+
+.SH Name
+.SP 5 5
+query_room_chats -  Returns the the set of room chats managed by this chatter object.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * query_room_chats()
+.EI
+
+.SH Returns
+.SI 5
+pointer to the mixed array of chat args.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/chatter.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Returns the the set of room chats
+managed by this chatter object.  
+.EP
+
+.SH Example 1
+.SI 5
+ ({ 120, 240, ({ "A frog gimbles the curtains.",
+                 "A truly revolting smell drifts insidiously "
+                 "from the rug." }) })
+.EI
+
+.SH See also
+.SP 5 5
+add_room_chats, remove_room_chats, room_chat, /std/room/basic/chatter
+
+.EP
+

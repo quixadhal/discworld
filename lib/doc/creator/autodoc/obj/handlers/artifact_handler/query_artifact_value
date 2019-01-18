@@ -1,0 +1,48 @@
+.DT
+query_artifact_value
+Disk World creator help
+query_artifact_value
+
+.SH Name
+.SP 5 5
+query_artifact_value -  Determine the value of the artificant.
+.EP
+
+.SH Syntax
+.SI 5
+int query_artifact_value(string name,
+int bonus)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the artifact
+%^BOLD%^bonus%^RESET%^ - the bonus modifier
+.EI
+
+.SH Returns
+.SI 5
+the value of the artifact
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/artifact_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Determine the value of the artificant.  The value is determined by
+the following equation:
+.EP
+.SP 5 5
+
+.EP
+.SP 5 5
+value = (value * max) / query_artifiact_level(name, bonus)
+.EP
+.SP 5 5
+
+.EP
+

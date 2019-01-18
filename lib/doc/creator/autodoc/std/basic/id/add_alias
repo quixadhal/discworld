@@ -1,0 +1,56 @@
+.DT
+add_alias
+Disk World creator help
+add_alias
+
+.SH Name
+.SP 5 5
+add_alias -  This method adds an alias to the object.
+.EP
+
+.SH Syntax
+.SI 5
+void add_alias(mixed str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the alias(s) to add
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/id.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an alias to the object.   An alias for the object is the
+part used as the main noun for the object. ie in the case of a "green
+bath tub", "bathtub" might be an alias for the object. and "green"
+and "bath" would be adjectives. The value set with add_alias is also
+used with present. This means you can make up an alias for an object
+that players cannot normaly access but you can
+get a handle on with present. For an exmple of this look at the money
+object.
+
+
+The function takes an array or a string as an argument. If an array is passed in each element of the array is added to the alias array, if it is a string then the string elemnt is added to the array.
+.EP
+
+.SH Example 1
+.SI 5
+set_name("tub");
+set_short("green bath tub");
+add_alias("bathtub");
+add_adjective("green");
+add_adjective("bath");
+
+.EI
+
+.SH See also
+.SP 5 5
+set_name(), remove_alias(), set_aliases(), query_alias()
+.EP
+

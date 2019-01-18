@@ -1,0 +1,52 @@
+.DT
+discussion_idea
+Disk World creator help
+discussion_idea
+
+.SH Name
+.SP 5 5
+discussion_idea -  This class is for a discussion idea associated with a club.
+.EP
+
+.SH Definition
+.SI 5
+class discussion_idea {
+int id;
+int time_added;
+int time_finish;
+int discuss_type;
+string added_by;
+string name;
+string information;
+mapping choices;
+string * voted;
+mixed optional_data;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^id%^RESET%^ - the unique id of the discusion idea
+%^BOLD%^time_added%^RESET%^ - the time the discussion item was added
+%^BOLD%^discuss_type%^RESET%^ - the type of the item up for discusion
+%^BOLD%^added_by%^RESET%^ - the name of the member who added the item
+%^BOLD%^information%^RESET%^ - entered by the person when they added the discussion
+%^BOLD%^name%^RESET%^ - the name of the person who added the item
+%^BOLD%^choices%^RESET%^ - the choices and votes for the discussion
+%^BOLD%^voted%^RESET%^ - who has voted for the item
+%^BOLD%^optional_data%^RESET%^ - the extra data associated with the idea
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/clubs.h
+.EI
+
+.SH Description
+.SP 5 5
+
+This class is for a discussion idea associated with a club.
+.EP
+

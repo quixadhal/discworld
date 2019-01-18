@@ -1,0 +1,39 @@
+.DT
+start_punishment
+Disk World creator help
+start_punishment
+
+.SH Name
+.SP 5 5
+start_punishment -  The start of the punishment stuff, figure out any extra data.
+.EP
+
+.SH Syntax
+.SI 5
+void start_punishment(string area,
+class nomic_case the_case,
+string type,
+function finish)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area the case is in
+%^BOLD%^the_case%^RESET%^ - the case
+%^BOLD%^type%^RESET%^ - the type name of the punishment
+%^BOLD%^finish_func%^RESET%^ - the function to call when we are finished
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/punishment_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The start of the punishment stuff, figure out any extra data.  The
+default result calls the function back with a 0 data arguement.
+.EP
+

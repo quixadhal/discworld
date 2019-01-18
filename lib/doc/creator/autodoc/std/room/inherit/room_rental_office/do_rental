@@ -1,0 +1,37 @@
+.DT
+do_rental
+Disk World creator help
+do_rental
+
+.SH Name
+.SP 5 5
+do_rental -  This method attempts to rent a room.
+.EP
+
+.SH Syntax
+.SI 5
+int do_rental(string room)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^room%^RESET%^ - the room to try and rent
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/room_rental_office.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method attempts to rent a room.  It checks the return from the
+handler and prints the appropriate message.
+.EP
+

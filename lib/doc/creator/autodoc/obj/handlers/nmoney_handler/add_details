@@ -1,0 +1,50 @@
+.DT
+add_details
+Disk World creator help
+add_details
+
+.SH Name
+.SP 5 5
+add_details -  This method adds the details for the given coin type into the current list.
+.EP
+
+.SH Syntax
+.SI 5
+void add_details(string word,
+string hd_sht,
+string tl_sht,
+string hd_lng,
+string tl_lng,
+mixed composition,
+string plural)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the coin type the details are for
+%^BOLD%^hd_sht%^RESET%^ - the heads side short
+%^BOLD%^tl_sht%^RESET%^ - the tail side short
+%^BOLD%^hd_lng%^RESET%^ - the head side long
+%^BOLD%^tl_lnd%^RESET%^ - the tail side long
+%^BOLD%^composition%^RESET%^ - the composition of the money
+%^BOLD%^plural%^RESET%^ - the plural value of the object, if 0 then use default plural
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/nmoney_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds the details for the given coin type into the current
+list.
+.EP
+
+.SH See also
+.SP 5 5
+query_details_for(), remove_details()
+
+.EP
+

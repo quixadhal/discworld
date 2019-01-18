@@ -1,0 +1,39 @@
+.DT
+query_killfile
+Disk World creator help
+query_killfile
+
+.SH Name
+.SP 5 5
+query_killfile -  Find out if a given board is in a player killfile 
+.EP
+
+.SH Syntax
+.SI 5
+int query_killfile(string player,
+string board)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^string%^RESET%^ - the name of the player
+%^BOLD%^string%^RESET%^ - the name of the board (in lowercase)
+.EI
+
+.SH Returns
+.SI 5
+1 if it is, 0 if it isn't
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/board_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Find out if a given board is in a player killfile
+
+.EP
+

@@ -1,0 +1,37 @@
+.DT
+remove_denied_parcel
+Disk World creator help
+remove_denied_parcel
+
+.SH Name
+.SP 5 5
+remove_denied_parcel -  Removes a user from the list of users not allowed to use the parcel system Only Lords and Liaison deputies are allowed to remove a user from this array
+.EP
+
+.SH Syntax
+.SI 5
+int remove_denied_parcel(string user)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^user%^RESET%^ - the name of the player
+.EI
+
+.SH Returns
+.SI 5
+0 if they are not in the list, 1 if they are
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/multiplayer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Removes a user from the list of users not allowed to use the parcel system
+Only Lords and Liaison deputies are allowed to remove a user from this array
+.EP
+

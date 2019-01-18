@@ -1,0 +1,41 @@
+.DT
+query_visible
+Disk World creator help
+query_visible
+
+.SH Name
+.SP 5 5
+query_visible -  This method returns the current visibility status of this creator in respect to the other object.
+.EP
+
+.SH Syntax
+.SI 5
+int query_visible(object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - the object to test the visibility against
+.EI
+
+.SH Returns
+.SI 5
+0 if not invisible, non-zero if invisible
+.EI
+
+.SH Defined in
+.SI 5
+/global/wiz_file_comm.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current visibility status of this creator
+in respect to the other object.  This does the allow level checking
+and all sorts of exciting things.
+
+
+It will return 1 for creator invisible, 2 for director invisible, 3 for trustee invisible.
+.EP
+

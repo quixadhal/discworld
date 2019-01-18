@@ -1,0 +1,50 @@
+.DT
+wear_armour
+Disk World creator help
+wear_armour
+
+.SH Name
+.SP 5 5
+wear_armour -  This is the method used to get the living object to wear a piece of armour or clothing.
+.EP
+
+.SH Syntax
+.SI 5
+string wear_armour(object armour,
+int doing_hold)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^armour%^RESET%^ - the armour to wear
+%^BOLD%^doing_hold%^RESET%^ - if this is called by the hold command
+.EI
+
+.SH Returns
+.SI 5
+the failure message, or 0 if ok.EI
+
+.SH Defined in
+.SI 5
+/std/living/armour.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the method used to get the living object to wear a piece of
+armour or clothing.  This is called from inside the armour or clothing
+code itself.  It will call the function set_worn_by() on the
+armour or clothing and if this returns a non-zero result then it
+will add it into the current list of worn types.  Assuming the
+type of the armour fits into the allowed list.  It will also
+call the functon hold_item on the object if it is required to be
+held as well (ie: shield).
+.EP
+
+.SH See also
+.SP 5 5
+remove_armour(), query_armours(), query_wearing()
+
+.EP
+

@@ -1,0 +1,93 @@
+<html><head><title>File twilight.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Includes</h2>
+This class includes the following files <a href="include.twilight.h.html">/include/twilight.h</a> and <a href="include.climate.h.html">/include/climate.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_day_item"><b>add_day_item</b></a>(mixed, mixed, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_night_item"><b>add_night_item</b></a>(mixed, mixed, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change"><b>change</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#destruct_shadow"><b>destruct_shadow</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_weather"><b>event_weather</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_roomchats"><b>query_roomchats</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_roomitems"><b>query_roomitems</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_roomlong"><b>query_roomlong</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_time"><b>query_time</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#return_long"><b>return_long</b></a>(mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#room_day_chat"><b>room_day_chat</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#room_night_chat"><b>room_night_chat</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_current_long"><b>set_current_long</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_day_long"><b>set_day_long</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_night_long"><b>set_night_long</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_shadow"><b>setup_shadow</b></a>(object)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_day_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_day_item</b></a><pre>
+varargs int add_day_item(mixed shorts,
+mixed desc,
+mixed no_plural)
+</pre>
+<dt><a name="add_night_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_night_item</b></a><pre>
+varargs int add_night_item(mixed shorts,
+mixed desc,
+mixed no_plural)
+</pre>
+<dt><a name="change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change</b></a><pre>
+void change(int time_now)
+</pre>
+<dt><a name="destruct_shadow">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>destruct_shadow</b></a><pre>
+void destruct_shadow(object thing)
+</pre>
+<dt><a name="event_weather">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_weather</b></a><pre>
+void event_weather(int whats_changed)
+</pre>
+<dt><a name="query_roomchats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_roomchats</b></a><pre>
+mixed query_roomchats()
+</pre>
+<dt><a name="query_roomitems">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_roomitems</b></a><pre>
+mixed query_roomitems()
+</pre>
+<dt><a name="query_roomlong">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_roomlong</b></a><pre>
+string * query_roomlong()
+</pre>
+<dt><a name="query_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_time</b></a><pre>
+int query_time()
+</pre>
+<dt><a name="return_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>return_long</b></a><pre>
+string return_long(mixed desc)
+</pre>
+<dt><a name="room_day_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>room_day_chat</b></a><pre>
+void room_day_chat(mixed * args)
+</pre>
+<dt><a name="room_night_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>room_night_chat</b></a><pre>
+void room_night_chat(mixed * args)
+</pre>
+<dt><a name="set_current_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_current_long</b></a><pre>
+void set_current_long()
+</pre>
+<dt><a name="set_day_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_day_long</b></a><pre>
+void set_day_long(string str)
+</pre>
+<dt><a name="set_night_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_night_long</b></a><pre>
+void set_night_long(string str)
+</pre>
+<dt><a name="setup_shadow">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_shadow</b></a><pre>
+void setup_shadow(object this_room)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 09:18:09 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,44 @@
+.DT
+vote_for_discussion_item
+Disk World creator help
+vote_for_discussion_item
+
+.SH Name
+.SP 5 5
+vote_for_discussion_item -  This method sets up the discussion item as being voted by the person specified.
+.EP
+
+.SH Syntax
+.SI 5
+int vote_for_discussion_item(string club_name,
+int id,
+string person,
+string choice)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^id%^RESET%^ - the id of the discussion item
+%^BOLD%^person%^RESET%^ - the person doing the voting
+%^BOLD%^choice%^RESET%^ - the choices there are to vote on
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_discuss.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets up the discussion item as being voted by the
+person specified.
+.EP
+
+.SH See also
+.SP 5 5
+add_discussion_item()
+
+.EP
+

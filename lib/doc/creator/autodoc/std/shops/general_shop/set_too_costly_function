@@ -1,0 +1,44 @@
+.DT
+set_too_costly_function
+Disk World creator help
+set_too_costly_function
+
+.SH Name
+.SP 5 5
+set_too_costly_function -  This method sets the function to call when buying something and it costs too much.
+.EP
+
+.SH Syntax
+.SI 5
+void set_too_costly_function(mixed func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^func%^RESET%^ - the function to call
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/general_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the function to call when buying something and it
+costs too much.  The
+function will be called with two elements, the first being the
+player doing the buying and the second being the array
+of objects which cost too much.
+
+
+If the function is a string then the function of that name will be called on the shop, if it is a function pointer then the function pointer will be evaluated.
+.EP
+
+.SH See also
+.SP 5 5
+set_sell_function(), set_value_function(), set_buy_function(), set_cannot_sell_function() , set_browse_function(), set_list_function()
+
+.EP
+

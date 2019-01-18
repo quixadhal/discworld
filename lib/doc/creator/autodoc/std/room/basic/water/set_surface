@@ -1,0 +1,42 @@
+.DT
+set_surface
+Disk World creator help
+set_surface
+
+.SH Name
+.SP 5 5
+set_surface -  This function sets whether or not this room has an interface with air or surface in it.
+.EP
+
+.SH Syntax
+.SI 5
+void set_surface(int val)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^val%^RESET%^ - whether or not the room has a surface
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets whether or not this room has an interface with air or
+surface in it.  If it does, then living objects may breathe here, and
+turbidity does not effect visibility.  The parameter of this function can be
+1 to make this room have a surface, 0 to make it have no surface, or -1 (the
+default) to make it decide whether or not it has a surface by checking to
+see if it has any exits in the current up direction (as set by set_up_dir).
+.EP
+
+.SH See also
+.SP 5 5
+query_surface, set_clarity, set_turbidity, set_up_dir
+
+.EP
+

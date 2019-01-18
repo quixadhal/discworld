@@ -1,0 +1,42 @@
+.DT
+query_pattern
+Disk World creator help
+query_pattern
+
+.SH Name
+.SP 5 5
+query_pattern -  Returns the compiled pattern to the caller.
+.EP
+
+.SH Syntax
+.SI 5
+nomask mixed * query_pattern(string pattern)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^pattern%^RESET%^ - the pattern to compiler
+.EI
+
+.SH Returns
+.SI 5
+the compiler pattern.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/pattern_compiler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Returns the compiled pattern to the caller.   This checks to see if they
+pattern is in its internal cache and if it is, it uses that.
+.EP
+
+.SH See also
+.SP 5 5
+/include/user_parser.h
+
+.EP
+

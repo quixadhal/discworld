@@ -8,7 +8,7 @@ services instead.
 March 2000
 <hr><h2>Inherits</h2>
 This class inherits the following classes <a href="obj.monster.c.html">/obj/monster.c</a><hr><h2>Includes</h2>
-This class includes the following files <a href="include.armoury.h.html">/include/armoury.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.money.h.html">/include/money.h</a> and <a href="include.move_failures.h.html">/include/move_failures.h</a><hr><h2>Method index</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
 <dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#add_service"><b>add_service</b></a>(string, string, string, int, string *)<dd>
 This method adds a service to the list of services on offer.
@@ -32,10 +32,10 @@ These are functions that everyone can access.<p><dl>
 .<dt><a name="add_service">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_service</b></a><pre>
 varargs int add_service(string service,
-                        string browse_info,
-                        string func,
-                        int cost,
-                        string * aliases)
+string browse_info,
+string func,
+int cost,
+string * aliases)
 </pre><dd>
 This method adds a service to the list of services on offer.<p>
 <dd><dl>
@@ -56,9 +56,9 @@ varargs int check_busy(object player)
 <dt><a name="do_browse">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_browse</b></a><pre>
 int do_browse(mixed indirect_obs,
-              string dir_match,
-              string indir_match,
-              string * words)
+string dir_match,
+string indir_match,
+string * words)
 </pre><dd>
 The main entrance to the browse for things command.<p>
 <dd><dl>
@@ -81,9 +81,9 @@ The main entrance to the list stuff command.<p>
 <dt><a name="do_request">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_request</b></a><pre>
 int do_request(mixed indirect_obs,
-               string dir_match,
-               string indir_match,
-               string * words)
+string dir_match,
+string indir_match,
+string * words)
 </pre><dd>
 The main entrance to the buy things command.<p>
 <dd><dl>
@@ -115,5 +115,5 @@ void set_busy()
 </pre>
 </dl>
 <hr>
-<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 29 Oct 2003 14:37:49 GMT<br>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sun, 01 Apr 2018 21:07:38 GMT<br>
 <hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,56 @@
+.DT
+query_strange_inventory
+Disk World creator help
+query_strange_inventory
+
+.SH Name
+.SP 5 5
+query_strange_inventory -  This method returns an inventory sorted on descriptions.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * query_strange_inventory(mixed * arr)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^arr%^RESET%^ - the array to get the inventory for
+.EI
+
+.SH Returns
+.SI 5
+an array structured as above
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/str_inven.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns an inventory sorted on descriptions.
+The format of the return array is:
+
+.EP
+.SP 5 5
+({
+.EP
+.SP 5 5
+   "desc", ({ ob, ... }),
+.EP
+.SP 5 5
+   "desc2", ({ ob11, ob12, ... })
+.EP
+.SP 5 5
+   ...
+.EP
+.SP 5 5
+ })
+.EP
+.SP 5 5
+
+.EP
+

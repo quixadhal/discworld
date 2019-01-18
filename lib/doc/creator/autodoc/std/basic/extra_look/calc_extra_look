@@ -1,0 +1,40 @@
+.DT
+calc_extra_look
+Disk World creator help
+calc_extra_look
+
+.SH Name
+.SP 5 5
+calc_extra_look -  This method creates the extra long stringsbased on the current list of objects to use an extra_look on.
+.EP
+
+.SH Syntax
+.SI 5
+string calc_extra_look()
+.EI
+
+.SH Returns
+.SI 5
+the extra look string
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/extra_look.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method creates the extra long stringsbased on the current list
+of objects to use an extra_look on.  The function extra_look() is
+called on every object with this_object() passed in as the first
+(and only) parameter.  If the result is non-zero it is added onto
+the output.
+.EP
+
+.SH See also
+.SP 5 5
+add_extra_look(), remove_extra_look(), query_extra_look_list()
+.EP
+

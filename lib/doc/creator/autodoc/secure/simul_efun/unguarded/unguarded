@@ -1,0 +1,44 @@
+.DT
+unguarded
+Disk World creator help
+unguarded
+
+.SH Name
+.SP 5 5
+unguarded -  This does an unguarded apply.
+.EP
+
+.SH Syntax
+.SI 5
+mixed unguarded(function f)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^f%^RESET%^ - the fucntion pointer to evaluate unguarded.
+.EI
+
+.SH Returns
+.SI 5
+returns the value of the evaluated function pointer
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/unguarded.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This does an unguarded apply.  An unguarded apply means it chops off
+the call tree at this point for security purposes.  This is needed to be
+done in places where access beyond what the caller may have is needed.
+For example, the board handler uses this to save the messages away as
+the players and creators do not have access to save into these directories
+normally.
+
+
+
+.EP
+

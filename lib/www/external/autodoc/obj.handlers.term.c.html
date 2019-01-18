@@ -1,0 +1,95 @@
+<html><head><title>File term.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/term.c</h2>
+This object handles all the terminal related stuff.  Figuring out to 
+display each colour and verifying that the colours are correct.
+The terminal handler.  This has all sorts of utterly useless junk on it
+Share and enjoy.
+Thrown up by Pinkfish.
+
+   Modified by Godot to add the xterm terminal. (10/16/92)
+   Added vt100 Chrisy 15 may 93
+
+   Definitions:
+
+       <colour>    foreground colour
+       B_<colour>  background colour
+       BOLD        bold or bright letters
+       ENDTERM     unknown
+       FLASH       flashing or blinking letters
+       INITTERM    unknown
+       RESET       return to the normal font -- not a terminal reset.
+       STATUS      unknown
+       WINDOW      unknown
+       REVERSE     reverse video mode
+       UNDERLINE   underline mode
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_colour_codes"><b>query_colour_codes</b></a>()<dd>
+This method returns the array of usable colours.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_term_types"><b>query_term_types</b></a>()<dd>
+This method returns all the currently available types of terminals.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_network_term_type"><b>set_network_term_type</b></a>(string)<dd>
+This returns the mapping of colours based on the terminal type
+entered in here.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_term_type"><b>set_term_type</b></a>(string)<dd>
+This returns the mapping of colours based on the terminal type
+entered in here.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_colour_codes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_colour_codes</b></a><pre>
+string * query_colour_codes()
+</pre><dd>
+This method returns the array of usable colours.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of usable colours
+
+</dl>
+
+<dt><a name="query_term_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_term_types</b></a><pre>
+string * query_term_types()
+</pre><dd>
+This method returns all the currently available types of terminals.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of terminal types
+
+</dl>
+
+<dt><a name="set_network_term_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_network_term_type</b></a><pre>
+mixed set_network_term_type(string str)
+</pre><dd>
+This returns the mapping of colours based on the terminal type
+entered in here.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the terminal type
+<dt><b>Returns:</b>
+<dd>mapping of colours to escape codes
+
+</dl>
+
+<dt><a name="set_term_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_term_type</b></a><pre>
+mapping set_term_type(string str)
+</pre><dd>
+This returns the mapping of colours based on the terminal type
+entered in here.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the terminal type
+<dt><b>Returns:</b>
+<dd>mapping of colours to escape codes
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 02:05:35 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

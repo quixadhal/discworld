@@ -1,0 +1,38 @@
+.DT
+event_combat
+Disk World creator help
+event_combat
+
+.SH Name
+.SP 5 5
+event_combat -  This event is generated when a combat message occurs.
+.EP
+
+.SH Syntax
+.SI 5
+void event_combat(object thing,
+string message,
+object * exclude,
+int verbose)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - the thing generateing the event.
+%^BOLD%^message%^RESET%^ - the message to be displayed.
+%^BOLD%^exclude%^RESET%^ - objects not to show this message to.
+%^BOLD%^verbose%^RESET%^ - is the message considered verbose?
+
+.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This event is generated when a combat message occurs.
+.EP
+

@@ -1,0 +1,41 @@
+.DT
+random_firework
+Disk World creator help
+random_firework
+
+.SH Name
+.SP 5 5
+random_firework -  This method creates a random firework at the casters location from the current list of fireworks.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void random_firework(object caster,
+string text)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^caster%^RESET%^ - the caster of the spell
+%^BOLD%^text%^RESET%^ - the text to print in the firework
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/firework.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method creates a random firework at the casters location from the
+current list of fireworks.  If the text field is not filled in then
+the casters name is used.
+.EP
+
+.SH See also
+.SP 5 5
+do_effect()
+
+.EP
+

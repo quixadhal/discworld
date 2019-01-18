@@ -1,0 +1,68 @@
+.DT
+query_map
+Disk World creator help
+query_map
+
+.SH Name
+.SP 5 5
+query_map -  This method attempts to return the map for the current directory.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_map(string dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - the directory to load the information for
+.EI
+
+.SH Returns
+.SI 5
+the directions mapping.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method attempts to return the map for the current directory.  This
+returns a mapping which contains an index being the room and the
+indicies are direction, destination pairs.
+
+.EP
+.SP 5 5
+([
+.EP
+.SP 5 5
+   file : ({
+.EP
+.SP 5 5
+             direction1,
+.EP
+.SP 5 5
+             destination1,
+.EP
+.SP 5 5
+             ...
+.EP
+.SP 5 5
+           }),
+.EP
+.SP 5 5
+ ])
+.EP
+.SP 5 5
+
+.EP
+
+.SH See also
+.SP 5 5
+update_cache(), change_map()
+
+.EP
+

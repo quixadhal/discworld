@@ -1,6 +1,6 @@
 .DT
 package.c
-DW_wibble autodoc help
+Disk World autodoc help
 package.c
 
 .SH Description

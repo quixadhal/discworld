@@ -1,0 +1,43 @@
+.DT
+held_this_item
+Disk World creator help
+held_this_item
+
+.SH Name
+.SP 5 5
+held_this_item -  This method is called by the inheritable when the object is change from being held to unheld, or vica versa.
+.EP
+
+.SH Syntax
+.SI 5
+int held_this_item(int held,
+object holder,
+mixed arg)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^held%^RESET%^ - 1 if the item is held, 0 if not, 2 if held on init
+%^BOLD%^holder%^RESET%^ - this is person already holding it when removed, new holder when held
+%^BOLD%^arg%^RESET%^ - an argument use in the autoloading, passed into init_dynamic_arg
+.EI
+
+.SH Returns
+.SI 5
+1 if the hold/remove was successful
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/holdable.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called by the inheritable when the object is change from
+being held to unheld, or vica versa.  This should be used to turn on 
+and off light sources and so on.  The method will also be called with 
+a 2 if the object was held and we are doing an initialisation sequence.
+.EP
+

@@ -1,0 +1,45 @@
+.DT
+finish_nomination
+Disk World creator help
+finish_nomination
+
+.SH Name
+.SP 5 5
+finish_nomination -  This method finishes the nomination stuff.
+.EP
+
+.SH Syntax
+.SI 5
+mixed finish_nomination(string club_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club to finish the nomination for
+.EI
+
+.SH Returns
+.SI 5
+see description for return values.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method finishes the nomination stuff.  The return will be 0 if the
+election is not valid for this club.  If the election was valid it will
+return an array of positions that do not have enough nominated people to
+complete the election for.  If the return array is 0 in size then the
+next phase of the election is setup.
+.EP
+
+.SH See also
+.SP 5 5
+start_election(), nominate_person(), vote_for_person()
+
+.EP
+

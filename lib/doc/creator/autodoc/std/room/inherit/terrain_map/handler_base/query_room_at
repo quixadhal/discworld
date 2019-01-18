@@ -1,0 +1,46 @@
+.DT
+query_room_at
+Disk World creator help
+query_room_at
+
+.SH Name
+.SP 5 5
+query_room_at -  This method is used to find a room at the specified coordinates, if one has already been cloned.
+.EP
+
+.SH Syntax
+.SI 5
+object query_room_at(int x,
+int y,
+int z)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x%^RESET%^ - the x coordinate of the room (internal coordinate system)
+%^BOLD%^y%^RESET%^ - the y coordinate of the room (internal coordinate system)
+.EI
+
+.SH Returns
+.SI 5
+the room at those coordinates, or 0 if none has been cloned.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to find a room at the specified coordinates,
+if one has already been cloned.
+If a room has been cloned at those coordinates, it is returned,
+.EP
+
+.SH See also
+.SP 5 5
+load_room_at, query_room, query_rooms_in_block, query_rooms_in_range
+
+.EP
+

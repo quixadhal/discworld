@@ -1,0 +1,121 @@
+<html><head><title>File export_inventory.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/export_inventory.c</h2>
+This file contains the control functions for exporting your inventory.<p>Written by Pinkfish<p>Started Thu Mar  5 21:03:40 CST 1998
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_inventory_container"><b>add_inventory_container</b></a>(object)<dd>
+This method adds a container to the list of registered containers.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_expanded_inv_match"><b>find_expanded_inv_match</b></a>(string, object, object *)<dd>
+This method is not designed to be called from outside
+the object itself.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_can_export_inventory"><b>query_can_export_inventory</b></a>()<dd>
+This method returns if the container will export its inventory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_inventory_container"><b>remove_inventory_container</b></a>(object)<dd>
+This method removes a container to the list of registered containers.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_can_export_inventory"><b>reset_can_export_inventory</b></a>()<dd>
+This method disables the object from exporting its inventory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_can_export_inventory"><b>set_can_export_inventory</b></a>()<dd>
+This method allows the objects inside it (which are registered) to
+export their invetories as well.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_inventory_container">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_inventory_container</b></a><pre>
+void add_inventory_container(object cont)
+</pre><dd>
+This method adds a container to the list of registered containers.
+A registered container will be used to enhance the inventory of
+the current container.  This will only be used with find_match
+inventory items.  The item *must* be contained inside this object
+to be added.  When checking only visible added objects will have
+their inventory added.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cont - the new container to add
+<dt><b>See also:</b>
+<dd><a href="#find_inv_match">find_inv_match()</a> and <a href="#remove_inventory_container">remove_inventory_container()
+</a></dl>
+
+<dt><a name="query_can_export_inventory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_can_export_inventory</b></a><pre>
+int query_can_export_inventory()
+</pre><dd>
+This method returns if the container will export its inventory.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if the container does export its inventory, 0 if not
+
+<dt><b>See also:</b>
+<dd><a href="#add_inventory_container">add_inventory_container()</a>, <a href="#query_can_export_inventory">query_can_export_inventory()</a>, <a href="#reset_can_export_inventory">reset_can_export_inventory()</a> and <a href="#set_can_export_inventory">set_can_export_inventory()</a></dl>
+
+<dt><a name="remove_inventory_container">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_inventory_container</b></a><pre>
+void remove_inventory_container(object cont)
+</pre><dd>
+This method removes a container to the list of registered containers.
+A registered container will be used to enhance the inventory of
+the current container.  This will only be used with find_match
+inventory items.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cont - the new container to add
+<dt><b>See also:</b>
+<dd><a href="#find_inv_match">find_inv_match()</a> and <a href="#add_inventory_container">add_inventory_container()
+</a></dl>
+
+<dt><a name="reset_can_export_inventory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_can_export_inventory</b></a><pre>
+void reset_can_export_inventory()
+</pre><dd>
+This method disables the object from exporting its inventory.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_can_export_inventory">set_can_export_inventory()</a>, <a href="#query_can_export_inventory">query_can_export_inventory()</a> and <a href="#add_inventory_container">add_inventory_container()
+</a></dl>
+
+<dt><a name="set_can_export_inventory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_can_export_inventory</b></a><pre>
+void set_can_export_inventory()
+</pre><dd>
+This method allows the objects inside it (which are registered) to
+export their invetories as well.  You do not want to be able to do
+this with player or living objects (for instance).
+The default value for this is reset()<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_inventory_container">add_inventory_container()</a>, <a href="#query_can_export_inventory">query_can_export_inventory()</a> and <a href="#reset_can_export_inventory">reset_can_export_inventory()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="find_expanded_inv_match">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>find_expanded_inv_match</b></a><pre>
+object * find_expanded_inv_match(string words,
+object looker,
+object * things)
+</pre><dd>
+This method is not designed to be called from outside
+the object itself.  It returns the list of objects able to
+be matched that are container in containers in the container.
+The third parameter is the set of objects the container
+must appear in to be used.  This has to be handled sperately
+so thet the plural matchin does not return the ones deep
+inside your containers.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the words which were matched with
+<dd>looker - the person doing the matching
+<dd>things - the current list of things matched.
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 20:23:10 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,95 @@
+<html><head><title>File nroff.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/nroff.c</h2>
+An nroff like object for formating text files.
+<p>
+This creates a saveable file format thingy.
+<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.nroff.h.html">/include/nroff.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cat_file"><b>cat_file</b></a>(string, int)<dd>
+Creates a string from a nroffed file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_nroff"><b>create_nroff</b></a>(string, string)<dd>
+Makes the nroff saveable file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#html_file"><b>html_file</b></a>(string, string)<dd>
+Turns the nroff file into a html output.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_file_name"><b>query_file_name</b></a>(string)<dd>
+Will attempt to find the name of the nroffed file.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="cat_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cat_file</b></a><pre>
+string cat_file(string fname,
+int update)
+</pre><dd>
+Creates a string from a nroffed file.
+<p>
+If update is non zero it will look to see if the source file has been 
+modified since the saved nroff file was created.  If it has, this
+function returns 0 and the nroff file needs to be recreated.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the file to process
+<dd>update - force update if file is newer?
+<dt><b>Returns:</b>
+<dd>the string representation of the nroff file
+
+</dl>
+
+<dt><a name="create_nroff">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_nroff</b></a><pre>
+int create_nroff(string in_file,
+string out_file)
+</pre><dd>
+Makes the nroff saveable file.  Turns the input nroff file into a saved
+output format.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>in_file - the file name been processed
+<dd>out_file - the file to save it as
+<dt><b>Returns:</b>
+<dd>1 if the operation was successful
+
+</dl>
+
+<dt><a name="html_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>html_file</b></a><pre>
+string html_file(string file,
+string title)
+</pre><dd>
+Turns the nroff file into a html output.  This works on nroff files
+creating a html output from the mud source.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>file - the name to process
+<dd>title - the title to give the document
+<dt><b>Returns:</b>
+<dd>the html file
+
+</dl>
+
+<dt><a name="query_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_file_name</b></a><pre>
+string query_file_name(string fname)
+</pre><dd>
+Will attempt to find the name of the nroffed file.  Will attempt to
+find the name of the source file associated with the save file.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the name of the file to check
+<dt><b>Returns:</b>
+<dd>the source file name or 0
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 22:28:55 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

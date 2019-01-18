@@ -1,0 +1,231 @@
+<html><head><title>File factory_base.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/terrain_map/factory_base.c</h2>
+This is specifically for creating rooms in the world map system, where
+it just makes and passes out the room details.  So it does not need to
+include all the room crap.<p>Written by Pinkfish<p>Started Fri Jun 28 16:14:19 PDT 2002
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.terrain_map.h.html">/include/terrain_map.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_adjacent_item"><b>add_adjacent_item</b></a>(string, string)<dd>
+This method sets an item which will be visible from adjacent rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_base_terrain_room"><b>find_base_terrain_room</b></a>(int, int, int, string, int, string ref)<dd>
+This method figures out the base path to use for the specified room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_adjacent_description"><b>query_adjacent_description</b></a>()<dd>
+This method returns the string to use for adjancent descriptions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_adjacent_items"><b>query_adjacent_items</b></a>()<dd>
+This method returns all the adjacent items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_default_height"><b>query_default_height</b></a>()<dd>
+This method returns the default height for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_follow_road"><b>query_follow_road</b></a>()<dd>
+This method returns the follow road flag for the road.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_minimum_height"><b>query_minimum_height</b></a>()<dd>
+This method returns the mimum height allowed for this factory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_jump_size"><b>query_room_jump_size</b></a>()<dd>
+This method returns the room jump size for the room
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_adjacent_description"><b>set_adjacent_description</b></a>(string)<dd>
+This method sets the string to use for adjancent descriptions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_default_height"><b>set_default_height</b></a>(int)<dd>
+This method sets the default height for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_follow_road"><b>set_follow_road</b></a>(int)<dd>
+This method sets the flag that makes us follow the road.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_height_rooms"><b>set_height_rooms</b></a>(mapping)<dd>
+This method sets the height information for the room, setting up
+which rooms are used at which heights.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_minimum_height"><b>set_minimum_height</b></a>(int)<dd>
+This method sets the minimum height, this is only really useful
+in locations which have multiple depth rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_room_jump_size"><b>set_room_jump_size</b></a>(int)<dd>
+This method sets the room jump size for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_adjacent_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_adjacent_item</b></a><pre>
+void add_adjacent_item(string name,
+string desc)
+</pre><dd>
+This method sets an item which will be visible from adjacent rooms.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the item
+<dd>desc - the description of the item
+
+</dl>
+
+<dt><a name="find_base_terrain_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_base_terrain_room</b></a><pre>
+string find_base_terrain_room(int x,
+int y,
+int z,
+string base_name,
+int map_room,
+string ref base)
+</pre><dd>
+This method figures out the base path to use for the specified room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x position
+<dd>y - the y position
+<dd>z - the z position
+<dd>air - checking upwards in air land.
+<dt><b>Returns:</b>
+<dd>the base room
+
+</dl>
+
+<dt><a name="query_adjacent_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_adjacent_description</b></a><pre>
+string query_adjacent_description()
+</pre><dd>
+This method returns the string to use for adjancent descriptions.  THis is
+the bit tacked onto the end of the long in another room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the adjacent description
+
+</dl>
+
+<dt><a name="query_adjacent_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_adjacent_items</b></a><pre>
+mapping query_adjacent_items()
+</pre><dd>
+This method returns all the adjacent items.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mapping of all the adjacent items
+
+</dl>
+
+<dt><a name="query_default_height">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_default_height</b></a><pre>
+int query_default_height()
+</pre><dd>
+This method returns the default height for the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the default height for the room
+
+</dl>
+
+<dt><a name="query_follow_road">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_follow_road</b></a><pre>
+int query_follow_road()
+</pre><dd>
+This method returns the follow road flag for the road.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the follow road flag
+
+</dl>
+
+<dt><a name="query_minimum_height">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_minimum_height</b></a><pre>
+int query_minimum_height()
+</pre><dd>
+This method returns the mimum height allowed for this factory.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mimuim height
+
+</dl>
+
+<dt><a name="query_room_jump_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_jump_size</b></a><pre>
+int query_room_jump_size()
+</pre><dd>
+This method returns the room jump size for the room<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the room jump size
+
+</dl>
+
+<dt><a name="set_adjacent_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_adjacent_description</b></a><pre>
+void set_adjacent_description(string desc)
+</pre><dd>
+This method sets the string to use for adjancent descriptions.  THis is
+the bit tacked onto the end of the long in another room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>desc - the adjacent description
+
+</dl>
+
+<dt><a name="set_default_height">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_default_height</b></a><pre>
+void set_default_height(int height)
+</pre><dd>
+This method sets the default height for the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>def - the default height for the room
+
+</dl>
+
+<dt><a name="set_follow_road">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_follow_road</b></a><pre>
+void set_follow_road(int follow)
+</pre><dd>
+This method sets the flag that makes us follow the road.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>follow - the follow road flag
+
+</dl>
+
+<dt><a name="set_height_rooms">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_height_rooms</b></a><pre>
+void set_height_rooms(mapping map)
+</pre><dd>
+This method sets the height information for the room, setting up
+which rooms are used at which heights.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>heights - the heights for the rooms
+
+</dl>
+
+<dt><a name="set_minimum_height">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_minimum_height</b></a><pre>
+void set_minimum_height(int height)
+</pre><dd>
+This method sets the minimum height, this is only really useful
+in locations which have multiple depth rooms.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>height - the minimum height 
+</dl>
+
+<dt><a name="set_room_jump_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_room_jump_size</b></a><pre>
+void set_room_jump_size(int jump)
+</pre><dd>
+This method sets the room jump size for the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>jump - the room jump size
+
+</dl>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed stats()
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 10:56:33 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,46 @@
+.DT
+do_print_copies
+Disk World creator help
+do_print_copies
+
+.SH Name
+.SP 5 5
+do_print_copies -  This method will be called when the player tries to print a certain number of copies of a book.
+.EP
+
+.SH Syntax
+.SI 5
+int do_print_copies(object * obs,
+int number,
+string language)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^obs%^RESET%^ - the objects which have been matched
+%^BOLD%^number%^RESET%^ - the number of prints to do
+%^BOLD%^language%^RESET%^ - the language to print the book in
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/std/shops/print_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will be called when the player tries to print a certain
+number of copies of a book.
+.EP
+
+.SH See also
+.SP 5 5
+do_print()
+
+.EP
+

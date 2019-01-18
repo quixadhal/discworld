@@ -1,0 +1,46 @@
+.DT
+npc_hear_shouts
+Disk World creator help
+npc_hear_shouts
+
+.SH Name
+.SP 5 5
+npc_hear_shouts -  Adds an NPC to the list of NPC's who are to receive shout events.
+.EP
+
+.SH Syntax
+.SI 5
+void npc_hear_shouts(object newlistener)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^newlistener%^RESET%^ - NPC object to be added to the list
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/broadcaster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Adds an NPC to the list of NPC's who are to receive shout events.
+The NPC need not be removed from this list when he dies -- desting
+the NPC object has the same effect as calling npc_unhear_shouts().
+event_person_shout() is activated on the NPC for all shouts.
+NPC's do not normally detect shouts.
+event_person_shout() on the NPC should be replaced with similar code 
+to that in the broadcaster to determine if the shouter is within 
+range and to generate the desired response.
+
+.EP
+
+.SH See also
+.SP 5 5
+/global/events->event_person_shout(), npc_unhear_shouts()
+
+.EP
+

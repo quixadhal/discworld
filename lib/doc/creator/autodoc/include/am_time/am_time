@@ -1,0 +1,53 @@
+.DT
+am_time
+Disk World creator help
+am_time
+
+.SH Name
+.SP 5 5
+am_time -  A class to hold all the information for am times.
+.EP
+
+.SH Definition
+.SI 5
+class am_time {
+int year;
+int primus;
+int minute;
+int hour;
+int month;
+int day_of_week;
+int day_of_month;
+int day_of_year;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^year%^RESET%^ - the year of the time
+%^BOLD%^prime%^RESET%^ - if the section is price (the first 400 days) or secundus
+%^BOLD%^minute%^RESET%^ - the minute of the time
+%^BOLD%^hour%^RESET%^ - the hour of the time
+%^BOLD%^month%^RESET%^ - the month of the time
+%^BOLD%^day_of_week%^RESET%^ - the day of the week
+%^BOLD%^day_of_month%^RESET%^ - the day of the month
+.EI
+
+.SH Defined in
+.SI 5
+/include/am_time.h
+.EI
+
+.SH Description
+.SP 5 5
+
+A class to hold all the information for am times.
+.EP
+
+.SH See also
+.SP 5 5
+/obj/handlers/am_time->query_am_time_class()
+
+.EP
+

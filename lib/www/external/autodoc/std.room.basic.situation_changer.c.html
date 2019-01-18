@@ -1,0 +1,478 @@
+<html><head><title>File situation_changer.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/basic/situation_changer.c</h2>
+situation changer object associated with a room object.
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.situations.h.html">/include/situations.h</a> and <a href="include.am_time.h.html">/include/am_time.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_situation_timing"><b>situation_timing</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_situation"><b>add_situation</b></a>(mixed, class situation)<dd>
+Adds a situation to the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#automate_situation"><b>automate_situation</b></a>(mixed, mixed, mixed, mixed, mixed)<dd>
+Automate starting and ending of a situations.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_situation"><b>change_situation</b></a>(mixed, mixed, mixed, mixed)<dd>
+Starts one or more situations that will end after a
+specified duration.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_situations"><b>check_situations</b></a>()<dd>
+Tests for enabling situation managing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#choose_words"><b>choose_words</b></a>(mixed, mixed)<dd>
+This function selects word replacements for #n in the text.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#end_situation"><b>end_situation</b></a>(mixed)<dd>
+Ends a situation previously added and started on the room
+that is managed by this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#extra_look"><b>extra_look</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#insert_words_chats"><b>insert_words_chats</b></a>(class situation, string *)<dd>
+Replaces #1 in text with the one of the first array of words in wordlist
+and #2 with one of the second array of words and so on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#insert_words_items"><b>insert_words_items</b></a>(class situation, string *)<dd>
+Replaces #1 in text with the one of the first array of words in wordlist
+and #2 with one of the second array of words and so on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_seed"><b>make_seed</b></a>(int, int)<dd>
+Makes a seed value for the random part of when 
+situations turn on and off.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#manage_situations"><b>manage_situations</b></a>()<dd>
+Starts and ends situations according to the information
+in the sittiming array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_situations"><b>query_current_situations</b></a>()<dd>
+returns situations currently turned on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_possible"><b>query_possible</b></a>(class situation_timing, int, int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room"><b>query_room</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sittiming"><b>query_sittiming</b></a>()<dd>
+returns sittiming class with info about automated situations 
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_situations"><b>query_situations</b></a>()<dd>
+returns mapping of situations.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_status"><b>query_status</b></a>()<dd>
+returns status of situation manager.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_room"><b>set_room</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#shutdown_all_situations"><b>shutdown_all_situations</b></a>()<dd>
+Shuts down all current and pending situations.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#shutdown_situation"><b>shutdown_situation</b></a>(int, mixed)<dd>
+Shuts down a change_situation based on the call_out handle
+returned by the call to change_situation.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_situation"><b>start_situation</b></a>(mixed, int)<dd>
+Starts a situation previously added to the room
+that is managed by this object.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_situation</b></a><pre>
+void add_situation(mixed label,
+class situation sit)
+</pre><dd>
+Adds a situation to the room.  These situations can be
+invoked manually with start_situation or automatically via
+automate_situation.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>label - string or number labelling the situation
+<dd>sit - a structure (class) containing all the bits
+of the situation you want to add.
+eg. 
+start_func function to be called at start of situation 
+            that might be used to load NPC's or anything
+            beyond a message.
+
+            The start function is passed the label, 
+            a do_start_mess flag and the room object.  
+            If the flag is 1 the situation is starting 
+            rather than being reloaded.  Thus if 
+            do_start_mess is 0 then you should avoid
+            any obvious start messages and make it look
+            like the situation is already underway.
+
+end_func function to be called an the end of a situation.  
+            The end function is only
+            passed the label and the room object.
+
+start_mess message told to the room at start of situation
+
+end_mess message told to the room at end of situation
+
+extra_look extra look string appended to rooms long 
+            during the situation
+
+chats an array of chat strings to be active 
+            during the situation 
+
+add_items a mixed array of ({ item, item description }) 
+            pairs to be active during the situation
+
+random_words sets of words of the form ({ ({ "option1","option2" }),
+            ({ "adjective1","adjective2" }), ... }).  One of the
+            the first set replaces #1 in any text above and one of
+            the second set replaces #2 in any text above and so on.
+            The random choice is fixed for the duration of any one
+            situation.
+
+<dt><b>See also:</b>
+<dd>start_situation.c, automate_situation.c, add_item.c, room_chat.c and add_extra_look.c<dt><b>Example:</b>
+<dd><pre>#include <situations.h>
+
+class situation frogs;
+frogs = new(class situation, 
+    start_mess: "Water seeps out of the ground to form puddles.",
+    extra_look: "There are large puddles on the ground here.",
+    chats: ({"A hidden frog croaks quietly.",
+             "There is a blooping sound." }),
+    add_items:({ ({"puddle", "The puddles are dark and murky.  " 
+                   "They will probably dry up given time." }) }) );
+add_situation( "frogs", frogs );</pre><dd><pre>
+add_situation( "frogs", new(class situation, 
+     start_mess: "Water seeps out of the ground to form puddles.",
+     extra_look: "There are large puddles on the ground here.",
+     chats: ({"A hidden frog croaks quietly.",
+              "There is a blooping sound." }),
+     add_items: ({ ({"puddle", "The puddles are dark and murky.  " 
+                     "They will probably dry up given time." }) }) ));
+</pre></dl>
+
+<dt><a name="automate_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>automate_situation</b></a><pre>
+void automate_situation(mixed label,
+mixed duration,
+mixed when,
+mixed chance,
+mixed category)
+</pre><dd>
+Automate starting and ending of a situations.
+These situations can be invoked manually with start_situation.
+The automated starting and ending is unaffected by the room 
+unloading.  When the room reloads the situation will be 
+restarted unless its duration is up.
+You must include the file situations.h for the definitions
+of the when masks.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>label - (mixed) label of the situation to start 
+ up.  If you pass an array such as ({ "frog1", "frog2" }) for the 
+label then that set of situations are started one at
+a time and the total duration is split evenly between them.
+Label is usually an integer or a string or an array of
+integers and/or strings.
+If the string is a list of labels
+separated by , then multiple situations
+are started using those labels.
+<dd>duration - (int) total time (seconds) the overall situation 
+should last.  If an array is specified for duration each
+situation gets it's own little one.  If -1 is specified as
+a duration for one part that situation is background complimentary
+situation to the rest that is on when the rest are off.
+<dd>when - (int) a time of the day mask.  This limits when
+the situation is allowed to occur.  The mask is composed of
+the allowed hours in AM time ( 24 hours clock, (1<<hour) and 
+combined with | (OR) ).   You can just use these
+predefined masks and ingore how it works:
+ WHEN_WEE_HOURS, WHEN_EARLY_MORNING, WHEN_LATE_MORNING, WHEN_AFTERNOON
+ WHEN_EVENING, WHEN_LATENIGHT, WHEN_MIDDAY, WHEN_MORNING, 
+ WHEN_EARLY_MORNING, WHEN_LATE_MORNING, WHEN_NIGHT, WHEN_DAY
+ WHEN_ANY_TIME    
+The masks are defined in /include/situations.h.
+<dd>chance -  (int) chance in 1000 of starting the situation
+ This is tested every duration seconds.
+<dt><b>See also:</b>
+<dd>add_situation.c, start_situation.c, end_situation.c and evolvingroom.h<dt><b>Example:</b>
+<dd><pre>#include <situations.h>
+
+ automate_situation( "frog", 300, WHEN_ANY_TIME, 200 );
+
+This will automatically start the situation labelled "frog" 
+at a random time that is any time of the day with a 200/1000
+chance of it starting per 300 seconds.  It will last for
+300 seconds (5 minutes).  </pre><dd><pre>
+ automate_situation( ({"frog1","frog2"}), 240, WHEN_EVENING|WHEN_NIGHT,
+, 300 );
+
+This will automatically start a situation that is a combination 
+of "frog1" followed by "frog2" at a random time but only in the
+evening or at night.  There will be a 300/1000 chance of it 
+starting per 240 seconds.  Both the "frog1" and "frog2" 
+situations will get half the total time (as there are two),  
+120 seconds each, for a total duration of 240 seconds (4 minutes).
+</pre></dl>
+
+<dt><a name="change_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_situation</b></a><pre>
+varargs mixed change_situation(mixed label,
+mixed duration,
+mixed words,
+mixed handle)
+</pre><dd>
+Starts one or more situations that will end after a
+specified duration.  You can use an array and make
+further situations commence when others end.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>label - (mixed) label of the situation to start 
+ up.  If you pass an array such as ({ "frog1", "frog2" }) for the 
+label then that set of situations are started one at
+a time and the total duration is split evenly between them.
+Label is usually an integer or a string or an array of
+integers and/or strings.
+If the string is a list of labels
+separated by , then multiple situations
+are started using those labels.
+<dd>duration - (int) total time (seconds) the overall situation 
+should last.  You can put an array of durations -- one for each
+situation if the label lists more than one situation and then
+the overall time is the sum of the numbers.
+-1 means indefinite so having any situations after
+something with -1 duration is pointless.
+<dd>handle - is an internal thing that should only be called with 0
+unless you really know what you are doing.
+<dd>words - is a list of replacements for #n in the text OR
+       a random number seed, it is
+       passed to choose_words.
+       eg. ({ "#1", "frog", "#2", "honey" }) or 22
+<dt><b>Returns:</b>
+<dd>call_out that is propogating the changes
+This is useful if you want to be able to kill the whole
+set without disturbing other situations.
+<dt><b>See also:</b>
+<dd>start_situation.c, end_situation.c, add_situation.c and choose_words
+.c</dl>
+
+<dt><a name="check_situations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_situations</b></a><pre>
+void check_situations()
+</pre><dd>
+Tests for enabling situation managing.
+If situation managing is already active or turned off
+it does nothing.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd>automate_situation
+.c</dl>
+
+<dt><a name="choose_words">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>choose_words</b></a><pre>
+void choose_words(mixed label,
+mixed choice)
+</pre><dd>
+This function selects word replacements for #n in the text.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>label - Situation label to choose for
+<dd>choice - A random seed (integer) or
+              a set of pairs exactly the same as the second
+              argument to replace.
+<dt><b>See also:</b>
+<dd>replace.c<dt><b>Example:</b>
+<dd><pre>     choose_words( "frog", ({ "#1", "tadpole", "#2", "pond" }));
+</pre></dl>
+
+<dt><a name="end_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>end_situation</b></a><pre>
+void end_situation(mixed label)
+</pre><dd>
+Ends a situation previously added and started on the room
+that is managed by this object.
+These situations can be invoked manually with start_situation 
+or automatically via automate_situation. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>label - string or number labelling the situation
+<dt><b>See also:</b>
+<dd>add_situation.c, start_situation.c and automate_situation
+.c</dl>
+
+<dt><a name="extra_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>extra_look</b></a><pre>
+string extra_look()
+</pre>
+<dt><a name="insert_words_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>insert_words_chats</b></a><pre>
+string * insert_words_chats(class situation sit,
+string * words)
+</pre><dd>
+Replaces #1 in text with the one of the first array of words in wordlist
+and #2 with one of the second array of words and so on...
+Each string in the string array is changed.
+<p>
+
+<dt><a name="insert_words_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>insert_words_items</b></a><pre>
+mixed * insert_words_items(class situation sit,
+string * words)
+</pre><dd>
+Replaces #1 in text with the one of the first array of words in wordlist
+and #2 with one of the second array of words and so on...
+For items only the item text is changed, not the key words.
+<p>
+
+<dt><a name="make_seed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_seed</b></a><pre>
+void make_seed(int xval,
+int yval)
+</pre><dd>
+Makes a seed value for the random part of when 
+situations turn on and off.  The two ints must be 
+constant for a given room -- like the coordinates.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>xval - integer to use to make a seed (eg. x coordinate)
+<dd>yval - integer to use to make a seed (eg. y coordinate)
+
+</dl>
+
+<dt><a name="manage_situations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>manage_situations</b></a><pre>
+void manage_situations()
+</pre><dd>
+Starts and ends situations according to the information
+in the sittiming array.  It is called continuously 
+automatically while there are interactives in the room.
+<p>
+
+<dt><a name="query_current_situations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_situations</b></a><pre>
+int * query_current_situations()
+</pre><dd>
+returns situations currently turned on.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>int array of situation labels
+
+</dl>
+
+<dt><a name="query_possible">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_possible</b></a><pre>
+int query_possible(class situation_timing sit,
+int it,
+int tod,
+int cnt)
+</pre>
+<dt><a name="query_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room</b></a><pre>
+object query_room()
+</pre>
+<dt><a name="query_sittiming">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sittiming</b></a><pre>
+mixed * query_sittiming()
+</pre><dd>
+returns sittiming class with info about automated situations <p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>class sittiming
+
+</dl>
+
+<dt><a name="query_situations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_situations</b></a><pre>
+mapping query_situations()
+</pre><dd>
+returns mapping of situations. <p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>mapping of situations
+
+</dl>
+
+<dt><a name="query_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_status</b></a><pre>
+int query_status()
+</pre><dd>
+returns status of situation manager.  
+If it is sleeping it will turn on again if a
+player enters the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>status 0 off 1 on 2 sleeping
+
+</dl>
+
+<dt><a name="set_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_room</b></a><pre>
+object set_room(object room_o)
+</pre>
+<dt><a name="shutdown_all_situations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shutdown_all_situations</b></a><pre>
+void shutdown_all_situations()
+</pre><dd>
+Shuts down all current and pending situations.  It also turns off the
+automated situation manager so no more are added.  It does not
+destruct this object so all the add_situations are still loaded
+and may be recommenced with automate_situation or change_situation.  
+dest_me is the appropriate call to permanently remove all situations.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd>automate_situation.c and change_situation
+.c</dl>
+
+<dt><a name="shutdown_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shutdown_situation</b></a><pre>
+void shutdown_situation(int handle,
+mixed label)
+</pre><dd>
+Shuts down a change_situation based on the call_out handle
+returned by the call to change_situation.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>handle - call_out handle.  If 0 then the last
+known handle is used.
+<dd>label - label or array of labels of situations to clean 
+up with end_situation
+<dd>the_room - the room
+<dt><b>See also:</b>
+<dd>automate_situation.c and change_situation
+.c</dl>
+
+<dt><a name="start_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_situation</b></a><pre>
+void start_situation(mixed label,
+int do_start_mess)
+</pre><dd>
+Starts a situation previously added to the room
+that is managed by this object.
+These situations can be invoked manually with 
+start_situation or automatically via
+automate_situation. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>label - string or number labelling the situation
+<dd>do_start_mess - 0 to supress the start_mess string
+       This is to fake it that a situation has been 
+       going for a while when really you just loaded it.
+<dt><b>See also:</b>
+<dd>add_situation.c, end_situation.c and automate_situation
+.c</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_situation_timing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>situation_timing</b></a><pre>
+class situation_timing {
+mixed label;
+mixed duration;
+mixed when;
+int chance;
+int * endat;
+mixed background;
+mixed category;
+int it;
+mapping it_data;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 08:50:57 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

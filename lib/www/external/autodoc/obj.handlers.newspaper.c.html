@@ -1,0 +1,730 @@
+<html><head><title>File newspaper.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/newspaper.c</h2>
+This is a general newspaper edition handler.  It will deal with keeping
+track of all the data for all the newspapers on the mud.<p>Written by Pinkfish<p>Started Sat Apr 28 02:30:49 PDT 2001
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.autodoc.h.html">/include/autodoc.h</a>, <a href="include.nroff.h.html">/include/nroff.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a> and <a href="include.room.newspaper.h.html">/include/room/newspaper.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_edition"><b>edition</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_paper"><b>paper</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_edition_paper_sold"><b>add_edition_paper_sold</b></a>(string, int, int)<dd>
+This method adds a web paper sold to the specified edition.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_edition_revenue"><b>add_edition_revenue</b></a>(string, int, int)<dd>
+This method adds to the total revenue for this edition.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_edition_web_hit"><b>add_edition_web_hit</b></a>(string, int)<dd>
+This method adds a web hit to the specified edition.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_newspaper_inform"><b>add_newspaper_inform</b></a>(string, string)<dd>
+This method adds an object to be informed of a paper being published.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_paper"><b>add_paper</b></a>(string, string, string, string, string)<dd>
+This method adds a paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_paper_area"><b>add_paper_area</b></a>(string)<dd>
+This method adds a paper area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_paper_to_area"><b>add_paper_to_area</b></a>(string, string)<dd>
+This method adds a paper to a paper area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#convert_html"><b>convert_html</b></a>(string)<dd>
+This method changes an input string into a 'nroff' equivilant output
+string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_paper"><b>is_paper</b></a>(string)<dd>
+This method checks to see if the paper exists.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_paper_area"><b>is_paper_area</b></a>(string)<dd>
+This method checks to see if the area exists or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_valid_edition"><b>is_valid_edition</b></a>(string, int)<dd>
+This checks to see if the specified edition is valid or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#publish_paper"><b>publish_paper</b></a>(string, string, class article *, string *, class advert *, string *)<dd>
+This method publishes a new edition of the specified paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_papers"><b>query_all_papers</b></a>()<dd>
+This method returns the list of all the papers.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_article_text"><b>query_article_text</b></a>(class article)<dd>
+This method reads in the data associated with the specified article.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_article_text_html"><b>query_article_text_html</b></a>(class article)<dd>
+This method reads in the data associated with the specified article
+in html.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_article_text_plain"><b>query_article_text_plain</b></a>(class article)<dd>
+This method reads in the data associated with the specified article
+in plain output.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_edition_num"><b>query_current_edition_num</b></a>(string)<dd>
+This method returns the current edition of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_edition_adverts"><b>query_edition_adverts</b></a>(string, int)<dd>
+This method returns the adverts in the specified edition of the
+paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_edition_articles"><b>query_edition_articles</b></a>(string, int)<dd>
+This method returns the articles in the specified edition of the
+paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_edition_date"><b>query_edition_date</b></a>(string, int)<dd>
+This method returns the date at which the specified issue was
+published.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_edition_num_sold"><b>query_edition_num_sold</b></a>(string, int)<dd>
+This method returns the number of papers which have been sold.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_edition_num_web_hits"><b>query_edition_num_web_hits</b></a>(string, int)<dd>
+This method returns the number of web hits for the editon.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_edition_revenue"><b>query_edition_revenue</b></a>(string, int)<dd>
+This method returns the total revenue for this edition.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language_for"><b>query_language_for</b></a>(string)<dd>
+This function returns the language for the given newspaper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_edition_num"><b>query_last_edition_num</b></a>(string)<dd>
+This method returns the last edition of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_newspaper_informs"><b>query_newspaper_informs</b></a>(string)<dd>
+This method returns the list of objects that want to be informed about
+this paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_paper_cost"><b>query_paper_cost</b></a>(string)<dd>
+This method returns the cost at which the paper will be sold.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_paper_description"><b>query_paper_description</b></a>(string)<dd>
+This method returns the description description of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_paper_headline"><b>query_paper_headline</b></a>(string, int)<dd>
+This method returns the headline for the selected edition of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_paper_long"><b>query_paper_long</b></a>(string)<dd>
+This method returns the long description of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_paper_office"><b>query_paper_office</b></a>(string)<dd>
+This method returns the office of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_papers_in_area"><b>query_papers_in_area</b></a>(string)<dd>
+This method returns all the articles in the specified paper area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_newspaper_inform"><b>remove_newspaper_inform</b></a>(string, string)<dd>
+This method removes an object to be informed of a paper being published.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_article_text"><b>set_article_text</b></a>(class article, string)<dd>
+This moves the data for the article into the correct location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_language_for"><b>set_language_for</b></a>(string, string)<dd>
+This function sets the language for the given paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_paper_cost"><b>set_paper_cost</b></a>(string, int)<dd>
+This method sets the cost at which the paper will be sold.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_paper_description"><b>set_paper_description</b></a>(string, string)<dd>
+This method sets the description of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_paper_headline"><b>set_paper_headline</b></a>(string, int, string)<dd>
+This method returns the headline for the selected edition of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_paper_long"><b>set_paper_long</b></a>(string, string)<dd>
+This method sets the long of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_paper_office"><b>set_paper_office</b></a>(string, string)<dd>
+This method sets the office of the paper.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_edition_paper_sold">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_edition_paper_sold</b></a><pre>
+void add_edition_paper_sold(string paper,
+int edition,
+int cost)
+</pre><dd>
+This method adds a web paper sold to the specified edition.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper which was sold
+<dd>edition - the edition which was sold
+<dd>cost - the amount it was sold for
+
+</dl>
+
+<dt><a name="add_edition_revenue">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_edition_revenue</b></a><pre>
+void add_edition_revenue(string paper,
+int edition,
+int revenue)
+</pre><dd>
+This method adds to the total revenue for this edition.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to look up
+<dd>edition - the edition to look up
+<dd>revenue - the revenue to add
+
+</dl>
+
+<dt><a name="add_edition_web_hit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_edition_web_hit</b></a><pre>
+void add_edition_web_hit(string paper,
+int edition)
+</pre><dd>
+This method adds a web hit to the specified edition.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to add a hit on
+<dd>edition - the edition to add a hit on
+
+</dl>
+
+<dt><a name="add_newspaper_inform">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_newspaper_inform</b></a><pre>
+void add_newspaper_inform(string paper,
+string ob)
+</pre><dd>
+This method adds an object to be informed of a paper being published.
+When the paper is published, the function event_publish_paper,
+is called on all the objects in this list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to be informed about
+<dd>ob - the object to be informed
+
+</dl>
+
+<dt><a name="add_paper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_paper</b></a><pre>
+void add_paper(string name,
+string long,
+string desc,
+string office,
+string language)
+</pre><dd>
+This method adds a paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the name of the paper
+<dd>long - the description on the newspapers themselves
+<dd>desc - the description on the web page
+<dd>office - the path to the office
+
+</dl>
+
+<dt><a name="add_paper_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_paper_area</b></a><pre>
+void add_paper_area(string area)
+</pre><dd>
+This method adds a paper area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to add
+
+</dl>
+
+<dt><a name="add_paper_to_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_paper_to_area</b></a><pre>
+void add_paper_to_area(string paper,
+string area)
+</pre><dd>
+This method adds a paper to a paper area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to add to the area
+<dd>area - the area to add the paper to
+
+</dl>
+
+<dt><a name="convert_html">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>convert_html</b></a><pre>
+string convert_html(string input)
+</pre><dd>
+This method changes an input string into a 'nroff' equivilant output
+string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the string to convert
+
+</dl>
+
+<dt><a name="is_paper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_paper</b></a><pre>
+int is_paper(string paper)
+</pre><dd>
+This method checks to see if the paper exists.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper name to check for
+
+</dl>
+
+<dt><a name="is_paper_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_paper_area</b></a><pre>
+int is_paper_area(string area)
+</pre><dd>
+This method checks to see if the area exists or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check for
+
+</dl>
+
+<dt><a name="is_valid_edition">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_valid_edition</b></a><pre>
+int is_valid_edition(string paper,
+int edition)
+</pre><dd>
+This checks to see if the specified edition is valid or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to check
+<dd>edition - the edition to check
+<dt><b>Returns:</b>
+<dd>1 if it ok, 0 if not
+
+</dl>
+
+<dt><a name="publish_paper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>publish_paper</b></a><pre>
+int publish_paper(string paper,
+string headline,
+class article * articles,
+string * text,
+class advert * adds,
+string * editors)
+</pre><dd>
+This method publishes a new edition of the specified paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to publish an edition of
+<dd>articles - the articles in the paper
+<dd>text - the corresponding text to the articles
+<dd>adds - the adverts in the paper
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 if not
+
+</dl>
+
+<dt><a name="query_all_papers">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_papers</b></a><pre>
+string * query_all_papers()
+</pre><dd>
+This method returns the list of all the papers.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the papers
+
+</dl>
+
+<dt><a name="query_article_text">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_article_text</b></a><pre>
+string query_article_text(class article art)
+</pre><dd>
+This method reads in the data associated with the specified article.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>article - the article to read the text for
+<dt><b>Returns:</b>
+<dd>the article text
+
+</dl>
+
+<dt><a name="query_article_text_html">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_article_text_html</b></a><pre>
+string query_article_text_html(class article art)
+</pre><dd>
+This method reads in the data associated with the specified article
+in html.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>article - the article to read the text for
+<dt><b>Returns:</b>
+<dd>the article text
+
+</dl>
+
+<dt><a name="query_article_text_plain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_article_text_plain</b></a><pre>
+string query_article_text_plain(class article art)
+</pre><dd>
+This method reads in the data associated with the specified article
+in plain output.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>article - the article to read the text for
+<dt><b>Returns:</b>
+<dd>the article text
+
+</dl>
+
+<dt><a name="query_current_edition_num">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_edition_num</b></a><pre>
+int query_current_edition_num(string paper)
+</pre><dd>
+This method returns the current edition of the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to get the edition of
+<dt><b>Returns:</b>
+<dd>the current edition
+
+</dl>
+
+<dt><a name="query_edition_adverts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_edition_adverts</b></a><pre>
+class advert * query_edition_adverts(string paper,
+int edition)
+</pre><dd>
+This method returns the adverts in the specified edition of the
+paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to look up
+<dd>edition - the edition to look up
+<dt><b>Returns:</b>
+<dd>the adverts in the edition
+
+</dl>
+
+<dt><a name="query_edition_articles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_edition_articles</b></a><pre>
+class article * query_edition_articles(string paper,
+int edition)
+</pre><dd>
+This method returns the articles in the specified edition of the
+paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to look up
+<dd>edition - the edition to look up
+<dt><b>Returns:</b>
+<dd>the articles in the edition
+
+</dl>
+
+<dt><a name="query_edition_date">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_edition_date</b></a><pre>
+int query_edition_date(string paper,
+int edition)
+</pre><dd>
+This method returns the date at which the specified issue was
+published.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to check
+<dd>edition - the edition to look up
+<dt><b>Returns:</b>
+<dd>the date at which the edition was published
+
+</dl>
+
+<dt><a name="query_edition_num_sold">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_edition_num_sold</b></a><pre>
+int query_edition_num_sold(string paper,
+int edition)
+</pre><dd>
+This method returns the number of papers which have been sold.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper which was sold
+<dd>edition - the edition to check
+<dt><b>Returns:</b>
+<dd>the number of papers that have been sold
+
+</dl>
+
+<dt><a name="query_edition_num_web_hits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_edition_num_web_hits</b></a><pre>
+int query_edition_num_web_hits(string paper,
+int edition)
+</pre><dd>
+This method returns the number of web hits for the editon.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper which was hit
+<dd>edition - the edition to check
+<dt><b>Returns:</b>
+<dd>the number of web hits on the edition
+
+</dl>
+
+<dt><a name="query_edition_revenue">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_edition_revenue</b></a><pre>
+int query_edition_revenue(string paper,
+int edition)
+</pre><dd>
+This method returns the total revenue for this edition.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to look up
+<dd>edition - the edition to look up
+<dt><b>Returns:</b>
+<dd>the headline of the edition
+
+</dl>
+
+<dt><a name="query_language_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language_for</b></a><pre>
+string query_language_for(string paper)
+</pre><dd>
+This function returns the language for the given newspaper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - The name of the paper.
+<dt><b>Returns:</b>
+<dd>The language for the paper, "general" for none or 0 if for error
+
+</dl>
+
+<dt><a name="query_last_edition_num">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_edition_num</b></a><pre>
+int query_last_edition_num(string paper)
+</pre><dd>
+This method returns the last edition of the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to get the edition of
+<dt><b>Returns:</b>
+<dd>the last edition, 0 if there are no editions
+
+</dl>
+
+<dt><a name="query_newspaper_informs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_newspaper_informs</b></a><pre>
+string * query_newspaper_informs(string paper)
+</pre><dd>
+This method returns the list of objects that want to be informed about
+this paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to be informed about
+<dt><b>Returns:</b>
+<dd>the list of objects to inform
+
+</dl>
+
+<dt><a name="query_paper_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_paper_cost</b></a><pre>
+int query_paper_cost(string paper)
+</pre><dd>
+This method returns the cost at which the paper will be sold.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to set the cost of
+<dt><b>Returns:</b>
+<dd>the cost at which the paper will be sold
+
+</dl>
+
+<dt><a name="query_paper_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_paper_description</b></a><pre>
+string query_paper_description(string paper)
+</pre><dd>
+This method returns the description description of the paper.  The long
+description is used in the newspapers around the place as it's
+description.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to get the long for
+
+</dl>
+
+<dt><a name="query_paper_headline">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_paper_headline</b></a><pre>
+string query_paper_headline(string paper,
+int edition)
+</pre><dd>
+This method returns the headline for the selected edition of the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to look up
+<dd>edition - the edition to look up
+<dt><b>Returns:</b>
+<dd>the headline of the edition
+
+</dl>
+
+<dt><a name="query_paper_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_paper_long</b></a><pre>
+string query_paper_long(string paper)
+</pre><dd>
+This method returns the long description of the paper.  The long
+description is used in the newspapers around the place as it's
+description.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to get the long for
+
+</dl>
+
+<dt><a name="query_paper_office">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_paper_office</b></a><pre>
+string query_paper_office(string paper)
+</pre><dd>
+This method returns the office of the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to look up
+<dt><b>Returns:</b>
+<dd>the office of the paper
+
+</dl>
+
+<dt><a name="query_papers_in_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_papers_in_area</b></a><pre>
+string * query_papers_in_area(string area)
+</pre><dd>
+This method returns all the articles in the specified paper area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to lookup
+<dt><b>Returns:</b>
+<dd>the papers in the area, returns a null array when there are no papers
+
+</dl>
+
+<dt><a name="remove_newspaper_inform">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_newspaper_inform</b></a><pre>
+void remove_newspaper_inform(string paper,
+string ob)
+</pre><dd>
+This method removes an object to be informed of a paper being published.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to no longer be informed about
+<dd>ob - the object to no longer be informed
+
+</dl>
+
+<dt><a name="set_article_text">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_article_text</b></a><pre>
+void set_article_text(class article art,
+string text)
+</pre><dd>
+This moves the data for the article into the correct location.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>article - the article to set the text for
+<dd>text - the text to set
+
+</dl>
+
+<dt><a name="set_language_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_language_for</b></a><pre>
+void set_language_for(string paper,
+string language)
+</pre><dd>
+This function sets the language for the given paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - The name of the paper.
+<dd>language - The language to use.
+
+</dl>
+
+<dt><a name="set_paper_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_paper_cost</b></a><pre>
+void set_paper_cost(string paper,
+int cost)
+</pre><dd>
+This method sets the cost at which the paper will be sold.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to set the cost of
+<dd>cost - the new cost of the paper
+
+</dl>
+
+<dt><a name="set_paper_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_paper_description</b></a><pre>
+void set_paper_description(string paper,
+string description)
+</pre><dd>
+This method sets the description of the paper.  The description is
+what is shown on the web page for the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to set the long for
+<dd>long - the new long description of the paper
+
+</dl>
+
+<dt><a name="set_paper_headline">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_paper_headline</b></a><pre>
+void set_paper_headline(string paper,
+int edition,
+string headline)
+</pre><dd>
+This method returns the headline for the selected edition of the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to look up
+<dd>edition - the edition to look up
+<dd>headline - the headline of the issue
+
+</dl>
+
+<dt><a name="set_paper_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_paper_long</b></a><pre>
+void set_paper_long(string paper,
+string long)
+</pre><dd>
+This method sets the long of the paper.  The long description is
+used in the newspapers around the place.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to set the long for
+<dd>long - the new long description of the paper
+
+</dl>
+
+<dt><a name="set_paper_office">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_paper_office</b></a><pre>
+void set_paper_office(string paper,
+string office)
+</pre><dd>
+This method sets the office of the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>paper - the paper to look up
+<dd>office - the new office of the paper
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_edition">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>edition</b></a><pre>
+class edition {
+int date_published;
+class article * articles;
+class advert * adverts;
+string headline;
+int num_sold;
+int num_web_hits;
+int total_revenue;
+}
+
+</pre>
+<dt><a name="class_paper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>paper</b></a><pre>
+class paper {
+class edition * published_editions;
+string dir_name;
+string long;
+string description;
+string office;
+int paper_cost;
+string language;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 22:02:53 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

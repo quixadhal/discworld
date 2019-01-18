@@ -1,0 +1,149 @@
+<html><head><title>File weapon.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.holdable.c.html">/std/basic/holdable.c</a>, <a href="std.basic.condition.c.html">/std/basic/condition.c</a>, <a href="std.weapon_logic.c.html">/std/weapon_logic.c</a> and <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.virtual.h.html">/include/virtual.h</a>, <a href="include.weapon.h.html">/include/weapon.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_immune"><b>add_immune</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#break_me"><b>break_me</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#hit_weapon"><b>hit_weapon</b></a>(int, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_dynamic_arg"><b>init_dynamic_arg</b></a>(mapping, )<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_static_arg"><b>init_static_arg</b></a>(mapping)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#int_query_static_auto_load"><b>int_query_static_auto_load</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#modify_damage"><b>modify_damage</b></a>(int, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#new_weapon"><b>new_weapon</b></a>(int)<dd>
+This method setups the weapon with the new condition.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#player_wield"><b>player_wield</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dynamic_auto_load"><b>query_dynamic_auto_load</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_full_value"><b>query_full_value</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_money"><b>query_money</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_money_array"><b>query_money_array</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_static_auto_load"><b>query_static_auto_load</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value"><b>query_value</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_weapon"><b>query_weapon</b></a>()<dd>
+This method return true if it is a weapon.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_immune"><b>remove_immune</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#replace_me"><b>replace_me</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_wield_func"><b>set_wield_func</b></a>(string, mixed)<dd>
+This method sets the wield function of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#short"><b>short</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_immune">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_immune</b></a><pre>
+int add_immune(string name)
+</pre>
+<dt><a name="break_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>break_me</b></a><pre>
+void break_me()
+</pre>
+<dt><a name="hit_weapon">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hit_weapon</b></a><pre>
+void hit_weapon(int amount,
+string type)
+</pre>
+<dt><a name="init_dynamic_arg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_dynamic_arg</b></a><pre>
+void init_dynamic_arg(mapping map,
+ object)
+</pre>
+<dt><a name="init_static_arg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_static_arg</b></a><pre>
+void init_static_arg(mapping map)
+</pre>
+<dt><a name="int_query_static_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>int_query_static_auto_load</b></a><pre>
+mapping int_query_static_auto_load()
+</pre>
+<dt><a name="modify_damage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>modify_damage</b></a><pre>
+int modify_damage(int val,
+string name)
+</pre>
+<dt><a name="new_weapon">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>new_weapon</b></a><pre>
+void new_weapon(int new_condition)
+</pre><dd>
+This method setups the weapon with the new condition.  It sets the
+maximum and lowest conditions to the specified condition.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_condition - the condition value of the weapon
+
+</dl>
+
+<dt><a name="player_wield">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>player_wield</b></a><pre>
+void player_wield(int pos)
+</pre>
+<dt><a name="query_dynamic_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dynamic_auto_load</b></a><pre>
+mapping query_dynamic_auto_load()
+</pre>
+<dt><a name="query_full_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_full_value</b></a><pre>
+int query_full_value()
+</pre>
+<dt><a name="query_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_money</b></a><pre>
+int query_money(string type)
+</pre>
+<dt><a name="query_money_array">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_money_array</b></a><pre>
+mixed * query_money_array()
+</pre>
+<dt><a name="query_static_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_static_auto_load</b></a><pre>
+mapping query_static_auto_load()
+</pre>
+<dt><a name="query_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value</b></a><pre>
+int query_value()
+</pre>
+<dt><a name="query_weapon">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_weapon</b></a><pre>
+int query_weapon()
+</pre><dd>
+This method return true if it is a weapon.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns 1
+
+</dl>
+
+<dt><a name="remove_immune">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_immune</b></a><pre>
+int remove_immune(string name)
+</pre>
+<dt><a name="replace_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>replace_me</b></a><pre>
+void replace_me()
+</pre>
+<dt><a name="set_wield_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_wield_func</b></a><pre>
+void set_wield_func(string func,
+mixed ob)
+</pre><dd>
+This method sets the wield function of the object.  This will be
+called when the object is wielded and unwielded.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to call
+<dd>ob - the object to call the method on
+
+</dl>
+
+<dt><a name="short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>short</b></a><pre>
+string short(int dark)
+</pre>
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 14:44:10 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

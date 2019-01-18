@@ -1,0 +1,41 @@
+.DT
+exec_alias
+Disk World creator help
+exec_alias
+
+.SH Name
+.SP 5 5
+exec_alias -  This method runs the alias and executes all the commands in the alias.
+.EP
+
+.SH Syntax
+.SI 5
+void exec_alias(string verb,
+string args)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^verb%^RESET%^ - the name of the alias
+%^BOLD%^args%^RESET%^ - the arguments associated with the alias
+.EI
+
+.SH Defined in
+.SI 5
+/global/alias.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method runs the alias and executes all the commands in the
+alias.  You should probably use run_alias() instead.  This calls
+set_doing_alias() to setup blocking.
+.EP
+
+.SH See also
+.SP 5 5
+run_alias(), set_doing_alias()
+
+.EP
+

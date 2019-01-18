@@ -1,0 +1,39 @@
+.DT
+is_committee_discussion_item
+Disk World creator help
+is_committee_discussion_item
+
+.SH Name
+.SP 5 5
+is_committee_discussion_item -  This method checks to see if the discussion item is a committee only item.
+.EP
+
+.SH Syntax
+.SI 5
+int is_committee_discussion_item(string club_name,
+int id)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^id%^RESET%^ - the id of the discussion item
+.EI
+
+.SH Returns
+.SI 5
+1 if it is a committee only item, 0 if it is open
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_discuss.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the discussion item is a committee only
+item.
+.EP
+

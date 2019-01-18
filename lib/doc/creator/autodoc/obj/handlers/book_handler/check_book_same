@@ -1,0 +1,41 @@
+.DT
+check_book_same
+Disk World creator help
+check_book_same
+
+.SH Name
+.SP 5 5
+check_book_same -  Checks to see if the passed in book is the same as the current book number that is set on it.
+.EP
+
+.SH Syntax
+.SI 5
+int check_book_same(object book,
+int num)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^book%^RESET%^ - the book to check
+%^BOLD%^num%^RESET%^ - the book number to check against
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/book_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Checks to see if the passed in book is the same as the current book
+number that is set on it.  We only look at the text and ignore the
+type and language with which it is written.
+.EP
+
+.SH See also
+.SP 5 5
+compare_pages(), add_book()
+
+.EP
+

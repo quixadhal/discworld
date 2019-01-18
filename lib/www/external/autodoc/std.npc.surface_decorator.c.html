@@ -1,0 +1,296 @@
+<html><head><title>File surface_decorator.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/npc/surface_decorator.c</h2>
+ This is a inheritable for playerhousing surface decorating npcs.
+ 
+ With this you can add carpets, wood panelling, beams or anything your 
+ little heart desires to npcs that will then go out and make the world a    
+ prettier place.
+
+ If you want to add a surface to an npc that he will be able to 
+ decorate, use eg:
+ 
+ add_allowed_surface( "floor" );    
+
+ If you want to add a type of decoration that the npc can install, use eg:
+ 
+ add_fitted_surface( "plush blue carpet", "covered with plush "
+ "blue carpet", <cost> );
+
+ @September 3rd, 2002
+ @authors Una and Dasquian
+
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.monster.c.html">/obj/monster.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_allowed_domain"><b>add_allowed_domain</b></a>(string)<dd>
+Adds a string to the list of domains to be checked by the npc when it 
+moves to see if it's allowed to be in that room, eg.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_allowed_surface"><b>add_allowed_surface</b></a>(string)<dd>
+Allows the npc to work on a specific surface in a room, eg.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_fitted_surface"><b>add_fitted_surface</b></a>(string, string, int)<dd>
+Adds a new decoration that the npc can use to his stock list
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_domain"><b>check_domain</b></a>()<dd>
+Called every time the npc moves.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_ask"><b>do_ask</b></a>(string, string)<dd>
+Does all the necessary checks to see if he can decorate the requested 
+surface with the requested decor, handles payment and starts the work.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_hire"><b>do_hire</b></a>()<dd>
+Sets him to follow the player and marks that player as his current 
+employer
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list"><b>do_list</b></a>()<dd>
+Causes the surface decorator to give a list of the surfaces he decorates
+and what he can decorate them with, or says that he has no stock.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_work"><b>finish_work</b></a>(string, string, object)<dd>
+Called by do_ask(), this finishes decorating the surface
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_allowed_domains"><b>query_allowed_domains</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_allowed_surfaces"><b>query_allowed_surfaces</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_employer"><b>query_employer</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_fitted_surfaces"><b>query_fitted_surfaces</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_responses"><b>query_responses</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_under_construction_mess"><b>query_under_construction_mess</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_work_time"><b>query_work_time</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_all_fitted_surfaces"><b>remove_all_fitted_surfaces</b></a>()<dd>
+Removes all decorations from the npc's stock list
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_fitted_surface"><b>remove_fitted_surface</b></a>(string)<dd>
+Removes a decoration whose short matches the argument given
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_employer"><b>set_employer</b></a>(object)<dd>
+Sets the current player employer
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_responses"><b>set_responses</b></a>(string *)<dd>
+Sets custom responses.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_under_construction_mess"><b>set_under_construction_mess</b></a>(string)<dd>
+Sets what a surface looks like while the npc is working on it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_work_time"><b>set_work_time</b></a>(int)<dd>
+Sets the time it takes to finish the work.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_allowed_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_allowed_domain</b></a><pre>
+void add_allowed_domain(string domain)
+</pre><dd>
+Adds a string to the list of domains to be checked by the npc when it 
+moves to see if it's allowed to be in that room, eg. "/d/guilds" or 
+"Bes_Pelargic"
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>domain - the name of the domain to be added
+
+</dl>
+
+<dt><a name="add_allowed_surface">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_allowed_surface</b></a><pre>
+void add_allowed_surface(string surface)
+</pre><dd>
+Allows the npc to work on a specific surface in a room, eg. floor, ceiling
+If the argument passed is "wall", they will be able to work on all walls,
+eg. north wall, east wall, south wall, etc.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>surface - the name of the surface to be added
+
+</dl>
+
+<dt><a name="add_fitted_surface">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_fitted_surface</b></a><pre>
+void add_fitted_surface(string short,
+string long,
+int cost)
+</pre><dd>
+Adds a new decoration that the npc can use to his stock list
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>short - the short description used in the stock list and for ordering
+<dd>long - the long description actually used for the new decoration in 
+the room
+<dd>cost - the cost of installing this decoration
+
+</dl>
+
+<dt><a name="check_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_domain</b></a><pre>
+void check_domain()
+</pre><dd>
+Called every time the npc moves.  This function checks that the file name 
+of its new environment contains at least one of the allowed domains.  If
+it does, it will store the current room as being its last good location.  
+Otherwise, it will move it to its last good location.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd>go_back
+.c</dl>
+
+<dt><a name="do_ask">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_ask</b></a><pre>
+int do_ask(string surface,
+string decor)
+</pre><dd>
+Does all the necessary checks to see if he can decorate the requested 
+surface with the requested decor, handles payment and starts the work. 
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>surface - the surface to be decorated 
+<dd>decor - the short name of the decor to be used, eg. green carpet
+
+<dt><b>See also:</b>
+<dd>finish_work
+.c</dl>
+
+<dt><a name="do_hire">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_hire</b></a><pre>
+int do_hire()
+</pre><dd>
+Sets him to follow the player and marks that player as his current 
+employer
+<p>
+
+<dt><a name="do_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list</b></a><pre>
+int do_list()
+</pre><dd>
+Causes the surface decorator to give a list of the surfaces he decorates
+and what he can decorate them with, or says that he has no stock.
+<p>
+
+<dt><a name="finish_work">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_work</b></a><pre>
+void finish_work(string surface,
+string long,
+object where)
+</pre><dd>
+Called by do_ask(), this finishes decorating the surface
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>surface - the surface to be decorated
+<dd>long - the long description of the decorated surface, eg. carpeted   
+with plush green carpet
+
+<dt><b>See also:</b>
+<dd>do_ask
+.c</dl>
+
+<dt><a name="query_allowed_domains">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_allowed_domains</b></a><pre>
+string * query_allowed_domains()
+</pre>
+<dt><a name="query_allowed_surfaces">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_allowed_surfaces</b></a><pre>
+string * query_allowed_surfaces()
+</pre>
+<dt><a name="query_employer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_employer</b></a><pre>
+object query_employer()
+</pre>
+<dt><a name="query_fitted_surfaces">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_fitted_surfaces</b></a><pre>
+mapping query_fitted_surfaces()
+</pre>
+<dt><a name="query_responses">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_responses</b></a><pre>
+string * query_responses()
+</pre>
+<dt><a name="query_under_construction_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_under_construction_mess</b></a><pre>
+string query_under_construction_mess()
+</pre>
+<dt><a name="query_work_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_work_time</b></a><pre>
+int query_work_time()
+</pre>
+<dt><a name="remove_all_fitted_surfaces">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_all_fitted_surfaces</b></a><pre>
+void remove_all_fitted_surfaces()
+</pre><dd>
+Removes all decorations from the npc's stock list
+<p>
+
+<dt><a name="remove_fitted_surface">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_fitted_surface</b></a><pre>
+void remove_fitted_surface(string short)
+</pre><dd>
+Removes a decoration whose short matches the argument given
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>short - the short description of the surface to remove
+
+</dl>
+
+<dt><a name="set_employer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_employer</b></a><pre>
+void set_employer(object player)
+</pre><dd>
+Sets the current player employer
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player object currently using the npc
+
+</dl>
+
+<dt><a name="set_responses">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_responses</b></a><pre>
+void set_responses(string * the_responses)
+</pre><dd>
+Sets custom responses.  The array size must match the existing one or the  
+call will be disregarded.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the_responses - the array of responses to be used
+
+</dl>
+
+<dt><a name="set_under_construction_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_under_construction_mess</b></a><pre>
+void set_under_construction_mess(string mess)
+</pre><dd>
+Sets what a surface looks like while the npc is working on it.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the description to replace the surface's appearance in the 
+room while it is being worked on
+
+</dl>
+
+<dt><a name="set_work_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_work_time</b></a><pre>
+void set_work_time(int time)
+</pre><dd>
+Sets the time it takes to finish the work.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>time - the time (in seconds) taken to complete the work
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 14:26:23 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

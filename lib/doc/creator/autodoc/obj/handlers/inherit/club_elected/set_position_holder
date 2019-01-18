@@ -1,0 +1,40 @@
+.DT
+set_position_holder
+Disk World creator help
+set_position_holder
+
+.SH Name
+.SP 5 5
+set_position_holder -  This method sets the specified person as the holder of the position.
+.EP
+
+.SH Syntax
+.SI 5
+int set_position_holder(string club_name,
+string position,
+string person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club to set the position in
+%^BOLD%^position%^RESET%^ - the name of the position
+%^BOLD%^person%^RESET%^ - the person who will hold it
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the specified person as the holder of the position.
+.EP
+

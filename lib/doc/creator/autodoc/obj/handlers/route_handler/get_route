@@ -1,0 +1,56 @@
+.DT
+get_route
+Disk World creator help
+get_route
+
+.SH Name
+.SP 5 5
+get_route -  Try and figure out a route between two locations.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void get_route(string end,
+string start,
+function call_back,
+int count)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^end%^RESET%^ - the end location
+%^BOLD%^start%^RESET%^ - where to start from
+%^BOLD%^call_back%^RESET%^ - the function to call when finished
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/route_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Try and figure out a route between two locations.  It figures out
+the route bwteen the two locations and then calls the
+call_back function with the found route, or not found route.
+If the route is not found, an empty array will be returend.  The
+function in the npc object move_me_to() handles the call
+to this function transparently.
+.EP
+
+.SH Example 1
+.SI 5
+// Find how to get from here back to the drum.
+// Then print the route out.
+ROUTE_HANDLER->get_route("/d/am/am/mendeddrum",
+                         file_name(environment(this_object())),
+                         (: printf("%O\n", $1) :));
+
+.EI
+
+.SH See also
+.SP 5 5
+/obj/monster->move_me_to()
+.EP
+

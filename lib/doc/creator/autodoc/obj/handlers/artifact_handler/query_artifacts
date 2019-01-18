@@ -1,0 +1,44 @@
+.DT
+query_artifacts
+Disk World creator help
+query_artifacts
+
+.SH Name
+.SP 5 5
+query_artifacts -  This method returns the artifacts mapping.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_artifacts()
+.EI
+
+.SH Returns
+.SI 5
+the artificats mapping
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/artifact_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the artifacts mapping.
+The artifacts mapping has elements of the form:
+.EP
+.SP 5 5
+
+.EP
+.SP 5 5
+   name : ({ file, max level, min level, bonus to make, value info })
+.EP
+.SP 5 5
+e.g. "wand of eternal light" :
+.EP
+.SP 5 5
+       ({ "/obj/wands/eternal_light", 85, 65, 250, 10000 })
+.EP
+

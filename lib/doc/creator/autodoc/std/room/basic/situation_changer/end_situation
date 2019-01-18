@@ -1,0 +1,40 @@
+.DT
+end_situation
+Disk World creator help
+end_situation
+
+.SH Name
+.SP 5 5
+end_situation -  Ends a situation previously added and started on the room that is managed by this object.
+.EP
+
+.SH Syntax
+.SI 5
+void end_situation(mixed label)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^label%^RESET%^ - string or number labelling the situation
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/situation_changer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Ends a situation previously added and started on the room
+that is managed by this object.
+These situations can be invoked manually with start_situation 
+or automatically via automate_situation. 
+.EP
+
+.SH See also
+.SP 5 5
+add_situation, start_situation, automate_situation
+
+.EP
+

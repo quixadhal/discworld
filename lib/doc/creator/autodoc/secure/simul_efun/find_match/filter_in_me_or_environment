@@ -1,0 +1,40 @@
+.DT
+filter_in_me_or_environment
+Disk World creator help
+filter_in_me_or_environment
+
+.SH Name
+.SP 5 5
+filter_in_me_or_environment -  This method returns the array of objects that are only inside the player in question, or in their environment.
+.EP
+
+.SH Syntax
+.SI 5
+object * filter_in_me_or_environment(object * obs,
+object player)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^obs%^RESET%^ - the objects to filer
+%^BOLD%^player%^RESET%^ - the player to check
+.EI
+
+.SH Returns
+.SI 5
+the filtered objects
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/find_match.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the array of objects that are only inside the
+player in question, or in their environment.  It excludes any items
+in other peoples inventorys.
+.EP
+

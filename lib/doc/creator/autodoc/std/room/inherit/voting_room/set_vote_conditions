@@ -1,0 +1,38 @@
+.DT
+set_vote_conditions
+Disk World creator help
+set_vote_conditions
+
+.SH Name
+.SP 5 5
+set_vote_conditions -  This function defines a function to be called to determine if a player is eligible to vote.
+.EP
+
+.SH Syntax
+.SI 5
+void set_vote_conditions(mixed cond)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^cond%^RESET%^ - This will usually be a mixed array of an object and a function.
+It could also be a function pointer.
+
+Your function should return 1 if the player is eligible to vote or 0 if
+they are not.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/voting_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function defines a function to be called to determine if a player
+is eligible to vote.
+
+.EP
+

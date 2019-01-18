@@ -1,0 +1,45 @@
+.DT
+set_shoplift_response_handler
+Disk World creator help
+set_shoplift_response_handler
+
+.SH Name
+.SP 5 5
+set_shoplift_response_handler -  This method sets the shop lift response handler for the shop.
+.EP
+
+.SH Syntax
+.SI 5
+void set_shoplift_response_handler(string word)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the new shop lift response handler
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/general_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the shop lift response handler for the shop.
+This allows the shop to respond in someway to shop lifting
+stuff, like the heavies in Ankh-Morpork.  The function
+'handle_shoplift' will be called on the handler when the
+shop lift is attempted.  It will be passed two arguments
+the first is the thief, the second is the room being
+shoplifted.  This can be set to  afucntion pointer
+which will be evaluated and passed in two arguemtns
+when  a shoplift occurs.
+.EP
+
+.SH See also
+.SP 5 5
+query_shoplift_response_handler(), set_no_steal(), set_sell_stolen(), set_steal_difficulty()
+.EP
+

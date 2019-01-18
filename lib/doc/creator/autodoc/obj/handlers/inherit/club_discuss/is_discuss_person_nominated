@@ -1,0 +1,43 @@
+.DT
+is_discuss_person_nominated
+Disk World creator help
+is_discuss_person_nominated
+
+.SH Name
+.SP 5 5
+is_discuss_person_nominated -  This method checks to see if the given nomination has already been  done.
+.EP
+
+.SH Syntax
+.SI 5
+int is_discuss_person_nominated(string club_name,
+int id,
+string nominator,
+string nominated)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^id%^RESET%^ - the id of the discussion ite,
+%^BOLD%^nominator%^RESET%^ - the person doing the nomination
+%^BOLD%^nominated%^RESET%^ - the person being nominated
+.EI
+
+.SH Returns
+.SI 5
+1 if they are already nominated, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_discuss.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the given nomination has already been 
+done.
+.EP
+

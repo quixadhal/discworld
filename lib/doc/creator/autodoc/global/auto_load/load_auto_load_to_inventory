@@ -1,0 +1,44 @@
+.DT
+load_auto_load_to_inventory
+Disk World creator help
+load_auto_load_to_inventory
+
+.SH Name
+.SP 5 5
+load_auto_load_to_inventory -  This method loads all the objects from the array and places them into the inventory of the specified object.
+.EP
+
+.SH Syntax
+.SI 5
+void load_auto_load_to_inventory(mixed * auto_string,
+object dest,
+object tell_pl,
+function move_f)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^auto_string%^RESET%^ - the values specifing the objects to auto load
+%^BOLD%^dest%^RESET%^ - the destination to put the objects in
+%^BOLD%^tell%^RESET%^ - who to tell about errors
+%^BOLD%^move_f%^RESET%^ - the function to call to move the object to it's destination
+.EI
+
+.SH Defined in
+.SI 5
+/global/auto_load.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method loads all the objects from the array and places them
+into the inventory of the specified object.
+.EP
+
+.SH See also
+.SP 5 5
+create_auto_load(), load_auto_load()
+
+.EP
+

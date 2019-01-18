@@ -1,0 +1,47 @@
+.DT
+check_tenant
+Disk World creator help
+check_tenant
+
+.SH Name
+.SP 5 5
+check_tenant -  Checks if a particular player is renting a particular room.
+.EP
+
+.SH Syntax
+.SI 5
+int check_tenant(object player_ob,
+object room_ob,
+object office)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player_ob%^RESET%^ - the player object who you think might be renting the room
+%^BOLD%^room_ob%^RESET%^ -   the room object that you think the player might be renting
+
+.EI
+
+.SH Returns
+.SI 5
+value dependent on success of check.  See below for details
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/room_rental.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Checks if a particular player is renting a particular room.
+
+returns:
+RENTAL_SUCCESS if the player rents the room successfully
+RENTAL_NO_SUCH_ROOM if the room isn't on the books
+RENTAL_ALREADY_RENTED if the room is rented to someone else
+RENTAL_AVAILABLE if the player doesn't rent the room but it is available
+
+.EP
+

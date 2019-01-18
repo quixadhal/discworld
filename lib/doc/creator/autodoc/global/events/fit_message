@@ -1,0 +1,39 @@
+.DT
+fit_message
+Disk World creator help
+fit_message
+
+.SH Name
+.SP 5 5
+fit_message -  This method fits a message into a the current players screen size.
+.EP
+
+.SH Syntax
+.SI 5
+string fit_message(string message)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^message%^RESET%^ - the message to fit in
+.EI
+
+.SH Returns
+.SI 5
+the fitted message
+.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method fits a message into a the current players screen size.  This
+does all sorts of other evil stuff too, like handling indenting and
+all sorts of things!  Most of which I do not understand so I won't
+say anything about here.  The $C$ does capitalization, $I$<num>= does indenting of all the following lines of <num> spaces. The message automatically has $I$0=$C$ prepended to the message if it does not start with $I$. SO if you start a message with $I$ then it will not capitalize the first letter of the message.
+.EP
+

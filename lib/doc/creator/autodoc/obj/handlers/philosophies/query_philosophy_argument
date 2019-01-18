@@ -1,0 +1,45 @@
+.DT
+query_philosophy_argument
+Disk World creator help
+query_philosophy_argument
+
+.SH Name
+.SP 5 5
+query_philosophy_argument -  This method returns the values for the specific argument in philosophy.
+.EP
+
+.SH Syntax
+.SI 5
+mixed query_philosophy_argument(string name,
+string argument)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the philosphy to get the arguments for
+%^BOLD%^argument%^RESET%^ - the name of the argument to return
+.EI
+
+.SH Returns
+.SI 5
+an array of the arguments values.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/philosophies.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the values for the specific argument in
+philosophy.   The returned array consists of three values, they
+are ({ skill, something, something }).
+.EP
+
+.SH See also
+.SP 5 5
+query_philosphy_bonus(), query_philosphy_type(), query_philosphy_needed(), query_philosphy_effect(), add_philosphy_argument(), remove_philosphy_argument()
+
+.EP
+

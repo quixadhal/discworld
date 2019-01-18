@@ -1,0 +1,37 @@
+.DT
+deposit_parcel
+Disk World creator help
+deposit_parcel
+
+.SH Name
+.SP 5 5
+deposit_parcel -  This method is used by outside objects to send parcels (if they should need to do so).
+.EP
+
+.SH Syntax
+.SI 5
+int deposit_parcel(object * obs,
+string name,
+int show_sender)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^obs%^RESET%^ - Objects to deposit (required)
+%^BOLD%^name%^RESET%^ - Name to go to (required)
+%^BOLD%^show_sender%^RESET%^ - non-zero to show name of sender in automail (optional)
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/parcel_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used by outside objects to send parcels (if they should
+need to do so).
+.EP
+

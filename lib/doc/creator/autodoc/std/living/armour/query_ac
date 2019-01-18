@@ -1,0 +1,49 @@
+.DT
+query_ac
+Disk World creator help
+query_ac
+
+.SH Name
+.SP 5 5
+query_ac -  This function returns the amount of damage that can be blocked by the armour on a specified zone.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int query_ac(string type,
+int amount,
+string zone)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - The type of damage, eg: "sharp", "blunt", "pierce".
+%^BOLD%^amount%^RESET%^ - The amount of damage that is being done.
+%^BOLD%^zone%^RESET%^ - The zone which the damage is being done through, eg: "head".
+.EI
+
+.SH Returns
+.SI 5
+The amount of damage that will be blocked..EI
+
+.SH Defined in
+.SI 5
+/std/living/armour.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function returns the amount of damage that can be blocked
+by the armour on a specified zone.  It automatically
+damages the armour, and sets the stopped object to be the
+the object (piece of armour) that stopped the blow.
+
+.EP
+
+.SH See also
+.SP 5 5
+query_wearing()
+
+.EP
+

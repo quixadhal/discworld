@@ -1,0 +1,73 @@
+.DT
+add_road_special_type
+Disk World creator help
+add_road_special_type
+
+.SH Name
+.SP 5 5
+add_road_special_type -  This method is used to add a standard road type to the terrain map, mapped to an ASCII character as used in the ASCII room map.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void add_road_special_type(string type,
+string base_path,
+int size,
+int road_skip,
+int height,
+string room_desc,
+string description,
+mixed items,
+mixed item_desc,
+mapping height_rooms)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the ASCII type used on the map to denote the room
+%^BOLD%^base_path%^RESET%^ - the full pathname of the source file for the room
+%^BOLD%^size%^RESET%^ - the number of rooms in each clump to skip over
+%^BOLD%^road_skip%^RESET%^ - if this is 1 then the skip type is a 'road skip', this
+will assume the path is one wide and try to follow around curves
+%^BOLD%^height%^RESET%^ - the height of the room
+%^BOLD%^room_desc%^RESET%^ - the 'continuation' description, which added to the room description to show where the road leads
+%^BOLD%^description%^RESET%^ - the 'adjacent' description, which is seen from adjacent locations.
+%^BOLD%^items%^RESET%^ - add_item name(s) (identical to the 'shorts' parameter in add_item)
+%^BOLD%^item_desc%^RESET%^ - a string, or array of strings giving the corresponding item desc
+%^BOLD%^height_rooms%^RESET%^ - is a mapping containing what rooms to use at different height levels
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to add a standard road type to the terrain map,
+mapped to an ASCII character as used in the ASCII room map.
+A road is a terrain map room which can be seen from adjacent locations.
+The handler uses 'room_desc' to add an entry to the room description,
+describing where the road goes. 'description' is added to the
+descriptions of adjacent locations, to enable the road to be seen.
+In 'room_desc' and 'description', $D will be expanded to the relevant
+directions.
+A skipped
+room is one in which every nth room in the terrain will be skipped
+unless it has something interesting in it.
+.EP
+
+.SH Example 1
+.SI 5
+   add_road_type("+", ROOMS + "path", "The dusty path leads $D.",
+                 "There is a dusty path to the $D.",
+                 "path", "Hey! Look! A path!");
+.EI
+
+.SH See also
+.SP 5 5
+add_room_type, add_road_type, set_external_chats, add_item
+
+.EP
+

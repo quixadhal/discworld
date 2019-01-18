@@ -1,0 +1,44 @@
+.DT
+filter_legal_money_array
+Disk World creator help
+filter_legal_money_array
+
+.SH Name
+.SP 5 5
+filter_legal_money_array -  This method is identical to filter_legal_tender, except that it takes a money array rather than a money object
+.EP
+
+.SH Syntax
+.SI 5
+varargs object * filter_legal_money_array(mixed * m_array,
+string where)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^m_array%^RESET%^ - the money array to get the legal tender from
+%^BOLD%^where%^RESET%^ - the money area the tender is for
+.EI
+
+.SH Returns
+.SI 5
+an two element array of objects ({ legal, illegal }).EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is identical to filter_legal_tender, except that it takes
+a money array rather than a money object
+.EP
+
+.SH See also
+.SP 5 5
+parse_money(), filter_legal_tender(), filter_legal_money_to_array();
+
+.EP
+

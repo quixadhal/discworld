@@ -1,0 +1,42 @@
+.DT
+choose_defender
+Disk World creator help
+choose_defender
+
+.SH Name
+.SP 5 5
+choose_defender -  This method is used to choose who will defend this attack.
+.EP
+
+.SH Syntax
+.SI 5
+class attack choose_defender(class attack att)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^class%^RESET%^ - attack
+.EI
+
+.SH Returns
+.SI 5
+class attack
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to choose who will defend this attack. Typically this
+will be the person who was attacked, however it could be someone else in
+some circumstances.
+
+PRE: attacker, attack and defender information has been set.
+POST: defender and person_hit must be set.
+
+.EP
+

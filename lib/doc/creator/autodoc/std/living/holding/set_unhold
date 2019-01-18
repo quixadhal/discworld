@@ -1,0 +1,45 @@
+.DT
+set_unhold
+Disk World creator help
+set_unhold
+
+.SH Name
+.SP 5 5
+set_unhold -  This method sets the object as unheld.
+.EP
+
+.SH Syntax
+.SI 5
+int * set_unhold(object ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object to unhold
+.EI
+
+.SH Returns
+.SI 5
+a array of limb numbers.EI
+
+.SH Defined in
+.SI 5
+/std/living/holding.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the object as unheld.  It will attempt to remove
+the object from a held limb.
+
+
+The return array contains the index of the limbs from which the item was removed, if the array is 0 size then no items were removed.
+.EP
+
+.SH See also
+.SP 5 5
+set_hold(), query_limbs()
+
+.EP
+

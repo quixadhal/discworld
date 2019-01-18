@@ -1,0 +1,60 @@
+.DT
+set_buy_message
+Disk World creator help
+set_buy_message
+
+.SH Name
+.SP 5 5
+set_buy_message -  This sets the message which will be told to the players when they buy something at the shop.
+.EP
+
+.SH Syntax
+.SI 5
+void set_buy_message(mixed str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the message to print
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/general_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets the message which will be told to the players when
+they buy something at the shop.  If the parameter is a string
+then that message is sent to the player and nothing is sent to
+the other people in the room.  If the message is a two element
+array, the first element is sent to the player and the second
+element is sent to the others in the room.  In both these
+cases the pattersn $ob$ will be replaces with the objects
+being sold, $client$ will be replaced with the client, $money$
+will be replaced with the money information, $extra$ will be replaces
+with any extra information.
+
+
+If the parameter is a function pointer, then this is called with the parameter func(obs, client, money, extra);
+.EP
+
+.SH Example 1
+.SI 5
+set_buy_message("You buy $ob$ for $money$.\n");
+.EI
+
+.SH Example 2
+.SI 5
+set_buy_message( ({ "You buy $ob$ for $money$.\n",
+                     "$client$ buys $ob$.\n"});
+
+.EI
+
+.SH See also
+.SP 5 5
+set_sell_message(), query_buy_message(), set_set_value_message(), set_too_costly_message(), set_no_worthy_message(), set_browse_message() , set_list_message()
+.EP
+

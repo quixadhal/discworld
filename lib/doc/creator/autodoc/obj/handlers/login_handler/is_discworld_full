@@ -1,0 +1,42 @@
+.DT
+is_discworld_full
+Disk World creator help
+is_discworld_full
+
+.SH Name
+.SP 5 5
+is_discworld_full -  Try and figure out if the mud is full or not.
+.EP
+
+.SH Syntax
+.SI 5
+int is_discworld_full(int logins)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^logins%^RESET%^ - a flag
+.EI
+
+.SH Returns
+.SI 5
+1 if the mud is full, 0 if it is not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/login_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Try and figure out if the mud is full or not.  Counts the number
+of players and returns a true or false value.
+.EP
+
+.SH See also
+.SP 5 5
+/include/login.h#WITHOUT_LOGINS_NOT_IN_QUEUE, /include/login.h#WITHOUT_LOGIN_QUEUE, /include/login.h#WITHOUT_ANY_LOGINS
+.EP
+

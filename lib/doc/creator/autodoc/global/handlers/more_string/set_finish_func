@@ -1,0 +1,41 @@
+.DT
+set_finish_func
+Disk World creator help
+set_finish_func
+
+.SH Name
+.SP 5 5
+set_finish_func -  Sets the finish function.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void set_finish_func(string str,
+object ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the function name or function pointer to use
+%^BOLD%^ob%^RESET%^ - the object to call it on (ignore for function pointers)
+.EI
+
+.SH Defined in
+.SI 5
+/global/handlers/more_string.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Sets the finish function.  This is called when the more_string
+command exits.  If the ob is set to 0 then previous_object() is used
+for it.  The str can be a function pointer as well.
+.EP
+
+.SH See also
+.SP 5 5
+more_string()
+
+.EP
+

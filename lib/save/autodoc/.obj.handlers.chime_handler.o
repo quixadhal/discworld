@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["register_for_chimes":({({"int",}),({({"object",}),"ob",({"int",}),"num",({"string",}),"mess",}),(["main":({"Register a clock to do chimes. The num parameter specifes when tochime.  If it is 1 then the clock chimes every hour, if it is2 the clock chimes ever half hour, if it is 4 theclock chimes every quarter hour.  Anything else andthe clock never chimes.  NB: if you set it to chime the quarter hoursit will only chime the quarter hours, it will not chime the hoursor the half hours.  You need to call this function three times toget your clock to chime the hour, half and quarter hours.<p>The function \"chime\" will be called on the clockwhen the chime occurs.  The message will be passed in as the firstargument, the second will be the type of chime (CHIME_HOUR, CHIME_HALF_HOUR,CHIME_QUARTER_HOUR).",}),"param":({"ob the object being registered","num when to chime","mess the message to chime with",}),"return":({"1 for success, 0 for failure.",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"This handler deals with clocks which chime. It uses a single 15 minutecallout to make all clocks on Discworld which choose to chime chime thequarter, half or hours.",}),"author":({"Ceres",}),])
+define_docs (["FIFTEEN_MINS":([]),"CREATOR":([]),])
+includes (["/include/am_time.h":1522061544,"/include/chime.h":1522061544,])
+class_docs (["chime":({0,({({"ob",({"object",}),}),({"type",({"int",}),}),({"mess",({"string",}),}),}),([]),}),])
+file_name "/obj/handlers/chime_handler.c"
+last_changed 1522061544

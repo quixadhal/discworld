@@ -1,6 +1,6 @@
 .DT
 fence.c
-DW_wibble autodoc help
+Disk World autodoc help
 fence.c
 
 .SH Inherits
@@ -10,7 +10,7 @@ This class inherits the following classes /obj/monster.
 
 .SH Includes
 .SP 5 5
-This class includes the following files /include/money.h, /include/armoury.h, /include/move_failures.h and /include/shops/bank.h.
+This class includes the following files /include/move_failures.h, /include/shops/bank.h, /include/armoury.h and /include/money.h.
 .EP
 
 .SH Classes
@@ -18,9 +18,9 @@ This class includes the following files /include/money.h, /include/armoury.h, /i
 .SI 3
 * %^BOLD%^hist_offer%^RESET%^
 class hist_offer {
-                   object ob;
-                   int old_offer;
-                   int value;
+object ob;
+int old_offer;
+int value;
 }
 
 .EI
@@ -28,10 +28,10 @@ class hist_offer {
 .SI 3
 * %^BOLD%^offer%^RESET%^
 class offer {
-              object who;
-              int amount;
-              int offer_time;
-              object * objects;
+object who;
+int amount;
+int offer_time;
+object * objects;
 }
 
 .EI

@@ -1,0 +1,41 @@
+.DT
+check_dir
+Disk World creator help
+check_dir
+
+.SH Name
+.SP 5 5
+check_dir -  This method attempts to load in the save file information for the specified directory.
+.EP
+
+.SH Syntax
+.SI 5
+void check_dir(string dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - the directory to load the save information for
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map_helper.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method attempts to load in the save file information for
+the specified directory.  If the directory has no save file
+then the mappings will all be initialised to empty.  It will cause
+the previous directory to be saved if this is attempting to load a
+different one.
+.EP
+
+.SH See also
+.SP 5 5
+save_dir()
+
+.EP
+

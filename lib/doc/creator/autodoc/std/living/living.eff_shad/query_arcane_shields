@@ -1,0 +1,41 @@
+.DT
+query_arcane_shields
+Disk World creator help
+query_arcane_shields
+
+.SH Name
+.SP 5 5
+query_arcane_shields -  This method can be shadowed by all forms of magical and religious shields so that the shields command will give the player a nice description.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_arcane_shields()
+.EI
+
+.SH Returns
+.SI 5
+Array with description of shield.
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/living.eff_shad.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method can be shadowed by all forms of magical and
+religious shields so that the shields command will give
+the player a nice description.
+The first element in the array should contain the description
+as shown to the player, the second element should contain the
+description shown to others.
+.EP
+
+.SH Example 1
+.SI 5
+({ "You have a nice shield.", "He has a nice shield." })
+.EI
+

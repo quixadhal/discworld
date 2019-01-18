@@ -1,6 +1,6 @@
 .DT
 mineral.c
-DW_wibble autodoc help
+Disk World autodoc help
 mineral.c
 
 .SH Inherits

@@ -1,0 +1,44 @@
+.DT
+get_subjects
+Disk World creator help
+get_subjects
+
+.SH Name
+.SP 5 5
+get_subjects -  Get the subjects for the specifed board.
+.EP
+
+.SH Syntax
+.SI 5
+varargs mixed get_subjects(string name,
+string person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the board name to lookup
+.EI
+
+.SH Returns
+.SI 5
+the subject array
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/board_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Get the subjects for the specifed board.  The subjects are
+returns in a special array format.  See the include file for the
+defines to get at the members of the array.
+.EP
+
+.SH See also
+.SP 5 5
+/include/board.h
+.EP
+

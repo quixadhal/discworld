@@ -1,0 +1,46 @@
+.DT
+add_player_title
+Disk World creator help
+add_player_title
+
+.SH Name
+.SP 5 5
+add_player_title -  This method adds the players title into the list of allowed titles.
+.EP
+
+.SH Syntax
+.SI 5
+int add_player_title(string title)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^title%^RESET%^ - the title to add into the list
+.EI
+
+.SH Returns
+.SI 5
+1 if the title was added successfuly, 0 if it exists.EI
+
+.SH Defined in
+.SI 5
+/global/family.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds the players title into the list of allowed titles.
+.EP
+
+.SH Example 1
+.SI 5
+player->add_player_title("lord");
+
+.EI
+
+.SH See also
+.SP 5 5
+set_player_title(), remove_player_title()
+.EP
+

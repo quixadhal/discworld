@@ -1,0 +1,261 @@
+<html><head><title>File autodoc_file.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/autodoc/autodoc_file.c</h2>
+The automatic document generator.  It takes source files from various
+directories and creates help files from the comments embeded in the
+code.
+<p><b>See also:</b><br><a href="obj.handlers.autodoc.autodoc_handler.c.html">/obj/handlers/autodoc/autodoc_handler.c</a><p>Written by Pinkfish<p>Started Fri Oct 24 16:03:57 EDT 1997
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_file"><b>load_file</b></a>()<dd>
+Loads up the currently set file name from the archives.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_file"><b>parse_file</b></a>(string, function, int)<dd>
+Parses the input file figuring out all the documentation bits of it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_changed"><b>query_changed</b></a>()<dd>
+Did the file change?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_class_docs"><b>query_class_docs</b></a>()<dd>
+The documentation for the classes.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_define_docs"><b>query_define_docs</b></a>()<dd>
+The documentation for the defines.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_defines"><b>query_defines</b></a>()<dd>
+The defines which were setup in the class.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_file_name"><b>query_file_name</b></a>()<dd>
+The file name being processed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_includes"><b>query_includes</b></a>()<dd>
+The files included by this one.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_inherits"><b>query_inherits</b></a>()<dd>
+Returns the inherits mapping of the system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_main_docs"><b>query_main_docs</b></a>()<dd>
+Returns the main docs for the class.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_num_failed_tries"><b>query_num_failed_tries</b></a>()<dd>
+This method returns the number of times the file was attempted to
+be read and it was discovered not to exist at all.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_private_functions"><b>query_private_functions</b></a>()<dd>
+The mapping of private functions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_protected_functions"><b>query_protected_functions</b></a>()<dd>
+The mapping of protected functions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_public_functions"><b>query_public_functions</b></a>()<dd>
+The mapping of public functions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_file"><b>save_file</b></a>()<dd>
+Saves the current file name to the archives.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="load_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_file</b></a><pre>
+void load_file()
+</pre><dd>
+Loads up the currently set file name from the archives.
+<p>
+
+<dt><a name="parse_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_file</b></a><pre>
+void parse_file(string name,
+function func,
+int only_load)
+</pre><dd>
+Parses the input file figuring out all the documentation bits of it.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the file to parse
+<dd>func - the function to call when the parsing is finished
+<dd>only_load - a flag telling us to only load the information
+
+</dl>
+
+<dt><a name="query_changed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_changed</b></a><pre>
+int query_changed()
+</pre><dd>
+Did the file change?  Checks to see if the file changed since it
+was last read.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it changed, 0 if it has not changed
+
+</dl>
+
+<dt><a name="query_class_docs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_class_docs</b></a><pre>
+mapping query_class_docs()
+</pre><dd>
+The documentation for the classes.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mapping of the class names to documentation
+
+</dl>
+
+<dt><a name="query_define_docs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_define_docs</b></a><pre>
+mapping query_define_docs()
+</pre><dd>
+The documentation for the defines.  This is mostly used by the include
+file documentation system.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mapping of define names to documentation
+
+</dl>
+
+<dt><a name="query_defines">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_defines</b></a><pre>
+mapping query_defines()
+</pre><dd>
+The defines which were setup in the class.  This is the mapping of the
+defines which were processed.  The format of the mapping is
+([ "name" : "value" ]), where the name is the name of the define and
+the value is what to replace it with.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mapping of defines
+
+</dl>
+
+<dt><a name="query_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_file_name</b></a><pre>
+string query_file_name()
+</pre><dd>
+The file name being processed.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the file being processed
+
+</dl>
+
+<dt><a name="query_includes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_includes</b></a><pre>
+string * query_includes()
+</pre><dd>
+The files included by this one.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of included files
+
+</dl>
+
+<dt><a name="query_inherits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_inherits</b></a><pre>
+mapping query_inherits()
+</pre><dd>
+Returns the inherits mapping of the system.  This returns a mapping of the
+form ([ inherit_name : ({ flags }) ]).  Where the name of the inherit is
+something like "/std/object" and the flags are things you can apply to
+an inherit, like "protected" or "private".  If there are no flags then
+the flags will be an empty array.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a mapping of things inherited by this file
+
+</dl>
+
+<dt><a name="query_main_docs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_main_docs</b></a><pre>
+mapping query_main_docs()
+</pre><dd>
+Returns the main docs for the class.  The mapping is of
+the form ([ "tag" : ({ data }) ]), where each reference
+to a tag creates a new element in the data array.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a mapping containing the main docs for the file
+
+</dl>
+
+<dt><a name="query_num_failed_tries">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_num_failed_tries</b></a><pre>
+int query_num_failed_tries()
+</pre><dd>
+This method returns the number of times the file was attempted to
+be read and it was discovered not to exist at all.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the number of times it was unable to be read
+
+</dl>
+
+<dt><a name="query_private_functions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_private_functions</b></a><pre>
+mapping query_private_functions()
+</pre><dd>
+The mapping of private functions.
+The mapping is of the form ([ func_name : ({ type, args, docs }) ]).
+The type bit is an array of the type name, ie: ({ "int" }) or
+({ "mixed", "*" }).  The args bit looks like ({ "name", type }),
+where the type is the same as in the previous array.  The docs is
+a mapping of the form ([ "tag" : ({ data }) ]), where each reference
+to a tag creates a new element in the data array.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a mapping containing the private functions
+
+</dl>
+
+<dt><a name="query_protected_functions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_protected_functions</b></a><pre>
+mapping query_protected_functions()
+</pre><dd>
+The mapping of protected functions.
+The mapping is of the form ([ func_name : ({ type, args, docs }) ]).
+The type bit is an array of the type name, ie: ({ "int" }) or
+({ "mixed", "*" }).  The args bit looks like ({ "name", type }),
+where the type is the same as in the previous array.  The docs is
+a mapping of the form ([ "tag" : ({ data }) ]), where each reference
+to a tag creates a new element in the data array.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a mapping containing the protected functions
+
+</dl>
+
+<dt><a name="query_public_functions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_public_functions</b></a><pre>
+mapping query_public_functions()
+</pre><dd>
+The mapping of public functions.
+The mapping is of the form ([ func_name : ({ type, args, docs }) ]).
+The type bit is an array of the type name, ie: ({ "int" }) or
+({ "mixed", "*" }).  The args bit looks like ({ "name", type }),
+where the type is the same as in the previous array.  The docs is
+a mapping of the form ([ "tag" : ({ data }) ]), where each reference
+to a tag creates a new element in the data array.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a mapping containing the public functions
+
+</dl>
+
+<dt><a name="save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_file</b></a><pre>
+void save_file()
+</pre><dd>
+Saves the current file name to the archives.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 05:08:25 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,45 @@
+.DT
+do_vote
+Disk World creator help
+do_vote
+
+.SH Name
+.SP 5 5
+do_vote -  This method attempts to vote for someone in a club.
+.EP
+
+.SH Syntax
+.SI 5
+int do_vote(string person,
+string position,
+string club_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^person%^RESET%^ - the person to vote for
+%^BOLD%^position%^RESET%^ - the position to vote for them in
+%^BOLD%^club_name%^RESET%^ - the name of the club to vote for them in
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/club_control_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method attempts to vote for someone in a club.
+.EP
+
+.SH See also
+.SP 5 5
+do_nominate(), /obj/handlers/club_handler.c
+
+.EP
+

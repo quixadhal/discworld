@@ -1,0 +1,37 @@
+.DT
+AddSearchPath
+Disk World creator help
+AddSearchPath
+
+.SH Name
+.SP 5 5
+AddSearchPath -  Add a directory(s) into the search path for commands.
+.EP
+
+.SH Syntax
+.SI 5
+string * AddSearchPath(mixed val)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^val%^RESET%^ - the path to array
+.EI
+
+.SH Returns
+.SI 5
+the new search path
+.EI
+
+.SH Defined in
+.SI 5
+/global/command.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Add a directory(s) into the search path for commands.  If the input is
+an array then the members of that are added to the search path.
+.EP
+

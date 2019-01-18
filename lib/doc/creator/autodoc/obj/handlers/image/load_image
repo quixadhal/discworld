@@ -1,0 +1,42 @@
+.DT
+load_image
+Disk World creator help
+load_image
+
+.SH Name
+.SP 5 5
+load_image -  This method reads in the given image file, and returns a two-dimensional array of integers representing the data in the file.
+.EP
+
+.SH Syntax
+.SI 5
+varargs class IMAGE_INFO load_image(string image_file,
+int rle)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^image_file%^RESET%^ - the pathname of the file containing the image
+.EI
+
+.SH Returns
+.SI 5
+a 2-D array of ints, representing the image
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/image.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method reads in the given image file, and returns a two-dimensional
+array of integers representing the data in the file.  The 'rle'
+flag is currently unused; in the future, it will be used to return
+the array in a "run-length encoded" format, where each group of identical
+elements in a row will be represented as a count/value pair.  This
+may be more efficient for large arrays with sparse data.
+.EP
+

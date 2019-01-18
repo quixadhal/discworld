@@ -1,0 +1,64 @@
+.DT
+query_details
+Disk World creator help
+query_details
+
+.SH Name
+.SP 5 5
+query_details -  This method returns all the details for the current set of coins.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_details()
+.EI
+
+.SH Returns
+.SI 5
+the details array
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns all the details for the current set of
+coins.   The details are information which is shown when the coin
+is looked at.   Stuff about heads and tails and things.
+
+.EP
+.SP 5 5
+  ([
+.EP
+.SP 5 5
+     "brass": ({ "heads", "tails", "a head", "a tail", "brass", 0 }),
+.EP
+.SP 5 5
+     "copper": ({ "heads", "tails", "a head", "a tail", "copper", 0 }),
+.EP
+.SP 5 5
+     "silver": ({ "heads", "tails", "a head", "a tail", "silver", 0 }),
+.EP
+.SP 5 5
+     "gold": ({ "heads", "tails", "a head", "a tail", "gold", 0 }),
+.EP
+.SP 5 5
+     "platinum": ({ "heads", "tails", "a head", "a tail", "platinum", 0 }) ])
+.EP
+.SP 5 5
+The places correspond to: 
+.EP
+.SP 5 5
+({ forward short, reverse short,
+.EP
+.SP 5 5
+     forward long, reverse long, composition, plural })
+.EP
+.SP 5 5
+
+.EP
+

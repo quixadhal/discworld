@@ -1,0 +1,43 @@
+.DT
+reason_invalid_playtester
+Disk World creator help
+reason_invalid_playtester
+
+.SH Name
+.SP 5 5
+reason_invalid_playtester -  THis method returns a string reason why they are an invalid play tester.
+.EP
+
+.SH Syntax
+.SI 5
+string reason_invalid_playtester(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the player to check
+.EI
+
+.SH Returns
+.SI 5
+the string reason, 0 if none.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playtesters.c
+.EI
+
+.SH Description
+.SP 5 5
+
+THis method returns a string reason why they are an invalid play
+tester.  NOTE: This uses the player_handler, which will cause lag if
+called on lots of playerfiles.
+.EP
+
+.SH See also
+.SP 5 5
+valid_playtester()
+
+.EP
+

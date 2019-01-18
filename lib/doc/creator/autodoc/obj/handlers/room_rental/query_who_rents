@@ -1,0 +1,40 @@
+.DT
+query_who_rents
+Disk World creator help
+query_who_rents
+
+.SH Name
+.SP 5 5
+query_who_rents -  Returns the name of whoever is renting the room specified.
+.EP
+
+.SH Syntax
+.SI 5
+string query_who_rents(string room,
+object office)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^room%^RESET%^ - the short of the room you want to check
+%^BOLD%^office%^RESET%^ - the current office
+
+.EI
+
+.SH Returns
+.SI 5
+the short of the player who's renting the room
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/room_rental.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Returns the name of whoever is renting the room specified.
+
+.EP
+

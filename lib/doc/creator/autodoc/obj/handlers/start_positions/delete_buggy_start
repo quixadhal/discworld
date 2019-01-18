@@ -1,0 +1,38 @@
+.DT
+delete_buggy_start
+Disk World creator help
+delete_buggy_start
+
+.SH Name
+.SP 5 5
+delete_buggy_start -  Remove a filename from the array of buggy start positions.
+.EP
+
+.SH Syntax
+.SI 5
+int delete_buggy_start(string fname)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^fname%^RESET%^ - The filename of the room.  '.c' will be stripped.
+.EI
+
+.SH Returns
+.SI 5
+The integer success code.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/start_positions.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Remove a filename from the array of buggy start positions.
+Returns 1 if successful, -1 if the start position was not in the list,
+or 0 for an error.
+.EP
+

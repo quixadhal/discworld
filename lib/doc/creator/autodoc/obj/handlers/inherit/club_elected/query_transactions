@@ -1,0 +1,44 @@
+.DT
+query_transactions
+Disk World creator help
+query_transactions
+
+.SH Name
+.SP 5 5
+query_transactions -  This method returns the transaction history for the club.
+.EP
+
+.SH Syntax
+.SI 5
+class club_transaction * query_transactions(string name,
+string account)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the club
+%^BOLD%^account%^RESET%^ - the name of the account
+.EI
+
+.SH Returns
+.SI 5
+the array of transactions.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the transaction history for the club.  This will only
+be kept track of for elected clubs.
+.EP
+
+.SH See also
+.SP 5 5
+add_money(), remove_money()
+
+.EP
+

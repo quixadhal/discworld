@@ -1,0 +1,175 @@
+<html><head><title>File read_desc.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/read_desc.c</h2>
+This method keeps track of all the messages on the object for
+reading etc.  Keeps track of the language, the text and the
+size.<p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.desc.c.html">/std/basic/desc.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.language.h.html">/include/language.h</a> and <a href="include.nroff.h.html">/include/nroff.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_read_mess"><b>add_read_mess</b></a>(mixed, string, string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cur_size"><b>query_cur_size</b></a>()<dd>
+This method returns the current amount of wreiting size on the
+object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_size"><b>query_max_size</b></a>()<dd>
+This method returns the current maximum size of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_read_mess"><b>query_read_mess</b></a>()<dd>
+This method returns the current read messae array on the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_read_short"><b>query_read_short</b></a>(object, int)<dd>
+This method returns the short description to use with the reading.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_readable_message"><b>query_readable_message</b></a>(object, int)<dd>
+This method returns the read message for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_read_mess"><b>remove_read_mess</b></a>(string, string, string)<dd>
+This method removes a piece of writing off the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_cur_size"><b>set_cur_size</b></a>(int)<dd>
+This method sets the current amount of writing size on
+the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_size"><b>set_max_size</b></a>(int)<dd>
+This method sets the maximum amount of writing to be able
+to be placed onto the object.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_read_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_read_mess</b></a><pre>
+varargs mixed add_read_mess(mixed str,
+string type,
+string lang,
+int size)
+</pre>
+<dt><a name="query_cur_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cur_size</b></a><pre>
+int query_cur_size()
+</pre><dd>
+This method returns the current amount of wreiting size on the
+object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current amount of writing on the object
+
+<dt><b>See also:</b>
+<dd><a href="#set_max_size">set_max_size()</a>, <a href="#add_read_mess">add_read_mess()</a> and <a href="#set_cur_size">set_cur_size()</a></dl>
+
+<dt><a name="query_max_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_size</b></a><pre>
+int query_max_size()
+</pre><dd>
+This method returns the current maximum size of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current maximum size
+<dt><b>See also:</b>
+<dd><a href="#set_max_size">set_max_size()</a> and <a href="#add_read_mess">add_read_mess()
+</a></dl>
+
+<dt><a name="query_read_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_read_mess</b></a><pre>
+mixed * query_read_mess()
+</pre><dd>
+This method returns the current read messae array on the object.
+The returned array consists of an array of arrays.  The internal
+array has 4 elements, the first is the text of the mnessage
+the second is the type of the message,m the third is the languae
+and the last element is the size of the wiritn .
+<p>
+The defines in the file /include/language.h should be used
+for the indexes into this array.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the read message array
+<dt><b>See also:</b>
+<dd><a href="#add_read_mess">add_read_mess()</a>, <a href="#set_max_size">set_max_size()</a> and /include/language.h
+</dl>
+
+<dt><a name="query_read_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_read_short</b></a><pre>
+string query_read_short(object player,
+int ignore_labels)
+</pre><dd>
+This method returns the short description to use with the reading.
+It will go: You read <read short>:
+<p>
+It will automaticly add a $name$ onto the end of the string for you.
+This will be replaced with the correct a/the short for the message
+which is printed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player reading the message
+
+</dl>
+
+<dt><a name="query_readable_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_readable_message</b></a><pre>
+string query_readable_message(object player,
+int ignore_labels)
+</pre><dd>
+This method returns the read message for the object.  This is what should
+be displayed to the player if they attempt to read this object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the read message, 0 if there is none
+
+</dl>
+
+<dt><a name="remove_read_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_read_mess</b></a><pre>
+int remove_read_mess(string str,
+string type,
+string lang)
+</pre><dd>
+This method removes a piece of writing off the object.
+<p>
+If you know the actual message or the language or the type you can remove
+that message.
+<p>
+Using the type and or language is a very dodgy way of doing this.  Using
+a combination is much better.
+<p>
+Any of the parameters set to a non-zero value will be used for the search.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the text string
+<dd>type - the type of the text
+<dd>lang - the language it is written in
+<dt><b>Returns:</b>
+<dd>0 if the text was not found, 1 if it was
+
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.language.c.html#query_language_size">/obj/handlers/language->query_language_size()</a>, <a href="#add_read_mess">add_read_mess()</a> and <a href="#query_read_mess">query_read_mess()</a></dl>
+
+<dt><a name="set_cur_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_cur_size</b></a><pre>
+void set_cur_size(int siz)
+</pre><dd>
+This method sets the current amount of writing size on
+the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>siz - the new current size
+
+<dt><b>See also:</b>
+<dd><a href="#set_max_size">set_max_size()</a>, <a href="#add_read_mess">add_read_mess()</a> and <a href="#query_cur_size">query_cur_size()</a></dl>
+
+<dt><a name="set_max_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_size</b></a><pre>
+void set_max_size(int siz)
+</pre><dd>
+This method sets the maximum amount of writing to be able
+to be placed onto the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>siz - the maximum size
+<dt><b>See also:</b>
+<dd><a href="#query_max_size">query_max_size()</a> and <a href="#add_read_mess">add_read_mess()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 22:02:02 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

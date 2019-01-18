@@ -1,0 +1,182 @@
+<html><head><title>File enchant.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/enchant.c</h2>
+Module to handle the amount of magical charge (enchantment) of an
+object has.  The maximum enchantment of an item is determined by
+by its weight - the material of composition is not yet taken into
+account.
+<p>
+Enchanting an object will add to its value, and, if the object
+is an item of armour, will improve its armour class.
+<p>Written by Pinkfish
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_enchant"><b>add_enchant</b></a>(int)<dd>
+This method changes the current enchanment level.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#enchant_string"><b>enchant_string</b></a>()<dd>
+This method returns the current enchantment string for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_degrade_enchant"><b>query_degrade_enchant</b></a>()<dd>
+This method returns the maximum enchantment before the enchantment
+starts to degrade.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_enchant"><b>query_enchant</b></a>()<dd>
+This method queries the current enchantment level.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_enchant_set_time"><b>query_enchant_set_time</b></a>()<dd>
+This method returns the time the time the enchantment was set.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_enchant"><b>query_max_enchant</b></a>()<dd>
+This method returns the maximum possible enchantment for the
+object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_real_enchant"><b>query_real_enchant</b></a>()<dd>
+This method returns the actual enchant of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_degrade_enchant"><b>set_degrade_enchant</b></a>(int)<dd>
+This method sets the enchantment at which things start to degrade.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_enchant"><b>set_enchant</b></a>(int)<dd>
+This method sets the current enchantment level.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_enchant_set_time"><b>set_enchant_set_time</b></a>(int)<dd>
+This method sets the time at which the enchant level was set.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_enchant</b></a><pre>
+int add_enchant(int number)
+</pre><dd>
+This method changes the current enchanment level.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>numnber - the amount to chant the enchantment level by
+<dt><b>See also:</b>
+<dd><a href="#enchant_string">enchant_string()</a>, <a href="#query_enchant">query_enchant()</a>, <a href="#set_enchant">set_enchant()</a> and <a href="#query_max_enchant">query_max_enchant()
+</a></dl>
+
+<dt><a name="enchant_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>enchant_string</b></a><pre>
+string enchant_string()
+</pre><dd>
+This method returns the current enchantment string for the object.  The 
+string is created from the percentage of the max enchantment that it is 
+enchanted to.  If the object is also a talisman, an identifying string is 
+appended to the enchantment message.
+<p>
+These messages are only visible to creators and players who can see
+octarine.
+<p>
+If the property "octarine_mess" is set, then this will be printed instead 
+of the automatically generated enchantment message.
+<p>
+If the property "talisman_mess" is set, then this will be printed instead
+of the automatically generated talisman message if appropriate.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the enchantment string and talisman string
+<dt><b>See also:</b>
+<dd><a href="#set_enchant">set_enchant()</a>, <a href="#add_enchant">add_enchant()</a>, <a href="#query_max_enchant">query_max_enchant()</a> and <a href="#query_enchant">query_enchant()
+</a></dl>
+
+<dt><a name="query_degrade_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_degrade_enchant</b></a><pre>
+int query_degrade_enchant()
+</pre><dd>
+This method returns the maximum enchantment before the enchantment
+starts to degrade.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the enchantment level which enchantment degrades to
+
+</dl>
+
+<dt><a name="query_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_enchant</b></a><pre>
+int query_enchant()
+</pre><dd>
+This method queries the current enchantment level. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the new enchantment level
+<dt><b>See also:</b>
+<dd><a href="#enchant_string">enchant_string()</a>, <a href="#set_enchant">set_enchant()</a>, <a href="#query_max_enchant">query_max_enchant()</a> and <a href="#add_enchant">add_enchant()
+</a></dl>
+
+<dt><a name="query_enchant_set_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_enchant_set_time</b></a><pre>
+int query_enchant_set_time()
+</pre><dd>
+This method returns the time the time the enchantment was set.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the time the enchantment was set
+
+</dl>
+
+<dt><a name="query_max_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_enchant</b></a><pre>
+int query_max_enchant()
+</pre><dd>
+This method returns the maximum possible enchantment for the
+object.  This is based on its weight.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maximum enchantment
+
+</dl>
+
+<dt><a name="query_real_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_real_enchant</b></a><pre>
+int query_real_enchant()
+</pre><dd>
+This method returns the actual enchant of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the actual enchant value
+
+</dl>
+
+<dt><a name="set_degrade_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_degrade_enchant</b></a><pre>
+void set_degrade_enchant(int enchant)
+</pre><dd>
+This method sets the enchantment at which things start to degrade.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>enchant - the enchantment level to set it at
+
+</dl>
+
+<dt><a name="set_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_enchant</b></a><pre>
+void set_enchant(int number)
+</pre><dd>
+This method sets the current enchantment level.   If it is greator than
+the max enchantment level then it will be set to the maximum
+enchantment level.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the new enchantment level
+<dt><b>See also:</b>
+<dd><a href="#enchant_string">enchant_string()</a>, <a href="#query_enchant">query_enchant()</a>, <a href="#query_max_enchant">query_max_enchant()</a> and <a href="#add_enchant">add_enchant()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="set_enchant_set_time">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_enchant_set_time</b></a><pre>
+void set_enchant_set_time(int tim)
+</pre><dd>
+This method sets the time at which the enchant level was set.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>tim - the time to set it to
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 20:16:16 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

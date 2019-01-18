@@ -1,0 +1,40 @@
+.DT
+add_extra_look
+Disk World creator help
+add_extra_look
+
+.SH Name
+.SP 5 5
+add_extra_look -  This method adds an object into the list of extra look objects.
+.EP
+
+.SH Syntax
+.SI 5
+void add_extra_look(object ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object to add
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/extra_look.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an object into the list of extra look objects.
+ob will need to have a string extra_look( object ) function defined on
+it which will actually give the extra look string. ob->extra_look() is
+called with the object to which you are adding the extra look.
+.EP
+
+.SH See also
+.SP 5 5
+calc_extra_look(), remove_extra_look(), query_extra_look_list()
+
+.EP
+

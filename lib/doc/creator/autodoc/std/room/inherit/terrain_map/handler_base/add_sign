@@ -1,0 +1,58 @@
+.DT
+add_sign
+Disk World creator help
+add_sign
+
+.SH Name
+.SP 5 5
+add_sign -  This method is used to add a signpost into a specified location in a terrain_map.
+.EP
+
+.SH Syntax
+.SI 5
+void add_sign(int x,
+int y,
+string sign_long,
+mixed sign_read_mess,
+string sign_short,
+mixed sign_name,
+string sign_language)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^title%^RESET%^ - the name of the feature
+%^BOLD%^x%^RESET%^ - the x coordinate of the center point
+%^BOLD%^y%^RESET%^ - the y coordinate of the center point
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to add a signpost into a specified location in a
+terrain_map. It is identical to the /std/room/ add_sign, except for
+the x and y coordinates which specify where the sign should go.
+.EP
+
+.SH Example 1
+.SI 5
+  add_sign(4, 3, "A wooden signpost.\n",
+                 "\n-----------------\n"
+                   "| Ladder: East  |\n"
+                   "| Bridge: South |\n"
+                   "-----------------",
+                 "signpost", ({ "signpost", "sign" }), "common");
+
+.EI
+
+.SH See also
+.SP 5 5
+add_sign
+
+.EP
+

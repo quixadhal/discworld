@@ -1,0 +1,50 @@
+.DT
+auto_mail
+Disk World creator help
+auto_mail
+
+.SH Name
+.SP 5 5
+auto_mail -  Allows people to send mail automaticly from the player in question.
+.EP
+
+.SH Syntax
+.SI 5
+int auto_mail(string to,
+string from,
+string sub,
+string cc,
+string body,
+int send_inter,
+string only_to,
+int flag)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^to%^RESET%^ - who the mail is to
+%^BOLD%^from%^RESET%^ - who the mail is from
+%^BOLD%^cc%^RESET%^ - the people to carbon copy
+%^BOLD%^body%^RESET%^ - the body of the message
+%^BOLD%^send_inter%^RESET%^ - should be send it ove the inter mud system?
+%^BOLD%^only_to%^RESET%^ - ignore the cc fields
+.EI
+
+.SH Returns
+.SI 5
+the same value as do_mail_message does, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/global/auto_mailer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Allows people to send mail automaticly from the player in question.
+Thus allows mail to be sent on someone being promoted to creator
+and stuff.
+.EP
+

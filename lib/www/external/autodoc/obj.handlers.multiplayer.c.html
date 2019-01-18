@@ -1,0 +1,182 @@
+<html><head><title>File multiplayer.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/multiplayer.c</h2>
+Keeps track of the marked multi players.
+Called by the login handler, checking people against a list of
+previous multiplayers, and if they are on the list, check if
+they are already on.
+<pre><code>
+vars are:
+ string *gits: an array of names of suspected multiplayers
+ string *denied_parcels: an array of names of multiplayers prevented from
+                         using the parcel system for sending parcels
+ mapping allowed: the keys are the names of verified non-multiplayers,
+                  the values are the names of people they are allowed to
+                  play with.
+</pre></code>
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.playerinfo.h.html">/include/playerinfo.h</a> and <a href="include.login_handler.h.html">/include/login_handler.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_allowed"><b>add_allowed</b></a>(string, string)<dd>
+Adds a player to the allowed multi IP list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_denied_parcel"><b>add_denied_parcel</b></a>(string)<dd>
+Adds a user to the list of users not allowed to use the parcel system
+Only Lords and Liaison deputies are allowed to add a user to this array
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_git"><b>add_git</b></a>(string)<dd>
+Adds a player to the multiplayer list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_allowed"><b>check_allowed</b></a>(mixed, mixed *)<dd>
+Called by the player object to see if a logon inform should be given
+about duplicate players from the same IP address.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_multiplayers"><b>check_multiplayers</b></a>(string, object, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_allowed"><b>delete_allowed</b></a>(string)<dd>
+Remove a person from allowed multi IP list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#member_denied_parcel"><b>member_denied_parcel</b></a>(string)<dd>
+Checks user against the parcels array
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_allowed"><b>query_allowed</b></a>()<dd>
+Returns the current allowed multi player IP list
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_denied_parcels"><b>query_denied_parcels</b></a>()<dd>
+Returns the current list of players denied use of the parcel system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#record_object"><b>record_object</b></a>(string, object, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_denied_parcel"><b>remove_denied_parcel</b></a>(string)<dd>
+Removes a user from the list of users not allowed to use the parcel system
+Only Lords and Liaison deputies are allowed to remove a user from this array
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_allowed</b></a><pre>
+int add_allowed(string user,
+string other)
+</pre><dd>
+Adds a player to the allowed multi IP list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>user - the name of the player
+<dd>other - the name of another user which is not an alt
+<dt><b>Returns:</b>
+<dd>0 if they are not a user, 1 if they are
+
+</dl>
+
+<dt><a name="add_denied_parcel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_denied_parcel</b></a><pre>
+int add_denied_parcel(string user)
+</pre><dd>
+Adds a user to the list of users not allowed to use the parcel system
+Only Lords and Liaison deputies are allowed to add a user to this array<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>user - the name of the player
+
+</dl>
+
+<dt><a name="add_git">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_git</b></a><pre>
+int add_git(string git)
+</pre><dd>
+Adds a player to the multiplayer list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>git - the name of the suspected multiplayer
+<dt><b>Returns:</b>
+<dd>0 if they are not a user, 1 if they are
+
+</dl>
+
+<dt><a name="check_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_allowed</b></a><pre>
+string * check_allowed(mixed user,
+mixed * others)
+</pre><dd>
+Called by the player object to see if a logon inform should be given
+about duplicate players from the same IP address.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>user - the player being checked
+<dd>others - the others logged on from the same IP
+<dt><b>Returns:</b>
+<dd>array of not allowed dups
+
+</dl>
+
+<dt><a name="check_multiplayers">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_multiplayers</b></a><pre>
+int check_multiplayers(string action,
+object player,
+object item)
+</pre>
+<dt><a name="delete_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_allowed</b></a><pre>
+int delete_allowed(string user)
+</pre><dd>
+Remove a person from allowed multi IP list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>user - the name of the player to remove
+<dt><b>Returns:</b>
+<dd>0 if they are not in the list, 1 if they are
+
+</dl>
+
+<dt><a name="member_denied_parcel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>member_denied_parcel</b></a><pre>
+int member_denied_parcel(string user)
+</pre><dd>
+Checks user against the parcels array<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>user - the name of the player
+</dl>
+
+<dt><a name="query_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_allowed</b></a><pre>
+mapping query_allowed()
+</pre><dd>
+Returns the current allowed multi player IP list<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of allowed multi players
+
+</dl>
+
+<dt><a name="query_denied_parcels">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_denied_parcels</b></a><pre>
+string * query_denied_parcels()
+</pre><dd>
+Returns the current list of players denied use of the parcel system.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of denied parcel users
+
+</dl>
+
+<dt><a name="record_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>record_object</b></a><pre>
+void record_object(string action,
+object player,
+object item)
+</pre>
+<dt><a name="remove_denied_parcel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_denied_parcel</b></a><pre>
+int remove_denied_parcel(string user)
+</pre><dd>
+Removes a user from the list of users not allowed to use the parcel system
+Only Lords and Liaison deputies are allowed to remove a user from this array<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>user - the name of the player
+<dt><b>Returns:</b>
+<dd>0 if they are not in the list, 1 if they are
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 21:33:23 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

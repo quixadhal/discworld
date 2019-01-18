@@ -1,0 +1,39 @@
+.DT
+repeat_event_exit
+Disk World creator help
+repeat_event_exit
+
+.SH Name
+.SP 5 5
+repeat_event_exit -  This is called on the repeater object to process the actual message event_exit message.
+.EP
+
+.SH Syntax
+.SI 5
+void repeat_event_exit(object caller,
+object ob,
+string mess,
+object dest)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^caller%^RESET%^ - the repeater who sent the message
+%^BOLD%^ob%^RESET%^ - the object that did the event_say
+%^BOLD%^mess%^RESET%^ - the message string
+%^BOLD%^exit%^RESET%^ - where the object is going to
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/repeater.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is called on the repeater object to process the actual message
+event_exit message.
+.EP
+

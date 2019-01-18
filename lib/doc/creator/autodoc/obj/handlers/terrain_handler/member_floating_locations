@@ -1,0 +1,43 @@
+.DT
+member_floating_locations
+Disk World creator help
+member_floating_locations
+
+.SH Name
+.SP 5 5
+member_floating_locations -  This method checks wether there are floating locations which match the given coordinates.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * member_floating_locations(int * co_ords)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^co_ords%^RESET%^ - the coordinates to find the rooms for
+.EI
+
+.SH Returns
+.SI 5
+an array with the file names of the rooms and the levels, or
+the empty array if none are found.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/terrain_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks wether there are floating locations which match the
+given coordinates.
+.EP
+
+.SH See also
+.SP 5 5
+member_cloned_locations(), member_fixed_locations()
+
+.EP
+

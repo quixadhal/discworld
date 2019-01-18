@@ -1,0 +1,50 @@
+.DT
+set_worn_by
+Disk World creator help
+set_worn_by
+
+.SH Name
+.SP 5 5
+set_worn_by -  This method sets the object as being worn by the passed in object.
+.EP
+
+.SH Syntax
+.SI 5
+int set_worn_by(object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - the new person to wear the object (0 for worn by no one)
+.EI
+
+.SH Returns
+.SI 5
+1 if successful, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/std/basic/wearable.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the object as being worn by the passed in object.
+It calls all the various worn functions and sets up or removes
+all the effects associated with the object.
+
+
+If the object is alreadying being worn the wear_remove_function will be called with an argument of 0. The method taken_off will be called on the object wearing the object for all the effects associated with this object. 
+
+If the object is being set to be worn by someone the the wear_remove function will be called with an argument being the person who is to wear the object. All of the effects associated with the object will be added to the wearer. 
+
+This calls the method 'person_removing_item' on the effect when some one removes the item. This can be used to make sure the effects are taken off when the item is removed.
+.EP
+
+.SH See also
+.SP 5 5
+set_wear_remove_func(), add_wear_effect()
+
+.EP
+

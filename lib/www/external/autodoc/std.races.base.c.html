@@ -1,0 +1,466 @@
+<html><head><title>File base.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/races/base.c</h2>
+The base object which all races will be inherited from.<p>Written by Pinkfish<p>Started 1992 sometime
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_ac"><b>add_ac</b></a>(string, string, mixed)<dd>
+Adds a default ac to the npc for when they fight unarmed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_attack"><b>add_attack</b></a>(string, int, int *)<dd>
+This method adds a default attack to the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_bit"><b>add_bit</b></a>(string, string, mixed *)<dd>
+This method adds a bit to the current bit setup.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_limbs"><b>find_limbs</b></a>()<dd>
+This method figures out the current set of limbs on the race.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#modifier"><b>modifier</b></a>(int)<dd>
+This method figures out a modifier for the height based on the base
+weight and height.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_acs"><b>query_acs</b></a>()<dd>
+The defaults acs for npcs when they are fighting unarmed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_attacks"><b>query_attacks</b></a>()<dd>
+The default attacks for the npc when they are fighting unarmed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bit"><b>query_bit</b></a>(string)<dd>
+This method returns the bits which are children of the specified bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bits"><b>query_bits</b></a>()<dd>
+This method returns all the bits for the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dark"><b>query_dark</b></a>(int)<dd>
+Determines if the race thinks it is dark or light.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_desc"><b>query_desc</b></a>(object)<dd>
+This method returns the current description of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_height"><b>query_height</b></a>()<dd>
+This method returns the base height of the npc type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_limbs"><b>query_limbs</b></a>()<dd>
+This method returns the current limbs of the race.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_number_worn"><b>query_number_worn</b></a>(string)<dd>
+This method figures out how many of each sort of thing 
+can be worn.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_possible_bits"><b>query_possible_bits</b></a>(string)<dd>
+This method returns the names of all the possible bits for the
+npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_possible_plural_bits"><b>query_possible_plural_bits</b></a>(string)<dd>
+This method returns the plural names for all the bits.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sight"><b>query_sight</b></a>()<dd>
+Thie method returns the values of the race which determine visibility.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skin"><b>query_skin</b></a>()<dd>
+This method returns the current skin of the race.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stats"><b>query_stats</b></a>()<dd>
+This method queries the default bonus stat values for the race.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_bit"><b>remove_bit</b></a>(string)<dd>
+This method removes a bit from the current bit array
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_desc"><b>set_desc</b></a>(string)<dd>
+This method sets the description for the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_height"><b>set_height</b></a>(int)<dd>
+This method sets the base height of the npc type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sight"><b>set_sight</b></a>(int *)<dd>
+Thie method sets the current sight array for the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_skin"><b>set_skin</b></a>(string)<dd>
+This method sets the skin of the race.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_stats"><b>set_stats</b></a>(int *)<dd>
+This method sets the current default bonuses of the stats.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_player"><b>start_player</b></a>(object)<dd>
+This method is called when the npc is first created.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_ac">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_ac</b></a><pre>
+void add_ac(string ac_name,
+string ac_type,
+mixed ac_amount)
+</pre><dd>
+Adds a default ac to the npc for when they fight unarmed.  Please look
+add the armour object for more details on this.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ac_name - the name of the ac
+<dd>ac_type - the type of the ac
+<dd>ac_amount - the damage/roll stuff to take off
+<dt><b>See also:</b>
+<dd><a href="#query_acs">query_acs()
+</a></dl>
+
+<dt><a name="add_attack">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_attack</b></a><pre>
+void add_attack(string attack_name,
+int attack_chance,
+int * attack_data)
+</pre><dd>
+This method adds a default attack to the npc.  Please see the
+help on the weapons for more details on this.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>attack_name - the name of the attack
+<dd>attack_chance - the chance of the attack occuring
+<dd>attack_data - the damage roll for the attack
+<dt><b>See also:</b>
+<dd><a href="#query_attacks">query_attacks()
+</a></dl>
+
+<dt><a name="add_bit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_bit</b></a><pre>
+void add_bit(string bit_short,
+string bit_name,
+mixed * bit_array)
+</pre><dd>
+This method adds a bit to the current bit setup.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bit_short - the short of the bit
+<dd>bit_name - the name of the bit
+<dd>bit_array - the array of children bits
+<dt><b>See also:</b>
+<dd><a href="#query_bits">query_bits()</a> and <a href="#remove_bit">remove_bit()
+</a></dl>
+
+<dt><a name="find_limbs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_limbs</b></a><pre>
+void find_limbs()
+</pre><dd>
+This method figures out the current set of limbs on the race.  A creature
+is assigned one "limb" for every "hand" found in the body part array.  The
+number of limbs is the number of weapons that can be held.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_limbs">query_limbs()
+</a></dl>
+
+<dt><a name="modifier">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>modifier</b></a><pre>
+int modifier(int number)
+</pre><dd>
+This method figures out a modifier for the height based on the base
+weight and height.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the height/weight to modify
+<dt><b>Returns:</b>
+<dd>the modified heigh/weight
+
+</dl>
+
+<dt><a name="query_acs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_acs</b></a><pre>
+mixed * query_acs()
+</pre><dd>
+The defaults acs for npcs when they are fighting unarmed.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the default acs
+<dt><b>See also:</b>
+<dd><a href="#add_ac">add_ac()
+</a></dl>
+
+<dt><a name="query_attacks">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_attacks</b></a><pre>
+mixed * query_attacks()
+</pre><dd>
+The default attacks for the npc when they are fighting unarmed.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the default attacks
+<dt><b>See also:</b>
+<dd><a href="#add_attack">add_attack()
+</a></dl>
+
+<dt><a name="query_bit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bit</b></a><pre>
+mixed * query_bit(string word)
+</pre><dd>
+This method returns the bits which are children of the specified bit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the bit to look for the children of
+<dt><b>Returns:</b>
+<dd>the children bits
+<dt><b>See also:</b>
+<dd><a href="#add_bit">add_bit()</a>, <a href="#query_bits">query_bits()</a> and <a href="#remove_bit">remove_bit()
+</a></dl>
+
+<dt><a name="query_bits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bits</b></a><pre>
+mixed * query_bits()
+</pre><dd>
+This method returns all the bits for the npc.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the complete array of bits
+<dt><b>See also:</b>
+<dd><a href="#add_bit">add_bit()</a>, <a href="#query_bit">query_bit()</a>, <a href="#query_possible_bits">query_possible_bits()</a>, <a href="#query_all_inedible">query_all_inedible()</a>, <a href="#query_all_unrottable">query_all_unrottable()</a>, <a href="#query_all_pluckable">query_all_pluckable()</a> and <a href="#remove_bit">remove_bit()
+</a></dl>
+
+<dt><a name="query_dark">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dark</b></a><pre>
+int query_dark(int light)
+</pre><dd>
+Determines if the race thinks it is dark or light.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 for normal, -1 for dark, -2 for pitch dark, 1 for bright,
+2 for toobright
+<dt><b>See also:</b>
+<dd><a href="#set_sight">set_sight()</a> and <a href="#query_sight">query_sight()
+</a></dl>
+
+<dt><a name="query_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_desc</b></a><pre>
+string query_desc(object thing)
+</pre><dd>
+This method returns the current description of the npc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object which is being described
+<dt><b>Returns:</b>
+<dd>the description of the npc
+<dt><b>See also:</b>
+<dd><a href="#query_desc">query_desc()
+</a></dl>
+
+<dt><a name="query_height">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_height</b></a><pre>
+int query_height()
+</pre><dd>
+This method returns the base height of the npc type.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current base height
+<dt><b>See also:</b>
+<dd><a href="#set_height">set_height()
+</a></dl>
+
+<dt><a name="query_limbs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_limbs</b></a><pre>
+string * query_limbs()
+</pre><dd>
+This method returns the current limbs of the race.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the limbs on the race
+<dt><b>See also:</b>
+<dd><a href="#find_limbs">find_limbs()
+</a></dl>
+
+<dt><a name="query_number_worn">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_number_worn</b></a><pre>
+int query_number_worn(string type)
+</pre><dd>
+This method figures out how many of each sort of thing 
+can be worn.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to check for numbers worn
+<dt><b>Returns:</b>
+<dd>the number of type to worn
+
+</dl>
+
+<dt><a name="query_possible_bits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_possible_bits</b></a><pre>
+string * query_possible_bits(string word)
+</pre><dd>
+This method returns the names of all the possible bits for the
+npc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the bits to look for the children under
+<dt><b>Returns:</b>
+<dd>the array of possible bit names
+<dt><b>See also:</b>
+<dd><a href="#add_bit">add_bit()</a>, <a href="#query_bits">query_bits()</a>, <a href="#query_possible_plural_bits">query_possible_plural_bits()</a> and <a href="#remove_bit">remove_bit()
+</a></dl>
+
+<dt><a name="query_possible_plural_bits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_possible_plural_bits</b></a><pre>
+string * query_possible_plural_bits(string word)
+</pre><dd>
+This method returns the plural names for all the bits.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the bit to find the children of
+<dt><b>Returns:</b>
+<dd>the plural names of all the bits
+<dt><b>See also:</b>
+<dd><a href="#add_bit">add_bit()</a>, <a href="#query_bits">query_bits()</a>, <a href="#query_possible_bits">query_possible_bits()</a> and <a href="#remove_bit">remove_bit()
+</a></dl>
+
+<dt><a name="query_sight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sight</b></a><pre>
+int * query_sight()
+</pre><dd>
+Thie method returns the values of the race which determine visibility.
+It returns an array of the format:<br>
+<pre>({
+   dark
+   pitch dark,
+   bright light,
+   bright
+})</pre><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the sight array as detailed above
+<dt><b>See also:</b>
+<dd><a href="#set_sight">set_sight()</a> and <a href="#query_dark">query_dark()
+</a></dl>
+
+<dt><a name="query_skin">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skin</b></a><pre>
+string query_skin()
+</pre><dd>
+This method returns the current skin of the race.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current skin of the race
+<dt><b>See also:</b>
+<dd><a href="#set_skin">set_skin()
+</a></dl>
+
+<dt><a name="query_stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stats</b></a><pre>
+int * query_stats()
+</pre><dd>
+This method queries the default bonus stat values for the race.<br>
+<pre>({
+  con,
+  dex,
+  int,
+  str,
+  wiz
+})</pre><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current stat offsets
+<dt><b>See also:</b>
+<dd><a href="#set_stats">set_stats()
+</a></dl>
+
+<dt><a name="remove_bit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_bit</b></a><pre>
+void remove_bit(string word)
+</pre><dd>
+This method removes a bit from the current bit array<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the name of the bit to remove
+<dt><b>See also:</b>
+<dd><a href="#add_bit">add_bit()</a> and <a href="#query_bits">query_bits()
+</a></dl>
+
+<dt><a name="set_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_desc</b></a><pre>
+void set_desc(string words)
+</pre><dd>
+This method sets the description for the npc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the description of the npc
+<dt><b>See also:</b>
+<dd><a href="#set_desc">set_desc()
+</a></dl>
+
+<dt><a name="set_height">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_height</b></a><pre>
+void set_height(int number)
+</pre><dd>
+This method sets the base height of the npc type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the new height
+<dt><b>See also:</b>
+<dd><a href="#query_height">query_height()
+</a></dl>
+
+<dt><a name="set_sight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sight</b></a><pre>
+void set_sight(int * numbers)
+</pre><dd>
+Thie method sets the current sight array for the npc.  This sets the
+levels at which the race things things are too dark/too bright.<br>
+<pre>({
+   pitch dark,
+   dark,
+   bright,
+   bright light
+})</pre><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>numbers - as detailed above
+<dt><b>See also:</b>
+<dd><a href="#query_sight">query_sight()</a> and <a href="#query_dark">query_dark()
+</a></dl>
+
+<dt><a name="set_skin">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_skin</b></a><pre>
+void set_skin(string word)
+</pre><dd>
+This method sets the skin of the race.  This is what is given back
+when the npc's corpse is skinned.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the skin of the race
+<dt><b>See also:</b>
+<dd><a href="#query_skin">query_skin()
+</a></dl>
+
+<dt><a name="set_stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_stats</b></a><pre>
+void set_stats(int * numbers)
+</pre><dd>
+This method sets the current default bonuses of the stats.  The parameter
+is an array of numbers, with the numbers corresponding to the stats as
+shown below.  It is highly inadvisable to set any stat bonus to less than
+-6, since in conjunction with the guild stat settings this could combine
+to give a negative total for that stat.  Negative stats can cause
+permanent unconsciousness.
+<pre>({
+  con,
+  dex,
+  int,
+  str,
+  wis
+})</pre><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>numbers - sets the default bonuses for the stats
+<dt><b>See also:</b>
+<dd><a href="#query_stats">query_stats()
+</a></dl>
+
+<dt><a name="start_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_player</b></a><pre>
+void start_player(object thing)
+</pre><dd>
+This method is called when the npc is first created.  This sets up
+the weight/height/stats etc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the npc being created
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 23:27:50 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

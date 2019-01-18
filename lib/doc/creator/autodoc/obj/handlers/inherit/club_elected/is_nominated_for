@@ -1,0 +1,46 @@
+.DT
+is_nominated_for
+Disk World creator help
+is_nominated_for
+
+.SH Name
+.SP 5 5
+is_nominated_for -  This method checks to see if the specified person has been nominated for the position.
+.EP
+
+.SH Syntax
+.SI 5
+int is_nominated_for(string club_name,
+string position,
+string person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^position%^RESET%^ - the position they have been nominated for
+%^BOLD%^person%^RESET%^ - the person who is nominated to that position
+.EI
+
+.SH Returns
+.SI 5
+1 if they have been nominated, 0 if not.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the specified person has been nominated for
+the position.
+.EP
+
+.SH See also
+.SP 5 5
+has_person_voted(), nominate_person(), is_valid_position(), is_nomination_accepted()
+
+.EP
+

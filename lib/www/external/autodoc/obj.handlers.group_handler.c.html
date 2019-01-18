@@ -1,0 +1,527 @@
+<html><head><title>File group_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/group_handler.c</h2>
+This is the group handler.  It does all the handling of
+player-run adventuring groups, but not alone.  It's
+accompanied by the group commands, effect and shadow.
+For paths to these files, consult /include/group_handler.h
+
+This system owes its design first and foremost to the irreplaceable
+Ceres who wrote the original system.  Next come all the valuable
+Creators who shared their knowledge of LPC.  Last but not least
+are the countless playtesters who dedicated their time and worked
+out all (or most of) the kinks and provided feedback and suggestions.
+
+So give 'em all a big hug.
+<p>Written by Tape<p>Started February 99
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.command.h.html">/include/command.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a>, <a href="include.broadcaster.h.html">/include/broadcaster.h</a> and <a href="include.group_handler.h.html">/include/group_handler.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_group"><b>group</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_invite"><b>add_invite</b></a>(string, object, int)<dd>
+This function allows you to add a person to the invite array
+of a group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_member"><b>add_member</b></a>(string, object)<dd>
+This function allows you to add a member to a group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#broadcast_to_groups"><b>broadcast_to_groups</b></a>(string *, string)<dd>
+With this function you can broadcaster a message to all or
+some of the groups currently active.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_group"><b>create_group</b></a>(string)<dd>
+This function allows you to create a new group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#disband_group"><b>disband_group</b></a>(string, mixed)<dd>
+This function does a clean removal of a group from the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_dynamic_arg"><b>init_dynamic_arg</b></a>(mapping)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#invitations_to"><b>invitations_to</b></a>(string)<dd>
+This function lists all invitations to a particular group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_group"><b>is_group</b></a>(string)<dd>
+This function checks if such a group exists at the moment.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_invited"><b>is_invited</b></a>(string, object)<dd>
+This function allows you to check whether an invitation for a
+person is pending in a specific group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_member"><b>is_member</b></a>(string, object)<dd>
+This function allows you to check whether a person is a member
+of a group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#leader_of"><b>leader_of</b></a>(string)<dd>
+This function returns the person who is currently
+leading the group, if any.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#members_of"><b>members_of</b></a>(string)<dd>
+This function returns all the members of a group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#notify_group"><b>notify_group</b></a>(string, object, mixed)<dd>
+This function broadcasts a message to the group's channel using
+the broadcaster handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dynamic_auto_load"><b>query_dynamic_auto_load</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_group_short"><b>query_group_short</b></a>(string)<dd>
+This returns the short description of a group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_groups"><b>query_groups</b></a>()<dd>
+This returns the names of all groups currently in the database.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_start_time"><b>query_start_time</b></a>(string)<dd>
+This function returns the time when the group was created.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_group"><b>remove_group</b></a>(string)<dd>
+This function removes a group from the handler and is only used
+internally.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_invite"><b>remove_invite</b></a>(string, object)<dd>
+This function allows you to remove an invite of a person from
+a group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_member"><b>remove_member</b></a>(string, object)<dd>
+This function allows you to remove a person from a group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#rename_group"><b>rename_group</b></a>(string, string)<dd>
+This method renames the group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_group_short"><b>set_group_short</b></a>(string, string)<dd>
+This sets the short description of a group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_leader"><b>set_leader</b></a>(string, object, object)<dd>
+This function allows you to set a new leader for the group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#short_to_name"><b>short_to_name</b></a>(string)<dd>
+This function concatenates the short of a group to a valid name
+that can then be used with create_group().
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#shuffle_new_leader"><b>shuffle_new_leader</b></a>(string, int, object *)<dd>
+This function allows you to choose a new leader for the group
+in a variety of ways.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_invite">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_invite</b></a><pre>
+int add_invite(string name,
+object person,
+int flag)
+</pre><dd>
+This function allows you to add a person to the invite array
+of a group.  Only invited people are allowed to join a group.
+If the call succeeds, an internal call_out is started which
+runs out after INVITE_TIMEOUT seconds and removes the person
+from the array.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dd>person - the person we're inviting
+<dd>flag - set to 1 if you don't want the auto-removal of the invite
+
+<dt><b>Returns:</b>
+<dd>1 on success, 0 if the group doesn't exist or the person is
+   already invited
+
+<dt><b>See also:</b>
+<dd>/include/group_handler.h
+</dl>
+
+<dt><a name="add_member">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_member</b></a><pre>
+int add_member(string name,
+object person)
+</pre><dd>
+This function allows you to add a member to a group.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dd>person - the person you're adding
+<dt><b>Returns:</b>
+<dd>1 on success, 0 if the group doesn't exist or person is
+   already a member
+
+</dl>
+
+<dt><a name="broadcast_to_groups">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>broadcast_to_groups</b></a><pre>
+void broadcast_to_groups(string * name,
+string message)
+</pre><dd>
+With this function you can broadcaster a message to all or
+some of the groups currently active.  It will not include
+your name, so make sure you identify yourself if necessary.
+
+If "name" is empty or 0, the message will be broadcasted
+to all groups.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - a string array with names of groups
+</dl>
+
+<dt><a name="create_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_group</b></a><pre>
+int create_group(string name)
+</pre><dd>
+This function allows you to create a new group.  Note that the
+name of the group shouldn't be just any name.  It should first
+be filtered through short_to_name().  The short, set with
+set_group_short() can be set to anything.  The "name" of a
+group is mostly used internally to query and set stuff in
+the handler.  The short is visible to players.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the new group
+<dd>founder - points to the thing creating the group
+
+<dt><b>Returns:</b>
+<dd>1 on success, 0 if the group already exists
+
+<dt><b>See also:</b>
+<dd><a href="#short_to_name">short_to_name()</a> and <a href="#set_group_short">set_group_short()
+</a></dl>
+
+<dt><a name="disband_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>disband_group</b></a><pre>
+varargs void disband_group(string name,
+mixed message)
+</pre><dd>
+This function does a clean removal of a group from the handler.
+If a message is specified, it is broadcasted to the group
+before all members are removed.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group to be disbanded
+<dd>message - message to be broadcasted, if any
+<dt><b>See also:</b>
+<dd><a href="#remove_group">remove_group()
+</a></dl>
+
+<dt><a name="init_dynamic_arg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_dynamic_arg</b></a><pre>
+void init_dynamic_arg(mapping map)
+</pre>
+<dt><a name="invitations_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>invitations_to</b></a><pre>
+object * invitations_to(string name)
+</pre><dd>
+This function lists all invitations to a particular group.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dt><b>Returns:</b>
+<dd>objects who have been invited to the group
+
+</dl>
+
+<dt><a name="is_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_group</b></a><pre>
+int is_group(string group)
+</pre><dd>
+This function checks if such a group exists at the moment.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the name of the group
+<dt><b>Returns:</b>
+<dd>1 if the group exists, 0 otherwise
+
+</dl>
+
+<dt><a name="is_invited">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_invited</b></a><pre>
+int is_invited(string name,
+object person)
+</pre><dd>
+This function allows you to check whether an invitation for a
+person is pending in a specific group.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dd>person - the person to be checked
+
+<dt><b>Returns:</b>
+<dd>1 if such an invitation exists, 0 if not
+
+</dl>
+
+<dt><a name="is_member">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_member</b></a><pre>
+int is_member(string name,
+object person)
+</pre><dd>
+This function allows you to check whether a person is a member
+of a group.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dd>person - the person you want to check for membership
+
+<dt><b>Returns:</b>
+<dd>1 if he is a member, 0 if he isn't (or the group doesn't exist)
+
+
+</dl>
+
+<dt><a name="leader_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>leader_of</b></a><pre>
+object leader_of(string name)
+</pre><dd>
+This function returns the person who is currently
+leading the group, if any.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dt><b>Returns:</b>
+<dd>the object pointing to the leader, 0 if none
+
+</dl>
+
+<dt><a name="members_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>members_of</b></a><pre>
+object * members_of(string name)
+</pre><dd>
+This function returns all the members of a group.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dt><b>Returns:</b>
+<dd>an object * of the members
+
+</dl>
+
+<dt><a name="notify_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>notify_group</b></a><pre>
+void notify_group(string name,
+object broadcaster,
+mixed message)
+</pre><dd>
+This function broadcasts a message to the group's channel using
+the broadcaster handler.  The first argument specifies the
+group's name (not short), which also acts as the channel
+name.  The second argument is the object doing the broadcasting.
+The third argument varies.  It can either be a simple string,
+in which case that string is printed as the message.  It can
+also be a two-element string array.  The first element is
+printed only to the object specified in the second argument.
+The second element is printed to everyone else.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dd>object - person or object doing the broadcasting
+<dd>message - the message to be broadcasted
+
+
+</dl>
+
+<dt><a name="query_dynamic_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dynamic_auto_load</b></a><pre>
+mapping query_dynamic_auto_load()
+</pre>
+<dt><a name="query_group_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_group_short</b></a><pre>
+string query_group_short(string name)
+</pre><dd>
+This returns the short description of a group.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dt><b>Returns:</b>
+<dd>the short of the group
+
+</dl>
+
+<dt><a name="query_groups">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_groups</b></a><pre>
+string * query_groups()
+</pre><dd>
+This returns the names of all groups currently in the database.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the names of all groups in database
+
+</dl>
+
+<dt><a name="query_start_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_start_time</b></a><pre>
+int query_start_time(string name)
+</pre><dd>
+This function returns the time when the group was created.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dt><b>Returns:</b>
+<dd>the time when the group was created
+
+</dl>
+
+<dt><a name="remove_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_group</b></a><pre>
+int remove_group(string name)
+</pre><dd>
+This function removes a group from the handler and is only used
+internally.  No notification of this is given to players, and
+no cleanup is done on their part.
+If you want to force the deletion of a group, use disband_group()
+instead.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - name of the group to be disbanded
+<dt><b>Returns:</b>
+<dd>1 on success, 0 if group doesn't exist
+<dt><b>See also:</b>
+<dd><a href="#disband_group">disband_group()
+</a></dl>
+
+<dt><a name="remove_invite">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_invite</b></a><pre>
+int remove_invite(string name,
+object person)
+</pre><dd>
+This function allows you to remove an invite of a person from
+a group.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dd>person - the person you want to remove
+
+<dt><b>Returns:</b>
+<dd>1 on success, 0 if group doesn't exist or person hasn't been
+   invited
+
+</dl>
+
+<dt><a name="remove_member">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_member</b></a><pre>
+int remove_member(string name,
+object person)
+</pre><dd>
+This function allows you to remove a person from a group.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dd>person - the person you want removed
+
+<dt><b>Returns:</b>
+<dd>1 on success, 0 if group doesn't exist or person isn't a
+   member
+
+</dl>
+
+<dt><a name="rename_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rename_group</b></a><pre>
+int rename_group(string group,
+string new_group)
+</pre><dd>
+This method renames the group.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the old group name
+<dd>new_group - the new group name
+
+</dl>
+
+<dt><a name="set_group_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_group_short</b></a><pre>
+int set_group_short(string name,
+string short_desc)
+</pre><dd>
+This sets the short description of a group.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dd>short_desc - the short of the group
+
+<dt><b>Returns:</b>
+<dd>1 on success, 0 if group doesn't exist
+
+</dl>
+
+<dt><a name="set_leader">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_leader</b></a><pre>
+varargs int set_leader(string name,
+object person,
+object appointer)
+</pre><dd>
+This function allows you to set a new leader for the group.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the group
+<dd>person - the new leader
+<dd>appointer - if this != 0, group is told he set the new leader
+
+<dt><b>Returns:</b>
+<dd>1 on success, 0 if the group doesn't exist
+
+</dl>
+
+<dt><a name="short_to_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>short_to_name</b></a><pre>
+string short_to_name(string short)
+</pre><dd>
+This function concatenates the short of a group to a valid name
+that can then be used with create_group().  The function will
+also return invalid if a channel with such a name exists in the
+broadcaster.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>short - the short of the group
+<dt><b>Returns:</b>
+<dd>the name of the group, or "" if invalid
+
+</dl>
+
+<dt><a name="shuffle_new_leader">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shuffle_new_leader</b></a><pre>
+varargs object shuffle_new_leader(string group,
+int way,
+object * exclude)
+</pre><dd>
+This function allows you to choose a new leader for the group
+in a variety of ways.  It only includes players who are
+interactive().
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the name of the group
+<dd>way - 0 for random (no other ways present atm)
+<dd>exclude - an object array of members to exclude from the start
+<dt><b>Returns:</b>
+<dd>an object pointing to the new leader, or 0
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>group</b></a><pre>
+class group {
+int start_time;
+string short;
+string leader_name;
+object leader;
+object * members;
+object * invited;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 19:07:43 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,43 @@
+.DT
+query_item_copies
+Disk World creator help
+query_item_copies
+
+.SH Name
+.SP 5 5
+query_item_copies -  This method returns the total number of known copies of a specific quest item owned by a player.
+.EP
+
+.SH Syntax
+.SI 5
+int query_item_copies(mixed pl_name,
+mixed item)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^pl_name%^RESET%^ -   player object or name
+%^BOLD%^item%^RESET%^ -      item object or identifier
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/item_tracker.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the total number of known copies of a specific quest item
+owned by a player.
+
+
+If the item isn't actually owned by the player it doesn't matter.
+.EP
+
+.SH See also
+.SP 5 5
+set_item_state(), delete_item()
+
+.EP
+

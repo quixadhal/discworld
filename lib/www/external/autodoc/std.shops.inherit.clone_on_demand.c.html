@@ -1,0 +1,218 @@
+<html><head><title>File clone_on_demand.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/inherit/clone_on_demand.c</h2>
+This is a inheritable that provides an efficient way of storing
+lots of items. Only one copy of the item is effectively in storage
+and everytime one is removed, an exact copy is duplicated and
+put back in the store. Objects are added to the store via
+add_object(). The actual storage container object
+can be returned by query_cont() and this container should be
+searched when you want to find what objects the store contains.
+<p>
+Any object can inherit this, and methods
+should be put in place in the inheriting file that end up calling
+create_real_object() which will sort out duplicating the item
+and returning an object pointer to the one you can deal with.<p><b>See also:</b><br>add_object
+.c<p>Written by Pinkfish Aquilo<h3>Example</h3>
+<pre>inherit "clone_on_demand";
+int do_buy( objects *obs );
+
+void setup(){
+  set_name("shop");
+  set_short("widget shop");
+  add_object( "sprocket" );
+}
+
+object create_object( string arg ){
+  if( arg == "sprocket" )
+    return clone_object( "/path/of/sprocket" );
+}
+
+void init(){
+  add_command("buy", "<indirect:object:" +
+                     base_name( query_cont() ) + ">");
+}
+
+int do_buy( object *obs ){
+  object ob;
+  foreach(ob in obs){
+    widget = create_real_object(ob);
+    widget->move( this_player() );
+  }
+  add_succeeded_mess( "$N buy$s $I.\n", obs );
+  return 1;
+}
+</pre>
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.armoury.h.html">/include/armoury.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_object"><b>add_object</b></a>(string, int, string)<dd>
+This method is used to add an item to the storage.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_real_object"><b>create_real_object</b></a>(object)<dd>
+The main point of entry.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cont"><b>query_cont</b></a>()<dd>
+This method returns the container which is used to keep one copy of
+each items in storage.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_items_left"><b>query_items_left</b></a>(string *)<dd>
+This function can be used to check the quantity left of an array
+of items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_num_items_left"><b>query_num_items_left</b></a>(object)<dd>
+Returns how more times object ob can be duplicated
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_number_left"><b>query_number_left</b></a>(string)<dd>
+This function returns the quantity of particular object available
+to be cloned on demand.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_object_domain"><b>query_object_domain</b></a>()<dd>
+This method returns the domain the objects will be created from.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_object_domain"><b>set_object_domain</b></a>(string)<dd>
+This method sets the domain the objects will be created from.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_object</b></a><pre>
+varargs int add_object(string name,
+int max_per_reset,
+string display_as)
+</pre><dd>
+This method is used to add an item to the storage.
+When this method is called, create_object() is called
+(with the object name as an arg) in the inheriting file.
+If no object is returned by that function,
+the name is cloned with clone_object(), and failing that
+request_item() is called in the armoury against the name.
+
+This method makes add_weapon() and add_armour() obsolete.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the object to add.
+<dd>max_per_reset - the maximum number of items to be available at any one time
+<dd>display_as - the name that this item is displayed as in shops
+<dt><b>Returns:</b>
+<dd>1 if the item was added successfully to the store, 0 if it was not.
+
+<dt><b>Example:</b>
+<dd><pre>add_object( "frog", 1 + random( 3 ) );
+// This will try and create an object called frog, in the order mentioned
+// above</pre><dd><pre>
+add_object( "/obj/food/apple.food", 0 );
+// Add unlimited numbers of apples.</pre></dl>
+
+<dt><a name="query_cont">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cont</b></a><pre>
+object query_cont()
+</pre><dd>
+This method returns the container which is used to keep one copy of
+each items in storage.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the object container
+
+</dl>
+
+<dt><a name="query_items_left">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_items_left</b></a><pre>
+int * query_items_left(string * names)
+</pre><dd>
+This function can be used to check the quantity left of an array
+of items.  It returns a parallel array of integers.  In other words
+the array it returns contains the numbers of stock in array positions
+corresponding to the array positions of the objects it was passed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>names - an array of the short names of the items you wish to query
+<dt><b>Returns:</b>
+<dd>an array of integers, each one returning like query_number_left
+would for the object in that position of the object array.
+<dt><b>See also:</b>
+<dd>query_number_left
+.c<dt><b>Example:</b>
+<dd><pre>query_items_left( ({ "banana" , "melon" }) )
+would return ({ 12 , 6 }) if there were 12 bananas and 6 melons left.</pre></dl>
+
+<dt><a name="query_num_items_left">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_num_items_left</b></a><pre>
+int query_num_items_left(object ob)
+</pre><dd>
+Returns how more times object ob can be duplicated<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to test
+<dt><b>Returns:</b>
+<dd>how many more times
+
+</dl>
+
+<dt><a name="query_number_left">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_number_left</b></a><pre>
+int query_number_left(string name)
+</pre><dd>
+This function returns the quantity of particular object available
+to be cloned on demand. In matching which object is the one in
+question it uses the short name of the object, which is passed as
+an argument to the function.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - is the short name of the object you wish to query.
+<dt><b>Returns:</b>
+<dd>the number left, returns INFINITE_LEFT if the shop has an infinite
+number, returns -1 if the item isn't stocked.
+
+</dl>
+
+<dt><a name="query_object_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_object_domain</b></a><pre>
+string query_object_domain()
+</pre><dd>
+This method returns the domain the objects will be created from.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the domain the objects are created from
+
+</dl>
+
+<dt><a name="set_object_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_object_domain</b></a><pre>
+void set_object_domain(string domain)
+</pre><dd>
+This method sets the domain the objects will be created from.
+The default objects will always be matched as well.  So setting
+this will allow objects from the default of the specified armoury
+domain.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>domain - the domain to try and create from
+<dt><b>Example:</b>
+<dd><pre>set_object_domain("cwc");
+</pre></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="create_real_object">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>create_real_object</b></a><pre>
+object create_real_object(object thing)
+</pre><dd>
+The main point of entry. 'thing' should be an object already placed
+in the clone_on_demand store container via 'add_object'. This
+method then duplicates that object, replaces the original copy in
+the container with this new one, and returns the original which can
+be delt with as normal.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - an object in the store
+<dt><b>Returns:</b>
+<dd>the original object
+<dt><b>See also:</b>
+<dd>add_object
+.c</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 02:46:27 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

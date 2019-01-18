@@ -1,0 +1,44 @@
+.DT
+choose_attack
+Disk World creator help
+choose_attack
+
+.SH Name
+.SP 5 5
+choose_attack -  Determine which attack they'll use.
+.EP
+
+.SH Syntax
+.SI 5
+class attack choose_attack(class attack att)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^class%^RESET%^ - attack
+.EI
+
+.SH Returns
+.SI 5
+class attack
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Determine which attack they'll use.
+
+This picks a weapon, gets the attack data and the weapon skill and
+determines how much the attack will cost.
+
+PRE: attacker info, opponent and defender info have been set.
+POST: attack weapon, attack skill, attack data, and attack_cost must
+be set.
+
+.EP
+

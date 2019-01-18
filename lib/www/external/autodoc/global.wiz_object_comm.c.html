@@ -1,0 +1,86 @@
+<html><head><title>File wiz_object_comm.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/wiz_object_comm.c</h2>
+This file conatins all the object based creator commands.<p>Written by Ember
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.creator.h.html">/include/creator.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#affirmative"><b>affirmative</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#del_obvar"><b>del_obvar</b></a>(string)<dd>
+This method deletes the given object variable,
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_obvar"><b>get_obvar</b></a>(string)<dd>
+This method returns the object associated witht the object
+variable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_obvars"><b>get_obvars</b></a>()<dd>
+This method returns the mapping of all the object variables
+currently set on this creator.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_obvar"><b>set_obvar</b></a>(string, object)<dd>
+this method sets the given object variable to the given
+value.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="affirmative">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>affirmative</b></a><pre>
+int affirmative(string s)
+</pre>
+<dt><a name="del_obvar">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>del_obvar</b></a><pre>
+void del_obvar(string key)
+</pre><dd>
+This method deletes the given object variable,<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>key - the object variable to delet.
+<dt><b>See also:</b>
+<dd><a href="#set_obvar">set_obvar()</a>, <a href="#get_obvar">get_obvar()</a> and <a href="#get_obvars">get_obvars()
+</a></dl>
+
+<dt><a name="get_obvar">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_obvar</b></a><pre>
+object get_obvar(string key)
+</pre><dd>
+This method returns the object associated witht the object
+variable.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>key - the object variablename
+<dt><b>Returns:</b>
+<dd>the object associated with the name
+<dt><b>See also:</b>
+<dd><a href="#del_obvar">del_obvar()</a>, <a href="#set_obvar">set_obvar()</a> and <a href="#get_obvars">get_obvars()
+</a></dl>
+
+<dt><a name="get_obvars">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_obvars</b></a><pre>
+mapping get_obvars()
+</pre><dd>
+This method returns the mapping of all the object variables
+currently set on this creator.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the object variables as a mapping
+<dt><b>See also:</b>
+<dd><a href="#del_obvar">del_obvar()</a>, <a href="#set_obvar">set_obvar()</a> and <a href="#get_obvar">get_obvar()
+</a></dl>
+
+<dt><a name="set_obvar">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_obvar</b></a><pre>
+void set_obvar(string key,
+object value)
+</pre><dd>
+this method sets the given object variable to the given
+value.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>key - the variable name
+<dd>value - the object variable name
+<dt><b>See also:</b>
+<dd><a href="#del_obvar">del_obvar()</a>, <a href="#get_obvar">get_obvar()</a> and <a href="#get_obvars">get_obvars()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Nov 2018 00:05:59 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,189 @@
+<html><head><title>File real_estate_auction.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/real_estate_auction.c</h2>
+This method adds in an area to which the real estate office will look
+for houses.<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.shops.auction_house.c.html">/std/shops/auction_house.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.room.auction.h.html">/include/room/auction.h</a>, <a href="include.nomic_system.h.html">/include/nomic_system.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.housing.h.html">/include/housing.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_house"><b>add_house</b></a>(string)<dd>
+Add a house for auction.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_housing_area"><b>add_housing_area</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#after_reset"><b>after_reset</b></a>()<dd>
+This runs through the list of vacant houses and checks to see if it
+should add them up for auction or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_can_bid"><b>check_can_bid</b></a>(object, class auction, int)<dd>
+This method checks to make sure they have enough money in their bank
+accounts to make the bid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_agreement"><b>do_agreement</b></a>()<dd>
+Request a new rental agreement for a house they might have
+lost.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#housing_auction"><b>housing_auction</b></a>(int, class auction, string, string, int, object *)<dd>
+This function is called during the various phases of the housing
+auction.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_city"><b>query_city</b></a>()<dd>
+Returns the city the real estate place thinks it lives in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_housing_areas"><b>query_housing_areas</b></a>()<dd>
+This method returns all the areas in which the real estate office will
+look for houses.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language"><b>query_language</b></a>()<dd>
+Returns the language the real estate place will use for its agreements.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_auctions_to_under_offer"><b>reset_auctions_to_under_offer</b></a>()<dd>
+This function runs down the list of current auctions and makes sure they 
+are all registered as "Under Offer" so if for some reason they are not, 
+they won't be put up for sale again.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_city"><b>set_city</b></a>(string)<dd>
+This is just a cosmetic function to help set up the agreements.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_language"><b>set_language</b></a>(string)<dd>
+This is just a cosmetic function to help set up the agreements.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_house">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_house</b></a><pre>
+int add_house(string house)
+</pre><dd>
+Add a house for auction.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="add_housing_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_housing_area</b></a><pre>
+void add_housing_area(string area)
+</pre>
+<dt><a name="after_reset">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>after_reset</b></a><pre>
+void after_reset()
+</pre><dd>
+This runs through the list of vacant houses and checks to see if it
+should add them up for auction or not.
+<p>
+
+<dt><a name="check_can_bid">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_can_bid</b></a><pre>
+int check_can_bid(object person,
+class auction which,
+int bid_amount)
+</pre><dd>
+This method checks to make sure they have enough money in their bank
+accounts to make the bid.  This function should be setup to be called
+as the big checking function in the inherit of this room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person being checked for bidding
+<dd>which - the auction being tested to be bid on
+<dd>bid_amount - how much they are bidding
+
+</dl>
+
+<dt><a name="do_agreement">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_agreement</b></a><pre>
+int do_agreement()
+</pre><dd>
+Request a new rental agreement for a house they might have
+lost.
+<p>
+
+<dt><a name="housing_auction">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>housing_auction</b></a><pre>
+void housing_auction(int event_type,
+class auction auct,
+string house,
+string buyer,
+int cost,
+object * obs)
+</pre><dd>
+This function is called during the various phases of the housing
+auction.  When each phase ends this method is called and anything
+that needs to be done for the end of the phase is sorted out.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>event_type - the event that has finished
+<dd>auct - the auction that just finished
+<dd>house - the path of the house being auctioned
+<dd>buyer - the buyer of the house (if sold)
+<dd>cost - how much the house costs
+<dd>obs - the things that were sold (rental agreementsin this case)
+
+</dl>
+
+<dt><a name="query_city">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_city</b></a><pre>
+string query_city()
+</pre><dd>
+Returns the city the real estate place thinks it lives in.
+<p>
+
+<dt><a name="query_housing_areas">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_housing_areas</b></a><pre>
+string * query_housing_areas()
+</pre><dd>
+This method returns all the areas in which the real estate office will
+look for houses.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the areas to look for houses
+
+</dl>
+
+<dt><a name="query_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language</b></a><pre>
+string query_language()
+</pre><dd>
+Returns the language the real estate place will use for its agreements.
+<p>
+
+<dt><a name="reset_auctions_to_under_offer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_auctions_to_under_offer</b></a><pre>
+void reset_auctions_to_under_offer()
+</pre><dd>
+This function runs down the list of current auctions and makes sure they 
+are all registered as "Under Offer" so if for some reason they are not, 
+they won't be put up for sale again.
+<p>
+
+<dt><a name="set_city">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_city</b></a><pre>
+void set_city(string where)
+</pre><dd>
+This is just a cosmetic function to help set up the agreements. 
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>where - the city to which the agreements will say the property 
+defaults to when you cease to own it
+
+</dl>
+
+<dt><a name="set_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_language</b></a><pre>
+void set_language(string lang)
+</pre><dd>
+This is just a cosmetic function to help set up the agreements. 
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the - agreements be written in
+
+</dl>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 01:44:51 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

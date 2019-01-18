@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["init_container":({({"object",}),({({"object",}),"person",}),(["main":({"This method initialised a nice container to stuff everything wesave into.",}),"param":({"owner the owner to make a container for",}),"return":({"the nice container",}),]),}),"setup_container":({({"void",}),({({"object",}),"container",}),(["main":({"Define this function in your vault room to perform setup on the vaultcontainer. Use it to customise the name, short, long, size etc. of yourdrawers (or whatever your vault uses.",}),"param":({"container The object to perform your customisation on.",}),"return":({"void",}),]),}),"set_vault_name":({({"void",}),({({"string",}),"str",}),(["main":({"Used to set the name of this vault. The name is used as part of the savefile for the vault and should uniquely idenitfy this vault.",}),"param":({"name The name of the vault.",}),"return":({"void",}),]),}),"set_vault_exit":({({"void",}),({({"string",}),"direc",({"mixed",}),"dest",({"string",}),"type",}),(["main":({"Used to set the exit from this vault room (usually out to the vault entryroom. The parameters are just like those of add_exit.",}),"see":({"add_exit",}),"param":({"direction The direction of the exit.","dest The destination object. Usually the filename of the destination.","type An exit type as in add_exit.",}),"return":({"void",}),]),}),])
+protected_functions ([])
+inherits (["/std/room/basic_room":({}),])
+main_docs (["main":({"Standard vault inheritable object. There are two inheritables (this one and/std/vault_entry.c) which are provided to make it easy to setup your ownvaults.This one handles the actual vault room itself. When using this room youmust use set_vault_name and set_vault_entrance. You should also define asetup_container function to customise your vault drawers.",}),"author":({"Ceres",}),"see":({"/std/vault_entrance.c",}),])
+define_docs ([])
+includes (["/include/shops/bank.h":1522061544,"/include/money.h":1522061544,"/include/vault.h":1522061544,])
+class_docs ([])
+file_name "/std/shops/vault.c"
+last_changed 1522061544

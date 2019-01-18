@@ -1,0 +1,185 @@
+<html><head><title>File carriage.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/carriage/carriage.c</h2>
+This method should be overriden by higher level carriages to setup
+the driver correctly.<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.room.carriage.h.html">/include/room/carriage.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_can_leave"><b>check_can_leave</b></a>(string, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#co"><b>co</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_carriage_driver"><b>create_carriage_driver</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_ring"><b>do_ring</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#give_warning"><b>give_warning</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_carriage"><b>make_carriage</b></a>(string, class route_details, object)<dd>
+This is called by the handler to originaly setup the current route
+information.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_stop"><b>make_stop</b></a>()<dd>
+Stop at the next location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move_on"><b>move_on</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_carriage_name"><b>query_carriage_name</b></a>()<dd>
+This method returns the name of the route the carriage is on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_stop"><b>query_current_stop</b></a>()<dd>
+This method returns the details of the current stop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_environ_long"><b>query_environ_long</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_next_stop"><b>query_next_stop</b></a>()<dd>
+This method returns the details of the next stop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_outside"><b>query_outside</b></a>()<dd>
+This method returns the object that is the outside of us.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_route_map"><b>query_route_map</b></a>()<dd>
+This method returns the entire details of the route used by this
+carriage.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stop_info"><b>query_stop_info</b></a>()<dd>
+This method returns the indexes of the current stop and the
+next stop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_route"><b>update_route</b></a>(string, class route_details, object)<dd>
+This is called by the handler to update the current route information
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="check_can_leave">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_can_leave</b></a><pre>
+int check_can_leave(string exit,
+object person)
+</pre>
+<dt><a name="co">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>co</b></a><pre>
+mixed * co()
+</pre>
+<dt><a name="create_carriage_driver">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_carriage_driver</b></a><pre>
+object create_carriage_driver()
+</pre>
+<dt><a name="do_ring">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_ring</b></a><pre>
+int do_ring()
+</pre>
+<dt><a name="give_warning">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>give_warning</b></a><pre>
+void give_warning(string this_stop_name,
+string next_stop_name)
+</pre>
+<dt><a name="make_carriage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_carriage</b></a><pre>
+int make_carriage(string name,
+class route_details new_route_info,
+object handler)
+</pre><dd>
+This is called by the handler to originaly setup the current route
+information.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the rotue
+<dd>new_route_info - the new route to use
+<dd>handler - the handler for the carriage
+
+</dl>
+
+<dt><a name="make_stop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_stop</b></a><pre>
+void make_stop()
+</pre><dd>
+Stop at the next location.
+<p>
+
+<dt><a name="move_on">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move_on</b></a><pre>
+void move_on()
+</pre>
+<dt><a name="query_carriage_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_carriage_name</b></a><pre>
+string query_carriage_name()
+</pre><dd>
+This method returns the name of the route the carriage is on.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the carriage route.
+
+</dl>
+
+<dt><a name="query_current_stop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_stop</b></a><pre>
+class stop_list_details query_current_stop()
+</pre><dd>
+This method returns the details of the current stop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the details of the current stop
+
+</dl>
+
+<dt><a name="query_environ_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_environ_long</b></a><pre>
+string query_environ_long()
+</pre>
+<dt><a name="query_next_stop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_next_stop</b></a><pre>
+class stop_list_details query_next_stop()
+</pre><dd>
+This method returns the details of the next stop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the details of the next stop
+
+</dl>
+
+<dt><a name="query_outside">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_outside</b></a><pre>
+object query_outside()
+</pre><dd>
+This method returns the object that is the outside of us.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the environment of the carriage
+
+</dl>
+
+<dt><a name="query_route_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_route_map</b></a><pre>
+class route_details query_route_map()
+</pre><dd>
+This method returns the entire details of the route used by this
+carriage.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the entire route details
+
+</dl>
+
+<dt><a name="query_stop_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stop_info</b></a><pre>
+int * query_stop_info()
+</pre><dd>
+This method returns the indexes of the current stop and the
+next stop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>({ current stop, next stop })
+
+</dl>
+
+<dt><a name="update_route">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_route</b></a><pre>
+void update_route(string name,
+class route_details new_route_info,
+object handler)
+</pre><dd>
+This is called by the handler to update the current route information<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the rotue
+<dd>new_route_info - the new route to use
+<dd>handler - the handler for the carriage
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 12:48:11 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

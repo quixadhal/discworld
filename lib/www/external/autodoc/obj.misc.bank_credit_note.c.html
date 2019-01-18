@@ -1,0 +1,162 @@
+<html><head><title>File bank_credit_note.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/misc/bank_credit_note.c</h2>
+A credit note for transfering money to and from a franchise and a
+master shop.<p>Written by Pinkfish<p>Started Thu Jun 28 16:46:26 PDT 2001
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_process"><b>do_process</b></a>()<dd>
+This marks this credit note as processed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_valid_note"><b>is_valid_note</b></a>()<dd>
+This checks to see if the note is valid still or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_amount"><b>query_amount</b></a>()<dd>
+This method returns the amount the credit note is for.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank_name"><b>query_bank_name</b></a>()<dd>
+This method returns the bank name for the credit note.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_credit_num"><b>query_credit_num</b></a>()<dd>
+This method returns the credit number id for the credit not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_franchise"><b>query_franchise</b></a>()<dd>
+This method returns the franchise for the credit note
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_amount"><b>set_amount</b></a>(int)<dd>
+This method sets the amount the credit note is for.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bank_name"><b>set_bank_name</b></a>(string)<dd>
+This method sets the bank name of the credit note.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_credit_num"><b>set_credit_num</b></a>(int)<dd>
+This method sets the credit number id for the credit note.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_franchise"><b>set_franchise</b></a>(string)<dd>
+This method sets the franchise that will be used as the main base for
+this credit note.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_read_messages"><b>setup_read_messages</b></a>()<dd>
+This method is called to setup the read messages for the note once it
+is made.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_process">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_process</b></a><pre>
+int do_process()
+</pre><dd>
+This marks this credit note as processed.
+<p>
+
+<dt><a name="is_valid_note">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_valid_note</b></a><pre>
+int is_valid_note()
+</pre><dd>
+This checks to see if the note is valid still or not.
+<p>
+
+<dt><a name="query_amount">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_amount</b></a><pre>
+int query_amount()
+</pre><dd>
+This method returns the amount the credit note is for.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the amount the note is for
+
+</dl>
+
+<dt><a name="query_bank_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank_name</b></a><pre>
+string query_bank_name()
+</pre><dd>
+This method returns the bank name for the credit note.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the bank name
+
+</dl>
+
+<dt><a name="query_credit_num">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_credit_num</b></a><pre>
+int query_credit_num()
+</pre><dd>
+This method returns the credit number id for the credit not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the credit id
+
+</dl>
+
+<dt><a name="query_franchise">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_franchise</b></a><pre>
+string query_franchise()
+</pre><dd>
+This method returns the franchise for the credit note<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>this returns the franchise for the note
+
+</dl>
+
+<dt><a name="set_amount">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_amount</b></a><pre>
+void set_amount(int amount)
+</pre><dd>
+This method sets the amount the credit note is for.  +ve means that
+we are transporting money to the master bank, -ve means we are taking
+money out of the master bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>amount - the amount the note is for
+
+</dl>
+
+<dt><a name="set_bank_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bank_name</b></a><pre>
+void set_bank_name(string bank)
+</pre><dd>
+This method sets the bank name of the credit note.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - set the bank name
+
+</dl>
+
+<dt><a name="set_credit_num">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_credit_num</b></a><pre>
+void set_credit_num(int num)
+</pre><dd>
+This method sets the credit number id for the credit note.  This will
+be unique for each franchise.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the credit id
+
+</dl>
+
+<dt><a name="set_franchise">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_franchise</b></a><pre>
+void set_franchise(string franchise)
+</pre><dd>
+This method sets the franchise that will be used as the main base for
+this credit note.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>franchise - the franchise as the base
+
+</dl>
+
+<dt><a name="setup_read_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_read_messages</b></a><pre>
+void setup_read_messages()
+</pre><dd>
+This method is called to setup the read messages for the note once it
+is made.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 06:11:11 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

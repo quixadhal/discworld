@@ -1,0 +1,50 @@
+.DT
+query_rooms_in_range
+Disk World creator help
+query_rooms_in_range
+
+.SH Name
+.SP 5 5
+query_rooms_in_range -  This method is used to find all the rooms currently cloned within a specified distance of the specified coordinates.
+.EP
+
+.SH Syntax
+.SI 5
+varargs object * query_rooms_in_range(int x,
+int y,
+int z,
+int max,
+int min)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x%^RESET%^ - the x coordinate of the center point
+%^BOLD%^y%^RESET%^ - the y coordinate of the center point
+%^BOLD%^max%^RESET%^ - the maximum distance of rooms to be returned
+%^BOLD%^min%^RESET%^ - the minimum distance of rooms to be returned. Defaults to 0
+.EI
+
+.SH Returns
+.SI 5
+an array containing any rooms currently cloned within the
+specified range.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to find all the rooms currently cloned within a
+specified distance of the specified coordinates.
+.EP
+
+.SH See also
+.SP 5 5
+query_room_at, query_rooms_in_block, query_rooms_in_zone
+
+.EP
+

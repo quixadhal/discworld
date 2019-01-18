@@ -1,0 +1,59 @@
+.DT
+do_command
+Disk World creator help
+do_command
+
+.SH Name
+.SP 5 5
+do_command -  This method is the main access point to the peopler.
+.EP
+
+.SH Syntax
+.SI 5
+int do_command(mixed * pattern,
+string constraint,
+function sort_func,
+int only_duplicates)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^pattern%^RESET%^ - the pattern to print with
+%^BOLD%^constraint%^RESET%^ - All the names should start with this, 0 fo rnone
+%^BOLD%^sort_func%^RESET%^ - the function to sort with (optional)
+%^BOLD%^only_duplicates%^RESET%^ - only print entries whicxh are the same (using the
+        sort_func
+.EI
+
+.SH Returns
+.SI 5
+0 on failure, 1 on success.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/peopler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is the main access point to the peopler.  It prints out
+the commands.  The optional sort function allows you to sort on 
+somethign other than the name of the player.
+
+
+The format of the pattern string is an array with every second element being the type and the other element being the width of the printable string. 
+.EP
+.SP 5 5
+   ({ type, width,  ... })
+.EP
+.SP 5 5
+With strings the width is the string...
+.EP
+
+.SH See also
+.SP 5 5
+help::people, help::netstat, help::snetstat, help::netdups, help::terms, help::dirs
+
+.EP
+

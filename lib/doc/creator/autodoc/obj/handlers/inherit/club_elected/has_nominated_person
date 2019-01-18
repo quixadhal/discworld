@@ -1,0 +1,43 @@
+.DT
+has_nominated_person
+Disk World creator help
+has_nominated_person
+
+.SH Name
+.SP 5 5
+has_nominated_person -  This method checks to see if the person has already nominated someone for this position.
+.EP
+
+.SH Syntax
+.SI 5
+int has_nominated_person(string club_name,
+string position,
+string nominated,
+string by)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^position%^RESET%^ - the position they have voted in
+%^BOLD%^person%^RESET%^ - the person to check to see if they have voted
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the person has already nominated
+someone for this position.
+.EP
+
+.SH See also
+.SP 5 5
+is_valid_position(), vote_for_person(), has_person_voted()
+
+.EP
+

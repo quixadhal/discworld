@@ -1,0 +1,842 @@
+<html><head><title>File player_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/player_handler.c</h2>
+A hander to allow the testing of values on players when they aren't logged
+in.  These methods used to exist in the login object but now they're here.
+<p><p>Written by Ceres
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.living.nationality.c.html">/std/living/nationality.c</a> and <a href="global.family.c.html">/global/family.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.access.h.html">/include/access.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.alias.h.html">/include/alias.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_player_record"><b>player_record</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clean_cache"><b>clean_cache</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_player"><b>load_player</b></a>(string)<dd>
+This method will load in the player file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_string"><b>make_string</b></a>(mixed *, int)<dd>
+This method converts an alias into a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#my_find_player"><b>my_find_player</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_appeal_player_file_name"><b>query_appeal_player_file_name</b></a>(string)<dd>
+This method returns the path to the pending appeal player file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cap_name"><b>query_cap_name</b></a>(string)<dd>
+This method returns a players cap_name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_delete_player_file_name"><b>query_delete_player_file_name</b></a>(string)<dd>
+This method returns the path to the deleted player file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_guild_data"><b>query_guild_data</b></a>()<dd>
+This method is called by query_level() in the base guild
+inheritable to determine the specialisation of the current
+player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_plan"><b>query_plan</b></a>(string, int)<dd>
+This method returns the players .
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_disk_file_name"><b>query_player_disk_file_name</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_file_name"><b>query_player_file_name</b></a>(string)<dd>
+This method returns the path to the player file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_ram_file_name"><b>query_player_ram_file_name</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_prevent_shadow"><b>query_prevent_shadow</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_project"><b>query_project</b></a>(string, int)<dd>
+This method returns the players .
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_reference"><b>query_reference</b></a>(string)<dd>
+This method returns the players .
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_signature"><b>query_signature</b></a>(string)<dd>
+This method returns the signature to use on posts for the player
+even when they are off line.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill"><b>query_skill</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_cache_entry"><b>remove_cache_entry</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#special_add_property"><b>special_add_property</b></a>(string, string, mixed)<dd>
+This method updates the cached properties, it's called by
+/secure/login.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_active"><b>test_active</b></a>(string, int)<dd>
+This method determines if a player is still active.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_age"><b>test_age</b></a>(string)<dd>
+This method determines the age of the player even if they are
+not currently on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_appealing"><b>test_appealing</b></a>(string)<dd>
+This method figures out if the user is marked for deletion pending appeal.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_banished"><b>test_banished</b></a>(string)<dd>
+This method checks to see if the name is banished of not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_birthday"><b>test_birthday</b></a>(string)<dd>
+This method determines the birthday of the player even if they are
+not currently on
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_creator"><b>test_creator</b></a>(string)<dd>
+This method determines if the player is a creator.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_deity"><b>test_deity</b></a>(string)<dd>
+This method determines the deity of the player even if they are
+not currently on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_deleting"><b>test_deleting</b></a>(string)<dd>
+This method figures out if the user is marked for deletion.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_desc"><b>test_desc</b></a>(string)<dd>
+This method determines the description of the player even if they are
+not currently on
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_email"><b>test_email</b></a>(string)<dd>
+This method determines the email of the player even if they are
+not currently on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_family"><b>test_family</b></a>(string)<dd>
+This method returns the players family name
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_gender"><b>test_gender</b></a>(string)<dd>
+This method determines the gender of the player even if they are
+not currently on
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_guild"><b>test_guild</b></a>(string)<dd>
+This method determines the guild of the player even if they are
+not currently on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_guild_data"><b>test_guild_data</b></a>(string)<dd>
+This method determines the guild data of the player even if they are
+not currently on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_home_dir"><b>test_home_dir</b></a>(string)<dd>
+This method returns the players home directory
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_homepage"><b>test_homepage</b></a>(string)<dd>
+This method determines the players homepage information even if they
+are not currently on
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_ip_allowed"><b>test_ip_allowed</b></a>(string, string)<dd>
+Check if a players personal allow list permits logins from this IP
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_last"><b>test_last</b></a>(string, int)<dd>
+This method determines the last log on of the player even if they are
+not currently on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_last_on_from"><b>test_last_on_from</b></a>(string)<dd>
+This method determines the last log on of the player even if they are
+not currently on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_level"><b>test_level</b></a>(string)<dd>
+This method determines the level of the player even if they are
+not currently on
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_location"><b>test_location</b></a>(string)<dd>
+This method determines the players location finger information even if they
+are not currently on
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_nationality"><b>test_nationality</b></a>(string)<dd>
+This method returns the players nationality.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_nationality_data"><b>test_nationality_data</b></a>(string)<dd>
+This method returns the players nationality data.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_nationality_region"><b>test_nationality_region</b></a>(string)<dd>
+This method returns the players nationality region.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_player_killer"><b>test_player_killer</b></a>(string, string)<dd>
+This method returns the current value of the player flag on the
+player, even if they are not currently on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_player_title"><b>test_player_title</b></a>(string)<dd>
+This method returns the players title.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_property"><b>test_property</b></a>(string, string)<dd>
+This method returns the current value of the property on the
+player, even if they are not currently on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_real_name"><b>test_real_name</b></a>(string)<dd>
+This method determines the real name of the player even if they are
+not currently on
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_start_time"><b>test_start_time</b></a>(string)<dd>
+This method determines the time the player started at.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_user"><b>test_user</b></a>(string)<dd>
+This method figures out if the user exists even if they are not on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_valid"><b>test_valid</b></a>(string)<dd>
+Validate a name by checking if it, or bits of it are banished.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="clean_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clean_cache</b></a><pre>
+void clean_cache()
+</pre>
+<dt><a name="load_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_player</b></a><pre>
+int load_player(string name)
+</pre><dd>
+This method will load in the player file.  It will return 0 if the player
+file either does not exist or the input string is incorrect.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name to try and read in
+<dt><b>Returns:</b>
+<dd>1 if the player file exists, 0 if not
+
+</dl>
+
+<dt><a name="make_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_string</b></a><pre>
+string make_string(mixed * al,
+int max)
+</pre><dd>
+This method converts an alias into a string.  This is used by the
+projects and plans and so on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>al - the alias to turn into a string
+<dt><b>Returns:</b>
+<dd>the converted string
+
+</dl>
+
+<dt><a name="my_find_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>my_find_player</b></a><pre>
+object my_find_player(string player)
+</pre>
+<dt><a name="query_appeal_player_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_appeal_player_file_name</b></a><pre>
+string query_appeal_player_file_name(string name)
+</pre><dd>
+This method returns the path to the pending appeal player file.
+This is the appeal player files actual normal location, it was written to
+allow moving the player files around easier.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player whose file to find
+<dt><b>See also:</b>
+<dd><a href="#test_user">test_user()</a> and <a href="#query_delete_player_file_name">query_delete_player_file_name()
+</a></dl>
+
+<dt><a name="query_cap_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cap_name</b></a><pre>
+string query_cap_name(string str)
+</pre><dd>
+This method returns a players cap_name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players cap name
+
+</dl>
+
+<dt><a name="query_delete_player_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_delete_player_file_name</b></a><pre>
+string query_delete_player_file_name(string name)
+</pre><dd>
+This method returns the path to the deleted player file.
+This is the deleted player files actual normal location, it was written to
+allow moving the player files around easier.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player whose file to find
+<dt><b>See also:</b>
+<dd><a href="#test_user">test_user()</a> and <a href="#query_delete_player_file_name">query_delete_player_file_name()
+</a></dl>
+
+<dt><a name="query_guild_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_guild_data</b></a><pre>
+mixed query_guild_data()
+</pre><dd>
+This method is called by query_level() in the base guild
+inheritable to determine the specialisation of the current
+player.
+<p>
+
+<dt><a name="query_plan">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_plan</b></a><pre>
+string query_plan(string name,
+int unused)
+</pre><dd>
+This method returns the players .plan even when they are off line.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dt><b>Returns:</b>
+<dd>the plan, "" if none
+
+</dl>
+
+<dt><a name="query_player_disk_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_disk_file_name</b></a><pre>
+string query_player_disk_file_name(string name)
+</pre>
+<dt><a name="query_player_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_file_name</b></a><pre>
+string query_player_file_name(string name)
+</pre><dd>
+This method returns the path to the player file.
+This is the player files actual normal location, it was written to
+allow moving the player files around easier.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player whose file to find
+<dt><b>See also:</b>
+<dd><a href="#test_user">test_user()</a> and <a href="#query_delete_player_file_name">query_delete_player_file_name()
+</a></dl>
+
+<dt><a name="query_player_ram_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_ram_file_name</b></a><pre>
+string query_player_ram_file_name(string name)
+</pre>
+<dt><a name="query_prevent_shadow">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_prevent_shadow</b></a><pre>
+nomask int query_prevent_shadow(object ob)
+</pre>
+<dt><a name="query_project">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_project</b></a><pre>
+string query_project(string name,
+int unused)
+</pre><dd>
+This method returns the players .project even when they are off line.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dt><b>Returns:</b>
+<dd>the project, "" if none
+
+</dl>
+
+<dt><a name="query_reference">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_reference</b></a><pre>
+string query_reference(string name)
+</pre><dd>
+This method returns the players .reference even when they are off line.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dt><b>Returns:</b>
+<dd>the reference, "" if none
+
+</dl>
+
+<dt><a name="query_signature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_signature</b></a><pre>
+string query_signature(string name)
+</pre><dd>
+This method returns the signature to use on posts for the player
+even when they are off line.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dt><b>Returns:</b>
+<dd>the signature, "" if none
+
+</dl>
+
+<dt><a name="query_skill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill</b></a><pre>
+int query_skill(string skill)
+</pre>
+<dt><a name="remove_cache_entry">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_cache_entry</b></a><pre>
+void remove_cache_entry(string name)
+</pre>
+<dt><a name="special_add_property">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>special_add_property</b></a><pre>
+void special_add_property(string pname,
+string prop,
+mixed val)
+</pre><dd>
+This method updates the cached properties, it's called by
+/secure/login.
+<p>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+<dt><a name="test_active">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_active</b></a><pre>
+varargs int test_active(string player,
+int noload)
+</pre><dd>
+This method determines if a player is still active.
+If you need to perform this on a lot of players please use the noload
+parameter. When noload is set to 1 test_active will not attempt to load
+the player file if it isn't currently loaded and will instead just do a
+simple calculation of the players last login time. This is less accurate
+but avoids lagging the mud.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the name of the user
+<dd>noload - optional parameter to prevent test_active() loading the
+              player 
+file.
+<dt><b>Returns:</b>
+<dd>active or inactive (1 or 0)
+
+</dl>
+
+<dt><a name="test_age">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_age</b></a><pre>
+int test_age(string word)
+</pre><dd>
+This method determines the age of the player even if they are
+not currently on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players age
+
+</dl>
+
+<dt><a name="test_appealing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_appealing</b></a><pre>
+int test_appealing(string str)
+</pre><dd>
+This method figures out if the user is marked for deletion pending appeal.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>1 if they are marked for deletion, 0 if they do not
+
+</dl>
+
+<dt><a name="test_banished">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_banished</b></a><pre>
+int test_banished(string name)
+</pre><dd>
+This method checks to see if the name is banished of not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the check for banishment.
+<dt><b>Returns:</b>
+<dd>1 if it banished, 0 if not
+
+</dl>
+
+<dt><a name="test_birthday">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_birthday</b></a><pre>
+string test_birthday(string str)
+</pre><dd>
+This method determines the birthday of the player even if they are
+not currently on<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players birthday (if set)
+
+</dl>
+
+<dt><a name="test_creator">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_creator</b></a><pre>
+int test_creator(string str)
+</pre><dd>
+This method determines if the player is a creator.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the player to test
+<dt><b>See also:</b>
+<dd><a href="#test_last">test_last()</a>, <a href="#test_user">test_user()</a> and <a href="#test_creator">test_creator()
+</a></dl>
+
+<dt><a name="test_deity">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_deity</b></a><pre>
+string test_deity(string word)
+</pre><dd>
+This method determines the deity of the player even if they are
+not currently on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players deity
+
+</dl>
+
+<dt><a name="test_deleting">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_deleting</b></a><pre>
+int test_deleting(string str)
+</pre><dd>
+This method figures out if the user is marked for deletion.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>1 if they are marked for deletion, 0 if they do not
+
+</dl>
+
+<dt><a name="test_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_desc</b></a><pre>
+string test_desc(string str)
+</pre><dd>
+This method determines the description of the player even if they are
+not currently on<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players description
+
+</dl>
+
+<dt><a name="test_email">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_email</b></a><pre>
+string test_email(string str)
+</pre><dd>
+This method determines the email of the player even if they are
+not currently on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players email
+
+</dl>
+
+<dt><a name="test_family">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_family</b></a><pre>
+string test_family(string str)
+</pre><dd>
+This method returns the players family name<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the family name
+
+</dl>
+
+<dt><a name="test_gender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_gender</b></a><pre>
+int test_gender(string str)
+</pre><dd>
+This method determines the gender of the player even if they are
+not currently on<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players gender
+<dt><b>See also:</b>
+<dd>/std/living/gender.c
+</dl>
+
+<dt><a name="test_guild">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_guild</b></a><pre>
+string test_guild(string word)
+</pre><dd>
+This method determines the guild of the player even if they are
+not currently on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players guild
+
+</dl>
+
+<dt><a name="test_guild_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_guild_data</b></a><pre>
+mixed * test_guild_data(string word)
+</pre><dd>
+This method determines the guild data of the player even if they are
+not currently on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players guild data
+
+</dl>
+
+<dt><a name="test_home_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_home_dir</b></a><pre>
+string test_home_dir(string str)
+</pre><dd>
+This method returns the players home directory<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the player to test
+
+</dl>
+
+<dt><a name="test_homepage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_homepage</b></a><pre>
+string test_homepage(string str)
+</pre><dd>
+This method determines the players homepage information even if they
+are not currently on<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players location
+
+</dl>
+
+<dt><a name="test_ip_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_ip_allowed</b></a><pre>
+int test_ip_allowed(string name,
+string ip)
+</pre><dd>
+Check if a players personal allow list permits logins from this IP<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - The player name.
+<dd>ip - The IP address.
+
+</dl>
+
+<dt><a name="test_last">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_last</b></a><pre>
+int test_last(string word,
+int noload)
+</pre><dd>
+This method determines the last log on of the player even if they are
+not currently on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players last log on
+
+</dl>
+
+<dt><a name="test_last_on_from">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_last_on_from</b></a><pre>
+string test_last_on_from(string word)
+</pre><dd>
+This method determines the last log on of the player even if they are
+not currently on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players last log on
+
+</dl>
+
+<dt><a name="test_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_level</b></a><pre>
+int test_level(string str)
+</pre><dd>
+This method determines the level of the player even if they are
+not currently on<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players level
+<dt><b>See also:</b>
+<dd>/std/living/gender.c
+</dl>
+
+<dt><a name="test_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_location</b></a><pre>
+string test_location(string str)
+</pre><dd>
+This method determines the players location finger information even if they
+are not currently on<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players location
+
+</dl>
+
+<dt><a name="test_nationality">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_nationality</b></a><pre>
+string test_nationality(string str)
+</pre><dd>
+This method returns the players nationality.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the nationality
+
+</dl>
+
+<dt><a name="test_nationality_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_nationality_data</b></a><pre>
+string test_nationality_data(string str)
+</pre><dd>
+This method returns the players nationality data.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the nationality data
+
+</dl>
+
+<dt><a name="test_nationality_region">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_nationality_region</b></a><pre>
+string test_nationality_region(string str)
+</pre><dd>
+This method returns the players nationality region.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the nationality region
+
+</dl>
+
+<dt><a name="test_player_killer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_player_killer</b></a><pre>
+mixed test_player_killer(string word,
+string str)
+</pre><dd>
+This method returns the current value of the player flag on the
+player, even if they are not currently on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the player name
+<dt><b>Returns:</b>
+<dd>1 if they are a player killer, 0 if not
+
+</dl>
+
+<dt><a name="test_player_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_player_title</b></a><pre>
+string test_player_title(string str)
+</pre><dd>
+This method returns the players title.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the title
+
+</dl>
+
+<dt><a name="test_property">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_property</b></a><pre>
+mixed test_property(string word,
+string str)
+</pre><dd>
+This method returns the current value of the property on the
+player, even if they are not currently on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the player name
+<dd>str - the property to query
+<dt><b>Returns:</b>
+<dd>the value of the property
+
+</dl>
+
+<dt><a name="test_real_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_real_name</b></a><pre>
+string test_real_name(string str)
+</pre><dd>
+This method determines the real name of the player even if they are
+not currently on<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players real name
+<dt><b>See also:</b>
+<dd>/std/living/gender.c
+</dl>
+
+<dt><a name="test_start_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_start_time</b></a><pre>
+int test_start_time(string word)
+</pre><dd>
+This method determines the time the player started at.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>the players last log on
+
+</dl>
+
+<dt><a name="test_user">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_user</b></a><pre>
+int test_user(string str)
+</pre><dd>
+This method figures out if the user exists even if they are not on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the user
+<dt><b>Returns:</b>
+<dd>1 if they exist, 0 if they do not
+
+</dl>
+
+<dt><a name="test_valid">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_valid</b></a><pre>
+varargs int test_valid(string name)
+</pre><dd>
+Validate a name by checking if it, or bits of it are banished.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - The name to be validated.
+<dd>full - Should we do full checks or just the basics.
+<dt><b>Returns:</b>
+<dd>1 if it's ok, 0 if not.
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_player_record">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>player_record</b></a><pre>
+class player_record {
+int cached;
+int touched;
+int deleting;
+int appealing;
+int gender;
+int creator;
+int active;
+int level;
+string cap_name;
+mapping map_prop;
+mapping player_info;
+string deity;
+string guild;
+mixed * guild_data;
+int age;
+int last;
+int flags;
+string last_on_from;
+int start_time;
+string family_name;
+string player_title;
+string password;
+mixed * project;
+mixed * plan;
+mixed * reference;
+mixed * signature;
+string home_dir;
+string nationality;
+string nationality_region;
+mixed nationality_data;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 23:21:25 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

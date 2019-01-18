@@ -1,0 +1,39 @@
+.DT
+insert_script_data_before
+Disk World creator help
+insert_script_data_before
+
+.SH Name
+.SP 5 5
+insert_script_data_before -  This method inserts a data element before the specified position in the script.
+.EP
+
+.SH Syntax
+.SI 5
+int insert_script_data_before(string name,
+int pos,
+class script_data data)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the script name
+%^BOLD%^pos%^RESET%^ - the position to insert before
+%^BOLD%^data%^RESET%^ - the data to replace it with
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/scripting.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method inserts a data element before the specified position in the
+script.  If the position is 0 then the element is inserted at the start,
+if the position is beyond the end of the array, then the item is inserter
+at the end.
+.EP
+

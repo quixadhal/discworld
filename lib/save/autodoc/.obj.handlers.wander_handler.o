@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["move_me_please":({({"int",}),({({"int",}),"delay",({"string",}),"dest",}),(["main":({"Called from the npc to start them mmoving.  This should not need tobe called inside your code.  It is called from the functionmove_me_to in the npc code.",}),"param":({"delay the delay between each move","dest the destination room for the npc",}),"see":({"/obj/monster->move_me_to()",}),"return":({"0 if it failed and 1 on success",}),]),}),"query_moving_monster":({({"int",}),({({"object",}),"ob",}),(["main":({"Is this npc a moving npc?",}),"param":({"ob the npc to check to see if it moves",}),"return":({"1 if it is moving, 0 if it is not.",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"Handles npcs wanderting randomly around the place and npcsfollowing a route to a destination.",}),"author":({"Wodan","Pinkfish",}),"see":({"/obj/monster->move_me_to()","/std/effects/npc/goto_destination",}),])
+define_docs (["LAST_LOC_PROPERTY":([]),"MH":([]),])
+includes (["/include/player.h":1522061544,"/include/playtesters.h":1522061544,])
+class_docs (["wander_group":({0,({({"monsters",({"object","*",}),}),({"movetime",({"int",}),}),}),([]),}),"route_traveller":({0,({({"monster",({"object",}),}),({"movetime",({"int",}),}),({"delay",({"int",}),}),({"dest",({"string",}),}),}),([]),}),])
+file_name "/obj/handlers/wander_handler.c"
+last_changed 1522061544

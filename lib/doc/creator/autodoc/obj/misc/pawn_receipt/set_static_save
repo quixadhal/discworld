@@ -1,0 +1,35 @@
+.DT
+set_static_save
+Disk World creator help
+set_static_save
+
+.SH Name
+.SP 5 5
+set_static_save -  This method sets the save information for the file.
+.EP
+
+.SH Syntax
+.SI 5
+void set_static_save(mixed args)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^args%^RESET%^ - the data as defined above
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/misc/pawn_receipt.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the save information for the file.  It actually sets
+both the static and dynamic information.  This assumes it is passed
+an array of two elements, the first is the static save information and
+the second is the dynamic save information.
+.EP
+

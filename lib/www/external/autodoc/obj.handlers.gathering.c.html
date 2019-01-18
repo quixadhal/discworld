@@ -1,0 +1,167 @@
+<html><head><title>File gathering.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/gathering.c</h2>
+Handler to handle the gathering of implicitly existing
+objects that require some skill to find, such as herbs.
+Recognition (ie, knowing what it is once you've found it) may be
+added later.<p>
+The data used for gathering comes from two places: the handler's
+database of gatherable items, and the room's local information.<p>
+The handler's database contains a class entry for each gatherable:<br>
+<dl>
+<dt> skill (string)
+<dd> The skill needed to find the item.
+<dt> difficulty (int)
+<dd> The taskmaster difficulty.
+<dt> upper (int)
+<dd> The taskmaster "upper" parameter.
+<dt> extra (mixed)
+<dd> The taskmaster "extra" parameter.
+<dt> season (string *)
+<dd> The seasons during which the gatherable is available (eg, plants).
+If this is unset, the default is all seasons.
+Note that, currently, it is the same season everywhere on the Disc.
+<dt> quant (int or function pointer returning an int)
+<dd> The quantity that will be gathered.  The function pointer is
+passed three parameters: the room, the player, and the name of the
+gathered item.  This allows, for example, a function to be called
+on the room to calculate the quantity, such as:
+<pre><br>
+    <code>(: $1->room_func($2, $3) :)</code>
+</pre>
+<dt> ob (string)
+<dd> The pathname of the object to be created.  If the object is
+continuous, the <i>amount</i> of ob is set to <i>quant</i>; otherwise,
+<i>quant</i> copies of the object are cloned.
+</dl><p>
+The room's local information is set when the gatherable is added
+via add_item(), and consists of:<p>
+<dl>
+<dt> item name (string or function pointer returning a string)
+<dd> The name that will be used to look up the gatherable in the
+handler's database.  The function pointer is passed two parameters
+when evaluated: the room, and the player.
+<dt> scarcity (int or function pointer returning an int)
+<dd> The percent chance of finding any quantity of the gatherable.
+This is an additional
+constraint on finding the gatherable, in addition to any skill
+requirements and quantity calculations.  A scarcity of 100 (the default)
+indicates no scarcity constraint.  A scarcity of 0 means that the
+gatherable will never be found.
+</dl><p>Written by Jeremy
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.tasks.h.html">/include/tasks.h</a> and <a href="include.weather.h.html">/include/weather.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_item_data"><b>item_data</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_item"><b>add_item</b></a>(string, string, int, string *, mixed, string)<dd>
+This method adds an item into the current list of gatherable items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#gather_item"><b>gather_item</b></a>(string, object)<dd>
+This method attempts to gather some items in the environment of
+the specified player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_item"><b>query_item</b></a>(string)<dd>
+This method will return an array of the information associated with
+the item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_items"><b>query_items</b></a>()<dd>
+This method returns all of the current gatherable items.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_item</b></a><pre>
+void add_item(string name,
+string skill,
+int diff,
+string * season,
+mixed quant,
+string ob)
+</pre><dd>
+This method adds an item into the current list of gatherable items.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the item to add
+<dd>skill - skill needed to find this item
+<dd>diff - taskmaster difficulty
+<dd>season - available season(s)
+<dd>quant - quantity (int or function pointer returning an int)
+<dd>ob - filename of object to be created
+<dt><b>See also:</b>
+<dd><a href="#query_item">query_item()</a> and <a href="#gather_item">gather_item()
+</a></dl>
+
+<dt><a name="gather_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>gather_item</b></a><pre>
+object * gather_item(string word,
+object player)
+</pre><dd>
+This method attempts to gather some items in the environment of
+the specified player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the item to try and gather
+<dd>player - the player doing the gathering
+<dt><b>Returns:</b>
+<dd>an array of gathered objects
+<dt><b>See also:</b>
+<dd><a href="#query_item">query_item()</a> and <a href="#add_item">add_item()
+</a></dl>
+
+<dt><a name="query_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_item</b></a><pre>
+mixed query_item(string name)
+</pre><dd>
+This method will return an array of the information associated with
+the item.  The array consists of:
+<pre>
+  ({
+     skill,       // skill needed to find this item   (string)
+     difficulty,  // taskmaster difficulty            (int)
+     season,      // available season(s)              (string *)
+     quant,       // quantity (int or (int)(:\<code\>:)) (mixed)
+     ob           // filename of object to be created (string)
+   })
+</pre><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the item to query
+<dt><b>Returns:</b>
+<dd>the item array as detailed above.
+<dt><b>See also:</b>
+<dd><a href="#add_item">add_item()
+</a></dl>
+
+<dt><a name="query_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_items</b></a><pre>
+mapping query_items()
+</pre><dd>
+This method returns all of the current gatherable items.  It returns
+this as a mapping of a class, so probably not overly useful except
+for debugging.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>mapping of a locally defined class
+<dt><b>See also:</b>
+<dd><a href="#query_item">query_item()</a> and <a href="#add_item">add_item()
+</a></dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_item_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>item_data</b></a><pre>
+class item_data {
+string skill;
+int difficulty;
+string * season;
+mixed quant;
+string ob;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 18:52:35 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

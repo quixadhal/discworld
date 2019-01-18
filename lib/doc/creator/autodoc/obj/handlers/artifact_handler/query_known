@@ -1,0 +1,43 @@
+.DT
+query_known
+Disk World creator help
+query_known
+
+.SH Name
+.SP 5 5
+query_known -  A person will not forget how to recognise an artifact (unless they     refresh, in which case all of them are forgotten, i.
+.EP
+
+.SH Syntax
+.SI 5
+int query_known(string person,
+string artifact)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^person%^RESET%^ - the person check to see if they know the artifact
+%^BOLD%^artifact%^RESET%^ - the artifact being checked
+.EI
+
+.SH Returns
+.SI 5
+1 if they know it, 0 if they do not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/artifact_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+A person will not forget how to recognise an artifact (unless they
+    refresh, in which case all of them are forgotten, i.e. the file
+    is wiped) so to let a person learn to recognise an artifact, add
+    a new line to their file consisting of its name and to see if
+    they know an artifact, check in their file for its name. This
+    method doesn't require a library handler.
+.EP
+

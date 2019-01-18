@@ -1,0 +1,126 @@
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_attack">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>attack</b></a><pre>
+class attack {
+object attacker;
+class tactics attacker_tactics;
+class combat_special * attacker_specials;
+object attacker_concentrating;
+object attack_weapon;
+string attack_action;
+string attack_skill;
+mixed * attack_data;
+int attacker_defecit;
+int attack_cost;
+int attack_modifier;
+object attacker_last_opponent;
+object attacker_last_weapon;
+string attacker_last_action;
+int attacker_last_result;
+object opponent;
+class combat_special * defender_specials;
+object person_hit;
+object defender;
+int distance;
+class tactics defender_tactics;
+object defender_concentrating;
+object defense_weapon;
+string defense_limb;
+string defense_action;
+string defense_skill;
+int defender_defecit;
+int defense_cost;
+int defender_cost;
+int protector_cost;
+int defense_modifier;
+object defender_last_opponent;
+object defender_last_weapon;
+string defender_last_action;
+int defender_last_result;
+int damage;
+int armour_stopped;
+mixed stopped_by;
+string target_zone;
+int result;
+int degree;
+object corpse;
+string * attack_messages;
+string * defense_messages;
+int verbose;
+int repeat_count;
+int repeat;
+}
+
+</pre><dd>
+This class stores all the information about a given attack. One of these is
+created for every attack. It contains attacker and defender information and
+is passed in to and back from every special attack.
+<p>
+
+<dt><a name="class_combat_information">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>combat_information</b></a><pre>
+class combat_information {
+int hbc;
+int mbc;
+int in_combat;
+int special_id;
+object * protectors;
+object * defenders;
+mapping attacker_list;
+mapping hunting_list;
+object concentrating;
+object last_opponent;
+object last_weapon;
+string last_action;
+int last_result;
+int action_defecit;
+class combat_special * specials;
+}
+
+</pre><dd>
+This holds the combat information for this player/npc.
+<p>
+
+<dt><a name="class_combat_special">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>combat_special</b></a><pre>
+class combat_special {
+int id;
+int type;
+int events;
+mixed callback;
+mixed data;
+}
+
+</pre>
+<dt><a name="class_surrender_information">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>surrender_information</b></a><pre>
+class surrender_information {
+object * refusers;
+object * to;
+object * from;
+}
+
+</pre>
+<dt><a name="class_tactics">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>tactics</b></a><pre>
+class tactics {
+string attitude;
+string response;
+string parry;
+string attack;
+int parry_unarmed;
+string mercy;
+string focus_zone;
+string ideal_distance;
+}
+
+</pre><dd>
+This holds the combat information for this player/npc.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Fri, 30 Mar 2018 17:06:30 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,91 @@
+.DT
+automate_situations
+Disk World creator help
+automate_situations
+
+.SH Name
+.SP 5 5
+automate_situations -  Awakes starting and ending of situations.
+.EP
+
+.SH Syntax
+.SI 5
+void automate_situations(mixed * chatargs,
+int xval,
+int yval,
+mixed * edata,
+object room)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^chatargs%^RESET%^ - same as arguments to room chat:
+   ({ min, max, ({ chat1, chat2, ... }) })
+   if you want no non-situational chats just put ({ min, max, ({ }) })
+   min, max are always needed being the minimum/maximum time
+   between all chats.  chat1 is a string containing a chat.
+%^BOLD%^xval%^RESET%^ - First random seed number (eg. x coordinate)
+%^BOLD%^yval%^RESET%^ - Second random seed number (eg. y coordinate)
+%^BOLD%^sittiming%^RESET%^ - A mixed array containing the information 
+   about when the situations added by add_situation are 
+   automatically started and ended:
+
+   ({ info1, info2, info3, ... })
+
+ Each info is a mixed array as follows:
+
+   ({ number, duration, when, chance })
+              -- or --
+   ({ ({ num0, num1, num2, ..., numN }) , when, duration, percent })
+
+number     (int) label of the situation to start 
+           up if number is an array then a set of
+           situations are started one at a time.
+           The total duration is divided evenly 
+           between the situations labelled by the 
+           numbers in the array which are started 
+           and ended in the order given.  The 
+           entire set always gets used.
+
+duration   (int) time (minutes) situation should last for
+
+when       (int) a nighttime/daytime mask
+           This determines when during the day in
+           Ankh-Morpork time the situation may occur.  
+           The masks are defined in evolvingtime.h
+           It can be a function pointer in which case it is 
+           expected to return a mask value.
+
+chance     (int) 1/1000 chance per period of duration minutes 
+           of getting into the situation
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/multiroom_situation_changer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Awakes starting and ending of situations.
+These situations can be invoked manually with start_situation.
+The awaked starting and ending is unaffected by the room 
+unloading.  When the room reloads the situation will be 
+restarted unless its duration is up.
+.EP
+
+.SH Example 1
+.SI 5
+ automate_situations( room, ({ 50,70, ({""}) }), 
+    170,  220,
+    ({ ({           0, 5, WHEN_ANY_TIME, 200 }),
+       ({ ({ 1,2,3 }), 6, (WHEN_NIGHT|WHEN_EVENING), 500 }) }) );
+
+.EI
+
+.SH See also
+.SP 5 5
+add_situation, start_situation, end_situation, evolvingroom.h
+.EP
+

@@ -1,0 +1,57 @@
+.DT
+add_special_type
+Disk World creator help
+add_special_type
+
+.SH Name
+.SP 5 5
+add_special_type -  This method is used to add a standard skip room type to the terrain map.
+.EP
+
+.SH Syntax
+.SI 5
+void add_special_type(string type,
+string base_path,
+int size,
+int road_skip,
+int height,
+mapping height_rooms)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the ASCII type used on the map to denote the room
+%^BOLD%^base_path%^RESET%^ - the full pathname of the source file for the room
+%^BOLD%^size%^RESET%^ - the number of rooms in each clump to skip over
+%^BOLD%^road_skip%^RESET%^ - if this is 1 then the skip type is a 'road skip', this
+will assume the path is one wide and try to follow around curves
+%^BOLD%^height%^RESET%^ - the height of the room
+%^BOLD%^height_rooms%^RESET%^ - is a mapping containing what rooms to use at different height levels
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to add a standard skip room type to the terrain map.
+Mapped to an ASCII character as used in the ASCII room map.  A skipped
+room is one in which every nth room in the terrain will be skipped
+unless it has something interesting in it.  The height is used to
+do specific sorts of checks, like if a specific direction is passable or not.
+.EP
+
+.SH Example 1
+.SI 5
+   add_room_type(".", ROOMS + "field");
+.EI
+
+.SH See also
+.SP 5 5
+add_room_type, add_road_type, add_obstacle_type
+
+.EP
+

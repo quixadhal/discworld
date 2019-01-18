@@ -1,0 +1,273 @@
+<html><head><title>File folder_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/folder_handler.c</h2>
+ Folder handler for the mailer.
+ Actually it does a lot more :-)
+<p>
+ Thanks to Wodan and Pinkfish for ideas and help. <br>
+ By Turrican@Discworld, May 1995.<p>Written by Turrican<p>Started May 1995
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.board.h.html">/include/board.h</a>, <a href="include.mail.h.html">/include/mail.h</a>, <a href="include.socket_errors.h.html">/include/socket_errors.h</a>, <a href="include.mime.h.html">/include/mime.h</a>, <a href="include.comms.h.html">/include/comms.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a> and <a href="include.network.h.html">/include/network.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_it"><b>add_it</b></a>(class mail_message, int)<dd>
+This method adds a message into all the correct folders and stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_create_folder"><b>can_create_folder</b></a>(string, string)<dd>
+Can a folder with a certain name be created?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_empty"><b>check_empty</b></a>(string, string)<dd>
+This method checks to see if the specified players folder is empty.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_local"><b>check_local</b></a>(string)<dd>
+This method checks to see if the address is local.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_mail"><b>check_mail</b></a>(string)<dd>
+This method is called when the player logs on to determine if they have
+any new mail or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_account"><b>delete_account</b></a>(string)<dd>
+This method totaly removes the account for a particular player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_it"><b>delete_it</b></a>(string, string, int *)<dd>
+This method will attempt to the delete the specified messages from
+the folder.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finger_mail"><b>finger_mail</b></a>(string)<dd>
+This method returns the nice string used when fingering a player to
+determine their mail status.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_messages"><b>get_messages</b></a>(string, string)<dd>
+This method returns the messages for the player in the specified
+folder.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_message"><b>load_message</b></a>(string, string, int)<dd>
+This method loads a message for the specified player in the specified
+folder.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#mail_count"><b>mail_count</b></a>(string)<dd>
+This method returns a 2 item array for the amount of mail in a persons
+inbox.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#mark_read"><b>mark_read</b></a>(string, string, int *)<dd>
+This method marks the messages which are not in the unread array
+in the specified folder as being read.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move_it"><b>move_it</b></a>(string, string, string, int)<dd>
+This method moves the specified message from one folder to another.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_counter"><b>set_counter</b></a>(int)<dd>
+This method sets the current message counter.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_it">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_it</b></a><pre>
+void add_it(class mail_message mesg,
+int flag)
+</pre><dd>
+This method adds a message into all the correct folders and stuff.
+This is the method that is called when a piece of mail is actually
+sent.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mesg - the message to send
+<dd>flag - if this is set to a non-zero value then no delivery messages will
+occur
+<dt><b>See also:</b>
+<dd><a href="#delete_it">delete_it()
+</a></dl>
+
+<dt><a name="can_create_folder">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_create_folder</b></a><pre>
+nomask int can_create_folder(string player,
+string folder)
+</pre><dd>
+Can a folder with a certain name be created?<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player creating the folder
+<dd>folder - the name of the folder to be created
+<dt><b>Returns:</b>
+<dd>1 if the folder can be created, 0 if it can't.
+
+</dl>
+
+<dt><a name="check_empty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_empty</b></a><pre>
+int check_empty(string pname,
+string fname)
+</pre><dd>
+This method checks to see if the specified players folder is empty.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the player name to check
+<dd>fname - the folder name to check
+
+</dl>
+
+<dt><a name="check_local">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_local</b></a><pre>
+string check_local(string str)
+</pre><dd>
+This method checks to see if the address is local.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the address to check
+<dt><b>Returns:</b>
+<dd>local name for local messages, 0 for remote messages
+
+</dl>
+
+<dt><a name="check_mail">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_mail</b></a><pre>
+string check_mail(string pname)
+</pre><dd>
+This method is called when the player logs on to determine if they have
+any new mail or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the players name to check
+
+</dl>
+
+<dt><a name="delete_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_account</b></a><pre>
+void delete_account(string pname)
+</pre><dd>
+This method totaly removes the account for a particular player.  This
+will be called when a player is deleted for whatever reason.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the player name to delete
+
+</dl>
+
+<dt><a name="delete_it">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_it</b></a><pre>
+void delete_it(string pname,
+string fname,
+int * deleted)
+</pre><dd>
+This method will attempt to the delete the specified messages from
+the folder.  The array deleted must be an array of integers where each
+number is a message number to be deleted.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the players name
+<dd>fname - the folder name
+<dd>deleted - the array of message numbers to delete from the folder
+
+</dl>
+
+<dt><a name="finger_mail">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finger_mail</b></a><pre>
+string finger_mail(string pname)
+</pre><dd>
+This method returns the nice string used when fingering a player to
+determine their mail status.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the player name to finger
+<dt><b>Returns:</b>
+<dd>the string associated with the inbox of the player
+
+</dl>
+
+<dt><a name="get_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_messages</b></a><pre>
+class mail_header * get_messages(string pname,
+string fname)
+</pre><dd>
+This method returns the messages for the player in the specified
+folder.  The return is an array of messages of type 'class mail_header'.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the players name
+<dd>fname - the folder name
+<dt><b>Returns:</b>
+<dd>a list of messages
+
+</dl>
+
+<dt><a name="load_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_message</b></a><pre>
+string load_message(string pname,
+string fname,
+int number)
+</pre><dd>
+This method loads a message for the specified player in the specified
+folder.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the players name
+<dd>fname - the folder name
+<dd>number - the message number to open
+<dt><b>Returns:</b>
+<dd>the text of the message
+
+</dl>
+
+<dt><a name="mail_count">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>mail_count</b></a><pre>
+int * mail_count(string pname)
+</pre><dd>
+This method returns a 2 item array for the amount of mail in a persons
+inbox.  This first index is the total number of messages and the second
+is the number that are unread.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the players name.
+<dt><b>Returns:</b>
+<dd>a two item array.
+
+</dl>
+
+<dt><a name="mark_read">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>mark_read</b></a><pre>
+void mark_read(string pname,
+string fname,
+int * unread)
+</pre><dd>
+This method marks the messages which are not in the unread array
+in the specified folder as being read.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the player name
+<dd>fname - the folder name
+<dd>unread - the list of messages that are still unread
+
+</dl>
+
+<dt><a name="move_it">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move_it</b></a><pre>
+int move_it(string pname,
+string from,
+string to,
+int number)
+</pre><dd>
+This method moves the specified message from one folder to another.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the player name
+<dd>from - the folder to move from
+<dd>to - the folder to move to
+<dd>number - the message number to move
+
+</dl>
+
+<dt><a name="set_counter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_counter</b></a><pre>
+void set_counter(int x)
+</pre><dd>
+This method sets the current message counter.  This will return a
+message if the counter was not valid.  This should be called in the
+event that a recovery is needed if the counter screws up.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the new value for the counter
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 18:33:33 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

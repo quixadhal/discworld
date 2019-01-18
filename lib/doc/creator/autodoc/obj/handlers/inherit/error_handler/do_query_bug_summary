@@ -1,0 +1,39 @@
+.DT
+do_query_bug_summary
+Disk World creator help
+do_query_bug_summary
+
+.SH Name
+.SP 5 5
+do_query_bug_summary -  This method sets up a query for the specific data, this returns the bug summary for all the found bugs.
+.EP
+
+.SH Syntax
+.SI 5
+int do_query_bug_summary(class error_query query,
+function finished)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^query%^RESET%^ - the class to use for the query
+%^BOLD%^finished%^RESET%^ - the function to call when things are finished
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/error_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets up a query for the specific data, this returns the
+bug summary for all the found bugs.
+.EP
+

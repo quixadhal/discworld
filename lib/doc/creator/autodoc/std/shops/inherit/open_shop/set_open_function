@@ -1,0 +1,64 @@
+.DT
+set_open_function
+Disk World creator help
+set_open_function
+
+.SH Name
+.SP 5 5
+set_open_function -  This method sets the open function for the room.
+.EP
+
+.SH Syntax
+.SI 5
+void set_open_function(function func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^func%^RESET%^ - the open function
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/open_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the open function for the room.
+.EP
+
+.SH Example 1
+.SI 5
+// The pub is only open if the barman is alive.
+set_open_function( (: ( barman ? 1 : 0 ) :) );
+.EI
+
+.SH Example 2
+.SI 5
+void setup() {
+   ...
+   // Setup the open function.
+   set_open_function( (: do_open_check :) );
+} /* setup() */
+
+int do_open_check( object player, int type ) {
+   if( !barman ) {
+      add_failed_mess( "There appears to be no barman here!\n" );
+      return 2;
+   }
+   if( type <= PUB_DESSERT && !chef ) {
+      add_failed_mess( "The chef isn't here at the moment.\n" );
+      return 2;
+   }
+   return 0;
+} /* do_open_check() */
+
+.EI
+
+.SH See also
+.SP 5 5
+query_open_function(), check_open()
+.EP
+

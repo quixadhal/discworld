@@ -1,0 +1,39 @@
+.DT
+drop
+Disk World creator help
+drop
+
+.SH Name
+.SP 5 5
+drop -  The current value of the drop flag.
+.EP
+
+.SH Syntax
+.SI 5
+int drop(mixed dest)
+.EI
+
+.SH Returns
+.SI 5
+1 if it is set, 0 if it is reset.EI
+
+.SH Defined in
+.SI 5
+/std/basic/move.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The current value of the drop flag. This function is called by the
+test_remove() function in the living object.  So it allows you to
+move the object out of inanimate objects, just not out of the
+players.
+.EP
+
+.SH See also
+.SP 5 5
+set_drop(), reset_drop(), get()
+
+.EP
+

@@ -1,0 +1,43 @@
+.DT
+remove_start
+Disk World creator help
+remove_start
+
+.SH Name
+.SP 5 5
+remove_start -  This method will remove a start location from the player.
+.EP
+
+.SH Syntax
+.SI 5
+void remove_start(string start_file)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^start_file%^RESET%^ - the file name of the location to remove
+.EI
+
+.SH Defined in
+.SI 5
+/global/start_position.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will remove a start location from the player.
+.EP
+
+.SH Example 1
+.SI 5
+// NB: This should be done with a define :)
+player->remove_start("/d/am/am/mendeddrum");
+
+.EI
+
+.SH See also
+.SP 5 5
+query_start_pos(), reset_starts(), add_start(), query_starts(), set_start_location()
+.EP
+

@@ -1,0 +1,112 @@
+<html><head><title>File geometry.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/terrain_map/geometry.c</h2>
+This does a few geometric calculations to make life easier for
+us.<p>Written by Pinkfish<p>Started Fri Apr  5 15:47:05 PST 2002
+<hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_point"><b>point</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#distance_between_two_line_segments"><b>distance_between_two_line_segments</b></a>(int, int, int, int, int, int, int, int)<dd>
+This method finds the minimum distance between two line segments.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#distance_point_to_line_segment"><b>distance_point_to_line_segment</b></a>(int, int, int, int, int, int)<dd>
+Finds the distance from a point to a line segment.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#intersection_of_line_and_segment"><b>intersection_of_line_and_segment</b></a>(int, int, int, int, int, int, int, int)<dd>
+Return the intersection of a line and a line segment.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="distance_between_two_line_segments">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>distance_between_two_line_segments</b></a><pre>
+int distance_between_two_line_segments(int x1_1,
+int y1_1,
+int x2_1,
+int y2_1,
+int x1_2,
+int y1_2,
+int x2_2,
+int y2_2)
+</pre><dd>
+This method finds the minimum distance between two line segments.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x1_1 - the start of the first line
+<dd>y1_1 - the start of the first line
+<dd>x2_1 - the end of the first line
+<dd>y2_1 - the end of the first line
+<dd>x1_2 - the start of the second line
+<dd>y1_2 - the start of the second line
+<dd>x2_2 - the end of the second line
+<dd>y2_2 - the end of the second line
+<dt><b>Returns:</b>
+<dd>the minimum distance
+
+</dl>
+
+<dt><a name="distance_point_to_line_segment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>distance_point_to_line_segment</b></a><pre>
+int distance_point_to_line_segment(int x1,
+int y1,
+int x2,
+int y2,
+int point_x,
+int point_y)
+</pre><dd>
+Finds the distance from a point to a line segment.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x1 - the start of the line segment
+<dd>y1 - the start of the line segment
+<dd>x2 - the end of the line segment
+<dd>y2 - the end of the line segment
+<dd>point_x - the point
+<dd>point_y - the point
+<dt><b>Returns:</b>
+<dd>the distance
+
+</dl>
+
+<dt><a name="intersection_of_line_and_segment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>intersection_of_line_and_segment</b></a><pre>
+class point intersection_of_line_and_segment(int lx1,
+int ly1,
+int lx2,
+int ly2,
+int sx1,
+int sy1,
+int sx2,
+int sy2)
+</pre><dd>
+Return the intersection of a line and a line segment.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lx1 - the line x top
+<dd>ly1 - the line y top
+<dd>lx2 - the line x bottom
+<dd>ly2 - the line y bottom
+<dd>sx1 - the line segement x start
+<dd>sy1 - the line segement y start
+<dd>sx2 - the line segement x end
+<dd>sy2 - the line segement y end
+<dt><b>Returns:</b>
+<dd>the intersection point
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_point">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>point</b></a><pre>
+class point {
+int x;
+int y;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 11:16:29 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

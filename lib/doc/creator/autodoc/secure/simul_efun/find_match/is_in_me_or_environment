@@ -1,0 +1,40 @@
+.DT
+is_in_me_or_environment
+Disk World creator help
+is_in_me_or_environment
+
+.SH Name
+.SP 5 5
+is_in_me_or_environment -  This method checks to see if the specified object is in the player or the environment.
+.EP
+
+.SH Syntax
+.SI 5
+int is_in_me_or_environment(object thing,
+object person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object to test
+%^BOLD%^player%^RESET%^ - the player to check against
+.EI
+
+.SH Returns
+.SI 5
+1 if it is, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/find_match.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the specified object is in the player
+or the environment.  If it has no environment it is considered to
+be here.
+.EP
+

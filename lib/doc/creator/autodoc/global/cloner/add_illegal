@@ -1,0 +1,50 @@
+.DT
+add_illegal
+Disk World creator help
+add_illegal
+
+.SH Name
+.SP 5 5
+add_illegal -  This method is used to add objects that we don't want to be reloaded.
+.EP
+
+.SH Syntax
+.SI 5
+int add_illegal(string basename,
+string short,
+string replacement)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^basename%^RESET%^ - the base filename of the object
+%^BOLD%^short%^RESET%^ - the short name of the object
+%^BOLD%^replacement%^RESET%^ - the replacement object.
+.EI
+
+.SH Returns
+.SI 5
+1 for success, 0 for failure
+.EI
+
+.SH Defined in
+.SI 5
+/global/cloner.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to add objects that we don't want to be reloaded.
+This is for those objects that are clones of /std/object or /obj/armour
+or something but which are wrongly configured.
+
+.EP
+
+.SH Example 1
+.SI 5
+add_illegal("/obj/armour", "blue robe", 
+                       "/obj/armours/robe.arm);
+
+.EI
+

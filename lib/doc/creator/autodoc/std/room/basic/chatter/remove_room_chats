@@ -1,0 +1,39 @@
+.DT
+remove_room_chats
+Disk World creator help
+remove_room_chats
+
+.SH Name
+.SP 5 5
+remove_room_chats -  Removes chats from the set of room chats managed by this chatter object.
+.EP
+
+.SH Syntax
+.SI 5
+void remove_room_chats(string * dead_chats)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dead_chats%^RESET%^ - an array of chat strings to remove
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/chatter.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Removes chats from the set of room chats
+managed by this chatter object.  If there are no chats
+left the chatter is destructed.
+.EP
+
+.SH See also
+.SP 5 5
+add_room_chats, query_room_chats, /std/room/basic/chatter
+
+.EP
+

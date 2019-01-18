@@ -1,0 +1,153 @@
+<html><head><title>File engrave_inherit.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/engrave_inherit.c</h2>
+This is a small inheritable to allow places to do engraving.  POut a
+piece of code inthe init function which calls the engrave_init()
+function.<p>Written by Macchirton<h3>Example</h3>
+<pre>inherit "/std/room/basic_room";
+inherit "/std/shops/engrave";
+
+void init() {
+   basic_room::init();
+   engrave_init();
+} /* init() */</pre>
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.shops.engrave.h.html">/include/shops/engrave.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_engrave"><b>do_engrave</b></a>(object *, string)<dd>
+This method does the actual engraving.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#engrave_init"><b>engrave_init</b></a>()<dd>
+This method should be called in the inheriting room's init function.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#engrave_living"><b>engrave_living</b></a>(object *)<dd>
+This method is called when a living object is attempted to be engraved.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#engrave_no_money"><b>engrave_no_money</b></a>(object *, int)<dd>
+This method is called if the player does not have enough money to
+complete the engraving.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#engrave_objects"><b>engrave_objects</b></a>(object *, int)<dd>
+This method is called when the engrave is successful.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#engrave_wrong_items"><b>engrave_wrong_items</b></a>(object *)<dd>
+This method is called if the objects in question are unable to be
+engraved.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_engrave_language"><b>set_engrave_language</b></a>(string)<dd>
+This method sets which language (for example, "agatean", or
+"morporkian") to be used when engraving.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="engrave_init">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>engrave_init</b></a><pre>
+void engrave_init()
+</pre><dd>
+This method should be called in the inheriting room's init function.  IUt
+will setup the commands to allow the object to be engraved.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#do_engrave">do_engrave()
+</a></dl>
+
+<dt><a name="engrave_objects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>engrave_objects</b></a><pre>
+int engrave_objects(object * obs,
+int cost)
+</pre><dd>
+This method is called when the engrave is successful.
+This should be overridden in the inheritable to print out the
+message you wish to say.  If this function returns 1 then the
+default failed message is not used.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#do_engrave">do_engrave()
+</a></dl>
+
+<dt><a name="set_engrave_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_engrave_language</b></a><pre>
+void set_engrave_language(string lang)
+</pre><dd>
+This method sets which language (for example, "agatean", or
+"morporkian") to be used when engraving.  It defaults to "general",
+which is not to be recommended. <p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#do_engrave">do_engrave()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="do_engrave">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_engrave</b></a><pre>
+int do_engrave(object * things,
+string message)
+</pre><dd>
+This method does the actual engraving.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>things - the things to get engraved.
+<dd>message - the message to engarve on the objects
+<dt><b>See also:</b>
+<dd><a href="#engrave_init">engrave_init()
+</a></dl>
+
+<dt><a name="engrave_living">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>engrave_living</b></a><pre>
+int engrave_living(object * obs)
+</pre><dd>
+This method is called when a living object is attempted to be engraved.
+This should be overridden in the inheritable to print out the
+message you wish to say.  If this function returns 1 then the
+default failed message is not used.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>liv - the living objects
+<dt><b>Returns:</b>
+<dd>0 use default fail mesasage, 1 override default fail message
+<dt><b>See also:</b>
+<dd><a href="#do_engrave">do_engrave()
+</a></dl>
+
+<dt><a name="engrave_no_money">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>engrave_no_money</b></a><pre>
+int engrave_no_money(object * obs,
+int cost)
+</pre><dd>
+This method is called if the player does not have enough money to
+complete the engraving.
+This should be overridden in the inheritable to print out the
+message you wish to say.  If this function returns 1 then the
+default failed message is not used.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects which were unable to be engraved
+<dd>cost - the cost of the objects to be engraved
+<dt><b>Returns:</b>
+<dd>0 use default fail mesasage, 1 override default fail message
+<dt><b>See also:</b>
+<dd><a href="#do_engrave">do_engrave()
+</a></dl>
+
+<dt><a name="engrave_wrong_items">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>engrave_wrong_items</b></a><pre>
+int engrave_wrong_items(object * obs)
+</pre><dd>
+This method is called if the objects in question are unable to be
+engraved.
+This should be overridden in the inheritable to print out the
+message you wish to say.  If this function returns 1 then the
+default failed message is not used.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects which could not be engraved.
+<dt><b>Returns:</b>
+<dd>0 use default fail mesasage, 1 override default fail message
+<dt><b>See also:</b>
+<dd><a href="#do_engrave">do_engrave()
+</a></dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 00:05:09 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

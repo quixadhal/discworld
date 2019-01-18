@@ -1,0 +1,36 @@
+.DT
+set_range_offset
+Disk World creator help
+set_range_offset
+
+.SH Name
+.SP 5 5
+set_range_offset -  This method sets the range offset.
+.EP
+
+.SH Syntax
+.SI 5
+void set_range_offset(int offset)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^offset%^RESET%^ - the offset to use
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/feature_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the range offset.  The offset is added to the
+distance of the feature for calculating the distance.  If the
+point is inside the offset the distance is ignored and the
+distance it then calculated from the edge of the offset.  This
+can be used to generate circular features.
+.EP
+

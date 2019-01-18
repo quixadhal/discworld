@@ -1,0 +1,33 @@
+.DT
+find_index
+Disk World creator help
+find_index
+
+.SH Name
+.SP 5 5
+find_index -   Find the occurance of a particular ID in a particular array.
+.EP
+
+.SH Syntax
+.SI 5
+int find_index(string id,
+mixed array)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/project_management.c
+.EI
+
+.SH Description
+.SP 5 5
+
+ Find the occurance of a particular ID in a particular array.  This
+ is done via a binary search of the array.
+ @param id the ID to match on
+ @array array the array to search through.
+ @returns the index of the matched element, or -1 if none is found.
+ @ignore yes
+
+.EP
+

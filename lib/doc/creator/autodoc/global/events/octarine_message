@@ -1,0 +1,47 @@
+.DT
+octarine_message
+Disk World creator help
+octarine_message
+
+.SH Name
+.SP 5 5
+octarine_message -  This method will do the octarine checking for you on the message.
+.EP
+
+.SH Syntax
+.SI 5
+string octarine_message(string str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the string to check
+.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will do the octarine checking for you on the message.
+.EP
+
+.SH Example 1
+.SI 5
+string query_long_bit() {
+  return "Glinting and sharp looking, the long sword is an impressive "
+         "weapon in the hands of someone knowledgeable.\n" +
+         this_player()->octarine_message("It glows with a fluffy octarine "
+                                         "aura.\n");
+} /* query_long_bit() */
+
+.EI
+
+.SH See also
+.SP 5 5
+query_see_octarine()
+.EP
+

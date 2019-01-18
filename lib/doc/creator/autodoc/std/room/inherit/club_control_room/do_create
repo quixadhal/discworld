@@ -1,0 +1,39 @@
+.DT
+do_create
+Disk World creator help
+do_create
+
+.SH Name
+.SP 5 5
+do_create -  This method is called to try and create a club of the specified name.
+.EP
+
+.SH Syntax
+.SI 5
+int do_create(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the club to create
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/club_control_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called to try and create a club of the specified name.
+All clubs when they first start are personal clubs.  Once they have
+a certain number of members, they can convert to being an elected
+type of club if they wish.
+.EP
+

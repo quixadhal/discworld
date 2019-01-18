@@ -1,6 +1,6 @@
 .DT
 corpse.c
-DW_wibble autodoc help
+Disk World autodoc help
 corpse.c
 
 .SH Description
@@ -14,12 +14,12 @@ This method returns the id associated with the corpse.
 
 .SH Inherits
 .SP 5 5
-This class inherits the following classes /std/container, /std/living/carrying and /std/basic/virtual_quit_control.
+This class inherits the following classes /std/basic/virtual_quit_control, /std/living/carrying and /std/container.
 .EP
 
 .SH Includes
 .SP 5 5
-This class includes the following files /include/corpse.h, /include/move_failures.h and /include/bit.h.
+This class includes the following files /include/move_failures.h, /include/corpse.h and /include/bit.h.
 .EP
 
 .SH Public Functions

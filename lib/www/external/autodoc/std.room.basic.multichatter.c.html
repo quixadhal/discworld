@@ -1,0 +1,141 @@
+<html><head><title>File multichatter.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/basic/multichatter.c</h2>
+The multiple rates chatter inheritable for room chats.  
+This chatter handles multiple calls to room_chat
+by adding the chats independently with their own 
+chat interval.<p><b>See also:</b><br>/std/room.c and room_chat
+.c<p>Written by Shaggy<hr><h2>Includes</h2>
+This class includes the following files <a href="include.room.h.html">/include/room.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_room_chats"><b>add_room_chats</b></a>(string *)<dd>
+Adds more chats to the existing set of room chats
+managed by this chatter object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_chat"><b>check_chat</b></a>()<dd>
+Checks that the chatter is on and being activated
+properly from the room_handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_interactive"><b>check_interactive</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_chat"><b>make_chat</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_multichatter"><b>query_multichatter</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_chats"><b>query_room_chats</b></a>()<dd>
+Returns the the set of room chats
+managed by this chatter object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_room_chats"><b>remove_room_chats</b></a>(string *)<dd>
+Removes chats from the set of room chats
+managed by this chatter object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_chat_min_max"><b>set_chat_min_max</b></a>(int, int)<dd>
+Allows the chat interval to be changed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_chatter"><b>setup_chatter</b></a>(object, mixed *)<dd>
+Gives the chatter a room to chat at and the chat args.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_room_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_room_chats</b></a><pre>
+void add_room_chats(string * new_chats)
+</pre><dd>
+Adds more chats to the existing set of room chats
+managed by this chatter object.  This function
+always adds to the first set of chats even if
+multiple sets exist on the chatter.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_chats - an array of new chat strings
+<dt><b>See also:</b>
+<dd>remove_room_chats.c, query_room_chats.c and /std/room/basic/chatter
+.c</dl>
+
+<dt><a name="check_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_chat</b></a><pre>
+void check_chat()
+</pre><dd>
+Checks that the chatter is on and being activated
+properly from the room_handler. <p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="std.room.basic.chatter.c.html">/std/room/basic/chatter.c</a> and /obj/handlers/room_handler
+.c</dl>
+
+<dt><a name="check_interactive">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_interactive</b></a><pre>
+int check_interactive(object thing)
+</pre>
+<dt><a name="make_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_chat</b></a><pre>
+void make_chat()
+</pre>
+<dt><a name="query_multichatter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_multichatter</b></a><pre>
+int query_multichatter()
+</pre>
+<dt><a name="query_room_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_chats</b></a><pre>
+mixed * query_room_chats()
+</pre><dd>
+Returns the the set of room chats
+managed by this chatter object.  <p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>pointer to the mixed array of chat args
+<dt><b>See also:</b>
+<dd>add_room_chats.c, remove_room_chats.c, room_chat.c and /std/room/basic/chatter
+.c<dt><b>Example:</b>
+<dd><pre> ({ 120, 240, ({ "A frog gimbles the curtains.",
+                 "A truly revolting smell drifts insidiously "
+                 "from the rug." }) })</pre></dl>
+
+<dt><a name="remove_room_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_room_chats</b></a><pre>
+void remove_room_chats(string * dead_chats)
+</pre><dd>
+Removes chats from the set of room chats
+managed by this chatter object.  If there are no chats
+left the chatter is destructed.  This function
+removes chats from any set by identifying all
+copies in each set and removing them.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dead_chats - an array of chat strings to remove
+<dt><b>See also:</b>
+<dd>add_room_chats.c, query_room_chats.c and /std/room/basic/chatter
+.c</dl>
+
+<dt><a name="set_chat_min_max">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_chat_min_max</b></a><pre>
+void set_chat_min_max(int min,
+int max)
+</pre><dd>
+Allows the chat interval to be changed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>min - minimum interval between chats (seconds)
+<dd>max - maximum interval between chats (seconds)
+
+</dl>
+
+<dt><a name="setup_chatter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_chatter</b></a><pre>
+void setup_chatter(object my_room,
+mixed * chat_args)
+</pre><dd>
+Gives the chatter a room to chat at and the chat args.
+If you call it again it you can give the room an
+additional set of chats without destroying the
+first, with the new set operating independently at
+the new rate.  You can call this function as many
+times as you like.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>my_room - room object
+<dd>chat_args - chat data: ({ min, max, chats array })
+<dt><b>See also:</b>
+<dd>room_chat.c, query_room_chats.c and /std/room/basic/chatter
+.c</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 08:29:17 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

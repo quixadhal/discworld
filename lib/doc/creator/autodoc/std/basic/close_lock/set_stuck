@@ -1,0 +1,41 @@
+.DT
+set_stuck
+Disk World creator help
+set_stuck
+
+.SH Name
+.SP 5 5
+set_stuck -  This can set an object as being stuck, or make it unstuck.
+.EP
+
+.SH Syntax
+.SI 5
+void set_stuck(int i)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^i%^RESET%^ - Use 1 to make the object stuck, and 0 to unstick it.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/close_lock.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This can set an object as being stuck, or make it unstuck.
+Stuck objects cannot be opened, closed, locked or unlocked.
+Using set_stuck(1) will make the object stuck, and set_stuck(0)
+will unstick it.
+
+.EP
+
+.SH See also
+.SP 5 5
+query_stuck()
+.EP
+

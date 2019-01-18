@@ -1,0 +1,36 @@
+.DT
+query_player_map_template
+Disk World creator help
+query_player_map_template
+
+.SH Name
+.SP 5 5
+query_player_map_template -  This method generates a player map using templates instead of using lines from the center point.
+.EP
+
+.SH Syntax
+.SI 5
+string query_player_map_template(int x_c,
+int y_c,
+int z_c,
+int visibility,
+int max_size)
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method generates a player map using templates instead of using
+lines from the center point.  This is more efficent than a
+line drawing method.  THe max_size is used to
+make sure the size of the visible area is squashed, if we want a
+smaller partial map for other displays.  The max size must be
+an odd number.
+
+.EP
+

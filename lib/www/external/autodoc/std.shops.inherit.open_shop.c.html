@@ -1,0 +1,74 @@
+<html><head><title>File open_shop.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/inherit/open_shop.c</h2>
+This is the basic inheritable to make things check for being
+open.<p>Written by Pinkfish<p>Started Mon Oct 23 12:04:18 PDT 2000
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_open"><b>is_open</b></a>(object, int)<dd>
+This method checks to see if the shop is open.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_open_function"><b>query_open_function</b></a>()<dd>
+This method queries the open function for the room/.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_open_function"><b>set_open_function</b></a>(function)<dd>
+This method sets the open function for the room.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="is_open">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_open</b></a><pre>
+int is_open(object player,
+int type)
+</pre><dd>
+This method checks to see if the shop is open.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player who we are checking to see if it is open for
+
+</dl>
+
+<dt><a name="query_open_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_open_function</b></a><pre>
+function query_open_function()
+</pre><dd>
+This method queries the open function for the room/.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the open function
+
+</dl>
+
+<dt><a name="set_open_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_open_function</b></a><pre>
+void set_open_function(function func)
+</pre><dd>
+This method sets the open function for the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the open function
+<dt><b>See also:</b>
+<dd><a href="#query_open_function">query_open_function()</a> and <a href="#check_open">check_open()</a><dt><b>Example:</b>
+<dd><pre>// The pub is only open if the barman is alive.
+set_open_function( (: ( barman ? 1 : 0 ) :) );</pre><dd><pre>
+void setup() {
+   ...
+   // Setup the open function.
+   set_open_function( (: do_open_check :) );
+} /* setup() */
+
+int do_open_check( object player, int type ) {
+   if( !barman ) {
+      add_failed_mess( "There appears to be no barman here!\n" );
+      return 2;
+   }
+   if( type <= PUB_DESSERT && !chef ) {
+      add_failed_mess( "The chef isn't here at the moment.\n" );
+      return 2;
+   }
+   return 0;
+} /* do_open_check() */
+</pre></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 03:48:29 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

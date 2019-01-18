@@ -1,0 +1,46 @@
+.DT
+holds_position_of
+Disk World creator help
+holds_position_of
+
+.SH Name
+.SP 5 5
+holds_position_of -  This method will determine if the specified person holds a position in the club.
+.EP
+
+.SH Syntax
+.SI 5
+int holds_position_of(string name,
+string position,
+string person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the club to check for the position
+%^BOLD%^position%^RESET%^ - the name of the position to check
+%^BOLD%^person%^RESET%^ - the name of the person to check in the position
+.EI
+
+.SH Returns
+.SI 5
+1 if they are in the position, 0 if not.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will determine if the specified person holds a
+position in the club.
+.EP
+
+.SH See also
+.SP 5 5
+holds_any_position_of(), is_secretary_of(), is_president_of(), is_vice_president_of(), is_treasurer_of()
+
+.EP
+

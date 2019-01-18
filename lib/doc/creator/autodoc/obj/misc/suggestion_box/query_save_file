@@ -1,0 +1,39 @@
+.DT
+query_save_file
+Disk World creator help
+query_save_file
+
+.SH Name
+.SP 5 5
+query_save_file -  This function can be used to query what save file is in use for the suggestion box.
+.EP
+
+.SH Syntax
+.SI 5
+string query_save_file()
+.EI
+
+.SH Returns
+.SI 5
+the full path to the file where the suggestions are kept.EI
+
+.SH Defined in
+.SI 5
+/obj/misc/suggestion_box.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function can be used to query what save file is in use for the
+suggestion box.  Either a save file *or* a save directory is required.
+or your suggestions will not save.  If both are set then the save file
+will be used.
+.EP
+
+.SH See also
+.SP 5 5
+query_save_dir() 
+
+.EP
+

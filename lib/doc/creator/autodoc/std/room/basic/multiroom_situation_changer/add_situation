@@ -1,0 +1,73 @@
+.DT
+add_situation
+Disk World creator help
+add_situation
+
+.SH Name
+.SP 5 5
+add_situation -  Adds a situation for the rooms.
+.EP
+
+.SH Syntax
+.SI 5
+void add_situation(int num,
+function * func,
+string startmess,
+string endmess,
+string extralookstring,
+string * chats,
+mixed * add_items)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^num%^RESET%^ - number labelling the situation
+%^BOLD%^func%^RESET%^ - function to be called at start of situation 
+            that might be used to load NPC's.  If it is
+            a set of two function pointers ({ f1, f2 })
+            the second function is called when the
+            situation is ended.  The start function is 
+            passed the num label of the room and a
+            do_start_mess flag.  If the flag is one
+            the situation is starting rather than
+            being reloaded.  The end function is only
+            passed the num label.
+%^BOLD%^startmess%^RESET%^ - message told to the room at start of situation
+%^BOLD%^endmess%^RESET%^ - message told to the room at end of situation
+%^BOLD%^extralooksting%^RESET%^ - extra look string appended to rooms long 
+description during the situation
+%^BOLD%^chats%^RESET%^ - an array of chat strings to be active 
+during the situation 
+%^BOLD%^add_items%^RESET%^ - a mixed array of ({ item, item description }) 
+pairs to be active during the situation
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/multiroom_situation_changer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Adds a situation for the rooms.  These situations can be
+invoked manually with start_situation or automatically via
+automate_situations.
+.EP
+
+.SH Example 1
+.SI 5
+ add_situation( 0, 0, "Water seeps out of the ground to form puddles.", 
+    "",  "There are large puddles on the ground here.",
+    ({"A hidden frog croaks quietly.",
+      "There is a blooping sound." }),
+    ({ ({"puddle", "The puddles are dark and murky.  " 
+                   "They will probably dry up given time." }) }) );
+
+.EI
+
+.SH See also
+.SP 5 5
+start_situation, automate_situations, add_item, room_chat, add_extra_look
+.EP
+

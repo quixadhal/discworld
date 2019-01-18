@@ -1,0 +1,44 @@
+.DT
+save_all_item_states_delete_cache
+Disk World creator help
+save_all_item_states_delete_cache
+
+.SH Name
+.SP 5 5
+save_all_item_states_delete_cache -  This method saves the mapping of state/location  information for items owned by a player to disk and deletes the entry in the cache.
+.EP
+
+.SH Syntax
+.SI 5
+int save_all_item_states_delete_cache(mixed pl_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^pl_name%^RESET%^ -   player object or name
+%^BOLD%^item%^RESET%^ -      item object or identifier
+.EI
+
+.SH Returns
+.SI 5
+1 if successful.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/item_tracker.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method saves the mapping of state/location 
+information for items owned by a player to disk and deletes
+the entry in the cache.
+.EP
+
+.SH See also
+.SP 5 5
+set_item_state(), query_item_state(), delete_item(), save_all_item_states()
+
+.EP
+

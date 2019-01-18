@@ -1,0 +1,46 @@
+.DT
+transform
+Disk World creator help
+transform
+
+.SH Name
+.SP 5 5
+transform -  This method is generally called by the object doing the state change (e.
+.EP
+
+.SH Syntax
+.SI 5
+varargs object transform(object ob,
+string transformation,
+object player)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the source object
+%^BOLD%^transformation%^RESET%^ - a string specifying the transformation (e.g., "grind")
+%^BOLD%^The%^RESET%^ - player to whom this state change will be attributed to! [optional]
+.EI
+
+.SH Returns
+.SI 5
+the result of the transformation .EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/state_change.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is generally called by the object doing the state
+change (e.g., a food grinder).  It looks up the specified source
+object in the table and clones the "transformed" object as specified.
+
+
+The table is indexed by the source object as follows: if the source object has a property "state name", the value of this is used. If not, the object's medium alias (if any, regardless of whether the object is continuous) is used. Failing these, the object's short description is used. The first one resulting in a valid string is concatenated with the transformation string (with a ":" between) and the result is used as the index. If the lookup fails, 0 is returned. 
+
+Note that the resulting object is only cloned. It is the responsibility of the caller to dest the source and put the result in its place.
+.EP
+

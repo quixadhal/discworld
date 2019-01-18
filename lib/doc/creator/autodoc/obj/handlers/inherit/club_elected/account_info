@@ -1,0 +1,40 @@
+.DT
+account_info
+Disk World creator help
+account_info
+
+.SH Name
+.SP 5 5
+account_info -  This class keeps track of the accounts, it has the transaction info for the account and other stuff.
+.EP
+
+.SH Definition
+.SI 5
+class account_info {
+class club_transaction * transactions;
+string * allowed_people;
+string * allowed_positions;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^transactions%^RESET%^ - the transactions for the account
+%^BOLD%^allowed_people%^RESET%^ - the people that can use the account
+%^BOLD%^allowed_positions%^RESET%^ - the positions that can use the account
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This class keeps track of the accounts, it has the transaction
+info for the account and other stuff.
+.EP
+

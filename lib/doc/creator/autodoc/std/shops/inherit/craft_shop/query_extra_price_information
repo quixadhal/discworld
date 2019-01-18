@@ -1,0 +1,34 @@
+.DT
+query_extra_price_information
+Disk World creator help
+query_extra_price_information
+
+.SH Name
+.SP 5 5
+query_extra_price_information -  This method returns any extra information about prices that the shop wants to display before entering a cost.
+.EP
+
+.SH Syntax
+.SI 5
+string query_extra_price_information(string person,
+object * obs)
+.EI
+
+.SH Returns
+.SI 5
+an extra string to print
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/craft_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns any extra information about prices that the
+shop wants to display before entering a cost.  This can be
+overridden in higher inherits to control this more effectively.
+.EP
+

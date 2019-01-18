@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["do_status":({({"int",}),({}),(["main":({"This method prints some useful information about the election statusof the current area.",}),"return":({"1 on success, 0 on failure",}),]),}),"do_nominate":({({"int",}),({({"string",}),"person",}),(["main":({"This method allows you to nominate someone for a position.",}),]),}),"do_vote_on":({({"int",}),({({"int",}),"num",({"string",}),"vote",}),(["main":({"This method will handle voting on the specific new nomic rule.",}),"param":({"num the rule number to vote on","vote their vote",}),"return":({"1 on success, 0 on failure",}),]),}),"do_vote":({({"int",}),({({"string",}),"person",({"int",}),"force",}),(["main":({"This method allows you to vote for someone.",}),]),}),"do_list_motions":({({"int",}),({}),(["main":({"This lists all the new rules up for discussion or whatever by themagistrates.",}),"return":({"1 on success, 0 on failure",}),]),}),])
+protected_functions ([])
+inherits (["/std/room/basic_room":({}),"/std/room/inherit/voting_room":({}),"/std/room/inherit/council_base":({}),])
+main_docs (["main":({"This is the room you will use to vote for magistrates.",}),"started":({"Mon Oct 23 22:26:11 PDT 2000",}),"author":({"Pinkfish",}),])
+define_docs ([])
+includes (["/include/player_handler.h":1522061544,"/include/nomic_system.h":1522061544,])
+class_docs ([])
+file_name "/std/room/council_vote.c"
+last_changed 1522061544

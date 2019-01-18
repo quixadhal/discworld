@@ -1,0 +1,39 @@
+.DT
+add_archive
+Disk World creator help
+add_archive
+
+.SH Name
+.SP 5 5
+add_archive -  This method adds to the archives of things for the current club.
+.EP
+
+.SH Syntax
+.SI 5
+int add_archive(string club_name,
+string subject,
+string thingy)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^thingy%^RESET%^ - the thing to archive
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds to the archives of things for the current club.
+.EP
+

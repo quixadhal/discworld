@@ -1,0 +1,44 @@
+.DT
+broadcast_event
+Disk World creator help
+broadcast_event
+
+.SH Name
+.SP 5 5
+broadcast_event -  Sends an event out to all the things.
+.EP
+
+.SH Syntax
+.SI 5
+void broadcast_event(object * things,
+int * centre,
+string message,
+int range,
+int inside,
+int underwater)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^things%^RESET%^ - things that get told about it 
+%^BOLD%^centre%^RESET%^ - coords where event occurs 
+%^BOLD%^message%^RESET%^ - what the things get told 
+%^BOLD%^range%^RESET%^ - range of telling in room units 
+%^BOLD%^inside%^RESET%^ - tell things if indoors 
+%^BOLD%^underwater%^RESET%^ - tell things if underwater 
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/broadcaster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Sends an event out to all the things.  It checks to make sure they
+can hear the event and all that stuff.
+
+.EP
+

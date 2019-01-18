@@ -1,0 +1,45 @@
+.DT
+choose_effect
+Disk World creator help
+choose_effect
+
+.SH Name
+.SP 5 5
+choose_effect -  This method chooses a random effect from the curent list of effects defined in the handler.
+.EP
+
+.SH Syntax
+.SI 5
+int * choose_effect(int number)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^number%^RESET%^ - the intput number
+.EI
+
+.SH Returns
+.SI 5
+an array as described above.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/mag_eff_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method chooses a random effect from the curent list of effects
+defined in the handler.  It returns an array consisting of
+two elements, the first is the number, the second is a random
+number between the input number multiplied by 6 and then divided
+by 1000.
+.EP
+
+.SH See also
+.SP 5 5
+do_effect(), ambient_enchantment(), block()
+
+.EP
+

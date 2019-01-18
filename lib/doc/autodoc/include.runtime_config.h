@@ -1,0 +1,190 @@
+.DT
+runtime_config.h
+Disk World autodoc help
+runtime_config.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^__ADDR_SERVER_IP__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__ADDR_SERVER_PORT__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__BIN_DIR__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__COMPILER_STACK_SIZE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__DEBUG_LOG_FILE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__DEFAULT_ERROR_MESSAGE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__DEFAULT_FAIL_MESSAGE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__EVALUATOR_STACK_SIZE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__FD6_KIND__		%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__FD6_PORT__		%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__GLOBAL_INCLUDE_FILE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__INCLUDE_DIRS__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__INHERIT_CHAIN_SIZE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__LIVING_HASH_TABLE_SIZE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__LOG_DIR__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MASTER_FILE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MAX_ARRAY_SIZE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MAX_BITFIELD_BITS__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MAX_BUFFER_SIZE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MAX_BYTE_TRANSFER__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MAX_CALL_DEPTH__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MAX_EVAL_COST__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MAX_LOCAL_VARIABLES__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MAX_MAPPING_SIZE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MAX_READ_FILE_SIZE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MAX_STRING_LENGTH__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MUD_IP__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MUD_LIB_DIR__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MUD_NAME__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__MUD_PORT__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__OBJECT_HASH_TABLE_SIZE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__PLACEHOLDER1__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__RESERVED_MEM_SIZE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__SHARED_STRING_HASH_TABLE_SIZE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__SIMUL_EFUN_FILE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__SWAP_FILE__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__TIME_TO_CLEAN_UP__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__TIME_TO_RESET__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^__TIME_TO_SWAP__%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BASE_CONFIG_INT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BASE_CONFIG_STR%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^CFG_INT(x)%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^CFG_STR(x)%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^NUM_CONFIG_INTS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^NUM_CONFIG_STRS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^RUNTIME_CONFIG_NEXT%^RESET%^
+.EI
+

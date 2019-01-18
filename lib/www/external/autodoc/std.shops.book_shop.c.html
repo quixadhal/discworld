@@ -1,0 +1,55 @@
+<html><head><title>File book_shop.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/book_shop.c</h2>
+This is a specialisation of the craft shop inheritable.  It adds in the
+ability to read specified pages from books.<p>Written by Pinkfish<p>Started Thu Sep 10 23:51:01 PDT 1998
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.shops.craft_shop.c.html">/std/shops/craft_shop.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.craft_shop.h.html">/include/shops/craft_shop.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#browse_pages"><b>browse_pages</b></a>(object *)<dd>
+This is like a normal browse, but it allows us to look at specific pages
+in the book.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#choose_which_page"><b>choose_which_page</b></a>(function, int, string, object *)<dd>
+This method gets the player to choose a page to allow to browse
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="browse_pages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>browse_pages</b></a><pre>
+int browse_pages(object * obs)
+</pre><dd>
+This is like a normal browse, but it allows us to look at specific pages
+in the book.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the page number to browse
+<dd>obs - the objects whose pages to browse
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="choose_which_page">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>choose_which_page</b></a><pre>
+int choose_which_page(function end_func,
+int value,
+string name,
+object * sellables)
+</pre><dd>
+This method gets the player to choose a page to allow to browse<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>end_func - the function to evaluate when finished
+<dd>value - the value of the sellables
+<dd>name - the name to sell the object for
+<dd>sellables - the objects to sell
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 23:29:53 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

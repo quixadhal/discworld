@@ -1,0 +1,149 @@
+<html><head><title>File title_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/title_handler.c</h2>
+This handler will keep track of special player titles.  It will allow
+them to be added or removed based on specific events.  Use the
+include <player.h> to get the path to this file.<p>Written by Pinkfish<p>Started Wed Sep 27 14:00:31 PDT 2000
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a> and <a href="include.login.h.html">/include/login.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_blob"><b>blob</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_controlled_title"><b>add_controlled_title</b></a>(string, string, string)<dd>
+Add a method to be called to check if the person is allowed to have
+the specified title.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_title_to_player"><b>add_title_to_player</b></a>(string, string)<dd>
+This method adds a person to the pending list for gaining a specific
+title.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_player"><b>check_player</b></a>(object)<dd>
+This method checks a player when they logon for titles.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_allowed_multiple_title"><b>is_allowed_multiple_title</b></a>(string)<dd>
+This method checks to see if the title is an allowed multiple title.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_allowed_multiple_titles"><b>query_allowed_multiple_titles</b></a>()<dd>
+This method returns the list of allowed multiple titles.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_controlled_title"><b>query_controlled_title</b></a>(string)<dd>
+This method returns the blob for the controlled title.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pending_titles"><b>query_pending_titles</b></a>(string)<dd>
+This method returns the list of titles pending for the specific person.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_controlled_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_controlled_title</b></a><pre>
+void add_controlled_title(string title,
+string ob,
+string func)
+</pre><dd>
+Add a method to be called to check if the person is allowed to have
+the specified title.  This should be added to control things like
+special titles.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the title to control
+<dd>ob - the object to call the method on
+<dd>function - the function to call
+
+<dt><b>Example:</b>
+<dd><pre>add_controlled_title("magistrate", NOMIC_HANDLER, "is_magistrate_somewhere");</pre></dl>
+
+<dt><a name="add_title_to_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_title_to_player</b></a><pre>
+void add_title_to_player(string person,
+string title)
+</pre><dd>
+This method adds a person to the pending list for gaining a specific
+title.  If the person is currently on then they will get the title
+immediately.  If they are not on then it will be added to them when they
+next log on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to give the title too
+<dd>title - the title to give them
+
+</dl>
+
+<dt><a name="check_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_player</b></a><pre>
+void check_player(object player)
+</pre><dd>
+This method checks a player when they logon for titles.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player to check
+
+</dl>
+
+<dt><a name="is_allowed_multiple_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_allowed_multiple_title</b></a><pre>
+int is_allowed_multiple_title(string title)
+</pre><dd>
+This method checks to see if the title is an allowed multiple title.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the title to check
+<dt><b>Returns:</b>
+<dd>1 if it is allowed, 0 if not
+
+</dl>
+
+<dt><a name="query_allowed_multiple_titles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_allowed_multiple_titles</b></a><pre>
+string * query_allowed_multiple_titles()
+</pre><dd>
+This method returns the list of allowed multiple titles.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of allowed multiple titles
+
+</dl>
+
+<dt><a name="query_pending_titles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pending_titles</b></a><pre>
+string * query_pending_titles(string person)
+</pre><dd>
+This method returns the list of titles pending for the specific person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to get the titles for
+<dt><b>Returns:</b>
+<dd>the array of pending titles
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="query_controlled_title">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>query_controlled_title</b></a><pre>
+class blob query_controlled_title(string title)
+</pre><dd>
+This method returns the blob for the controlled title.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the title which is controlled
+<dt><b>Returns:</b>
+<dd>the blob for the controlled title
+
+</dl>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_blob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>blob</b></a><pre>
+class blob {
+string ob;
+string func;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 02:20:15 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

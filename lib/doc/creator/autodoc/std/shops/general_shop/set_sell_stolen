@@ -1,0 +1,39 @@
+.DT
+set_sell_stolen
+Disk World creator help
+set_sell_stolen
+
+.SH Name
+.SP 5 5
+set_sell_stolen -  This method sets the shop as a place which will receive and seel stolen goods.
+.EP
+
+.SH Syntax
+.SI 5
+void set_sell_stolen(int i)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^i%^RESET%^ - the new value for the stolen property
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/general_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the shop as a place which will receive and
+seel stolen goods.  It automaticly sets the no_steal property
+to 1.
+.EP
+
+.SH See also
+.SP 5 5
+set_no_steal(), set_steal_difficulty(), query_sell_stolen()
+.EP
+

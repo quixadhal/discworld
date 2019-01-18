@@ -1,0 +1,44 @@
+.DT
+check_board_post
+Disk World creator help
+check_board_post
+
+.SH Name
+.SP 5 5
+check_board_post -  This method checks to see what access the person has to the board.
+.EP
+
+.SH Syntax
+.SI 5
+int check_board_post(int type,
+string board,
+string previous,
+string name,
+int num)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the type of operation
+%^BOLD%^board%^RESET%^ - the name of the board
+%^BOLD%^previous%^RESET%^ - the previous object
+%^BOLD%^name%^RESET%^ - the name of the person reading the message
+%^BOLD%^num%^RESET%^ - the number of posts blasted when posting
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see what access the person has to the board.
+.EP
+

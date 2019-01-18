@@ -1,0 +1,778 @@
+<html><head><title>File player.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/player.c</h2>
+The main player object.  Does all the player related stuff.<p>Written by Pinkfish<p>Started December 1991
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="global.spells.c.html">/global/spells.c</a>, <a href="global.log.c.html">/global/log.c</a>, <a href="global.line_ed.c.html">/global/line_ed.c</a>, <a href="global.psoul.c.html">/global/psoul.c</a>, <a href="global.finger.c.html">/global/finger.c</a>, <a href="global.events.c.html">/global/events.c</a>, <a href="std.living.living.c.html">/std/living/living.c</a>, <a href="global.start_position.c.html">/global/start_position.c</a>, <a href="global.guild-race.c.html">/global/guild-race.c</a>, <a href="global.more_string.c.html">/global/more_string.c</a>, <a href="global.family.c.html">/global/family.c</a>, <a href="global.more_file.c.html">/global/more_file.c</a>, <a href="global.path.c.html">/global/path.c</a> and <a href="global.pweath.c.html">/global/pweath.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.log.h.html">/include/log.h</a>, <a href="include.nroff.h.html">/include/nroff.h</a>, <a href="include.refresh.h.html">/include/refresh.h</a>, <a href="include.config.h.html">/include/config.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.playerinfo.h.html">/include/playerinfo.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.tune.h.html">/include/tune.h</a>, <a href="include.clubs.h.html">/include/clubs.h</a>, <a href="include.weather.h.html">/include/weather.h</a>, <a href="include.playtesters.h.html">/include/playtesters.h</a>, <a href="include.error_handler.h.html">/include/error_handler.h</a>, <a href="include.db.h.html">/include/db.h</a>, <a href="include.board.h.html">/include/board.h</a>, <a href="include.mail.h.html">/include/mail.h</a>, <a href="include.group_handler.h.html">/include/group_handler.h</a>, <a href="include.library.h.html">/include/library.h</a>, <a href="include.top_ten_tables.h.html">/include/top_ten_tables.h</a>, <a href="include.command.h.html">/include/command.h</a>, <a href="include.bounty.h.html">/include/bounty.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.quest_handler.h.html">/include/quest_handler.h</a>, <a href="include.drinks.h.html">/include/drinks.h</a>, <a href="include.skills.h.html">/include/skills.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a>, <a href="include.login.h.html">/include/login.h</a> and <a href="include.living.h.html">/include/living.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_player_info"><b>player_info</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_deaths"><b>adjust_deaths</b></a>(int)<dd>
+This method changes the number of times the player has died.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_max_deaths"><b>adjust_max_deaths</b></a>(int)<dd>
+Changes the current number of maxium deaths.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#allow_save"><b>allow_save</b></a>()<dd>
+This method allows the player to save again after they have been
+disallowed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_dark"><b>check_dark</b></a>(int)<dd>
+Can the player see?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#disallow_save"><b>disallow_save</b></a>()<dd>
+This method stops the player from being able to save.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_load_auto"><b>do_load_auto</b></a>()<dd>
+Starts the autoloading process.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_quit"><b>do_quit</b></a>()<dd>
+quits the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#examine"><b>examine</b></a>(string)<dd>
+Forces the player to examine something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#extra_score"><b>extra_score</b></a>()<dd>
+This method returns any extra information associated with the score.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#glance"><b>glance</b></a>(string)<dd>
+Force the player to glance.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#heart_beat"><b>heart_beat</b></a>()<dd>
+The main heart beat function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#idle_out"><b>idle_out</b></a>()<dd>
+Checks to see if they have idled out.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#look_me"><b>look_me</b></a>(string)<dd>
+Force the player to look.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move_player_to_start"><b>move_player_to_start</b></a>(string, int, string, string, int)<dd>
+This method is called from within the login code to start up the
+new player, set their name and move them into the correct
+location on the mud.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#net_dead"><b>net_dead</b></a>()<dd>
+Called when the player goes net dead.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_activity_counter"><b>query_activity_counter</b></a>()<dd>
+Return the current value of this players activity_counter
+(used for debugging)
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cap_name"><b>query_cap_name</b></a>()<dd>
+This method returns the current capitalised name of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_creator"><b>query_creator</b></a>()<dd>
+This method returns if the object is a creator or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_deaths"><b>query_deaths</b></a>()<dd>
+This method returns the number of times the player has died.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_log_on"><b>query_last_log_on</b></a>()<dd>
+This method returns the time at which the player last logged on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_level"><b>query_level</b></a>()<dd>
+Returns the players level.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_mature"><b>query_mature</b></a>()<dd>
+This method determins if the player is mature or not yet.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_deaths"><b>query_max_deaths</b></a>()<dd>
+Returns the maxium number of deaths.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_monitor"><b>query_monitor</b></a>()<dd>
+Is rthe monitor turned on?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_no_logins"><b>query_no_logins</b></a>()<dd>
+This method returns the number of times the player has logged onto
+Discworld.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_object_type"><b>query_object_type</b></a>(object)<dd>
+This method returns the one letter object type which is used in the
+finger command to display the type of object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_prevent_shadow"><b>query_prevent_shadow</b></a>(object)<dd>
+Prevent the object from shadowing us?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_refresh_time"><b>query_refresh_time</b></a>()<dd>
+This method returns the time at which the player last refreshed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_inhibit"><b>query_save_inhibit</b></a>()<dd>
+This method returns the value of the disallowing save variable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_snoopee"><b>query_snoopee</b></a>()<dd>
+Returns the object snooping us.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_start_time"><b>query_start_time</b></a>()<dd>
+This is the date on which the character was started.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_time_on"><b>query_time_on</b></a>()<dd>
+The amount of time on line.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_title"><b>query_title</b></a>()<dd>
+This method returns the list of titles associated with this player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_titles"><b>query_titles</b></a>()<dd>
+This method returns the mapping of all the title associated with this
+player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#quit"><b>quit</b></a>()<dd>
+A forced quit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#quit_alt"><b>quit_alt</b></a>(int)<dd>
+This is the quit code called by the command 'quit'
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_ghost"><b>remove_ghost</b></a>()<dd>
+This method removes the ghost from the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_title"><b>remove_title</b></a>(string)<dd>
+This method removes the title of the given type from the title mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#restart_heart_beat"><b>restart_heart_beat</b></a>()<dd>
+Restarts their heartbeat if it has got turned off for some reason.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#run_away"><b>run_away</b></a>()<dd>
+Called when the player wimpys out of a place.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save"><b>save</b></a>()<dd>
+This method is deprecated.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_me"><b>save_me</b></a>()<dd>
+Saves the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_with_auto_load"><b>save_with_auto_load</b></a>(mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#second_life"><b>second_life</b></a>()<dd>
+This method is called when the player dies.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_deaths"><b>set_max_deaths</b></a>(int)<dd>
+Sets the maximum number of deaths.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_monitor"><b>set_monitor</b></a>(int)<dd>
+Set the hit point minitor.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_title"><b>set_title</b></a>(string, string)<dd>
+This method sets the current title type to be of a certain name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#toggle_wimpy"><b>toggle_wimpy</b></a>(string)<dd>
+This method changes the current value of the wimpy variables.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#write_prompt"><b>write_prompt</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="adjust_deaths">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_deaths</b></a><pre>
+void adjust_deaths(int i)
+</pre><dd>
+This method changes the number of times the player has died.  This
+can only be positive.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the amount of deaths to adjust by, must be +ve
+<dt><b>See also:</b>
+<dd><a href="#query_deaths">query_deaths()</a> and <a href="#adjust_max_deaths">adjust_max_deaths()
+</a></dl>
+
+<dt><a name="adjust_max_deaths">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_max_deaths</b></a><pre>
+int adjust_max_deaths(int i)
+</pre><dd>
+Changes the current number of maxium deaths.  This adjust
+the number of times a player can die before they are totaly dead.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the amount of deaths to adjust by, must be +ve
+
+<dt><b>Returns:</b>
+<dd>the current total maximum deaths
+</dl>
+
+<dt><a name="allow_save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>allow_save</b></a><pre>
+void allow_save()
+</pre><dd>
+This method allows the player to save again after they have been
+disallowed.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#disallow_save">disallow_save()</a> and <a href="#query_save_inhibit">query_save_inhibit()
+</a></dl>
+
+<dt><a name="check_dark">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_dark</b></a><pre>
+int check_dark(int light)
+</pre><dd>
+Can the player see?  Checks to see if the player can see at the passed
+in light level.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if they can see, 0 if they cannot
+
+</dl>
+
+<dt><a name="disallow_save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>disallow_save</b></a><pre>
+void disallow_save()
+</pre><dd>
+This method stops the player from being able to save.  This is done while
+the inventory is regenerating to stop problems with inventory loss due
+to logging off before it has finished.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#allow_save">allow_save()</a> and <a href="#query_save_inhibit">query_save_inhibit()
+</a></dl>
+
+<dt><a name="do_load_auto">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_load_auto</b></a><pre>
+void do_load_auto()
+</pre><dd>
+Starts the autoloading process.  This is called just after a player
+logs in to start up the auto loading process.
+<p>
+
+<dt><a name="do_quit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_quit</b></a><pre>
+int do_quit()
+</pre><dd>
+quits the player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>zero if it failed, non zero on success
+<dt><b>See also:</b>
+<dd><a href="#quit">quit()</a> and <a href="#quit_alt">quit_alt()
+</a></dl>
+
+<dt><a name="examine">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>examine</b></a><pre>
+int examine(string arg)
+</pre><dd>
+Forces the player to examine something.  This does the same as the look_me
+function.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arg - the thing to look at.
+
+<dt><b>Returns:</b>
+<dd>0 on a failure, non zero on success.
+<dt><b>See also:</b>
+<dd><a href="#look_me">look_me()</a></dl>
+
+<dt><a name="extra_score">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>extra_score</b></a><pre>
+string extra_score()
+</pre><dd>
+This method returns any extra information associated with the score.  This
+method will mostly be overridden by shadows which wish to place more
+information into the score command.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the extra information to place in the score
+
+</dl>
+
+<dt><a name="glance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>glance</b></a><pre>
+int glance(string str)
+</pre><dd>
+Force the player to glance.  Forces the player to glance in a
+certain direction.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the direction to glance in
+<dt><b>Returns:</b>
+<dd>0 ifg the command failed, non zer if it succeeded
+
+</dl>
+
+<dt><a name="heart_beat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>heart_beat</b></a><pre>
+void heart_beat()
+</pre><dd>
+The main heart beat function.  This is called by the driver
+every 2 seconds on the player.  Does all the maintence
+ stuff like fixing up hps and stuff like that.
+<p>
+
+<dt><a name="idle_out">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>idle_out</b></a><pre>
+void idle_out()
+</pre><dd>
+Checks to see if they have idled out.  This is called from within
+the heart beat code.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#heart_beat">heart_beat()
+</a></dl>
+
+<dt><a name="look_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>look_me</b></a><pre>
+int look_me(string str)
+</pre><dd>
+Force the player to look.  Forces the player to look at something
+or just around.  If the input is set to "" then they look around.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - what to look at
+<dt><b>Returns:</b>
+<dd>0 if it failed, non zero on success
+<dt><b>See also:</b>
+<dd><a href="#efun::command">efun::command()
+</a></dl>
+
+<dt><a name="move_player_to_start">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move_player_to_start</b></a><pre>
+void move_player_to_start(string bong,
+int new_flag,
+string c_name,
+string ident,
+int go_invis)
+</pre><dd>
+This method is called from within the login code to start up the
+new player, set their name and move them into the correct
+location on the mud.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bong - the name of the player
+<dd>new_flag - are the a new player?
+<dd>c_name - their capital name
+<dd>ident - the ident from the authorisation code
+<dd>go_invis - go invsible on login
+
+</dl>
+
+<dt><a name="net_dead">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>net_dead</b></a><pre>
+void net_dead()
+</pre><dd>
+Called when the player goes net dead.  This is called
+by the driver when a player goes net dead.  Turns them into
+a statue and stuff.
+<p>
+
+<dt><a name="query_activity_counter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_activity_counter</b></a><pre>
+int query_activity_counter()
+</pre><dd>
+Return the current value of this players activity_counter
+(used for debugging)
+<p>
+
+<dt><a name="query_cap_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cap_name</b></a><pre>
+nomask string query_cap_name()
+</pre><dd>
+This method returns the current capitalised name of the player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current capitalised name
+<dt><b>See also:</b>
+<dd><a href="#set_cap_name">set_cap_name()
+</a></dl>
+
+<dt><a name="query_creator">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_creator</b></a><pre>
+int query_creator()
+</pre><dd>
+This method returns if the object is a creator or not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if the object is a creator, 0 if not
+
+</dl>
+
+<dt><a name="query_deaths">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_deaths</b></a><pre>
+int query_deaths()
+</pre><dd>
+This method returns the number of times the player has died.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the number of times the player has died
+<dt><b>See also:</b>
+<dd><a href="#adjust_deaths">adjust_deaths()</a> and <a href="#adjust_max_deaths">adjust_max_deaths()
+</a></dl>
+
+<dt><a name="query_last_log_on">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_log_on</b></a><pre>
+int query_last_log_on()
+</pre><dd>
+This method returns the time at which the player last logged on.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the last logged on time
+
+</dl>
+
+<dt><a name="query_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_level</b></a><pre>
+int query_level()
+</pre><dd>
+Returns the players level.  Uses their current guild to determine their
+guild level.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>their guild level
+
+</dl>
+
+<dt><a name="query_mature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_mature</b></a><pre>
+int query_mature()
+</pre><dd>
+This method determins if the player is mature or not yet.  It is based
+ on the amount of time on.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if the player is mature, 0 if they are not
+
+</dl>
+
+<dt><a name="query_max_deaths">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_deaths</b></a><pre>
+int query_max_deaths()
+</pre><dd>
+Returns the maxium number of deaths.  This is the maxium number of times they
+can die before they are totaly dead.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maxiumm number fo deaths
+
+</dl>
+
+<dt><a name="query_monitor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_monitor</b></a><pre>
+int query_monitor()
+</pre><dd>
+Is rthe monitor turned on?  The hit point monitor which is
+displyed during combat...
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is on, 0 if not
+
+</dl>
+
+<dt><a name="query_no_logins">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_no_logins</b></a><pre>
+int query_no_logins()
+</pre><dd>
+This method returns the number of times the player has logged onto
+Discworld.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the number of logins
+
+</dl>
+
+<dt><a name="query_object_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_object_type</b></a><pre>
+string query_object_type(object player)
+</pre><dd>
+This method returns the one letter object type which is used in the
+finger command to display the type of object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the one letter object type
+
+</dl>
+
+<dt><a name="query_prevent_shadow">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_prevent_shadow</b></a><pre>
+int query_prevent_shadow(object ob)
+</pre><dd>
+Prevent the object from shadowing us?  This checks to see if we should
+prevent this object from shadowing the player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if we are prventing the shadow
+
+</dl>
+
+<dt><a name="query_refresh_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_refresh_time</b></a><pre>
+int query_refresh_time()
+</pre><dd>
+This method returns the time at which the player last refreshed.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the last refresh time
+
+</dl>
+
+<dt><a name="query_save_inhibit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_inhibit</b></a><pre>
+int query_save_inhibit()
+</pre><dd>
+This method returns the value of the disallowing save variable.  If this
+is a non-zero value then the player must not be saved.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#allow_save">allow_save()</a> and <a href="#disallow_save">disallow_save()
+</a></dl>
+
+<dt><a name="query_snoopee">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_snoopee</b></a><pre>
+nomask object query_snoopee()
+</pre><dd>
+Returns the object snooping us.  If someone is snooping the player it
+returns the object doing the snooping.  If no one is snooping the player
+it returns 0.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the object snooping the player
+<dt><b>See also:</b>
+<dd><a href="#efun::snoop">efun::snoop()
+</a></dl>
+
+<dt><a name="query_start_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_start_time</b></a><pre>
+int query_start_time()
+</pre><dd>
+This is the date on which the character was started.  The very first
+time the player ever logged on.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the time at which the player first logged on
+
+</dl>
+
+<dt><a name="query_time_on">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_time_on</b></a><pre>
+nomask int query_time_on()
+</pre><dd>
+The amount of time on line.  This is the total amount of time online
+in seconds from when they first started playing.  The return from
+this method is *negative*, you will need to make it positive to use it
+most likely.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the total log on time in seconds (the return value is *negative*)
+
+</dl>
+
+<dt><a name="query_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_title</b></a><pre>
+string query_title()
+</pre><dd>
+This method returns the list of titles associated with this player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of titles
+<dt><b>See also:</b>
+<dd><a href="#query_titles">query_titles()</a>, <a href="#set_title">set_title()</a> and <a href="#remove_title">remove_title()
+</a></dl>
+
+<dt><a name="query_titles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_titles</b></a><pre>
+mapping query_titles()
+</pre><dd>
+This method returns the mapping of all the title associated with this
+player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current mapping of titles
+<dt><b>See also:</b>
+<dd><a href="#query_title">query_title()</a>, <a href="#set_title">set_title()</a> and <a href="#remove_title">remove_title()
+</a></dl>
+
+<dt><a name="quit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>quit</b></a><pre>
+int quit()
+</pre><dd>
+A forced quit.
+This is the function called by external objects to quit
+a player. It avoids checks for things like being in combat.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 if it failed, non zero if it succeeded.
+<dt><b>See also:</b>
+<dd><a href="#do_quit">do_quit()</a>, <a href="#quit_alt">quit_alt()</a> and <a href="#efun::command">efun::command()
+</a></dl>
+
+<dt><a name="quit_alt">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>quit_alt</b></a><pre>
+int quit_alt(int verbose)
+</pre><dd>
+This is the quit code called by the command 'quit'<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 if failed
+<dt><b>See also:</b>
+<dd><a href="#quit">quit()</a> and <a href="#do_quit">do_quit()
+</a></dl>
+
+<dt><a name="remove_ghost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_ghost</b></a><pre>
+void remove_ghost()
+</pre><dd>
+This method removes the ghost from the player.  This stops them
+being a ghost and turns them back into a real person.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#second_life">second_life()
+</a></dl>
+
+<dt><a name="remove_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_title</b></a><pre>
+void remove_title(string type)
+</pre><dd>
+This method removes the title of the given type from the title mapping.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of title to remove
+<dt><b>See also:</b>
+<dd><a href="#query_title">query_title()</a>, <a href="#set_title">set_title()</a> and <a href="#remove_title">remove_title()
+</a></dl>
+
+<dt><a name="restart_heart_beat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>restart_heart_beat</b></a><pre>
+int restart_heart_beat()
+</pre><dd>
+Restarts their heartbeat if it has got turned off for some reason.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns 1
+
+</dl>
+
+<dt><a name="run_away">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>run_away</b></a><pre>
+int run_away()
+</pre><dd>
+Called when the player wimpys out of a place.  This does all the run
+away stuff anfd things like that.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if succeeded in running away, 0 if not
+
+</dl>
+
+<dt><a name="save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save</b></a><pre>
+nomask int save()
+</pre><dd>
+This method is deprecated.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns 1
+<dt><b>See also:</b>
+<dd><a href="#save_me">save_me()
+</a></dl>
+
+<dt><a name="save_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_me</b></a><pre>
+void save_me()
+</pre><dd>
+Saves the player.  Saves the player to disc, doing all the autoload
+stuff and such like.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#save">save()
+</a></dl>
+
+<dt><a name="save_with_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_with_auto_load</b></a><pre>
+void save_with_auto_load(mixed al)
+</pre>
+<dt><a name="second_life">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>second_life</b></a><pre>
+mixed second_life()
+</pre><dd>
+This method is called when the player dies.  It creates the corpse
+and handles all the bits and pieces that should be dealth with
+when a player dies.
+<p>
+If this method returns 0 then the automatic death handling code
+in the living object is used instead of this.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns 1
+
+</dl>
+
+<dt><a name="set_monitor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_monitor</b></a><pre>
+void set_monitor(int i)
+</pre><dd>
+Set the hit point minitor.  This sets the value of the hit point
+monitor flag.  If it is set to 0, the monitor is turned off.  If
+it is set to 1 the monitor is turned on, higher values cause the monitor
+to be displayed every N heartbeats.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new value for the hit point monitor flag
+
+</dl>
+
+<dt><a name="set_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_title</b></a><pre>
+void set_title(string type,
+string title)
+</pre><dd>
+This method sets the current title type to be of a certain name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of title to set
+<dd>title - the string to set it to
+<dt><b>See also:</b>
+<dd><a href="#query_title">query_title()</a>, <a href="#set_title">set_title()</a> and <a href="#remove_title">remove_title()
+</a></dl>
+
+<dt><a name="toggle_wimpy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>toggle_wimpy</b></a><pre>
+int toggle_wimpy(string str)
+</pre><dd>
+This method changes the current value of the wimpy variables.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new value of the wimpy variable
+<dt><b>Returns:</b>
+<dd>0 on failure and 1 on success
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="set_max_deaths">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_max_deaths</b></a><pre>
+void set_max_deaths(int i)
+</pre><dd>
+Sets the maximum number of deaths.  This sets the maximum number of times a player can
+die.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the nukber of deaths to set it to
+<dt><b>See also:</b>
+<dd><a href="#adjust_max_deaths">adjust_max_deaths()
+</a></dl>
+
+<dt><a name="write_prompt">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>write_prompt</b></a><pre>
+void write_prompt()
+</pre>
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_player_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>player_info</b></a><pre>
+class player_info {
+int hb_num;
+int level;
+int level_time;
+int save_inhibit;
+int update_tmps_call_out;
+int last_save;
+object snoopee;
+mapping titles;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 02:38:44 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

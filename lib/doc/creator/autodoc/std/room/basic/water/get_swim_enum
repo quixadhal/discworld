@@ -1,0 +1,42 @@
+.DT
+get_swim_enum
+Disk World creator help
+get_swim_enum
+
+.SH Name
+.SP 5 5
+get_swim_enum -  This function returns the effect number of the swimming/immersion effect on the object specified.
+.EP
+
+.SH Syntax
+.SI 5
+int get_swim_enum(object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - the object for which the swimming effect number should be found
+.EI
+
+.SH Returns
+.SI 5
+the swimming effect number.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function returns the effect number of the swimming/immersion effect on
+the object specified.  If there isn't one, it adds the effect.
+.EP
+
+.SH See also
+.SP 5 5
+effects_matching, query_classification
+
+.EP
+

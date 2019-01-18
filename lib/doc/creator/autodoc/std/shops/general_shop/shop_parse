@@ -1,0 +1,46 @@
+.DT
+shop_parse
+Disk World creator help
+shop_parse
+
+.SH Name
+.SP 5 5
+shop_parse -  This is a minature version of do_parse(), which can be used when you set the money array to a function pointer in order to make message processing go smoother.
+.EP
+
+.SH Syntax
+.SI 5
+string shop_parse(string str,
+mixed ob,
+object client,
+string money,
+string extra,
+string which)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the value of the message
+%^BOLD%^ob%^RESET%^ - the objects to process
+%^BOLD%^money%^RESET%^ - the money string
+%^BOLD%^extra%^RESET%^ - the extra string
+.EI
+
+.SH Returns
+.SI 5
+a parsed string
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/general_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is a minature version of do_parse(), which can be used when you
+set the money array to a function pointer in order to make message
+processing go smoother. 
+.EP
+

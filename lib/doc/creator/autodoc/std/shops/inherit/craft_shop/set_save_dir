@@ -1,0 +1,41 @@
+.DT
+set_save_dir
+Disk World creator help
+set_save_dir
+
+.SH Name
+.SP 5 5
+set_save_dir -  This method sets the save file associated with the controller.
+.EP
+
+.SH Syntax
+.SI 5
+void set_save_dir(string fname)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^fname%^RESET%^ - the save file
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/craft_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the save file associated with the controller.  The save
+file should actually be a directory, the name of the directory plus a
+.o will be used for the save files.  The directory must exist or weird
+errors will occur.
+This should always be set in the setup function of the room.
+.EP
+
+.SH See also
+.SP 5 5
+set_controller(), query_save_dir()
+
+.EP
+

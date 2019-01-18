@@ -1,0 +1,43 @@
+.DT
+query_chant
+Disk World creator help
+query_chant
+
+.SH Name
+.SP 5 5
+query_chant -  This method returns the chant of the potion name.
+.EP
+
+.SH Syntax
+.SI 5
+string query_chant(string s)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^s%^RESET%^ - the name to lookup
+.EI
+
+.SH Returns
+.SI 5
+the chant.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/potion.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the chant of the potion name.  The
+expand_nickname function will be done on the input name before
+looking it up.
+.EP
+
+.SH See also
+.SP 5 5
+query_min_level()
+
+.EP
+

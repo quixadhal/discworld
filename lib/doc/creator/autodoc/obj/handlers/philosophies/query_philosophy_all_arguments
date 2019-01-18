@@ -1,0 +1,43 @@
+.DT
+query_philosophy_all_arguments
+Disk World creator help
+query_philosophy_all_arguments
+
+.SH Name
+.SP 5 5
+query_philosophy_all_arguments -  This method returns the arguments of the philosophy.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_philosophy_all_arguments(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the philosophy to get the arguments for
+.EI
+
+.SH Returns
+.SI 5
+the arguments for the philosophy.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/philosophies.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the arguments of the philosophy.  This returns
+a mapping containing the argument values.  This should not be
+used except for debuggin purposes.
+.EP
+
+.SH See also
+.SP 5 5
+query_philosphy_bonus(), query_philosphy_type(), query_philosphy_needed(), query_philosphy_effect(), query_philosphy_argument()
+
+.EP
+

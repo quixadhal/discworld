@@ -1,0 +1,47 @@
+.DT
+is_nomination_accepted
+Disk World creator help
+is_nomination_accepted
+
+.SH Name
+.SP 5 5
+is_nomination_accepted -  This method checks to see if the nomination has been accepted.
+.EP
+
+.SH Syntax
+.SI 5
+int is_nomination_accepted(string club_name,
+string position,
+string person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club to check
+%^BOLD%^position%^RESET%^ - the position they are nominated for
+%^BOLD%^person%^RESET%^ - the person who has been nominated
+.EI
+
+.SH Returns
+.SI 5
+1 if they are nominated, 0 if not.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the nomination has been accepted.  Currently
+a nomination is accepted if there is more than 2 people nominated and one
+of them is the person who is nominated.
+.EP
+
+.SH See also
+.SP 5 5
+is_nominated_for(), query_nominators_for()
+
+.EP
+

@@ -1,0 +1,42 @@
+.DT
+set_network_terminal_type
+Disk World creator help
+set_network_terminal_type
+
+.SH Name
+.SP 5 5
+set_network_terminal_type -  This method handles the responses from the remote site informing us of their terminal type.
+.EP
+
+.SH Syntax
+.SI 5
+int set_network_terminal_type(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the terminal type gathered from the remote site
+.EI
+
+.SH Returns
+.SI 5
+0 if the type was not used, 1 if it was.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method handles the responses from the remote site informing
+us of their terminal type.
+.EP
+
+.SH See also
+.SP 5 5
+set_term_type(), query_term_name(), query_cur_term()
+
+.EP
+

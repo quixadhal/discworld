@@ -1,0 +1,40 @@
+.DT
+complete_sale
+Disk World creator help
+complete_sale
+
+.SH Name
+.SP 5 5
+complete_sale -  This method is called to complete the sale completely.
+.EP
+
+.SH Syntax
+.SI 5
+void complete_sale(int value,
+string name,
+object * sellable,
+string category)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^value%^RESET%^ - the value of the objects to sell
+%^BOLD%^name%^RESET%^ - the list name
+%^BOLD%^sellable%^RESET%^ - the list of objects to sell
+%^BOLD%^category%^RESET%^ - the category of the object, 0 if none
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/craft_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called to complete the sale completely.  It is split
+up into a second function to allow the extra sell stuff
+to work neatly.
+.EP
+

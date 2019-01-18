@@ -1,0 +1,347 @@
+<html><head><title>File modified_efuns.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /secure/simul_efun/modified_efuns.c</h2>
+Cotains some simul_efuns.<p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="secure.simul_efun.base_name.c.html">/secure/simul_efun/base_name.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a>, <a href="include.login.h.html">/include/login.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#call_out"><b>call_out</b></a>(mixed, int, mixed * args)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cap_words"><b>cap_words</b></a>(string)<dd>
+This method returns a string with each word capitalized.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cat"><b>cat</b></a>(string, int, int)<dd>
+Write the file out to the screen.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#db_connect"><b>db_connect</b></a>(mixed * args)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#debug_info"><b>debug_info</b></a>(int, object)<dd>
+Debug info Simul Efun
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#flush_log_files"><b>flush_log_files</b></a>()<dd>
+This method flushes out all the buffered stuff for the log files.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#input_to"><b>input_to</b></a>(mixed, mixed, mixed args)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#log_file"><b>log_file</b></a>(string, string, mixed * args)<dd>
+This method writes a message out ot a log file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#md5"><b>md5</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#memory_summary"><b>memory_summary</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#mud_name"><b>mud_name</b></a>()<dd>
+This method returns the name of the mud.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_loggers"><b>query_loggers</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_verb"><b>query_verb</b></a>()<dd>
+This returns the current verb name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reference_allowed"><b>reference_allowed</b></a>(object, mixed)<dd>
+This method is used to test to see if a reference is allowed to this
+object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#replace"><b>replace</b></a>(string, mixed, string)<dd>
+Replaces all occurances of a set of strings in the input string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#sha256"><b>sha256</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#shout"><b>shout</b></a>(string, object)<dd>
+This method sends a polite shout to everyone on line.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#strcasecmp"><b>strcasecmp</b></a>(string, string)<dd>
+Does a string compare.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#tail"><b>tail</b></a>(string, int)<dd>
+This will print the last bit of a file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#uniq_array"><b>uniq_array</b></a>(mixed *)<dd>
+This method will return an array that contains no duplicates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#user_event"><b>user_event</b></a>(mixed, mixed, mixed args)<dd>
+This method calls an event on all the users online.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#wizardp"><b>wizardp</b></a>(mixed)<dd>
+This method tells us if the object is a wizard.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#write"><b>write</b></a>(mixed)<dd>
+This method prints a message to the player.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="call_out">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>call_out</b></a><pre>
+varargs int call_out(mixed fun,
+int delay,
+mixed * args ...)
+</pre>
+<dt><a name="cap_words">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cap_words</b></a><pre>
+string cap_words(string words)
+</pre><dd>
+This method returns a string with each word capitalized.
+<p><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the string to capitalize
+<dt><b>Returns:</b>
+<dd>the string with all words capitalized
+
+</dl>
+
+<dt><a name="cat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cat</b></a><pre>
+void cat(string file,
+int start_line,
+int number)
+</pre><dd>
+Write the file out to the screen.  This should  not be used if possible.
+It is an interface to read_file and other things.  You should perhaps
+look at using more_string ort more_file.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>file - the file name to cat
+<dd>start_line - the line to start on
+<dd>number - the number of lines to print
+
+<dt><b>See also:</b>
+<dd><a href="global.more_string.c.html#more_string">/global/more_string->more_string()</a> and <a href="global.more_file.c.html#more_file">/global/more_file->more_file()
+</a></dl>
+
+<dt><a name="db_connect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>db_connect</b></a><pre>
+varargs int db_connect(mixed * args ...)
+</pre>
+<dt><a name="debug_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>debug_info</b></a><pre>
+string debug_info(int operation,
+object ob)
+</pre><dd>
+Debug info Simul Efun<p>
+
+<dt><a name="flush_log_files">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>flush_log_files</b></a><pre>
+void flush_log_files()
+</pre><dd>
+This method flushes out all the buffered stuff for the log files.
+<p>
+
+<dt><a name="input_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>input_to</b></a><pre>
+void input_to(mixed fun,
+mixed flag,
+mixed args ...)
+</pre>
+<dt><a name="log_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>log_file</b></a><pre>
+varargs void log_file(string name,
+string fmt,
+mixed * args ...)
+</pre><dd>
+This method writes a message out ot a log file.  The log files are
+normally in "/log".  If a file doesn't start with '/ then "/log/" will be
+preppended to it.
+This does automatic removal of the log files after they get over
+a certain length.  The fmt and args parameters are used to print the
+actual message.
+<p>
+If more than one argument is passed to this function, then sprintf will
+be used to print out the results.
+<p>
+ie: log_file("ROGER", "%s: frog and %s\n", ctime(time()), query_gumboot());
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the log file
+<dd>fmt - the format string
+<dd>args - the arguments to the sprintf
+
+</dl>
+
+<dt><a name="md5">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>md5</b></a><pre>
+string md5(string data)
+</pre>
+<dt><a name="memory_summary">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>memory_summary</b></a><pre>
+string memory_summary()
+</pre>
+<dt><a name="mud_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>mud_name</b></a><pre>
+string mud_name()
+</pre><dd>
+This method returns the name of the mud.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the mud
+
+</dl>
+
+<dt><a name="query_loggers">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_loggers</b></a><pre>
+mapping query_loggers()
+</pre>
+<dt><a name="query_verb">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_verb</b></a><pre>
+string query_verb()
+</pre><dd>
+This returns the current verb name.  This works if the verb ius used
+through add_command or through add_action.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the verb
+
+</dl>
+
+<dt><a name="reference_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reference_allowed</b></a><pre>
+varargs int reference_allowed(object referree,
+mixed referrer)
+</pre><dd>
+This method is used to test to see if a reference is allowed to this
+object.  It tests things like the allow array and that sort of stuff.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object to test
+<dt><b>Returns:</b>
+<dd>1 if the reference is allowed
+
+</dl>
+
+<dt><a name="replace">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>replace</b></a><pre>
+varargs string replace(string str,
+mixed bing,
+string rep)
+</pre><dd>
+Replaces all occurances of a set of strings in the input string.  Replaces
+an individual or an array of strings with new values.  If the second
+argument is an array of strings, then the 1st, 3rd, 5th...  elements will
+be the strings to search for and the 2nd, 4th, 6th etc will be the strings
+to replace with.  If three arguments are specified then the second is the string
+to search for, the third the one to replace.
+<p>
+Eg:<br>
+str = replace(str, ({ "search", "replace", "orange", "apple" });<p>
+That will replace all occurances of "search" with "replace" and "orange"
+with "apple".
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the string to do the replacement in
+<dd>bing - the search or array argument
+<dd>rep - the replacement string, or null
+
+<dt><b>Returns:</b>
+<dd>the string with all the replacements done
+
+</dl>
+
+<dt><a name="sha256">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>sha256</b></a><pre>
+string sha256(string data)
+</pre>
+<dt><a name="shout">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shout</b></a><pre>
+varargs void shout(string words,
+object avoid)
+</pre><dd>
+This method sends a polite shout to everyone on line.  It checks
+for earmuffs and all that sort of stuff.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the message to shout
+<dd>avoid - who not to tell the message to
+
+</dl>
+
+<dt><a name="strcasecmp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>strcasecmp</b></a><pre>
+int strcasecmp(string str1,
+string str2)
+</pre><dd>
+Does a string compare...  But case insensative...
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str1 - the string to compare
+<dd>str2 - the other string to compare
+<dt><b>Returns:</b>
+<dd>0 if they are the same, <0 if they are less than each other, >0 if not
+<dt><b>See also:</b>
+<dd><a href="#efun::strcmp">efun::strcmp()
+</a></dl>
+
+<dt><a name="tail">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>tail</b></a><pre>
+varargs string tail(string fname,
+int nlines)
+</pre><dd>
+This will print the last bit of a file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the file to read
+<dt><b>Returns:</b>
+<dd>1 if it succeeded, 0 if it failed
+
+</dl>
+
+<dt><a name="uniq_array">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>uniq_array</b></a><pre>
+mixed * uniq_array(mixed * arr)
+</pre><dd>
+This method will return an array that contains no duplicates.
+ uniq_array.c
+ Written by: Wodan
+<p>
+ This function will return an array that contains no duplicates.
+ Gotta love them mappings. :)<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arr - the array to convert
+<dt><b>Returns:</b>
+<dd>an array with no duplicates
+
+</dl>
+
+<dt><a name="user_event">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>user_event</b></a><pre>
+void user_event(mixed from,
+mixed first,
+mixed args ...)
+</pre><dd>
+This method calls an event on all the users online.
+It does not do any filtering, so it will send messages to people who
+are earmuffed and ignoring or lord invisible or whatever.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>from - the person it is from
+<dd>name - the name of the event
+<dd>args - the arguments to the event
+
+</dl>
+
+<dt><a name="wizardp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>wizardp</b></a><pre>
+int wizardp(mixed arg)
+</pre><dd>
+This method tells us if the object is a wizard.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>is the object a wizard
+
+</dl>
+
+<dt><a name="write">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>write</b></a><pre>
+void write(mixed str)
+</pre><dd>
+This method prints a message to the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the message to send
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Nov 2018 10:31:13 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

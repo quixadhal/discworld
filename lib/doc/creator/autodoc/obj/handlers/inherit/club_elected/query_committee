@@ -1,0 +1,37 @@
+.DT
+query_committee
+Disk World creator help
+query_committee
+
+.SH Name
+.SP 5 5
+query_committee -  This method returns the committee of the club.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_committee(string club_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+.EI
+
+.SH Returns
+.SI 5
+the array of people who hold positions
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the committee of the club.  The committee is anyone
+who holds a position.
+.EP
+

@@ -1,0 +1,46 @@
+.DT
+query_climb_base_room
+Disk World creator help
+query_climb_base_room
+
+.SH Name
+.SP 5 5
+query_climb_base_room -  This method returns the basic room as the specified location.
+.EP
+
+.SH Syntax
+.SI 5
+string query_climb_base_room(int x,
+int y,
+int z,
+int map_room,
+string ref base)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x%^RESET%^ - the x location
+%^BOLD%^y%^RESET%^ - the y location
+%^BOLD%^z%^RESET%^ - the z location
+%^BOLD%^map_room%^RESET%^ - check down through the air for the room for the map
+%^BOLD%^base%^RESET%^ - the updated base (for climbing rooms)
+.EI
+
+.SH Returns
+.SI 5
+the basic room for the location
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the basic room as the specified location.  A climb
+room type means a room that is up or down on the z axis from where we
+are, but we are allowed to climb to.
+.EP
+

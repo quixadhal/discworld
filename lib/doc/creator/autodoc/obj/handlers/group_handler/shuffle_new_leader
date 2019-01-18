@@ -1,0 +1,43 @@
+.DT
+shuffle_new_leader
+Disk World creator help
+shuffle_new_leader
+
+.SH Name
+.SP 5 5
+shuffle_new_leader -  This function allows you to choose a new leader for the group in a variety of ways.
+.EP
+
+.SH Syntax
+.SI 5
+varargs object shuffle_new_leader(string group,
+int way,
+object * exclude)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^group%^RESET%^ - the name of the group
+%^BOLD%^way%^RESET%^ - 0 for random (no other ways present atm)
+%^BOLD%^exclude%^RESET%^ - an object array of members to exclude from the start
+.EI
+
+.SH Returns
+.SI 5
+an object pointing to the new leader, or 0
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/group_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function allows you to choose a new leader for the group
+in a variety of ways.  It only includes players who are
+interactive().
+
+.EP
+

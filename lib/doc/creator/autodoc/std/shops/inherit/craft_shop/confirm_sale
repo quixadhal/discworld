@@ -1,0 +1,41 @@
+.DT
+confirm_sale
+Disk World creator help
+confirm_sale
+
+.SH Name
+.SP 5 5
+confirm_sale -  This method confirms the sale after the cost and name have been determined.
+.EP
+
+.SH Syntax
+.SI 5
+void confirm_sale(string answer,
+int value,
+string name,
+object * sellable,
+string category)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^answer%^RESET%^ - the answer to confirm with
+%^BOLD%^value%^RESET%^ - the value of the object
+%^BOLD%^name%^RESET%^ - the name of the object
+%^BOLD%^sellable%^RESET%^ - the list of sellable objects
+%^BOLD%^category%^RESET%^ - the category of the object, 0 if none
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/craft_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method confirms the sale after the cost and name have been
+determined.
+.EP
+

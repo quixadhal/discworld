@@ -1,6 +1,6 @@
 .DT
 surf_save.c
-Dead DW2 autodoc help
+Disk World autodoc help
 surf_save.c
 
 .SH Inherits

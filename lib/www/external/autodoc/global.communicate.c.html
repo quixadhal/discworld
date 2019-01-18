@@ -1,0 +1,354 @@
+<html><head><title>File communicate.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/communicate.c</h2>
+The communication handling code for the player object.  Controls all
+the basic channels and basic communication stuff.<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player.h.html">/include/player.h</a>, <a href="include.language.h.html">/include/language.h</a>, <a href="include.drinks.h.html">/include/drinks.h</a>, <a href="include.library.h.html">/include/library.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_language_info"><b>language_info</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_language"><b>add_language</b></a>(string)<dd>
+This method will add a language to a player/npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_max_sp"><b>adjust_max_sp</b></a>(int)<dd>
+This method adjusts the current maximum social points.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_sp"><b>adjust_sp</b></a>(int)<dd>
+This method changes the current number of social points
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#comm_event"><b>comm_event</b></a>(mixed, string, string, string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#comm_event_to"><b>comm_event_to</b></a>(object, string, string, string, string, object *, string, object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#communicate_commands"><b>communicate_commands</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_converse"><b>do_converse</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_whisper"><b>do_whisper</b></a>(object, string, string, string, string, object *, string, object, string)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_wombat_repeat"><b>do_wombat_repeat</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_language"><b>query_current_language</b></a>()<dd>
+This method returns the language the person is currently speaking.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_default_language"><b>query_default_language</b></a>()<dd>
+This method returns the default language to use for the person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ignored_by"><b>query_ignored_by</b></a>(object *)<dd>
+This method returns the people in the array who are ignoring this
+player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ignoring"><b>query_ignoring</b></a>(object *)<dd>
+This method returns the people in the array who this player is currently
+ignoring.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_mangle_accent"><b>query_mangle_accent</b></a>()<dd>
+This method returns the mangle accents flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_sp"><b>query_max_sp</b></a>()<dd>
+This returns the maximum number of social points available.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_real_max_sp"><b>query_real_max_sp</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sp"><b>query_sp</b></a>()<dd>
+This method returns the current social points.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_tell_reply_list"><b>query_tell_reply_list</b></a>()<dd>
+This method returns the players tell reply list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_default_language"><b>set_default_language</b></a>(string)<dd>
+This method sets the default language to use for the person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_language"><b>set_language</b></a>(string)<dd>
+This method sets the language we are currently speaking.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_mangle_accent"><b>set_mangle_accent</b></a>(int)<dd>
+This method sets the mangle accents flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_sp"><b>set_max_sp</b></a>(int)<dd>
+This method sets the maximum social points.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sp"><b>set_sp</b></a>(int)<dd>
+This method sets the current social points for the player
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_tell_reply_list"><b>set_tell_reply_list</b></a>(mixed)<dd>
+This method sets the players tell reply list.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_language</b></a><pre>
+void add_language(string lang)
+</pre><dd>
+This method will add a language to a player/npc.  It is used to make sure
+that a player or npc has a specific language.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - the language to add
+
+</dl>
+
+<dt><a name="adjust_max_sp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_max_sp</b></a><pre>
+int adjust_max_sp(int number)
+</pre><dd>
+This method adjusts the current maximum social points.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the amount to adjust it by
+<dt><b>Returns:</b>
+<dd>the new maximum social points
+
+</dl>
+
+<dt><a name="adjust_sp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_sp</b></a><pre>
+int adjust_sp(int number)
+</pre><dd>
+This method changes the current number of social points<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the amount to change the social points by
+<dt><b>Returns:</b>
+<dd>the current social points
+
+</dl>
+
+<dt><a name="comm_event">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>comm_event</b></a><pre>
+void comm_event(mixed thing,
+string type,
+string start,
+string rest,
+string lang,
+string accent)
+</pre>
+<dt><a name="comm_event_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>comm_event_to</b></a><pre>
+void comm_event_to(object ob,
+string event_type,
+string start,
+string type,
+string words,
+object * others,
+string lang,
+object me,
+string accent)
+</pre>
+<dt><a name="communicate_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>communicate_commands</b></a><pre>
+void communicate_commands()
+</pre>
+<dt><a name="do_converse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_converse</b></a><pre>
+void do_converse(string str)
+</pre>
+<dt><a name="do_whisper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_whisper</b></a><pre>
+void do_whisper(object ob,
+string event_type,
+string start,
+string type,
+string words,
+object * others,
+string lang,
+object me,
+string accent)
+</pre>
+<dt><a name="query_current_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_language</b></a><pre>
+string query_current_language()
+</pre><dd>
+This method returns the language the person is currently speaking.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the spoken language
+<dt><b>See also:</b>
+<dd><a href="#set_language">set_language()
+</a></dl>
+
+<dt><a name="query_default_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_default_language</b></a><pre>
+string query_default_language()
+</pre><dd>
+This method returns the default language to use for the person.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the default language
+
+</dl>
+
+<dt><a name="query_ignored_by">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ignored_by</b></a><pre>
+object * query_ignored_by(object * people)
+</pre><dd>
+This method returns the people in the array who are ignoring this
+player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>people - the people to check to see for ignoring
+<dt><b>Returns:</b>
+<dd>the array of people that are ignoring this player
+<dt><b>See also:</b>
+<dd><a href="#query_ignoring">query_ignoring()
+</a></dl>
+
+<dt><a name="query_ignoring">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ignoring</b></a><pre>
+object * query_ignoring(object * people)
+</pre><dd>
+This method returns the people in the array who this player is currently
+ignoring.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>people - the people to check to see if they are being ignored
+<dt><b>Returns:</b>
+<dd>the people who are being ignored from the array
+<dt><b>See also:</b>
+<dd><a href="#query_ignored_by">query_ignored_by()
+</a></dl>
+
+<dt><a name="query_mangle_accent">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_mangle_accent</b></a><pre>
+int query_mangle_accent()
+</pre><dd>
+This method returns the mangle accents flag.  If this is set to 1 then the
+accents will be mangled in the speech text, if it is set to 0 then
+the accent will just be added to the say string instead.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mangle accent flag
+
+</dl>
+
+<dt><a name="query_max_sp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_sp</b></a><pre>
+int query_max_sp()
+</pre><dd>
+This returns the maximum number of social points available.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maximum social points
+
+</dl>
+
+<dt><a name="query_real_max_sp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_real_max_sp</b></a><pre>
+int query_real_max_sp()
+</pre>
+<dt><a name="query_sp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sp</b></a><pre>
+int query_sp()
+</pre><dd>
+This method returns the current social points.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current social points
+
+</dl>
+
+<dt><a name="query_tell_reply_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_tell_reply_list</b></a><pre>
+mixed query_tell_reply_list()
+</pre><dd>
+This method returns the players tell reply list.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the tell reply list.
+
+</dl>
+
+<dt><a name="set_default_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_default_language</b></a><pre>
+void set_default_language(string def)
+</pre><dd>
+This method sets the default language to use for the person.  The default
+language is their native tongue, so things in this language show as
+not being a special language.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>def - the default language
+
+</dl>
+
+<dt><a name="set_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_language</b></a><pre>
+int set_language(string str)
+</pre><dd>
+This method sets the language we are currently speaking.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the language we are current speaking
+<dt><b>See also:</b>
+<dd><a href="#query_current_language">query_current_language()
+</a></dl>
+
+<dt><a name="set_mangle_accent">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_mangle_accent</b></a><pre>
+void set_mangle_accent(int flag)
+</pre><dd>
+This method sets the mangle accents flag.  If this is set to 1 then the
+accents will be mangled in the speech text, if it is set to 0 then
+the accent will just be added to the say string instead.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - the new value of the flag
+
+</dl>
+
+<dt><a name="set_max_sp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_sp</b></a><pre>
+int set_max_sp(int number)
+</pre><dd>
+This method sets the maximum social points.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the maxmum social points
+<dt><b>Returns:</b>
+<dd>the new maximum social points
+
+</dl>
+
+<dt><a name="set_sp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sp</b></a><pre>
+int set_sp(int number)
+</pre><dd>
+This method sets the current social points for the player<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the number of social points
+
+</dl>
+
+<dt><a name="set_tell_reply_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_tell_reply_list</b></a><pre>
+int set_tell_reply_list(mixed list)
+</pre><dd>
+This method sets the players tell reply list.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>list - the reply list.
+<dd>tim - the timeout
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="do_wombat_repeat">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_wombat_repeat</b></a><pre>
+int do_wombat_repeat(string str,
+string com)
+</pre>
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_language_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>language_info</b></a><pre>
+class language_info {
+string cur_lang;
+int mangle_accent;
+string default_lang;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 00:09:54 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

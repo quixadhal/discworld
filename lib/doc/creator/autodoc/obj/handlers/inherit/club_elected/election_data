@@ -1,0 +1,52 @@
+.DT
+election_data
+Disk World creator help
+election_data
+
+.SH Name
+.SP 5 5
+election_data -  This class which keeps track of a currently running election.
+.EP
+
+.SH Definition
+.SI 5
+class election_data {
+int time_of_event;
+int state;
+mapping people;
+mapping nominated;
+mapping voted_for;
+string election_status;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^time_of_event%^RESET%^ - the time the election started
+%^BOLD%^state%^RESET%^ - the current state of the election
+%^BOLD%^people%^RESET%^ - the current votes for the specified person.<br>
+The format is: ([ position : ([ person : votes, ... ]) ... ])
+%^BOLD%^voted_for%^RESET%^ - which positions everyone has voted for.<br>
+The format is: ([ person : ({ position, position, ... }) ])
+%^BOLD%^nominated%^RESET%^ - the people who have been nominated for each position
+and who nominated them.<br>
+This is in the format: ([ position: ([ person : ({ nominations }) ]) ])
+A person must be seconded before they are actually added as
+a potential for a position.
+%^BOLD%^election_status%^RESET%^ - the status of the election, this is used with
+defines.
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This class which keeps track of a currently running election.
+.EP
+

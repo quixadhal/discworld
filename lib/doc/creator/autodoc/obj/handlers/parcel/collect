@@ -1,0 +1,43 @@
+.DT
+collect
+Disk World creator help
+collect
+
+.SH Name
+.SP 5 5
+collect -  This function collects any items available
+.EP
+
+.SH Syntax
+.SI 5
+int collect(string name,
+string location,
+object target,
+int copy)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - Name of the player collecting
+%^BOLD%^location%^RESET%^ - Location collecting from
+%^BOLD%^target%^RESET%^ - An object to move the items into, a room or container
+%^BOLD%^copy%^RESET%^ - An int, if its 1 it doesnt delete the objects from the parcels
+       array
+.EI
+
+.SH Returns
+.SI 5
+0 if no items or failure, 1 if successful
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/parcel.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function collects any items available
+.EP
+

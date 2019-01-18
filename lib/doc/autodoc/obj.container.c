@@ -1,6 +1,6 @@
 .DT
 container.c
-DW_wibble autodoc help
+Disk World autodoc help
 container.c
 
 .SH Description
@@ -25,12 +25,12 @@ Written by Who knows, Pinkfish, Ember, Jeremy
 .EP
 .SH Inherits
 .SP 5 5
-This class inherits the following classes /std/container and /std/basic/close_lock_container.
+This class inherits the following classes /std/basic/close_lock_container and /std/container.
 .EP
 
 .SH Includes
 .SP 5 5
-This class includes the following files /include/move_failures.h, /include/parse_command.h and /include/potion_attrs.h.
+This class includes the following files /include/potion_attrs.h, /include/parse_command.h and /include/move_failures.h.
 .EP
 
 .SH Public Functions

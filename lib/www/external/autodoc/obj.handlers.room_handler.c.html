@@ -1,0 +1,260 @@
+<html><head><title>File room_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/room_handler.c</h2>
+This file contains all the bits needed to handle rooms, plus the code to
+handle following when moving.<p><b>See also:</b><br>/std/room/basic_room.c
+<p>Written by Pinkfish<hr><h2>Includes</h2>
+This class includes the following files <a href="include.position.h.html">/include/position.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.climate.h.html">/include/climate.h</a>, <a href="include.room.h.html">/include/room.h</a>, <a href="include.living.h.html">/include/living.h</a>, <a href="include.weather.h.html">/include/weather.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_chatter"><b>add_chatter</b></a>(object, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_door"><b>add_door</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_exit_type"><b>add_exit_type</b></a>(string, mixed, mixed, int, mixed)<dd>
+This method adds an exit type to the current list of available exit types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_chatters"><b>check_chatters</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_door"><b>check_door</b></a>(mixed)<dd>
+This method checks to see if the door exists or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_doors"><b>check_doors</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#exit_move"><b>exit_move</b></a>(string, string, mixed, object)<dd>
+This is the main code for moving someone.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#housekeeping"><b>housekeeping</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_dynamic_arg"><b>init_dynamic_arg</b></a>(mapping)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move_thing"><b>move_thing</b></a>(object, string, string, mixed, mixed, string)<dd>
+THis is the code that actually moves the thing around the place.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_chatters"><b>query_chatters</b></a>()<dd>
+This method returns the current list of rooms that are enabled for
+chatting.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_door_type"><b>query_door_type</b></a>(string, string, string)<dd>
+This method returns information about the door type, the door has
+extra information associated with it than the standard exit type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_doors"><b>query_doors</b></a>()<dd>
+This method returns the current list of doors handled by the room
+handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dynamic_auto_load"><b>query_dynamic_auto_load</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_exit_type"><b>query_exit_type</b></a>(string, string)<dd>
+This method returns the information associated with the exit type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_opposite_direction"><b>query_opposite_direction</b></a>(string)<dd>
+This method returns the opposite direction to this exit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_exit_type"><b>remove_exit_type</b></a>(string)<dd>
+This method remove the named exit from the type list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_chatter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_chatter</b></a><pre>
+void add_chatter(object thing,
+int number)
+</pre>
+<dt><a name="add_door">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_door</b></a><pre>
+void add_door(object thing)
+</pre>
+<dt><a name="add_exit_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_exit_type</b></a><pre>
+int add_exit_type(string type,
+mixed message,
+mixed obvious,
+int size,
+mixed func)
+</pre><dd>
+This method adds an exit type to the current list of available exit types.
+This is used when the room handler is setup to add all the used exit
+types.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the name of the exit type
+<dd>message - the message to display when going through the exit
+<dd>obvious - if the exit is obvious or not
+<dd>size - the size of the exit (used for heigh restrictions)
+<dd>func - the function to call when using the exit
+<dt><b>Returns:</b>
+<dd>1 if successfuly added, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#remove_exit_type">remove_exit_type()
+</a></dl>
+
+<dt><a name="check_chatters">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_chatters</b></a><pre>
+void check_chatters()
+</pre>
+<dt><a name="check_door">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_door</b></a><pre>
+void check_door(mixed args)
+</pre><dd>
+This method checks to see if the door exists or not.
+It is passed in the room we are going from and the direction the
+exit faces in the array.<br>
+<pre>({ room_from, direction })</pre><br>
+This is the function which generates those door xx not found messages.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - the arguements passed into the function
+<dt><b>See also:</b>
+<dd><a href="#query_door_type">query_door_type()
+</a></dl>
+
+<dt><a name="check_doors">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_doors</b></a><pre>
+void check_doors()
+</pre>
+<dt><a name="exit_move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>exit_move</b></a><pre>
+int exit_move(string verb,
+string extra,
+mixed special,
+object thing)
+</pre><dd>
+This is the main code for moving someone.  The move_thing code above
+should not be called directly.  This code handlers all the followers
+and any other things that need to be handled.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verb - the movement verb
+<dd>extra - extra information
+<dd>special - special informaiton
+<dd>thing - the thing to move
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="housekeeping">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>housekeeping</b></a><pre>
+void housekeeping()
+</pre>
+<dt><a name="init_dynamic_arg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_dynamic_arg</b></a><pre>
+void init_dynamic_arg(mapping maps)
+</pre>
+<dt><a name="move_thing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move_thing</b></a><pre>
+int move_thing(object thing,
+string dir,
+string dest,
+mixed exit,
+mixed enter,
+string move)
+</pre><dd>
+THis is the code that actually moves the thing around the place.
+It handles all the weirdness involved with dragging things and other
+such stuff.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - what is being moved
+<dd>dir - the direction we are going
+<dd>dest - the destionation room
+<dd>exit - the exit name
+<dd>enter - the enter name
+<dd>move - the string to tell the object when it moves
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="query_chatters">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_chatters</b></a><pre>
+mixed * query_chatters()
+</pre><dd>
+This method returns the current list of rooms that are enabled for
+chatting.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current chatters
+
+</dl>
+
+<dt><a name="query_door_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_door_type</b></a><pre>
+mixed * query_door_type(string type,
+string direc,
+string dest)
+</pre><dd>
+This method returns information about the door type, the door has
+extra information associated with it than the standard exit type.
+This function does a double job of trying to find the corresponding
+door on the other side of the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of the door
+<dd>direc - the direction the door points
+<dd>dest - the destination of the door
+<dt><b>Returns:</b>
+<dd>the door type array of information
+
+</dl>
+
+<dt><a name="query_doors">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_doors</b></a><pre>
+mixed * query_doors()
+</pre><dd>
+This method returns the current list of doors handled by the room
+handler.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current array of doors
+
+</dl>
+
+<dt><a name="query_dynamic_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dynamic_auto_load</b></a><pre>
+mapping query_dynamic_auto_load()
+</pre>
+<dt><a name="query_exit_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_exit_type</b></a><pre>
+mixed * query_exit_type(string type,
+string dir)
+</pre><dd>
+This method returns the information associated with the exit type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the exit type to query
+<dd>dir - the direction the type information is for
+<dt><b>Returns:</b>
+<dd>a huge amount of info as specified above
+
+</dl>
+
+<dt><a name="query_opposite_direction">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_opposite_direction</b></a><pre>
+string query_opposite_direction(string dir)
+</pre><dd>
+This method returns the opposite direction to this exit.  This should
+only be used for printing, since it is not a useful
+real name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the direction to get the opposite of
+<dt><b>Returns:</b>
+<dd>the opposite direction
+
+</dl>
+
+<dt><a name="remove_exit_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_exit_type</b></a><pre>
+int remove_exit_type(string type)
+</pre><dd>
+This method remove the named exit from the type list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the name of the exit type to remove
+<dt><b>Returns:</b>
+<dd>always returns 1
+<dt><b>See also:</b>
+<dd><a href="#add_exit_type">add_exit_type()
+</a></dl>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 00:59:19 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

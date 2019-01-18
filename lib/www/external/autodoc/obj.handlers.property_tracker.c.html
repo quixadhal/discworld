@@ -1,0 +1,108 @@
+<html><head><title>File property_tracker.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/property_tracker.c</h2>
+Property tracker. <p>Written by Taffyd<p>Started 10/06/99 3:42AM<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a> and <a href="include.login.h.html">/include/login.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_invalid_property"><b>add_invalid_property</b></a>(string, mixed, mixed)<dd>
+This function allows a new invalid property to be added to the list
+of invalid ones.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_properties"><b>check_properties</b></a>(mixed, string)<dd>
+This method is called by the login handler every time someone logs onto
+the MUD.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#convert_no_score"><b>convert_no_score</b></a>(string, object, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_invalid_properties"><b>query_invalid_properties</b></a>()<dd>
+This returns a list of all the properties that are marked as invalid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_invalid_property"><b>remove_invalid_property</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_warmth"><b>remove_warmth</b></a>(string, object, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_data"><b>reset_data</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_file"><b>save_file</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_invalid_property">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_invalid_property</b></a><pre>
+varargs int add_invalid_property(string property,
+mixed func,
+mixed obj)
+</pre><dd>
+This function allows a new invalid property to be added to the list
+of invalid ones.  The last two parameters are used so that you can
+add a callback if you want to convert a property over to the quest
+handler or whatever. They are optional.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>property - the property name to be added
+<dd>func - this parameter specifies the name of the function to be 
+called when the property is removed
+<dd>obj - this parameter specifies the path of the object on which func
+is called when the property is removed
+<dt><b>Returns:</b>
+<dd>1 if the property was added as invalid, 0 if it was not.
+<dt><b>Example:</b>
+<dd><pre>add_invalid_property( "womble frog" )</pre><dd><pre>
+add_invalid_property( "grave_digger", "convert_property", "/d/sur/Nowhere/chars/isabel" )
+</pre></dl>
+
+<dt><a name="check_properties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_properties</b></a><pre>
+void check_properties(mixed person,
+string type)
+</pre><dd>
+This method is called by the login handler every time someone logs onto
+the MUD. It checks through any properties that they have, and removes
+them if they are marked as invalid.
+<p>
+If a property function was set, then this function is called now when the 
+property is removed. It is passed three parameters, string property,
+object player, and mixed property_data.
+<p><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person who is logging on
+<dd>type - the type of login event. Only LOGIN events are used
+by this object. 
+<dt><b>See also:</b>
+<dd><a href="include.login.h.html">/include/login.h</a> and /obj/handlers/login_handler.c
+</dl>
+
+<dt><a name="convert_no_score">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>convert_no_score</b></a><pre>
+void convert_no_score(string property,
+object who,
+mixed data)
+</pre>
+<dt><a name="query_invalid_properties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_invalid_properties</b></a><pre>
+string query_invalid_properties()
+</pre><dd>
+This returns a list of all the properties that are marked as invalid.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of invalid properties
+
+</dl>
+
+<dt><a name="remove_invalid_property">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_invalid_property</b></a><pre>
+int remove_invalid_property(string property)
+</pre>
+<dt><a name="remove_warmth">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_warmth</b></a><pre>
+int remove_warmth(string property,
+object who,
+mixed data)
+</pre>
+<dt><a name="reset_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_data</b></a><pre>
+void reset_data()
+</pre>
+<dt><a name="save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_file</b></a><pre>
+void save_file()
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 00:07:11 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

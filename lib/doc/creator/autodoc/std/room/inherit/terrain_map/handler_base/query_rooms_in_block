@@ -1,0 +1,50 @@
+.DT
+query_rooms_in_block
+Disk World creator help
+query_rooms_in_block
+
+.SH Name
+.SP 5 5
+query_rooms_in_block -  This method is used to find all the rooms currently cloned within a specified rectangular area.
+.EP
+
+.SH Syntax
+.SI 5
+object * query_rooms_in_block(int x,
+int y,
+int z,
+int width,
+int height)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x%^RESET%^ - the x coordinate of rectangle's bottom left corner
+%^BOLD%^y%^RESET%^ - the y coordinate of rectangle's bottom left corner
+%^BOLD%^width%^RESET%^ - the width of the rectangle
+%^BOLD%^height%^RESET%^ - the height of the rectangle
+.EI
+
+.SH Returns
+.SI 5
+an array containing any rooms currently cloned within the
+specified rectangle.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to find all the rooms currently cloned within a
+specified rectangular area.
+.EP
+
+.SH See also
+.SP 5 5
+query_room_at, query_rooms_in_range, query_rooms_in_zone
+
+.EP
+

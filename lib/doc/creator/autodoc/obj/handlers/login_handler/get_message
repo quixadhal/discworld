@@ -1,0 +1,40 @@
+.DT
+get_message
+Disk World creator help
+get_message
+
+.SH Name
+.SP 5 5
+get_message -  This function is used to cache the login messages used by /secure/login it costs a bit in memory but saves us having to re-read the same text file everytime someone logs in.
+.EP
+
+.SH Syntax
+.SI 5
+string get_message(string mess_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^the%^RESET%^ - filename of the file to be returned
+.EI
+
+.SH Returns
+.SI 5
+the text of the file.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/login_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function is used to cache the login messages used by /secure/login
+it costs a bit in memory but saves us having to re-read the same text
+file everytime someone logs in.
+For security reasons this function will only work with files in /doc
+
+.EP
+

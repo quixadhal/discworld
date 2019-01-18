@@ -1,0 +1,41 @@
+.DT
+quest_completed
+Disk World creator help
+quest_completed
+
+.SH Name
+.SP 5 5
+quest_completed -  This method should be called in the code when a quest is complete.
+.EP
+
+.SH Syntax
+.SI 5
+void quest_completed(string name,
+string quest,
+object prev_ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - name of the player
+%^BOLD%^quest%^RESET%^ - the quest completed
+%^BOLD%^prev_ob%^RESET%^ - the object which completed the quest
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/nquest_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method should be called in the code when a quest is complete.
+.EP
+
+.SH See also
+.SP 5 5
+add_quest(), delete_quest()
+
+.EP
+

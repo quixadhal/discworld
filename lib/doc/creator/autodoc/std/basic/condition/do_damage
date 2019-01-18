@@ -1,0 +1,37 @@
+.DT
+do_damage
+Disk World creator help
+do_damage
+
+.SH Name
+.SP 5 5
+do_damage -  This method damages the object.
+.EP
+
+.SH Syntax
+.SI 5
+void do_damage(string type,
+int amount)
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/condition.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method damages the object.  The conditon is reduced by
+the amount multiplied by 1 + 2 * random(damage_chance) ewhic
+is then divided by 100.  This means it does approximately
+the percentage of of the damage done to the object to its condition.
+.EP
+
+.SH See also
+.SP 5 5
+set_damage_chance()
+See query_damage_chance()
+
+.EP
+

@@ -1,0 +1,35 @@
+.DT
+rename_house
+Disk World creator help
+rename_house
+
+.SH Name
+.SP 5 5
+rename_house -  Rename a house.
+.EP
+
+.SH Syntax
+.SI 5
+int rename_house(string house,
+string newhouse)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^house%^RESET%^ - the current basename of the house
+%^BOLD%^newhouse%^RESET%^ - the new basename.
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/housing.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Rename a house. This will remove the "main" room and replace it with
+another.
+.EP
+

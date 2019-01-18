@@ -1,0 +1,47 @@
+.DT
+query_determinate
+Disk World creator help
+query_determinate
+
+.SH Name
+.SP 5 5
+query_determinate -  This returns the determinate for the object.
+.EP
+
+.SH Syntax
+.SI 5
+string query_determinate(object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - the thing to check for visibility
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/desc.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This returns the determinate for the object.  The determinate is
+something like 'the'.  You set the derterminate by setting
+the "determinate" property.  The viewer is check to see if
+they can see the object as well, if it cannot be seen
+"' is returned.
+.EP
+
+.SH Example 1
+.SI 5
+// Set the determinate property
+add_property("determinate", "the");
+.EI
+
+.SH See also
+.SP 5 5
+/std/basic/property->add_property()
+.EP
+

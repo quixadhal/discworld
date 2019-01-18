@@ -1,0 +1,51 @@
+.DT
+remove_alias
+Disk World creator help
+remove_alias
+
+.SH Name
+.SP 5 5
+remove_alias -  This method removes the exit aliases from the room.
+.EP
+
+.SH Syntax
+.SI 5
+void remove_alias(mixed names,
+string word)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^names%^RESET%^ - the names to remove
+%^BOLD%^word%^RESET%^ - what they were aliased to
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method removes the exit aliases from the room.
+Aliases are convenient extra forms that can be attached to certain
+exits. In the above functions, the variable names is either a string
+or an array of strings and is, respectively, the alias or aliases
+for the direction passed in word. Since, sometimes, the same alias
+could be used for more than one exit, remove_alias() requires both
+alias(es) and direction in order to remove the correct alias(es). 
+.EP
+
+.SH Example 1
+.SI 5
+remove_exit( "board carriage" );
+remove_alias( "board", "board carriage" );
+
+.EI
+
+.SH See also
+.SP 5 5
+add_alias(), query_aliases()
+.EP
+

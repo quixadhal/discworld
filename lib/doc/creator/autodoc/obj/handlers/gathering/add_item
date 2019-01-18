@@ -1,0 +1,47 @@
+.DT
+add_item
+Disk World creator help
+add_item
+
+.SH Name
+.SP 5 5
+add_item -  This method adds an item into the current list of gatherable items.
+.EP
+
+.SH Syntax
+.SI 5
+void add_item(string name,
+string skill,
+int diff,
+string * season,
+mixed quant,
+string ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the item to add
+%^BOLD%^skill%^RESET%^ - skill needed to find this item
+%^BOLD%^diff%^RESET%^ - taskmaster difficulty
+%^BOLD%^season%^RESET%^ - available season(s)
+%^BOLD%^quant%^RESET%^ - quantity (int or function pointer returning an int)
+%^BOLD%^ob%^RESET%^ - filename of object to be created
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/gathering.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an item into the current list of gatherable items.
+.EP
+
+.SH See also
+.SP 5 5
+query_item(), gather_item()
+
+.EP
+

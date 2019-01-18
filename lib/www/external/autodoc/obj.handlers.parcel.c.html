@@ -1,0 +1,133 @@
+<html><head><title>File parcel.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/parcel.c</h2>
+
+Post Office Delivery Handler<p>Written by Terano<p>Started 26 December, 1998
+
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="global.auto_load.c.html">/global/auto_load.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_parcel"><b>parcel</b></a>
+<dd>
+Parcels is a mapping with player names as keys, and arrays of class parcel
+as values
+
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#collect"><b>collect</b></a>(string, string, object, int)<dd>
+This function collects any items available
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#deposit"><b>deposit</b></a>(string, string, string, object *)<dd>
+This function deposits some items for a player
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_migrate"><b>do_migrate</b></a>(int, string)<dd>
+Migrate packages
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#player_refreshed"><b>player_refreshed</b></a>(mixed, int)<dd>
+Called when a player deletes
+Deletes all their parcels
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#queryparcels_for"><b>queryparcels_for</b></a>(string, string)<dd>
+Queries if any parcels are at a location for a person
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="collect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>collect</b></a><pre>
+int collect(string name,
+string location,
+object target,
+int copy)
+</pre><dd>
+This function collects any items available<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - Name of the player collecting
+<dd>location - Location collecting from
+<dd>target - An object to move the items into, a room or container
+<dd>copy - An int, if its 1 it doesnt delete the objects from the parcels
+       array
+<dt><b>Returns:</b>
+<dd>0 if no items or failure, 1 if successful
+
+</dl>
+
+<dt><a name="deposit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>deposit</b></a><pre>
+int deposit(string to,
+string from,
+string location,
+object * obs)
+</pre><dd>
+This function deposits some items for a player<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>to - The name of the player items are going to
+<dd>from - The name of the player sending the items
+<dd>location - The place the items are being sent from
+<dd>obs - An array of the objects being sent
+<dt><b>Returns:</b>
+<dd>1 if it worked, or 0 if it screwed up :)
+
+</dl>
+
+<dt><a name="do_migrate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_migrate</b></a><pre>
+void do_migrate(int letter,
+string location)
+</pre><dd>
+Migrate packages<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>letter - to expire
+<dd>location - to expire
+
+</dl>
+
+<dt><a name="player_refreshed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>player_refreshed</b></a><pre>
+void player_refreshed(mixed name,
+int total)
+</pre><dd>
+Called when a player deletes
+Deletes all their parcels<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>string - name
+<dd>int - Total Flag
+
+</dl>
+
+<dt><a name="queryparcels_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>queryparcels_for</b></a><pre>
+class parcel * queryparcels_for(string name,
+string location)
+</pre><dd>
+Queries if any parcels are at a location for a person<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - of the person
+<dd>location - of the post office
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_parcel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parcel</b></a><pre>
+class parcel {
+string from;
+string * autoloadinfo;
+int exp_time;
+}
+
+</pre><dd>
+Parcels is a mapping with player names as keys, and arrays of class parcel
+as values
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 22:42:55 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

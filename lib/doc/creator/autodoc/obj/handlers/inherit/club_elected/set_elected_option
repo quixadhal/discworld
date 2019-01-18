@@ -1,0 +1,47 @@
+.DT
+set_elected_option
+Disk World creator help
+set_elected_option
+
+.SH Name
+.SP 5 5
+set_elected_option -  This method sets an option in the club.
+.EP
+
+.SH Syntax
+.SI 5
+int set_elected_option(string club_name,
+string option,
+mixed value)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club to set the option in
+%^BOLD%^option%^RESET%^ - the name of the option to set
+%^BOLD%^value%^RESET%^ - the new value of the option
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets an option in the club.  Options are use for things
+like setting if the club has a board associated with it, or other
+optional elements.
+.EP
+
+.SH See also
+.SP 5 5
+query_elected_option(), is_elected_option()
+
+.EP
+

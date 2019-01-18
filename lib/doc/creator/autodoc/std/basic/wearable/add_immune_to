@@ -1,0 +1,61 @@
+.DT
+add_immune_to
+Disk World creator help
+add_immune_to
+
+.SH Name
+.SP 5 5
+add_immune_to -  This adds a new type of damage that the object is immune to.
+.EP
+
+.SH Syntax
+.SI 5
+void add_immune_to(mixed args)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^args%^RESET%^ - the type of damage to be immune to
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/wearable.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This adds a new type of damage that the object is immune to.
+The parameter can either be a string or an array of strings
+being the types of damage to be immune to.
+.EP
+
+.SH Example 1
+.SI 5
+inherit "/std/basic/wearable";
+
+void setup() {
+   ...
+   add_immune_to("sharp");
+   ...
+} /* setup() */
+.EI
+
+.SH Example 2
+.SI 5
+inherit "/std/basic/wearable";
+
+void setup() {
+   ...
+   add_immune_to("sharp");
+   ...
+} /* setup() */
+.EI
+
+.SH See also
+.SP 5 5
+remove_immune_to(), query_immune_to()
+
+.EP
+

@@ -1,0 +1,42 @@
+.DT
+comment_on_motion
+Disk World creator help
+comment_on_motion
+
+.SH Name
+.SP 5 5
+comment_on_motion -  This method adds a comment to the new rule/amendment/whatever.
+.EP
+
+.SH Syntax
+.SI 5
+int comment_on_motion(string area,
+int id,
+string comment_text,
+string commenter)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area the comment is to go in
+%^BOLD%^id%^RESET%^ - the rule update id
+%^BOLD%^comment%^RESET%^ - the comment to make
+%^BOLD%^commenter%^RESET%^ - the person commenting
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/player_council.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a comment to the new rule/amendment/whatever.
+.EP
+

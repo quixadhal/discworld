@@ -1,0 +1,52 @@
+.DT
+remove_read_mess
+Disk World creator help
+remove_read_mess
+
+.SH Name
+.SP 5 5
+remove_read_mess -  This method removes a piece of writing off the object.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_read_mess(string str,
+string type,
+string lang)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the text string
+%^BOLD%^type%^RESET%^ - the type of the text
+%^BOLD%^lang%^RESET%^ - the language it is written in
+.EI
+
+.SH Returns
+.SI 5
+0 if the text was not found, 1 if it was
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/read_desc.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method removes a piece of writing off the object.
+
+
+If you know the actual message or the language or the type you can remove that message. 
+
+Using the type and or language is a very dodgy way of doing this. Using a combination is much better. 
+
+Any of the parameters set to a non-zero value will be used for the search.
+.EP
+
+.SH See also
+.SP 5 5
+/obj/handlers/language->query_language_size(), add_read_mess(), query_read_mess()
+.EP
+

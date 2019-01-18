@@ -2,7 +2,7 @@
 </title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/learning.c</h2>
 Register a lesson with the learning system.
 <hr><h2>Includes</h2>
-This class includes the following files <a href="include.money.h.html">/include/money.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.tasks.h.html">/include/tasks.h</a><hr><h2>Class Index</h2>
+This class includes the following files <a href="include.tasks.h.html">/include/tasks.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Class Index</h2>
 <dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#class_lesson"><b>lesson</b></a>
 <dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
@@ -37,14 +37,14 @@ These are functions that everyone can access.<p><dl>
 .<dt><a name="add_step">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_step</b></a><pre>
 int add_step(string lesson_name,
-             string * blurbs,
-             string skill,
-             int diff,
-             string * responses,
-             string * params,
-             string award_mess,
-             string succeed_mess,
-             string fail_mess)
+string * blurbs,
+string skill,
+int diff,
+string * responses,
+string * params,
+string award_mess,
+string succeed_mess,
+string fail_mess)
 </pre><dd>
 Add a step to a lesson plan.  This is the interaction between student and 
 teacher. One step should be defined for each thing you want the student
@@ -75,7 +75,7 @@ end in a newline \n.
 <dt><a name="has_required_cash">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>has_required_cash</b></a><pre>
 int has_required_cash(string name,
-                      object player)
+object player)
 </pre><dd>has_required_cash( string name, object player )
 Give some, get some. Money makes a teacher more likely to teach you.<p>
 <dd><dl>
@@ -88,7 +88,7 @@ Give some, get some. Money makes a teacher more likely to teach you.<p>
 <dt><a name="has_required_materials">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>has_required_materials</b></a><pre>
 int has_required_materials(string name,
-                           object player)
+object player)
 </pre><dd>has_required_materials( string name, object player )
  Materials: Materials are objects which are necessary for a student to learn
 something.  For instance, to learn to speak a language, you might need
@@ -103,7 +103,7 @@ a textbook. To learn to ride a horse, you might want to require a helmet.<p>
 <dt><a name="has_required_skills">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>has_required_skills</b></a><pre>
 int has_required_skills(string name,
-                        object player)
+object player)
 </pre><dd>has_required_skills( string name, object player )
 Skills: Skills and skill levels which may be necessary to learn something
 For instance, one should learn to walk before one learns to run.  If you
@@ -119,14 +119,14 @@ how to run.<p>
 <dt><a name="lesson_end">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>lesson_end</b></a><pre>
 int lesson_end(string name,
-               object student)
+object student)
 </pre>
 <dt><a name="lesson_response">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>lesson_response</b></a><pre>
 int lesson_response(string name,
-                    object student,
-                    int lessonstep,
-                    string args)
+object student,
+int lessonstep,
+string args)
 </pre>
 <dt><a name="query_lessons">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_lessons</b></a><pre>
@@ -142,18 +142,18 @@ This method returns an array of the registered lessons.<p>
 <dt><a name="register_lesson">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>register_lesson</b></a><pre>
 int register_lesson(string name,
-                    mapping minimum_skills,
-                    mapping maximum_skills,
-                    string * materials,
-                    int cost,
-                    string currency,
-                    string * lesson_ending,
-                    object teacher)
+mapping minimum_skills,
+mapping maximum_skills,
+string * materials,
+int cost,
+string currency,
+string * lesson_ending,
+object teacher)
 </pre>
 <dt><a name="start_lesson">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_lesson</b></a><pre>
 int start_lesson(string name,
-                 object player)
+object player)
 </pre><dd>
 This method starts a lesson for a given player.<p>
 <dd><dl>
@@ -169,8 +169,8 @@ These are functions that only objects inheriting the class can access.<p>
 <dt><a name="lesson_step">
 <img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>lesson_step</b></a><pre>
 void lesson_step(string name,
-                 object student,
-                 int lessonstep)
+object student,
+int lessonstep)
 </pre>
 
 <hr><h2>Classes</h2>
@@ -179,32 +179,32 @@ These are nice data types for dealing with...  Data!<p>
 <dt><a name="class_lesson">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>lesson</b></a><pre>
 class lesson {
-               mapping minimum_skills;
-               mapping maximum_skills;
-               string * materials;
-               int cost;
-               string currency;
-               string * lesson_ending;
-               object teacher;
-               class step * plan;
+mapping minimum_skills;
+mapping maximum_skills;
+string * materials;
+int cost;
+string currency;
+string * lesson_ending;
+object teacher;
+class step * plan;
 }
 
 </pre>
 <dt><a name="class_step">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>step</b></a><pre>
 class step {
-             string * blurbs;
-             string skill;
-             int difficulty;
-             string * responses;
-             string * params;
-             string award_mess;
-             string succeed_mess;
-             string fail_mess;
+string * blurbs;
+string skill;
+int difficulty;
+string * responses;
+string * params;
+string award_mess;
+string succeed_mess;
+string fail_mess;
 }
 
 </pre>
 </dl>
 <hr>
-<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 03:24:40 GMT<br>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sun, 01 Apr 2018 16:06:34 GMT<br>
 <hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

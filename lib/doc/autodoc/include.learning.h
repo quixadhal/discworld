@@ -1,0 +1,82 @@
+.DT
+learning.h
+Disk World autodoc help
+learning.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^CHARS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^CURRENT_LORD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DOM_TITLE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DOMAIN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ENTRANCE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^FUNCTION_ROOM%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^FUNCTIONS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^HELP%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^LEARNING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^QUIT_HANDLER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SAVEPATH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SEARCH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SEARCH_ROOM%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TTOWN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TTOWNBUILDINGS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TTOWNCHARS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TTOWNHOSPITAL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TTOWNITEMS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TTOWNROADS%^RESET%^
+.EI
+

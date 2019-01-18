@@ -31,9 +31,9 @@ mixed cmd(string arg) {
                 url_data = SERVICES_D->getUrlData();
                 count = 0;
                 bins = ({ });
-                foreach( string url in sort_array( keys(url_data),
+                foreach( string checksum in sort_array( keys(url_data),
                            (: url_data[$1]["time"] <= url_data[$2]["time"] ? -1 : 1 :)) ) {
-                    count = url_data[url]["counter"];
+                    count = url_data[checksum]["counter"];
                     bins[count]++;
                 }
                 foreach( int i in bins ) {

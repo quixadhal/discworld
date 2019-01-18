@@ -1,0 +1,43 @@
+.DT
+query_soul_command
+Disk World creator help
+query_soul_command
+
+.SH Name
+.SP 5 5
+query_soul_command -  This returns the arrays that are used by the pattern matcher in the player object.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * query_soul_command(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the souul command name to find
+.EI
+
+.SH Returns
+.SI 5
+0 if no command found, otherwise an array of patterns.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/new_soul.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This returns the arrays that are used by the pattern
+matcher in the player object. Called from inside add_command interface.
+
+.EP
+
+.SH See also
+.SP 5 5
+/global/new_parse->add_command()
+
+.EP
+

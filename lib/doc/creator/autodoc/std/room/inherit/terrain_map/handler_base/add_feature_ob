@@ -1,0 +1,68 @@
+.DT
+add_feature_ob
+Disk World creator help
+add_feature_ob
+
+.SH Name
+.SP 5 5
+add_feature_ob -  This method is called to add a new 'feature' to a terrain map.
+.EP
+
+.SH Syntax
+.SI 5
+void add_feature_ob(string title,
+object feature)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^title%^RESET%^ - the name of the feature
+%^BOLD%^region%^RESET%^ - the region object to use in calculating the feature
+%^BOLD%^range%^RESET%^ - the distance (number of rooms) it can be seen for
+%^BOLD%^descs%^RESET%^ - array of descriptions to be shown at different ranges.
+These are divided equally along the total range
+%^BOLD%^items%^RESET%^ - add_item name(s) (identical to the 'shorts' parameter in add_item)
+%^BOLD%^item_desc%^RESET%^ - a string, or array of strings giving the corresponding
+%^BOLD%^whole_sentance%^RESET%^ - use a whole sentance for the descriptions or wrap
+them up into fragments
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called to add a new 'feature' to a terrain map.
+Features have no real existance, but add atmosphere to a whole area,
+by being visible across a large number of locations.
+You define location, size, item desc, and add an array of 'longs'
+sorted by distance, plus the usual item descriptions. Any occurrences
+of $D in the longs array will be replaced by the direction in which
+the feature lies.
+.EP
+
+.SH Example 1
+.SI 5
+  region = clone_object(TERRAIN_MAP_REGION_POLYGON);
+  region->add_vertex(12, 13);
+  region->add_vertex(14,15);
+  region->add_vertex(17,18);
+  add_feature_region("northmountain", region, 7,
+           ({ "A huge snowy mountain towers over you to the $D.",
+              "A huge snowy mountain looms to the $D.",
+              "A fair way off to the $D, you can see a huge snowy mountain.",
+              "A long way $Dwards, you glimpse the snowy peak of a "
+              "mountain." }),
+              "mountain", "From here, it looks quite astoundingly huge.",
+           ({ }), 0 );
+.EI
+
+.SH See also
+.SP 5 5
+add_road_type, add_obstacle_type, set_feature_chats, modify_feature, add_item
+
+.EP
+

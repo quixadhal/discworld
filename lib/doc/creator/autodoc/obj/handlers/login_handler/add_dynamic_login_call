@@ -1,0 +1,47 @@
+.DT
+add_dynamic_login_call
+Disk World creator help
+add_dynamic_login_call
+
+.SH Name
+.SP 5 5
+add_dynamic_login_call -  This method adds a funct to be called whenever a player logs in.
+.EP
+
+.SH Syntax
+.SI 5
+int add_dynamic_login_call(string player,
+mixed funct,
+mixed obj)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player%^RESET%^ - specfic player to look for "all" for everyone
+%^BOLD%^func%^RESET%^ - the funct to call
+%^BOLD%^obj%^RESET%^ - the object to call the funct on
+.EI
+
+.SH Returns
+.SI 5
+0 on failure and 1 on success.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/login_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a funct to be called whenever a player logs
+in.  The funct and object are stored only for this reboot
+so they may be object references or funct pointers.
+.EP
+
+.SH See also
+.SP 5 5
+remove_dynamic_login_call(), add_static_login_call()
+
+.EP
+

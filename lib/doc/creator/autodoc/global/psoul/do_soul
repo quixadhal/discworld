@@ -1,0 +1,36 @@
+.DT
+do_soul
+Disk World creator help
+do_soul
+
+.SH Name
+.SP 5 5
+do_soul -  All soul commands eventually call this function to output their messages.
+.EP
+
+.SH Syntax
+.SI 5
+void do_soul(string str,
+mixed bing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the string being printed
+.EI
+
+.SH Defined in
+.SI 5
+/global/psoul.c
+.EI
+
+.SH Description
+.SP 5 5
+
+All soul commands eventually call this function to output their
+messages.  This is nothing more than a wrapper for say(), but
+it provides a convenient name by which a shadow on the
+player object can replace any soul behavior.
+
+.EP
+

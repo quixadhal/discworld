@@ -1,0 +1,43 @@
+.DT
+query_min_level
+Disk World creator help
+query_min_level
+
+.SH Name
+.SP 5 5
+query_min_level -  This method returns the minimum level of the potion name.
+.EP
+
+.SH Syntax
+.SI 5
+int query_min_level(string s)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^s%^RESET%^ - the name to lookup
+.EI
+
+.SH Returns
+.SI 5
+the minimum level.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/potion.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the minimum level of the potion name.  The
+expand_nickname function will be done on the input name before
+looking it up.
+.EP
+
+.SH See also
+.SP 5 5
+query_chant()
+
+.EP
+

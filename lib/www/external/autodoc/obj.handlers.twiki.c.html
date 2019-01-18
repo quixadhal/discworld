@@ -1,0 +1,79 @@
+<html><head><title>File twiki.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/twiki.c</h2>
+This handler will do any mud base manipulations of the twiki
+database.<p>Written by Pinkfish<p>Started Wed May 24 17:19:06 PDT 2000
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.board.h.html">/include/board.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_changed_pages"><b>find_changed_pages</b></a>(int, string)<dd>
+This method finds the pages that have changed since the specified time.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_changes"><b>find_changes</b></a>(int)<dd>
+This method prints out any changes since the specified limit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_changes_in_database"><b>find_changes_in_database</b></a>(string, int)<dd>
+This method prints out any changes since the specified limit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_file"><b>query_file</b></a>(string)<dd>
+This method finds the specified file and shows it to us.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="find_changed_pages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_changed_pages</b></a><pre>
+mapping find_changed_pages(int limit,
+string database)
+</pre><dd>
+This method finds the pages that have changed since the specified time.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>limit - the time after which to find the changes
+<dt><b>Returns:</b>
+<dd>the mapping of pages to who changed them
+
+</dl>
+
+<dt><a name="find_changes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_changes</b></a><pre>
+string find_changes(int limit)
+</pre><dd>
+This method prints out any changes since the specified limit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>limit - the time after which to show any changes
+<dt><b>Returns:</b>
+<dd>the changes since that time
+
+</dl>
+
+<dt><a name="find_changes_in_database">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_changes_in_database</b></a><pre>
+string find_changes_in_database(string database,
+int limit)
+</pre><dd>
+This method prints out any changes since the specified limit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>database - the database to find the changes in
+<dd>limit - the time after which to show any changes
+<dt><b>Returns:</b>
+<dd>the changes since that time
+
+</dl>
+
+<dt><a name="query_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_file</b></a><pre>
+string query_file(string fname)
+</pre><dd>
+This method finds the specified file and shows it to us.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the file name to find
+<dt><b>Returns:</b>
+<dd>the text of the file, 0 if the file is not found
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 02:48:13 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

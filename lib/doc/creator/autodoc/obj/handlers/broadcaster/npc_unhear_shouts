@@ -1,0 +1,45 @@
+.DT
+npc_unhear_shouts
+Disk World creator help
+npc_unhear_shouts
+
+.SH Name
+.SP 5 5
+npc_unhear_shouts -  Removes an NPC from the list of NPC's who are to receive shout events.
+.EP
+
+.SH Syntax
+.SI 5
+int npc_unhear_shouts(object oldlistener)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^oldlistener%^RESET%^ - NPC object to be removed from the list
+.EI
+
+.SH Returns
+.SI 5
+1 if successfully removed
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/broadcaster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Removes an NPC from the list of NPC's who are to receive shout events.
+The NPC need not be removed from this list when he dies -- desting
+the NPC object has the same effect as calling npc_unhear_shouts().
+
+.EP
+
+.SH See also
+.SP 5 5
+/global/events->event_person_shout(), npc_hear_shouts()
+
+.EP
+

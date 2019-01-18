@@ -1,0 +1,49 @@
+.DT
+set_use_surface_light
+Disk World creator help
+set_use_surface_light
+
+.SH Name
+.SP 5 5
+set_use_surface_light -  This function sets whether the room will use the light levels of the surface to determine its own.
+.EP
+
+.SH Syntax
+.SI 5
+void set_use_surface_light(int val)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^val%^RESET%^ - whether the room should use light from the surface
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets whether the room will use the light levels of the
+surface to determine its own.  If the function is called with a non-zero
+value, the the current light level in the room will be overridden by a new
+value based on the light of the room found by query_above_room.  If the room
+above is an outside room, with light levels that depend on the time of day,
+then the light in this room will be updated every time it is queried.  A
+water room will default to using this option, but it will be overridden by
+any calls to adjust_light (including calls to set_light).  It is possible to
+call set_water_light to avoid this, but it should not be necessary.  If a
+series of rooms with vertical exits between them are all set to use surface
+light, then the effect will be for the light of the room at the top of the
+stack to filter down through the rest, appropriately attenuated by
+turbidity.
+.EP
+
+.SH See also
+.SP 5 5
+query_above_room, query_water_surface_light, update_water_light, set_water_light, set_turbidity, set_clarity
+
+.EP
+

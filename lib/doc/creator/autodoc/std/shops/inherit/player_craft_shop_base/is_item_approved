@@ -1,0 +1,47 @@
+.DT
+is_item_approved
+Disk World creator help
+is_item_approved
+
+.SH Name
+.SP 5 5
+is_item_approved -  This method checks to see if the specified item is approved.
+.EP
+
+.SH Syntax
+.SI 5
+mixed is_item_approved(string seller,
+int value,
+string name,
+object * sellables,
+string category,
+int ref final_cost)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^seller%^RESET%^ - the name of the seller
+%^BOLD%^value%^RESET%^ - the amount it is sold for
+%^BOLD%^name%^RESET%^ - the name of the item being solde
+%^BOLD%^sellables%^RESET%^ - the sold items
+%^BOLD%^category%^RESET%^ - the category of the sold item
+%^BOLD%^final_cost%^RESET%^ - the final cost of the item
+.EI
+
+.SH Returns
+.SI 5
+1 if is approved, 0 if not, -1 if denied, string if it is approved
+        with a list name
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/player_craft_shop_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the specified item is approved.
+.EP
+

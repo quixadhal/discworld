@@ -1,0 +1,43 @@
+.DT
+setup_location
+Disk World creator help
+setup_location
+
+.SH Name
+.SP 5 5
+setup_location -  This method is called when a normal room is loaded which is part of a terrain.
+.EP
+
+.SH Syntax
+.SI 5
+void setup_location(object place,
+string terrain)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^place%^RESET%^ - the room object which is a fixed location in the terrain
+%^BOLD%^terrain%^RESET%^ - the terrain name
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/terrain_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when a normal room is loaded which is part of
+a terrain. The terrain handler needs to know about this to be able
+to calculate the exits into the floating portion of the terrain.
+It also sets the coordinates of the room to the values as saved in the
+terrain.
+.EP
+
+.SH See also
+.SP 5 5
+find_location()
+
+.EP
+

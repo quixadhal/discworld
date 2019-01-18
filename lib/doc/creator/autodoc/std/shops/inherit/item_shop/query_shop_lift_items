@@ -1,0 +1,43 @@
+.DT
+query_shop_lift_items
+Disk World creator help
+query_shop_lift_items
+
+.SH Name
+.SP 5 5
+query_shop_lift_items -  This method returns the items which can potentially be shop lifted with the passed in string.
+.EP
+
+.SH Syntax
+.SI 5
+object * query_shop_lift_items(string str,
+object player)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the name for the object to attempt to shop lift
+.EI
+
+.SH Returns
+.SI 5
+the array of matching objects.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/item_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the items which can potentially be shop lifted
+with the passed in string.
+.EP
+
+.SH See also
+.SP 5 5
+query_steal_difficulty(), query_shoplift_response_handler()
+
+.EP
+

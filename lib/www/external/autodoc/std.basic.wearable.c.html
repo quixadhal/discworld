@@ -1,0 +1,302 @@
+<html><head><title>File wearable.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/wearable.c</h2>
+This file contains all the methods needed to make an object wearable
+by a player or an npc.<p><b>See also:</b><br><a href="obj.armour.c.html">/obj/armour.c</a> and /obj/clothing.c
+<p>Written by Pinkfish<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.condition.c.html">/std/basic/condition.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.clothing.h.html">/include/clothing.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_immune_to"><b>add_immune_to</b></a>(mixed)<dd>
+This adds a new type of damage that the object is immune to.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_wear_effect"><b>add_wear_effect</b></a>(string)<dd>
+This method adds a new wear effect to the current wear effect array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_immune_to"><b>query_immune_to</b></a>()<dd>
+This returns the list of types of damage that the object is immune to.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_type"><b>query_type</b></a>()<dd>
+This method returns the current type(s) associated with the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_wear_effects"><b>query_wear_effects</b></a>()<dd>
+This method returns the list of effects to be added to the wearer when
+it is worn.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_wear_remove_func"><b>query_wear_remove_func</b></a>()<dd>
+This method returns the current function associated with
+wearing and removing the item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_wearable"><b>query_wearable</b></a>()<dd>
+This method tells us if the object is wearable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_worn_by"><b>query_worn_by</b></a>()<dd>
+This method returns the person who is currently wearing the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_immune_to"><b>remove_immune_to</b></a>(mixed)<dd>
+This method removes a type of damage that the weapon is immune
+to.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_wear_remove_func"><b>remove_wear_remove_func</b></a>()<dd>
+Unset the wear_remove func.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_type"><b>set_type</b></a>(mixed)<dd>
+This method sets the type(s) which are associated with the
+item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_wear_effects"><b>set_wear_effects</b></a>(string *)<dd>
+This method sets the list of effects to be added to the wearer when it
+is worn.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_wear_remove_func"><b>set_wear_remove_func</b></a>(mixed, string)<dd>
+This method sets the current function associated with wearing and
+removing the item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_worn_by"><b>set_worn_by</b></a>(object)<dd>
+This method sets the object as being worn by the passed in object.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_immune_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_immune_to</b></a><pre>
+void add_immune_to(mixed args)
+</pre><dd>
+This adds a new type of damage that the object is immune to.
+The parameter can either be a string or an array of strings
+being the types of damage to be immune to.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - the type of damage to be immune to
+<dt><b>See also:</b>
+<dd><a href="#remove_immune_to">remove_immune_to()</a> and <a href="#query_immune_to">query_immune_to()
+</a><dt><b>Example:</b>
+<dd><pre>inherit "/std/basic/wearable";
+
+void setup() {
+   ...
+   add_immune_to("sharp");
+   ...
+} /* setup() */</pre><dd><pre>
+inherit "/std/basic/wearable";
+
+void setup() {
+   ...
+   add_immune_to("sharp");
+   ...
+} /* setup() */</pre></dl>
+
+<dt><a name="add_wear_effect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_wear_effect</b></a><pre>
+void add_wear_effect(string effect)
+</pre><dd>
+This method adds a new wear effect to the current wear effect array.  These effects will automaticly be added when worn and
+removed when taken off.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>effect - the effect to add
+<dt><b>See also:</b>
+<dd><a href="#query_wear_effects">query_wear_effects()</a> and <a href="#set_wear_effects">set_wear_effects()
+</a></dl>
+
+<dt><a name="query_immune_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_immune_to</b></a><pre>
+string * query_immune_to()
+</pre><dd>
+This returns the list of types of damage that the object is immune to.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of damage we are immune to
+<dt><b>See also:</b>
+<dd><a href="std.basic.condition.c.html">/std/basic/condition.c</a>, <a href="#add_immune_to">add_immune_to()</a> and <a href="#remove_immune_to">remove_immune_to()
+</a></dl>
+
+<dt><a name="query_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_type</b></a><pre>
+string query_type()
+</pre><dd>
+This method returns the current type(s) associated with the object.
+If this method returns a string then there is only one type for this
+object.  If it returns a string then there is more than one
+type associated with an object.  An example of something with more
+than one type is a skirt, which is a dress and a shirt at the
+same time.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current type of the item
+<dt><b>See also:</b>
+<dd><a href="#set_type">set_type()
+</a></dl>
+
+<dt><a name="query_wear_effects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_wear_effects</b></a><pre>
+string * query_wear_effects()
+</pre><dd>
+This method returns the list of effects to be added to the wearer when
+it is worn.  These effects will automaticly be added when worn and
+removed when taken off.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of effects to be added to the wearer when worn
+<dt><b>See also:</b>
+<dd><a href="#set_wear_effects">set_wear_effects()</a> and <a href="#add_wear_effect">add_wear_effect()
+</a></dl>
+
+<dt><a name="query_wear_remove_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_wear_remove_func</b></a><pre>
+mixed * query_wear_remove_func()
+</pre><dd>
+This method returns the current function associated with
+wearing and removing the item.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current function for wearing and removing the clothing
+<dt><b>See also:</b>
+<dd><a href="#set_wear_remove_func">set_wear_remove_func()
+</a></dl>
+
+<dt><a name="query_wearable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_wearable</b></a><pre>
+int query_wearable()
+</pre><dd>
+This method tells us if the object is wearable.
+In the case of a wearable object it will always return 1.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns 1
+
+</dl>
+
+<dt><a name="query_worn_by">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_worn_by</b></a><pre>
+object query_worn_by()
+</pre><dd>
+This method returns the person who is currently wearing the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current wearer of the object
+<dt><b>See also:</b>
+<dd><a href="#set_worn_by">set_worn_by()
+</a></dl>
+
+<dt><a name="remove_immune_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_immune_to</b></a><pre>
+void remove_immune_to(mixed args)
+</pre><dd>
+This method removes a type of damage that the weapon is immune
+to.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - the type(s) of damage to remove immunity too
+<dt><b>See also:</b>
+<dd><a href="#add_immune_to">add_immune_to()</a> and <a href="#query_immune_to">query_immune_to()
+</a></dl>
+
+<dt><a name="remove_wear_remove_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_wear_remove_func</b></a><pre>
+} void remove_wear_remove_func()
+</pre><dd>
+Unset the wear_remove func.
+<p>
+
+<dt><a name="set_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_type</b></a><pre>
+void set_type(mixed word)
+</pre><dd>
+This method sets the type(s) which are associated with the
+item.  If the parameter is a string then a single type is associated
+with the item, if the parameter is an array then a list of types
+is associated with the object.  If any of these types are not
+legal and error message will be produced.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the new type(s) to set for the object
+<dt><b>See also:</b>
+<dd><a href="#query_type">query_type()
+</a></dl>
+
+<dt><a name="set_wear_effects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_wear_effects</b></a><pre>
+void set_wear_effects(string * effects)
+</pre><dd>
+This method sets the list of effects to be added to the wearer when it
+is worn.  These effects will automaticly be added when worn and
+removed when taken off.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>effects - the array of effects to be added to the wearer when worn
+<dt><b>See also:</b>
+<dd><a href="#query_wear_effects">query_wear_effects()</a> and <a href="#add_wear_effect">add_wear_effect()
+</a></dl>
+
+<dt><a name="set_wear_remove_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_wear_remove_func</b></a><pre>
+void set_wear_remove_func(mixed file,
+string func)
+</pre><dd>
+This method sets the current function associated with wearing and
+removing the item.  The value of this function should be choosen
+carefully, using an object reference for the name will work but
+it will not then be able to restored from the save file.  The same
+goes for using function pointers.  It is better to use a real
+file name and a string function name.
+<p>
+The function will be called with two arguments, the first argument will
+be 0 if the object is being removed or the object which it is
+being worn by if it is non-zero.  The second argument will always
+be the person who was wearing the item, or is about to wear the
+item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>file - the file to call the function on
+<dd>func - the function to call
+<dt><b>See also:</b>
+<dd><a href="#query_wear_remove_func">query_wear_remove_func()
+</a><dt><b>Example:</b>
+<dd><pre>inherit "/std/basic/wearable";
+
+void setup() {
+   ...
+   set_wear_remove_func(base_name(this_object()), "do_fluff");
+   ...
+} /* setup() */
+
+void do_fluff(object ob, object player) {
+   if (!ob) {
+      write(capitalize(the_short()) + " is being removed.\n");
+   } else {
+      write(capitalize(the_short()) + " is being worn.\n");
+   }
+} /* do_fluff() */</pre></dl>
+
+<dt><a name="set_worn_by">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_worn_by</b></a><pre>
+int set_worn_by(object thing)
+</pre><dd>
+This method sets the object as being worn by the passed in object.
+It calls all the various worn functions and sets up or removes
+all the effects associated with the object.
+<p>
+If the object is alreadying being worn the wear_remove_function will
+be called with an argument of 0.  The method taken_off will be
+called on the object wearing the object for all the effects associated
+with this object.
+<p>
+If the object is being set to be worn by someone the the wear_remove
+function will be called with an argument being the person who is to
+wear the object.   All of the effects associated with the
+object will be added to the wearer.
+<p>
+This calls the method 'person_removing_item' on the effect when some
+one removes the item.  This can be used to make sure the effects are
+taken off when the item is removed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the new person to wear the object (0 for worn by no one)
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#set_wear_remove_func">set_wear_remove_func()</a> and <a href="#add_wear_effect">add_wear_effect()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 23:25:52 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

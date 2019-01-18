@@ -1,0 +1,52 @@
+.DT
+error_summary
+Disk World creator help
+error_summary
+
+.SH Name
+.SP 5 5
+error_summary -  The summary plus the details is the complete error.
+.EP
+
+.SH Definition
+.SI 5
+class error_summary {
+int id;
+int entry_date;
+string filename;
+string category;
+string assigned_to;
+string reporter;
+string type;
+string status;
+string directory;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^id%^RESET%^ - the unique id of the bug
+%^BOLD%^entry_date%^RESET%^ - the date the bug was added
+%^BOLD%^filename%^RESET%^ - the filename the bug was put against
+%^BOLD%^assigned_to%^RESET%^ - who the bug is assigned to
+%^BOLD%^reporter%^RESET%^ - the person who reported the bug
+%^BOLD%^category%^RESET%^ - is one of ROOM | OBJECT etc
+%^BOLD%^type%^RESET%^ - is one of TYPO | BUG | IDEA
+%^BOLD%^status%^RESET%^ - is one of OPEN | CLOSED | etc
+%^BOLD%^directory%^RESET%^ - the directory the bug is in
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/error_handler.h
+.EI
+
+.SH Description
+.SP 5 5
+
+The summary plus the details is the complete
+error.
+.EP
+

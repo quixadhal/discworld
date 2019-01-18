@@ -1,0 +1,42 @@
+.DT
+do_effect
+Disk World creator help
+do_effect
+
+.SH Name
+.SP 5 5
+do_effect -  This method causes an effect to occur.
+.EP
+
+.SH Syntax
+.SI 5
+void do_effect(int number,
+string name,
+object place)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^number%^RESET%^ - the severity of the magic infestation
+%^BOLD%^name%^RESET%^ - the name of the thing being effected
+%^BOLD%^place%^RESET%^ - the place being effected (room)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/mag_eff_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method causes an effect to occur.  The number is the severity
+of the effect.
+.EP
+
+.SH See also
+.SP 5 5
+choose_effect(), ambient_enchantment(), block()
+
+.EP
+

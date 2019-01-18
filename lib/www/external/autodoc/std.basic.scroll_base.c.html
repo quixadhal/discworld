@@ -1,0 +1,161 @@
+<html><head><title>File scroll_base.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/scroll_base.c</h2>
+This is the basic control file for scrolls.  It contains all the common
+scroll handling stuff that goes into both the object and the shadow.
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.scroll_book_react.c.html">/std/basic/scroll_book_react.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.tasks.h.html">/include/tasks.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cast_spell"><b>cast_spell</b></a>(string)<dd>
+This method clears the spell off the scroll and turns it back into
+a normal piece of paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cast_spell_new"><b>cast_spell_new</b></a>(string, object *, object *)<dd>
+This method clears the spell off the scroll and turns it back into
+a normal piece of paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_spell"><b>clear_spell</b></a>(int)<dd>
+This method clears the spell off the scroll and turns it back into
+a normal piece of paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_binding_force"><b>query_binding_force</b></a>()<dd>
+This method returns the current binding force of the scroll.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_magic_scroll"><b>query_magic_scroll</b></a>()<dd>
+This method returns always returns 1 for a magic scroll.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_spell"><b>query_spell</b></a>()<dd>
+This method returns the spell associated with the scroll.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_spell_name"><b>query_spell_name</b></a>()<dd>
+This method returns the name o fthe spell on the scroll.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_spell_power_level"><b>query_spell_power_level</b></a>()<dd>
+This method returns the power level of the spell current associated
+with the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_spell"><b>set_spell</b></a>(string)<dd>
+This method sets the spell associated with the scroll.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_skill"><b>test_skill</b></a>()<dd>
+This method tests the skill needed to cast the spell on the scroll.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="cast_spell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cast_spell</b></a><pre>
+int cast_spell(string words)
+</pre><dd>
+This method clears the spell off the scroll and turns it back into
+a normal piece of paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>award - a tm was awarded on the way
+
+</dl>
+
+<dt><a name="cast_spell_new">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cast_spell_new</b></a><pre>
+int cast_spell_new(string words,
+object * targets,
+object * using)
+</pre><dd>
+This method clears the spell off the scroll and turns it back into
+a normal piece of paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>award - a tm was awarded on the way
+
+</dl>
+
+<dt><a name="clear_spell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_spell</b></a><pre>
+void clear_spell(int award)
+</pre><dd>
+This method clears the spell off the scroll and turns it back into
+a normal piece of paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>award - a tm was awarded on the way
+
+</dl>
+
+<dt><a name="query_binding_force">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_binding_force</b></a><pre>
+int query_binding_force()
+</pre><dd>
+This method returns the current binding force of the scroll.  This is
+the amount of force the paper exerts to try and keep the spell on the
+paper.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the scrolls binding force
+
+</dl>
+
+<dt><a name="query_magic_scroll">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_magic_scroll</b></a><pre>
+int query_magic_scroll()
+</pre><dd>
+This method returns always returns 1 for a magic scroll.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns 1
+
+</dl>
+
+<dt><a name="query_spell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_spell</b></a><pre>
+string query_spell()
+</pre><dd>
+This method returns the spell associated with the scroll.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the spell associated with the scroll
+
+</dl>
+
+<dt><a name="query_spell_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_spell_name</b></a><pre>
+string query_spell_name()
+</pre><dd>
+This method returns the name o fthe spell on the scroll.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the spell
+
+</dl>
+
+<dt><a name="query_spell_power_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_spell_power_level</b></a><pre>
+int query_spell_power_level()
+</pre><dd>
+This method returns the power level of the spell current associated
+with the object.
+<p>
+
+<dt><a name="set_spell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_spell</b></a><pre>
+void set_spell(string word)
+</pre><dd>
+This method sets the spell associated with the scroll.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the spells path
+
+</dl>
+
+<dt><a name="test_skill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_skill</b></a><pre>
+int test_skill()
+</pre><dd>
+This method tests the skill needed to cast the spell on the scroll.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the skill needed to cast
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 22:16:08 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

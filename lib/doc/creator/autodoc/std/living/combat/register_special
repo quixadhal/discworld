@@ -1,0 +1,158 @@
+.DT
+register_special
+Disk World creator help
+register_special
+
+.SH Name
+.SP 5 5
+register_special -  Register a combat special.
+.EP
+
+.SH Syntax
+.SI 5
+int register_special(int type,
+int events,
+mixed callback,
+mixed data)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - Is this an offensive or defensive special.
+%^BOLD%^events%^RESET%^ - A bitmap of the events this special is interested in.
+%^BOLD%^the%^RESET%^ - function to be called. A mixed array containing an object & a
+function string.
+.EI
+
+.SH Returns
+.SI 5
+the id of the special.
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Register a combat special.
+
+The combat system maintains a list of combat specials. These specials can
+be used to override or alter any facet of a combat attack (or defense).
+
+
+A special must register what type of special it is:
+.EP
+.SP 5 5
+T_OFFENSIVE - an offensive special
+.EP
+.SP 5 5
+T_DEFENSIVE - a defensive special
+.EP
+.SP 5 5
+T_CONTINUOUS - can be used with one of the above to indicate that the special is continuous and not a one-time event.
+.EP
+.SP 5 5
+
+
+It also indicates which stages of combat it wants to be notified of:
+.EP
+.SP 5 5
+E_OPPONENT_SELECTION - selection of an opponent
+.EP
+.SP 5 5
+E_DEFENDER_SELECTION - selection of the defender
+.EP
+.SP 5 5
+E_ATTACK_SELECTION - selecting which attack the attacker will perform
+.EP
+.SP 5 5
+E_DEFENSE_SELECTION - selection of the method of defense
+.EP
+.SP 5 5
+E_ATTACK_MODIFIER - calculating the modifier for attack (how easy/hard it is)
+.EP
+.SP 5 5
+E_DEFENSE_MODIFIER - doing the same for the defense
+.EP
+.SP 5 5
+E_DAMAGE_CALCULATION - calculating how much damage the attack can do
+.EP
+.SP 5 5
+E_ARMOUR_CALCULATION - calculating how much damage the armour will stop
+.EP
+.SP 5 5
+E_WEAPON_DAMAGE - performing damage to the weapons involved
+.EP
+.SP 5 5
+E_WRITE_MESSAGES - writing out the success/failure messages
+.EP
+.SP 5 5
+E_AFTER_ATTACK - any post-attack cleanup.
+.EP
+.SP 5 5
+
+
+The special provides the combat system with a callback function to be called and any additional data the special wants tracked by the combat system. 
+
+Then, when combat reaches one of the stages requested it calls the callback function. This function is passed the stage we're at, all the data for this attack and also the extra data the special requested. 
+
+The callback can then modify any aspect of the attack data (it could change the attack skill, the defensive weapon, the defense modifier, anything at all) and then return back into combat. 
+
+The return tells the combat system what to do next. The options are:
+.EP
+.SP 5 5
+R_CONTINUE - continue as though the special hadn't done anything.
+.EP
+.SP 5 5
+R_DONE - treat this step as completed.
+.EP
+.SP 5 5
+R_ABORT - abort the attack
+.EP
+.SP 5 5
+R_REMOVE_ME - do one of the above and then remove the special. 
+.EP
+
+.SH Example 1
+.SI 5
+
+This example registers a special that causes the player to be unable to
+defend themselves for three rounds.
+
+id = player->register_special(T_DEFENSIVE | T_CONTINUOUS,
+                              E_DEFENSE_SELECTION | E_DAMAGE_CALCULATION,
+                              ({ base_name(this_object()), "callback" }),
+                              ({ player, 0}));
+
+mixed *callback(int stage, class attack att, mixed data) {
+  // If it's not our player defending we won't do anything.
+  if(att->defender != data[1])
+    return ({ R_CONTINUE, att, data });
+
+   switch(stage) {
+   case E_DEFENSE_SELECTION: // We won't let them defend themselves!
+     att->defense_action = "none";
+     return ({ R_DONE, att, data });
+   case E_DAMAGE_CALCULATION:
+     // If they managed to defend themself, turn it into a failure.
+     if(att->result == DEFWIN || att->result == DEFAWARD)
+       att->result = OFFWIN;
+
+     // By using R_CONTINUE they take 500 hits _plus_ the normal damage.
+     att->damage = 500;
+
+     // The R_REMOVE_ME causes our special to disappear once we've hurt
+     // them three times.
+     if(data[1] > 3)
+       return ({ R_CONTINUE & R_REMOVE_ME, att, data });
+
+     data[1]++;
+     return ({ R_CONTINUE, att, data });
+   }
+}
+
+.EI
+

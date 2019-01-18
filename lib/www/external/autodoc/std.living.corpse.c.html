@@ -1,0 +1,87 @@
+<html><head><title>File corpse.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/living/corpse.c</h2>
+This method will allow all sorts of modifications to a corpse once it has
+been created, based on the weapon or attack used for the killing stroke.<p><b>See also:</b><br><a href="#death_helper">death_helper()</a>, <a href="#make_corpse">make_corpse()</a> and <a href="#do_death">do_death()
+</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player.h.html">/include/player.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#alter_corpse"><b>alter_corpse</b></a>(object, object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#death_helper"><b>death_helper</b></a>(object, int)<dd>
+This method deals with any cute messages you want to print when
+something dies or, cute things you want to do (like not dieng
+at all).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_death"><b>do_death</b></a>(object, object, string)<dd>
+This does the actual death and co ordinates the death into a well
+ordered feeding frenzy.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_corpse"><b>make_corpse</b></a>()<dd>
+This method will create a corpse for the living object when it
+eventually dies.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="alter_corpse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>alter_corpse</b></a><pre>
+int alter_corpse(object corpse,
+object weapon,
+string attack)
+</pre>
+<dt><a name="death_helper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>death_helper</b></a><pre>
+mixed * death_helper(object thing,
+int death)
+</pre><dd>
+This method deals with any cute messages you want to print when
+something dies or, cute things you want to do (like not dieng
+at all).  It handles the alignment shift due to the killing of
+this npc as well.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing which killed us
+<dt><b>See also:</b>
+<dd><a href="#make_corpse">make_corpse()
+</a></dl>
+
+<dt><a name="do_death">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_death</b></a><pre>
+varargs object do_death(object thing,
+object weapon,
+string attack)
+</pre><dd>
+This does the actual death and co ordinates the death into a well
+ordered feeding frenzy.  This method creates the actual corpse itself.
+If the property "dead" is set on the object no corpse will be
+created, or if the second_life() function called on the object
+returns a non-zero value the corpse will not be created.
+<p>
+This method calls the second_life() function on the current object,
+if this returns 1 it must handle all the the death code itself.
+This is used in the player code to override the death code.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing which killed us
+<dd>weapon - the weapon (sword,claw,etc) object that attacked and killed us
+<dd>attack - the actual attack that killed us
+<dt><b>Returns:</b>
+<dd>the corpse, or 0 if no more action is to be taken
+<dt><b>See also:</b>
+<dd><a href="#death_helper">death_helper()</a>, <a href="#make_corpse">make_corpse()</a> and <a href="#alter_corpse">alter_corpse()
+</a></dl>
+
+<dt><a name="make_corpse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_corpse</b></a><pre>
+object make_corpse()
+</pre><dd>
+This method will create a corpse for the living object when it
+eventually dies.  Of old age of course, no one would die of having
+sword rammed through them<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the created corpse object
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 20:00:57 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,39 @@
+.DT
+get_messages
+Disk World creator help
+get_messages
+
+.SH Name
+.SP 5 5
+get_messages -  This method returns the messages for the player in the specified folder.
+.EP
+
+.SH Syntax
+.SI 5
+class mail_header * get_messages(string pname,
+string fname)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^pname%^RESET%^ - the players name
+%^BOLD%^fname%^RESET%^ - the folder name
+.EI
+
+.SH Returns
+.SI 5
+a list of messages
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/folder_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the messages for the player in the specified
+folder.  The return is an array of messages of type 'class mail_header'.
+.EP
+

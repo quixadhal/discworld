@@ -1,0 +1,512 @@
+<html><head><title>File weather.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/weather.c</h2>
+An attempt at a new weather handler for Discworld.
+Ceres@Discworld 14/4/96
+
+Having thought about the way weather works (and Discworlds interesting
+meteorology) I decided not to try and implement some model of realworld
+weather. Instead regional variations in weather are handled by
+regional climate properties. This system will handle diurnal and seasonal
+variations and that's about it. Hopefully that will make it more
+understandable, usable and efficient.<p>
+
+Basic Operation<br>
+---------------<br>
+The weather is based on weather 'pattern's. The pattern lasts for several
+hours and is calculated from the 'seasonal' norm and the 'variance'. The
+'current' weather will tend towards the pattern weather.<p>
+
+The pattern depends on the climate. The climates are taken from the Koppen
+Climate Classification system. The possible climates are:<br>
+tropical<br>
+- rainforest 'Af' eg. amazon, congo, malaysia<br>
+- monsoon 'Am' <br>
+- savanna 'Aw' eg. caribbean, tropical africa, central america<br>
+desert<br>
+- arid 'Bw'<br>
+- semi-arid 'Bs' <br>
+mediterranean (aka Moist Subtropical Mid-Latitude Climates)<br>
+- humid subtropical 'Cfa' eg. Souteast US (florida)<br>
+- mediterranean 'Cs' eg. california, south africa, western/central australia<br>
+- marine 'Cfb' eg. US west coast, nw europe<br>
+continental<br>
+- dry winters 'Dw' <br>
+- dry summers 'Ds'<br>
+- wet 'Df'<br>
+polar<br>
+- tundra 'Et'<br>
+- frozen 'Ef'<br>
+highland 'H' <p>
+
+The default for a room is mediterranean marine (Cfb).<p>
+
+The actual temparture in a room will depend on the current weather for that
+climate, local modifiers (climate property), diurnal variations and
+variance.<p>
+
+Thus update_patttern() is called once every hour (CYCLE_SPEED) and
+update_weather() is called every 5 minutes (UPDATE_SPEED).<p>
+
+Decisions<br>
+---------<br>
+Calculation of the general weather has been moved into
+update_weather. Rather than doing it on a room by room basis everytime
+someone looks! Instead, local climate controls will be added verbatim to
+the current global weather. This will improve efficiency massively, but will
+reduce the overall weather variations.<p>
+
+Principles<br>
+----------<br>
+Rain/sleet/snow depends on cloud density and temperature.<br>
+If it's windy and lots of cloud density we might get a thunder storm.
+Cloud cover should lower temperature as should wind.<p>
+
+Usage<br>
+-----<br>
+To alter the weather in a given room the easiest approach is to set the
+climate. Individual room or area variations can be done by adding a
+climate property.<br>
+The property should contain three integers, temperature, cloud cover and
+wind speed. These modify the default values for the room.<p>
+For example:<br>
+add_property("climate", ({10, -50, 0});<br>
+This will increase the temperature by 10C, reduce the cloud cover
+by 50% and make no change to the wind speed.<p>
+
+To completely alter the weather in a room you need to define the function
+room_weather() as follows:<br>
+  int *room_weather(int temp, int cloud, int wind, int rain);<br>
+Your room_weather function will be called with the values the room would
+ordinarily receive and should return the new temperature, cloud cover,
+wind speed and rain type values that you desire.<p>
+
+If you need to make your room react to changes in the weather you can use
+the weather_notify() system to be told when the weather changes.<br>
+This should only be done for a small number of rooms or the lag will be
+excessive.<p>
+
+Changed Jun 3 1996 by Grampa to include weather notifications for rooms.<p><hr><h2>Includes</h2>
+This class includes the following files <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.climate.h.html">/include/climate.h</a> and <a href="include.weather.h.html">/include/weather.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_umbrella"><b>check_umbrella</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cloud_string"><b>cloud_string</b></a>(object)<dd>
+A string giving a nice description of the cloud types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#day_number"><b>day_number</b></a>()<dd>
+Find out which day of the Disc (common) year it is.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#minute_number"><b>minute_number</b></a>()<dd>
+Find out which minute of the day (0 - 1439) it is.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cloud"><b>query_cloud</b></a>(object)<dd>
+Find out the cloud cover of a given room
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_darkness"><b>query_darkness</b></a>(object)<dd>
+return percentage of light
+should be dependant on the base amount of light, day or night time and
+cloud cover.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_moon_phase"><b>query_moon_phase</b></a>()<dd>
+Find out which phase of the moon we're currently in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_moon_state"><b>query_moon_state</b></a>()<dd>
+Query the state of the moon.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_moon_string"><b>query_moon_string</b></a>(object)<dd>
+Get the appropriate moon string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_raining"><b>query_raining</b></a>(object)<dd>
+Find out if its raining in a given room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_season"><b>query_season</b></a>()<dd>
+Return which of the 4 seasons we are in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_snowing"><b>query_snowing</b></a>(object)<dd>
+Find out if its snowing in a given room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_star_string"><b>query_star_string</b></a>(object)<dd>
+Returns a string describing the current visible stars.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stars"><b>query_stars</b></a>(object)<dd>
+Return the number of currently visible stars as a percentage.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sunrise"><b>query_sunrise</b></a>(int)<dd>
+Find out when sunrise will be on a given day of the year.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sunset"><b>query_sunset</b></a>(int)<dd>
+Find out when sunset will be on a given day of the year.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_temperature"><b>query_temperature</b></a>(object)<dd>
+Find out the temperature of a given room
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_tod"><b>query_tod</b></a>()<dd>
+Return a string for the period of the day
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_visibility"><b>query_visibility</b></a>(object)<dd>
+return percentage of visibility.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_windsp"><b>query_windsp</b></a>(object)<dd>
+Find out the wind speed in a given room
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#rain_string"><b>rain_string</b></a>(object)<dd>
+Creates a string showing how heavily it is raining.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#sleet_string"><b>sleet_string</b></a>(object)<dd>
+Creates a string showing how heavily it is sleeting.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#snow_string"><b>snow_string</b></a>(object)<dd>
+Creates a string showing how heavily it is snowing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#temp_string"><b>temp_string</b></a>(int)<dd>
+Return a temperature string equating to the temperature passed
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#weather_notify"><b>weather_notify</b></a>(object, int)<dd>
+Add a room to the list of rooms to notify about weather.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#weather_string"><b>weather_string</b></a>(object, string)<dd>
+Creates the weather string which is put into room descs.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="check_umbrella">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_umbrella</b></a><pre>
+int check_umbrella(object ob)
+</pre>
+<dt><a name="cloud_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cloud_string</b></a><pre>
+string cloud_string(object env)
+</pre><dd>
+A string giving a nice description of the cloud types.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>env - the environment to find the clouds for
+<dt><b>Returns:</b>
+<dd>the current clouds
+
+</dl>
+
+<dt><a name="day_number">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>day_number</b></a><pre>
+int day_number()
+</pre><dd>
+Find out which day of the Disc (common) year it is.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the day of the year.
+
+</dl>
+
+<dt><a name="minute_number">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>minute_number</b></a><pre>
+int minute_number()
+</pre><dd>
+Find out which minute of the day (0 - 1439) it is.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the minute.
+
+</dl>
+
+<dt><a name="query_cloud">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cloud</b></a><pre>
+int query_cloud(object env)
+</pre><dd>
+Find out the cloud cover of a given room
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>env - the room
+<dt><b>Returns:</b>
+<dd>an open ended percentage. Greater than 100 means heavier cover.
+
+</dl>
+
+<dt><a name="query_darkness">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_darkness</b></a><pre>
+int query_darkness(object env)
+</pre><dd>
+return percentage of light
+should be dependant on the base amount of light, day or night time and
+cloud cover.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the - room
+<dt><b>Returns:</b>
+<dd>a percentage
+
+</dl>
+
+<dt><a name="query_moon_phase">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_moon_phase</b></a><pre>
+string query_moon_phase()
+</pre><dd>
+Find out which phase of the moon we're currently in.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a string for the phase of the moon.
+
+</dl>
+
+<dt><a name="query_moon_state">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_moon_state</b></a><pre>
+int query_moon_state()
+</pre><dd>
+Query the state of the moon.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an integer indicating the state of the moon.
+0 - no moon, 1 - crescent, 2 - quarter, 3 - half, 4 - three quarter,
+5 - gibbous, 6 - full.
+
+</dl>
+
+<dt><a name="query_moon_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_moon_string</b></a><pre>
+string query_moon_string(object env)
+</pre><dd>
+Get the appropriate moon string. This is almost completely from the old
+system. I don't understand the moon.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>env - the room to check
+<dt><b>Returns:</b>
+<dd>the moon string.
+
+</dl>
+
+<dt><a name="query_raining">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_raining</b></a><pre>
+int query_raining(object env)
+</pre><dd>
+Find out if its raining in a given room.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>env - the room
+<dt><b>Returns:</b>
+<dd>1 or 0 for true or false.
+
+</dl>
+
+<dt><a name="query_season">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_season</b></a><pre>
+string query_season()
+</pre><dd>
+Return which of the 4 seasons we are in.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>spring, summer, autumn or winter.
+
+</dl>
+
+<dt><a name="query_snowing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_snowing</b></a><pre>
+int query_snowing(object env)
+</pre><dd>
+Find out if its snowing in a given room.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>env - the room
+<dt><b>Returns:</b>
+<dd>1 or 0 for true or false.
+
+</dl>
+
+<dt><a name="query_star_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_star_string</b></a><pre>
+string query_star_string(object env)
+</pre><dd>
+Returns a string describing the current visible stars.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a string for the visible stars.
+
+</dl>
+
+<dt><a name="query_stars">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stars</b></a><pre>
+int query_stars(object env)
+</pre><dd>
+Return the number of currently visible stars as a percentage.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>A number 0-100, 0 being no stars.
+
+</dl>
+
+<dt><a name="query_sunrise">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sunrise</b></a><pre>
+int query_sunrise(int doy)
+</pre><dd>
+Find out when sunrise will be on a given day of the year.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>doy - Day of the Discworld common year.
+<dt><b>Returns:</b>
+<dd>sunrise time (in seconds past midnite).
+<dt><b>See also:</b>
+<dd><a href="#minute_number">minute_number()</a> and <a href="#day_number">day_number()
+</a></dl>
+
+<dt><a name="query_sunset">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sunset</b></a><pre>
+int query_sunset(int doy)
+</pre><dd>
+Find out when sunset will be on a given day of the year.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>doy - Day of the Discworld common year.
+<dt><b>Returns:</b>
+<dd>sunset time (in seconds past midnite).
+
+</dl>
+
+<dt><a name="query_temperature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_temperature</b></a><pre>
+int query_temperature(object env)
+</pre><dd>
+Find out the temperature of a given room
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>env - the room
+<dt><b>Returns:</b>
+<dd>a temperature in Celcius
+
+</dl>
+
+<dt><a name="query_tod">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_tod</b></a><pre>
+string query_tod()
+</pre><dd>
+Return a string for the period of the day
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>night, morning, midday, afternoon or evening.
+
+</dl>
+
+<dt><a name="query_visibility">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_visibility</b></a><pre>
+int query_visibility(object env)
+</pre><dd>
+return percentage of visibility.
+It should also depend on things like rain/snow etc, anything which
+will effect visibility.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the - room
+<dt><b>Returns:</b>
+<dd>a percentage
+
+</dl>
+
+<dt><a name="query_windsp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_windsp</b></a><pre>
+int query_windsp(object env)
+</pre><dd>
+Find out the wind speed in a given room
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>env - the room
+<dt><b>Returns:</b>
+<dd>the wind speed in miles per hour.
+
+</dl>
+
+<dt><a name="rain_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rain_string</b></a><pre>
+string rain_string(object env)
+</pre><dd>
+Creates a string showing how heavily it is raining.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>env - the room room to check in
+
+<dt><b>Returns:</b>
+<dd>the rain string
+</dl>
+
+<dt><a name="sleet_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>sleet_string</b></a><pre>
+string sleet_string(object env)
+</pre><dd>
+Creates a string showing how heavily it is sleeting.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>env - the room room to check in
+
+<dt><b>Returns:</b>
+<dd>the sleet string
+</dl>
+
+<dt><a name="snow_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>snow_string</b></a><pre>
+string snow_string(object env)
+</pre><dd>
+Creates a string showing how heavily it is snowing.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>env - the room room to check in
+
+<dt><b>Returns:</b>
+<dd>the snow string
+</dl>
+
+<dt><a name="temp_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>temp_string</b></a><pre>
+string temp_string(int temp)
+</pre><dd>
+Return a temperature string equating to the temperature passed<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>int - The temperature in Celcius
+<dt><b>Returns:</b>
+<dd>string a temperature string.
+
+</dl>
+
+<dt><a name="weather_notify">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>weather_notify</b></a><pre>
+int weather_notify(object which_room,
+int notifications)
+</pre><dd>
+Add a room to the list of rooms to notify about weather.  Notifications
+are an ORed (|) combination of the #defines in /include/climate.h
+IE: To inform about temperature and rain changes, call
+weather_notify( room, (NOTIFY_TEMPERATURE | NOTIFY_RAIN) );
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>which_room - the room to be notified
+<dd>notifications - a bitmap of notifications
+<dt><b>Returns:</b>
+<dd>success or failure (1 or 0)
+
+</dl>
+
+<dt><a name="weather_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>weather_string</b></a><pre>
+varargs string weather_string(object env,
+string obscured)
+</pre><dd>
+Creates the weather string which is put into room descs.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 03:17:51 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

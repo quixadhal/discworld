@@ -1,0 +1,111 @@
+<html><head><title>File path.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/path.c</h2>
+This method expands the specified path to get a nice new path
+based on the home directory or expanding the ~ stuff.<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_cfiles"><b>get_cfiles</b></a>(string)<dd>
+This method expands the wildcard based file name and turns it
+into a list of c files.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_files"><b>get_files</b></a>(string)<dd>
+This method expands the wildcard based file name and turns it
+into a list of files
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_path"><b>get_path</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_path"><b>query_current_path</b></a>()<dd>
+This method returns the current path.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_home_dir"><b>query_home_dir</b></a>()<dd>
+This method returns the home directory of the creator.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_current_path"><b>set_current_path</b></a>(string)<dd>
+This method sets the current path for the creator.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_home_dir"><b>set_home_dir</b></a>(string)<dd>
+This method sets the current home directory of the creator.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="get_cfiles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_cfiles</b></a><pre>
+string * get_cfiles(string str)
+</pre><dd>
+This method expands the wildcard based file name and turns it
+into a list of c files.  This automaticaly adds a .c to any
+files.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the wildcard based file name
+<dt><b>Returns:</b>
+<dd>the array of file names
+
+</dl>
+
+<dt><a name="get_files">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_files</b></a><pre>
+string * get_files(string str)
+</pre><dd>
+This method expands the wildcard based file name and turns it
+into a list of files<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the wildcard based file name
+<dt><b>Returns:</b>
+<dd>the array of file names
+
+</dl>
+
+<dt><a name="get_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_path</b></a><pre>
+string get_path(string str)
+</pre>
+<dt><a name="query_current_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_path</b></a><pre>
+string query_current_path()
+</pre><dd>
+This method returns the current path.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current path
+
+</dl>
+
+<dt><a name="query_home_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_home_dir</b></a><pre>
+string query_home_dir()
+</pre><dd>
+This method returns the home directory of the creator.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the home directory
+
+</dl>
+
+<dt><a name="set_current_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_current_path</b></a><pre>
+void set_current_path(string str)
+</pre><dd>
+This method sets the current path for the creator.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the current path
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="set_home_dir">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_home_dir</b></a><pre>
+int set_home_dir(string dir)
+</pre><dd>
+This method sets the current home directory of the creator.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the new home directory
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 02:20:10 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

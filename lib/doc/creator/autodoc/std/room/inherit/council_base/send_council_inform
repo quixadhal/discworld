@@ -1,0 +1,35 @@
+.DT
+send_council_inform
+Disk World creator help
+send_council_inform
+
+.SH Name
+.SP 5 5
+send_council_inform -  This method broadcasts a message to the citizens or magistrates of the area.
+.EP
+
+.SH Syntax
+.SI 5
+void send_council_inform(int magistrate_only,
+string message)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^magistrate_only%^RESET%^ - 1 if only for magistrates, 0 for citizens
+%^BOLD%^message%^RESET%^ - the message to send
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/council_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method broadcasts a message to the citizens or magistrates of
+the area.
+.EP
+

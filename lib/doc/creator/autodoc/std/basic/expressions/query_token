@@ -1,0 +1,37 @@
+.DT
+query_token
+Disk World creator help
+query_token
+
+.SH Name
+.SP 5 5
+query_token -  This method find the next token.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_token(string str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the input string
+.EI
+
+.SH Returns
+.SI 5
+({ token, rest })
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/expressions.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method find the next token.  It can be overrideen in higher things
+to deal with special token types (ie: money).
+.EP
+

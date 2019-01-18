@@ -1,0 +1,60 @@
+.DT
+query_to_same
+Disk World creator help
+query_to_same
+
+.SH Name
+.SP 5 5
+query_to_same -  The handler calls this function when setting up exits to allow the room to set up any modify_exit parameters which should be applied to exits leading to other locations of the same type as this.
+.EP
+
+.SH Syntax
+.SI 5
+varargs mixed * query_to_same(string type,
+string to_direc,
+string from_direc,
+string path_to)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the ASCII character representing this room type
+.EI
+
+.SH Returns
+.SI 5
+an array of exit modifiers. This should take the same form as
+used in modify_exit.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/terrain_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The handler calls this function when setting up exits to allow the
+room to set up any modify_exit parameters which should be applied
+to exits leading to other locations of the same type as this. 
+Override it to provide any extra exit modifiers.
+.EP
+
+.SH Example 1
+.SI 5
+mixed *query_to_same(string type)
+
+{ 
+   return ({ "move mess", "You wade along the stream bed.\n",
+             "enter mess", "$N wades in from the $F.",
+             "exit mess", "$N wades off to the $T.",
+             "hidden", "1 });
+}
+.EI
+
+.SH See also
+.SP 5 5
+modify_exit, query_to_other, query_from_other
+
+.EP
+

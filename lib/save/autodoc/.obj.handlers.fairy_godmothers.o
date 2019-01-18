@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["do_startup":({({"int",}),({({"object",}),"panicer",}),(["main":({"This method handles a player panicing.<p>This is the fairy godmother controller for panicing.<p>When someone panics it calls on this object to help fix themup.",}),"param":({"panicer the person panicing",}),"return":({"0 if they were unmable to panic, 1 if they were",}),]),}),"query_godmothers":({({"object","*",}),({}),(["main":({"Return an array of all the godmothers.  This is the current set ofused godmothers.",}),"return":({"an array of objects of godmothers",}),]),}),"do_hurry_up":({({"void",}),({}),(["main":({"Give the players a nudge if they are taking to long.",}),]),}),"finish_panic":({({"void",}),({({"object",}),"person",({"int",}),"ok",}),(["main":({"Called by the godmother when the person has completed theirpaniced transaction.",}),"param":({"person the person who paniced","ok did they complete it ok?",}),]),}),"do_move":({({"void",}),({({"object",}),"fairy",}),([]),}),"free_godmothers":({({"int",}),({}),(["main":({"Check to see if there are any free godmothers.  Are you beingserved?",}),"return":({"1 if there is a free one, 0 if there is not",}),]),}),"do_panic_callout":({({"void",}),({({"object",}),"godmother",({"object",}),"ob",}),([]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"Keep track of all the fairy godmothers.  Make sure they don't do anything naughty.  This also controls the costs for the godmotherservice.",}),"author":({"Pinkfish",}),])
+define_docs (["HARRY_SHADOW":([]),"DAY":([]),"FREE_NAME":([]),"THRESHOLD":([]),])
+includes (["/include/config.h":1522061544,"/include/playerinfo.h":1522061544,"/include/panic.h":1522061544,"/include/cwc.h":1522061544,])
+class_docs ([])
+file_name "/obj/handlers/fairy_godmothers.c"
+last_changed 1522061544

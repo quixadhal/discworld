@@ -1,0 +1,632 @@
+<html><head><title>File playtesters.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/playtesters.c</h2>
+Keeps track of all the current playtesters.  This keeps track of all
+the current playtesters.
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.project_management.h.html">/include/project_management.h</a>, <a href="include.board.h.html">/include/board.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a>, <a href="include.login.h.html">/include/login.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_jump_point"><b>add_jump_point</b></a>(string, string)<dd>
+This method adds a jump point to the list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_playtester"><b>add_playtester</b></a>(string)<dd>
+This method adds the playtester to the array of current play
+testers.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_pt_exec"><b>add_pt_exec</b></a>(string)<dd>
+This method adds the player as a playtester executive.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_senior_playtester"><b>add_senior_playtester</b></a>(string)<dd>
+This method adds the player as a senior playtester.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_quota"><b>adjust_quota</b></a>(string, int)<dd>
+This adjusts the quota of a playtester.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_playtester"><b>check_playtester</b></a>()<dd>
+This method should never ever be used.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_playtesters"><b>check_playtesters</b></a>(string *)<dd>
+This goes through the list of playtesters and checks to make
+sure they are all still valid.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_playtesters_one"><b>check_playtesters_one</b></a>(string)<dd>
+This method determines if a playtester is valid or not, and if not will
+automagically remove them (does not remove senior playtesters
+automatically).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_age_cached"><b>get_age_cached</b></a>(string)<dd>
+This method will get the age of a playtester from this handlers' cache.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_age_raw"><b>get_age_raw</b></a>(string)<dd>
+This method finds the age of the playtester from the player handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_age_uncached"><b>get_age_uncached</b></a>(string)<dd>
+This method will update the playtesters' age if they are online and return
+the value from the cache.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_age_uncached_offline"><b>get_age_uncached_offline</b></a>(string)<dd>
+This method will update the playtesters' age from the player handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#hire_playtester"><b>hire_playtester</b></a>(object)<dd>
+This method checks to make sure an object can be a playtester, and if so,
+adds them.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bugs"><b>query_bugs</b></a>(string)<dd>
+This will return bug information for a given playtester.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_exec_access"><b>query_exec_access</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_guilds"><b>query_guilds</b></a>()<dd>
+This method returns a mapping which contains which the playtesters mapped
+to their guild objects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_jump_destination"><b>query_jump_destination</b></a>(string)<dd>
+This method finds the destination from the start location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_jump_points"><b>query_jump_points</b></a>()<dd>
+This method returns the current mapping of jump points.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_leave"><b>query_leave</b></a>(string)<dd>
+This tests whether a playtester is "on leave".
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_months"><b>query_months</b></a>()<dd>
+This returns a sorted list of months, earliest month first.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_playtester"><b>query_playtester</b></a>(string)<dd>
+This method tests to see if the given name is a playtester.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_playtester_guilds"><b>query_playtester_guilds</b></a>()<dd>
+This method returns a mapping which contains which Guilds
+the playtesters belong to.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_playtesters"><b>query_playtesters</b></a>()<dd>
+This method returns a list of the current play testers.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pt_data"><b>query_pt_data</b></a>(string)<dd>
+Returns the raw playtester data for processing!
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pt_exec"><b>query_pt_exec</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_senior_playtester"><b>query_senior_playtester</b></a>(string)<dd>
+This method determines if they are a senior playtester.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_show_list"><b>query_show_list</b></a>()<dd>
+This is a nice way of showing a list of the current play testers.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_show_list_colour"><b>query_show_list_colour</b></a>()<dd>
+This is a nice way of showing a list of the current play testers.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_tester"><b>query_tester</b></a>(mixed)<dd>
+This method tests to see if "person" is an authorized tester,
+i.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reason_invalid_playtester"><b>reason_invalid_playtester</b></a>(string)<dd>
+THis method returns a string reason why they are an invalid play
+tester.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_jump_point"><b>remove_jump_point</b></a>(string, string)<dd>
+This method removes a specific jump point from the list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_jump_point_from"><b>remove_jump_point_from</b></a>(string)<dd>
+This method removes a specific jump point from the list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_playtester"><b>remove_playtester</b></a>(string, string)<dd>
+This method will remove the playtester from the current list of
+play testers.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_pt_exec"><b>remove_pt_exec</b></a>(string)<dd>
+This method removes the player as a playtester executive.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_senior_playtester"><b>remove_senior_playtester</b></a>(string, string)<dd>
+This method adds the player as a senior playtester.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#report_made"><b>report_made</b></a>(string, string, string, string)<dd>
+This is called when a playtester makes a bug report.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_leave"><b>reset_leave</b></a>(string)<dd>
+This marks a playtester as no longer "on leave", and logs it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_leave"><b>set_leave</b></a>(string, string)<dd>
+This marks a playtester as "on leave", logs it, with a reason.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#valid_playtester"><b>valid_playtester</b></a>(string)<dd>
+This method determins if they are a valid playtester or not.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_jump_point">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_jump_point</b></a><pre>
+void add_jump_point(string from,
+string to)
+</pre><dd>
+This method adds a jump point to the list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>from - the from location
+<dd>to - the to location
+
+</dl>
+
+<dt><a name="add_playtester">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_playtester</b></a><pre>
+int add_playtester(string name)
+</pre><dd>
+This method adds the playtester to the array of current play
+testers.  NOTE: This uses get_age_raw(), which will cause lag if called on
+lots of playerfiles.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player to add
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#remove_playtester">remove_playtester()</a>, <a href="#query_playtester">query_playtester()</a>, <a href="#add_senior_playtester">add_senior_playtester()</a> and <a href="#valid_playtester">valid_playtester()
+</a></dl>
+
+<dt><a name="add_pt_exec">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_pt_exec</b></a><pre>
+int add_pt_exec(string name)
+</pre><dd>
+This method adds the player as a playtester executive.  The playtester
+needs to already be added as a playtester before becoming a
+playtester executive.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player to add
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#remove_pt_exec">remove_pt_exec()</a>, <a href="#add_playtester">add_playtester()</a> and <a href="#query_pt_exec">query_pt_exec()
+</a></dl>
+
+<dt><a name="add_senior_playtester">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_senior_playtester</b></a><pre>
+int add_senior_playtester(string name)
+</pre><dd>
+This method adds the player as a senior playtester.  The playtester
+needs to already be added as a normal playtester before becoming a
+senior playtester.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player to add
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#remove_senior_playtester">remove_senior_playtester()</a>, <a href="#add_playtester">add_playtester()</a> and <a href="#query_senior_playtester">query_senior_playtester()
+</a></dl>
+
+<dt><a name="adjust_quota">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_quota</b></a><pre>
+void adjust_quota(string name,
+int amount)
+</pre><dd>
+This adjusts the quota of a playtester.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - The query_name() of the playtester.
+<dd>amount - A integer to adjust by.
+
+</dl>
+
+<dt><a name="check_playtester">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_playtester</b></a><pre>
+int check_playtester( string)
+</pre><dd>
+This method should never ever be used.  Use of this call is meant to be
+broken.  Old code that uses check_playtester() probably meant to use
+query_playtester().  Use this instead (or better, query_tester()).  If you
+wish to hire a playtester using this call (which is what it actually did!),
+please look at hire_playtester() and add_playtester().<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Always returns 0.
+
+<dt><b>See also:</b>
+<dd><a href="#query_playtester">query_playtester()</a>, <a href="#query_tester">query_tester()</a>, <a href="#hire_playtester">hire_playtester()</a> and <a href="#add_playtester">add_playtester()</a></dl>
+
+<dt><a name="check_playtesters">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_playtesters</b></a><pre>
+void check_playtesters(string * who)
+</pre><dd>
+This goes through the list of playtesters and checks to make
+sure they are all still valid.  It does so slowly, using a call_out until
+it gets to the end.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>who - A string* of the query_name()'s of the playtesters to check.
+<dt><b>See also:</b>
+<dd><a href="#valid_playtester">valid_playtester()</a> and <a href="#remove_playtester">remove_playtester()
+</a></dl>
+
+<dt><a name="get_age_cached">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_age_cached</b></a><pre>
+int get_age_cached(string name)
+</pre><dd>
+This method will get the age of a playtester from this handlers' cache.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the playtester to check
+<dt><b>Returns:</b>
+<dd>an integer representing the age of the playtester in
+seconds.  Always >= 0.
+
+</dl>
+
+<dt><a name="get_age_uncached">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_age_uncached</b></a><pre>
+int get_age_uncached(string name)
+</pre><dd>
+This method will update the playtesters' age if they are online and return
+the value from the cache.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the playtester to check
+<dt><b>Returns:</b>
+<dd>an integer representing the age of the playtester in seconds.
+Always >= 0.
+
+</dl>
+
+<dt><a name="get_age_uncached_offline">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_age_uncached_offline</b></a><pre>
+int get_age_uncached_offline(string name)
+</pre><dd>
+This method will update the playtesters' age from the player handler.
+NOTE: This causes the playerfile to be loaded if it hasn't been already -
+this will cause LOTS OF LAG if done on a log of playerfiles.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the playtester to check
+<dt><b>Returns:</b>
+<dd>an integer representing the age of the playtester in seconds.
+Always >= 0.
+
+</dl>
+
+<dt><a name="hire_playtester">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hire_playtester</b></a><pre>
+int hire_playtester(object thing)
+</pre><dd>
+This method checks to make sure an object can be a playtester, and if so,
+adds them.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - The player object to add as a playtester
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure.
+
+</dl>
+
+<dt><a name="query_bugs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bugs</b></a><pre>
+mapping query_bugs(string name)
+</pre><dd>
+This will return bug information for a given playtester.  The mapping
+returned will map months to arrays of ints.  The format of these arrays is:
+({ bugs, online_that_month, age_at_end_of_month }).<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_months">query_months()
+</a></dl>
+
+<dt><a name="query_exec_access">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_exec_access</b></a><pre>
+int query_exec_access(string name)
+</pre>
+<dt><a name="query_guilds">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_guilds</b></a><pre>
+mapping query_guilds()
+</pre><dd>
+This method returns a mapping which contains which the playtesters mapped
+to their guild objects.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a lovely mapping
+
+</dl>
+
+<dt><a name="query_jump_destination">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_jump_destination</b></a><pre>
+string * query_jump_destination(string from)
+</pre><dd>
+This method finds the destination from the start location.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>from - the location to find the jump point too
+
+</dl>
+
+<dt><a name="query_jump_points">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_jump_points</b></a><pre>
+mapping query_jump_points()
+</pre><dd>
+This method returns the current mapping of jump points.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the jump points
+
+</dl>
+
+<dt><a name="query_leave">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_leave</b></a><pre>
+int query_leave(string name)
+</pre><dd>
+This tests whether a playtester is "on leave".
+<p>
+
+<dt><a name="query_months">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_months</b></a><pre>
+string * query_months()
+</pre><dd>
+This returns a sorted list of months, earliest month first.
+<p>
+
+<dt><a name="query_playtester">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_playtester</b></a><pre>
+int query_playtester(string name)
+</pre><dd>
+This method tests to see if the given name is a playtester.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if they are a playtester, 0 if they are not.
+<dt><b>See also:</b>
+<dd><a href="#add_playtester">add_playtester()</a>, <a href="#remove_playtester">remove_playtester()</a> and <a href="#query_senior_playtester">query_senior_playtester()
+</a></dl>
+
+<dt><a name="query_playtester_guilds">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_playtester_guilds</b></a><pre>
+mapping query_playtester_guilds()
+</pre><dd>
+This method returns a mapping which contains which Guilds
+the playtesters belong to.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a lovely mapping
+
+</dl>
+
+<dt><a name="query_playtesters">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_playtesters</b></a><pre>
+string * query_playtesters()
+</pre><dd>
+This method returns a list of the current play testers.  This is
+a list of string names in an array.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of current playtesters
+
+</dl>
+
+<dt><a name="query_pt_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pt_data</b></a><pre>
+mixed query_pt_data(string name)
+</pre><dd>
+Returns the raw playtester data for processing!  DEPRECATED AND WILL NOT
+RETURN UP TO DATE INFORMATION!<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_bugs">query_bugs()</a> and <a href="#query_months">query_months()
+</a></dl>
+
+<dt><a name="query_pt_exec">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pt_exec</b></a><pre>
+int query_pt_exec(string name)
+</pre>
+<dt><a name="query_senior_playtester">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_senior_playtester</b></a><pre>
+int query_senior_playtester(string name)
+</pre><dd>
+This method determines if they are a senior playtester.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the playtester to check
+<dt><b>Returns:</b>
+<dd>1 if they are a senior playteser, 0 if they are not
+<dt><b>See also:</b>
+<dd><a href="#add_senior_playtester">add_senior_playtester()</a>, <a href="#remove_senior_playtester">remove_senior_playtester()</a> and <a href="#query_playtester">query_playtester()
+</a></dl>
+
+<dt><a name="query_show_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_show_list</b></a><pre>
+string query_show_list()
+</pre><dd>
+This is a nice way of showing a list of the current play testers.
+It prints a table of the previous four and current months, with columns
+of bug reports made and number of hours online spent.
+<p>
+
+<dt><a name="query_show_list_colour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_show_list_colour</b></a><pre>
+string query_show_list_colour()
+</pre><dd>
+This is a nice way of showing a list of the current play testers.
+It prints a table of the previous four and current months, with columns
+of bug reports made and number of hours online spent.
+<p>
+
+<dt><a name="query_tester">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_tester</b></a><pre>
+int query_tester(mixed person)
+</pre><dd>
+This method tests to see if "person" is an authorized tester,
+i.e. a playtester, creator or has the "test character" property.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - A string or object to determine tester status for.
+<dt><b>Returns:</b>
+<dd>1 if they are a tester, 0 if they are not.
+<dt><b>See also:</b>
+<dd><a href="#query_playtester">query_playtester()
+</a></dl>
+
+<dt><a name="reason_invalid_playtester">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reason_invalid_playtester</b></a><pre>
+string reason_invalid_playtester(string name)
+</pre><dd>
+THis method returns a string reason why they are an invalid play
+tester.  NOTE: This uses the player_handler, which will cause lag if
+called on lots of playerfiles.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the player to check
+<dt><b>Returns:</b>
+<dd>the string reason, 0 if none
+<dt><b>See also:</b>
+<dd><a href="#valid_playtester">valid_playtester()
+</a></dl>
+
+<dt><a name="remove_jump_point">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_jump_point</b></a><pre>
+void remove_jump_point(string from,
+string to)
+</pre><dd>
+This method removes a specific jump point from the list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>from - the from location to remove
+<dd>to - the to location to remove
+
+</dl>
+
+<dt><a name="remove_jump_point_from">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_jump_point_from</b></a><pre>
+void remove_jump_point_from(string from)
+</pre><dd>
+This method removes a specific jump point from the list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>from - the specific jump point to remove
+
+</dl>
+
+<dt><a name="remove_playtester">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_playtester</b></a><pre>
+int remove_playtester(string name,
+string reason)
+</pre><dd>
+This method will remove the playtester from the current list of
+play testers.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player to remove
+<dd>reason - the reason for the removal
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#add_playtester">add_playtester()</a>, <a href="#remove_senior_playtester">remove_senior_playtester()</a> and <a href="#query_playtester">query_playtester()
+</a></dl>
+
+<dt><a name="remove_pt_exec">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_pt_exec</b></a><pre>
+int remove_pt_exec(string name)
+</pre><dd>
+This method removes the player as a playtester executive.  <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player to add
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#add_pt_exec">add_pt_exec()</a>, <a href="#add_playtester">add_playtester()</a> and <a href="#query_pt_exec">query_pt_exec()
+</a></dl>
+
+<dt><a name="remove_senior_playtester">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_senior_playtester</b></a><pre>
+int remove_senior_playtester(string name,
+string reason)
+</pre><dd>
+This method adds the player as a senior playtester.  The playtester
+needs to already be added to become a senior playtester.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player to remove
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#add_senior_playtester">add_senior_playtester()</a>, <a href="#remove_playtester">remove_playtester()</a> and <a href="#query_senior_playtester">query_senior_playtester()
+</a></dl>
+
+<dt><a name="report_made">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>report_made</b></a><pre>
+void report_made(string name,
+string type,
+string file,
+string text)
+</pre><dd>
+This is called when a playtester makes a bug report.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the playtester
+<dd>type - the type of report
+<dd>file - the file the report is on
+<dd>text - the text associated with the report
+
+</dl>
+
+<dt><a name="reset_leave">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_leave</b></a><pre>
+int reset_leave(string name)
+</pre><dd>
+This marks a playtester as no longer "on leave", and logs it.
+<p>
+
+<dt><a name="set_leave">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_leave</b></a><pre>
+int set_leave(string name,
+string reason)
+</pre><dd>
+This marks a playtester as "on leave", logs it, with a reason.
+<p>
+
+<dt><a name="valid_playtester">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>valid_playtester</b></a><pre>
+int valid_playtester(string name)
+</pre><dd>
+This method determins if they are a valid playtester or not.  NOTE: This
+uses reason_invalid_playtester(), which will cause lag if called on lots of
+playerfiles.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player to test
+<dt><b>Returns:</b>
+<dd>1 if they are, 0 if they are not
+<dt><b>See also:</b>
+<dd><a href="#reason_invalid_playtester">reason_invalid_playtester()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="check_playtesters_one">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_playtesters_one</b></a><pre>
+void check_playtesters_one(string name)
+</pre><dd>
+This method determines if a playtester is valid or not, and if not will
+automagically remove them (does not remove senior playtesters
+automatically).  NOTE: This uses valid_playtester() and
+reason_invalid_playtester(), which will cause lag if called on lots of
+playerfiles.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player to test
+<dt><b>See also:</b>
+<dd><a href="#reason_invalid_playtester">reason_invalid_playtester()
+</a></dl>
+
+<dt><a name="get_age_raw">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>get_age_raw</b></a><pre>
+int get_age_raw(string name)
+</pre><dd>
+This method finds the age of the playtester from the player handler.  NOTE:
+This causes the playerfile to be loaded if it hasn't been already - this
+will cause LOTS OF LAG if done on a lot of playerfiles.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the playtester to check
+<dt><b>Returns:</b>
+<dd>an integer representing the age of the playtester in seconds.
+Always >= 0.
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 23:41:27 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

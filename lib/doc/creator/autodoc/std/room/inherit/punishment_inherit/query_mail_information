@@ -1,0 +1,40 @@
+.DT
+query_mail_information
+Disk World creator help
+query_mail_information
+
+.SH Name
+.SP 5 5
+query_mail_information -  This method is used to print extra data in the mail message which gets sent.
+.EP
+
+.SH Syntax
+.SI 5
+string query_mail_information(string area,
+class nomic_case the_case,
+string type,
+mixed data)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area the case is in
+%^BOLD%^the_case%^RESET%^ - the case to work on
+%^BOLD%^type%^RESET%^ - the type of the punishment
+%^BOLD%^data%^RESET%^ - the data associated with the punishment
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/punishment_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to print extra data in the mail message which
+gets sent.  This should tell the person how to go about dealing with
+whatever has happened to them.
+.EP
+

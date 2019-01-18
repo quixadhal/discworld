@@ -1,0 +1,37 @@
+.DT
+RemoveSearchPath
+Disk World creator help
+RemoveSearchPath
+
+.SH Name
+.SP 5 5
+RemoveSearchPath -  Remove a directory(s) from the search path.
+.EP
+
+.SH Syntax
+.SI 5
+string * RemoveSearchPath(mixed val)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^val%^RESET%^ - the directory(s) to remove
+.EI
+
+.SH Returns
+.SI 5
+the new search path
+.EI
+
+.SH Defined in
+.SI 5
+/global/command.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Remove a directory(s) from the search path.  If the input is
+an array then the members of that are added to the search path.
+.EP
+

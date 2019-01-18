@@ -1,0 +1,48 @@
+.DT
+add_menu_alias
+Disk World creator help
+add_menu_alias
+
+.SH Name
+.SP 5 5
+add_menu_alias -  This method allows you to add an alias to an item sold in the pub.
+.EP
+
+.SH Syntax
+.SI 5
+void add_menu_alias(mixed alias,
+string actual)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^alias%^RESET%^ - the alias to add
+%^BOLD%^alias%^RESET%^ - the real item that the alias refers to
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/pub.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method allows you to add an alias to an item sold in the pub.  Many
+aliases are added by default so you shouldn't have to use this too
+often.  See the help on "set_no_standard_alias()" to see what aliases are
+added automatically.
+.EP
+
+.SH Example 1
+.SI 5
+// Allow "buy lancre ale" instead of "buy Ale from Lancre"
+add_menu_alias( "lancre ale", "Ale from Lancre" );
+.EI
+
+.SH See also
+.SP 5 5
+add_menu_aliases(), query_menu_aliases(), remove_menu_alias(), set_no_standard_alias()
+
+.EP
+

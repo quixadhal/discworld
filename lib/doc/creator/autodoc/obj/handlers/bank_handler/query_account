@@ -1,0 +1,38 @@
+.DT
+query_account
+Disk World creator help
+query_account
+
+.SH Name
+.SP 5 5
+query_account -  Find out how much a player has at a given bank.
+.EP
+
+.SH Syntax
+.SI 5
+int query_account(string word,
+string bank_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the name of the player
+%^BOLD%^bank_name%^RESET%^ - the name of the bank
+.EI
+
+.SH Returns
+.SI 5
+the current balance, -1 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/bank_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Find out how much a player has at a given bank.
+.EP
+

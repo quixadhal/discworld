@@ -1,0 +1,51 @@
+.DT
+add_philosophy
+Disk World creator help
+add_philosophy
+
+.SH Name
+.SP 5 5
+add_philosophy -  This method adds a philosphy into the current list of philosphies.
+.EP
+
+.SH Syntax
+.SI 5
+void add_philosophy(string name,
+string type,
+int bonus,
+string needed,
+string effect)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the philosophy
+%^BOLD%^type%^RESET%^ - the type of the philosophy
+%^BOLD%^bonus%^RESET%^ - the bonus of the philosophy
+%^BOLD%^needed%^RESET%^ - the string describing what you need
+%^BOLD%^effect%^RESET%^ - the effect of the philosphy
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/philosophies.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a philosphy into the current list of philosphies.
+.EP
+
+.SH Example 1
+.SI 5
+add_philosophy("theology", "faith", 50, "the power of your faith",
+               "/std/effects/religious/theological_debate");
+.EI
+
+.SH See also
+.SP 5 5
+query_philosophy(), query_philosophy_names(), remove_philosophy()
+
+.EP
+

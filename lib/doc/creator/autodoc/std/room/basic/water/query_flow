@@ -1,0 +1,44 @@
+.DT
+query_flow
+Disk World creator help
+query_flow
+
+.SH Name
+.SP 5 5
+query_flow -  This function returns the strength of the current flowing through a particular exit, if any.
+.EP
+
+.SH Syntax
+.SI 5
+int query_flow(string dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - the exit which should have its current returned
+.EI
+
+.SH Returns
+.SI 5
+the current through this ext.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function returns the strength of the current flowing through a
+particular exit, if any.  A positive value represents a current flowing from
+this room into the next one, and a negative value represents a current
+flowing from the next room into this one.
+.EP
+
+.SH See also
+.SP 5 5
+add_flow, delete_flow, query_flows
+
+.EP
+

@@ -1,0 +1,196 @@
+<html><head><title>File punishment_inherit.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/punishment_inherit.c</h2>
+This is the basic inheritable punishment class.<p>Written by Pinkfish<p>Started Tue Sep 19 14:37:28 PDT 2000
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.nomic_system.h.html">/include/nomic_system.h</a> and <a href="include.nroff.h.html">/include/nroff.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#complete_punishement"><b>complete_punishement</b></a>(string, class nomic_case, string, mixed)<dd>
+Complete the punishment, this actually does anythign that really needs to
+be done to do the real work.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_description"><b>query_description</b></a>(string, string)<dd>
+The desscription of the punishement.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_description_file"><b>query_description_file</b></a>()<dd>
+This method returns the description file for the punishment.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_mail_information"><b>query_mail_information</b></a>(string, class nomic_case, string, mixed)<dd>
+This method is used to print extra data in the mail message which
+gets sent.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_short"><b>query_short</b></a>(string, class nomic_case, string, mixed)<dd>
+The short desscription of the punishement.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_description_file"><b>set_description_file</b></a>(string)<dd>
+This method sets the description file for this type of punishment.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_mail_information"><b>set_mail_information</b></a>(string)<dd>
+This method sets the mail information to use when sending out a mail for
+this punishment.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_short"><b>set_short</b></a>(string)<dd>
+This method sets the base short description of the punishment.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_punishment"><b>start_punishment</b></a>(string, class nomic_case, string, function)<dd>
+The start of the punishment stuff, figure out any extra data.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#suspend_punishment"><b>suspend_punishment</b></a>(string, class nomic_case, string, mixed)<dd>
+This method suspends the punishment.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="complete_punishement">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>complete_punishement</b></a><pre>
+void complete_punishement(string area,
+class nomic_case the_case,
+string type,
+mixed data)
+</pre><dd>
+Complete the punishment, this actually does anythign that really needs to
+be done to do the real work.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the case is in
+<dd>the_case - the case to work on
+<dd>type - the type of the punishement
+<dd>data - any extra data to use
+
+</dl>
+
+<dt><a name="query_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_description</b></a><pre>
+string query_description(string area,
+string type)
+</pre><dd>
+The desscription of the punishement.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the case is in
+<dd>type - the type name of the punishment
+<dt><b>Returns:</b>
+<dd>the description
+
+</dl>
+
+<dt><a name="query_description_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_description_file</b></a><pre>
+string query_description_file()
+</pre><dd>
+This method returns the description file for the punishment.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the description file
+
+</dl>
+
+<dt><a name="query_mail_information">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_mail_information</b></a><pre>
+string query_mail_information(string area,
+class nomic_case the_case,
+string type,
+mixed data)
+</pre><dd>
+This method is used to print extra data in the mail message which
+gets sent.  This should tell the person how to go about dealing with
+whatever has happened to them.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the case is in
+<dd>the_case - the case to work on
+<dd>type - the type of the punishment
+<dd>data - the data associated with the punishment
+
+</dl>
+
+<dt><a name="query_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_short</b></a><pre>
+string query_short(string area,
+class nomic_case the_case,
+string type,
+mixed data)
+</pre><dd>
+The short desscription of the punishement.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the case is in
+<dd>the_case - the case
+<dd>type - the type name of the punishment
+<dd>data - the data associated with the type
+<dt><b>Returns:</b>
+<dd>the short description
+
+</dl>
+
+<dt><a name="set_description_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_description_file</b></a><pre>
+void set_description_file(string str)
+</pre><dd>
+This method sets the description file for this type of punishment.  What it
+does and so on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the description
+
+</dl>
+
+<dt><a name="set_mail_information">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_mail_information</b></a><pre>
+void set_mail_information(string mail)
+</pre><dd>
+This method sets the mail information to use when sending out a mail for
+this punishment.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>info - the mail information
+
+</dl>
+
+<dt><a name="set_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_short</b></a><pre>
+void set_short(string short)
+</pre><dd>
+This method sets the base short description of the punishment.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the base short description
+
+</dl>
+
+<dt><a name="start_punishment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_punishment</b></a><pre>
+void start_punishment(string area,
+class nomic_case the_case,
+string type,
+function finish)
+</pre><dd>
+The start of the punishment stuff, figure out any extra data.  The
+default result calls the function back with a 0 data arguement.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the case is in
+<dd>the_case - the case
+<dd>type - the type name of the punishment
+<dd>finish_func - the function to call when we are finished
+
+</dl>
+
+<dt><a name="suspend_punishment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>suspend_punishment</b></a><pre>
+void suspend_punishment(string area,
+class nomic_case the_case,
+string type,
+mixed data)
+</pre><dd>
+This method suspends the punishment.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the case is in
+<dd>the_case - the case to work on
+<dd>type - the type of the punishment
+<dd>data - the data associated with the punishment
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 06:16:39 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

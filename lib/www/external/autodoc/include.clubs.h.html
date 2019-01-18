@@ -1,0 +1,111 @@
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_club_archive">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>club_archive</b></a><pre>
+class club_archive {
+int archive_date;
+string subject;
+string matter;
+}
+
+</pre><dd>
+This class is used for the archives in elected clubs.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>subject - the subject of the archive
+<dd>matter - the actual matter of the archive
+
+</dl>
+
+<dt><a name="class_club_transaction">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>club_transaction</b></a><pre>
+class club_transaction {
+string who;
+int amount;
+int transaction_type;
+int date;
+string information;
+}
+
+</pre><dd>
+This class is used to keep track of financial transactions for
+each club.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>who - who made the transaction
+<dd>amount - Amount of the transaction
+<dd>transaction_type - type of the transaction
+<dd>date - the date at which the transaction occured
+<dd>information - the information about the transaction
+
+</dl>
+
+<dt><a name="class_discussion_idea">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>discussion_idea</b></a><pre>
+class discussion_idea {
+int id;
+int time_added;
+int time_finish;
+int discuss_type;
+string added_by;
+string name;
+string information;
+mapping choices;
+string * voted;
+mixed optional_data;
+}
+
+</pre><dd>
+This class is for a discussion idea associated with a club.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>id - the unique id of the discusion idea
+<dd>time_added - the time the discussion item was added
+<dd>discuss_type - the type of the item up for discusion
+<dd>added_by - the name of the member who added the item
+<dd>information - entered by the person when they added the discussion
+<dd>name - the name of the person who added the item
+<dd>choices - the choices and votes for the discussion
+<dd>voted - who has voted for the item
+<dd>optional_data - the extra data associated with the idea
+
+</dl>
+
+<dt><a name="class_family_response_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>family_response_data</b></a><pre>
+class family_response_data {
+string family;
+string relationship;
+}
+
+</pre><dd>
+This defines the class to use for accepting into families.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>family - the family name
+<dd>relationship - the relationship type
+
+</dl>
+
+<dt><a name="class_relationship_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>relationship_data</b></a><pre>
+class relationship_data {
+string related_to;
+string relationship;
+}
+
+</pre><dd>
+This class defines the stuff which shows the relationships between the
+two people.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>related_to - who they are related to
+<dd>relationship - the relationship between the two people
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Fri, 30 Mar 2018 16:45:18 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

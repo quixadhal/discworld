@@ -1,0 +1,38 @@
+.DT
+query_can_change_rule
+Disk World creator help
+query_can_change_rule
+
+.SH Name
+.SP 5 5
+query_can_change_rule -  This method checks to see if the specified rule can be changed.
+.EP
+
+.SH Syntax
+.SI 5
+int query_can_change_rule(string area,
+class nomic_rule rule)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area in which the rule will be changed in
+%^BOLD%^rule%^RESET%^ - the rule to check
+.EI
+
+.SH Returns
+.SI 5
+1 if it can be changed, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/nomic_rules.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the specified rule can be changed.
+.EP
+

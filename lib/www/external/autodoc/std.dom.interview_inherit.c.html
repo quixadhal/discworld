@@ -1,0 +1,699 @@
+<html><head><title>File interview_inherit.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/dom/interview_inherit.c</h2>
+ Domain Interview Room
+ @author Drakkos
+ @started on 02/12/2000
+ 
+<hr><h2>Inherits</h2>
+This class inherits the following classes /std/room.c<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a> and <a href="include.mail.h.html">/include/mail.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_candidate"><b>add_candidate</b></a>(string)<dd>
+Add a candidate to the list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_confirmed"><b>add_confirmed</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_creator"><b>add_creator</b></a>(string)<dd>
+Entry point to the add creator command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_interviewed"><b>add_interviewed</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_candidates"><b>clear_candidates</b></a>()<dd>
+Clear the list of player candidates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_interviewed"><b>clear_interviewed</b></a>()<dd>
+Clear the list of interviewed players.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_add"><b>do_add</b></a>(string)<dd>
+Start off a creator application by sending them out the second part of
+the application procedure.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_confirm"><b>do_confirm</b></a>(string)<dd>
+Confirm receipt of a candidate's submission.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_end"><b>do_end</b></a>()<dd>
+The function to end the interview.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_flag"><b>do_flag</b></a>(string, string)<dd>
+Entry point for the flag command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_interview"><b>do_interview</b></a>(object, string)<dd>
+This function is the main entry point for the interview code.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list"><b>do_list</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_query"><b>do_query</b></a>()<dd>
+Query the current state of applications.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_query_text"><b>do_query_text</b></a>(string)<dd>
+Entry point for the query command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_read"><b>do_read</b></a>(string)<dd>
+This function will take the name of a player and if the interview document
+for that player exists, print it to the screen of this_player().
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_show"><b>do_show</b></a>()<dd>
+This function will show the embedded 'movie' text at regular intervals.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_stop"><b>do_stop</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_emote"><b>event_emote</b></a>(object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#flush"><b>flush</b></a>()<dd>
+Flush the candidate, interviewed and submitted lists.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load"><b>load</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#play_movie"><b>play_movie</b></a>(int)<dd>
+This function does a person_say event on the environmen.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_acceptance"><b>query_acceptance</b></a>()<dd>
+Query the acceptance mail text.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_applicants"><b>query_all_applicants</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_allowed_creators"><b>query_allowed_creators</b></a>()<dd>
+Entry point to the query allowed creators command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_applicants_text"><b>query_applicants_text</b></a>()<dd>
+Return which candidates have been mailed, which have sent in their 
+submission, and which are left to be interviewed or replied to.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cc"><b>query_cc</b></a>()<dd>
+Query the names cc'd by default.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_confirmation"><b>query_confirmation</b></a>()<dd>
+Returns the confirmation mail text.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_domain"><b>query_domain</b></a>()<dd>
+Return the domain the room exists in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_interview"><b>query_interview</b></a>()<dd>
+Return whether creator candidates require an interview for this domain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_interview_dir"><b>query_interview_dir</b></a>()<dd>
+Return the directory where interviews are to be stored.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_interviewed"><b>query_interviewed</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_interviewer"><b>query_interviewer</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_is_interviewer"><b>query_is_interviewer</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_lord"><b>query_lord</b></a>()<dd>
+Return the domain's lord.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_part_two"><b>query_part_two</b></a>()<dd>
+Return the text for the second part of the application.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_part_two_required"><b>query_part_two_required</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_permitted"><b>query_permitted</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_permitted_creators"><b>query_permitted_creators</b></a>()<dd>
+Query the creators permitted to use this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rejection"><b>query_rejection</b></a>()<dd>
+Query the rejection mail text.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_subject"><b>query_subject</b></a>()<dd>
+Query the subject of an interview if one is ongoing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_submitted"><b>query_submitted</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_candidate"><b>remove_candidate</b></a>(string)<dd>
+Delete a player from the list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_creator"><b>remove_creator</b></a>(string)<dd>
+The entry point to the remove creator command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_interviewed"><b>remove_interviewed</b></a>(string)<dd>
+Remove a player from the interviewed list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save"><b>save</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_acceptance"><b>set_acceptance</b></a>(string)<dd>
+Set the acceptance mail text.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_cc"><b>set_cc</b></a>(string *)<dd>
+Set the names cc'd by default.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_confirmation"><b>set_confirmation</b></a>(string)<dd>
+Set the text of the confirmation mail.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_domain"><b>set_domain</b></a>(string)<dd>
+Set the domain the room exists in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_interview"><b>set_interview</b></a>(int)<dd>
+Set whether an interview is required of creator candidates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_interview_dir"><b>set_interview_dir</b></a>(string)<dd>
+Set the directory where interviews are to be stored.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_movie"><b>set_movie</b></a>(string *)<dd>
+Tests to see if a particular creator is permitted to make use of the 
+interview room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_part_two"><b>set_part_two</b></a>(string)<dd>
+Set the filename for the second part of the application.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_part_two_required"><b>set_part_two_required</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_rejection"><b>set_rejection</b></a>(string)<dd>
+Set the rejection mail text.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_candidate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_candidate</b></a><pre>
+int add_candidate(string name)
+</pre><dd>
+Add a candidate to the list.  Will not send part two of the application
+to them.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - name of the player to add.
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+<dt><a name="add_confirmed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_confirmed</b></a><pre>
+int add_confirmed(string name)
+</pre>
+<dt><a name="add_creator">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_creator</b></a><pre>
+int add_creator(string name)
+</pre><dd>
+Entry point to the add creator command.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - name of the creator to allow
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success.
+
+</dl>
+
+<dt><a name="add_interviewed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_interviewed</b></a><pre>
+int add_interviewed(string name)
+</pre>
+<dt><a name="clear_candidates">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_candidates</b></a><pre>
+int clear_candidates()
+</pre><dd>
+Clear the list of player candidates.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+<dt><a name="clear_interviewed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_interviewed</b></a><pre>
+int clear_interviewed()
+</pre><dd>
+Clear the list of interviewed players.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+<dt><a name="do_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_add</b></a><pre>
+int do_add(string candidate)
+</pre><dd>
+Start off a creator application by sending them out the second part of
+the application procedure.  <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>candidate - the name to send the second part of the application to.
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+<dt><a name="do_confirm">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_confirm</b></a><pre>
+int do_confirm(string candidate)
+</pre><dd>
+Confirm receipt of a candidate's submission.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>candidate - name of the player to add.
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+<dt><a name="do_end">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_end</b></a><pre>
+int do_end()
+</pre><dd>
+The function to end the interview.  Will write an entry in the interview
+text containing who the interview was with and when the interview was
+ended.  It will then add the subject to the list of interviewed names and
+save the object.  Finally, it will reset the subject of the room. <p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success.
+
+</dl>
+
+<dt><a name="do_flag">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_flag</b></a><pre>
+int do_flag(string name,
+string flag)
+</pre><dd>
+Entry point for the flag command.  Sets an application as accepted or 
+rejected, and sends out the appropriate form mail.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - name of candidate.
+<dd>flag - "accepted" or "rejected"
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success.
+
+</dl>
+
+<dt><a name="do_interview">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_interview</b></a><pre>
+varargs int do_interview(object ob,
+string names)
+</pre><dd>
+This function is the main entry point for the interview code.  It 
+will set the subject of the room, and write an entry in the interview
+text containing who the interview is with, when it was started, and
+who conducted the interview.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to interview
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+<dt><a name="do_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list</b></a><pre>
+int do_list()
+</pre>
+<dt><a name="do_query">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_query</b></a><pre>
+int do_query()
+</pre><dd>
+Query the current state of applications.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+<dt><a name="do_query_text">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_query_text</b></a><pre>
+int do_query_text(string flag)
+</pre><dd>
+Entry point for the query command.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success.
+
+</dl>
+
+<dt><a name="do_read">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_read</b></a><pre>
+int do_read(string name)
+</pre><dd>
+This function will take the name of a player and if the interview document
+for that player exists, print it to the screen of this_player().<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player.
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success.
+
+</dl>
+
+<dt><a name="do_show">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_show</b></a><pre>
+int do_show()
+</pre><dd>
+This function will show the embedded 'movie' text at regular intervals.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>returns 0 on failure, 1 on success.
+
+</dl>
+
+<dt><a name="do_stop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_stop</b></a><pre>
+int do_stop()
+</pre>
+<dt><a name="event_emote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_emote</b></a><pre>
+void event_emote(object ob,
+string mess)
+</pre>
+<dt><a name="flush">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>flush</b></a><pre>
+int flush()
+</pre><dd>
+Flush the candidate, interviewed and submitted lists.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+<dt><a name="load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load</b></a><pre>
+void load()
+</pre>
+<dt><a name="play_movie">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>play_movie</b></a><pre>
+void play_movie(int i)
+</pre><dd>
+This function does a person_say event on the environmen.  The 
+content of the event is the relevant movie text to be said.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the index of the movie to be be played.
+
+</dl>
+
+<dt><a name="query_acceptance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_acceptance</b></a><pre>
+string query_acceptance()
+</pre><dd>
+Query the acceptance mail text.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the rejection text
+
+</dl>
+
+<dt><a name="query_all_applicants">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_applicants</b></a><pre>
+string * query_all_applicants()
+</pre>
+<dt><a name="query_allowed_creators">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_allowed_creators</b></a><pre>
+int query_allowed_creators()
+</pre><dd>
+Entry point to the query allowed creators command.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success.
+
+</dl>
+
+<dt><a name="query_applicants_text">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_applicants_text</b></a><pre>
+string query_applicants_text()
+</pre><dd>
+Return which candidates have been mailed, which have sent in their 
+submission, and which are left to be interviewed or replied to.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the text to be displayed
+
+</dl>
+
+<dt><a name="query_cc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cc</b></a><pre>
+string query_cc()
+</pre><dd>
+Query the names cc'd by default.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an imploded string of cc'd names
+
+</dl>
+
+<dt><a name="query_confirmation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_confirmation</b></a><pre>
+string query_confirmation()
+</pre><dd>
+Returns the confirmation mail text.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The confirmation text
+
+</dl>
+
+<dt><a name="query_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_domain</b></a><pre>
+string query_domain()
+</pre><dd>
+Return the domain the room exists in.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The name of the domain, or 'unset' if none is set.
+
+</dl>
+
+<dt><a name="query_interview">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_interview</b></a><pre>
+int query_interview()
+</pre><dd>
+Return whether creator candidates require an interview for this domain.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 if an interview is not required.  Anything else if it is.
+
+</dl>
+
+<dt><a name="query_interview_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_interview_dir</b></a><pre>
+string query_interview_dir()
+</pre><dd>
+Return the directory where interviews are to be stored.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>interview directory.
+
+</dl>
+
+<dt><a name="query_interviewed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_interviewed</b></a><pre>
+string * query_interviewed()
+</pre>
+<dt><a name="query_interviewer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_interviewer</b></a><pre>
+string * query_interviewer()
+</pre>
+<dt><a name="query_is_interviewer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_is_interviewer</b></a><pre>
+int query_is_interviewer(string name)
+</pre>
+<dt><a name="query_lord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_lord</b></a><pre>
+string query_lord()
+</pre><dd>
+Return the domain's lord.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the capitalised name of the lord.
+
+</dl>
+
+<dt><a name="query_part_two">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_part_two</b></a><pre>
+string query_part_two()
+</pre><dd>
+Return the text for the second part of the application.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>application text.
+
+</dl>
+
+<dt><a name="query_part_two_required">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_part_two_required</b></a><pre>
+int query_part_two_required()
+</pre>
+<dt><a name="query_permitted">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_permitted</b></a><pre>
+int query_permitted(string name)
+</pre>
+<dt><a name="query_permitted_creators">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_permitted_creators</b></a><pre>
+string * query_permitted_creators()
+</pre><dd>
+Query the creators permitted to use this room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an empty array if no creators are permitted.  The array of creators 
+otherwise.
+
+</dl>
+
+<dt><a name="query_rejection">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rejection</b></a><pre>
+string query_rejection()
+</pre><dd>
+Query the rejection mail text.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the rejection text
+
+</dl>
+
+<dt><a name="query_subject">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_subject</b></a><pre>
+string query_subject()
+</pre><dd>
+Query the subject of an interview if one is ongoing.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 if there is no subject.  The name of the subject if there is.
+
+</dl>
+
+<dt><a name="query_submitted">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_submitted</b></a><pre>
+string * query_submitted()
+</pre>
+<dt><a name="remove_candidate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_candidate</b></a><pre>
+int remove_candidate(string candidate)
+</pre><dd>
+Delete a player from the list.  Will search through all three lists for
+an occurance of the name before deleting it where found.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>candidate - the name of the player to remove.
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+<dt><a name="remove_creator">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_creator</b></a><pre>
+int remove_creator(string name)
+</pre><dd>
+The entry point to the remove creator command.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - name of the creator to remove
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success.
+
+</dl>
+
+<dt><a name="remove_interviewed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_interviewed</b></a><pre>
+int remove_interviewed(string candidate)
+</pre><dd>
+Remove a player from the interviewed list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>candidate - name of the player to add.
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+<dt><a name="save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save</b></a><pre>
+void save()
+</pre>
+<dt><a name="set_acceptance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_acceptance</b></a><pre>
+void set_acceptance(string text)
+</pre><dd>
+Set the acceptance mail text.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>text - the acceptance mail text
+
+</dl>
+
+<dt><a name="set_cc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_cc</b></a><pre>
+void set_cc(string * i)
+</pre><dd>
+Set the names cc'd by default.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - an array of cc'd names.
+
+</dl>
+
+<dt><a name="set_confirmation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_confirmation</b></a><pre>
+void set_confirmation(string text)
+</pre><dd>
+Set the text of the confirmation mail.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dom - name of the domain.
+
+</dl>
+
+<dt><a name="set_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_domain</b></a><pre>
+void set_domain(string dom)
+</pre><dd>
+Set the domain the room exists in.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dom - name of the domain.
+
+</dl>
+
+<dt><a name="set_interview">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_interview</b></a><pre>
+void set_interview(int i)
+</pre><dd>
+Set whether an interview is required of creator candidates.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the interview state.
+
+</dl>
+
+<dt><a name="set_interview_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_interview_dir</b></a><pre>
+int set_interview_dir(string dir)
+</pre><dd>
+Set the directory where interviews are to be stored.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - interview directory.
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success.
+
+</dl>
+
+<dt><a name="set_movie">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_movie</b></a><pre>
+void set_movie(string * m)
+</pre><dd>
+Tests to see if a particular creator is permitted to make use of the 
+interview room.  Domain lords and deputies are always permitted.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the object attempting to use the room.
+<dt><b>Returns:</b>
+<dd>1 if the creator is allowed, 0 if they are not.
+
+</dl>
+
+<dt><a name="set_part_two">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_part_two</b></a><pre>
+int set_part_two(string file)
+</pre><dd>
+Set the filename for the second part of the application.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>file - filename of the second part.
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success.
+
+</dl>
+
+<dt><a name="set_part_two_required">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_part_two_required</b></a><pre>
+void set_part_two_required(int i)
+</pre>
+<dt><a name="set_rejection">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_rejection</b></a><pre>
+void set_rejection(string text)
+</pre><dd>
+Set the rejection mail text.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>text - the rejection mail text
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 22:19:34 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

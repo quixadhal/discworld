@@ -1,0 +1,40 @@
+.DT
+create_board
+Disk World creator help
+create_board
+
+.SH Name
+.SP 5 5
+create_board -  Create a new board.
+.EP
+
+.SH Syntax
+.SI 5
+int create_board(string board,
+int priviliges,
+string person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^board%^RESET%^ - the name of the board to create
+%^BOLD%^priva%^RESET%^ - is this board only allowed prviliged access?
+%^BOLD%^person%^RESET%^ - the person to add into the security array initialy
+.EI
+
+.SH Returns
+.SI 5
+0 on a failure, 1 on success
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/board_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Create a new board.
+.EP
+

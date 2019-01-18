@@ -1,0 +1,43 @@
+.DT
+query_election_status
+Disk World creator help
+query_election_status
+
+.SH Name
+.SP 5 5
+query_election_status -  This method queries the status associated with the election.
+.EP
+
+.SH Syntax
+.SI 5
+string query_election_status(string club_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club%^RESET%^ - the club name to get the status of
+.EI
+
+.SH Returns
+.SI 5
+the status string of the club.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method queries the status associated with the election.  The
+status will say things like when certain positions have not been
+voted for and other such stuff.
+.EP
+
+.SH See also
+.SP 5 5
+complete_election(), finish_nomination()
+
+.EP
+

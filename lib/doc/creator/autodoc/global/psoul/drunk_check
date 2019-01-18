@@ -1,0 +1,55 @@
+.DT
+drunk_check
+Disk World creator help
+drunk_check
+
+.SH Name
+.SP 5 5
+drunk_check -  This poorly named function was originally used to affect the player's behavior when they are drunk, and to prevent any player from doing anything in the event that they are passed out.
+.EP
+
+.SH Syntax
+.SI 5
+int drunk_check(string str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the command being executed
+
+.EI
+
+.SH Returns
+.SI 5
+0 if nothing was done, 1 if drunk_check() blocked
+the command..EI
+
+.SH Defined in
+.SI 5
+/global/psoul.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This poorly named function was originally used to affect the
+player's behavior when they are drunk, and to prevent any
+player from doing anything in the event that they are passed
+out.  Now the function also is responsible for adding commands
+to the player's command queue, for implementing the 'stop'
+and 'restart' commands, and for ensuring that the player can quit
+the game, even when queueing.
+
+
+
+To see if a player is passed out, it checks the "passed out" property. If that property is nonzero, then the player will be prevented from doing the command unless that player is also a creator. By default, it will print a message that says: "You are unconscious. You can't do anything.\n". If the function query_passed_out_message() is defined on the player object (usually by a shadow), and returns a string, then that string is printed instead. 
+
+This function is registered with add_action("drunk_check", "*", 10000), so it can be avoided by registering a higher priority add_action. But that is not necessary, because if bypass_queue() has been called, this function will do nothing. Please note that you should not be using add_action. 
+.EP
+
+.SH See also
+.SP 5 5
+/global/new_parse->add_command()
+
+.EP
+

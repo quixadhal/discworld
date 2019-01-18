@@ -1,0 +1,307 @@
+<html><head><title>File condition.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/condition.c</h2>
+This class keeps track of the condition of a particular object.  It
+handles damaging the object when it is hit and the lowest conditon to
+which the object has been damaged.  The lowest conditon keeps track of
+how hard the object is to fix.  If an object has been reduced to really
+shaggy condition at one point, it will be a lot harder to fix from then
+on.<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.armoury.h.html">/include/armoury.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_cond"><b>adjust_cond</b></a>(int)<dd>
+This method adjust the current condition by the given amount.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#break_me"><b>break_me</b></a>()<dd>
+This method breaks the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cond_string"><b>cond_string</b></a>()<dd>
+This method returns the current condition as a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_damage"><b>do_damage</b></a>(string, int)<dd>
+This method damages the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cond"><b>query_cond</b></a>()<dd>
+This method returns the current conditon.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_damage_chance"><b>query_damage_chance</b></a>()<dd>
+This method returns the percentage of the damage which is done to the
+object which will be carried through.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_hide_cond"><b>query_hide_cond</b></a>()<dd>
+This method returns whether the condition string returns "" or something 
+meaning full.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_lowest_cond"><b>query_lowest_cond</b></a>()<dd>
+This method returns the current lowest conditon.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_cond"><b>query_max_cond</b></a>()<dd>
+This method returns the current maximum conditon.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_cond"><b>set_cond</b></a>(int)<dd>
+This method sets the current condition of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_damage_chance"><b>set_damage_chance</b></a>(int)<dd>
+This method sets the percentage of the damage which is done to the
+object which will be carried through.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_hide_cond"><b>set_hide_cond</b></a>(int)<dd>
+This sets whether the condition string should be returned or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_lowest_cond"><b>set_lowest_cond</b></a>(int)<dd>
+This sets the lowest condition for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_cond"><b>set_max_cond</b></a>(int)<dd>
+This sets up how much damage an object can take before it 
+breaks.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_percentage"><b>set_percentage</b></a>(int)<dd>
+This method is used to setup the objects condition.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="adjust_cond">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_cond</b></a><pre>
+int adjust_cond(int i)
+</pre><dd>
+This method adjust the current condition by the given amount.  If
+resultant condition is less than the lowest condition, then the lowest
+condition is set to this value.  If it is greater than the maximum
+condition.  Then the condition is set to the maximum condition.  If the
+condition is less than or equal to 0, then the object is attempted to
+be broken.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the amount to adjust the condition by
+<dt><b>Returns:</b>
+<dd>the new condition
+<dt><b>See also:</b>
+<dd><a href="#set_cond">set_cond()
+</a></dl>
+
+<dt><a name="break_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>break_me</b></a><pre>
+void break_me()
+</pre><dd>
+This method breaks the object.  This moves it into the recycled
+object section of the armoury or dests itself if this is not
+possible.
+<p>
+
+<dt><a name="cond_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cond_string</b></a><pre>
+string cond_string()
+</pre><dd>
+This method returns the current condition as a string.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the string value of the condition
+
+</dl>
+
+<dt><a name="do_damage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_damage</b></a><pre>
+void do_damage(string type,
+int amount)
+</pre><dd>
+This method damages the object.  The conditon is reduced by
+the amount multiplied by 1 + 2 * random(damage_chance) ewhic
+is then divided by 100.  This means it does approximately
+the percentage of of the damage done to the object to its condition.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_damage_chance">set_damage_chance()
+See query_damage_chance()
+</a></dl>
+
+<dt><a name="query_cond">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cond</b></a><pre>
+int query_cond()
+</pre><dd>
+This method returns the current conditon.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current condition
+
+</dl>
+
+<dt><a name="query_damage_chance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_damage_chance</b></a><pre>
+int query_damage_chance()
+</pre><dd>
+This method returns the percentage of the damage which is done to the
+object which will be carried through.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the damage chance
+<dt><b>See also:</b>
+<dd><a href="#do_damage">do_damage()
+</a></dl>
+
+<dt><a name="query_hide_cond">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_hide_cond</b></a><pre>
+int query_hide_cond()
+</pre><dd>
+This method returns whether the condition string returns "" or something 
+meaning full.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current lowest condition
+
+</dl>
+
+<dt><a name="query_lowest_cond">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_lowest_cond</b></a><pre>
+int query_lowest_cond()
+</pre><dd>
+This method returns the current lowest conditon.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current lowest condition
+
+</dl>
+
+<dt><a name="query_max_cond">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_cond</b></a><pre>
+int query_max_cond()
+</pre><dd>
+This method returns the current maximum conditon.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current maximum condition
+
+</dl>
+
+<dt><a name="set_cond">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_cond</b></a><pre>
+void set_cond(int i)
+</pre><dd>
+This method sets the current condition of the object.  If this is lower
+than the current lowest conditon, then the lowest condition will be modified
+to be this.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new condition
+<dt><b>See also:</b>
+<dd>adjust_condition
+.c</dl>
+
+<dt><a name="set_damage_chance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_damage_chance</b></a><pre>
+void set_damage_chance(int number)
+</pre><dd>
+This method sets the percentage of the damage which is done to the
+object which will be carried through.
+<p>
+Use the following chart to set the damage chance.
+<br><br>
+o==================o=====================o<br>
+|     Material     |    Damage Chance    |<br>
+o==================o=====================o<br>
+| Cloth            |         20          |<br>
+| Hide             |         17          |<br>
+| Bone             |         16          |<br>
+| Leather          |         15          |<br>
+| Wood             |         12          |<br>
+| Copper           |         10          |<br>
+| Bronze           |          8          |<br>
+| Iron             |          6          |<br>
+| Steel            |          5          |<br>
+| Klatchian Steel  |          3          |<br>
+| Stone            |          3          |<br>
+| Octiron          |          0          |<br>
+o==================o=====================o
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the new damage chance
+
+<dt><b>See also:</b>
+<dd>new_weapon.c, setup_armour.c, setup_clothing.c, set_weight.c, set_max_cond.c, <a href="#query_damage_chance">query_damage_chance()</a> and <a href="#do_damage">do_damage()</a></dl>
+
+<dt><a name="set_hide_cond">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_hide_cond</b></a><pre>
+void set_hide_cond(int i)
+</pre><dd>
+This sets whether the condition string should be returned or not.  This
+is for objects what indicate their condition with different long
+descriptions instead of the default condition string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - set it to 1 to hide the condition string.
+
+</dl>
+
+<dt><a name="set_lowest_cond">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_lowest_cond</b></a><pre>
+void set_lowest_cond(int i)
+</pre><dd>
+This sets the lowest condition for the object.  The lowest cond
+variable is used for repairing the armour...
+See where it was repaired to last time, this determines how difficult
+repairs will be...<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new lowest condition
+<dt><b>See also:</b>
+<dd><a href="#adjust_cond">adjust_cond()</a> and <a href="#set_cond">set_cond()
+</a></dl>
+
+<dt><a name="set_max_cond">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_cond</b></a><pre>
+void set_max_cond(int i)
+</pre><dd>
+This sets up how much damage an object can take before it 
+breaks.  This should not be used in the actual object files
+unless under special circumstances.  In weapon files, use 
+new_weapon().  In armour files use setup_armour().  In 
+clothing files, use setup_clothing().  Use ::Setup:: in 
+clo, arm, and wep files.
+<p>
+The values may seem strange, as cloth can take more damage 
+per unit weight than steel.  This is because steel weighs
+so much, and cloth weighs so little.
+<br><br>
+o==================o=====================o<br>
+|     Material     |  Maximum Condition  |<br>
+|                  |   per unit weight   |<br>
+o==================o=====================o<br>
+| Cloth            |         90          |<br>
+| Hide             |         80          |<br>
+| Leather          |         70          |<br>
+| Wood             |         60          |<br>
+| Bone             |         45          |<br>
+o==================o=====================o<br>
+| Copper           |         30          |<br>
+| Stone            |         40          |<br>
+| Bronze           |         40          |<br>
+| Iron             |         50          |<br>
+| Steel            |         60          |<br>
+| Klatchian Steel  |         70          |<br>
+| Octiron          |         80          |<br>
+o==================o=====================o
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd>new_weapon.c, setup_armour.c, setup_clothing.c, set_weight.c and set_damage_chance
+.c</dl>
+
+<dt><a name="set_percentage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_percentage</b></a><pre>
+void set_percentage(int i)
+</pre><dd>
+This method is used to setup the objects condition.  Once the maximum
+condition has been set, this is used to set the maximum condition to
+this percentage of the maximum condition.
+It sets the lowest conditon a random value from 70-100% of the
+current condition.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the percentage condiion
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.armoury.c.html">/obj/handlers/armoury.c</a>, <a href="#set_cond">set_cond()</a>, <a href="#set_lowest_cond">set_lowest_cond()</a> and <a href="#query_max_cond">query_max_cond()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 19:42:16 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

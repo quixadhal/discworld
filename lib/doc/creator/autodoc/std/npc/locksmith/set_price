@@ -1,0 +1,37 @@
+.DT
+set_price
+Disk World creator help
+set_price
+
+.SH Name
+.SP 5 5
+set_price -  This function sets the base price for unlocking a door.
+.EP
+
+.SH Syntax
+.SI 5
+int set_price(int price)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^price%^RESET%^ - the base-price in money-units
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/std/npc/locksmith.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets the base price for unlocking a door.  If the savefile is
+set, a killer will be charged the double price.
+.EP
+

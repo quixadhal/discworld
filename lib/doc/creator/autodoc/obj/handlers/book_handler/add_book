@@ -1,0 +1,44 @@
+.DT
+add_book
+Disk World creator help
+add_book
+
+.SH Name
+.SP 5 5
+add_book -  Adds a newly minted book into our nice list of stuff.
+.EP
+
+.SH Syntax
+.SI 5
+int add_book(object book,
+int num,
+string pl_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^book%^RESET%^ - the book to add
+%^BOLD%^num%^RESET%^ - the possible book number it already has
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/book_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Adds a newly minted book into our nice list of stuff.  This returns the
+book number for this book.  You can use this to add a book if you already
+know its book number, if it does not match to the saved book number then
+it will return a new number.  If it does match it will return the
+same number.
+.EP
+
+.SH See also
+.SP 5 5
+check_book_same()
+
+.EP
+

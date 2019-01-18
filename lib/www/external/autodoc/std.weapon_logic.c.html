@@ -36,13 +36,13 @@ These are functions that everyone can access.<p><dl>
 .<dt><a name="add_attack">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_attack</b></a><pre>
 varargs int add_attack(string a_name,
-                       int chance,
-                       int * damage,
-                       string type,
-                       string skill,
-                       mixed func,
-                       mixed bogus_1,
-                       mixed bogus_2)
+int chance,
+int * damage,
+string type,
+string skill,
+mixed func,
+mixed bogus_1,
+mixed bogus_2)
 </pre><dd>
 This method adds an attack onto the object.  The name of the attack
 must be unique on each object.<p>
@@ -63,8 +63,8 @@ must be unique on each object.<p>
 <dt><a name="add_attack_message">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_attack_message</b></a><pre>
 void add_attack_message(string name,
-                        string type,
-                        string * data)
+string type,
+string * data)
 </pre><dd>
 This method adds a special attack message set onto the weapon.  The type
 and name are around this way to correspond
@@ -93,19 +93,19 @@ void setup() {
 <dt><a name="attack_function">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>attack_function</b></a><pre>
 void attack_function(string a_name,
-                     int damage,
-                     object attack_ob,
-                     object attack_by)
+int damage,
+object attack_ob,
+object attack_by)
 </pre>
 <dt><a name="calc_attack">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_attack</b></a><pre>
 int calc_attack(int number,
-                int percent)
+int percent)
 </pre>
 <dt><a name="modify_damage">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>modify_damage</b></a><pre>
 int modify_damage(int damage,
-                  string attack_name)
+string attack_name)
 </pre>
 <dt><a name="query_attack_data">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_attack_data</b></a><pre>
@@ -114,7 +114,7 @@ mixed * query_attack_data()
 <dt><a name="query_attack_message">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_attack_message</b></a><pre>
 mixed * query_attack_message(string name,
-                             string type)
+string type)
 </pre><dd>
 This method returns the attack message associated with the
 type and name.  The type and name are around this way to correspond
@@ -166,7 +166,7 @@ This method removes the attack of the given name.<p>
 <dt><a name="weapon_attacks">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>weapon_attacks</b></a><pre>
 mixed * weapon_attacks(int percent,
-                       object target)
+object target)
 </pre><dd>
 This function returns 0 or more attacks for this weapon against the
 given target.
@@ -186,5 +186,5 @@ AT_ macros defined in combat.h
 
 </dl>
 <hr>
-<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 04:40:51 GMT<br>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sun, 01 Apr 2018 17:22:44 GMT<br>
 <hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

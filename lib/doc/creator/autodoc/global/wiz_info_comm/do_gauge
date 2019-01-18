@@ -1,0 +1,39 @@
+.DT
+do_gauge
+Disk World creator help
+do_gauge
+
+.SH Name
+.SP 5 5
+do_gauge -  This method returns the number of evaluation cycles the particular command took to run.
+.EP
+
+.SH Syntax
+.SI 5
+int do_gauge(string str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the command to execute
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/global/wiz_info_comm.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the number of evaluation cycles the
+particular command took to run.  It is kind of useful for
+figuring out how much time a given command takes
+to execute
+.EP
+

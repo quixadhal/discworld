@@ -1,0 +1,109 @@
+<html><head><title>File potion_shop.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/potion_shop.c</h2> 
+This room is a craft shop which handles potions and salves.
+Do not forget important things like set_save_dir() and
+set_theft_handler().<p><b>See also:</b><br>help::craft_shop
+.c<p>Written by Gruper<p>Started Thu Oct 29 1998<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.shops.craft_shop_category.c.html">/std/shops/craft_shop_category.c</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_potion_or_salve"><b>is_potion_or_salve</b></a>(object)<dd>
+This is the default function for checking if something can
+be sold in a potion shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_message_function"><b>query_message_function</b></a>()<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shopkeeper"><b>query_shopkeeper</b></a>()<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_message_function"><b>set_message_function</b></a>(function)<dd>
+This method sets the message function for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_shopkeeper"><b>set_shopkeeper</b></a>(string)<dd>
+This method sets the <b> name </b> of the shopkeeper that
+the shop will look for when giving messages to the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#shopkeeper_say"><b>shopkeeper_say</b></a>(string)<dd>
+This is the default message function.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="is_potion_or_salve">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_potion_or_salve</b></a><pre>
+int is_potion_or_salve(object ob)
+</pre><dd>
+This is the default function for checking if something can
+be sold in a potion shop.  If you override this, there is no
+reason to inherit this file, so you can't.  It will accept any
+object that contains something which has an eat effect or an
+apply effect.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - The object that someone is trying to sell to the shop
+<dt><b>Returns:</b>
+<dd>success 1 if the object can be sold, 0 if not
+
+</dl>
+
+<dt><a name="query_message_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_message_function</b></a><pre>
+function query_message_function()
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Pointer to the message function
+
+</dl>
+
+<dt><a name="query_shopkeeper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shopkeeper</b></a><pre>
+string query_shopkeeper()
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The name of the shopkeeper
+
+</dl>
+
+<dt><a name="set_message_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_message_function</b></a><pre>
+void set_message_function(function wossname)
+</pre><dd>
+This method sets the message function for the shop.
+The message function can be useful to handle messages to
+the player via the shopkeeper. The function should be of
+type string -> void.  If message_function is not set, we
+default to a rather nice function.  If message_function
+is explicitly set to 0, no message will be given apart from
+the standard messages from craft_shop.  It is called from
+is_potion_or_salve() and can also be used in do_buy() etc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>wossname - A pointer to the function
+<dt><b>Example:</b>
+<dd><pre>set_message_function( (: nudity_say :) ),
+where nudity_say looks like void nudity_say( string message ).
+When using
+</pre></dl>
+
+<dt><a name="set_shopkeeper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_shopkeeper</b></a><pre>
+void set_shopkeeper(string name)
+</pre><dd>
+This method sets the <b> name </b> of the shopkeeper that
+the shop will look for when giving messages to the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - A name that identifies the shopkeeper to find_match
+
+</dl>
+
+<dt><a name="shopkeeper_say">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shopkeeper_say</b></a><pre>
+void shopkeeper_say(string message)
+</pre><dd>
+This is the default message function.
+If the shopkeeper is in the shop, they will try to say message.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 01:14:39 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

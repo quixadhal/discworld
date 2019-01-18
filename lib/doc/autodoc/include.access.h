@@ -1,0 +1,62 @@
+.DT
+access.h
+Disk World autodoc help
+access.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^ACCESS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ACCESS_LEVEL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ACCESS_REASON%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ACCESS_TIMEOUT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^AUTH_NEW%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DEFAULT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ERROR%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MULTI_LEVEL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MULTI_TIMEOUT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^NO_ACCESS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^NO_NEW%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PERM_NAMES%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SUSPEND_REASON%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SUSPEND_TIME%^RESET%^
+.EI
+

@@ -1,0 +1,48 @@
+.DT
+add_option_to_mapping
+Disk World creator help
+add_option_to_mapping
+
+.SH Name
+.SP 5 5
+add_option_to_mapping -  This method adds in an option for the player to be able to set to a mapping.
+.EP
+
+.SH Syntax
+.SI 5
+void add_option_to_mapping(mapping array,
+string name,
+mixed type,
+int cre_only,
+function set_function,
+function query_function,
+string help)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^array%^RESET%^ - the mapping to add the elements to
+%^BOLD%^path%^RESET%^ - the path to the option eg: ({ "output", "look" })
+%^BOLD%^type%^RESET%^ - the type of the option eg: OPTIONS_TYPE_BRIEF
+%^BOLD%^set_function%^RESET%^ - the function to call to set the option
+%^BOLD%^query_function%^RESET%^ - the function to call to query the option
+.EI
+
+.SH Returns
+.SI 5
+1 if successful, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/options_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds in an option for the player to be able to set to
+a mapping.  This method should be used by all the dynamic tree
+methods to create leaves.
+.EP
+

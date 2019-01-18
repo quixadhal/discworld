@@ -1,0 +1,151 @@
+<html><head><title>File dictionary.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /net/daemon/dictionary.c</h2>
+MUD based dictionary, conforms to the DICT new protocol found in RFC 2229. 
+See ftp://ftp.isi.edu/in-notes/rfc2229.txt for more information.<p>Written by Taffyd@Discworld<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="net.inherit.client.c.html">/net/inherit/client.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.network.h.html">/include/network.h</a> and <a href="include.socket_errors.h.html">/include/socket_errors.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_connection_data"><b>connection_data</b></a>
+<dd>
+This class handles connection details for each person using
+the dictionary.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_request"><b>request</b></a>
+<dd>
+This class handles connection details for each person using
+the dictionary.
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_request"><b>add_request</b></a>(class request)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_send"><b>check_send</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#close_connection"><b>close_connection</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#close_socket"><b>close_socket</b></a>(int, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#define_word"><b>define_word</b></a>(string, int, function)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_callback"><b>do_callback</b></a>(function, string, mixed, mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventRead"><b>eventRead</b></a>(int, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#got_ip_address"><b>got_ip_address</b></a>(string, string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#inform_of_problem"><b>inform_of_problem</b></a>(class request, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_connection"><b>make_connection</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_request"><b>remove_request</b></a>(class request)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#send_request"><b>send_request</b></a>(class request)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#spell_word"><b>spell_word</b></a>(string, int, function)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_request">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_request</b></a><pre>
+void add_request(class request bing)
+</pre>
+<dt><a name="check_send">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_send</b></a><pre>
+void check_send()
+</pre>
+<dt><a name="close_connection">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>close_connection</b></a><pre>
+void close_connection()
+</pre>
+<dt><a name="close_socket">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>close_socket</b></a><pre>
+void close_socket(int fd,
+object who)
+</pre>
+<dt><a name="define_word">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>define_word</b></a><pre>
+int define_word(string word,
+int all,
+function call_back)
+</pre>
+<dt><a name="do_callback">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_callback</b></a><pre>
+void do_callback(function callb,
+string word,
+mixed result,
+mixed * data)
+</pre>
+<dt><a name="eventRead">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventRead</b></a><pre>
+void eventRead(int fd,
+string message)
+</pre>
+<dt><a name="got_ip_address">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>got_ip_address</b></a><pre>
+void got_ip_address(string address,
+string ip_address,
+int key)
+</pre>
+<dt><a name="inform_of_problem">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>inform_of_problem</b></a><pre>
+void inform_of_problem(class request bing,
+string mess)
+</pre>
+<dt><a name="make_connection">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_connection</b></a><pre>
+void make_connection()
+</pre>
+<dt><a name="remove_request">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_request</b></a><pre>
+void remove_request(class request bing)
+</pre>
+<dt><a name="send_request">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>send_request</b></a><pre>
+void send_request(class request bing)
+</pre>
+<dt><a name="spell_word">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>spell_word</b></a><pre>
+int spell_word(string word,
+int all,
+function call_back)
+</pre>
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_connection_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>connection_data</b></a><pre>
+class connection_data {
+int fd;
+int dns_key;
+string message;
+mixed definitions;
+mixed * working;
+string ip_address;
+int status;
+int count;
+string search_mode;
+class request current_request;
+}
+
+</pre><dd>
+This class handles connection details for each person using
+the dictionary. <p>
+<dl>
+<dt><b>Members:</b>
+<dd>fd - the file descriptor of the socket currently being
+used by the dictionary.
+member dns_key the resolve() key used when doing a nslookup.
+
+</dl>
+
+<dt><a name="class_request">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>request</b></a><pre>
+class request {
+string word;
+string search_mode;
+int type;
+int i;
+function callback;
+}
+
+</pre><dd>
+This class handles connection details for each person using
+the dictionary. <p>
+<dl>
+<dt><b>Members:</b>
+<dd>fd - the file descriptor of the socket currently being
+used by the dictionary.
+member dns_key the resolve() key used when doing a nslookup.
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 09:21:48 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

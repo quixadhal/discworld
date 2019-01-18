@@ -1,0 +1,37 @@
+.DT
+finish_update
+Disk World creator help
+finish_update
+
+.SH Name
+.SP 5 5
+finish_update -  This method finishes an update based query.
+.EP
+
+.SH Syntax
+.SI 5
+void finish_update(int type,
+mixed data,
+function finished,
+string query)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the type returned (error etc)
+%^BOLD%^data%^RESET%^ - the data returned
+%^BOLD%^finished%^RESET%^ - the function to call on finish
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/error_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method finishes an update based query.
+.EP
+

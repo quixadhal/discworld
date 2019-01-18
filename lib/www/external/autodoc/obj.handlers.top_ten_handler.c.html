@@ -1,0 +1,219 @@
+<html><head><title>File top_ten_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/top_ten_handler.c</h2>
+Top ten player lists - overall and for each guild.
+<p>
+archive and top_ten is of the format:
+<code><p>
+      ({ ({ name (guild), rating, level, age }), ... })
+</code><p>
+guild_top_tens is of the format:
+<code><p>
+      ([ guild: ({ ({ name, rating, level, age }), ... }), ... ])
+</code><p>Written by Deutha
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.library.h.html">/include/library.h</a>, <a href="include.top_ten_tables.h.html">/include/top_ten_tables.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.skills.h.html">/include/skills.h</a>, <a href="include.clubs.h.html">/include/clubs.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_guild_top_ten"><b>add_guild_top_ten</b></a>(string)<dd>
+Add in a new table.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calculate_age_modifier"><b>calculate_age_modifier</b></a>(object, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calculate_rating"><b>calculate_rating</b></a>(object)<dd>
+Figure out the rating for the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_family_and_club_info"><b>check_family_and_club_info</b></a>()<dd>
+Stuff to make sure that all the clubs still exist.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_tables"><b>check_tables</b></a>()<dd>
+Wander over the top ten tables checking to see if everyone
+still exists.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#excise_name"><b>excise_name</b></a>(string, string)<dd>
+Remove the named player from the named table.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#inform_of_club"><b>inform_of_club</b></a>(string, int, int, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#player_skill_advance"><b>player_skill_advance</b></a>(string, object)<dd>
+Called when a player advances their skills.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_archive"><b>query_archive</b></a>()<dd>
+The complete archived top ten table.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_average"><b>query_average</b></a>()<dd>
+Some sort of weight average used in the rating calulation.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_club_info"><b>query_club_info</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_family_info"><b>query_family_info</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_guild_top_tens"><b>query_guild_top_tens</b></a>()<dd>
+The mapping which is the guild top ten tables.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ordered_table"><b>query_ordered_table</b></a>(string)<dd>
+Returns the ordered list of people on the top ten list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skills"><b>query_skills</b></a>()<dd>
+The skils list with weights.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_top_ten"><b>query_top_ten</b></a>()<dd>
+Return the complete list of top ten tables.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_guild_top_ten">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_guild_top_ten</b></a><pre>
+void add_guild_top_ten(string word)
+</pre><dd>
+Add in a new table.  This should be used when a new guild is created
+and their table needs to be defined.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the name of the table to create
+
+</dl>
+
+<dt><a name="calculate_age_modifier">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calculate_age_modifier</b></a><pre>
+int calculate_age_modifier(object thing,
+int algorithm)
+</pre>
+<dt><a name="calculate_rating">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calculate_rating</b></a><pre>
+int calculate_rating(object thing)
+</pre><dd>
+Figure out the rating for the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object to get the ratingof
+<dt><b>Returns:</b>
+<dd>the current rating
+
+</dl>
+
+<dt><a name="check_family_and_club_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_family_and_club_info</b></a><pre>
+void check_family_and_club_info()
+</pre><dd>
+Stuff to make sure that all the clubs still exist.
+<p>
+
+<dt><a name="check_tables">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_tables</b></a><pre>
+void check_tables()
+</pre><dd>
+Wander over the top ten tables checking to see if everyone
+still exists.
+<p>
+
+<dt><a name="excise_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>excise_name</b></a><pre>
+varargs void excise_name(string word1,
+string word2)
+</pre><dd>
+Remove the named player from the named table.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word1 - the name of the player
+<dd>word2 - the name of the table, 0 for the main table
+
+</dl>
+
+<dt><a name="inform_of_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>inform_of_club</b></a><pre>
+void inform_of_club(string club,
+int family,
+int type,
+mixed num)
+</pre>
+<dt><a name="player_skill_advance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>player_skill_advance</b></a><pre>
+void player_skill_advance(string word,
+object thing)
+</pre><dd>
+Called when a player advances their skills.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the skill being advanced
+<dd>thing - the player which advanced their skils
+
+</dl>
+
+<dt><a name="query_archive">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_archive</b></a><pre>
+mixed * query_archive()
+</pre><dd>
+The complete archived top ten table.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the archived top ten table
+
+</dl>
+
+<dt><a name="query_average">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_average</b></a><pre>
+int query_average()
+</pre><dd>
+Some sort of weight average used in the rating calulation.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the weighted average
+
+</dl>
+
+<dt><a name="query_club_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_club_info</b></a><pre>
+mixed * query_club_info()
+</pre>
+<dt><a name="query_family_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_family_info</b></a><pre>
+mixed * query_family_info()
+</pre>
+<dt><a name="query_guild_top_tens">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_guild_top_tens</b></a><pre>
+mapping query_guild_top_tens()
+</pre><dd>
+The mapping which is the guild top ten tables.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the guild top ten mapping
+
+</dl>
+
+<dt><a name="query_ordered_table">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ordered_table</b></a><pre>
+mixed * query_ordered_table(string table_name)
+</pre><dd>
+Returns the ordered list of people on the top ten list.  If the table
+name is 0 or it is "main" the main table is checked.  If the 
+table name is "archive" then the archive is used.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>table_name - the name of the tanble to check
+<dt><b>Returns:</b>
+<dd>the array of arrays of the top ten information
+<dt><b>See also:</b>
+<dd>/include/top_ten_tables.h
+</dl>
+
+<dt><a name="query_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skills</b></a><pre>
+mixed * query_skills()
+</pre><dd>
+The skils list with weights.  This is used to help generate the
+rating.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the skils list with ratings
+
+</dl>
+
+<dt><a name="query_top_ten">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_top_ten</b></a><pre>
+mixed * query_top_ten()
+</pre><dd>
+Return the complete list of top ten tables.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of arrays being the top ten tab;les
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 02:39:17 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,74 @@
+<html><head><title>File surface.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/surface.c</h2>
+This file contains the methods to handle surfaces, like book
+shelves and stuff.<p><b>See also:</b><br>/std/shadows/misc/surface.c
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.surface.h.html">/include/surface.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_environment"><b>check_environment</b></a>()<dd>
+This method checks to make sure the environment has a shadow associated
+with it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_shadows"><b>check_shadows</b></a>()<dd>
+This method checks to make sure all the shadows are currenly valid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_shadow"><b>make_shadow</b></a>(object)<dd>
+This method makes a surface shadow which is attached to the given object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_surface_shadows"><b>query_surface_shadows</b></a>()<dd>
+This method returns the current set of surface shadows associated with
+the object.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="check_environment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_environment</b></a><pre>
+void check_environment()
+</pre><dd>
+This method checks to make sure the environment has a shadow associated
+with it.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#check_shadows">check_shadows()
+</a></dl>
+
+<dt><a name="check_shadows">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_shadows</b></a><pre>
+void check_shadows()
+</pre><dd>
+This method checks to make sure all the shadows are currenly valid.  If
+an invalid shadow is found it is removed.
+<p>
+The method check_environment() is called at the end of the function.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#check_environment">check_environment()
+</a></dl>
+
+<dt><a name="make_shadow">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_shadow</b></a><pre>
+void make_shadow(object thing)
+</pre><dd>
+This method makes a surface shadow which is attached to the given object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object to attach the shadow too
+
+</dl>
+
+<dt><a name="query_surface_shadows">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_surface_shadows</b></a><pre>
+object * query_surface_shadows()
+</pre><dd>
+This method returns the current set of surface shadows associated with
+the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current set of surface shadows
+<dt><b>See also:</b>
+<dd><a href="#make_shadow">make_shadow()</a> and <a href="#check_shadows">check_shadows()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 22:43:14 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

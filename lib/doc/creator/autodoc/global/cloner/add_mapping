@@ -1,0 +1,45 @@
+.DT
+add_mapping
+Disk World creator help
+add_mapping
+
+.SH Name
+.SP 5 5
+add_mapping -  Use this function to add a new mapping of one filename to another.
+.EP
+
+.SH Syntax
+.SI 5
+int add_mapping(string from,
+string to)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^from%^RESET%^ - the old object name
+%^BOLD%^to%^RESET%^ - the new object name
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/global/cloner.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Use this function to add a new mapping of one filename to another.
+Means that if an object of type 'from' is attempted to be cloned
+an object of type 'to' will be cloned instead.
+.EP
+
+.SH See also
+.SP 5 5
+remove_mapping(), list_mappings()
+
+.EP
+

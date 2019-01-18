@@ -1,0 +1,111 @@
+.DT
+assassin.h
+Disk World autodoc help
+assassin.h
+
+.SH Includes
+.SP 5 5
+This class includes the following files /include/guilds.h.
+.EP
+
+.SH Defines
+.SI 3
+* %^BOLD%^ASSASSIN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSIN_AM%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSIN_AM_SAVE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSIN_GENUA%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSIN_HANDLERS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSIN_INHERIT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSIN_KLK%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSIN_OC%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSIN_OC_SAVE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSIN_SAVE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSIN_SHEEPRIDGE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSIN_VOTES%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSIN_WARDROBES%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSINCHARS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSINITEMS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSINS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ASSASSINS_SHOP%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DISAVOWED%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^GUILDROOM%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^INHUMATION_OFFICE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^INSIDERUN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OUTSIDERUN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ROOM_TRACKER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^RUN_HANDLER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^RUNROOM%^RESET%^
+.EI
+

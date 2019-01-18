@@ -1,0 +1,40 @@
+.DT
+do_change_category
+Disk World creator help
+do_change_category
+
+.SH Name
+.SP 5 5
+do_change_category -  This method changes the category of the bug.
+.EP
+
+.SH Syntax
+.SI 5
+int do_change_category(int id,
+string category,
+function finished)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^id%^RESET%^ - the id of the bug to update
+%^BOLD%^category%^RESET%^ - the new category of the bug
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/error_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method changes the category of the bug.  The category is in the set
+'room', 'object', 'help', 'ritual', 'spell', 'command', 'general'.
+.EP
+

@@ -1,0 +1,51 @@
+.DT
+add_exit_type
+Disk World creator help
+add_exit_type
+
+.SH Name
+.SP 5 5
+add_exit_type -  This method adds an exit type to the current list of available exit types.
+.EP
+
+.SH Syntax
+.SI 5
+int add_exit_type(string type,
+mixed message,
+mixed obvious,
+int size,
+mixed func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the name of the exit type
+%^BOLD%^message%^RESET%^ - the message to display when going through the exit
+%^BOLD%^obvious%^RESET%^ - if the exit is obvious or not
+%^BOLD%^size%^RESET%^ - the size of the exit (used for heigh restrictions)
+%^BOLD%^func%^RESET%^ - the function to call when using the exit
+.EI
+
+.SH Returns
+.SI 5
+1 if successfuly added, 0 if not.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/room_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an exit type to the current list of available exit types.
+This is used when the room handler is setup to add all the used exit
+types.
+.EP
+
+.SH See also
+.SP 5 5
+remove_exit_type()
+
+.EP
+

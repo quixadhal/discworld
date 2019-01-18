@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["query_random_gossip":({({"string","*",}),({}),(["main":({"Returns a random piece of gossip.  Finds a random bit of juicygossip and returns it.  The first element of the returnedarray is the person who said the gossip and the second bit iswhat they said.",}),"return":({"a two element array containing the gossip",}),]),}),"add_rumour":({({"void",}),({({"string",}),"name",({"string",}),"mess",}),(["main":({"Rumours are another method of dealing out gossip.Rumours are added by creators...",}),"param":({"name the name of the person saying the rumour","mess the rumour message",}),]),}),"add_gossip":({({"void",}),({({"string",}),"name",({"string",}),"mess",}),(["main":({"Add a juicy bit of gossip.  This is called by ethe gossipeffects on the npcs.",}),"param":({"name the person who said the gossip","mess what they said",}),"see":({"/std/effect/npc/gossip.c",}),]),}),"query_filter":({({"string","*",}),({}),(["main":({"The current words we are filtering.  If any of these words are in thegossip, we filter it out and do not save it.",}),"return":({"the current filter array",}),]),}),"query_rumours":({({"mixed","*",}),({}),(["main":({"All of the current rumours.",}),"see":({"query_random_gossip()",}),"return":({"an array of teo element arrays",}),]),}),"query_gossip":({({"mixed","*",}),({}),(["main":({"Tell us all the gossip.  This returns the completearray of gossip which the npcs are drawing from.",}),"see":({"query_random_gossip() ",}),"return":({"an array of two element arrays",}),]),}),"remove_gossip":({({"varargs","string",}),({({"string",}),"match",({"int",}),"force",}),(["main":({"Sometimes you just gotta remove some gossip",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"Deals out random gossip to people who request it.<p>Add rumours!",}),"author":({"Pinkfish",}),])
+define_docs ([])
+includes (["/include/gossip.h":1522061544,])
+class_docs ([])
+file_name "/obj/handlers/gossip_handler.c"
+last_changed 1522061544

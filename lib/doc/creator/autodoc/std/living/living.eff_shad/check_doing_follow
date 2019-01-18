@@ -1,0 +1,41 @@
+.DT
+check_doing_follow
+Disk World creator help
+check_doing_follow
+
+.SH Name
+.SP 5 5
+check_doing_follow -  This is a method to check to see if this object can actually follow the person they are following.
+.EP
+
+.SH Syntax
+.SI 5
+int check_doing_follow(object thing,
+string verb,
+string special)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - the thing following us
+%^BOLD%^verb%^RESET%^ - the direction they are going to
+%^BOLD%^special%^RESET%^ - any special stuff
+.EI
+
+.SH Returns
+.SI 5
+1 if we are allowed to go there, 0 otherwise
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/living.eff_shad.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is a method to check to see if this object can actually follow
+the person they are following.
+.EP
+

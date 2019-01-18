@@ -1,0 +1,44 @@
+.DT
+find_location
+Disk World creator help
+find_location
+
+.SH Name
+.SP 5 5
+find_location -  This method is the main entry point for the terrain handler.
+.EP
+
+.SH Syntax
+.SI 5
+object find_location(string terrain,
+int * co_ords)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^terrain%^RESET%^ - the terrain name
+%^BOLD%^co_ords%^RESET%^ - the coordinates to look up
+.EI
+
+.SH Returns
+.SI 5
+the room that was found or loaded.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/terrain_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is the main entry point for the terrain handler. It loads
+the room that is associated with the given terrain and coordinates.
+.EP
+
+.SH See also
+.SP 5 5
+setup_location()
+
+.EP
+

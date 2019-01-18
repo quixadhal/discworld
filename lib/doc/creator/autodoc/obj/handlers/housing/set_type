@@ -1,0 +1,39 @@
+.DT
+set_type
+Disk World creator help
+set_type
+
+.SH Name
+.SP 5 5
+set_type -  Set the type of a house.
+.EP
+
+.SH Syntax
+.SI 5
+int set_type(string house,
+int type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^house%^RESET%^ - The basename of the house
+.EI
+
+.SH Returns
+.SI 5
+the type.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/housing.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Set the type of a house. ie. Whether it's rented or owned.
+(1 for rented, 0 for owned).
+
+.EP
+

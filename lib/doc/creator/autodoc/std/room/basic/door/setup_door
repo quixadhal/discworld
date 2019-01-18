@@ -1,0 +1,42 @@
+.DT
+setup_door
+Disk World creator help
+setup_door
+
+.SH Name
+.SP 5 5
+setup_door -  This method is called by /std/room/basic_room.
+.EP
+
+.SH Syntax
+.SI 5
+void setup_door(string word,
+object mine,
+string his,
+mixed * args,
+string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the name of the door being created
+%^BOLD%^mine%^RESET%^ - the object that owns the door
+%^BOLD%^his%^RESET%^ - the destination for the door
+%^BOLD%^args%^RESET%^ - dest_other information from door.  This is mainly
+the modify_exit() parameters.
+%^BOLD%^type%^RESET%^ - the type of the door, eg, door, window, etc. 
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/door.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called by /std/room/basic_room.c in query_door()
+to create the door. 
+.EP
+

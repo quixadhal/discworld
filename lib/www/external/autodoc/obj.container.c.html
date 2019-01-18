@@ -4,8 +4,8 @@ This is main container type object that players will use.  For
 example, buckets and stuff would use this.  A backpack would be
 a type of clothing and a potion bottle should be a vessel.<p><b>See also:</b><br><a href="obj.vessel.c.html">/obj/vessel.c</a> and /obj/clothing.c
 <p>Written by Who knows, Pinkfish, Ember, Jeremy<hr><h2>Inherits</h2>
-This class inherits the following classes <a href="std.container.c.html">/std/container.c</a> and <a href="std.basic.close_lock_container.c.html">/std/basic/close_lock_container.c</a><hr><h2>Includes</h2>
-This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.parse_command.h.html">/include/parse_command.h</a> and <a href="include.potion_attrs.h.html">/include/potion_attrs.h</a><hr><h2>Method index</h2>
+This class inherits the following classes <a href="std.basic.close_lock_container.c.html">/std/basic/close_lock_container.c</a> and <a href="std.container.c.html">/std/container.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.potion_attrs.h.html">/include/potion_attrs.h</a>, <a href="include.parse_command.h.html">/include/parse_command.h</a> and <a href="include.move_failures.h.html">/include/move_failures.h</a><hr><h2>Method index</h2>
 <dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#add_ps_vect"><b>add_ps_vect</b></a>(int *, int)<dd>
 This method adds a potion space vector with a particular
@@ -135,7 +135,7 @@ These are functions that everyone can access.<p><dl>
 .<dt><a name="add_ps_vect">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_ps_vect</b></a><pre>
 void add_ps_vect(int * v,
-                 int quant)
+int quant)
 </pre><dd>
 This method adds a potion space vector with a particular
 quantity to the object.<p>
@@ -153,7 +153,7 @@ void begin_config()
 <dt><a name="change_concentration">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_concentration</b></a><pre>
 mixed * change_concentration(mixed * potion,
-                             int new_conc)
+int new_conc)
 </pre><dd>
 This method changes the concentration of the liquid to be a new
 and exciting concentration.<p>
@@ -178,7 +178,7 @@ container should be broken.<p>
 <dt><a name="config">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>config</b></a><pre>
 void config(int vari,
-            mixed cont)
+mixed cont)
 </pre>
 <dt><a name="consistency_string">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>consistency_string</b></a><pre>
@@ -259,18 +259,18 @@ This method returns the name of the current liquid inside the container.<p>
 <dt><a name="merge_potions">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>merge_potions</b></a><pre>
 mixed * merge_potions(mixed * potion1,
-                      mixed * potion2,
-                      int vol1,
-                      int vol2,
-                      int tot_vol)
+mixed * potion2,
+int vol1,
+int vol2,
+int tot_vol)
 </pre>
 <dt><a name="mix_liq">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>mix_liq</b></a><pre>
 mixed * mix_liq(mixed * arr1,
-                mixed * arr2,
-                int vol1,
-                int vol2,
-                int tot_vol)
+mixed * arr2,
+int vol1,
+int vol2,
+int tot_vol)
 </pre>
 <dt><a name="parse_command_adjectiv_id_list">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_command_adjectiv_id_list</b></a><pre>
@@ -480,12 +480,12 @@ the maximum volume of the container to 10 times its maximum weight.
 <dt><a name="set_misc_attrs">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_misc_attrs</b></a><pre>
 void set_misc_attrs(mixed * new_misc_attrs,
-                    int misc_vol)
+int misc_vol)
 </pre>
 <dt><a name="set_ps_coord_quantity">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_ps_coord_quantity</b></a><pre>
 void set_ps_coord_quantity(int * new_coord,
-                           int new_quantity)
+int new_quantity)
 </pre><dd>
 This method sets the quantity of the position space co-ordinate
 to be the new quantity.<p>
@@ -527,7 +527,7 @@ This method sets the volume of water in the container.<p>
 <dt><a name="sort_func">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>sort_func</b></a><pre>
 int sort_func(int * x,
-              int * y)
+int * y)
 </pre>
 <dt><a name="stats">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
@@ -536,7 +536,7 @@ mixed stats()
 <dt><a name="test_add">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_add</b></a><pre>
 int test_add(object ob,
-             int flag)
+int flag)
 </pre><dd>
 This method stops the container being added when it is 
 closed.  It also handles the same flags as the liing
@@ -554,11 +554,11 @@ by things like item rooms and such.<p>
 <dt><a name="transfer_liquid_to">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>transfer_liquid_to</b></a><pre>
 void transfer_liquid_to(object dest,
-                        int vol_misc,
-                        mixed * misc,
-                        int vol_water,
-                        int * coord,
-                        int quantity)
+int vol_misc,
+mixed * misc,
+int vol_water,
+int * coord,
+int quantity)
 </pre><dd>
 This method does the actual liquid transfer, as needed by the
 filling, emptying and pour operations.<p>
@@ -597,5 +597,5 @@ This method zaps all the liquid stuff in the container.
 
 </dl>
 <hr>
-<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 18 Sep 2003 18:23:38 GMT<br>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sun, 01 Apr 2018 18:27:20 GMT<br>
 <hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

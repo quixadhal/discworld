@@ -1,0 +1,301 @@
+<html><head><title>File terrain_map_room.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/terrain_map_room.c</h2>
+The overall room inherit for a 'mapped area'
+all mapped area rooms should inherit from this.
+<p>
+MUST OVERRIDE:
+<p>
+query_map_file()<p>Written by  Dek<p>Started March 2001
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a> and <a href="include.room.h.html">/include/room.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_feature"><b>add_feature</b></a>(string, string, int, mixed)<dd>
+Add a new visible feature to the room, so it knows to query the handler
+for descriptions and so on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_enter_from"><b>can_enter_from</b></a>(string)<dd>
+Can we enter from rooms of type x?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_exit_to"><b>can_exit_to</b></a>(string)<dd>
+Can we go to rooms of type x?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_view_feature"><b>can_view_feature</b></a>(string)<dd>
+Checks to see if the feature can be viewed or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_a_feature_chat"><b>do_a_feature_chat</b></a>()<dd>
+This makes one of the features in the terrain send us a chat.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_an_outside_chat"><b>do_an_outside_chat</b></a>()<dd>
+This method will print an outside chat.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_gocoords"><b>do_gocoords</b></a>(int, int)<dd>
+This is a command used by creators to go to specific locations in the grid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_outside_chats"><b>do_outside_chats</b></a>()<dd>
+Do we *want* outside and feature chats?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_coords"><b>query_coords</b></a>()<dd>
+This method returns the co-ordinates of this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_feature_item_desc"><b>query_feature_item_desc</b></a>(string)<dd>
+This method returns the item description for the feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_feature_range"><b>query_feature_range</b></a>(string)<dd>
+This figures out the range to the specified feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_features"><b>query_features</b></a>()<dd>
+This method returns all of our features.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_installed"><b>query_installed</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_map_handler"><b>query_map_handler</b></a>()<dd>
+This method returns the map handler associated with this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#receive_message"><b>receive_message</b></a>(string, string)<dd>
+Receive messages from the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_feature"><b>remove_feature</b></a>(string)<dd>
+Removes the specified feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_handler"><b>reset_handler</b></a>()<dd>
+Added for convenience.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_coords"><b>set_coords</b></a>(int, int)<dd>
+Setup the main coordinates for this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_extra_long"><b>set_extra_long</b></a>(string)<dd>
+Called by the handler to set our extra_look strings.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_installed"><b>set_installed</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_map_handler"><b>set_map_handler</b></a>(mixed)<dd>
+This sets the map handler, OBSOLETE.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_outside_types"><b>set_outside_types</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_room"><b>setup_room</b></a>()<dd>
+This needs to be called by the upper inherit to set us to womble.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_room_chat"><b>setup_room_chat</b></a>(mixed *, object)<dd>
+Setup the feature chats and basic room chats.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_feature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_feature</b></a><pre>
+void add_feature(string title,
+string direc,
+int range,
+mixed items)
+</pre><dd>
+Add a new visible feature to the room, so it knows to query the handler
+for descriptions and so on. The zone info is needed as an easy way for
+the handler to get access to which rooms see which features. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the title of the feature
+<dd>direc - the direction of the feature
+<dd>range - the range to the feature
+<dd>items - any add_items associated with the feature
+
+</dl>
+
+<dt><a name="can_enter_from">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_enter_from</b></a><pre>
+int can_enter_from(string type)
+</pre><dd>
+Can we enter from rooms of type x? Override if you want to use it - 
+1 means yes.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of room to check
+
+</dl>
+
+<dt><a name="can_exit_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_exit_to</b></a><pre>
+int can_exit_to(string type)
+</pre><dd>
+Can we go to rooms of type x? Override if you want to use it - 
+1 means yes.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of room to check
+
+</dl>
+
+<dt><a name="can_view_feature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_view_feature</b></a><pre>
+int can_view_feature(string type)
+</pre><dd>
+Checks to see if the feature can be viewed or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of the feature
+<dt><b>Returns:</b>
+<dd>1 if it can be seen
+
+</dl>
+
+<dt><a name="do_a_feature_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_a_feature_chat</b></a><pre>
+void do_a_feature_chat()
+</pre><dd>
+This makes one of the features in the terrain send us a chat.
+<p>
+
+<dt><a name="do_an_outside_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_an_outside_chat</b></a><pre>
+void do_an_outside_chat()
+</pre><dd>
+This method will print an outside chat.
+<p>
+
+<dt><a name="do_gocoords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_gocoords</b></a><pre>
+int do_gocoords(int x,
+int y)
+</pre><dd>
+This is a command used by creators to go to specific locations in the grid.
+<p>
+
+<dt><a name="do_outside_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_outside_chats</b></a><pre>
+int do_outside_chats()
+</pre><dd>
+Do we *want* outside and feature chats? Override if you want to use 
+1 means yes.
+<p>
+
+<dt><a name="query_coords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_coords</b></a><pre>
+mixed * query_coords()
+</pre><dd>
+This method returns the co-ordinates of this room.
+<p>
+
+<dt><a name="query_feature_item_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_feature_item_desc</b></a><pre>
+string query_feature_item_desc(string title)
+</pre><dd>
+This method returns the item description for the feature.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the feature to look up
+<dt><b>Returns:</b>
+<dd>the description of the feature
+
+</dl>
+
+<dt><a name="query_feature_range">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_feature_range</b></a><pre>
+int query_feature_range(string title)
+</pre><dd>
+This figures out the range to the specified feature.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the name of the feature
+
+</dl>
+
+<dt><a name="query_features">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_features</b></a><pre>
+mapping query_features()
+</pre><dd>
+This method returns all of our features.
+<p>
+
+<dt><a name="query_installed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_installed</b></a><pre>
+int query_installed()
+</pre>
+<dt><a name="query_map_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_map_handler</b></a><pre>
+object query_map_handler()
+</pre><dd>
+This method returns the map handler associated with this room.
+<p>
+
+<dt><a name="receive_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>receive_message</b></a><pre>
+void receive_message(string mess_class,
+string message)
+</pre><dd>
+Receive messages from the handler.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>message - the actual message
+
+</dl>
+
+<dt><a name="remove_feature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_feature</b></a><pre>
+void remove_feature(string title)
+</pre><dd>
+Removes the specified feature.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the feature to remove
+
+</dl>
+
+<dt><a name="reset_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_handler</b></a><pre>
+void reset_handler()
+</pre><dd>
+Added for convenience. BEWARE! When called, this will dest every single 
+room in this terrain, dumping everything in the void. When I think of
+a decent way to handle this, I will.
+<p>
+
+<dt><a name="set_coords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_coords</b></a><pre>
+void set_coords(int x,
+int y)
+</pre><dd>
+Setup the main coordinates for this room. Please note that these
+are not DW coords, but local ones for the use of the handler. 
+<p>
+
+<dt><a name="set_extra_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_extra_long</b></a><pre>
+void set_extra_long(string extra)
+</pre><dd>
+Called by the handler to set our extra_look strings.
+<p>
+
+<dt><a name="set_installed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_installed</b></a><pre>
+void set_installed()
+</pre>
+<dt><a name="set_map_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_map_handler</b></a><pre>
+void set_map_handler(mixed handler)
+</pre><dd>
+This sets the map handler, OBSOLETE. This should be done by overriding query_map_handler()
+in the main inherited file. It doesn't get set fast enough otherwise.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>handler - the new handler
+
+</dl>
+
+<dt><a name="set_outside_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_outside_types</b></a><pre>
+void set_outside_types(string types)
+</pre>
+<dt><a name="setup_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_room</b></a><pre>
+void setup_room()
+</pre><dd>
+This needs to be called by the upper inherit to set us to womble.
+<p>
+
+<dt><a name="setup_room_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_room_chat</b></a><pre>
+varargs void setup_room_chat(mixed * args,
+object chatobj)
+</pre><dd>
+Setup the feature chats and basic room chats.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 06:52:21 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

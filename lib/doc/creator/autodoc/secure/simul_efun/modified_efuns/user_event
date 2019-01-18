@@ -1,0 +1,39 @@
+.DT
+user_event
+Disk World creator help
+user_event
+
+.SH Name
+.SP 5 5
+user_event -  This method calls an event on all the users online.
+.EP
+
+.SH Syntax
+.SI 5
+void user_event(mixed from,
+mixed first,
+mixed args ...)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^from%^RESET%^ - the person it is from
+%^BOLD%^name%^RESET%^ - the name of the event
+%^BOLD%^args%^RESET%^ - the arguments to the event
+
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/modified_efuns.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method calls an event on all the users online.
+It does not do any filtering, so it will send messages to people who
+are earmuffed and ignoring or lord invisible or whatever.
+
+.EP
+

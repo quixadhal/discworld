@@ -1,0 +1,57 @@
+.DT
+set_night_close
+Disk World creator help
+set_night_close
+
+.SH Name
+.SP 5 5
+set_night_close -  This function sets up the closing code for stores.
+.EP
+
+.SH Syntax
+.SI 5
+void set_night_close(int night,
+string shopkeeper,
+string * outside,
+string burglar_func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^night%^RESET%^ - Whether the store closes during the night or day.
+%^BOLD%^shopkeeper%^RESET%^ - The file name of the shopkeeper for the store.
+%^BOLD%^outside%^RESET%^ - The exit, room pairs corresponding to outside rooms.
+%^BOLD%^burglar_func%^RESET%^ - The function called when store is burgled.
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/store_close.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets up the closing code for stores.  This allows you to 
+ close and lock up the place, update external rooms, send the shopkeepers 
+ home, and catch burglars who try to sneak in.
+ 
+
+If the "night" flag is 1, the store will close at night. If it's 0, the store will close during the day. 
+
+The shopkeeper name should be the string filename of the shopkeeper. This can be set to "none" for no shopkeeper (regular event_person_say stuff will be used to simulate it.) 
+
+*outside is an array of exit, room path pairs that connect to the shop. That is, if you moved east to get into the shop, the exit string will be "east", "/path/of/room/we/got/here/from". THIS IS REQUIRED, so that players will be moved to the right place. 
+
+The burglar_func parameter is the name of a function that will be called when someone enters the shop after it is closed. It will be called with the argument object ob, where ob is the person who entered. For no burglar handling, this argument can be 0. 
+.EP
+
+.SH Example 1
+.SI 5
+
+   set_night_close(1, "/d/sur/chars/bob", ({"east", PATH+"flibble_room"}), "catch_thief");
+   ...
+   set_night_close(0, "none", ({"up", "/d/ram/Snorkle/wibble_room"}));
+
+.EI
+

@@ -1,0 +1,1450 @@
+<html><head><title>File player_craft_shop.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/inherit/player_craft_shop.c</h2>
+This is the file containing extra controls for the player run
+craft shop.  We will assume that all player run craft shops will be
+rooms and not npcs.<p>Written by Pinkfish<p>Started Fri Apr 21 13:37:44 PDT 2000
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.shops.inherit.craft_shop_category.c.html">/std/shops/inherit/craft_shop_category.c</a> and <a href="std.basic.expressions.c.html">/std/basic/expressions.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.nroff.h.html">/include/nroff.h</a>, <a href="include.mail.h.html">/include/mail.h</a>, <a href="include.expressions.h.html">/include/expressions.h</a>, <a href="include.shops.craft_shop.h.html">/include/shops/craft_shop.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.clubs.h.html">/include/clubs.h</a>, <a href="include.money.h.html">/include/money.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_approval"><b>approval</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_approval_item"><b>approval_item</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_approval_obs"><b>approval_obs</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_expression_type"><b>expression_type</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_seller_information"><b>seller_information</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_shop_stats"><b>shop_stats</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_shop_transaction"><b>shop_transaction</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_to_approval_list"><b>add_to_approval_list</b></a>(string, object *, int, string, string, int)<dd>
+This method adds an item to the list of items that need to be approved.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_transaction"><b>add_transaction</b></a>(string, object *, int, int, string, mixed)<dd>
+This method adds in transaction into the transaction list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_owners_money"><b>adjust_owners_money</b></a>(int)<dd>
+This method changes the current level of the owners money.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_royalty"><b>adjust_royalty</b></a>(string, int)<dd>
+This method adjusts the royalty.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_remove_category"><b>check_remove_category</b></a>(string, string)<dd>
+This method is called into to check to see if we can remove the category.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#confirm_approval"><b>confirm_approval</b></a>(string, class approval_obs, int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_auto_load_file"><b>create_auto_load_file</b></a>(mixed, int)<dd>
+This method creates a save file for the specified objects autoloading
+capability.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_checkout_object"><b>create_checkout_object</b></a>(class approval_obs, int, object)<dd>
+This method turns all the specified id into an item to be checked.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_real_auto_load_object"><b>create_real_auto_load_object</b></a>(int, object)<dd>
+This method creates a real object from the save file number.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#destroy_checkout_object"><b>destroy_checkout_object</b></a>(object)<dd>
+This method updates the checked out item and changes to to be what
+we now have.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_add_new_category"><b>do_add_new_category</b></a>(string)<dd>
+This method allows the player to add a new category to the list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_auto_expression_add"><b>do_approve_auto_expression_add</b></a>(string, string, int, string)<dd>
+This method sets the automatic expressions to allow.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_auto_expression_remove"><b>do_approve_auto_expression_remove</b></a>(string)<dd>
+This method removes an allowed expression
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_auto_high"><b>do_approve_auto_high</b></a>(string)<dd>
+This method sets the automatic high cut off level.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_auto_high_deny"><b>do_approve_auto_high_deny</b></a>(string)<dd>
+This method sets the automatic high cut off level for denying sales.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_auto_item_add"><b>do_approve_auto_item_add</b></a>(string, string, string, int, string)<dd>
+This method sets the automatic items to allow.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_auto_item_add_expr"><b>do_approve_auto_item_add_expr</b></a>(string, string, string, int, string)<dd>
+This method sets the automatic items to allow.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_auto_item_add_object"><b>do_approve_auto_item_add_object</b></a>(object *, string, string, int, string)<dd>
+This method sets the automatic items to allow.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_auto_item_add_object_expr"><b>do_approve_auto_item_add_object_expr</b></a>(object *, string, string, int, string)<dd>
+This method sets the automatic items to allow.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_auto_item_remove"><b>do_approve_auto_item_remove</b></a>(string)<dd>
+This method sets the automatic items to allow.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_auto_item_remove_object"><b>do_approve_auto_item_remove_object</b></a>(object *)<dd>
+This method sets the automatic items to allow.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_auto_item_test"><b>do_approve_auto_item_test</b></a>(object *)<dd>
+This method checks to see if the specified object can really be sold or
+not automatically.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_auto_low"><b>do_approve_auto_low</b></a>(string)<dd>
+This method sets the automatic low acception level.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_black_list_add"><b>do_approve_black_list_add</b></a>(string)<dd>
+This method adds the person to the black list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_black_list_add_ignore"><b>do_approve_black_list_add_ignore</b></a>()<dd>
+This method adds their ignore list to the black list
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_black_list_remove"><b>do_approve_black_list_remove</b></a>(string)<dd>
+This method removes the person from the black list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_browse"><b>do_approve_browse</b></a>(string)<dd>
+This method browses the specified item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_buy_expression"><b>do_approve_buy_expression</b></a>(string)<dd>
+This method sets up the expression to use when calculating the
+ability to buy from the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_category_change"><b>do_approve_category_change</b></a>(string, string)<dd>
+This method changes the category of the item waiting to be approved.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_checkin"><b>do_approve_checkin</b></a>(object *)<dd>
+This method checks in a checked out object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_checkout"><b>do_approve_checkout</b></a>(string)<dd>
+This method checks out the specified item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_item"><b>do_approve_item</b></a>(string, string)<dd>
+This method approves the specified item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_limit"><b>do_approve_limit</b></a>(string)<dd>
+This method sets the limit on number of items sellable by all the players.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_limit_person_items"><b>do_approve_limit_person_items</b></a>(string, string)<dd>
+This method sets the limit per person to be a specified value.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_limit_person_remove"><b>do_approve_limit_person_remove</b></a>(string)<dd>
+This method removes any limits set on the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_limit_person_value"><b>do_approve_limit_person_value</b></a>(string, string)<dd>
+This method sets the limit at which a person can automatically sell
+to the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_limit_person_value_deny"><b>do_approve_limit_person_value_deny</b></a>(string, string)<dd>
+This method sets the limit at which a person can automatically sell
+to the shop (deny limit).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_name_change"><b>do_approve_name_change</b></a>(string, string)<dd>
+This method changes the name of the item to be approved.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_pay_deficit"><b>do_approve_pay_deficit</b></a>()<dd>
+This method pays off the cash deficit (if one exists).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_percentage"><b>do_approve_percentage</b></a>(mixed)<dd>
+This method sets the percentage to add to the sell price.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_reject"><b>do_approve_reject</b></a>(string, string, int)<dd>
+This method rejects the specified item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_status"><b>do_approve_status</b></a>(int)<dd>
+This method shows the current status of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_status_functions"><b>do_approve_status_functions</b></a>(int)<dd>
+This method shows the status of all the user defined functions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_status_internal_functions"><b>do_approve_status_internal_functions</b></a>()<dd>
+This method shows the status of all the user defined functions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve_use_expression"><b>do_approve_use_expression</b></a>(string)<dd>
+This method sets up the expression to use when calculating the
+ability to use the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_check_sell"><b>do_check_sell</b></a>(object *)<dd>
+This method runs through the objects and checks to see what sort of levels
+they are allowed to sell them for to this shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_collect_partial_royalties"><b>do_collect_partial_royalties</b></a>(string)<dd>
+This method collects royalities up to a certain amount.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_function_help"><b>do_function_help</b></a>(string)<dd>
+Get help on a specific function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_function_help_list"><b>do_function_help_list</b></a>()<dd>
+Get help on a specific function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_approval"><b>do_list_approval</b></a>(int)<dd>
+List the items for approval.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_categories"><b>do_list_categories</b></a>()<dd>
+This method lists the current categories and shows us which one is
+currently the default.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_name_shop"><b>do_name_shop</b></a>(string)<dd>
+This method gives the shop a name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_remove_category"><b>do_remove_category</b></a>(string)<dd>
+This method allows the player to remove a category from the list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_remove_sign"><b>do_remove_sign</b></a>()<dd>
+This method removes the sign from the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_rename_category"><b>do_rename_category</b></a>(string, string)<dd>
+This method allows the player to remove a category from the list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_return"><b>do_return</b></a>(string)<dd>
+This method returns the item to the person that started to sell it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_set_default_category"><b>do_set_default_category</b></a>(string)<dd>
+This method sets the default category for the place.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_set_sign"><b>do_set_sign</b></a>(object *)<dd>
+This method sets the sign you wish to use for your shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_stats_items"><b>do_stats_items</b></a>(int)<dd>
+This method shows the stats on all the sold items, the number and value
+of each one sold.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_stats_money"><b>do_stats_money</b></a>()<dd>
+This method shows stats about money and stuff in the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_stats_transactions"><b>do_stats_transactions</b></a>()<dd>
+This method shows a list of all the transactions that have occured in the
+shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_user_function_add"><b>do_user_function_add</b></a>(string, string)<dd>
+This method allows a function to be added to the base set of user 
+functions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_user_function_remove"><b>do_user_function_remove</b></a>(string)<dd>
+This method allows a function to be added to the base set of user 
+functions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#inform_of_royalties"><b>inform_of_royalties</b></a>(object)<dd>
+Tells the playe they have some royalties to pick up.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_allowed_to_use_shop"><b>is_allowed_to_use_shop</b></a>(string)<dd>
+This method checks to see if the shop is a closed shop and then checks
+to see if the person is allowed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_checkout_object"><b>is_checkout_object</b></a>(object)<dd>
+This method checks to see if the specified item is a checked out
+item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_item_approved"><b>is_item_approved</b></a>(string, int, string, object *, string, int ref)<dd>
+This method checks to see if the specified item is approved.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_approval_class"><b>query_approval_class</b></a>(string)<dd>
+This method returns the approval class from the string name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_approval_list"><b>query_approval_list</b></a>(int)<dd>
+This method returns the current approval list for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_letter_value"><b>query_letter_value</b></a>(int)<dd>
+This method returns the position as a two letter value.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_maximum_inventory_size"><b>query_maximum_inventory_size</b></a>()<dd>
+This method returns the maximum inventory size for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_maximum_sale_value"><b>query_maximum_sale_value</b></a>(string, object *)<dd>
+This method will return the maximum value at which the set of items
+will be denied.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_maximum_sale_value_both"><b>query_maximum_sale_value_both</b></a>(string, object)<dd>
+This method finds out the maximum value that this item is allowed
+to be sold for based on the current settings of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_maximum_waiting_queue_size"><b>query_maximum_waiting_queue_size</b></a>()<dd>
+This method returns the maximum inventory size for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_number_of_items_listed"><b>query_number_of_items_listed</b></a>(string)<dd>
+This method returns the number of items currently in the shop by
+the specified person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_number_value"><b>query_number_value</b></a>(string)<dd>
+This method goes from a letter value to a number.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_owners_money"><b>query_owners_money</b></a>()<dd>
+This method returns the current level of the owners money.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_parcel_post"><b>query_parcel_post</b></a>()<dd>
+This method tells us the current parcel post used for rejecting items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_round_prices"><b>query_round_prices</b></a>()<dd>
+This method returns the amount to round all sell values for.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_royalty"><b>query_royalty</b></a>(string)<dd>
+This method returns the royalties for the specific person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shop_name"><b>query_shop_name</b></a>()<dd>
+This method returns the name of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sign_object"><b>query_sign_object</b></a>()<dd>
+This method returns the current sign object for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_transaction_string"><b>query_transaction_string</b></a>(class shop_transaction)<dd>
+This method truns a transaction into a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_from_approval_list"><b>remove_from_approval_list</b></a>(class approval_obs)<dd>
+This method removes the item from the approval list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#return_all_checkedout_objects"><b>return_all_checkedout_objects</b></a>()<dd>
+This method returns all the checkedout objects to the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_maximum_inventory_size"><b>set_maximum_inventory_size</b></a>(int)<dd>
+This method sets the maximum inventory size for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_maximum_waiting_queue_size"><b>set_maximum_waiting_queue_size</b></a>(int)<dd>
+This method sets the maximum inventory size for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_parcel_post"><b>set_parcel_post</b></a>(string)<dd>
+This method sets the parcel post to use for rejecting items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_round_price"><b>set_round_price</b></a>(int)<dd>
+THis method sets the amount to round all the sell values for.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_shop_name"><b>set_shop_name</b></a>(string)<dd>
+This method sets the name of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sign_object"><b>set_sign_object</b></a>(object)<dd>
+This method sets the current sign object.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_to_approval_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_to_approval_list</b></a><pre>
+object * add_to_approval_list(string seller,
+object * sellables,
+int value,
+string name,
+string category,
+int approved)
+</pre><dd>
+This method adds an item to the list of items that need to be approved.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>seller - name of the player
+<dd>sellables - the list of items to sell
+<dd>value - the cost of the item
+<dd>name - the name of the items
+<dd>category - the category of the item
+<dd>approved - a flag to say if this was approved or not
+<dt><b>Returns:</b>
+<dd>obs the objects we bought
+
+</dl>
+
+<dt><a name="add_transaction">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_transaction</b></a><pre>
+void add_transaction(string person,
+object * objects,
+int type,
+int amount,
+string name_cat,
+mixed extra)
+</pre><dd>
+This method adds in transaction into the transaction list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person doing the thing
+<dd>objects - the string name of the objects
+<dd>type - the type of the transaction
+<dd>amount - the cost of the transaction
+<dd>name_cat - the name/category of the item
+<dd>extra - anything extra about the transaction
+
+</dl>
+
+<dt><a name="adjust_owners_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_owners_money</b></a><pre>
+void adjust_owners_money(int amt)
+</pre><dd>
+This method changes the current level of the owners money.
+<p>
+
+<dt><a name="adjust_royalty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_royalty</b></a><pre>
+void adjust_royalty(string name,
+int amount)
+</pre><dd>
+This method adjusts the royalty.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to adjust
+<dd>amt - the amoutn to adjust by
+
+</dl>
+
+<dt><a name="create_checkout_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_checkout_object</b></a><pre>
+object create_checkout_object(class approval_obs approve,
+int id,
+object player)
+</pre><dd>
+This method turns all the specified id into an item to be checked.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id of the object to create
+<dd>player - the player to use for autoloading
+
+</dl>
+
+<dt><a name="destroy_checkout_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>destroy_checkout_object</b></a><pre>
+int destroy_checkout_object(object ob)
+</pre><dd>
+This method updates the checked out item and changes to to be what
+we now have...<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to destroy
+
+</dl>
+
+<dt><a name="do_add_new_category">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_add_new_category</b></a><pre>
+int do_add_new_category(string category)
+</pre><dd>
+This method allows the player to add a new category to the list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>category - the new category name
+
+</dl>
+
+<dt><a name="do_approve_auto_expression_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_auto_expression_add</b></a><pre>
+int do_approve_auto_expression_add(string expression,
+string value_str,
+int type,
+string list_name)
+</pre><dd>
+This method sets the automatic expressions to allow.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>expression - the expressions short to allow
+
+</dl>
+
+<dt><a name="do_approve_auto_expression_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_auto_expression_remove</b></a><pre>
+int do_approve_auto_expression_remove(string idstr)
+</pre><dd>
+This method removes an allowed expression<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the expression id to remove
+
+</dl>
+
+<dt><a name="do_approve_auto_high">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_auto_high</b></a><pre>
+int do_approve_auto_high(string cost)
+</pre><dd>
+This method sets the automatic high cut off level.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cost - the cost to use a high cut off level
+
+</dl>
+
+<dt><a name="do_approve_auto_high_deny">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_auto_high_deny</b></a><pre>
+int do_approve_auto_high_deny(string cost)
+</pre><dd>
+This method sets the automatic high cut off level for denying sales.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cost - the cost to use a high cut off level
+
+</dl>
+
+<dt><a name="do_approve_auto_item_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_auto_item_add</b></a><pre>
+int do_approve_auto_item_add(string item,
+string money,
+string list_name,
+int markup,
+string money_str)
+</pre><dd>
+This method sets the automatic items to allow.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>item - the items short to allow
+
+</dl>
+
+<dt><a name="do_approve_auto_item_add_expr">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_auto_item_add_expr</b></a><pre>
+int do_approve_auto_item_add_expr(string item,
+string expr,
+string list_name,
+int markup,
+string money_str)
+</pre><dd>
+This method sets the automatic items to allow.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>item - the items short to allow
+
+</dl>
+
+<dt><a name="do_approve_auto_item_add_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_auto_item_add_object</b></a><pre>
+int do_approve_auto_item_add_object(object * obs,
+string money,
+string list_name,
+int markup,
+string money_str)
+</pre><dd>
+This method sets the automatic items to allow.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>item - the items short to allow
+
+</dl>
+
+<dt><a name="do_approve_auto_item_add_object_expr">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_auto_item_add_object_expr</b></a><pre>
+int do_approve_auto_item_add_object_expr(object * obs,
+string expr,
+string list_name,
+int markup,
+string money_str)
+</pre><dd>
+This method sets the automatic items to allow.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>item - the items short to allow
+
+</dl>
+
+<dt><a name="do_approve_auto_item_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_auto_item_remove</b></a><pre>
+int do_approve_auto_item_remove(string item)
+</pre><dd>
+This method sets the automatic items to allow.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>item - the item to accept
+
+</dl>
+
+<dt><a name="do_approve_auto_item_remove_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_auto_item_remove_object</b></a><pre>
+int do_approve_auto_item_remove_object(object * obs)
+</pre><dd>
+This method sets the automatic items to allow.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>item - the item to accept
+
+</dl>
+
+<dt><a name="do_approve_auto_item_test">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_auto_item_test</b></a><pre>
+int do_approve_auto_item_test(object * obs)
+</pre><dd>
+This method checks to see if the specified object can really be sold or
+not automatically.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects to test
+
+</dl>
+
+<dt><a name="do_approve_auto_low">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_auto_low</b></a><pre>
+int do_approve_auto_low(string cost)
+</pre><dd>
+This method sets the automatic low acception level.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cost - the cost to use a low level
+
+</dl>
+
+<dt><a name="do_approve_black_list_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_black_list_add</b></a><pre>
+int do_approve_black_list_add(string name)
+</pre><dd>
+This method adds the person to the black list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to add to the black list
+
+</dl>
+
+<dt><a name="do_approve_black_list_add_ignore">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_black_list_add_ignore</b></a><pre>
+int do_approve_black_list_add_ignore()
+</pre><dd>
+This method adds their ignore list to the black list
+<p>
+
+<dt><a name="do_approve_black_list_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_black_list_remove</b></a><pre>
+int do_approve_black_list_remove(string name)
+</pre><dd>
+This method removes the person from the black list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to remove from the black list
+
+</dl>
+
+<dt><a name="do_approve_browse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_browse</b></a><pre>
+int do_approve_browse(string name)
+</pre><dd>
+This method browses the specified item.
+<p>
+
+<dt><a name="do_approve_buy_expression">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_buy_expression</b></a><pre>
+int do_approve_buy_expression(string str)
+</pre><dd>
+This method sets up the expression to use when calculating the
+ability to buy from the shop.
+<p>
+
+<dt><a name="do_approve_category_change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_category_change</b></a><pre>
+int do_approve_category_change(string name,
+string new_category)
+</pre><dd>
+This method changes the category of the item waiting to be approved.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the reference
+<dd>new_category - the new category for the item
+
+</dl>
+
+<dt><a name="do_approve_checkin">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_checkin</b></a><pre>
+int do_approve_checkin(object * obs)
+</pre><dd>
+This method checks in a checked out object.
+<p>
+
+<dt><a name="do_approve_checkout">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_checkout</b></a><pre>
+int do_approve_checkout(string name)
+</pre><dd>
+This method checks out the specified item.
+<p>
+
+<dt><a name="do_approve_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_item</b></a><pre>
+int do_approve_item(string name,
+string money_str)
+</pre><dd>
+This method approves the specified item.
+<p>
+
+<dt><a name="do_approve_limit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_limit</b></a><pre>
+int do_approve_limit(string limit)
+</pre><dd>
+This method sets the limit on number of items sellable by all the players.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>limit - the default limit
+
+</dl>
+
+<dt><a name="do_approve_limit_person_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_limit_person_items</b></a><pre>
+int do_approve_limit_person_items(string name,
+string value)
+</pre><dd>
+This method sets the limit per person to be a specified value.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to set a limit on
+<dd>value - the limit to set
+
+</dl>
+
+<dt><a name="do_approve_limit_person_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_limit_person_remove</b></a><pre>
+int do_approve_limit_person_remove(string name)
+</pre><dd>
+This method removes any limits set on the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to remove the limit on
+
+</dl>
+
+<dt><a name="do_approve_limit_person_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_limit_person_value</b></a><pre>
+int do_approve_limit_person_value(string name,
+string money)
+</pre><dd>
+This method sets the limit at which a person can automatically sell
+to the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to set a limit on
+<dd>money - the limit to set it to
+
+</dl>
+
+<dt><a name="do_approve_limit_person_value_deny">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_limit_person_value_deny</b></a><pre>
+int do_approve_limit_person_value_deny(string name,
+string money)
+</pre><dd>
+This method sets the limit at which a person can automatically sell
+to the shop (deny limit).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to set a limit on
+<dd>money - the limit to set it to
+
+</dl>
+
+<dt><a name="do_approve_name_change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_name_change</b></a><pre>
+int do_approve_name_change(string name,
+string new_name)
+</pre><dd>
+This method changes the name of the item to be approved.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the reference
+<dd>new_name - the new name for the item
+
+</dl>
+
+<dt><a name="do_approve_pay_deficit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_pay_deficit</b></a><pre>
+int do_approve_pay_deficit()
+</pre><dd>
+This method pays off the cash deficit (if one exists).
+<p>
+
+<dt><a name="do_approve_percentage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_percentage</b></a><pre>
+int do_approve_percentage(mixed num)
+</pre><dd>
+This method sets the percentage to add to the sell price.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the number to set the percentage to
+
+</dl>
+
+<dt><a name="do_approve_reject">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_reject</b></a><pre>
+int do_approve_reject(string name,
+string mess,
+int reject_pos)
+</pre><dd>
+This method rejects the specified item.
+<p>
+
+<dt><a name="do_approve_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_status</b></a><pre>
+int do_approve_status(int status)
+</pre><dd>
+This method shows the current status of the shop.
+<p>
+
+<dt><a name="do_approve_status_functions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_status_functions</b></a><pre>
+int do_approve_status_functions(int hints)
+</pre><dd>
+This method shows the status of all the user defined functions.
+These can be used in other exciting functions.
+<p>
+
+<dt><a name="do_approve_status_internal_functions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_status_internal_functions</b></a><pre>
+int do_approve_status_internal_functions()
+</pre><dd>
+This method shows the status of all the user defined functions.
+These can be used in other exciting functions.
+<p>
+
+<dt><a name="do_approve_use_expression">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve_use_expression</b></a><pre>
+int do_approve_use_expression(string str)
+</pre><dd>
+This method sets up the expression to use when calculating the
+ability to use the shop.
+<p>
+
+<dt><a name="do_check_sell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_check_sell</b></a><pre>
+int do_check_sell(object * obs)
+</pre><dd>
+This method runs through the objects and checks to see what sort of levels
+they are allowed to sell them for to this shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_collect_partial_royalties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_collect_partial_royalties</b></a><pre>
+int do_collect_partial_royalties(string amount)
+</pre><dd>
+This method collects royalities up to a certain amount.  This is
+only usable by the owner of the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>amount - the amount to collect
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_function_help">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_function_help</b></a><pre>
+int do_function_help(string name)
+</pre><dd>
+Get help on a specific function.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the function to get help on
+
+</dl>
+
+<dt><a name="do_function_help_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_function_help_list</b></a><pre>
+int do_function_help_list()
+</pre><dd>
+Get help on a specific function.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the function to get help on
+
+</dl>
+
+<dt><a name="do_list_approval">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_approval</b></a><pre>
+int do_list_approval(int approved)
+</pre><dd>
+List the items for approval.
+<p>
+
+<dt><a name="do_list_categories">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_categories</b></a><pre>
+int do_list_categories()
+</pre><dd>
+This method lists the current categories and shows us which one is
+currently the default.
+<p>
+
+<dt><a name="do_name_shop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_name_shop</b></a><pre>
+int do_name_shop(string name)
+</pre><dd>
+This method gives the shop a name.
+<p>
+
+<dt><a name="do_remove_category">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_remove_category</b></a><pre>
+int do_remove_category(string category)
+</pre><dd>
+This method allows the player to remove a category from the list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>category - the category to remove
+
+</dl>
+
+<dt><a name="do_remove_sign">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_remove_sign</b></a><pre>
+int do_remove_sign()
+</pre><dd>
+This method removes the sign from the shop.
+<p>
+
+<dt><a name="do_rename_category">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_rename_category</b></a><pre>
+int do_rename_category(string category,
+string new_category)
+</pre><dd>
+This method allows the player to remove a category from the list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>category - the category to rename
+<dd>new_category - the new name of a category
+
+</dl>
+
+<dt><a name="do_return">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_return</b></a><pre>
+int do_return(string name)
+</pre><dd>
+This method returns the item to the person that started to sell it.
+This only works before the item has been approved.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the item to return
+
+</dl>
+
+<dt><a name="do_set_default_category">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_set_default_category</b></a><pre>
+int do_set_default_category(string default_cat)
+</pre><dd>
+This method sets the default category for the place.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>default_cat - the default category
+
+</dl>
+
+<dt><a name="do_set_sign">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_set_sign</b></a><pre>
+int do_set_sign(object * obs)
+</pre><dd>
+This method sets the sign you wish to use for your shop.
+The sign will be displayed outside the shop for passer bys.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the sign
+
+</dl>
+
+<dt><a name="do_stats_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_stats_items</b></a><pre>
+int do_stats_items(int type)
+</pre><dd>
+This method shows the stats on all the sold items, the number and value
+of each one sold.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of sorting to do
+
+</dl>
+
+<dt><a name="do_stats_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_stats_money</b></a><pre>
+int do_stats_money()
+</pre><dd>
+This method shows stats about money and stuff in the shop.
+<p>
+
+<dt><a name="do_stats_transactions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_stats_transactions</b></a><pre>
+int do_stats_transactions()
+</pre><dd>
+This method shows a list of all the transactions that have occured in the
+shop.
+<p>
+
+<dt><a name="do_user_function_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_user_function_add</b></a><pre>
+int do_user_function_add(string def,
+string expr)
+</pre><dd>
+This method allows a function to be added to the base set of user 
+functions.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>def - the name and arguements
+<dd>expr - the expression itself
+<dt><b>Returns:</b>
+<dd>1 on success, 0  on failure
+
+</dl>
+
+<dt><a name="do_user_function_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_user_function_remove</b></a><pre>
+int do_user_function_remove(string name)
+</pre><dd>
+This method allows a function to be added to the base set of user 
+functions.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>def - the name and arguements
+<dd>expr - the expression itself
+<dt><b>Returns:</b>
+<dd>1 on success, 0  on failure
+
+</dl>
+
+<dt><a name="inform_of_royalties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>inform_of_royalties</b></a><pre>
+void inform_of_royalties(object player)
+</pre><dd>
+Tells the playe they have some royalties to pick up.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player to tell about the royalties
+
+</dl>
+
+<dt><a name="is_allowed_to_use_shop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_allowed_to_use_shop</b></a><pre>
+int is_allowed_to_use_shop(string person)
+</pre><dd>
+This method checks to see if the shop is a closed shop and then checks
+to see if the person is allowed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to check to see if they are allowed
+<dt><b>Returns:</b>
+<dd>1 if they are allowed, 0 if not
+
+</dl>
+
+<dt><a name="is_checkout_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_checkout_object</b></a><pre>
+int is_checkout_object(object ob)
+</pre><dd>
+This method checks to see if the specified item is a checked out
+item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to check
+<dt><b>Returns:</b>
+<dd>1 if it is, 0 if not
+
+</dl>
+
+<dt><a name="is_item_approved">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_item_approved</b></a><pre>
+mixed is_item_approved(string seller,
+int value,
+string name,
+object * sellables,
+string category,
+int ref final_cost)
+</pre><dd>
+This method checks to see if the specified item is approved.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>seller - the name of the seller
+<dd>value - the amount it is sold for
+<dd>name - the name of the item being solde
+<dd>sellables - the sold items
+<dd>category - the category of the sold item
+<dd>final_cost - the final cost of the item
+<dt><b>Returns:</b>
+<dd>1 if is approved, 0 if not, -1 if denied, string if it is approved
+        with a list name
+
+</dl>
+
+<dt><a name="query_approval_class">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_approval_class</b></a><pre>
+class approval_obs query_approval_class(string name)
+</pre><dd>
+This method returns the approval class from the string name.  THis is
+assumed to be called from inside a command.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the string name
+<dd>approved - from the approved or waiting list
+<dt><b>Returns:</b>
+<dd>the approval object
+
+</dl>
+
+<dt><a name="query_approval_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_approval_list</b></a><pre>
+class approval_obs * query_approval_list(int approved)
+</pre><dd>
+This method returns the current approval list for the shop.
+<p>
+
+<dt><a name="query_letter_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_letter_value</b></a><pre>
+string query_letter_value(int pos)
+</pre><dd>
+This method returns the position as a two letter value.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pos - the position to mangle
+<dt><b>Returns:</b>
+<dd>the letter value
+
+</dl>
+
+<dt><a name="query_maximum_inventory_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_maximum_inventory_size</b></a><pre>
+int query_maximum_inventory_size()
+</pre><dd>
+This method returns the maximum inventory size for the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maximum inventory size
+
+</dl>
+
+<dt><a name="query_maximum_sale_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_maximum_sale_value</b></a><pre>
+int query_maximum_sale_value(string person,
+object * obs)
+</pre><dd>
+This method will return the maximum value at which the set of items
+will be denied.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person selling the item
+<dd>obs - the set of objects
+<dt><b>Returns:</b>
+<dd>the deny value
+
+</dl>
+
+<dt><a name="query_maximum_sale_value_both">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_maximum_sale_value_both</b></a><pre>
+int * query_maximum_sale_value_both(string person,
+object item)
+</pre><dd>
+This method finds out the maximum value that this item is allowed
+to be sold for based on the current settings of the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person doing the selling
+<dd>items - the item being sold
+<dt><b>Returns:</b>
+<dd>({ queue limit, deny limit })
+
+</dl>
+
+<dt><a name="query_maximum_waiting_queue_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_maximum_waiting_queue_size</b></a><pre>
+int query_maximum_waiting_queue_size()
+</pre><dd>
+This method returns the maximum inventory size for the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maximum inventory size
+
+</dl>
+
+<dt><a name="query_number_of_items_listed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_number_of_items_listed</b></a><pre>
+int query_number_of_items_listed(string name)
+</pre><dd>
+This method returns the number of items currently in the shop by
+the specified person.  This includes items waiting for approval.
+<p>
+
+<dt><a name="query_number_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_number_value</b></a><pre>
+int query_number_value(string letter)
+</pre><dd>
+This method goes from a letter value to a number.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>letter - the letters
+<dt><b>Returns:</b>
+<dd>the number
+
+</dl>
+
+<dt><a name="query_owners_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_owners_money</b></a><pre>
+int query_owners_money()
+</pre><dd>
+This method returns the current level of the owners money.
+<p>
+
+<dt><a name="query_parcel_post">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_parcel_post</b></a><pre>
+string query_parcel_post()
+</pre><dd>
+This method tells us the current parcel post used for rejecting items.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current parcel post
+
+</dl>
+
+<dt><a name="query_round_prices">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_round_prices</b></a><pre>
+int query_round_prices()
+</pre><dd>
+This method returns the amount to round all sell values for.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the round price
+
+</dl>
+
+<dt><a name="query_royalty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_royalty</b></a><pre>
+int query_royalty(string name)
+</pre><dd>
+This method returns the royalties for the specific person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the name of the person to get the royalties of
+<dt><b>Returns:</b>
+<dd>the the royalties
+
+</dl>
+
+<dt><a name="query_shop_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shop_name</b></a><pre>
+string query_shop_name()
+</pre><dd>
+This method returns the name of the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the shop
+
+</dl>
+
+<dt><a name="query_sign_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sign_object</b></a><pre>
+object query_sign_object()
+</pre><dd>
+This method returns the current sign object for the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current sign object
+
+</dl>
+
+<dt><a name="query_transaction_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_transaction_string</b></a><pre>
+string query_transaction_string(class shop_transaction trans)
+</pre><dd>
+This method truns a transaction into a string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>trans - the transaction
+<dt><b>Returns:</b>
+<dd>the transaction as a string
+
+</dl>
+
+<dt><a name="remove_from_approval_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_from_approval_list</b></a><pre>
+void remove_from_approval_list(class approval_obs approve)
+</pre><dd>
+This method removes the item from the approval list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>approve - the item to remove
+
+</dl>
+
+<dt><a name="return_all_checkedout_objects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>return_all_checkedout_objects</b></a><pre>
+void return_all_checkedout_objects()
+</pre><dd>
+This method returns all the checkedout objects to the shop.
+<p>
+
+<dt><a name="set_maximum_inventory_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_maximum_inventory_size</b></a><pre>
+void set_maximum_inventory_size(int size)
+</pre><dd>
+This method sets the maximum inventory size for the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>size - the maximum inventory size
+
+</dl>
+
+<dt><a name="set_maximum_waiting_queue_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_maximum_waiting_queue_size</b></a><pre>
+void set_maximum_waiting_queue_size(int size)
+</pre><dd>
+This method sets the maximum inventory size for the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>size - the maximum inventory size
+
+</dl>
+
+<dt><a name="set_parcel_post">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_parcel_post</b></a><pre>
+void set_parcel_post(string parcel)
+</pre><dd>
+This method sets the parcel post to use for rejecting items.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>parcel - the parcel post office
+
+</dl>
+
+<dt><a name="set_round_price">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_round_price</b></a><pre>
+void set_round_price(int round)
+</pre><dd>
+THis method sets the amount to round all the sell values for.  THis is
+deal with annoying currencies like AM money which does not have a
+'1' item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>round - the price to round at
+
+</dl>
+
+<dt><a name="set_shop_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_shop_name</b></a><pre>
+void set_shop_name(string name)
+</pre><dd>
+This method sets the name of the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the shop
+
+</dl>
+
+<dt><a name="set_sign_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sign_object</b></a><pre>
+void set_sign_object(object ob)
+</pre><dd>
+This method sets the current sign object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sign - the new sign object
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="check_remove_category">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_remove_category</b></a><pre>
+void check_remove_category(string answer,
+string category)
+</pre><dd>
+This method is called into to check to see if we can remove the category.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>answer - their answer
+<dd>category - the category to remove
+
+</dl>
+
+<dt><a name="confirm_approval">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>confirm_approval</b></a><pre>
+void confirm_approval(string answer,
+class approval_obs approve,
+int final_cost)
+</pre>
+<dt><a name="create_auto_load_file">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>create_auto_load_file</b></a><pre>
+int create_auto_load_file(mixed ob,
+int fixed_num)
+</pre><dd>
+This method creates a save file for the specified objects autoloading
+capability.  If the number to write to is non-null then it will
+write to that object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to get an autoload number for
+<dd>fixed_num - the file number to write to
+<dt><b>Returns:</b>
+<dd>the auto load number
+<dt><b>See also:</b>
+<dd><a href="#save_it">save_it()
+</a></dl>
+
+<dt><a name="create_real_auto_load_object">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>create_real_auto_load_object</b></a><pre>
+object create_real_auto_load_object(int num,
+object player)
+</pre><dd>
+This method creates a real object from the save file number.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the save file number
+<dt><b>Returns:</b>
+<dd>the nice shiny new object
+<dt><b>See also:</b>
+<dd><a href="#create_auto_load_file">create_auto_load_file()
+</a></dl>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_approval">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>approval</b></a><pre>
+class approval {
+mixed hairy;
+class expression_type * expressions;
+int low_cost;
+int high_cost;
+mapping items;
+int num_allowed;
+int high_cost_deny;
+}
+
+</pre>
+<dt><a name="class_approval_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>approval_item</b></a><pre>
+class approval_item {
+mixed value;
+string list_name;
+int markup;
+int final_cost;
+}
+
+</pre>
+<dt><a name="class_approval_obs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>approval_obs</b></a><pre>
+class approval_obs {
+string seller;
+string category;
+int value;
+string name;
+int * saved;
+int enter_time;
+int * checkout;
+}
+
+</pre>
+<dt><a name="class_expression_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>expression_type</b></a><pre>
+class expression_type {
+int type;
+class parse_node * condition;
+class parse_node * value;
+string list_name;
+}
+
+</pre>
+<dt><a name="class_seller_information">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>seller_information</b></a><pre>
+class seller_information {
+int max_sellable;
+int value_limit;
+int deny_value_limit;
+}
+
+</pre>
+<dt><a name="class_shop_stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shop_stats</b></a><pre>
+class shop_stats {
+int num_sold;
+int value_sold;
+}
+
+</pre>
+<dt><a name="class_shop_transaction">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shop_transaction</b></a><pre>
+class shop_transaction {
+int time;
+string person;
+string objects;
+string name_cat;
+int type;
+int amount;
+mixed extra;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 04:19:01 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

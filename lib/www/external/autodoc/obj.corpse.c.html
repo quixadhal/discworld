@@ -1,8 +1,8 @@
 <html><head><title>File corpse.c
 </title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/corpse.c</h2>
 This method returns the id associated with the corpse.<hr><h2>Inherits</h2>
-This class inherits the following classes <a href="std.container.c.html">/std/container.c</a>, <a href="std.living.carrying.c.html">/std/living/carrying.c</a> and <a href="std.basic.virtual_quit_control.c.html">/std/basic/virtual_quit_control.c</a><hr><h2>Includes</h2>
-This class includes the following files <a href="include.corpse.h.html">/include/corpse.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.bit.h.html">/include/bit.h</a><hr><h2>Method index</h2>
+This class inherits the following classes <a href="std.basic.virtual_quit_control.c.html">/std/basic/virtual_quit_control.c</a>, <a href="std.living.carrying.c.html">/std/living/carrying.c</a> and <a href="std.container.c.html">/std/container.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.corpse.h.html">/include/corpse.h</a> and <a href="include.bit.h.html">/include/bit.h</a><hr><h2>Method index</h2>
 <dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#add_bit_gone"><b>add_bit_gone</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#can_find_match_recurse_into"><b>can_find_match_recurse_into</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
@@ -86,7 +86,7 @@ call out loop until all of the decay has been completed.
 <dt><a name="find_inv_match">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_inv_match</b></a><pre>
 varargs object * find_inv_match(string s,
-                                object looker)
+object looker)
 </pre>
 <dt><a name="get">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get</b></a><pre>
@@ -99,12 +99,12 @@ void give_permission(string words)
 <dt><a name="init_dynamic_arg">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_dynamic_arg</b></a><pre>
 void init_dynamic_arg(mapping map,
-                       object)
+ object)
 </pre>
 <dt><a name="long">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>long</b></a><pre>
 string long(string words,
-            int dark)
+int dark)
 </pre>
 <dt><a name="make_bit">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_bit</b></a><pre>
@@ -209,7 +209,7 @@ void remove_armour(object arm)
 <dt><a name="remove_array_parts">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_array_parts</b></a><pre>
 string * remove_array_parts(string * a1,
-                            string * a2)
+string * a2)
 </pre>
 <dt><a name="remove_creator_corpse">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_creator_corpse</b></a><pre>
@@ -238,7 +238,7 @@ how decayed it is.
 <dt><a name="set_hold">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_hold</b></a><pre>
 int * set_hold(object ob,
-               int pos)
+int pos)
 </pre>
 <dt><a name="set_holding">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_holding</b></a><pre>
@@ -247,7 +247,7 @@ void set_holding(object * hold)
 <dt><a name="set_owner">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_owner</b></a><pre>
 void set_owner(string words,
-               object thing)
+object thing)
 </pre><dd>
 This method initially sets up the corpse object.  Generally
 speaking words should be 0 and the 'thing' variable should be
@@ -278,8 +278,8 @@ void set_weapon(object wpn)
 <dt><a name="setup_corpse_from_save">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_corpse_from_save</b></a><pre>
 void setup_corpse_from_save(string str_data,
-                            string name,
-                            int id)
+string name,
+int id)
 </pre><dd>
 This method is called by the corpse handler to setup the corpse
 properly after it loads.
@@ -292,8 +292,8 @@ mixed * stats()
 <dt><a name="test_remove">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_remove</b></a><pre>
 int test_remove(object thing,
-                int flag,
-                mixed dest)
+int flag,
+mixed dest)
 </pre>
 <dt><a name="unwield_weapon">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>unwield_weapon</b></a><pre>
@@ -301,5 +301,5 @@ void unwield_weapon(object wpn)
 </pre>
 </dl>
 <hr>
-<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 14 Oct 2003 16:22:03 GMT<br>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sun, 01 Apr 2018 18:33:52 GMT<br>
 <hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

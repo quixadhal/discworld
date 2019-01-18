@@ -1,0 +1,37 @@
+.DT
+add_succeeded_mess
+Disk World creator help
+add_succeeded_mess
+
+.SH Name
+.SP 5 5
+add_succeeded_mess -  An interface to add_succeeded_mess.
+.EP
+
+.SH Syntax
+.SI 5
+void add_succeeded_mess(mixed mess,
+object * indir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^mess%^RESET%^ - the message to print
+%^BOLD%^indir%^RESET%^ - the indirect objects the message is for
+
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/add_command.c
+.EI
+
+.SH Description
+.SP 5 5
+
+An interface to add_succeeded_mess.  This is added to make life easier,m
+you do not need to call this_player()->add_succeeded_mess() if you are
+writing add_command code in a non-living object.
+
+.EP
+

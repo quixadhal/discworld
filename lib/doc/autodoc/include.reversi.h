@@ -1,0 +1,90 @@
+.DT
+reversi.h
+Disk World autodoc help
+reversi.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^BLACK_COL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BOARD_COL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BOARD_PATH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BOARD_THING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^END_TILE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MAX_GAMES%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MAX_PAGE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MIN_TIME%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^R_BOARD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^R_LAST%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^R_LASTX%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^R_LASTY%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^R_MOVE_NO%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^R_PLAYER1%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^R_PLAYER2%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^RESET%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^REVERSI_OB%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SAVE_FILE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SETUP_COL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TP_NAME%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^WHITE_COL%^RESET%^
+.EI
+

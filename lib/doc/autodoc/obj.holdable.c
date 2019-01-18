@@ -1,6 +1,6 @@
 .DT
 holdable.c
-DW_wibble autodoc help
+Disk World autodoc help
 holdable.c
 
 .SH Description

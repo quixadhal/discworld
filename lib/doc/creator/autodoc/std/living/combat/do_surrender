@@ -1,0 +1,37 @@
+.DT
+do_surrender
+Disk World creator help
+do_surrender
+
+.SH Name
+.SP 5 5
+do_surrender -  This method will be called when we surrender.
+.EP
+
+.SH Syntax
+.SI 5
+object do_surrender(object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - the thing which made us surrender
+
+.EI
+
+.SH Returns
+.SI 5
+always returns 0.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will be called when we surrender.  This does mean that
+the opponent must have accepted our surrender plea.
+.EP
+

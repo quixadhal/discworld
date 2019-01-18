@@ -1,0 +1,276 @@
+<html><head><title>File club_listing.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/club_listing.c</h2>
+This is an inheritable for printing out different sorts of club
+listings.<p><b>See also:</b><br><a href="obj.handlers.club_handler.c.html">/obj/handlers/club_handler.c</a> and /std/room/club_control_room.c
+<p>Written by Pinkfish<p>Started Sat Oct 24 02:28:04 EDT 1998<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.broadcaster.h.html">/include/broadcaster.h</a> and <a href="include.clubs.h.html">/include/clubs.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#club_info"><b>club_info</b></a>(string, int, string)<dd>
+This method prints out the information associated with the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#club_info_string"><b>club_info_string</b></a>(string, int, string)<dd>
+This method returns the club information as a string.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#club_list"><b>club_list</b></a>(string, int, function)<dd>
+This method prints out a list of the current clubs.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#club_members"><b>club_members</b></a>(string, int, string)<dd>
+This method prints out all the members of the club, or all the members
+of the club online.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#family_info"><b>family_info</b></a>(string, string)<dd>
+This method prints out the information associated with the family.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#family_info_string"><b>family_info_string</b></a>(string, string)<dd>
+This method returns the family information as a string.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#person_in_control"><b>person_in_control</b></a>(object)<dd>
+This method returns the player in control of the item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#player_relationships_string"><b>player_relationships_string</b></a>(string)<dd>
+This method returns the relations that the specified player
+has as a string.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#sort_and_capitalise"><b>sort_and_capitalise</b></a>(string *)<dd>
+This method will sort and capitalise the array of strings sent into
+the method.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#www_club_info_string"><b>www_club_info_string</b></a>(string, int, string)<dd>
+This method returns the club information as a html string.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#www_club_list"><b>www_club_list</b></a>(string, int, int, int)<dd>
+This method prints out a list of the current clubs into html.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#www_family_info_string"><b>www_family_info_string</b></a>(string, string)<dd>
+This method returns the family information as a string.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#www_finger_name"><b>www_finger_name</b></a>(string)<dd>
+This method turns a name into a fingerable name.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="player_relationships_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>player_relationships_string</b></a><pre>
+string player_relationships_string(string player)
+</pre><dd>
+This method returns the relations that the specified player
+has as a string.  It will return a blank string if the player
+has no relationships.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player to check relationships for
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="club_info">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>club_info</b></a><pre>
+int club_info(string name,
+int show_election,
+string person)
+</pre><dd>
+This method prints out the information associated with the club.
+The stuff printed out here is directly lifted from the club control room.
+This method is designed to work with add_command().<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to show the information about
+<dd>show_election - if non-zero show the election information
+<dd>person - the person who is showing the information
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="club_info_string">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>club_info_string</b></a><pre>
+string club_info_string(string name,
+int show_election,
+string person)
+</pre><dd>
+This method returns the club information as a string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to show the information about
+<dd>show_election - if non-zero show the election information
+<dd>person - the person who is showing the information
+<dt><b>Returns:</b>
+<dd>the club information string, 0 if no information
+<dt><b>See also:</b>
+<dd><a href="#club_info">club_info()
+</a></dl>
+
+<dt><a name="club_list">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>club_list</b></a><pre>
+int club_list(string person,
+int print_families,
+function check_list)
+</pre><dd>
+This method prints out a list of the current clubs.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person who is doing the listing
+<dd>print_families - 1 print the families, 0 print the clubs
+<dd>check_list - this function is called to see if the club should be listed
+<dt><b>Returns:</b>
+<dd>0 on failure and 1 for success
+<dt><b>See also:</b>
+<dd><a href="#club_info">club_info()</a>, <a href="#club_members">club_members()</a>, <a href="#www_club_list">www_club_list()</a> and <a href="#www_club_info">www_club_info()
+</a></dl>
+
+<dt><a name="club_members">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>club_members</b></a><pre>
+int club_members(string club,
+int online,
+string person)
+</pre><dd>
+This method prints out all the members of the club, or all the members
+of the club online.  This method is designed to work with
+add_command().<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to print the members of
+<dd>online - print only the online members, 0 not online, 1 online, 2 online
+ and listening to the club channel
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 if not
+
+</dl>
+
+<dt><a name="family_info">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>family_info</b></a><pre>
+int family_info(string name,
+string person)
+</pre><dd>
+This method prints out the information associated with the family.
+The stuff printed out here is directly lifted from the family control room.
+This method is designed to work with add_command().<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the family to show the information about
+<dd>show_election - if non-zero show the election information
+<dd>person - the person who is showing the information
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="family_info_string">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>family_info_string</b></a><pre>
+string family_info_string(string name,
+string person)
+</pre><dd>
+This method returns the family information as a string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the family to show the information about
+<dd>show_election - if non-zero show the election information
+<dd>person - the person who is showing the information
+<dt><b>Returns:</b>
+<dd>the family information string, 0 if no information
+<dt><b>See also:</b>
+<dd><a href="#family_info">family_info()
+</a></dl>
+
+<dt><a name="person_in_control">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>person_in_control</b></a><pre>
+object person_in_control(object ob)
+</pre><dd>
+This method returns the player in control of the item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the item
+<dt><b>Returns:</b>
+<dd>the player in control
+<dt><b>See also:</b>
+<dd><a href="#club_members">club_members()
+</a></dl>
+
+<dt><a name="sort_and_capitalise">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>sort_and_capitalise</b></a><pre>
+string sort_and_capitalise(string * arr)
+</pre><dd>
+This method will sort and capitalise the array of strings sent into
+the method.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arr - the array to sort and capitalise
+<dt><b>Returns:</b>
+<dd>the sorted and capitalised string
+<dt><b>See also:</b>
+<dd><a href="#club_members">club_members()
+</a></dl>
+
+<dt><a name="www_club_info_string">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>www_club_info_string</b></a><pre>
+string www_club_info_string(string name,
+int show_election,
+string person)
+</pre><dd>
+This method returns the club information as a html string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to show the information about
+<dd>show_election - if non-zero show the election information
+<dd>person - the person who is showing the information
+<dt><b>Returns:</b>
+<dd>the club information string, 0 if no information
+<dt><b>See also:</b>
+<dd><a href="#club_info">club_info()
+</a></dl>
+
+<dt><a name="www_club_list">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>www_club_list</b></a><pre>
+string www_club_list(string person,
+int print_families,
+int start,
+int show)
+</pre><dd>
+This method prints out a list of the current clubs into html.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person who is doing the listing
+<dd>print_families - 1 print the families, 0 print the clubs
+<dd>start - the index to start from
+<dd>show - how many to show
+<dt><b>Returns:</b>
+<dd>the club listing string
+<dt><b>See also:</b>
+<dd><a href="#club_info">club_info()</a>, <a href="#club_members">club_members()</a>, <a href="#www_club_list">www_club_list()</a> and <a href="#www_club_info">www_club_info()
+</a></dl>
+
+<dt><a name="www_family_info_string">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>www_family_info_string</b></a><pre>
+string www_family_info_string(string name,
+string person)
+</pre><dd>
+This method returns the family information as a string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the family to show the information about
+<dd>show_election - if non-zero show the election information
+<dd>person - the person who is showing the information
+<dt><b>Returns:</b>
+<dd>the family information string, 0 if no information
+<dt><b>See also:</b>
+<dd><a href="#family_info">family_info()
+</a></dl>
+
+<dt><a name="www_finger_name">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>www_finger_name</b></a><pre>
+string www_finger_name(string name)
+</pre><dd>
+This method turns a name into a fingerable name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name to make fingerable
+<dt><b>Returns:</b>
+<dd>the htmlised name string
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 19:36:50 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

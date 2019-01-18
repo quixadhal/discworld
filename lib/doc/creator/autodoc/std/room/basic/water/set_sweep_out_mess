@@ -1,0 +1,46 @@
+.DT
+set_sweep_out_mess
+Disk World creator help
+set_sweep_out_mess
+
+.SH Name
+.SP 5 5
+set_sweep_out_mess -  This function sets the message that will be displayed when an object is swept out of this room by a current.
+.EP
+
+.SH Syntax
+.SI 5
+void set_sweep_out_mess(string mess)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^mess%^RESET%^ - the new exit message for objects swept by a current
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets the message that will be displayed when an object is
+swept out of this room by a current.  The usual $-expansion for messages
+will occur, including the replacement of "$T" by the direction in which they
+are moving.  The default is "$N $V$0=is,are$V$ swept $T by the current.".
+.EP
+
+.SH Example 1
+.SI 5
+  set_sweep_out_mess("$N $V$0=is,are$V$ washed away $T by the raging "
+             "torrent.");
+
+.EI
+
+.SH See also
+.SP 5 5
+query_sweep_out_mess
+.EP
+

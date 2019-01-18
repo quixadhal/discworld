@@ -1,0 +1,43 @@
+.DT
+create_list
+Disk World creator help
+create_list
+
+.SH Name
+.SP 5 5
+create_list -  This method attempts to create a mailing list.
+.EP
+
+.SH Syntax
+.SI 5
+int create_list(string list,
+string creator)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^list%^RESET%^ - the name of the list to create
+%^BOLD%^creator%^RESET%^ - the creator of the list
+.EI
+
+.SH Returns
+.SI 5
+1 if successful, 0 if not.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/mail_track.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method attempts to create a mailing list.
+.EP
+
+.SH See also
+.SP 5 5
+query_creator(), query_members(), query_controllers()
+
+.EP
+

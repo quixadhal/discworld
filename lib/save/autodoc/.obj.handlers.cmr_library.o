@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["add_known_material":({({"int",}),({({"string",}),"pname",({"string",}),"material",}),(["main":({"Mark a material as known by a given player.",}),"param":({"pname The name of the player","material The name of the material",}),"return":({"Returns 0 if they already knew the material, 1 if they know it now.",}),]),}),"query_known_materials":({({"string","*",}),({({"string",}),"pname",}),(["main":({"Return the materials known by a player.",}),"param":({"pname The name of the player",}),"return":({"A string array of known materials.",}),]),}),"init_data":({({"void",}),({({"string",}),"pname",}),(["main":({"Initialise a players array of known materials.",}),"param":({"pname The name of the player.",}),]),}),"query_known_material":({({"int",}),({({"string",}),"pname",({"string",}),"material",}),(["main":({"Return whether the player knows a particular material.",}),"param":({"pname The name of the player.","material The name of the material",}),"return":({"1 if known 0 if not known.",}),]),}),])
+protected_functions ([])
+inherits (["/std/object":({}),])
+main_docs (["main":({"Handler to keep track of which players know which materials. Allows you tofind out which materials a player knows about and add new ones.  This istypically used in conjunction with the cmr_handler for materials whichthe player must be taught about.",}),"author":({"Deutha",}),"see":({"cmr_handler",}),])
+define_docs (["RESTORE_PATH":([]),])
+includes ([])
+class_docs ([])
+file_name "/obj/handlers/cmr_library.c"
+last_changed 1522061544

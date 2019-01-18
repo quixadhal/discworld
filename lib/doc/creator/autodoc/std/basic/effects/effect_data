@@ -1,0 +1,42 @@
+.DT
+effect_data
+Disk World creator help
+effect_data
+
+.SH Name
+.SP 5 5
+effect_data -  This class stores all the data for the effects inheritable.
+.EP
+
+.SH Definition
+.SI 5
+class effect_data {
+int current_enum;
+int next_id;
+int next_event_time;
+class effect_shadow * shadows;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^current_enum%^RESET%^ - used to keep track of the effect being called;
+        beginning/end etc.
+%^BOLD%^next_id%^RESET%^ - the next id to assign to an effect
+%^BOLD%^next_event_time%^RESET%^ - when the next effect is due to go off
+%^BOLD%^shadows%^RESET%^ - the shaodws on the object
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/effects.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This class stores all the data for the effects inheritable.
+.EP
+

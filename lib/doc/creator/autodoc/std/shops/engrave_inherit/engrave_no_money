@@ -1,0 +1,47 @@
+.DT
+engrave_no_money
+Disk World creator help
+engrave_no_money
+
+.SH Name
+.SP 5 5
+engrave_no_money -  This method is called if the player does not have enough money to complete the engraving.
+.EP
+
+.SH Syntax
+.SI 5
+int engrave_no_money(object * obs,
+int cost)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^obs%^RESET%^ - the objects which were unable to be engraved
+%^BOLD%^cost%^RESET%^ - the cost of the objects to be engraved
+.EI
+
+.SH Returns
+.SI 5
+0 use default fail mesasage, 1 override default fail message.EI
+
+.SH Defined in
+.SI 5
+/std/shops/engrave_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called if the player does not have enough money to
+complete the engraving.
+This should be overridden in the inheritable to print out the
+message you wish to say.  If this function returns 1 then the
+default failed message is not used.
+.EP
+
+.SH See also
+.SP 5 5
+do_engrave()
+
+.EP
+

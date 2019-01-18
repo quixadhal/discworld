@@ -1,0 +1,42 @@
+.DT
+choose_defense
+Disk World creator help
+choose_defense
+
+.SH Name
+.SP 5 5
+choose_defense -  Will the defender defend or not?
+.EP
+
+.SH Syntax
+.SI 5
+class attack choose_defense(class attack att)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^class%^RESET%^ - attack
+.EI
+
+.SH Returns
+.SI 5
+class attack
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Will the defender defend or not? If so, with what skill and weapon and at
+what action cost?
+
+PRE: all attack data and opponent and defender data have been set.
+POST: defense type, skill and weapon must be set. If defense_action
+is "none" the defender will have a big negative modifier.
+
+.EP
+

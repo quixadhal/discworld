@@ -1,0 +1,47 @@
+.DT
+connection_data
+Disk World creator help
+connection_data
+
+.SH Name
+.SP 5 5
+connection_data -  This class handles connection details for each person using the dictionary.
+.EP
+
+.SH Definition
+.SI 5
+class connection_data {
+int fd;
+int dns_key;
+string current_word;
+string message;
+mixed definitions;
+mixed * working;
+int status;
+int action;
+int count;
+string search_mode;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^fd%^RESET%^ - the file descriptor of the socket currently being
+used by the dictionary.
+member dns_key the resolve() key used when doing a nslookup.
+
+.EI
+
+.SH Defined in
+.SI 5
+/net/obj/dict.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This class handles connection details for each person using
+the dictionary. 
+.EP
+

@@ -1,0 +1,158 @@
+.DT
+colour.h
+Disk World autodoc help
+colour.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^ANSI_COLOURS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BLACKISH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BLUISH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BROWNISH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_BLACK%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_BLUE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_BROWN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_COPPER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_GOLD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_GREEN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_GREY%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_MULTI%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_ORANGE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_PINK%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_PURPLE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_RED%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_SILVER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_WHITE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COL_YELLOW%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COLOURS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DARK%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^GOLDEN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^GREENISH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^GREYISH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^LIGHT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^METALLIC%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MODIFIERS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MUDDY%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OFF%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PALE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PINKISH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PURPLISH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^REDDISH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SILVERY%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^USER_COLOUR_LIST%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^VARIEGATED%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^WHITISH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^YELLOWISH%^RESET%^
+.EI
+

@@ -1,0 +1,109 @@
+.DT
+sell_haggle
+Disk World creator help
+sell_haggle
+
+.SH Name
+.SP 5 5
+sell_haggle -  This method does the actual haggle on a sell.
+.EP
+
+.SH Syntax
+.SI 5
+int * sell_haggle(int value,
+int offer,
+int asking,
+int insults,
+string place,
+object keeper,
+object customer)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^value%^RESET%^ - the real value of the item
+%^BOLD%^offer%^RESET%^ - the offered value for the item
+%^BOLD%^asking%^RESET%^ - the current asking price
+%^BOLD%^insults%^RESET%^ - the current insult level
+%^BOLD%^place%^RESET%^ - the place for the money strings
+%^BOLD%^keeper%^RESET%^ - the shop keeper
+%^BOLD%^customer%^RESET%^ - the customer
+.EI
+
+.SH Returns
+.SI 5
+the array as described above.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/haggle_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method does the actual haggle on a sell.
+The logic is as follows:
+
+.EP
+.SP 5 5
+if offer > asking then
+.EP
+.SP 5 5
+   give back a boggle response
+.EP
+.SP 5 5
+else if offer == asking then
+.EP
+.SP 5 5
+   sell the thing and give an accepted saying
+.EP
+.SP 5 5
+else if offer * insult_factor > asking * 100 then
+.EP
+.SP 5 5
+   adjustment = ( ( asking - offer ) * bargain_factor ) / 100
+.EP
+.SP 5 5
+   asking -= adjustment
+.EP
+.SP 5 5
+   return an adjustment message
+.EP
+.SP 5 5
+else
+.EP
+.SP 5 5
+   return an insulted message
+.EP
+.SP 5 5
+endif
+.EP
+.SP 5 5
+The return from this function is an array of three elements, the first is the a flag saying if the item was accepted or not, the second is the current asking price and the last is the current insult level. 
+.EP
+.SP 5 5
+({
+.EP
+.SP 5 5
+   flag (0/1), // This is 0 if unable to sell, 1 if sold
+.EP
+.SP 5 5
+   asking,     // the current asking price
+.EP
+.SP 5 5
+   insults,    // the current insult level
+.EP
+.SP 5 5
+})
+.EP
+.SP 5 5
+
+.EP
+
+.SH See also
+.SP 5 5
+insult_factor(), bargain_factor()
+
+.EP
+

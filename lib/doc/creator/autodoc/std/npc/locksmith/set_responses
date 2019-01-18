@@ -1,0 +1,51 @@
+.DT
+set_responses
+Disk World creator help
+set_responses
+
+.SH Name
+.SP 5 5
+set_responses -  This function sets the NPC's responses for the various commands.
+.EP
+
+.SH Syntax
+.SI 5
+int set_responses(string * responses)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^responses%^RESET%^ - an array with the responses, as explained above
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/std/npc/locksmith.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets the NPC's responses for the various commands.  If not
+used generic answers will be used.  Mind that you cannot enter only a few
+responses.  It's all or nothing.  The array should be like this:
+1) response to failed confirmation
+2) response for not hired by that player
+3) response for trying to enter another player's house
+4) response for successful opening of the door
+5) response for already hired by other player
+6) response for not paid yet
+7) response for attempt to hire
+8) response for already paid
+9) response for not enough money to pay
+10) response for cannot find specified exit
+11) response for successful payment (please include 'ask' hint)
+12) response for not leaving the domain
+13) response for already hired by that player
+.EP
+

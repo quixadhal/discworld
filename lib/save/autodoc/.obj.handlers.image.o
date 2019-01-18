@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["load_image":({({"varargs","class","IMAGE_INFO",}),({({"string",}),"image_file",({"int",}),"rle",}),(["main":({"This method reads in the given image file, and returns a two-dimensionalarray of integers representing the data in the file.  The 'rle'flag is currently unused; in the future, it will be used to returnthe array in a \"run-length encoded\" format, where each group of identicalelements in a row will be represented as a count/value pair.  Thismay be more efficient for large arrays with sparse data.",}),"rle":({"optional (currently unused)",}),"param":({"image_file the pathname of the file containing the image",}),"return":({"a 2-D array of ints, representing the image",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"Images can be used to efficiently store per-room area information.Two current uses are for height maps (ie, third coordinate) andexit maps (eg, a maze).  Along a row represents W-E (left to right),and along a column represents N-S (top to bottom).  (0,0) in the imagecorresponds to the northwestern-most room of the area.<p>Currently, the only supported image type is RAW.",}),])
+define_docs ([])
+includes (["/include/image.h":1522061544,])
+class_docs ([])
+file_name "/obj/handlers/image.c"
+last_changed 1522061544

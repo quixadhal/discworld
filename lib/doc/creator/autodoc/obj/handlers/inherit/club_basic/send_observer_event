@@ -1,0 +1,35 @@
+.DT
+send_observer_event
+Disk World creator help
+send_observer_event
+
+.SH Name
+.SP 5 5
+send_observer_event -  This method calls a function on all the observers to tell them when an event has taken place.
+.EP
+
+.SH Syntax
+.SI 5
+void send_observer_event(string event_name,
+string * args ...)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^event_name%^RESET%^ - the name of the event
+%^BOLD%^args%^RESET%^ - the arguments to the event
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_basic.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method calls a function on all the observers to tell them
+when an event has taken place.
+.EP
+

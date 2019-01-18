@@ -1,0 +1,93 @@
+<html><head><title>File amtime.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /secure/simul_efun/amtime.c</h2>
+Cotains some simul_efuns.<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.am_time.h.html">/include/am_time.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#amtime"><b>amtime</b></a>(int, int)<dd>
+This method returns the amtime for the input time number.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#ordinal"><b>ordinal</b></a>(int)<dd>
+Adds a "rd", "th", "st" onto a number.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_time_string"><b>query_time_string</b></a>(int, int, int, int)<dd>
+ This function will take an integer and turn it into a pretty string
+ based on the various and sundry options you pass to it.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="amtime">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>amtime</b></a><pre>
+varargs string amtime(int number,
+int format)
+</pre><dd>
+This method returns the amtime for the input time number.  This function takes
+the same input as the efun ctime().  You pass in the time number and
+it returns a string detailing the time in ankh morpork.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the time number
+<dt><b>Returns:</b>
+<dd>a string containing the amtime
+
+</dl>
+
+<dt><a name="ordinal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>ordinal</b></a><pre>
+string ordinal(int number)
+</pre><dd>
+Adds a "rd", "th", "st" onto a number.  Takes a number as an input and
+adds the ordinal type on it.  So you get 3rd and 2nd etc as return
+strings.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the number to add the ordinal too
+<dt><b>Returns:</b>
+<dd>a string being the number plus the ordinal
+
+</dl>
+
+<dt><a name="query_time_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_time_string</b></a><pre>
+varargs string query_time_string(int t,
+int max_elements,
+int am_time,
+int use_words)
+</pre><dd>
+ This function will take an integer and turn it into a pretty string
+ based on the various and sundry options you pass to it.  You pass the
+ variable t to the function, which represents the number of seconds
+ you want to turn into a string.  max_elements is the first option, and
+ it specifies how many elements you would like to return.  It will
+ default to two, and -1 will mean "any number of elements".<p>
+
+ am_time is a boolean value which tells the function how to interpret
+ the 't' variable.  If you pass true (1) then it will interpret the
+ seconds as game seconds, if you pass false (0), then it will interpret
+ them as real-life seconds.<p>
+
+ Finally, use_words will determine whether or not the function will use
+ numbers (e.g., 2 years and 24 hours) or words (e.g., two years and
+ twenty-four hours).<p>
+
+ @param t how many seconds to turn into a string
+ @param max_elements the maximum number of time elements to return
+ @param am_time whether to interpret t as game time or real time
+ @param use_words whether to return numbers or words
+
+ @example query_time_string (86410) will return "1 day and 10 seconds"
+ @example query_time_string (86461) will return "1 day and 1 minute"
+ @example query_time_string (86461, -1) will return "1 day, 1 minute,
+  and 1 second"
+ @example query_time_string (86461, -1, 0, 1) will return "one day,
+  one minute, and one second"
+
+ @author Sousjagne
+
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 12:36:56 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

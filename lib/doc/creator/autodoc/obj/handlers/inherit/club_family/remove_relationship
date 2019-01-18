@@ -1,0 +1,43 @@
+.DT
+remove_relationship
+Disk World creator help
+remove_relationship
+
+.SH Name
+.SP 5 5
+remove_relationship -  This method removes a relationship from the club.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_relationship(string name,
+string person,
+string dest_name,
+string dest,
+string relationship)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the family
+%^BOLD%^person%^RESET%^ - the person the relationship is from
+%^BOLD%^dest%^RESET%^ - the person the relationship is to
+%^BOLD%^relationship%^RESET%^ - the relationship they have to you
+.EI
+
+.SH Returns
+.SI 5
+1 if succcessful, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_family.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method removes a relationship from the club.
+.EP
+

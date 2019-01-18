@@ -1,0 +1,851 @@
+<html><head><title>File board_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/board_handler.c</h2>
+Keeps track of all the bulletin board notes and related information.
+<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.board.h.html">/include/board.h</a>, <a href="include.mail.h.html">/include/mail.h</a> and <a href="include.clubs.h.html">/include/clubs.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_newsrc"><b>newsrc</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_read_access_cache"><b>read_access_cache</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_allowed"><b>add_allowed</b></a>(string, string)<dd>
+Adds a member into the security array for a board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_idiot"><b>add_idiot</b></a>(string, int)<dd>
+This method adds an idiot to the current list of idiots.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_message"><b>add_message</b></a>(string, string, string, string, int, class reply_type)<dd>
+Adds a new message onto the board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_delete_message"><b>can_delete_message</b></a>(string, int, string)<dd>
+Check to see if the named person can delete the message.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clean_cache"><b>clean_cache</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_board"><b>create_board</b></a>(string, int, string)<dd>
+Create a new board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_board"><b>delete_board</b></a>(string)<dd>
+Complete erase a board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_message"><b>delete_message</b></a>(string, int, string)<dd>
+Remove a message from a board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#expire_boards"><b>expire_boards</b></a>()<dd>
+This method runs through all the messages and expires any which are
+too old.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#force_board_method_access_restricted"><b>force_board_method_access_restricted</b></a>(string)<dd>
+This method changes the type of the board to be a method access call
+access restriction, instead of whatever it had before.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_message"><b>get_message</b></a>(string, int, string)<dd>
+Get the text of a specific message.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_subjects"><b>get_subjects</b></a>(string, string)<dd>
+Get the subjects for the specifed board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_board"><b>is_board</b></a>(string)<dd>
+This method tests to see if the board exists.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_idiot"><b>is_idiot</b></a>(string)<dd>
+This method checks to see if the specified person is an idiot or
+not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#list_killfile"><b>list_killfile</b></a>(string)<dd>
+Retrieve a players killfile list
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#list_of_boards"><b>list_of_boards</b></a>()<dd>
+The names of all the boards.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_archive"><b>query_archive</b></a>(string)<dd>
+Return the archive file location for the board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_board_order"><b>query_board_order</b></a>(string)<dd>
+Retrieve someones chosen board order.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_boards"><b>query_boards</b></a>()<dd>
+Returns the names of all the boards.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cache"><b>query_cache</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_idiot"><b>query_idiot</b></a>(string)<dd>
+This method returns if they are an idiot and when their period of
+idiocy runs out.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_killfile"><b>query_killfile</b></a>(string, string)<dd>
+Find out if a given board is in a player killfile
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_maximum"><b>query_maximum</b></a>(string)<dd>
+Return the maximum number of message allowed on the board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_minimum"><b>query_minimum</b></a>(string)<dd>
+Return the minimum number of message allowed on the board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_newsrc"><b>query_newsrc</b></a>(string)<dd>
+Get someones newsrc
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_no_inform"><b>query_no_inform</b></a>(string)<dd>
+This method checks to see if the board is in a no inform mode.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_num"><b>query_num</b></a>()<dd>The current max board number.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_prevent_shadow"><b>query_prevent_shadow</b></a>()<dd>Prevents the object from being shadowed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_privilage"><b>query_privilage</b></a>(string)<dd>
+This method returns the current privilage level of the board in
+question.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_read_only"><b>query_read_only</b></a>(string)<dd>
+This method checks to see if the board is in a read only mode.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_restricted_access"><b>query_restricted_access</b></a>(string)<dd>
+This method checks to see if the board is in restricted access mode.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_restricted_access_file"><b>query_restricted_access_file</b></a>(string)<dd>
+This method checkes to see if the board is in restricted access file
+mode.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_security"><b>query_security</b></a>(string)<dd>
+Returns the security array for the given board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_timeout"><b>query_timeout</b></a>(string)<dd>
+Return the timeout time of the board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_allowed"><b>remove_allowed</b></a>(string, string)<dd>
+Remove someone from the allowed array of the board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_killfile"><b>remove_killfile</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_me"><b>save_me</b></a>()<dd>
+Saves the state of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_archive"><b>set_archive</b></a>(string, string)<dd>
+Set the archive file location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_board_order"><b>set_board_order</b></a>(string, string *)<dd>
+Set the order boards should be shown in for a given player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_killfile"><b>set_killfile</b></a>(string, string)<dd>
+Add a board to someones killfile
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_maximum"><b>set_maximum</b></a>(string, int)<dd>
+Set the maximum number of message before they start being auto deleted
+when someone posts to the board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_method_access_call"><b>set_method_access_call</b></a>(string, string, string)<dd>
+This method sets the method to call to check for allowed postings
+to a board setup as an method controlled post board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_minimum"><b>set_minimum</b></a>(string, int)<dd>
+Sets the minimum number of message to keep on a board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_newsrc"><b>set_newsrc</b></a>(string, mapping)<dd>
+Set someones newsrc
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_timeout"><b>set_timeout</b></a>(string, int)<dd>
+Change the time before a message automatic gets deleted off a
+board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_can_delete"><b>test_can_delete</b></a>(string, object, string)<dd>
+Check to see if delete is allowed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_can_read"><b>test_can_read</b></a>(string, object, string)<dd>
+Check to see if read access is allowed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_can_write"><b>test_can_write</b></a>(string, object, string)<dd>
+Check to see if write access is allowed.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_allowed</b></a><pre>
+int add_allowed(string board,
+string name)
+</pre><dd>
+Adds a member into the security array for a board.  This allows
+certain people to read boards they may not normaly have
+access to.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to change the access on
+<dd>name - the name of the person to add to the array
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+<dt><a name="add_idiot">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_idiot</b></a><pre>
+void add_idiot(string idiot,
+int length)
+</pre><dd>
+This method adds an idiot to the current list of idiots.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>idiot - the idiot to add
+<dd>length - the amount of days to add them for
+
+</dl>
+
+<dt><a name="add_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_message</b></a><pre>
+int add_message(string board,
+string cap_name,
+string subject,
+string body,
+int reply_to,
+class reply_type bing)
+</pre><dd>
+Adds a new message onto the board.  This call can only be done from
+verified source, like the bulletin oard objects themselves.  The
+number used as a reply to should be the message number itself, not
+the logical index.  If the reply_to is 0 then it is not
+replying to anything at all.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to add the message to
+<dd>cap_name - the name ofthe person posting
+<dd>subject - the subject of the message
+<dd>body - the main section of the text
+<dd>reply_to - the note the message is replying to
+<dt><b>Returns:</b>
+<dd>the note number, or 0 on failure
+
+</dl>
+
+<dt><a name="can_delete_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_delete_message</b></a><pre>
+int can_delete_message(string board,
+int off,
+string pname)
+</pre><dd>
+Check to see if the named person can delete the message.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the player name
+<dd>board - the board name
+<dd>off - the offset to delete
+<dt><b>See also:</b>
+<dd><a href="#delete_message">delete_message()
+</a></dl>
+
+<dt><a name="clean_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clean_cache</b></a><pre>
+void clean_cache()
+</pre>
+<dt><a name="create_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_board</b></a><pre>
+int create_board(string board,
+int priviliges,
+string person)
+</pre><dd>
+Create a new board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the name of the board to create
+<dd>priva - is this board only allowed prviliged access?
+<dd>person - the person to add into the security array initialy
+<dt><b>Returns:</b>
+<dd>0 on a failure, 1 on success
+
+</dl>
+
+<dt><a name="delete_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_board</b></a><pre>
+int delete_board(string board)
+</pre><dd>
+Complete erase a board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to delete
+<dt><b>Returns:</b>
+<dd>0 on failure and 1 on success
+
+</dl>
+
+<dt><a name="delete_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_message</b></a><pre>
+int delete_message(string board,
+int off,
+string override_name)
+</pre><dd>
+Remove a message from a board.  The offset is the offset into the
+subjects array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to remove the message from
+<dd>off - the offset to delete
+<dd>override_name - used by the web boards
+<dt><b>Returns:</b>
+<dd>0 on failure and 1 on success
+
+</dl>
+
+<dt><a name="expire_boards">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>expire_boards</b></a><pre>
+void expire_boards()
+</pre><dd>
+This method runs through all the messages and expires any which are
+too old.
+<p>
+
+<dt><a name="force_board_method_access_restricted">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>force_board_method_access_restricted</b></a><pre>
+int force_board_method_access_restricted(string board)
+</pre><dd>
+This method changes the type of the board to be a method access call
+access restriction, instead of whatever it had before.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the name of the board to control the access for
+
+</dl>
+
+<dt><a name="get_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_message</b></a><pre>
+string get_message(string board,
+int num,
+string person)
+</pre><dd>
+Get the text of a specific message.  This will look up the
+text on a board with the given number and return that to the
+caller.  The number is the offset into the subject array in
+which to get the message from.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board name to get the message from
+<dd>num - the message number to use
+<dt><b>Returns:</b>
+<dd>the message or 0 if it failed
+
+</dl>
+
+<dt><a name="get_subjects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_subjects</b></a><pre>
+varargs mixed get_subjects(string name,
+string person)
+</pre><dd>
+Get the subjects for the specifed board.  The subjects are
+returns in a special array format.  See the include file for the
+defines to get at the members of the array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the board name to lookup
+<dt><b>Returns:</b>
+<dd>the subject array
+
+<dt><b>See also:</b>
+<dd><a href="include.board.h.html">/include/board.h</a></dl>
+
+<dt><a name="is_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_board</b></a><pre>
+int is_board(string board)
+</pre><dd>
+This method tests to see if the board exists.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the name of the board to check
+<dt><b>Returns:</b>
+<dd>1 if the board exists, 0 if it does not
+
+</dl>
+
+<dt><a name="is_idiot">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_idiot</b></a><pre>
+int is_idiot(string name)
+</pre><dd>
+This method checks to see if the specified person is an idiot or
+not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name to check
+<dt><b>Returns:</b>
+<dd>1 if they are an idiot
+
+</dl>
+
+<dt><a name="list_killfile">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>list_killfile</b></a><pre>
+string * list_killfile(string player)
+</pre><dd>
+Retrieve a players killfile list
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>string - the players name
+<dt><b>Returns:</b>
+<dd>string * the list of boards in their killfile
+
+</dl>
+
+<dt><a name="list_of_boards">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>list_of_boards</b></a><pre>
+string * list_of_boards()
+</pre><dd>
+The names of all the boards.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of all the boards
+
+<dt><b>See also:</b>
+<dd><a href="#query_boards">query_boards()</a></dl>
+
+<dt><a name="query_archive">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_archive</b></a><pre>
+string query_archive(string board)
+</pre><dd>
+Return the archive file location for the board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to get the archive location for
+<dt><b>Returns:</b>
+<dd>the archive file location, 0 on failure
+
+</dl>
+
+<dt><a name="query_board_order">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_board_order</b></a><pre>
+string * query_board_order(string player)
+</pre><dd>
+Retrieve someones chosen board order.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>string - the players name
+<dt><b>Returns:</b>
+<dd>the list of boards, in order
+
+</dl>
+
+<dt><a name="query_boards">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_boards</b></a><pre>
+string * query_boards()
+</pre><dd>
+Returns the names of all the boards.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the names of all the boards
+
+</dl>
+
+<dt><a name="query_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cache</b></a><pre>
+void query_cache()
+</pre>
+<dt><a name="query_idiot">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_idiot</b></a><pre>
+int query_idiot(string idiot)
+</pre><dd>
+This method returns if they are an idiot and when their period of
+idiocy runs out.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>idiot - the idiot to check
+<dt><b>Returns:</b>
+<dd>0 if not an idiot, the time left otherwise
+
+</dl>
+
+<dt><a name="query_killfile">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_killfile</b></a><pre>
+int query_killfile(string player,
+string board)
+</pre><dd>
+Find out if a given board is in a player killfile
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>string - the name of the player
+<dd>string - the name of the board (in lowercase)
+<dt><b>Returns:</b>
+<dd>1 if it is, 0 if it isn't
+
+</dl>
+
+<dt><a name="query_maximum">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_maximum</b></a><pre>
+int query_maximum(string board)
+</pre><dd>
+Return the maximum number of message allowed on the board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to get the maximum numbr of message for
+<dt><b>Returns:</b>
+<dd>0 on failure, the maximum number of messages on success
+
+</dl>
+
+<dt><a name="query_minimum">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_minimum</b></a><pre>
+int query_minimum(string board)
+</pre><dd>
+Return the minimum number of message allowed on the board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to get the minimum numbr of message for
+<dt><b>Returns:</b>
+<dd>0 on failure, the minimum number of messages on success
+
+</dl>
+
+<dt><a name="query_newsrc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_newsrc</b></a><pre>
+mapping query_newsrc(string player)
+</pre><dd>
+Get someones newsrc
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>string - the name of the player
+<dt><b>Returns:</b>
+<dd>mapping their newsrc
+
+</dl>
+
+<dt><a name="query_no_inform">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_no_inform</b></a><pre>
+int query_no_inform(string board)
+</pre><dd>
+This method checks to see if the board is in a no inform mode.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the name of the board to check
+<dt><b>Returns:</b>
+<dd>1 if it is no inform, 0 if not
+
+</dl>
+
+<dt><a name="query_num">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_num</b></a><pre>
+int query_num()
+</pre><dd>The current max board number. <p>
+
+<dt><a name="query_prevent_shadow">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_prevent_shadow</b></a><pre>
+int query_prevent_shadow()
+</pre><dd>Prevents the object from being shadowed. <p>
+
+<dt><a name="query_privilage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_privilage</b></a><pre>
+int query_privilage(string board)
+</pre><dd>
+This method returns the current privilage level of the board in
+question.  This should be used for testing only.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current privilage level
+
+</dl>
+
+<dt><a name="query_read_only">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_read_only</b></a><pre>
+int query_read_only(string board)
+</pre><dd>
+This method checks to see if the board is in a read only mode.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the name of the board to check
+<dt><b>Returns:</b>
+<dd>1 if it is read only, 0 if not
+
+</dl>
+
+<dt><a name="query_restricted_access">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_restricted_access</b></a><pre>
+int query_restricted_access(string board)
+</pre><dd>
+This method checks to see if the board is in restricted access mode.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the name of the board to check
+<dt><b>Returns:</b>
+<dd>1 if it is, 0 if it is not
+
+</dl>
+
+<dt><a name="query_restricted_access_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_restricted_access_file</b></a><pre>
+int query_restricted_access_file(string board)
+</pre><dd>
+This method checkes to see if the board is in restricted access file
+mode.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the name of the board to check
+<dt><b>Returns:</b>
+<dd>1 if it is, 0 if it is not
+
+</dl>
+
+<dt><a name="query_security">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_security</b></a><pre>
+string * query_security(string board)
+</pre><dd>
+Returns the security array for the given board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to get the security array for
+<dt><b>Returns:</b>
+<dd>the security array
+
+</dl>
+
+<dt><a name="query_timeout">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_timeout</b></a><pre>
+int query_timeout(string board)
+</pre><dd>
+Return the timeout time of the board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to get the timeout for
+<dt><b>Returns:</b>
+<dd>the timeout in seconds
+<dt><b>See also:</b>
+<dd><a href="#set_timeout">set_timeout()
+</a></dl>
+
+<dt><a name="remove_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_allowed</b></a><pre>
+int remove_allowed(string board,
+string name)
+</pre><dd>
+Remove someone from the allowed array of the board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to remove the person from
+<dd>name - the name of the person to remove
+<dt><b>Returns:</b>
+<dd>0 on nfailure and 1 on success
+
+</dl>
+
+<dt><a name="remove_killfile">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_killfile</b></a><pre>
+int remove_killfile(string player,
+string board)
+</pre>
+<dt><a name="save_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_me</b></a><pre>
+void save_me()
+</pre><dd>
+Saves the state of the object.
+<p>
+
+<dt><a name="set_archive">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_archive</b></a><pre>
+int set_archive(string board,
+string file)
+</pre><dd>
+Set the archive file location.  This is where all deleted messages
+wil be stored.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to set the archive for
+<dd>file - the file name to set it to
+<dt><b>Returns:</b>
+<dd>0 on failure and 1 on success
+
+</dl>
+
+<dt><a name="set_board_order">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_board_order</b></a><pre>
+int set_board_order(string player,
+string * new_order)
+</pre><dd>
+Set the order boards should be shown in for a given player.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>string - a players name
+<dd>string - * the list of boards
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure
+
+</dl>
+
+<dt><a name="set_killfile">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_killfile</b></a><pre>
+int set_killfile(string player,
+string board)
+</pre><dd>
+Add a board to someones killfile
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>string - the name of the player
+<dd>string - the name of the board (in lowercase)
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure
+
+</dl>
+
+<dt><a name="set_maximum">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_maximum</b></a><pre>
+int set_maximum(string board,
+int max)
+</pre><dd>
+Set the maximum number of message before they start being auto deleted
+when someone posts to the board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to set the maximum for
+<dd>max - the maximum number of messages
+<dt><b>Returns:</b>
+<dd>0 if it failed and 1 on success
+
+</dl>
+
+<dt><a name="set_method_access_call">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_method_access_call</b></a><pre>
+int set_method_access_call(string board,
+string method,
+string name)
+</pre><dd>
+This method sets the method to call to check for allowed postings
+to a board setup as an method controlled post board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the name of the board to setup the method for
+<dd>method - the method to call on the object
+<dd>name - the object to call the method on
+<dt><b>Returns:</b>
+<dd>0 if the method failed, 1 if it was successful
+
+</dl>
+
+<dt><a name="set_minimum">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_minimum</b></a><pre>
+int set_minimum(string board,
+int min)
+</pre><dd>
+Sets the minimum number of message to keep on a board.  If there is less
+than this
+number then they will not be auto deleted.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to set the minimum for
+<dd>min - the number of message to keep
+<dt><b>Returns:</b>
+<dd>0 on failure and 1 on success
+
+</dl>
+
+<dt><a name="set_newsrc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_newsrc</b></a><pre>
+int set_newsrc(string player,
+mapping newsrc)
+</pre><dd>
+Set someones newsrc
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>string - the name of the player
+<dd>mapping - their new newsrc
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure
+
+</dl>
+
+<dt><a name="set_timeout">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_timeout</b></a><pre>
+int set_timeout(string board,
+int timeout)
+</pre><dd>
+Change the time before a message automatic gets deleted off a
+board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the name of the board to set the timeout for
+<dd>timeout - the timeout (in seconds)
+<dt><b>Returns:</b>
+<dd>0 on failure and 1 on success
+
+</dl>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+<dt><a name="test_can_delete">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_can_delete</b></a><pre>
+int test_can_delete(string board,
+object previous,
+string name)
+</pre><dd>
+Check to see if delete is allowed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to check
+<dd>previous - the previous object
+<dd>name - the name of the person doing stuff
+<dt><b>Returns:</b>
+<dd>1 if it is allowed, 0 if not
+
+</dl>
+
+<dt><a name="test_can_read">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_can_read</b></a><pre>
+int test_can_read(string board,
+object previous,
+string name)
+</pre><dd>
+Check to see if read access is allowed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to check
+<dd>previous - the previous object
+<dd>name - the name of the person doing stuff
+<dt><b>Returns:</b>
+<dd>1 if it is allowed, 0 if not
+
+</dl>
+
+<dt><a name="test_can_write">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_can_write</b></a><pre>
+int test_can_write(string board,
+object previous,
+string name)
+</pre><dd>
+Check to see if write access is allowed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to check
+<dd>previous - the previous object
+<dd>name - the name of the person doing stuff
+<dt><b>Returns:</b>
+<dd>1 if it is allowed, 0 if not
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_newsrc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>newsrc</b></a><pre>
+class newsrc {
+int cached;
+int changed;
+mapping newsrc;
+string * kill;
+string * board_order;
+}
+
+</pre>
+<dt><a name="class_read_access_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>read_access_cache</b></a><pre>
+class read_access_cache {
+int read_time;
+int read_access;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 15:54:27 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

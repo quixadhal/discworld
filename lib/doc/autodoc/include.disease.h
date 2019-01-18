@@ -1,0 +1,42 @@
+.DT
+disease.h
+Disk World autodoc help
+disease.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^BASIC_CURE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BASIC_DISEASE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^CURE_SCALE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DISEASE_HANDLER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DISEASE_SCALE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EFFECTS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SHADOWS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SIMPLE_CURE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SIMPLE_DISEASE%^RESET%^
+.EI
+

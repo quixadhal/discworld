@@ -1,0 +1,40 @@
+.DT
+can_view_adjacent_desc
+Disk World creator help
+can_view_adjacent_desc
+
+.SH Name
+.SP 5 5
+can_view_adjacent_desc -  If this can be seen from this location or not.
+.EP
+
+.SH Syntax
+.SI 5
+int can_view_adjacent_desc(string char,
+string key_here,
+string path,
+int z,
+string direc)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^char%^RESET%^ - the character of the item in the map
+%^BOLD%^path%^RESET%^ - the path of the room (0 if an obstacle)
+%^BOLD%^z%^RESET%^ - the z co-ordinate of the room
+%^BOLD%^direc%^RESET%^ - the direction in which the obstacle faces
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/terrain_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+If this can be seen from this location or not.  This can do things
+like dealing with lower levels and stuff.
+.EP
+

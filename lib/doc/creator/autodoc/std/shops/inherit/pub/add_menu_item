@@ -1,0 +1,113 @@
+.DT
+add_menu_item
+Disk World creator help
+add_menu_item
+
+.SH Name
+.SP 5 5
+add_menu_item -  This is the method used to add items to the menu.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void add_menu_item(string name,
+int type,
+int cost,
+string item,
+string container,
+int volume,
+int intox)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the description to be displayed on the menu
+%^BOLD%^type%^RESET%^ - the type of item
+%^BOLD%^cost%^RESET%^ - the cost of the item
+%^BOLD%^item%^RESET%^ - the name, filename or armoury identifier for the item itself
+%^BOLD%^container%^RESET%^ - the name, filename or armoury identifier for the
+container (optional)
+%^BOLD%^volume%^RESET%^ - the volume that the item should be set to (optional)
+%^BOLD%^intox%^RESET%^ - the intoxification value, on a scale of 0 to 10 (optional)
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/pub.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the method used to add items to the menu.  Only the first four
+parameters are required, the rest are optional.
+
+
+The "type" parameter is used to determine which section of the menu the item should reside in, and should be selected from those in the "pub_shop.h" header file. 
+
+The "item" parameter is used to generate the actual product on sale. This value can be: 
+.EP
+.SO 6 2 -10
+
+	*	a name, which is passed to the "create_item()" function in the room code 
+	*	a filename, which is cloned, or 
+	*	an armoury identifier, which is passed to the armoury handler. 
+.EO
+.SP 5 5
+
+
+The "container" parameter is the same as the "item" parameter, except that it refers to the container the item comes in and is passed to "create_container()" instead of "create_item()". You can also use the standard containers listed in the "pub_shop.h" header file. It is optional, and setting it to 0 will cause it to be ignored. 
+
+The "volume" parameter is optional and is passed directly to "set_amount()" on the object cloned from "item". It can be used to alter the volume of a liquid cloned from a file, so the file itself does not have to be changed. It is optional, and setting it to 0 will cause it to be ignored. If this is set to 0 then the item will fill up the container. Standard volume definitions can be found in the "volumes.h" header file. 
+
+The last parameter, "intox", is optional and is used only by NPCs to determine how alcoholic an item is. This should be between 0 and 10, with 0 being non-alcoholic and 10 being something like Suicider. It defaults to 0. Note: This has no effect on the actual alcohol content of the item. 
+
+The different volumes of standard containers can be taken from /include/volumes.h which has defines for all the standard volumes.
+.EP
+
+.SH Example 1
+.SI 5
+// Add a main course called "Big meat pie", cloned from the file
+// "/obj/food/meatpie.food"
+add_menu_item( "Big meat pie", PUB_MAINCOURSE, 1000,
+   "/obj/food/meatpie.food" );
+.EI
+
+.SH Example 2
+.SI 5
+// Same as above, but let's put the pie on a plate
+add_menu_item( "Big meat pie", PUB_MAINCOURSE, 1000,
+   "/obj/food/meatpie.food", PUB_STD_PLATE );
+.EI
+
+.SH Example 3
+.SI 5
+// Add a glass of ale, with the ale cloned from a file and the glass
+// cloned in the "create_container()" function in the room code
+add_menu_item( "Pint of ale", PUB_ALCOHOL, 500, "/obj/food/ale.food",
+   "new_pint_glass" );
+.EI
+
+.SH Example 4
+.SI 5
+// The same as above, but we only want half a pint of ale in the glass, we
+// want to use the standard glasses in the header file and we want to set
+// the intoxification value of the ale to 5
+add_menu_item( "Half-pint of ale in a pint glass", PUB_ALCOHOL, 300,
+   "/obj/food/ale.food", PUB_STD_PINT, VOLUME_HALFPINT, 5 );
+.EI
+
+.SH Example 5
+.SI 5
+// Create a beefburger with added vodka in the "create_item()" function in
+// the room code and put it in a small satchel from the armoury
+add_menu_item( "Beefburger with special sauce", PUB_MAINCOURSE, 800,
+   "vodka_burger", "small satchel", 0, 7 );
+.EI
+
+.SH See also
+.SP 5 5
+query_menu_items(), remove_menu_item(), /include/volumes.h
+
+.EP
+

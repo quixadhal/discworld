@@ -1,0 +1,44 @@
+.DT
+query_features_in_region
+Disk World creator help
+query_features_in_region
+
+.SH Name
+.SP 5 5
+query_features_in_region -  This method finds all the features inside the specified region.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_features_in_region(int x1_orig,
+int y1_orig,
+int x2_orig,
+int y2_orig)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x1%^RESET%^ - the top x location
+%^BOLD%^y1%^RESET%^ - the top y location
+%^BOLD%^x2%^RESET%^ - the bottom x location
+%^BOLD%^y2%^RESET%^ - the bottom y location
+.EI
+
+.SH Returns
+.SI 5
+the features in the region
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/world_map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method finds all the features inside the specified region.  This
+is quite expensive in terms of evaluation cost, so do not try and call
+this too much.  Cache the results if possible.
+.EP
+

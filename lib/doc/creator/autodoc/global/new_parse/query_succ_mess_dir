@@ -1,0 +1,40 @@
+.DT
+query_succ_mess_dir
+Disk World creator help
+query_succ_mess_dir
+
+.SH Name
+.SP 5 5
+query_succ_mess_dir -  This method returns the objects which have success messages already attached for.
+.EP
+
+.SH Syntax
+.SI 5
+object * query_succ_mess_dir()
+.EI
+
+.SH Returns
+.SI 5
+the succeeded message objects.EI
+
+.SH Defined in
+.SI 5
+/global/new_parse.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the objects which have success messages already
+attached for.   This allows you to determine which objects already hace
+a success message available.   This array is added to by both the
+add_succeeded_mess and add_failed_mess methods, it disable the
+autogeneration of these messages.
+.EP
+
+.SH See also
+.SP 5 5
+add_succeeded_mess(), add_failed_mess()
+
+.EP
+

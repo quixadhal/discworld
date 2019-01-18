@@ -1,0 +1,50 @@
+.DT
+create_group
+Disk World creator help
+create_group
+
+.SH Name
+.SP 5 5
+create_group -  This function allows you to create a new group.
+.EP
+
+.SH Syntax
+.SI 5
+int create_group(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the new group
+%^BOLD%^founder%^RESET%^ - points to the thing creating the group
+
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 if the group already exists
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/group_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function allows you to create a new group.  Note that the
+name of the group shouldn't be just any name.  It should first
+be filtered through short_to_name().  The short, set with
+set_group_short() can be set to anything.  The "name" of a
+group is mostly used internally to query and set stuff in
+the handler.  The short is visible to players.
+
+.EP
+
+.SH See also
+.SP 5 5
+short_to_name(), set_group_short()
+
+.EP
+

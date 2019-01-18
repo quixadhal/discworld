@@ -1,0 +1,40 @@
+<html><head><title>File complaints_room.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/complaints_room.c</h2>
+This inherit allows people to complain in unhappy times.  It does the
+interfacing with the complaints handler and all the other gubbins.
+<p><b>See also:</b><br><a href="std.room.inherit.complaints_room.c.html">/std/room/inherit/complaints_room.c</a> and /obj/handlers/complaints_handlers.c<p>Written by Arienne<p>Started Wed Apr  4 14:11:50 BST 2001
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.complaints_handler.h.html">/include/complaints_handler.h</a> and <a href="include.board.h.html">/include/board.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_complain"><b>do_complain</b></a>()<dd>
+This prints a set message to the player who wants to complain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_complaint"><b>finish_complaint</b></a>(string)<dd>
+Check to see whether the complaint was cancelled.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_complain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_complain</b></a><pre>
+int do_complain()
+</pre><dd>
+This prints a set message to the player who wants to complain.  It also
+enforces who cannot complain (eg. guest characters cannot complain).
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Should always return 1.
+
+</dl>
+
+<dt><a name="finish_complaint">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_complaint</b></a><pre>
+void finish_complaint(string str)
+</pre><dd>
+Check to see whether the complaint was cancelled.  If not, submit it to the
+complaints handler.  Print a message on success or failure.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 05:20:07 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

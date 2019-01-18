@@ -1,0 +1,197 @@
+<html><head><title>File error_tracker_master.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/dom/error_tracker_master.c</h2>
+The nice error handler for domains to do wonderful things with.
+Lots hacked by Pinkfish to make it work with the mysql handler and not
+use blocking io calls.<p>Written by Sin
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="global.path.c.html">/global/path.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.project_management.h.html">/include/project_management.h</a>, <a href="include.config.h.html">/include/config.h</a>, <a href="include.db.h.html">/include/db.h</a> and <a href="include.board.h.html">/include/board.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#classify_directory"><b>classify_directory</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_the_work"><b>do_the_work</b></a>()<dd>
+This bit does the actual processing and prints the results.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#initialise_variables"><b>initialise_variables</b></a>()<dd>
+This method initialises all the variables for a error run.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#iterate"><b>iterate</b></a>()<dd>
+This method goes over all the directories and makes up the
+complete report.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#post"><b>post</b></a>(string, string)<dd>
+This method posts the results to the correct board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_board"><b>query_board</b></a>()<dd>
+This method returns the board to post the messages to.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_classifications"><b>query_classifications</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_domain"><b>query_domain</b></a>()<dd>
+This method returns the domain of the tracker.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_post_message"><b>query_post_message</b></a>()<dd>
+This method makes the message to post to the board from all the
+other rubbish.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_project_message"><b>query_project_message</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_board"><b>set_board</b></a>(string)<dd>
+This method sets the board to post the messages to.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_domain"><b>set_domain</b></a>(string)<dd>
+This method sets the domain of the tracker.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_name"><b>set_name</b></a>(string)<dd>
+This method sets the name of the tracker.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_other_dirs"><b>set_other_dirs</b></a>(string *)<dd>
+This method sets the list of other directories to use for tracking
+errors.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_period"><b>set_period</b></a>(int)<dd>
+This method sets how long between each time the error tracker fires.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_the_work">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_the_work</b></a><pre>
+void do_the_work()
+</pre><dd>
+This bit does the actual processing and prints the results.
+<p>
+
+<dt><a name="initialise_variables">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>initialise_variables</b></a><pre>
+void initialise_variables()
+</pre><dd>
+This method initialises all the variables for a error run.
+<p>
+
+<dt><a name="query_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_board</b></a><pre>
+string query_board()
+</pre><dd>
+This method returns the board to post the messages to.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the board to post the messages to
+
+</dl>
+
+<dt><a name="query_classifications">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_classifications</b></a><pre>
+string * query_classifications()
+</pre>
+<dt><a name="query_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_domain</b></a><pre>
+string query_domain()
+</pre><dd>
+This method returns the domain of the tracker.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the domain of the tracker
+
+</dl>
+
+<dt><a name="query_post_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_post_message</b></a><pre>
+string query_post_message()
+</pre><dd>
+This method makes the message to post to the board from all the
+other rubbish.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the message to post
+
+</dl>
+
+<dt><a name="query_project_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_project_message</b></a><pre>
+string query_project_message()
+</pre>
+<dt><a name="set_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_board</b></a><pre>
+void set_board(string board)
+</pre><dd>
+This method sets the board to post the messages to.  The board defaults
+to the domain name, so this is not required for most domains.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - the board to post to
+
+</dl>
+
+<dt><a name="set_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_domain</b></a><pre>
+void set_domain(string name)
+</pre><dd>
+This method sets the domain of the tracker.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the domain of the tracker
+
+</dl>
+
+<dt><a name="set_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_name</b></a><pre>
+void set_name(string name)
+</pre><dd>
+This method sets the name of the tracker.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the tracker
+
+</dl>
+
+<dt><a name="set_other_dirs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_other_dirs</b></a><pre>
+void set_other_dirs(string * others)
+</pre><dd>
+This method sets the list of other directories to use for tracking
+errors.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>others - the other directories to use
+
+</dl>
+
+<dt><a name="set_period">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_period</b></a><pre>
+void set_period(int length)
+</pre><dd>
+This method sets how long between each time the error tracker fires.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>length - the length of time in seconds
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="classify_directory">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>classify_directory</b></a><pre>
+string classify_directory(string path)
+</pre>
+<dt><a name="iterate">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>iterate</b></a><pre>
+void iterate()
+</pre><dd>
+This method goes over all the directories and makes up the
+complete report.
+<p>
+
+<dt><a name="post">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>post</b></a><pre>
+varargs int post(string message,
+string title)
+</pre><dd>
+This method posts the results to the correct board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>message - the message to post
+<dd>title - the title of the message
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 22:12:08 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

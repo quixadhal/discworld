@@ -1,0 +1,156 @@
+<html><head><title>File move.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/move.c</h2>
+This class defines the basic move function and support functions.<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#drop"><b>drop</b></a>(mixed)<dd>
+The current value of the drop flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#dwep"><b>dwep</b></a>()<dd>
+Dest with extreme predejuce.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get"><b>get</b></a>(mixed)<dd>
+The current value of the get flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move"><b>move</b></a>(mixed, string, string)<dd>
+The basic move method.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_drop"><b>reset_drop</b></a>()<dd>
+Turns off the drop flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_get"><b>reset_get</b></a>()<dd>
+Turns off the get flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_drop"><b>set_drop</b></a>()<dd>
+Turns on the drop flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_get"><b>set_get</b></a>()<dd>
+Turns on the get flag.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="drop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>drop</b></a><pre>
+int drop(mixed dest)
+</pre><dd>
+The current value of the drop flag. This function is called by the
+test_remove() function in the living object.  So it allows you to
+move the object out of inanimate objects, just not out of the
+players.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is set, 0 if it is reset
+<dt><b>See also:</b>
+<dd><a href="#set_drop">set_drop()</a>, <a href="#reset_drop">reset_drop()</a> and <a href="#get">get()
+</a></dl>
+
+<dt><a name="dwep">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>dwep</b></a><pre>
+nomask mixed dwep()
+</pre><dd>
+Dest with extreme predejuce.  This is the last way to destruct an
+object.  Used if all other methods fail.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a string "Destructed With Extreme Prejudice"
+
+</dl>
+
+<dt><a name="get">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get</b></a><pre>
+int get(mixed dest)
+</pre><dd>
+The current value of the get flag.  This function is called by the
+test_add() function in the living object.  So it allows you to
+move the object into innimate objects, just not into player
+characters.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is set, 0 if it is reset
+<dt><b>See also:</b>
+<dd><a href="#set_get">set_get()</a>, <a href="#reset_get">reset_get()</a> and <a href="#drop">drop()
+</a></dl>
+
+<dt><a name="move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move</b></a><pre>
+varargs int move(mixed dest,
+string messin,
+string messout)
+</pre><dd>
+The basic move method.  The destination can be an object or a string.
+if it is neither of these then the failure MOVE_EMPTY_DEST is
+returned.  If the function test_add() was called on the
+destination and it returns 0 then MOVE_NO_GET is returned as
+a failure.  If the destination is this_object() then
+MOVE_INVALID_DEST is returned as the failure.  If the
+function test_remove is called on the current environment and it
+returns 0 then MOVE_NO_DROP is returned as the move failure.
+<p>
+The events "enter" and "exit" are generated as part of the
+move process.  Both of these events are passed two
+arguments.  The exit event is passed the exit message
+and the destination.  The enter event is passed the
+enter message and the place we came from.
+<p>
+The function event_move_object() is called (call_other)
+on the object if the move was successful (MOVE_OK).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dest - where to move to
+<dd>messin - the message to print when entering
+<dd>messout - the message to print when leaving
+<dt><b>Returns:</b>
+<dd>MOVE_OK on success, or a failure reason on failure
+<dt><b>See also:</b>
+<dd><a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="secure.simul_efun.c.html#event">/secure/simul_efun->event()</a> and <a href="#event_move_object">event_move_object()</a><dt><b>Example:</b>
+<dd><pre>move(find_player("pinkfish"));</pre><dd><pre>
+move("/d/am/am/mendeddrum");</pre><dd><pre>
+move (environment(find_player("ceres")),
+         the_short()+" flaps in hopelessly.\n",
+         the_short()+" flaps away hopelessly.\n");
+</pre></dl>
+
+<dt><a name="reset_drop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_drop</b></a><pre>
+void reset_drop()
+</pre><dd>
+Turns off the drop flag.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#move">move()</a>, <a href="#set_drop">set_drop()</a> and <a href="#drop">drop()
+</a></dl>
+
+<dt><a name="reset_get">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_get</b></a><pre>
+void reset_get()
+</pre><dd>
+Turns off the get flag.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#move">move()</a>, <a href="#set_get">set_get()</a> and <a href="#get">get()
+</a></dl>
+
+<dt><a name="set_drop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_drop</b></a><pre>
+void set_drop()
+</pre><dd>
+Turns on the drop flag.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#move">move()</a>, <a href="#reset_drop">reset_drop()</a> and <a href="#drop">drop()
+</a></dl>
+
+<dt><a name="set_get">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_get</b></a><pre>
+void set_get()
+</pre><dd>
+Turns on the get flag.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#move">move()</a>, <a href="#reset_get">reset_get()</a> and <a href="#get">get()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 21:40:26 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

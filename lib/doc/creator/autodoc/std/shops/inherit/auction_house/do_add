@@ -1,0 +1,42 @@
+.DT
+do_add
+Disk World creator help
+do_add
+
+.SH Name
+.SP 5 5
+do_add -  This method adds an item for bidding.
+.EP
+
+.SH Syntax
+.SI 5
+int do_add(string name,
+object * obs,
+string res_str,
+string length)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name to put them up for bidding as
+%^BOLD%^obs%^RESET%^ - the objects to auction
+%^BOLD%^res_str%^RESET%^ - the reserve price
+%^BOLD%^length%^RESET%^ - the length of the auction
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failed
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/auction_house.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an item for bidding.
+.EP
+

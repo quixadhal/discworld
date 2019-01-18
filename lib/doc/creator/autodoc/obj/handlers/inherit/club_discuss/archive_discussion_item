@@ -1,0 +1,36 @@
+.DT
+archive_discussion_item
+Disk World creator help
+archive_discussion_item
+
+.SH Name
+.SP 5 5
+archive_discussion_item -  This method is called when a discussion item is finished.
+.EP
+
+.SH Syntax
+.SI 5
+int archive_discussion_item(string club_name,
+string subject,
+string item)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^item%^RESET%^ - the text string of the finished item
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_discuss.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when a discussion item is finished.  It then
+archives it or whatever else it wishes to do with the item
+.EP
+

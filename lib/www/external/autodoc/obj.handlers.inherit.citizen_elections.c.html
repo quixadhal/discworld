@@ -1,0 +1,432 @@
+<html><head><title>File citizen_elections.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/inherit/citizen_elections.c</h2>
+This is the file used to do elections for magistrate positions.<p>Written by Pinkfish<p>Started Mon Oct 23 22:30:19 PDT 2000
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.handlers.inherit.citizens.c.html">/obj/handlers/inherit/citizens.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.nomic_system.h.html">/include/nomic_system.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.board.h.html">/include/board.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_election_data"><b>election_data</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#disable_citizen_election"><b>disable_citizen_election</b></a>(string)<dd>
+This method sets the specifed election to "disabled", meaning it will
+sit indefinitely with no election.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_election_phase"><b>finish_election_phase</b></a>(string)<dd>
+This method finishes the election phase.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_nomination_phase"><b>finish_nomination_phase</b></a>(string)<dd>
+This method finishes the nomination phase.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#has_voted"><b>has_voted</b></a>(string, string)<dd>
+This method checks to see if the specified person has voted.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_election_phase"><b>is_election_phase</b></a>(string)<dd>
+This method checks to see if we are in the election phase.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_eligible_to_vote_for"><b>is_eligible_to_vote_for</b></a>(string, string)<dd>
+This method checks to see if the specified person is an eligible
+person to vote for.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_grace_phase"><b>is_grace_phase</b></a>(string)<dd>
+This method checks to see if we are in the grace phase.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_nomination_accepted"><b>is_nomination_accepted</b></a>(string, string)<dd>
+This method checks to see if the specifiedf person has accepted their
+nomination or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_nomination_phase"><b>is_nomination_phase</b></a>(string)<dd>
+This method checks to see if we are in the nomination phase.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#nominate_magistrate"><b>nominate_magistrate</b></a>(string, string, string)<dd>
+This method nominates a person for a position.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#post_citizen_message"><b>post_citizen_message</b></a>(string, string, string)<dd>
+This method will post a message to the citizen board from the
+administration.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#post_magistrate_message"><b>post_magistrate_message</b></a>(string, string, string)<dd>
+This method will post a message to the magistrate board from the
+administration.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_can_vote_for"><b>query_can_vote_for</b></a>(string)<dd>
+This method retuns the list of people that can be voted for.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_citizen_board"><b>query_citizen_board</b></a>(string)<dd>
+This method returns the board for the specified area.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_election_phase"><b>query_election_phase</b></a>(string)<dd>
+This method returns the phase of the election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_end_of_phase_time"><b>query_end_of_phase_time</b></a>(string)<dd>
+This method returns the end of the phase time.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_magistrate_board"><b>query_magistrate_board</b></a>(string)<dd>
+This method returns the board for the specified area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_next_election_time"><b>query_next_election_time</b></a>(string)<dd>
+This method returns the time of the next election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_nominated_by"><b>query_nominated_by</b></a>(string, string)<dd>
+This method checks to see who has nominated a specified person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_people_nominated"><b>query_people_nominated</b></a>(string)<dd>
+This method returns the list of people who have been nominated.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_citizen_board"><b>set_citizen_board</b></a>(string, string)<dd>
+This method sets the board for the specified area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_magistrate_board"><b>set_magistrate_board</b></a>(string, string)<dd>
+This method sets the board for the specified area.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_election"><b>start_election</b></a>(string)<dd>
+This method starts the election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#vote_for_people"><b>vote_for_people</b></a>(string, string *, string)<dd>
+This method votes for a specified person in the area.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="disable_citizen_election">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>disable_citizen_election</b></a><pre>
+int disable_citizen_election(string area)
+</pre><dd>
+This method sets the specifed election to "disabled", meaning it will
+sit indefinitely with no election.
+<p>
+
+<dt><a name="has_voted">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>has_voted</b></a><pre>
+int has_voted(string area,
+string person)
+</pre><dd>
+This method checks to see if the specified person has voted.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check in
+<dd>person - the person the check
+<dt><b>Returns:</b>
+<dd>1 if they have voted, 0 if not
+
+</dl>
+
+<dt><a name="is_election_phase">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_election_phase</b></a><pre>
+int is_election_phase(string area)
+</pre><dd>
+This method checks to see if we are in the election phase.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check
+<dt><b>Returns:</b>
+<dd>1 if we are, 0 if not
+
+</dl>
+
+<dt><a name="is_eligible_to_vote_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_eligible_to_vote_for</b></a><pre>
+int is_eligible_to_vote_for(string area,
+string person)
+</pre><dd>
+This method checks to see if the specified person is an eligible
+person to vote for.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to checlk
+<dd>person - the person to check
+<dt><b>Returns:</b>
+<dd>1 if they are, 0 if not
+
+</dl>
+
+<dt><a name="is_grace_phase">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_grace_phase</b></a><pre>
+int is_grace_phase(string area)
+</pre><dd>
+This method checks to see if we are in the grace phase.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check
+<dt><b>Returns:</b>
+<dd>1 if we are, 0 if not
+
+</dl>
+
+<dt><a name="is_nomination_accepted">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_nomination_accepted</b></a><pre>
+int is_nomination_accepted(string area,
+string person)
+</pre><dd>
+This method checks to see if the specifiedf person has accepted their
+nomination or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check in
+<dd>person - the person to check to see if they have accepted
+<dt><b>Returns:</b>
+<dd>1 if they are accepted, 0 if not
+
+</dl>
+
+<dt><a name="is_nomination_phase">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_nomination_phase</b></a><pre>
+int is_nomination_phase(string area)
+</pre><dd>
+This method checks to see if we are in the nomination phase.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check
+<dt><b>Returns:</b>
+<dd>1 if we are, 0 if not
+
+</dl>
+
+<dt><a name="nominate_magistrate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>nominate_magistrate</b></a><pre>
+int nominate_magistrate(string area,
+string person,
+string nominator)
+</pre><dd>
+This method nominates a person for a position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to nominate in
+<dd>person - the being nominated
+<dd>nominator - the person doing the nomination
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="post_citizen_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>post_citizen_message</b></a><pre>
+int post_citizen_message(string area,
+string subject,
+string message)
+</pre><dd>
+This method will post a message to the citizen board from the
+administration.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to post the message to 
+<dd>subject - the subject it has
+<dd>message - the message to post
+
+</dl>
+
+<dt><a name="post_magistrate_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>post_magistrate_message</b></a><pre>
+int post_magistrate_message(string area,
+string subject,
+string message)
+</pre><dd>
+This method will post a message to the magistrate board from the
+administration.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to post the message to 
+<dd>subject - the subject it has
+<dd>message - the message to post
+
+</dl>
+
+<dt><a name="query_can_vote_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_can_vote_for</b></a><pre>
+string * query_can_vote_for(string area)
+</pre><dd>
+This method retuns the list of people that can be voted for.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check in
+<dt><b>Returns:</b>
+<dd>the array of people that can be voted for
+
+</dl>
+
+<dt><a name="query_citizen_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_citizen_board</b></a><pre>
+string query_citizen_board(string area)
+</pre><dd>
+This method returns the board for the specified area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to look for the board on
+<dt><b>Returns:</b>
+<dd>the board name for the area, 0 for none
+
+</dl>
+
+<dt><a name="query_end_of_phase_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_end_of_phase_time</b></a><pre>
+int query_end_of_phase_time(string area)
+</pre><dd>
+This method returns the end of the phase time.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the end of the phase time, 0 on failure
+
+</dl>
+
+<dt><a name="query_magistrate_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_magistrate_board</b></a><pre>
+string query_magistrate_board(string area)
+</pre><dd>
+This method returns the board for the specified area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to look for the board on
+<dt><b>Returns:</b>
+<dd>the board name for the area, 0 for none
+
+</dl>
+
+<dt><a name="query_next_election_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_next_election_time</b></a><pre>
+int query_next_election_time(string area)
+</pre><dd>
+This method returns the time of the next election.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the time of the next election, 0 if on is in progress
+
+</dl>
+
+<dt><a name="query_nominated_by">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_nominated_by</b></a><pre>
+string * query_nominated_by(string area,
+string person)
+</pre><dd>
+This method checks to see who has nominated a specified person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check
+<dd>person - the person to check
+<dt><b>Returns:</b>
+<dd>the array of people who have nominated the person
+
+</dl>
+
+<dt><a name="query_people_nominated">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_people_nominated</b></a><pre>
+string * query_people_nominated(string area)
+</pre><dd>
+This method returns the list of people who have been nominated.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to get the list of people who are nominated
+<dt><b>Returns:</b>
+<dd>the list of people who have been nominated
+
+</dl>
+
+<dt><a name="set_citizen_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_citizen_board</b></a><pre>
+void set_citizen_board(string area,
+string name)
+</pre><dd>
+This method sets the board for the specified area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to set the board for
+<dd>name - the name of the board
+
+</dl>
+
+<dt><a name="set_magistrate_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_magistrate_board</b></a><pre>
+void set_magistrate_board(string area,
+string name)
+</pre><dd>
+This method sets the board for the specified area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to set the board for
+<dd>name - the name of the board
+
+</dl>
+
+<dt><a name="vote_for_people">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>vote_for_people</b></a><pre>
+int vote_for_people(string area,
+string * people,
+string voter)
+</pre><dd>
+This method votes for a specified person in the area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to vote for someone in
+<dd>person - the person to vote for
+<dd>voter - the person voting
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="finish_election_phase">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>finish_election_phase</b></a><pre>
+void finish_election_phase(string area)
+</pre><dd>
+This method finishes the election phase.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to finish the phase for
+
+</dl>
+
+<dt><a name="finish_nomination_phase">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>finish_nomination_phase</b></a><pre>
+void finish_nomination_phase(string area)
+</pre><dd>
+This method finishes the nomination phase.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to finish the phase for
+
+</dl>
+
+<dt><a name="query_election_phase">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>query_election_phase</b></a><pre>
+int query_election_phase(string area)
+</pre><dd>
+This method returns the phase of the election.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check
+<dt><b>Returns:</b>
+<dd>the election phase
+
+</dl>
+
+<dt><a name="start_election">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>start_election</b></a><pre>
+void start_election(string area)
+</pre><dd>
+This method starts the election.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to do the election for
+
+</dl>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_election_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>election_data</b></a><pre>
+class election_data {
+int last_election;
+int phase;
+int phase_start;
+mapping nominations;
+mapping votes;
+string * voted;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 03:40:03 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

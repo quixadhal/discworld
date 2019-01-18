@@ -1,0 +1,43 @@
+.DT
+soul_com_force
+Disk World creator help
+soul_com_force
+
+.SH Name
+.SP 5 5
+soul_com_force -  Some of the soul commands force the target to do something.
+.EP
+
+.SH Syntax
+.SI 5
+int soul_com_force(string str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the command being forced
+.EI
+
+.SH Returns
+.SI 5
+0 if the command was ignored, otherwise 1.
+.EI
+
+.SH Defined in
+.SI 5
+/global/psoul.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Some of the soul commands force the target to do something.
+An example is the 'tickle' soul, which forces the target to
+'giggle'.  Those soul-forces call this function.  But only
+the soul object can use this function: any other object which calls
+this function will be ignored.  This prevents this function
+from being used to bypass the security checking on the
+'force' command.
+
+.EP
+

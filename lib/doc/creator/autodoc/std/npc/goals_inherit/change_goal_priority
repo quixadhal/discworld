@@ -1,0 +1,38 @@
+.DT
+change_goal_priority
+Disk World creator help
+change_goal_priority
+
+.SH Name
+.SP 5 5
+change_goal_priority -  This method changes the priority of the specified goal.
+.EP
+
+.SH Syntax
+.SI 5
+void change_goal_priority(string goal)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^goal%^RESET%^ - the goal whose priority to change
+.EI
+
+.SH Defined in
+.SI 5
+/std/npc/goals_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method changes the priority of the specified goal.  It will recall
+the query_priority() method on the goal to figure out the new priority.
+.EP
+
+.SH See also
+.SP 5 5
+add_goal_event(), remove_goal_event(), query_goal_priority()
+
+.EP
+

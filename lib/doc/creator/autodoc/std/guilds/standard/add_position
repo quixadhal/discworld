@@ -1,0 +1,52 @@
+.DT
+add_position
+Disk World creator help
+add_position
+
+.SH Name
+.SP 5 5
+add_position -  Dummy function for guilds without positions This method adds a new position for the subguild.
+.EP
+
+.SH Syntax
+.SI 5
+int add_position(string sub_guild,
+string position,
+int max,
+string * abilities,
+mixed * description)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^sub_guild%^RESET%^ - the sub guild
+%^BOLD%^position%^RESET%^ - position to add
+%^BOLD%^max%^RESET%^ - the maximum number of people appointed to this position
+%^BOLD%^abilities%^RESET%^ - the abilities associated with this position
+%^BOLD%^description%^RESET%^ - the descriptions associated with this position
+({ title|({male_title,female_title}), ... })
+.EI
+
+.SH Returns
+.SI 5
+DEITY_POSITION_OK if successful, DEITY_POSITION_FAIL if the
+position already exists.EI
+
+.SH Defined in
+.SI 5
+/std/guilds/standard.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Dummy function for guilds without positions
+This method adds a new position for the subguild.
+.EP
+
+.SH See also
+.SP 5 5
+remove_position(), query_position(), query_positions()
+
+.EP
+

@@ -1,0 +1,43 @@
+.DT
+add_controlled_title
+Disk World creator help
+add_controlled_title
+
+.SH Name
+.SP 5 5
+add_controlled_title -  Add a method to be called to check if the person is allowed to have the specified title.
+.EP
+
+.SH Syntax
+.SI 5
+void add_controlled_title(string title,
+string ob,
+string func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^title%^RESET%^ - the title to control
+%^BOLD%^ob%^RESET%^ - the object to call the method on
+%^BOLD%^function%^RESET%^ - the function to call
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/title_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Add a method to be called to check if the person is allowed to have
+the specified title.  This should be added to control things like
+special titles.
+.EP
+
+.SH Example 1
+.SI 5
+add_controlled_title("magistrate", NOMIC_HANDLER, "is_magistrate_somewhere");
+.EI
+

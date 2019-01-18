@@ -1,0 +1,1377 @@
+<html><head><title>File club_elected.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/inherit/club_elected.c</h2>
+This is the handler for all things clubby, a club being a group of
+players.  Each club must have a unique name.  It also handles elections
+for various club positions.<p>Written by Pinkfish<p>Started Sun Sep 27 03:35:42 EDT 1998
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.handlers.inherit.club_family.c.html">/obj/handlers/inherit/club_family.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.board.h.html">/include/board.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.mail.h.html">/include/mail.h</a> and <a href="include.clubs.h.html">/include/clubs.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_account_info"><b>account_info</b></a>
+<dd>
+This class keeps track of the accounts, it has the transaction
+info for the account and other stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_election_data"><b>election_data</b></a>
+<dd>
+This class which keeps track of a currently running election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_election_info"><b>election_info</b></a>
+<dd>
+This is for an elected club, elected clubs ellect their officals and
+stuff.
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_account_allowed_person"><b>add_account_allowed_person</b></a>(string, string, string)<dd>
+This method adds a person to the allowed people array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_account_allowed_position"><b>add_account_allowed_position</b></a>(string, string, string)<dd>
+This method adds a position to the allowed positions array.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_archive"><b>add_archive</b></a>(string, string, string)<dd>
+This method adds to the archives of things for the current club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_money"><b>add_money</b></a>(string, int, int, string, string, string)<dd>
+This method will pay a certain amount of money to club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_position_name_in_club"><b>change_position_name_in_club</b></a>(string, string, string)<dd>
+This method changes the name of the position in the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_board_post"><b>check_board_post</b></a>(int, string, string, string, int)<dd>
+This method checks to see what access the person has to the board.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_elected_information"><b>check_elected_information</b></a>(string, string, int)<dd>
+This method checks the extra information for the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#complete_election"><b>complete_election</b></a>(string)<dd>
+This method completes the election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_club_board"><b>create_club_board</b></a>(string)<dd>
+This method creates a board for the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_position_in_club"><b>create_position_in_club</b></a>(string, string)<dd>
+This method creates a position in the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_mail_committee"><b>do_mail_committee</b></a>(string, string, string)<dd>
+This method will mail a messsage to the committee.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_nomination"><b>finish_nomination</b></a>(string)<dd>
+This method finishes the nomination stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#has_nominated_person"><b>has_nominated_person</b></a>(string, string, string, string)<dd>
+This method checks to see if the person has already nominated
+someone for this position.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#has_person_voted"><b>has_person_voted</b></a>(string, string, string)<dd>
+This method checks to see if the person has already voted in the election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#holds_any_position_of"><b>holds_any_position_of</b></a>(string, string)<dd>
+This method will determine if the specified person holds any 
+position in the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#holds_position_of"><b>holds_position_of</b></a>(string, string, string)<dd>
+This method will determine if the specified person holds a
+position in the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_allowed_to_modify_account"><b>is_allowed_to_modify_account</b></a>(string, string, string)<dd>
+This method checks to see if the specified person is allowed to
+access the account.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_basic_position"><b>is_basic_position</b></a>(string, string)<dd>
+This method determines if the position is one of the 4 basic positions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_elected_option"><b>is_elected_option</b></a>(string, string)<dd>
+This method checks to see if the specified option exists in this
+club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_election_in_progress"><b>is_election_in_progress</b></a>(string)<dd>
+This method checks to see if there is currently an election in progress.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_nominated_for"><b>is_nominated_for</b></a>(string, string, string)<dd>
+This method checks to see if the specified person has been nominated for
+the position.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_nomination_accepted"><b>is_nomination_accepted</b></a>(string, string, string)<dd>
+This method checks to see if the nomination has been accepted.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_nomination_in_progress"><b>is_nomination_in_progress</b></a>(string)<dd>
+This method checks to see if the election is in the nomination phase.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_president_of"><b>is_president_of</b></a>(string, string)<dd>
+This method will determine if the specified person is the president of
+the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_secretary_of"><b>is_secretary_of</b></a>(string, string)<dd>
+This method will determine if the specified person is the secretary of
+the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_treasurer_of"><b>is_treasurer_of</b></a>(string, string)<dd>
+This method will determine if the specified person is the treasurer of
+the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_valid_position"><b>is_valid_position</b></a>(string, string)<dd>
+This method determines if this is a valid position for the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_vice_president_of"><b>is_vice_president_of</b></a>(string, string)<dd>
+This method will determine if the specified person is the vice president of
+the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_voting_in_progress"><b>is_voting_in_progress</b></a>(string)<dd>
+This method checks to see if the election is in the voting phase.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#nominate_person"><b>nominate_person</b></a>(string, string, string, string)<dd>
+This method nominates someone for a certain position in the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_account_allowed_people"><b>query_account_allowed_people</b></a>(string, string)<dd>
+This method returns the people which allowed to manipulate the
+account.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_account_allowed_positions"><b>query_account_allowed_positions</b></a>(string, string)<dd>
+This method returns the positions which are allowed to manipulate the
+account.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_account_info"><b>query_account_info</b></a>(string, string)<dd>
+This method returns the information about the specified account.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_announcement"><b>query_announcement</b></a>(string)<dd>
+This method returns the current announcement string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_announcement_time"><b>query_announcement_time</b></a>(string)<dd>
+This method returns the time at which the current announcement
+was added.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_archives"><b>query_archives</b></a>(string)<dd>
+This method returns the archives for this club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_boards"><b>query_boards</b></a>()<dd>
+This method returns all the clubs which currently have boards.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_club_board"><b>query_club_board</b></a>(string)<dd>
+This method checks to see if the club has a board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_club_board_name"><b>query_club_board_name</b></a>(string)<dd>
+This method returns the name of the board for the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_committee"><b>query_committee</b></a>(string)<dd>
+This method returns the committee of the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_elected_info"><b>query_elected_info</b></a>(string)<dd>
+This method returns the elected info associated with the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_elected_option"><b>query_elected_option</b></a>(string, string)<dd>
+This method queries the option in the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_election_status"><b>query_election_status</b></a>(string)<dd>
+This method queries the status associated with the election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_election"><b>query_last_election</b></a>(string)<dd>
+This method returns the time of the last election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_minimum_next_election"><b>query_minimum_next_election</b></a>(string)<dd>
+This method returns the minimum time between elections.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_next_election"><b>query_next_election</b></a>(string)<dd>
+This method returns the time of the next election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_next_event_time"><b>query_next_event_time</b></a>(string)<dd>
+This method returns the time the next event will occur.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_nominated_for"><b>query_nominated_for</b></a>(string, string)<dd>
+This method returns the list of people that have been nominated for
+the specified position in the specified club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_nominators_for"><b>query_nominators_for</b></a>(string, string, string)<dd>
+This method returns the people who nominated the specified person
+to the position.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_position_members"><b>query_position_members</b></a>(string, string)<dd>
+This method returns the members of the particular position.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_position_name"><b>query_position_name</b></a>(string, string)<dd>
+This method figures out the actualy index of the position in the mappings
+and stuff associated with the position.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_transaction_type_name"><b>query_transaction_type_name</b></a>(int)<dd>
+This method returns the string name of the transaction type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_transactions"><b>query_transactions</b></a>(string, string)<dd>
+This method returns the transaction history for the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_valid_positions"><b>query_valid_positions</b></a>(string)<dd>
+This method returns the list of available positions for the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_account_allowed_person"><b>remove_account_allowed_person</b></a>(string, string, string)<dd>
+This method removes a person from the allowed people array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_account_allowed_position"><b>remove_account_allowed_position</b></a>(string, string, string)<dd>
+This method removes a position from the allowed positions array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_club_board"><b>remove_club_board</b></a>(string)<dd>
+This method removes the club's board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_elected_option"><b>remove_elected_option</b></a>(string, string)<dd>
+This method removes an option in the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_money"><b>remove_money</b></a>(string, int, int, string, string, string)<dd>
+This method removes money from the account.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_position_in_club"><b>remove_position_in_club</b></a>(string, string)<dd>
+This method removes a position from a club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_announcement"><b>set_announcement</b></a>(string, string)<dd>
+This sets the current announcement.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_elected_option"><b>set_elected_option</b></a>(string, string, mixed)<dd>
+This method sets an option in the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_position_holder"><b>set_position_holder</b></a>(string, string, string)<dd>
+This method sets the specified person as the holder of the position.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_election"><b>start_election</b></a>(string)<dd>
+This method starts an election for the specified club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#vote_for_person"><b>vote_for_person</b></a>(string, string, string, string)<dd>
+This method sets up a vote for a specific person for a position.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_account_allowed_person">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_account_allowed_person</b></a><pre>
+int add_account_allowed_person(string club_name,
+string account,
+string person)
+</pre><dd>
+This method adds a person to the allowed people array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>account - the name of the account
+<dd>person - the person to add to the array
+<dt><b>See also:</b>
+<dd><a href="#remove_acount_allowed_person">remove_acount_allowed_person()</a> and <a href="#query_account_allowed_person">query_account_allowed_person()
+</a></dl>
+
+<dt><a name="add_account_allowed_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_account_allowed_position</b></a><pre>
+int add_account_allowed_position(string club_name,
+string account,
+string position)
+</pre><dd>
+This method adds a position to the allowed positions array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>account - the name of the account
+<dd>position - the position to add to the array
+<dt><b>See also:</b>
+<dd><a href="#remove_acount_allowed_position">remove_acount_allowed_position()</a> and <a href="#query_account_allowed_position">query_account_allowed_position()
+</a></dl>
+
+<dt><a name="add_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_money</b></a><pre>
+int add_money(string name,
+int amount,
+int type,
+string person,
+string account,
+string information)
+</pre><dd>
+This method will pay a certain amount of money to club.  This will be
+how long the club is payed until.  The club will cost a certain
+amount for each member as well as a base cost.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club
+<dd>amount - the amount to add
+<dd>type - the type of transaction
+<dd>person - the person doing the transaction
+<dd>account - the account being changed
+<dd>information - the information about the deposit
+<dt><b>Returns:</b>
+<dd>the amount of money not able to be placed in the account
+<dt><b>See also:</b>
+<dd><a href="#remove_money">remove_money()</a>, <a href="#query_balance">query_balance()</a> and <a href="#query_transactions">query_transactions()
+</a></dl>
+
+<dt><a name="change_position_name_in_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_position_name_in_club</b></a><pre>
+int change_position_name_in_club(string name,
+string position,
+string new_position)
+</pre><dd>
+This method changes the name of the position in the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to create the position in
+<dd>position - the name of the position to change
+<dd>new_position - the new name of the position
+<dt><b>See also:</b>
+<dd><a href="#create_position_in_club">create_position_in_club()</a> and <a href="#is_valid_position">is_valid_position()
+</a></dl>
+
+<dt><a name="check_board_post">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_board_post</b></a><pre>
+int check_board_post(int type,
+string board,
+string previous,
+string name,
+int num)
+</pre><dd>
+This method checks to see what access the person has to the board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of operation
+<dd>board - the name of the board
+<dd>previous - the previous object
+<dd>name - the name of the person reading the message
+<dd>num - the number of posts blasted when posting
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="complete_election">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>complete_election</b></a><pre>
+int complete_election(string club_name)
+</pre><dd>
+This method completes the election.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club the election is being completed for
+<dt><b>See also:</b>
+<dd><a href="#start_election">start_election()</a>, <a href="#finish_nomination">finish_nomination()</a>, <a href="#nominate_person">nominate_person()</a> and <a href="#vote_for_person">vote_for_person()
+</a></dl>
+
+<dt><a name="create_club_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_club_board</b></a><pre>
+int create_club_board(string club_name)
+</pre><dd>
+This method creates a board for the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to create the board for
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#query_club_board">query_club_board()
+</a></dl>
+
+<dt><a name="create_position_in_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_position_in_club</b></a><pre>
+int create_position_in_club(string name,
+string position)
+</pre><dd>
+This method creates a position in the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to create the position in
+<dd>position - the name of the position
+<dt><b>See also:</b>
+<dd><a href="#query_position_members">query_position_members()</a>, <a href="#is_valid_position">is_valid_position()</a> and <a href="#query_valid_positions">query_valid_positions()
+</a></dl>
+
+<dt><a name="finish_nomination">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_nomination</b></a><pre>
+mixed finish_nomination(string club_name)
+</pre><dd>
+This method finishes the nomination stuff.  The return will be 0 if the
+election is not valid for this club.  If the election was valid it will
+return an array of positions that do not have enough nominated people to
+complete the election for.  If the return array is 0 in size then the
+next phase of the election is setup.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to finish the nomination for
+<dt><b>Returns:</b>
+<dd>see description for return values
+<dt><b>See also:</b>
+<dd><a href="#start_election">start_election()</a>, <a href="#nominate_person">nominate_person()</a> and <a href="#vote_for_person">vote_for_person()
+</a></dl>
+
+<dt><a name="has_nominated_person">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>has_nominated_person</b></a><pre>
+int has_nominated_person(string club_name,
+string position,
+string nominated,
+string by)
+</pre><dd>
+This method checks to see if the person has already nominated
+someone for this position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>position - the position they have voted in
+<dd>person - the person to check to see if they have voted
+<dt><b>See also:</b>
+<dd><a href="#is_valid_position">is_valid_position()</a>, <a href="#vote_for_person">vote_for_person()</a> and <a href="#has_person_voted">has_person_voted()
+</a></dl>
+
+<dt><a name="has_person_voted">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>has_person_voted</b></a><pre>
+int has_person_voted(string club_name,
+string position,
+string person)
+</pre><dd>
+This method checks to see if the person has already voted in the election.
+If the position is not being voted on then, then it will always assume
+they have voted for that position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>position - the position they have voted in
+<dd>person - the person to check to see if they have voted
+<dt><b>Returns:</b>
+<dd>1 if they have voted, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#is_valid_position">is_valid_position()</a>, <a href="#vote_for_person">vote_for_person()</a> and <a href="#has_nominated_person">has_nominated_person()
+</a></dl>
+
+<dt><a name="holds_any_position_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>holds_any_position_of</b></a><pre>
+int holds_any_position_of(string name,
+string person)
+</pre><dd>
+This method will determine if the specified person holds any 
+position in the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check for the positions
+<dd>person - the name of the person to check in the positions
+<dt><b>Returns:</b>
+<dd>1 if they are in the position, 0 if not
+
+</dl>
+
+<dt><a name="holds_position_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>holds_position_of</b></a><pre>
+int holds_position_of(string name,
+string position,
+string person)
+</pre><dd>
+This method will determine if the specified person holds a
+position in the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check for the position
+<dd>position - the name of the position to check
+<dd>person - the name of the person to check in the position
+<dt><b>Returns:</b>
+<dd>1 if they are in the position, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#holds_any_position_of">holds_any_position_of()</a>, <a href="#is_secretary_of">is_secretary_of()</a>, <a href="#is_president_of">is_president_of()</a>, <a href="#is_vice_president_of">is_vice_president_of()</a> and <a href="#is_treasurer_of">is_treasurer_of()
+</a></dl>
+
+<dt><a name="is_allowed_to_modify_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_allowed_to_modify_account</b></a><pre>
+int is_allowed_to_modify_account(string club_name,
+string account,
+string person)
+</pre><dd>
+This method checks to see if the specified person is allowed to
+access the account.  It checks based on both position and name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>account - the name of the account
+<dd>person - the person's name to check
+<dt><b>Returns:</b>
+<dd>1 if they can access the account, 0 if they cannot
+<dt><b>See also:</b>
+<dd><a href="#query_account_allowed_people">query_account_allowed_people()</a>, <a href="#add_money">add_money()</a>, <a href="#remove_money">remove_money()</a> and <a href="#query_account_allowed_positions">query_account_allowed_positions()
+</a></dl>
+
+<dt><a name="is_basic_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_basic_position</b></a><pre>
+int is_basic_position(string club_name,
+string position)
+</pre><dd>
+This method determines if the position is one of the 4 basic positions.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to check
+<dd>position - the position to check
+<dt><b>Returns:</b>
+<dd>1 if it is, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#is_valid_position">is_valid_position()
+</a></dl>
+
+<dt><a name="is_elected_option">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_elected_option</b></a><pre>
+int is_elected_option(string club_name,
+string option)
+</pre><dd>
+This method checks to see if the specified option exists in this
+club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>option - the name of the option to test
+<dt><b>Returns:</b>
+<dd>1 if the option exists, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#set_elected_option">set_elected_option()</a> and <a href="#query_elected_option">query_elected_option()
+</a></dl>
+
+<dt><a name="is_election_in_progress">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_election_in_progress</b></a><pre>
+int is_election_in_progress(string club)
+</pre><dd>
+This method checks to see if there is currently an election in progress.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to check for an election
+<dt><b>Returns:</b>
+<dd>1 if there is an election in progress, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#complete_election">complete_election()</a>, <a href="#start_election">start_election()</a>, <a href="#is_nomination_in_progress">is_nomination_in_progress()</a> and <a href="#is_voting_in_progress">is_voting_in_progress()
+</a></dl>
+
+<dt><a name="is_nominated_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_nominated_for</b></a><pre>
+int is_nominated_for(string club_name,
+string position,
+string person)
+</pre><dd>
+This method checks to see if the specified person has been nominated for
+the position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>position - the position they have been nominated for
+<dd>person - the person who is nominated to that position
+<dt><b>Returns:</b>
+<dd>1 if they have been nominated, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#has_person_voted">has_person_voted()</a>, <a href="#nominate_person">nominate_person()</a>, <a href="#is_valid_position">is_valid_position()</a> and <a href="#is_nomination_accepted">is_nomination_accepted()
+</a></dl>
+
+<dt><a name="is_nomination_accepted">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_nomination_accepted</b></a><pre>
+int is_nomination_accepted(string club_name,
+string position,
+string person)
+</pre><dd>
+This method checks to see if the nomination has been accepted.  Currently
+a nomination is accepted if there is more than 2 people nominated and one
+of them is the person who is nominated.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to check
+<dd>position - the position they are nominated for
+<dd>person - the person who has been nominated
+<dt><b>Returns:</b>
+<dd>1 if they are nominated, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#is_nominated_for">is_nominated_for()</a> and <a href="#query_nominators_for">query_nominators_for()
+</a></dl>
+
+<dt><a name="is_nomination_in_progress">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_nomination_in_progress</b></a><pre>
+int is_nomination_in_progress(string club)
+</pre><dd>
+This method checks to see if the election is in the nomination phase.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club - the name of the club to check
+<dt><b>See also:</b>
+<dd><a href="#is_election_in_progress">is_election_in_progress()</a> and <a href="#is_voting_in_progress">is_voting_in_progress()
+</a></dl>
+
+<dt><a name="is_president_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_president_of</b></a><pre>
+int is_president_of(string name,
+string president)
+</pre><dd>
+This method will determine if the specified person is the president of
+the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check the president of
+<dd>president - the person to check for being the president
+<dt><b>Returns:</b>
+<dd>1 if they are in the position, 0 if not
+
+</dl>
+
+<dt><a name="is_secretary_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_secretary_of</b></a><pre>
+int is_secretary_of(string name,
+string secretary)
+</pre><dd>
+This method will determine if the specified person is the secretary of
+the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check the secretary of
+<dd>secretary - the person to check to see if they are the secretary
+<dt><b>Returns:</b>
+<dd>1 if they are in the position, 0 if not
+
+</dl>
+
+<dt><a name="is_treasurer_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_treasurer_of</b></a><pre>
+int is_treasurer_of(string name,
+string treasurer)
+</pre><dd>
+This method will determine if the specified person is the treasurer of
+the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check the treasurer of
+<dd>treasurer - the person to check to see if they are the treasurer
+<dt><b>Returns:</b>
+<dd>1 if they are in the position, 0 if not
+
+</dl>
+
+<dt><a name="is_valid_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_valid_position</b></a><pre>
+int is_valid_position(string club_name,
+string position)
+</pre><dd>
+This method determines if this is a valid position for the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>position - the position to check
+<dt><b>Returns:</b>
+<dd>1 if the position is ok, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#query_valid_positions">query_valid_positions()</a>, <a href="#nominate_person">nominate_person()</a> and <a href="#vote_for_person">vote_for_person()
+</a></dl>
+
+<dt><a name="is_vice_president_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_vice_president_of</b></a><pre>
+int is_vice_president_of(string name,
+string vice_president)
+</pre><dd>
+This method will determine if the specified person is the vice president of
+the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check the vice president of
+<dd>vice_president - the person to check for being the vice president
+<dt><b>Returns:</b>
+<dd>1 if they are in the position, 0 if not
+
+</dl>
+
+<dt><a name="is_voting_in_progress">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_voting_in_progress</b></a><pre>
+int is_voting_in_progress(string club)
+</pre><dd>
+This method checks to see if the election is in the voting phase.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club - the name of the club to check
+<dt><b>See also:</b>
+<dd><a href="#is_election_in_progress">is_election_in_progress()</a> and <a href="#is_nomination_in_progress">is_nomination_in_progress()
+</a></dl>
+
+<dt><a name="nominate_person">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>nominate_person</b></a><pre>
+int nominate_person(string club_name,
+string position,
+string person,
+string nominating)
+</pre><dd>
+This method nominates someone for a certain position in the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to nominate someone in
+<dd>position - the position to nominate someone for
+<dd>person - the person to nominate
+<dd>nominating - the person doing the nominating
+<dt><b>Returns:</b>
+<dd>1 if successfuly nominated
+<dt><b>See also:</b>
+<dd><a href="#start_election">start_election()</a>, <a href="#finish_nomination">finish_nomination()</a> and <a href="#vote_for_person">vote_for_person()
+</a></dl>
+
+<dt><a name="query_account_allowed_people">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_account_allowed_people</b></a><pre>
+string * query_account_allowed_people(string club_name,
+string account)
+</pre><dd>
+This method returns the people which allowed to manipulate the
+account.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>account - the name of the account
+<dt><b>Returns:</b>
+<dd>the array of people which can manipulate the account
+<dt><b>See also:</b>
+<dd><a href="#add_acount_allowed_person">add_acount_allowed_person()</a> and <a href="#remove_account_allowed_person">remove_account_allowed_person()
+</a></dl>
+
+<dt><a name="query_account_allowed_positions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_account_allowed_positions</b></a><pre>
+string * query_account_allowed_positions(string club_name,
+string account)
+</pre><dd>
+This method returns the positions which are allowed to manipulate the
+account.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>account - the name of the account
+<dt><b>Returns:</b>
+<dd>the array of people which can manipulate the account
+
+</dl>
+
+<dt><a name="query_announcement">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_announcement</b></a><pre>
+string query_announcement(string club_name)
+</pre><dd>
+This method returns the current announcement string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dt><b>Returns:</b>
+<dd>the announcement string
+
+</dl>
+
+<dt><a name="query_announcement_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_announcement_time</b></a><pre>
+int query_announcement_time(string club_name)
+</pre><dd>
+This method returns the time at which the current announcement
+was added.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dt><b>Returns:</b>
+<dd>the time the announcement was added
+
+</dl>
+
+<dt><a name="query_archives">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_archives</b></a><pre>
+class club_archive * query_archives(string club_name)
+</pre><dd>
+This method returns the archives for this club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to get archives from
+<dt><b>Returns:</b>
+<dd>the archives for the club
+
+</dl>
+
+<dt><a name="query_boards">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_boards</b></a><pre>
+string * query_boards()
+</pre><dd>
+This method returns all the clubs which currently have boards.
+This is their normalised names.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of boards
+
+</dl>
+
+<dt><a name="query_club_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_club_board</b></a><pre>
+int query_club_board(string club_name)
+</pre><dd>
+This method checks to see if the club has a board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to check
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#query_boards">query_boards()
+</a></dl>
+
+<dt><a name="query_club_board_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_club_board_name</b></a><pre>
+string query_club_board_name(string club_name)
+</pre><dd>
+This method returns the name of the board for the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to get the board for
+<dt><b>Returns:</b>
+<dd>the name of the club, 0 if no board
+
+</dl>
+
+<dt><a name="query_committee">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_committee</b></a><pre>
+string * query_committee(string club_name)
+</pre><dd>
+This method returns the committee of the club.  The committee is anyone
+who holds a position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dt><b>Returns:</b>
+<dd>the array of people who hold positions
+
+</dl>
+
+<dt><a name="query_elected_option">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_elected_option</b></a><pre>
+mixed query_elected_option(string club_name,
+string option)
+</pre><dd>
+This method queries the option in the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>option - the name of the option to query
+<dt><b>Returns:</b>
+<dd>the value of the option
+<dt><b>See also:</b>
+<dd><a href="#set_elected_option">set_elected_option()</a> and <a href="#is_elected_option">is_elected_option()
+</a></dl>
+
+<dt><a name="query_election_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_election_status</b></a><pre>
+string query_election_status(string club_name)
+</pre><dd>
+This method queries the status associated with the election.  The
+status will say things like when certain positions have not been
+voted for and other such stuff.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club - the club name to get the status of
+<dt><b>Returns:</b>
+<dd>the status string of the club
+<dt><b>See also:</b>
+<dd><a href="#complete_election">complete_election()</a> and <a href="#finish_nomination">finish_nomination()
+</a></dl>
+
+<dt><a name="query_last_election">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_election</b></a><pre>
+int query_last_election(string name)
+</pre><dd>
+This method returns the time of the last election.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to get the time for
+<dt><b>Returns:</b>
+<dd>the time of the last election
+
+</dl>
+
+<dt><a name="query_minimum_next_election">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_minimum_next_election</b></a><pre>
+int query_minimum_next_election(string name)
+</pre><dd>
+This method returns the minimum time between elections.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to get the time for
+<dt><b>Returns:</b>
+<dd>the minimum time for the next election
+
+</dl>
+
+<dt><a name="query_next_election">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_next_election</b></a><pre>
+int query_next_election(string name)
+</pre><dd>
+This method returns the time of the next election.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to get the time for
+<dt><b>Returns:</b>
+<dd>the time of the next election
+
+</dl>
+
+<dt><a name="query_next_event_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_next_event_time</b></a><pre>
+int query_next_event_time(string club_name)
+</pre><dd>
+This method returns the time the next event will occur.  The next event
+will be either the end of the nomination phase or the end of the
+voting phase.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to get the event of
+<dt><b>Returns:</b>
+<dd>the time of the next event
+<dt><b>See also:</b>
+<dd><a href="#complete_election">complete_election()</a>, <a href="#start_election">start_election()</a> and <a href="#finish_nomination">finish_nomination()
+</a></dl>
+
+<dt><a name="query_nominated_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_nominated_for</b></a><pre>
+string * query_nominated_for(string club_name,
+string position)
+</pre><dd>
+This method returns the list of people that have been nominated for
+the specified position in the specified club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>position - the position to get the names of
+<dt><b>See also:</b>
+<dd><a href="#is_nominate_for">is_nominate_for()</a> and <a href="#nominate_person">nominate_person()
+</a></dl>
+
+<dt><a name="query_nominators_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_nominators_for</b></a><pre>
+string * query_nominators_for(string club_name,
+string position,
+string nominated)
+</pre><dd>
+This method returns the people who nominated the specified person
+to the position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>position - the position they were nominated for
+<dd>nominated - the person who was nominated
+<dt><b>Returns:</b>
+<dd>who nominated them
+<dt><b>See also:</b>
+<dd><a href="#query_nominated_for">query_nominated_for()</a> and <a href="#is_nomination_accepted">is_nomination_accepted()
+</a></dl>
+
+<dt><a name="query_position_members">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_position_members</b></a><pre>
+string query_position_members(string club_name,
+string position)
+</pre><dd>
+This method returns the members of the particular position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>position - the name of the position
+<dt><b>Returns:</b>
+<dd>the array of members of the position
+<dt><b>See also:</b>
+<dd><a href="#query_valid_position">query_valid_position()</a> and <a href="#is_valid_position">is_valid_position()
+</a></dl>
+
+<dt><a name="query_position_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_position_name</b></a><pre>
+string query_position_name(string club_name,
+string position)
+</pre><dd>
+This method figures out the actualy index of the position in the mappings
+and stuff associated with the position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>position - the position to create the index for
+<dt><b>Returns:</b>
+<dd>the position index
+<dt><b>See also:</b>
+<dd><a href="#query_valid_positions">query_valid_positions()</a>, <a href="#nominate_person">nominate_person()</a> and <a href="#vote_for_person">vote_for_person()
+</a></dl>
+
+<dt><a name="query_transaction_type_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_transaction_type_name</b></a><pre>
+string query_transaction_type_name(int type)
+</pre><dd>
+This method returns the string name of the transaction type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to return the transaction type for
+<dt><b>Returns:</b>
+<dd>the nice transaction type
+<dt><b>See also:</b>
+<dd><a href="#query_transactions">query_transactions()
+</a></dl>
+
+<dt><a name="query_transactions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_transactions</b></a><pre>
+class club_transaction * query_transactions(string name,
+string account)
+</pre><dd>
+This method returns the transaction history for the club.  This will only
+be kept track of for elected clubs.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club
+<dd>account - the name of the account
+<dt><b>Returns:</b>
+<dd>the array of transactions
+<dt><b>See also:</b>
+<dd><a href="#add_money">add_money()</a> and <a href="#remove_money">remove_money()
+</a></dl>
+
+<dt><a name="query_valid_positions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_valid_positions</b></a><pre>
+string * query_valid_positions(string club_name)
+</pre><dd>
+This method returns the list of available positions for the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dt><b>Returns:</b>
+<dd>the list of available positions
+
+</dl>
+
+<dt><a name="remove_account_allowed_person">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_account_allowed_person</b></a><pre>
+int remove_account_allowed_person(string club_name,
+string account,
+string person)
+</pre><dd>
+This method removes a person from the allowed people array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>account - the name of the account
+<dd>person - the person to remove from the array
+<dt><b>See also:</b>
+<dd><a href="#add_acount_allowed_person">add_acount_allowed_person()</a> and <a href="#query_account_allowed_person">query_account_allowed_person()
+</a></dl>
+
+<dt><a name="remove_account_allowed_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_account_allowed_position</b></a><pre>
+int remove_account_allowed_position(string club_name,
+string account,
+string position)
+</pre><dd>
+This method removes a position from the allowed positions array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>account - the name of the account
+<dd>position - the position to remove from the array
+<dt><b>See also:</b>
+<dd><a href="#add_acount_allowed_position">add_acount_allowed_position()</a> and <a href="#query_account_allowed_position">query_account_allowed_position()
+</a></dl>
+
+<dt><a name="remove_club_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_club_board</b></a><pre>
+int remove_club_board(string club_name)
+</pre><dd>
+This method removes the club's board.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to remove the board from
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="remove_elected_option">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_elected_option</b></a><pre>
+int remove_elected_option(string club_name,
+string option)
+</pre><dd>
+This method removes an option in the club.  Options are use for things
+like setting if the club has a board associated with it, or other
+optional elements.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to remove the option in
+<dd>option - the name of the option to remove
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#query_elected_option">query_elected_option()</a> and <a href="#is_elected_option">is_elected_option()
+</a></dl>
+
+<dt><a name="remove_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_money</b></a><pre>
+int remove_money(string name,
+int amount,
+int type,
+string person,
+string account,
+string information)
+</pre><dd>
+This method removes money from the account.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club
+<dd>amount - the amount to change the balance by
+<dd>type - the type of transaction
+<dd>person - the person doing the transaction
+<dd>account - the account being changed
+<dd>information - the information about the deposit
+<dt><b>Returns:</b>
+<dd>1 if the removal is a success
+<dt><b>See also:</b>
+<dd><a href="#pay_money">pay_money()</a>, <a href="#query_balance">query_balance()</a> and <a href="#query_transactions">query_transactions()
+</a></dl>
+
+<dt><a name="remove_position_in_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_position_in_club</b></a><pre>
+int remove_position_in_club(string name,
+string position)
+</pre><dd>
+This method removes a position from a club.  The 4 basic positions cannot
+be removed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to remove the position from
+<dd>position - the position to remove
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#create_position_in_club">create_position_in_club()
+</a></dl>
+
+<dt><a name="set_announcement">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_announcement</b></a><pre>
+int set_announcement(string club_name,
+string announce)
+</pre><dd>
+This sets the current announcement.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>announce - the new announcement
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="set_elected_option">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_elected_option</b></a><pre>
+int set_elected_option(string club_name,
+string option,
+mixed value)
+</pre><dd>
+This method sets an option in the club.  Options are use for things
+like setting if the club has a board associated with it, or other
+optional elements.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to set the option in
+<dd>option - the name of the option to set
+<dd>value - the new value of the option
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#query_elected_option">query_elected_option()</a> and <a href="#is_elected_option">is_elected_option()
+</a></dl>
+
+<dt><a name="set_position_holder">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_position_holder</b></a><pre>
+int set_position_holder(string club_name,
+string position,
+string person)
+</pre><dd>
+This method sets the specified person as the holder of the position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to set the position in
+<dd>position - the name of the position
+<dd>person - the person who will hold it
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="start_election">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_election</b></a><pre>
+int start_election(string club_name)
+</pre><dd>
+This method starts an election for the specified club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to start an election for
+<dt><b>Returns:</b>
+<dd>1 if the election is successful started
+<dt><b>See also:</b>
+<dd><a href="#nominate_person">nominate_person()</a>, <a href="#finish_nominations">finish_nominations()</a> and <a href="#vote_for_person">vote_for_person()
+</a></dl>
+
+<dt><a name="vote_for_person">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>vote_for_person</b></a><pre>
+int vote_for_person(string club_name,
+string position,
+string person,
+string voter)
+</pre><dd>
+This method sets up a vote for a specific person for a position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to make the vote in
+<dd>position - the position you are voting for
+<dd>person - the person to vote for
+<dd>voter - the person doing the voting
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#start_election">start_election()</a>, <a href="#finish_nomination">finish_nomination()</a> and <a href="#nominate_person">nominate_person()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="add_archive">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_archive</b></a><pre>
+int add_archive(string club_name,
+string subject,
+string thingy)
+</pre><dd>
+This method adds to the archives of things for the current club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>thingy - the thing to archive
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="check_elected_information">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_elected_information</b></a><pre>
+void check_elected_information(string name,
+string member,
+int startup)
+</pre><dd>
+This method checks the extra information for the club.  Please note
+this does *not* save the information.  You need to do this yourself.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check
+<dt><b>See also:</b>
+<dd><a href="#check_clubs">check_clubs()
+</a></dl>
+
+<dt><a name="do_mail_committee">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_mail_committee</b></a><pre>
+void do_mail_committee(string club_name,
+string subject,
+string body)
+</pre><dd>
+This method will mail a messsage to the committee.  Useful for
+informing members of problems and things.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to mail
+<dd>subject - the subject to use
+<dd>body - the body of the message
+
+</dl>
+
+<dt><a name="query_account_info">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>query_account_info</b></a><pre>
+class account_info query_account_info(string name,
+string account)
+</pre><dd>
+This method returns the information about the specified account.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club
+<dd>account - the name of the account
+<dt><b>Returns:</b>
+<dd>the account info
+
+</dl>
+
+<dt><a name="query_elected_info">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>query_elected_info</b></a><pre>
+class election_info query_elected_info(string name)
+</pre><dd>
+This method returns the elected info associated with the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to get the info for
+<dt><b>Returns:</b>
+<dd>the elected club class, 0 if no club or not elected type
+
+</dl>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_account_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>account_info</b></a><pre>
+class account_info {
+class club_transaction * transactions;
+string * allowed_people;
+string * allowed_positions;
+}
+
+</pre><dd>
+This class keeps track of the accounts, it has the transaction
+info for the account and other stuff.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>transactions - the transactions for the account
+<dd>allowed_people - the people that can use the account
+<dd>allowed_positions - the positions that can use the account
+
+</dl>
+
+<dt><a name="class_election_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>election_data</b></a><pre>
+class election_data {
+int time_of_event;
+int state;
+mapping people;
+mapping nominated;
+mapping voted_for;
+string election_status;
+}
+
+</pre><dd>
+This class which keeps track of a currently running election.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>time_of_event - the time the election started
+<dd>state - the current state of the election
+<dd>people - the current votes for the specified person.<br>
+The format is: ([ position : ([ person : votes, ... ]) ... ])
+<dd>voted_for - which positions everyone has voted for.<br>
+The format is: ([ person : ({ position, position, ... }) ])
+<dd>nominated - the people who have been nominated for each position
+and who nominated them.<br>
+This is in the format: ([ position: ([ person : ({ nominations }) ]) ])
+A person must be seconded before they are actually added as
+a potential for a position.
+<dd>election_status - the status of the election, this is used with
+defines.
+
+</dl>
+
+<dt><a name="class_election_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>election_info</b></a><pre>
+class election_info {
+string treasurer;
+string president;
+string vice_president;
+string secretary;
+mapping account_info;
+mapping positions;
+int last_election;
+int election_period;
+mapping options;
+class discussion_idea * discussion;
+class club_archive * archives;
+string announcement;
+int announce_time;
+}
+
+</pre><dd>
+This is for an elected club, elected clubs ellect their officals and
+stuff.  The treasurer etc are actually the indexes to be used into the
+positions mapping to determine the actual member which holds the
+position.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>treasurer - the name of the treasurer of the club's position
+<dd>president - the name of the president of the club's position
+<dd>vice_president - the name of the vice president of the club's position
+<dd>secretary - the name of the secretary of the club's position
+<dd>account_info - information about the accounts
+<dd>positions - the special extra positions available in the club
+<dd>last_election - when the last election was held
+<dd>discussion - the current items up for discussion
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 04:09:33 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

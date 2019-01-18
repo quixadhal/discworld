@@ -1,0 +1,82 @@
+.DT
+potion_attrs.h
+Disk World autodoc help
+potion_attrs.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^MODERATE_AMOUNT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OC_LEAKRATE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OC_MAXVOL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OC_MISCATTRS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OC_MVOL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OC_PSCOORD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OC_PSQUANT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OC_VOL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OC_WVOL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^POTION_ATTRS_SIZE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^POTION_COLOURS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^POTION_CONSISTENCY%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^POTION_FLAVOURS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^POTION_NAMES%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^POTION_SMELLS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^POTION_SPACE_HANDLER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^POTION_TRANSPARENCY%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SMALL_AMOUNT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^VERY_SMALL_AMOUNT%^RESET%^
+.EI
+

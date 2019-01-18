@@ -1,0 +1,44 @@
+.DT
+set_down_dir
+Disk World creator help
+set_down_dir
+
+.SH Name
+.SP 5 5
+set_down_dir -  This function sets the direction that is considered to be down by this room.
+.EP
+
+.SH Syntax
+.SI 5
+void set_down_dir(string dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^mes%^RESET%^ - the new direction to be considered to be down
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets the direction that is considered to be down by this room.
+This is used by several exit messages.  Also, dense objects will be inclined
+to move in this direction.  The default, of course, is "down".
+.EP
+
+.SH Example 1
+.SI 5
+  set_down_dir("downeast");
+
+.EI
+
+.SH See also
+.SP 5 5
+query_down_dir, set_sink_in_mess, set_sink_out_mess
+.EP
+

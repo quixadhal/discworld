@@ -1,0 +1,46 @@
+.DT
+set_sweep_in_mess
+Disk World creator help
+set_sweep_in_mess
+
+.SH Name
+.SP 5 5
+set_sweep_in_mess -  This function sets the message that will be displayed when an object is swept into this room by a current.
+.EP
+
+.SH Syntax
+.SI 5
+void set_sweep_in_mess(string mess)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^mess%^RESET%^ - the new entry message for objects swept by a current
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets the message that will be displayed when an object is
+swept into this room by a current.  The usual $-expansion for messages
+will occur.  The default is "$N $V$0=is,are$V$ swept in from $F by the
+current.".
+.EP
+
+.SH Example 1
+.SI 5
+  set_sweep_in_mess("$N $V$0=is,are$V$ washed in from $F by the raging "
+             "torrent.");
+
+.EI
+
+.SH See also
+.SP 5 5
+query_sweep_in_mess
+.EP
+

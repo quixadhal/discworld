@@ -1,0 +1,110 @@
+<html><head><title>File region_poly.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/terrain_map/region_poly.c</h2>
+This is region handler for a polygon region.<p>Written by Pinkfish<p>Started Mon Apr  1 12:15:24 PST 2002
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.inherit.terrain_map.geometry.c.html">/std/room/inherit/terrain_map/geometry.c</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_vertex"><b>vertex</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_vertex"><b>add_vertex</b></a>(int, int)<dd>
+This method sets the position of the feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_inside_region"><b>is_inside_region</b></a>(int, int, int, int, int)<dd>
+Find out if this polygon is inside the region, given the specified range
+at which it can be seen.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_feature_desc_from"><b>query_feature_desc_from</b></a>(int, int, int, int)<dd>
+This is the function that finds the distance and direction to the
+current region.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_inside"><b>set_inside</b></a>(int)<dd>
+This method sets the inside flag for the region.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_vertex">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_vertex</b></a><pre>
+void add_vertex(int x,
+int y)
+</pre><dd>
+This method sets the position of the feature.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x coordinate of the feature
+<dd>y - the y coordinate of the feature
+<dd>width - the width of the feature
+<dd>height - the height of the feature
+
+</dl>
+
+<dt><a name="is_inside_region">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_inside_region</b></a><pre>
+int is_inside_region(int x1,
+int y1,
+int x2,
+int y2,
+int range)
+</pre><dd>
+Find out if this polygon is inside the region, given the specified range
+at which it can be seen.  This will work by adding the ranges onto the
+lines and checking for distance from the points of the polygon to the line
+bordering the region and also checking for intersection with the bordering
+line.  It also checks to see if all of the points are inside the region.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x1 - the top x
+<dd>y1 - the top y
+<dd>x2 - the bottom x
+<dd>y2 - the bottom y
+
+</dl>
+
+<dt><a name="query_feature_desc_from">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_feature_desc_from</b></a><pre>
+mapping query_feature_desc_from(int x,
+int y,
+int z,
+int only_shortest)
+</pre><dd>
+This is the function that finds the distance and direction to the
+current region.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x-coordinate
+<dd>y - the y-coordinate
+<dd>z - the z-coordinate
+<dd>only_shortest - only find the shortest distance
+<dt><b>Returns:</b>
+<dd>({ direction, distance [, direc2, dist2, [...]] })
+
+</dl>
+
+<dt><a name="set_inside">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_inside</b></a><pre>
+void set_inside(int flag)
+</pre><dd>
+This method sets the inside flag for the region.  If the region is an
+inside region then it makes a loop around the region which can be seen
+from the inside, but not the outside.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - the inside region flag
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_vertex">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>vertex</b></a><pre>
+class vertex {
+int x;
+int y;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 11:58:35 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

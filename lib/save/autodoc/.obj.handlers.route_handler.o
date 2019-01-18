@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["get_route":({({"varargs","void",}),({({"string",}),"end",({"string",}),"start",({"function",}),"call_back",({"int",}),"count",}),(["main":({"Try and figure out a route between two locations.  It figures outthe route bwteen the two locations and then calls thecall_back function with the found route, or not found route.If the route is not found, an empty array will be returend.  Thefunction in the npc object move_me_to() handles the callto this function transparently.",}),"see":({"/obj/monster->move_me_to()",}),"param":({"end the end location","start where to start from","call_back the function to call when finished",}),"example":({"// Find how to get from here back to the drum.// Then print the route out.ROUTE_HANDLER->get_route(\"/d/am/am/mendeddrum\",                         file_name(environment(this_object())),                         (: printf(\"%O\\n\", $1) :));",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"Figures out the route between two destinations for an npc to travel.",}),"author":({"Wodan",}),])
+define_docs ([])
+includes ([])
+class_docs ([])
+file_name "/obj/handlers/route_handler.c"
+last_changed 1522061544

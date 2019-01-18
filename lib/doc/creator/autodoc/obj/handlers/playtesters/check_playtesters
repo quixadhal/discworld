@@ -1,0 +1,39 @@
+.DT
+check_playtesters
+Disk World creator help
+check_playtesters
+
+.SH Name
+.SP 5 5
+check_playtesters -  This goes through the list of playtesters and checks to make sure they are all still valid.
+.EP
+
+.SH Syntax
+.SI 5
+void check_playtesters(string * who)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^who%^RESET%^ - A string* of the query_name()'s of the playtesters to check.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playtesters.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This goes through the list of playtesters and checks to make
+sure they are all still valid.  It does so slowly, using a call_out until
+it gets to the end.
+.EP
+
+.SH See also
+.SP 5 5
+valid_playtester(), remove_playtester()
+
+.EP
+

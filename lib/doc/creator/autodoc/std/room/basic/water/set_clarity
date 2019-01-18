@@ -1,0 +1,40 @@
+.DT
+set_clarity
+Disk World creator help
+set_clarity
+
+.SH Name
+.SP 5 5
+set_clarity -  This function sets the clarity of the water as an integer variable between 1 and 100.
+.EP
+
+.SH Syntax
+.SI 5
+void set_clarity(int how_clear)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^how_clear%^RESET%^ - the new clarity of the water
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets the clarity of the water as an integer variable between 1
+and 100.  The main effect of this is to reduce the light levels of the room
+to simulate the obscuring effect of turbid water.  The default clarity is
+90.
+.EP
+
+.SH See also
+.SP 5 5
+query_clarity, set_turbidity
+
+.EP
+

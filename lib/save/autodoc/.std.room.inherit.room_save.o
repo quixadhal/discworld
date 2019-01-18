@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["query_save_file":({({"string",}),({}),(["main":({"This method returns the current save file for the object.",}),"return":({"the current save file",}),]),}),"debug_log":({({"void",}),({({"string",}),"fmt",({"mixed","args",}),"...",}),([]),}),"test_save":({({"int",}),({({"object",}),"ob",}),(["main":({"This method determines if a given object should be saved or not.  Wheninheriting this room you should define your own test_save function and useit to decide which parts of the inventory are saved and which are not.",}),"param":({"ob The object to be tested.",}),"return":({"1 for yes 0 for no.",}),]),}),"door_action":({({"void",}),({}),([]),}),"event_save":({({"void",}),({({"object",}),"thing",}),(["main":({"Objects that need to make this room save such as containers in the roomshould generate a save event to make the room save its inventory.eg. event(environment(this_object()), \"save\");",}),]),}),"set_save_file":({({"void",}),({({"string",}),"file",}),(["main":({"Set the filename that this object should use to save its inventory to.",}),"param":({"file The file.",}),]),}),])
+protected_functions ([])
+inherits (["/global/auto_load":({}),])
+main_docs (["main":({"A saving room inheritable.  This handles rooms which save their inventory,or more specifically part of their inventory.Which objects should be saved or not saved can be controlled by overridingtest_save.Containers in this room that need to cause it to save its inventory shouldgenerate a save event.",}),"author":({"ceres",}),"see":({"test_save","event_save",}),])
+define_docs (["SAVE_TIME":([]),"AUTO_LOAD_OB":([]),])
+includes (["/include/player.h":1522061544,"/include/move_failures.h":1522061544,"/include/playtesters.h":1522061544,])
+class_docs ([])
+file_name "/std/room/inherit/room_save.c"
+last_changed 1522061544

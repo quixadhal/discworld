@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["random":({({"varargs","int",}),({({"int",}),"max",({"mixed",}),"lseed",}),(["main":({"Generate a random number.  If lseed is an int, it is used as the seed.If lseed is a one-element array of ints, lseed[0] is used as the seedand the new seed is passed back.  Otherwise, the previously set seedis used.",}),"param":({"max the maximum value for the number.","lseed the seed to use, either an int or a one-element arrayof int.",}),"return":({"a number from 0..max-1 (inclusive)",}),]),}),"query_seed":({({"int",}),({}),(["main":({"Returns the currently specified seed.",}),"return":({"the current seed",}),]),}),"set_seed":({({"void",}),({({"int",}),"new_seed",}),(["main":({"Set the seed for the generator.",}),"param":({"new_seed the seed to use.",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"Generate reproducible sequences of random numbers.This is designed to produce a random number from the sameseed.  This will make sequences of reproduceable randomnumbers.Useful for things like garbling of text and stuff so the garblealways looks the same...",}),])
+define_docs (["STARTUP_RANDS":([]),"MULT":([]),"MOD":([]),"MAX_VALUE":([]),"R":([]),"Q":([]),])
+includes ([])
+class_docs ([])
+file_name "/obj/handlers/random_num.c"
+last_changed 1522061544

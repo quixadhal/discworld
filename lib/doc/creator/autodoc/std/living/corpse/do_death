@@ -1,0 +1,52 @@
+.DT
+do_death
+Disk World creator help
+do_death
+
+.SH Name
+.SP 5 5
+do_death -  This does the actual death and co ordinates the death into a well ordered feeding frenzy.
+.EP
+
+.SH Syntax
+.SI 5
+varargs object do_death(object thing,
+object weapon,
+string attack)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - the thing which killed us
+%^BOLD%^weapon%^RESET%^ - the weapon (sword,claw,etc) object that attacked and killed us
+%^BOLD%^attack%^RESET%^ - the actual attack that killed us
+.EI
+
+.SH Returns
+.SI 5
+the corpse, or 0 if no more action is to be taken.EI
+
+.SH Defined in
+.SI 5
+/std/living/corpse.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This does the actual death and co ordinates the death into a well
+ordered feeding frenzy.  This method creates the actual corpse itself.
+If the property "dead" is set on the object no corpse will be
+created, or if the second_life() function called on the object
+returns a non-zero value the corpse will not be created.
+
+
+This method calls the second_life() function on the current object, if this returns 1 it must handle all the the death code itself. This is used in the player code to override the death code.
+.EP
+
+.SH See also
+.SP 5 5
+death_helper(), make_corpse(), alter_corpse()
+
+.EP
+

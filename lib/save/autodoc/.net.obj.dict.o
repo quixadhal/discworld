@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["got_ip_address":({({"void",}),({({"string",}),"address",({"string",}),"ip_address",({"int",}),"key",}),([]),}),"do_spell":({({"int",}),({({"mixed","*",}),"args",}),([]),}),"close_socket":({({"void",}),({({"int",}),"fd",({"object",}),"who",}),([]),}),"eventRead":({({"void",}),({({"int",}),"fd",({"string",}),"message",}),([]),}),"do_define":({({"int",}),({({"mixed","*",}),"args",}),([]),}),"calculate_short":({({"string",}),({}),([]),}),"do_close":({({"int",}),({}),([]),}),"do_open":({({"int",}),({}),([]),}),])
+protected_functions ([])
+inherits (["/std/object":({}),"/net/inherit/client":({}),])
+main_docs (["main":({"MUD based dictionary, conforms to the DICT new protocol found in RFC 2229. See ftp://ftp.isi.edu/in-notes/rfc2229.txt for more information.",}),"author":({"Taffyd@Discworld",}),])
+define_docs (["SEARCH_MODE_ALL":([]),"RECEIVING":([]),"DISCONNECTED":([]),"DEFAULT_SEARCH_MODE":([]),"EENONBLOCK	":([]),"EESENDTO	-27	/*":([]),"DEBUGGER":([]),"SENDING_MATCH":([]),"INACTIVE":([]),"SENDING_DEFINE":([]),"EEISLISTEN	-20	/*":([]),"READY":([]),"EECALLBACK	-29	/*":([]),"MATCH":([]),"WAITING_FOR_DNS":([]),"DEFINE":([]),"EESEND		-28	/*":([]),"EEISBOUND	":([]),"WAITING_FOR_CONNECT":([]),"ERROR_STRINGS	":([]),])
+includes (["/include/network.h":1522061544,"/include/socket_errors.h":1522061544,])
+class_docs (["connection_data":({0,({({"fd",({"int",}),}),({"dns_key",({"int",}),}),({"current_word",({"string",}),}),({"message",({"string",}),}),({"definitions",({"mixed",}),}),({"working",({"mixed","*",}),}),({"status",({"int",}),}),({"action",({"int",}),}),({"count",({"int",}),}),({"search_mode",({"string",}),}),}),(["main":({"This class handles connection details for each person usingthe dictionary. ",}),"member":({"fd the file descriptor of the socket currently beingused by the dictionary.member dns_key the resolve() key used when doing a nslookup.",}),]),}),])
+file_name "/net/obj/dict.c"
+last_changed 1522061544

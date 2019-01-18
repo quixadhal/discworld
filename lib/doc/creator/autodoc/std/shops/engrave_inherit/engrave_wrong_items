@@ -1,0 +1,45 @@
+.DT
+engrave_wrong_items
+Disk World creator help
+engrave_wrong_items
+
+.SH Name
+.SP 5 5
+engrave_wrong_items -  This method is called if the objects in question are unable to be engraved.
+.EP
+
+.SH Syntax
+.SI 5
+int engrave_wrong_items(object * obs)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^obs%^RESET%^ - the objects which could not be engraved.
+.EI
+
+.SH Returns
+.SI 5
+0 use default fail mesasage, 1 override default fail message.EI
+
+.SH Defined in
+.SI 5
+/std/shops/engrave_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called if the objects in question are unable to be
+engraved.
+This should be overridden in the inheritable to print out the
+message you wish to say.  If this function returns 1 then the
+default failed message is not used.
+.EP
+
+.SH See also
+.SP 5 5
+do_engrave()
+
+.EP
+

@@ -1,0 +1,40 @@
+.DT
+set_open_func
+Disk World creator help
+set_open_func
+
+.SH Name
+.SP 5 5
+set_open_func -  This method sets the function to evaluate to check to see if the shop is open or not.
+.EP
+
+.SH Syntax
+.SI 5
+void set_open_func(function func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^func%^RESET%^ - the open function
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/print_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the function to evaluate to check to see if the shop
+is open or not.  This should set any error messages which are needed.
+The objects are passed in as an argument in the do_print functions
+and nothing is passed in for the collection check.
+.EP
+
+.SH See also
+.SP 5 5
+query_open_func(), do_print(), do_print_copies(), do_collect()
+
+.EP
+

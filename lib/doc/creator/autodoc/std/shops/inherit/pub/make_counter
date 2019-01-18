@@ -1,0 +1,44 @@
+.DT
+make_counter
+Disk World creator help
+make_counter
+
+.SH Name
+.SP 5 5
+make_counter -  This function creates the counter for the pub.
+.EP
+
+.SH Syntax
+.SI 5
+object make_counter()
+.EI
+
+.SH Returns
+.SI 5
+the new counter object.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/pub.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function creates the counter for the pub.  It defaults to cloning
+PUB_COUNTER_FILE and making it a hidden object.
+If you are creating your own counter object then making it hidden is a
+good idea.  If it's not hidden, make sure it at least cannot be moved or
+buried.
+The counter should clear empty objects with the "pub item" property if
+they are placed on it.  Making it clear non-empty objects is a bad idea,
+since items will be placed here if the purchaser is unable to carry
+them.
+.EP
+
+.SH See also
+.SP 5 5
+query_counter(), /include/shops/pub_shop.h
+
+.EP
+

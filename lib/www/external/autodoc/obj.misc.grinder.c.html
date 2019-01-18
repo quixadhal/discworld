@@ -1,0 +1,53 @@
+<html><head><title>File grinder.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/misc/grinder.c</h2>
+To set a maximum amount of an object that can be ground at once.
+If left with the default value of 0, there is no maximum amount.
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.container.c.html">/obj/container.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_empty"><b>do_empty</b></a>(object *, string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_grind"><b>do_grind</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#long_status"><b>long_status</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_grindable"><b>query_max_grindable</b></a>()<dd>
+Returns the maximum amount grindable at once
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_grindable"><b>set_max_grindable</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_add"><b>test_add</b></a>(object, int)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_empty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_empty</b></a><pre>
+int do_empty(object * dest,
+string me,
+string him,
+string prep)
+</pre>
+<dt><a name="do_grind">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_grind</b></a><pre>
+int do_grind(string what)
+</pre>
+<dt><a name="long_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>long_status</b></a><pre>
+string long_status()
+</pre>
+<dt><a name="query_max_grindable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_grindable</b></a><pre>
+int query_max_grindable()
+</pre><dd>
+Returns the maximum amount grindable at once
+<p>
+
+<dt><a name="set_max_grindable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_grindable</b></a><pre>
+void set_max_grindable(int i)
+</pre>
+<dt><a name="test_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_add</b></a><pre>
+int test_add(object ob,
+int flag)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 13:23:28 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,85 @@
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_http_body">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>http_body</b></a><pre>
+class http_body {
+int state;
+int remaining;
+int read_chunked;
+int read_length;
+string buff;
+mapping data;
+}
+
+</pre>
+<dt><a name="class_http_body_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>http_body_info</b></a><pre>
+class http_body_info {
+string content_type;
+int chunked;
+int clength;
+int byterange;
+string boundary;
+string range;
+}
+
+</pre>
+<dt><a name="class_http_request">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>http_request</b></a><pre>
+class http_request {
+class http_session sess;
+string hostname;
+int time;
+string request;
+string status_line;
+int status;
+int proto_num;
+string method;
+string uri;
+string args;
+string filename;
+string dir;
+string user;
+class http_request_header rh;
+string location;
+int id;
+string the_request;
+int state;
+int persistent;
+string compression;
+int proxyreq;
+int numredirect;
+int cgi_request;
+class http_body body;
+class http_body_info bi;
+class http_request prev;
+int delayed;
+}
+
+</pre>
+<dt><a name="class_http_request_header">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>http_request_header</b></a><pre>
+class http_request_header {
+int noheaders;
+class mime_header headers_in;
+class mime_header headers_out;
+class mime_header err_headers_out;
+int header_only;
+}
+
+</pre>
+<dt><a name="class_http_session">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>http_session</b></a><pre>
+class http_session {
+int fd;
+int time;
+string address;
+string name;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Fri, 30 Mar 2018 21:59:04 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,39 @@
+.DT
+add_object_to_channel
+Disk World creator help
+add_object_to_channel
+
+.SH Name
+.SP 5 5
+add_object_to_channel -  This method adds an object to the list of objects to be told about the specfied channel.
+.EP
+
+.SH Syntax
+.SI 5
+void add_object_to_channel(string channel_name,
+object ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^channel_name%^RESET%^ - the name of the channel
+%^BOLD%^ob%^RESET%^ - the object to add to the list
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/broadcaster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an object to the list of objects to be told about the
+specfied channel.  The method called on the object for the channel
+will be event_channel_message.  The method will be called with
+three arguements, the first is the object generating the event
+the second is the channel the event is generated on and the
+third is the message being sent to the channel.
+.EP
+

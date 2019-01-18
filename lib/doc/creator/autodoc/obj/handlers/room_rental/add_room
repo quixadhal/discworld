@@ -1,0 +1,49 @@
+.DT
+add_room
+Disk World creator help
+add_room
+
+.SH Name
+.SP 5 5
+add_room -  Adds a room to the handler with a rental cost.
+.EP
+
+.SH Syntax
+.SI 5
+int add_room(string room,
+int cost,
+object office)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^room%^RESET%^ - the path of the room to add to the handler
+%^BOLD%^cost%^RESET%^ - the rental cost per day of this room
+%^BOLD%^office%^RESET%^ - the current office
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/room_rental.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Adds a room to the handler with a rental cost.
+
+.EP
+
+.SH Example 1
+.SI 5
+   add_room( "/w/goldenthread/workroom", 1000000 )
+
+.EI
+
+.SH See also
+.SP 5 5
+delete_room()
+
+.EP
+

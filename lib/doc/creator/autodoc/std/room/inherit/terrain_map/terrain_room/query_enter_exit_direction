@@ -1,0 +1,48 @@
+.DT
+query_enter_exit_direction
+Disk World creator help
+query_enter_exit_direction
+
+.SH Name
+.SP 5 5
+query_enter_exit_direction -  This method is used to setup any unusual sorts of entrances to  specific room types.
+.EP
+
+.SH Syntax
+.SI 5
+string query_enter_exit_direction(string key,
+string key_here,
+string direc,
+object room,
+string base_path)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^key%^RESET%^ - the key of the map location we are coming from
+%^BOLD%^key_here%^RESET%^ - my key of the character in the map
+%^BOLD%^direc%^RESET%^ - the direction the exit is in
+%^BOLD%^room%^RESET%^ - the room being setup
+%^BOLD%^base_path%^RESET%^ - the base path of the object we are coming from
+.EI
+
+.SH Returns
+.SI 5
+0 to do nothing, a string to replace the main exit
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/terrain_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to setup any unusual sorts of entrances to 
+specific room types.  For example so that you have to actually swim
+to get into a river rather than acidentally walking into it.  If
+this does return a string a default exit is not setup for this direction
+so just going 'east' doesn't drop you in the river.
+.EP
+

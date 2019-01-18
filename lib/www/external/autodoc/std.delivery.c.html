@@ -27,7 +27,7 @@ done:
 </ul><p>Written by Taffyd
 <hr><h2>Inherits</h2>
 This class inherits the following classes <a href="global.auto_load.c.html">/global/auto_load.c</a><hr><h2>Includes</h2>
-This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a>, <a href="include.login.h.html">/include/login.h</a> and <a href="include.player_handler.h.html">/include/player_handler.h</a><hr><h2>Class Index</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a> and <a href="include.login.h.html">/include/login.h</a><hr><h2>Class Index</h2>
 <dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#class_delivery_item"><b>delivery_item</b></a>
 </dl><hr><h2>Method index</h2>
@@ -107,9 +107,9 @@ These are functions that everyone can access.<p><dl>
 .<dt><a name="add_delivery">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_delivery</b></a><pre>
 void add_delivery(mixed who,
-                  mixed sender,
-                  object item,
-                  int delay)
+mixed sender,
+object item,
+int delay)
 </pre><dd>
 This method adds a new item to the delivery mapping for the specified 
 recipient.  This should always be used instead of set_delivery(), as it
@@ -131,7 +131,7 @@ login.
 <dt><a name="check_delivery">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_delivery</b></a><pre>
 void check_delivery(mixed person,
-                    string type)
+string type)
 </pre><dd>
 This method is called by the login handler every time someone logs 
 on to the Disc.  It handles the delivery of items and all sorts of 
@@ -263,8 +263,8 @@ These are functions that only objects inheriting the class can access.<p>
 <dt><a name="deliver_item">
 <img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>deliver_item</b></a><pre>
 void deliver_item(string who,
-                  object ob,
-                  string sent_by)
+object ob,
+string sent_by)
 </pre><dd>
 This method is called when an item is being delivered to a player.  The 
 delivery message or the burdened mess is used depending on how the item
@@ -368,7 +368,7 @@ delivery details can be successfully saved.<p>
 <dt><a name="valid_delivery">
 <img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>valid_delivery</b></a><pre>
 int valid_delivery(class delivery_item delivery,
-                   string person)
+string person)
 </pre><dd>
 This method is called by the check_delivery() function when it validates 
 someone's deliveries.  It is used to determine whether or not it's time
@@ -392,14 +392,14 @@ These are nice data types for dealing with...  Data!<p>
 <dt><a name="class_delivery_item">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delivery_item</b></a><pre>
 class delivery_item {
-                      object delivery_ob;
-                      string sent_by;
-                      int submit_time;
-                      int delay_time;
+object delivery_ob;
+string sent_by;
+int submit_time;
+int delay_time;
 }
 
 </pre>
 </dl>
 <hr>
-<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 02:42:44 GMT<br>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sun, 01 Apr 2018 15:24:38 GMT<br>
 <hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

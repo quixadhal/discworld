@@ -1,0 +1,40 @@
+.DT
+write_log
+Disk World creator help
+write_log
+
+.SH Name
+.SP 5 5
+write_log -  This method is used to do delayed logging to the log files.
+.EP
+
+.SH Syntax
+.SI 5
+void write_log(string event,
+string name,
+int guest,
+string other)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^event%^RESET%^ - the event generated
+%^BOLD%^name%^RESET%^ - the name of the player the event is for
+%^BOLD%^guest%^RESET%^ - if the person in question is a guest
+%^BOLD%^other%^RESET%^ - other information about the event
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/login_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to do delayed logging to the log files.  It will
+store a bunch of entries until it is over a maximum size and then
+save this to the log.
+.EP
+

@@ -1,0 +1,616 @@
+<html><head><title>File error_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/inherit/error_handler.c</h2>
+This is a handler to keep track of errors, make adding them and querying
+them easier.<p>Written by Pinkfish<p>Started Mon Jun 17 17:28:04 PDT 2002
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.error_handler.h.html">/include/error_handler.h</a> and <a href="include.db.h.html">/include/db.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#build_sql_query"><b>build_sql_query</b></a>(string, class error_query)<dd>
+This method builds an sql query from the input query.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#build_sql_update"><b>build_sql_update</b></a>(int, string, mixed)<dd>
+This method builds an sql update from the given inputs.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_error_comment"><b>create_error_comment</b></a>(mapping)<dd>
+This method creates the error comment from the input mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_error_complete"><b>create_error_complete</b></a>(class error_details)<dd>
+This method creates the complete error class from the error details
+passed in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_error_details"><b>create_error_details</b></a>(mapping)<dd>
+This method creates the error details from the return data.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_error_forward"><b>create_error_forward</b></a>(mapping)<dd>
+This method creates the error forward from the input mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_error_replies"><b>create_error_replies</b></a>(mapping)<dd>
+This method creates the error reply class from the sql query.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_error_summary"><b>create_error_summary</b></a>(mapping)<dd>
+This method creates the error summary from the input mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_add_error_reply"><b>do_add_error_reply</b></a>(int, string, string, string, string)<dd>
+THis method adds an error reply into the system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_assign_bug_to"><b>do_assign_bug_to</b></a>(int, string, function)<dd>
+This method changes who the bug is assigned to.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_change_category"><b>do_change_category</b></a>(int, string, function)<dd>
+This method changes the category of the bug.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_change_status"><b>do_change_status</b></a>(int, string, int, string, string, string, function)<dd>
+This method changes the status of the bug, it also automaticaly
+sends a message to the person who reported the bug and who the bug
+is assigned to if someone else changes it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_change_type"><b>do_change_type</b></a>(int, string, function)<dd>
+This method changes the type of the bug.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_comment"><b>do_comment</b></a>(int, string, string, function)<dd>
+This method adds a comment into the database.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_error_replies"><b>do_error_replies</b></a>(string, int, function)<dd>
+This method looks for all the error replies for the specific recipient.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_forward"><b>do_forward</b></a>(int, string, string, function)<dd>
+This method changes the status of the bug, it also automaticaly
+sends a message to the person who reported the bug and who the bug
+is assigned to if someone else changes it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_query_bug_details"><b>do_query_bug_details</b></a>(int, function)<dd>
+This method sets up a call to return the details of the error.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_query_bug_summary"><b>do_query_bug_summary</b></a>(class error_query, function)<dd>
+This method sets up a query for the specific data, this returns the
+bug summary for all the found bugs.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_query_open_bugs_by_reporter"><b>do_query_open_bugs_by_reporter</b></a>(string, function)<dd>
+This returns the bug summary for all the open bugs associated with
+the specified reporter.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_query_open_bugs_for_fname"><b>do_query_open_bugs_for_fname</b></a>(string, function)<dd>
+This returns the bug summary for all the open bugs associated with
+the specified file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_query_open_bugs_in_dir"><b>do_query_open_bugs_in_dir</b></a>(string, function)<dd>
+This method finds the bug summary for all the open bugs in the
+specified directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_status_error_reply"><b>do_status_error_reply</b></a>(int, string, function)<dd>
+This method sets the error reply status to something useful.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_comments"><b>finish_comments</b></a>(int, mixed, function, class error_complete *, string, string)<dd>
+This method updates the comments based on the query results.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_details"><b>finish_details</b></a>(int, mixed, function, string)<dd>
+This method finishes a details based query.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_details_error_replies"><b>finish_details_error_replies</b></a>(int, mixed, function, class error_complete *, string, string)<dd>
+This method updates the comments based on the query results.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_error_replies"><b>finish_error_replies</b></a>(int, mixed, function, string)<dd>
+This method finishes doing a reply lookup.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_forward_query"><b>finish_forward_query</b></a>(int, mixed, function, string, string)<dd>
+This method finishes a details based query.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_forwards"><b>finish_forwards</b></a>(int, mixed, function, class error_complete *, string)<dd>
+This method updates the comments based on the query results.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_status_query"><b>finish_status_query</b></a>(int, mixed, function, string, int, string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_summary"><b>finish_summary</b></a>(int, mixed, function, string)<dd>
+This method finishes a summary based query.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_update"><b>finish_update</b></a>(int, mixed, function, string)<dd>
+This method finishes an update based query.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_error_handler"><b>setup_error_handler</b></a>(string, string, string)<dd>
+This method sets up the access permissions to use for accessing
+the database.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="build_sql_update">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>build_sql_update</b></a><pre>
+string build_sql_update(int id,
+string field,
+mixed value)
+</pre><dd>
+This method builds an sql update from the given inputs.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id of the bug to update
+<dd>field - the field to update
+<dd>value - the new value of the field
+
+</dl>
+
+<dt><a name="create_error_comment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_error_comment</b></a><pre>
+class error_comment create_error_comment(mapping map)
+</pre><dd>
+This method creates the error comment from the input mapping.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>map - the mapping to create the comment from
+<dt><b>Returns:</b>
+<dd>the error comment class
+
+</dl>
+
+<dt><a name="create_error_complete">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_error_complete</b></a><pre>
+class error_complete create_error_complete(class error_details details)
+</pre><dd>
+This method creates the complete error class from the error details
+passed in.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>details - the details to make the complete error from
+
+</dl>
+
+<dt><a name="create_error_details">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_error_details</b></a><pre>
+class error_details create_error_details(mapping map)
+</pre><dd>
+This method creates the error details from the return data.
+<p>
+
+<dt><a name="create_error_forward">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_error_forward</b></a><pre>
+class error_forward create_error_forward(mapping map)
+</pre><dd>
+This method creates the error forward from the input mapping.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>map - the mapping to create the forward from
+<dt><b>Returns:</b>
+<dd>the error forward class
+
+</dl>
+
+<dt><a name="create_error_replies">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_error_replies</b></a><pre>
+class error_replies create_error_replies(mapping map)
+</pre><dd>
+This method creates the error reply class from the sql query.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>map - the mapping to convert to the class
+<dt><b>Returns:</b>
+<dd>the nice new error reply class
+
+</dl>
+
+<dt><a name="create_error_summary">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_error_summary</b></a><pre>
+class error_summary create_error_summary(mapping map)
+</pre><dd>
+This method creates the error summary from the input mapping.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>map - the mapping to create the summary from
+<dt><b>Returns:</b>
+<dd>the error summary class
+
+</dl>
+
+<dt><a name="do_add_error_reply">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_add_error_reply</b></a><pre>
+int do_add_error_reply(int bug_id,
+string from,
+string to,
+string subject,
+string message)
+</pre><dd>
+THis method adds an error reply into the system.  THis is a debug message
+and only useful until all the error setups are connected together properly.
+<p>
+
+<dt><a name="do_assign_bug_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_assign_bug_to</b></a><pre>
+int do_assign_bug_to(int id,
+string assigned_to,
+function finished)
+</pre><dd>
+This method changes who the bug is assigned to.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id of the bug to change
+<dd>assigned_to - the person it is assigned to
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_change_category">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_change_category</b></a><pre>
+int do_change_category(int id,
+string category,
+function finished)
+</pre><dd>
+This method changes the category of the bug.  The category is in the set
+'room', 'object', 'help', 'ritual', 'spell', 'command', 'general'.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id of the bug to update
+<dd>category - the new category of the bug
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_change_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_change_status</b></a><pre>
+int do_change_status(int id,
+string status,
+int nomail,
+string subject,
+string user,
+string message,
+function finished)
+</pre><dd>
+This method changes the status of the bug, it also automaticaly
+sends a message to the person who reported the bug and who the bug
+is assigned to if someone else changes it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id of the bug to change
+<dd>status - the new status of the bug
+<dd>nomail - dont send any mail
+<dd>user - the user who is making the change
+<dd>subject - the subject of the mail
+<dd>message - the main body of the mail
+<dt><b>Returns:</b>
+<dd>0 on failure and 1 on success
+
+</dl>
+
+<dt><a name="do_change_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_change_type</b></a><pre>
+int do_change_type(int id,
+string type,
+function finished)
+</pre><dd>
+This method changes the type of the bug.  The type is in the set
+'bug', 'typo', 'idea'.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id of the bug to update
+<dd>type - the new type of the bug
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_comment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_comment</b></a><pre>
+int do_comment(int id,
+string user,
+string comment,
+function finished)
+</pre><dd>
+This method adds a comment into the database.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the bug to comment on
+<dd>user - the user making the comment
+<dd>comment - the comment to make
+<dd>finished - the finished function
+
+</dl>
+
+<dt><a name="do_error_replies">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_error_replies</b></a><pre>
+int do_error_replies(string recipient,
+int only_new,
+function finished)
+</pre><dd>
+This method looks for all the error replies for the specific recipient.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>recipient - the recipient
+<dd>only_new - only new messages
+<dd>finished - the function to call on finishing
+
+</dl>
+
+<dt><a name="do_forward">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_forward</b></a><pre>
+int do_forward(int id,
+string user,
+string dir,
+function finished)
+</pre><dd>
+This method changes the status of the bug, it also automaticaly
+sends a message to the person who reported the bug and who the bug
+is assigned to if someone else changes it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id of the bug to change
+<dd>user - the user
+<dd>dir - the directory
+<dt><b>Returns:</b>
+<dd>0 on failure and 1 on success
+
+</dl>
+
+<dt><a name="do_query_bug_details">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_query_bug_details</b></a><pre>
+int do_query_bug_details(int bug_id,
+function finished)
+</pre><dd>
+This method sets up a call to return the details of the error.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bug_id - the id of the bug to get the details from
+<dd>finished - the function to call when things are finished
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_query_bug_summary">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_query_bug_summary</b></a><pre>
+int do_query_bug_summary(class error_query query,
+function finished)
+</pre><dd>
+This method sets up a query for the specific data, this returns the
+bug summary for all the found bugs.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>query - the class to use for the query
+<dd>finished - the function to call when things are finished
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_query_open_bugs_by_reporter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_query_open_bugs_by_reporter</b></a><pre>
+int do_query_open_bugs_by_reporter(string reporter,
+function finished)
+</pre><dd>
+This returns the bug summary for all the open bugs associated with
+the specified reporter.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>reporter - the reporter to find the bugs for
+<dd>finished - the function to call when things are finished
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_query_open_bugs_for_fname">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_query_open_bugs_for_fname</b></a><pre>
+int do_query_open_bugs_for_fname(string fname,
+function finished)
+</pre><dd>
+This returns the bug summary for all the open bugs associated with
+the specified file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the file name
+<dd>finished - the function to call when things are finished
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_query_open_bugs_in_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_query_open_bugs_in_dir</b></a><pre>
+int do_query_open_bugs_in_dir(string dir,
+function finished)
+</pre><dd>
+This method finds the bug summary for all the open bugs in the
+specified directory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to find the open bugs in
+<dd>finished - the function to call when things are finished
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_status_error_reply">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_status_error_reply</b></a><pre>
+int do_status_error_reply(int id,
+string status,
+function finished)
+</pre><dd>
+This method sets the error reply status to something useful.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id of the error reply
+<dd>status - the new status
+<dd>finished - the finished fuinction
+<dt><b>Returns:</b>
+<dd>1 if the setup is successful, 0 if not
+
+</dl>
+
+<dt><a name="finish_comments">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_comments</b></a><pre>
+void finish_comments(int type,
+mixed data,
+function finished,
+class error_complete * errors,
+string ids,
+string query)
+</pre><dd>
+This method updates the comments based on the query results.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - type type
+<dd>fdata - the return data from the query
+<dd>function - finsiished the finished function
+<dd>errors - the errors results we are updating
+<dd>query - the ids list we are using
+
+</dl>
+
+<dt><a name="finish_details">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_details</b></a><pre>
+void finish_details(int type,
+mixed data,
+function finished,
+string query)
+</pre><dd>
+This method finishes a details based query.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type returned (error etc)
+<dd>data - the data returned
+<dd>finished - the function to call on finish
+
+</dl>
+
+<dt><a name="finish_details_error_replies">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_details_error_replies</b></a><pre>
+void finish_details_error_replies(int type,
+mixed data,
+function finished,
+class error_complete * errors,
+string ids,
+string query)
+</pre><dd>
+This method updates the comments based on the query results.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - type type
+<dd>fdata - the return data from the query
+<dd>function - finsiished the finished function
+<dd>errors - the errors results we are updating
+<dd>query - the ids list we are using
+
+</dl>
+
+<dt><a name="finish_error_replies">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_error_replies</b></a><pre>
+void finish_error_replies(int type,
+mixed data,
+function finished,
+string query)
+</pre><dd>
+This method finishes doing a reply lookup.
+<p>
+
+<dt><a name="finish_forward_query">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_forward_query</b></a><pre>
+void finish_forward_query(int type,
+mixed data,
+function finished,
+string user,
+string newdir)
+</pre><dd>
+This method finishes a details based query.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type returned (error etc)
+<dd>data - the data returned
+<dd>finished - the function to call on finish
+
+</dl>
+
+<dt><a name="finish_forwards">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_forwards</b></a><pre>
+void finish_forwards(int type,
+mixed data,
+function finished,
+class error_complete * errors,
+string query)
+</pre><dd>
+This method updates the comments based on the query results.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - type type
+<dd>fdata - the return data from the query
+<dd>function - finsiished the finished function
+<dd>errors - the errors results we are updating
+<dd>query - the ids list we are using
+
+</dl>
+
+<dt><a name="finish_status_query">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_status_query</b></a><pre>
+void finish_status_query(int type,
+mixed data,
+function finished,
+string status,
+int nomail,
+string user,
+string subject,
+string message)
+</pre>
+<dt><a name="finish_summary">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_summary</b></a><pre>
+void finish_summary(int type,
+mixed data,
+function finished,
+string query)
+</pre><dd>
+This method finishes a summary based query.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type returned (error etc)
+<dd>data - the data returned
+<dd>finished - the function to call on finish
+
+</dl>
+
+<dt><a name="finish_update">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_update</b></a><pre>
+void finish_update(int type,
+mixed data,
+function finished,
+string query)
+</pre><dd>
+This method finishes an update based query.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type returned (error etc)
+<dd>data - the data returned
+<dd>finished - the function to call on finish
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="build_sql_query">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>build_sql_query</b></a><pre>
+string build_sql_query(string select_rows,
+class error_query query)
+</pre><dd>
+This method builds an sql query from the input query.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>query - the input query
+<dt><b>Returns:</b>
+<dd>an sql string query
+
+</dl>
+
+<dt><a name="setup_error_handler">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>setup_error_handler</b></a><pre>
+void setup_error_handler(string user,
+string db,
+string password)
+</pre><dd>
+This method sets up the access permissions to use for accessing
+the database.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>user - the user to use
+<dd>db - the database to use
+<dd>password - the password to use
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 04:47:39 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

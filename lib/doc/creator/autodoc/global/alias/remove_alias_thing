@@ -1,0 +1,42 @@
+.DT
+remove_alias_thing
+Disk World creator help
+remove_alias_thing
+
+.SH Name
+.SP 5 5
+remove_alias_thing -  This is called to signify the end of an alias.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_alias_thing(string verb)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^verb%^RESET%^ - the verb name to remove
+.EI
+
+.SH Returns
+.SI 5
+always returns 1.EI
+
+.SH Defined in
+.SI 5
+/global/alias.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is called to signify the end of an alias.  This is needed
+keep track of recursive aliases and such like.
+.EP
+
+.SH See also
+.SP 5 5
+set_doing_alias(), is_doing_alias()
+
+.EP
+

@@ -1,0 +1,38 @@
+.DT
+set_real_offsets
+Disk World creator help
+set_real_offsets
+
+.SH Name
+.SP 5 5
+set_real_offsets -  This method sets the real offsets for movement in the rooms.
+.EP
+
+.SH Syntax
+.SI 5
+void set_real_offsets(int xoff,
+int yoff,
+int zoff)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^xoff%^RESET%^ - how far you move in the x direction
+%^BOLD%^yoff%^RESET%^ - how far you move in the y direction
+%^BOLD%^zoff%^RESET%^ - how far you move in the z direction
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the real offsets for movement in the rooms.  This
+is needed in rooms that do not have real co-ordinates set but still
+require movement to generate the correct messages.
+.EP
+

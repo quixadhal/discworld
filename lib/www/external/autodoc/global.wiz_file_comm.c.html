@@ -1,0 +1,212 @@
+<html><head><title>File wiz_file_comm.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/wiz_file_comm.c</h2>
+This file contains all the file related commands and information
+for the creators.<p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="global.wiz_object_comm.c.html">/global/wiz_object_comm.c</a>, <a href="global.wiz_channels.c.html">/global/wiz_channels.c</a>, <a href="global.playtester.c.html">/global/playtester.c</a>, <a href="global.le.c.html">/global/le.c</a>, <a href="global.wiz_info_comm.c.html">/global/wiz_info_comm.c</a> and <a href="global.wiz_inter_comm.c.html">/global/wiz_inter_comm.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.ls.h.html">/include/ls.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.cmds.friends.h.html">/include/cmds/friends.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a>, <a href="include.playtesters.h.html">/include/playtesters.h</a> and <a href="include.creator.h.html">/include/creator.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#command"><b>command</b></a>(string)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#process_input"><b>process_input</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_allowed"><b>query_allowed</b></a>()<dd>
+This method returns the current list of people in the allowed array for
+the creator.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ed_setup"><b>query_ed_setup</b></a>()<dd>
+This method returns the saved setup for the inbuild ed command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_in_editor"><b>query_in_editor</b></a>()<dd>
+This method returns the value of the in editor flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_invis"><b>query_invis</b></a>()<dd>
+This method returns the current invisibility level of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_location"><b>query_last_location</b></a>()<dd>
+This method returns the last location of the creator for use by goback.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_path"><b>query_path</b></a>()<dd>
+This method returns the creators current working directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_visible"><b>query_visible</b></a>(object)<dd>
+This method returns the current visibility status of this creator
+in respect to the other object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#review"><b>review</b></a>()<dd>
+This method prints out any interesting bits of reviewable information
+available on the creator.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_ed_setup"><b>set_ed_setup</b></a>(int)<dd>
+This method sets the current flags for the inbuild ed command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_in_editor"><b>set_in_editor</b></a>(mixed)<dd>
+This method sets the current in editor flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_last_location"><b>set_last_location</b></a>(mixed)<dd>
+This method stores the last location of the creator for use by goback.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#wiz_commands"><b>wiz_commands</b></a>()<dd>
+This method adds in all the creator commands to the player.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_allowed</b></a><pre>
+nomask string * query_allowed()
+</pre><dd>
+This method returns the current list of people in the allowed array for
+the creator.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current list of allowed people
+
+</dl>
+
+<dt><a name="query_ed_setup">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ed_setup</b></a><pre>
+int query_ed_setup()
+</pre><dd>
+This method returns the saved setup for the inbuild ed command.  THis
+allows certain flag settings to be saved between sessions.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current ed setup flags
+<dt><b>See also:</b>
+<dd><a href="#set_ed_setup">set_ed_setup()
+</a></dl>
+
+<dt><a name="query_in_editor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_in_editor</b></a><pre>
+mixed query_in_editor()
+</pre><dd>
+This method returns the value of the in editor flag.
+It will return non-zero if the player is in an editor.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>non-zero in editor, 0 not in an editor
+<dt><b>See also:</b>
+<dd><a href="#set_in_editor">set_in_editor()
+</a></dl>
+
+<dt><a name="query_invis">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_invis</b></a><pre>
+nomask int query_invis()
+</pre><dd>
+This method returns the current invisibility level of the object.
+This will return 0 if the object is not invisible, 1 for creator
+invisible, 2 for director invisible and 3 for trustee invisible.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current invisibility level
+
+</dl>
+
+<dt><a name="query_last_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_location</b></a><pre>
+mixed query_last_location()
+</pre><dd>
+This method returns the last location of the creator for use by goback.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>string last location.
+
+</dl>
+
+<dt><a name="query_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_path</b></a><pre>
+string query_path()
+</pre><dd>
+This method returns the creators current working directory.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current working directory
+
+</dl>
+
+<dt><a name="query_visible">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_visible</b></a><pre>
+int query_visible(object thing)
+</pre><dd>
+This method returns the current visibility status of this creator
+in respect to the other object.  This does the allow level checking
+and all sorts of exciting things.
+<p>
+It will return 1 for creator invisible, 2 for director invisible, 3 for
+trustee invisible.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object to test the visibility against
+<dt><b>Returns:</b>
+<dd>0 if not invisible, non-zero if invisible
+
+</dl>
+
+<dt><a name="review">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>review</b></a><pre>
+int review()
+</pre><dd>
+This method prints out any interesting bits of reviewable information
+available on the creator.  This is used by the review command.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns 1
+
+</dl>
+
+<dt><a name="set_ed_setup">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_ed_setup</b></a><pre>
+void set_ed_setup(int i)
+</pre><dd>
+This method sets the current flags for the inbuild ed command.  THis
+allows certain flag settings to be saved between sessions.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new flags for the ed command
+<dt><b>See also:</b>
+<dd><a href="#query_ed_setup">query_ed_setup()
+</a></dl>
+
+<dt><a name="set_in_editor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_in_editor</b></a><pre>
+void set_in_editor(mixed what)
+</pre><dd>
+This method sets the current in editor flag.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>what - the new value of the in editor flag
+<dt><b>See also:</b>
+<dd><a href="#query_in_editor">query_in_editor()
+</a></dl>
+
+<dt><a name="set_last_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_last_location</b></a><pre>
+void set_last_location(mixed loc)
+</pre><dd>
+This method stores the last location of the creator for use by goback.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>string - location
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="command">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>command</b></a><pre>
+mixed command(string txt)
+</pre>
+<dt><a name="process_input">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>process_input</b></a><pre>
+string process_input(string inp)
+</pre>
+<dt><a name="wiz_commands">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>wiz_commands</b></a><pre>
+void wiz_commands()
+</pre><dd>
+This method adds in all the creator commands to the player.  This
+will be called when the play initialy logs onto the game.
+<p>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Nov 2018 23:46:45 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

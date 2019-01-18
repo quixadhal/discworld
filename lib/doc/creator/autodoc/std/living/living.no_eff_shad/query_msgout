@@ -1,0 +1,38 @@
+.DT
+query_msgout
+Disk World creator help
+query_msgout
+
+.SH Name
+.SP 5 5
+query_msgout -  This is the method used to query the current message to use when exiting a room.
+.EP
+
+.SH Syntax
+.SI 5
+string query_msgout()
+.EI
+
+.SH Returns
+.SI 5
+the message to print when entering a room..EI
+
+.SH Defined in
+.SI 5
+/std/living/living.no_eff_shad.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the method used to query the current message to use when
+exiting a room.   A $N in the string will be expanded to the
+name and a $T will be expanded to the to direction.
+.EP
+
+.SH See also
+.SP 5 5
+/obj/handlers/room_handler, query_msgin(), set_msgout()
+
+.EP
+

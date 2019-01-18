@@ -1,0 +1,108 @@
+<html><head><title>File haggle_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/haggle_handler.c</h2>
+This handler controls the npcs haggling the price of something with 
+a player.  Currently it only handles sell barganing.
+<p>
+Factors of relevance:
+   <ol>
+ <li> merchants' guild rating
+ <li> race of customer vs. shopkeeper
+</ol>
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#bargain_factor"><b>bargain_factor</b></a>(object, object)<dd>
+This method determines the barganing factor between the customer and
+the shop keeper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#insult_factor"><b>insult_factor</b></a>(object, object)<dd>
+This method determines the insult factor between the customer and the
+shop keeper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#sell_haggle"><b>sell_haggle</b></a>(int, int, int, int, string, object, object)<dd>
+This method does the actual haggle on a sell.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="bargain_factor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>bargain_factor</b></a><pre>
+int bargain_factor(object keeper,
+object customer)
+</pre><dd>
+This method determines the barganing factor between the customer and
+the shop keeper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>keeper - the shop keeper
+<dd>customer - the customer of the shop
+
+</dl>
+
+<dt><a name="insult_factor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>insult_factor</b></a><pre>
+int insult_factor(object keeper,
+object customer)
+</pre><dd>
+This method determines the insult factor between the customer and the
+shop keeper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>keeper - the shop keeper
+<dd>customer - the customer in the shop
+
+</dl>
+
+<dt><a name="sell_haggle">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>sell_haggle</b></a><pre>
+int * sell_haggle(int value,
+int offer,
+int asking,
+int insults,
+string place,
+object keeper,
+object customer)
+</pre><dd>
+This method does the actual haggle on a sell.
+The logic is as follows:
+<pre>
+if offer > asking then
+   give back a boggle response
+else if offer == asking then
+   sell the thing and give an accepted saying
+else if offer * insult_factor > asking * 100 then
+   adjustment = ( ( asking - offer ) * bargain_factor ) / 100
+   asking -= adjustment
+   return an adjustment message
+else
+   return an insulted message
+endif
+</pre>
+The return from this function is an array of three elements, the
+first is the a flag saying if the item was accepted or not, the
+second is the current asking price and the last is the current
+insult level.
+<pre>
+({
+   flag (0/1), // This is 0 if unable to sell, 1 if sold
+   asking,     // the current asking price
+   insults,    // the current insult level
+})
+</pre><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - the real value of the item
+<dd>offer - the offered value for the item
+<dd>asking - the current asking price
+<dd>insults - the current insult level
+<dd>place - the place for the money strings
+<dd>keeper - the shop keeper
+<dd>customer - the customer
+<dt><b>Returns:</b>
+<dd>the array as described above
+<dt><b>See also:</b>
+<dd><a href="#insult_factor">insult_factor()</a> and <a href="#bargain_factor">bargain_factor()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 19:12:55 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

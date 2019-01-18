@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["review":({({"int",}),({}),(["main":({"The review command.  Prints out the current settings forthe commands.",}),"see":({"help::review",}),"param":({"str the player name restriction string",}),"return":({"0 if it failed, 1 if it succeeded",}),]),}),"do_command":({({"int",}),({({"mixed","*",}),"pattern",({"string",}),"constraint",({"function",}),"sort_func",({"int",}),"only_duplicates",}),(["main":({"This method is the main access point to the peopler.  It prints outthe commands.  The optional sort function allows you to sort on somethign other than the name of the player.<p>The format of the pattern string is an array with every second elementbeing the type and the other element being the width of the printablestring.<pre>   ({ type, width,  ... })</pre>With strings the width is the string...",}),"see":({"help::people","help::netstat","help::snetstat","help::netdups","help::terms","help::dirs",}),"param":({"pattern the pattern to print with","constraint All the names should start with this, 0 fo rnone","sort_func the function to sort with (optional)","only_duplicates only print entries whicxh are the same (using the        sort_func",}),"return":({"0 on failure, 1 on success",}),]),}),"get_people":({({"object","*",}),({({"string",}),"str",}),(["main":({"This method returns the list of people using the 'str' as a constraint.  So it only shows the people who match with thestr.",}),"param":({"str the constraint string",}),"return":({"the array of people",}),]),}),"set_var":({({"int",}),({({"string",}),"str",}),(["main":({"Sets a variable.  Sets the variable to the specified value.",}),"param":({"the name and arg of the varible",}),"return":({"0 on failure, 1 on success",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"This prints out nicely formated lists of information.  It ius usedby the people, finger etc commands.",}),"author":({"Pinkfish",}),])
+define_docs (["MULTIPLAYER":([]),])
+includes (["/include/peopler.h":1522061544,])
+class_docs ([])
+file_name "/obj/handlers/peopler.c"
+last_changed 1522061544

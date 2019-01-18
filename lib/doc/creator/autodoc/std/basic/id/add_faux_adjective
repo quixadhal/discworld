@@ -1,0 +1,36 @@
+.DT
+add_faux_adjective
+Disk World creator help
+add_faux_adjective
+
+.SH Name
+.SP 5 5
+add_faux_adjective -  This method adds a faux adjective to the object.
+.EP
+
+.SH Syntax
+.SI 5
+void add_faux_adjective(mixed str)
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/id.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a faux adjective to the object.   Faux adjectives are
+ignored by objects that ignore identifiers.
+
+
+The function takes an array or a string as an argument. If an array is passed in each element of the array is added to the faux adjective array, if it is a string then each word in the string element is added to the array. Elements that are already real adjectives of the object are ignored.
+.EP
+
+.SH See also
+.SP 5 5
+add_adjective(), remove_faux_adjective(), ignore_identifiers()
+
+.EP
+

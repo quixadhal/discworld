@@ -1,0 +1,41 @@
+.DT
+query_position
+Disk World creator help
+query_position
+
+.SH Name
+.SP 5 5
+query_position -  Dummy function for guilds without positions This method returns the position held by the player.
+.EP
+
+.SH Syntax
+.SI 5
+string query_position(string sub_guild,
+string player_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^sub_guild%^RESET%^ - the sub guild
+%^BOLD%^player_name%^RESET%^ - the player
+.EI
+
+.SH Returns
+.SI 5
+the position the player is appointed to in sub_guild.
+.EI
+
+.SH Defined in
+.SI 5
+/std/guilds/standard.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Dummy function for guilds without positions
+This method returns the position held by the player. If sub_guild is
+0, the guild object is supposed to figure out what sub_guild (if any)
+is relevant.
+.EP
+

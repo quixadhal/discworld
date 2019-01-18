@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["html_file":({({"string",}),({({"string",}),"file",({"string",}),"title",}),(["main":({"Turns the nroff file into a html output.  This works on nroff filescreating a html output from the mud source.",}),"param":({"file the name to process","title the title to give the document",}),"return":({"the html file",}),]),}),"cat_file":({({"string",}),({({"string",}),"fname",({"int",}),"update",}),(["main":({"Creates a string from a nroffed file.<p>If update is non zero it will look to see if the source file has been modified since the saved nroff file was created.  If it has, thisfunction returns 0 and the nroff file needs to be recreated.",}),"param":({"fname the file to process","update force update if file is newer?",}),"return":({"the string representation of the nroff file",}),]),}),"create_nroff":({({"int",}),({({"string",}),"in_file",({"string",}),"out_file",}),(["main":({"Makes the nroff saveable file.  Turns the input nroff file into a savedoutput format.",}),"param":({"in_file the file name been processed","out_file the file to save it as",}),"return":({"1 if the operation was successful",}),]),}),"query_file_name":({({"string",}),({({"string",}),"fname",}),(["main":({"Will attempt to find the name of the nroffed file.  Will attempt tofind the name of the source file associated with the save file.",}),"param":({"fname the name of the file to check",}),"return":({"the source file name or 0",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"An nroff like object for formating text files.<p>This creates a saveable file format thingy.",}),"author":({"Pinkfish",}),])
+define_docs (["do_bounds(bing)":([]),])
+includes (["/include/nroff.h":1522061544,])
+class_docs ([])
+file_name "/obj/handlers/nroff.c"
+last_changed 1522061544

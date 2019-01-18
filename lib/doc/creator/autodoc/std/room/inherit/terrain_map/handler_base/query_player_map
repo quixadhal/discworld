@@ -1,0 +1,39 @@
+.DT
+query_player_map
+Disk World creator help
+query_player_map
+
+.SH Name
+.SP 5 5
+query_player_map -  This method returns the player line of sight view of the current terrain.
+.EP
+
+.SH Syntax
+.SI 5
+string query_player_map(int x_c,
+int y_c,
+int z_c,
+int visibility)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x_c%^RESET%^ - the x center point
+%^BOLD%^y_c%^RESET%^ - the y center point
+%^BOLD%^z_c%^RESET%^ - the z center point
+%^BOLD%^visibility%^RESET%^ - the visibility percentage currently
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the player line of sight view of the current terrain.
+It depends on height and other wonderful things.
+.EP
+

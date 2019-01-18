@@ -1,0 +1,218 @@
+<html><head><title>File key_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/key_handler.c</h2>
+This handler keeps track of the keys.  The keys are arranged in
+groups and each key type in the group has a name and a set of
+permissions associated with it.<p>Written by Deutha
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_key_permission"><b>add_key_permission</b></a>(string, string, string)<dd>
+This method adds in a specific permission type into the current
+permission set for this key.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_key_name"><b>delete_key_name</b></a>(string, string)<dd>
+This method removes a specified key name from the current key name
+mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_key_names"><b>query_all_key_names</b></a>(string)<dd>
+This method returns all the key names for the given key group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_key_permissions"><b>query_all_key_permissions</b></a>(string, string)<dd>
+This method returns all the permision types associated with the key.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_keys"><b>query_all_keys</b></a>(string)<dd>
+This method returns all the keys in the current group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_key_name"><b>query_key_name</b></a>(string, string)<dd>
+This method returns the key name for a given key.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_key_permission"><b>query_key_permission</b></a>(string, string, string)<dd>
+This method will see if the given key perrmision exists for this
+key in this particular group and key.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_key_permission"><b>remove_key_permission</b></a>(string, string, string)<dd>
+This method removes a specific permission type from the given
+key group and key.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_key_name"><b>set_key_name</b></a>(string, string, string)<dd>
+This method sets the name of the specified key.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_key_permissions"><b>set_key_permissions</b></a>(string, string, string *)<dd>
+This method will set the key permissions for a certain sort of
+key.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_key_permission">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_key_permission</b></a><pre>
+int add_key_permission(string group,
+string key,
+string type)
+</pre><dd>
+This method adds in a specific permission type into the current
+permission set for this key.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the key group to add the permision to
+<dd>key - the key to add the permission for
+<dd>type - the permission type to add in
+<dt><b>Returns:</b>
+<dd>0 if it is already added, 1 if not
+<dt><b>See also:</b>
+<dd><a href="#remove_key_permission">remove_key_permission()</a>, <a href="#query_key_permission">query_key_permission()</a>, <a href="#set_key_permissions">set_key_permissions()</a>, <a href="#query_all_key_permissions">query_all_key_permissions()</a> and <a href="#query_all_keys">query_all_keys()
+</a></dl>
+
+<dt><a name="delete_key_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_key_name</b></a><pre>
+void delete_key_name(string group,
+string key)
+</pre><dd>
+This method removes a specified key name from the current key name
+mapping.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the group to remove the key from
+<dd>key - the key type to remove the name of
+<dt><b>See also:</b>
+<dd><a href="#set_key_name">set_key_name()</a>, <a href="#query_key_name">query_key_name()</a> and <a href="#query_all_key_names">query_all_key_names()
+</a></dl>
+
+<dt><a name="query_all_key_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_key_names</b></a><pre>
+mapping query_all_key_names(string group)
+</pre><dd>
+This method returns all the key names for the given key group.
+The index of the mapping is the key type and the value is its name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the key group
+<dt><b>Returns:</b>
+<dd>the mapping containing the key names
+<dt><b>See also:</b>
+<dd><a href="#delete_key_name">delete_key_name()</a>, <a href="#set_key_name">set_key_name()</a> and <a href="#query_key_name">query_key_name()
+</a></dl>
+
+<dt><a name="query_all_key_permissions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_key_permissions</b></a><pre>
+string * query_all_key_permissions(string group,
+string key)
+</pre><dd>
+This method returns all the permision types associated with the key.
+The permission types are an array of string permision type names.  If
+the key name is non-existant an empty array will be returned.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the key group to lookup
+<dd>key - the key name to lookup
+<dt><b>Returns:</b>
+<dd>the array of permission types
+<dt><b>See also:</b>
+<dd><a href="#remove_key_permission">remove_key_permission()</a>, <a href="#add_key_permission">add_key_permission()</a>, <a href="#query_key_permission">query_key_permission()</a>, <a href="#set_key_permissions">set_key_permissions()</a> and <a href="#query_all_keys">query_all_keys()
+</a></dl>
+
+<dt><a name="query_all_keys">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_keys</b></a><pre>
+mapping query_all_keys(string group)
+</pre><dd>
+This method returns all the keys in the current group.  The mapping
+consists has an index of the key name and a value of an array of
+key permission types.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the key group to get permissions for
+<dt><b>Returns:</b>
+<dd>a mapping containing all the permissions
+<dt><b>See also:</b>
+<dd><a href="#remove_key_permission">remove_key_permission()</a>, <a href="#add_key_permission">add_key_permission()</a>, <a href="#query_key_permission">query_key_permission()</a>, <a href="#set_key_permissions">set_key_permissions()</a> and <a href="#query_all_key_permissions">query_all_key_permissions()
+</a></dl>
+
+<dt><a name="query_key_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_key_name</b></a><pre>
+string query_key_name(string group,
+string key)
+</pre><dd>
+This method returns the key name for a given key.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the key group to lookup
+<dd>key - the key type to look up
+<dt><b>Returns:</b>
+<dd>the key's name
+<dt><b>See also:</b>
+<dd><a href="#delete_key_name">delete_key_name()</a>, <a href="#set_key_name">set_key_name()</a> and <a href="#query_all_key_names">query_all_key_names()
+</a></dl>
+
+<dt><a name="query_key_permission">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_key_permission</b></a><pre>
+int query_key_permission(string group,
+string key,
+string type)
+</pre><dd>
+This method will see if the given key perrmision exists for this
+key in this particular group and key.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the key group to look up in
+<dd>key - the key to check
+<dd>type - the permission type to see if it exists
+<dt><b>Returns:</b>
+<dd>1 if the permission exists, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#remove_key_permission">remove_key_permission()</a>, <a href="#add_key_permission">add_key_permission()</a>, <a href="#set_key_permissions">set_key_permissions()</a>, <a href="#query_all_key_permissions">query_all_key_permissions()</a> and <a href="#query_all_keys">query_all_keys()
+</a></dl>
+
+<dt><a name="remove_key_permission">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_key_permission</b></a><pre>
+int remove_key_permission(string group,
+string key,
+string type)
+</pre><dd>
+This method removes a specific permission type from the given
+key group and key.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the key group to remove the key from
+<dd>key - the key to remove the permission from
+<dd>type - the type of permission to remove
+<dt><b>Returns:</b>
+<dd>0 if the permission was not remove, 1 if it was
+<dt><b>See also:</b>
+<dd><a href="#add_key_permission">add_key_permission()</a>, <a href="#query_key_permission">query_key_permission()</a>, <a href="#set_key_permissions">set_key_permissions()</a>, <a href="#query_all_key_permissions">query_all_key_permissions()</a> and <a href="#query_all_keys">query_all_keys()
+</a></dl>
+
+<dt><a name="set_key_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_key_name</b></a><pre>
+void set_key_name(string group,
+string key,
+string name)
+</pre><dd>
+This method sets the name of the specified key.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the group to set the name of the key in
+<dd>key - the type of key to set the name for
+<dd>name - the name of the key to set
+<dt><b>See also:</b>
+<dd><a href="#delete_key_name">delete_key_name()</a>, <a href="#query_key_name">query_key_name()</a> and <a href="#query_all_key_names">query_all_key_names()
+</a></dl>
+
+<dt><a name="set_key_permissions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_key_permissions</b></a><pre>
+void set_key_permissions(string group,
+string key,
+string * types)
+</pre><dd>
+This method will set the key permissions for a certain sort of
+key.  It will overwrite any current possible key permission sets.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>group - the key group to set the permissions for
+<dd>key - the key to set the permission for
+<dd>types - the new set of permission types
+<dt><b>See also:</b>
+<dd><a href="#remove_key_permission">remove_key_permission()</a>, <a href="#add_key_permission">add_key_permission()</a>, <a href="#query_key_permission">query_key_permission()</a>, <a href="#query_all_key_permissions">query_all_key_permissions()</a> and <a href="#query_all_keys">query_all_keys()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 20:01:45 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

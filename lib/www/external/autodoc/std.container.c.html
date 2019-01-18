@@ -6,8 +6,8 @@ inform us that they should be used as part of the inventory of this
 object.  This means the contents of containers will look like they
 are not inside containers to the outside world.<p><b>See also:</b><br><a href="obj.container.c.html">/obj/container.c</a>, <a href="obj.baggage.c.html">/obj/baggage.c</a>, <a href="obj.vessel.c.html">/obj/vessel.c</a> and /obj/clothing.c
 <p>Written by Pinkfish<hr><h2>Inherits</h2>
-This class inherits the following classes <a href="std.basic.export_inventory.c.html">/std/basic/export_inventory.c</a>, <a href="global.auto_load.c.html">/global/auto_load.c</a>, <a href="std.basic.cute_look.c.html">/std/basic/cute_look.c</a> and <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
-This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+This class inherits the following classes <a href="std.basic.cute_look.c.html">/std/basic/cute_look.c</a>, <a href="std.object.c.html">/std/object.c</a>, <a href="global.auto_load.c.html">/global/auto_load.c</a> and <a href="std.basic.export_inventory.c.html">/std/basic/export_inventory.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
 <dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#add_tracked_items"><b>add_tracked_items</b></a>(int)<dd>
 This method handles the addition of tracked items.
@@ -161,7 +161,7 @@ This method allows the container to have stuff inside it checked.<p>
 <dt><a name="can_find_match_reference_inside_object">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_find_match_reference_inside_object</b></a><pre>
 int can_find_match_reference_inside_object(object thing,
-                                           object looker)
+object looker)
 </pre><dd>
 This method checks to see if the find match code can actually
 reference this object inside us.<p>
@@ -187,7 +187,7 @@ This method disables item tracking<p>
 <dt><a name="do_restore_inventory_error">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_restore_inventory_error</b></a><pre>
 int do_restore_inventory_error(object ob,
-                               int move_flag)
+int move_flag)
 </pre><dd>
 This method handles the case where the return of the move flag is not
 MOVE_OK.  This can do whatever we want to make it work in a more useful
@@ -207,8 +207,8 @@ This method enables item tracking<p>
 <dt><a name="event_container_move">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_container_move</b></a><pre>
 nomask void event_container_move(object mover,
-                                 mixed from,
-                                 mixed to)
+mixed from,
+mixed to)
 </pre><dd>
 This method handles the movement of the containers of this object.
 Tracked items want to be notified if the container moves or anything
@@ -226,7 +226,7 @@ propagated down to all tracked items.<p>
 <dt><a name="event_move_object">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_move_object</b></a><pre>
 void event_move_object(mixed from,
-                       mixed to)
+mixed to)
 </pre><dd>
 This method is called from move to notify any tracked items contained of
 the move using event_container_moved.<p>
@@ -240,7 +240,7 @@ the move using event_container_moved.<p>
 <dt><a name="find_inv_match">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_inv_match</b></a><pre>
 object * find_inv_match(string words,
-                        object looker)
+object looker)
 </pre><dd>
 This method finds the matching objects inside this object
 that are visible to the looker.  This will also use the
@@ -451,7 +451,7 @@ occurences.  <p>
 <dt><a name="test_add">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_add</b></a><pre>
 int test_add(object ob,
-             int flag)
+int flag)
 </pre><dd>
 This method allows things to be added into us.  If we have an 
 environment check that for the ability to add into us.<p>
@@ -466,8 +466,8 @@ environment check that for the ability to add into us.<p>
 <dt><a name="test_remove">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_remove</b></a><pre>
 int test_remove(object thing,
-                int flag,
-                mixed dest)
+int flag,
+mixed dest)
 </pre><dd>
 This method checks to see if the object can be taken out of
 us.<p>
@@ -512,5 +512,5 @@ should handle the bypassing of open/close/locked etc flags.<p>
 
 
 <hr>
-<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 02:36:44 GMT<br>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sun, 01 Apr 2018 15:18:42 GMT<br>
 <hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

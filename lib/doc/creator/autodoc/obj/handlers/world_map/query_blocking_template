@@ -1,0 +1,37 @@
+.DT
+query_blocking_template
+Disk World creator help
+query_blocking_template
+
+.SH Name
+.SP 5 5
+query_blocking_template -  Find the template to use for the area blocked by an obstacle.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_blocking_template(int x,
+int y,
+int type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x%^RESET%^ - the x co-ordinate of the blockage
+%^BOLD%^y%^RESET%^ - the y co-ordinate of the blockage
+%^BOLD%^type%^RESET%^ - the type is 0 for normal, 1 for straight, 2 for diagonal
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/world_map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Find the template to use for the area blocked by an obstacle.
+This will do nifty template fitting stuff for obstacles.
+.EP
+

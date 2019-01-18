@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["calc_extra_look":({({"string",}),({}),(["main":({"This method creates the extra long stringsbased on the current listof objects to use an extra_look on.  The function extra_look() iscalled on every object with this_object() passed in as the first(and only) parameter.  If the result is non-zero it is added ontothe output.",}),"see":({"add_extra_look()","remove_extra_look()","query_extra_look_list()",}),"return":({"the extra look string",}),]),}),"remove_extra_look":({({"void",}),({({"object",}),"ob",}),(["main":({"This method removes the object from the list of extra look objects.",}),"see":({"calc_extra_look()","add_extra_look()","query_extra_look_list()",}),"param":({"ob the object to remove",}),]),}),"query_extra_look_list":({({"object","*",}),({}),(["main":({"This method returns the current list of objects to be used forthe extra look list.",}),"see":({"add_extra_look()","remove_extra_look()","calc_extra_look()",}),"return":({"the array of extra look objects",}),]),}),"add_extra_look":({({"void",}),({({"object",}),"ob",}),(["main":({"This method adds an object into the list of extra look objects.ob will need to have a string extra_look( object ) function defined onit which will actually give the extra look string. ob->extra_look() iscalled with the object to which you are adding the extra look.",}),"see":({"calc_extra_look()","remove_extra_look()","query_extra_look_list()",}),"param":({"ob the object to add",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"Handles adding bits to the long description of objects.",}),"author":({"Pinkfish",}),])
+define_docs ([])
+includes ([])
+class_docs ([])
+file_name "/std/basic/extra_look.c"
+last_changed 1522061544

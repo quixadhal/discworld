@@ -1,0 +1,97 @@
+<html><head><title>File livings.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/livings.c</h2>
+A handler to deal with all the living objects on the disc.  <p>Written by Wodan<h3>Change history</h3>
+<dl><dt>Pinkfish March 16th<dd>After wodan didn't add any autodoc comments and made some bits quite
+inefficent
+</dl>
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#enable_commands"><b>enable_commands</b></a>(object)<dd>
+Enables commands on the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_living"><b>find_living</b></a>(string)<dd>
+Returns the living object associated with the name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_player"><b>find_player</b></a>(string)<dd>
+Returns the player associated with the name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#named_livings"><b>named_livings</b></a>()<dd>
+This method returns the name of all the named livings in the game.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_garbage"><b>remove_garbage</b></a>()<dd>
+Removes all the not very useful things from the huge mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_living_name"><b>set_living_name</b></a>(string, object)<dd>
+This method registers the living name with the specific object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="enable_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>enable_commands</b></a><pre>
+void enable_commands(object ob)
+</pre><dd>
+Enables commands on the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to enable the commands on
+
+</dl>
+
+<dt><a name="find_living">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_living</b></a><pre>
+object find_living(string it)
+</pre><dd>
+Returns the living object associated with the name.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the living object
+
+</dl>
+
+<dt><a name="find_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_player</b></a><pre>
+object find_player(string it)
+</pre><dd>
+Returns the player associated with the name.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the player object
+
+</dl>
+
+<dt><a name="named_livings">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>named_livings</b></a><pre>
+object * named_livings()
+</pre><dd>
+This method returns the name of all the named livings in the game.
+Do not use this method except for debugging.
+<p>
+
+<dt><a name="remove_garbage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_garbage</b></a><pre>
+void remove_garbage()
+</pre><dd>
+Removes all the not very useful things from the huge mapping.
+<p>
+
+<dt><a name="set_living_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_living_name</b></a><pre>
+void set_living_name(string name,
+object ob)
+</pre><dd>
+This method registers the living name with the specific object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name to register
+<dd>ob - the object to register it with
+
+</dl>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 20:22:41 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

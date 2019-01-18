@@ -1,0 +1,42 @@
+.DT
+remove_mapping
+Disk World creator help
+remove_mapping
+
+.SH Name
+.SP 5 5
+remove_mapping -  Removes a mapping from the object.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_mapping(string from)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^from%^RESET%^ - the object to remove the mapping from
+.EI
+
+.SH Returns
+.SI 5
+1 on success and 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/global/cloner.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Removes a mapping from the object.  This looks to see if an mapping
+exists for the object and removes it if it does.
+.EP
+
+.SH See also
+.SP 5 5
+add_mapping(), list_mappings()
+
+.EP
+

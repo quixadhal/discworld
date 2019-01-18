@@ -1,0 +1,154 @@
+<html><head><title>File item_chat.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/item_chat.c</h2>-*- LPC -*-
+This class handles atmospheric chat messages.
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.room.h.html">/include/room.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#chat_off"><b>chat_off</b></a>()<dd>
+This stops the object chatting.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#chat_on"><b>chat_on</b></a>()<dd>
+This starts the object chatting.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_chat"><b>check_chat</b></a>()<dd>
+This method makes sure that we are chatting if we should be.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#fix_saved_chat"><b>fix_saved_chat</b></a>(string)<dd>Fixes saved chats
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#item_chat"><b>item_chat</b></a>(mixed *)<dd>
+This method adds atmospheric chat messages to the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_chat"><b>make_chat</b></a>()<dd>
+This method does the actual chat, it prints a message
+and figures that stuff out.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_chats"><b>query_chats</b></a>()<dd>
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="chat_off">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>chat_off</b></a><pre>
+void chat_off()
+</pre><dd>
+This stops the object chatting.  This is done automaticly when leaving
+the prescence of all interactive objects.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#chat_on">chat_on()</a> and <a href="#item_chat">item_chat()
+</a></dl>
+
+<dt><a name="chat_on">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>chat_on</b></a><pre>
+void chat_on()
+</pre><dd>
+This starts the object chatting.  This is done automaticly when entering
+the presence of an interactive object<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#item_chat">item_chat()</a> and <a href="#chat_off">chat_off()
+</a></dl>
+
+<dt><a name="check_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_chat</b></a><pre>
+void check_chat()
+</pre><dd>
+This method makes sure that we are chatting if we should be.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#chat_on">chat_on()</a>, <a href="#item_chat">item_chat()</a> and <a href="#make_chat">make_chat()
+</a></dl>
+
+<dt><a name="fix_saved_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>fix_saved_chat</b></a><pre>
+string fix_saved_chat(string chat)
+</pre><dd>Fixes saved chats
+<p>
+
+<dt><a name="item_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>item_chat</b></a><pre>
+void item_chat(mixed * args)
+</pre><dd>
+This method adds atmospheric chat messages to the object.
+The array which is passed into the object has three 
+elements, the first element is the minimum time between chats, the second
+parameter is the maximum time bewteen chats and the third parameter
+is the list of actual chats.
+<p>
+Item chats are strings which are printed at (semi) random
+intervals to living objects holding or in the same room as
+someone holding the object. Currently they will not be
+heard outside containers. They are used to add
+atmosphere to an Item. A chat will be picked at random
+from the array of chats with a frequency controlled by the
+times min and max. ie. one will be picked every n seconds
+where is varies between min and max seconds. Please
+don't make the values for min and max too small or the
+messages just become annoying! 
+<p>
+Currently, there's a maximum on the min/max values, every
+value higher than 320 seconds is treated as that.
+<p>
+The chats can contain one of $a_short$, $the_short$ and
+$poss_short$ which will be replaced with the
+corresponding value. 
+<p>
+To call a function defined on the item in place of a chat message
+use "#function_name" in place of a chat string.
+<p>
+To use item chats, the object needs to inherit
+"/std/basic/item_chat" and if the object defines an init()
+function, that function should also call ::init()
+<p>
+To make the chatting object save the values, it's necessary
+to define a couple of supporting functions in the item: 
+<pre>
+mapping query_dynamic_auto_load() {
+  mapping tmp;
+
+  tmp = ([ "::" : object::query_dynamic_auto_load(),
+           "chat" : item_chat::query_dynamic_auto_load(), ]);
+  return tmp;
+} /* query_dynamic_auto_load() */
+
+void init_dynamic_arg(mapping map) {
+  if (map["::"])
+    object::init_dynamic_arg(map["::"]);
+  if (map["chat"])
+    item_chat::init_dynamic_arg(map["chat"]);
+} /* init_dynamic_arg() */
+
+</pre>
+Use object in the previous if the object is inheriting /std/object, if not,
+then use whatever it's inheriting from instead. <p>
+<dd><dl>
+<dt><b>Example:</b>
+<dd><pre>item_chat( ({ 120, 240,
+           ({ "A revolting smell drifts from $the_short$.",
+             "Something rustles in $the_short$." }) }) );
+</pre></dl>
+
+<dt><a name="make_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_chat</b></a><pre>
+void make_chat()
+</pre><dd>
+This method does the actual chat, it prints a message
+and figures that stuff out.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#item_chat">item_chat()</a>, <a href="#chat_on">chat_on()</a> and <a href="#chat_off">chat_off()
+</a></dl>
+
+<dt><a name="query_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_chats</b></a><pre>
+mixed * query_chats()
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The raw data telling us what to chat and when
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 21:19:52 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

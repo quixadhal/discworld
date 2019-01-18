@@ -1,0 +1,33 @@
+.DT
+stopped_fighting
+Disk World creator help
+stopped_fighting
+
+.SH Name
+.SP 5 5
+stopped_fighting -  This method is called when the fight has stopped.
+.EP
+
+.SH Syntax
+.SI 5
+void stopped_fighting(object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - the thing which stopped fighting?
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when the fight has stopped.  It propogates the
+stopped fighting event onto all the objects in the room.
+.EP
+

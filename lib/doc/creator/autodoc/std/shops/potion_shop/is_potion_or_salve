@@ -1,0 +1,40 @@
+.DT
+is_potion_or_salve
+Disk World creator help
+is_potion_or_salve
+
+.SH Name
+.SP 5 5
+is_potion_or_salve -  This is the default function for checking if something can be sold in a potion shop.
+.EP
+
+.SH Syntax
+.SI 5
+int is_potion_or_salve(object ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - The object that someone is trying to sell to the shop
+.EI
+
+.SH Returns
+.SI 5
+success 1 if the object can be sold, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/potion_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the default function for checking if something can
+be sold in a potion shop.  If you override this, there is no
+reason to inherit this file, so you can't.  It will accept any
+object that contains something which has an eat effect or an
+apply effect.
+.EP
+

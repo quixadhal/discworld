@@ -1,0 +1,42 @@
+.DT
+armour_list
+Disk World creator help
+armour_list
+
+.SH Name
+.SP 5 5
+armour_list -  This method returns a string list of the armours which the player is wearing.
+.EP
+
+.SH Syntax
+.SI 5
+string armour_list(object * things,
+int hidden_only,
+int self)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^things%^RESET%^ - the things to get the list of armours from
+%^BOLD%^hidden_only%^RESET%^ - only show the list of hidden objects
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/carrying.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns a string list of the armours which the player
+is wearing.  It will show also modify the list to show only hidden
+items (items under other items are considered hidden).
+.EP
+
+.SH See also
+.SP 5 5
+query_types_worn(), query_living_contents()
+
+.EP
+

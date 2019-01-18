@@ -1,0 +1,327 @@
+<html><head><title>File auction_room.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/auction_room.c</h2>
+Auction Room Inheritable
+This room will give you everything you need to make an auction
+room.<p>Written by Terano<p>Started 3 October, 1998<h3>Change history</h3>
+<dl><dd>24 March, 1999 Many exciting things. Terano.
+<dt>2 October, 1999 Added stability! Excitement! <dd>An excessively complicated browse function! Terano.
+<dt>8 January, 2000! Made Y2K compliant! (Just kidding)<dd>Added some advertising stuff.
+Fixed a missing case as well.
+<dt>11 January, 2000 Fixed some advertising stuff.<dd></dl>
+<hr><h2>Inherits</h2>
+This class inherits the following classes /std/room.c and <a href="global.auto_load.c.html">/global/auto_load.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.mail.h.html">/include/mail.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_item"><b>item</b></a>
+<dd>
+In this new version, we aren't keeping the objects loaded,
+because the auto_load code seems flaky outside of 
+/global/player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_lot"><b>lot</b></a>
+<dd>
+A few notes about this class, I didn't like the way the old one
+worked, when a lot moved to expired_lots, there was no real way to recover it
+Instead, we will keep one array of all lots, with differing status's depending
+on whats happening.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_store"><b>store</b></a>
+<dd>
+In this new version, we aren't keeping the objects loaded,
+because the auto_load code seems flaky outside of 
+/global/player.
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_money"><b>adjust_money</b></a>(int, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#automated_deposit"><b>automated_deposit</b></a>(object *, int, string, string, int, string)<dd>
+This function allows an object to deposit an item for auction,
+Things are the items to auction, auction length is the length in seconds,
+function_cb and object_cb are function names and object paths to allow a
+call back to be scheduled for when the auction is over, res price is
+the reserve price and int_desc is a description that will be written on
+the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_bid"><b>do_bid</b></a>(string, object *)<dd>
+Basic add command function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_browse"><b>do_browse</b></a>(object *, string, int)<dd>
+This function will be a bit horrible, but it is a nicer way of doing it 
+then keeping the objects around.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_collect"><b>do_collect</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_deposit"><b>do_deposit</b></a>(object *, int, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_describe"><b>do_describe</b></a>(object *, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_exclude"><b>do_exclude</b></a>(object *, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list"><b>do_list</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_unexclude"><b>do_unexclude</b></a>(object *, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_withdraw"><b>do_withdraw</b></a>(object *)<dd>
+Withdraw an item from bidding
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#extra_look"><b>extra_look</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#generate_advertising_string"><b>generate_advertising_string</b></a>(class lot)<dd>
+This function generates a string that can be used in any advertising
+you might want to do, it returns a human friendly string that passes
+information about the lot.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#generate_random_adv_string"><b>generate_random_adv_string</b></a>()<dd>
+A more usable version of above function, call it and it picks a lot
+at random and generates a string for it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#generate_store"><b>generate_store</b></a>(object *, int)<dd>
+Return a store class with info on the objects
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_file"><b>load_file</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#lot_check"><b>lot_check</b></a>()<dd>
+A major component, this function is called once every few minutes to
+change the state of our bids.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_payments"><b>query_payments</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#recover_lot"><b>recover_lot</b></a>(mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_file"><b>save_file</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_admin_cost"><b>set_admin_cost</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_commission"><b>set_commission</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_currency"><b>set_currency</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_path"><b>set_save_path</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_shop_name"><b>set_shop_name</b></a>(string)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="adjust_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_money</b></a><pre>
+void adjust_money(int amount,
+object player)
+</pre>
+<dt><a name="automated_deposit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>automated_deposit</b></a><pre>
+int automated_deposit(object * things,
+int auction_length,
+string function_cb,
+string object_cb,
+int res_price,
+string int_desc)
+</pre><dd>
+This function allows an object to deposit an item for auction,
+Things are the items to auction, auction length is the length in seconds,
+function_cb and object_cb are function names and object paths to allow a
+call back to be scheduled for when the auction is over, res price is
+the reserve price and int_desc is a description that will be written on
+the case. If an error code is generated, it is upon the object calling
+this function to pull those objects back. An object reference isn't
+kept here.
+<p>
+
+<dt><a name="do_bid">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_bid</b></a><pre>
+int do_bid(string offer,
+object * boxes)
+</pre><dd>
+Basic add command function.. lets you bid on stuff
+<p>
+
+<dt><a name="do_browse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_browse</b></a><pre>
+int do_browse(object * boxes,
+string target,
+int identifier)
+</pre><dd>
+This function will be a bit horrible, but it is a nicer way of doing it 
+then keeping the objects around.
+This function uses Terano's cheap and dirty parser (All rights reserved).
+To be added - plural support! (using query_plural)
+<p>
+
+<dt><a name="do_collect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_collect</b></a><pre>
+int do_collect(string pattern)
+</pre>
+<dt><a name="do_deposit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_deposit</b></a><pre>
+int do_deposit(object * things,
+int auction_time,
+string time_type,
+string res_price)
+</pre>
+<dt><a name="do_describe">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_describe</b></a><pre>
+int do_describe(object * boxes,
+string int_desc)
+</pre>
+<dt><a name="do_exclude">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_exclude</b></a><pre>
+int do_exclude(object * boxes,
+string excluded)
+</pre>
+<dt><a name="do_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list</b></a><pre>
+int do_list()
+</pre>
+<dt><a name="do_unexclude">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_unexclude</b></a><pre>
+int do_unexclude(object * boxes,
+string excluded)
+</pre>
+<dt><a name="do_withdraw">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_withdraw</b></a><pre>
+int do_withdraw(object * boxes)
+</pre><dd>
+Withdraw an item from bidding
+<p>
+
+<dt><a name="extra_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>extra_look</b></a><pre>
+string extra_look(object ob)
+</pre>
+<dt><a name="generate_advertising_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>generate_advertising_string</b></a><pre>
+string generate_advertising_string(class lot lot)
+</pre><dd>
+This function generates a string that can be used in any advertising
+you might want to do, it returns a human friendly string that passes
+information about the lot. (Specifically - contents, cost and exp time)
+It takes a lot as an arg.
+<p>
+
+<dt><a name="generate_random_adv_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>generate_random_adv_string</b></a><pre>
+string generate_random_adv_string()
+</pre><dd>
+A more usable version of above function, call it and it picks a lot
+at random and generates a string for it.
+returns "NULL" if there are no lots.
+Also returns NULL if the lot chosen isnt open
+<p>
+
+<dt><a name="generate_store">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>generate_store</b></a><pre>
+class store generate_store(object * things,
+int lot_id)
+</pre><dd>
+Return a store class with info on the objects
+<p>
+
+<dt><a name="load_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_file</b></a><pre>
+void load_file()
+</pre>
+<dt><a name="lot_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>lot_check</b></a><pre>
+void lot_check()
+</pre><dd>
+A major component, this function is called once every few minutes to
+change the state of our bids. It puts new bids out on display, and 
+modifies the state of in game lots as required. It also removes old ones.
+<p>
+
+<dt><a name="query_payments">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_payments</b></a><pre>
+mapping query_payments()
+</pre>
+<dt><a name="recover_lot">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>recover_lot</b></a><pre>
+mixed recover_lot(mixed lot_autoload)
+</pre>
+<dt><a name="save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_file</b></a><pre>
+void save_file()
+</pre>
+<dt><a name="set_admin_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_admin_cost</b></a><pre>
+void set_admin_cost(int value)
+</pre>
+<dt><a name="set_commission">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_commission</b></a><pre>
+void set_commission(int percent)
+</pre>
+<dt><a name="set_currency">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_currency</b></a><pre>
+void set_currency(string cur)
+</pre>
+<dt><a name="set_save_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_path</b></a><pre>
+void set_save_path(string path)
+</pre>
+<dt><a name="set_shop_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_shop_name</b></a><pre>
+void set_shop_name(string _name)
+</pre>
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>item</b></a><pre>
+class item {
+string name;
+string * alias;
+string * adjectives;
+string long;
+string read_mess;
+string enchant_mess;
+}
+
+</pre><dd>
+In this new version, we aren't keeping the objects loaded,
+because the auto_load code seems flaky outside of 
+/global/player.c
+Instead keep a whole bunch of info about it on file.
+<p>
+
+<dt><a name="class_lot">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>lot</b></a><pre>
+class lot {
+int case_code;
+class store assoc_store;
+string seller;
+string status;
+int expiration_time;
+int reserve_price;
+mapping bids;
+mixed * lot_autoload;
+mixed * current_bid;
+string * auto_bids;
+string notes;
+string * excluded;
+}
+
+</pre><dd>
+A few notes about this class, I didn't like the way the old one
+worked, when a lot moved to expired_lots, there was no real way to recover it
+Instead, we will keep one array of all lots, with differing status's depending
+on whats happening.
+IE: Open: Accepting bids.
+    Waiting: Seller: It did not take any acceptable bids and it is waiting collection
+      by the seller.
+    Waiting: Buyer: A bid was taken and we are waiting for payment.
+    Waiting: Buyer (lapsed): A bid was taken, but lapsed. There are no 
+      other bidders, so in the next cycle the seller will be mailed and
+      status changed to Waiting: Seller.
+    Waiting Creator Intervention:  A lot has fallen over in some way,
+      and needs a creator to fix it.
+    Closed: The bid has been collected (by either buyer or seller),
+      lots will stay in this status for 2 hours after collection.
+      Then payment will be credited to the payment array and the lot will 
+      be deleted.
+Case code is used in reference to the store class.
+The rest are the same as they were in the last version
+<p>
+
+<dt><a name="class_store">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>store</b></a><pre>
+class store {
+int case_code;
+string colour;
+string inv_string;
+class item * inventory;
+}
+
+</pre><dd>
+In this new version, we aren't keeping the objects loaded,
+because the auto_load code seems flaky outside of 
+/global/player.c
+Instead keep a whole bunch of info about it on file.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 14:59:12 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

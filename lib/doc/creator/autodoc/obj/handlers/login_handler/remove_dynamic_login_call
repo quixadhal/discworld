@@ -1,0 +1,45 @@
+.DT
+remove_dynamic_login_call
+Disk World creator help
+remove_dynamic_login_call
+
+.SH Name
+.SP 5 5
+remove_dynamic_login_call -  This method removes a login call.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_dynamic_login_call(string player,
+mixed funct,
+mixed obj)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player%^RESET%^ - the player specifier
+%^BOLD%^funct%^RESET%^ - the funct name
+%^BOLD%^obj%^RESET%^ - the object to call the funct on
+.EI
+
+.SH Returns
+.SI 5
+0 on failure and 1 on success.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/login_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method removes a login call.
+.EP
+
+.SH See also
+.SP 5 5
+add_dynamic_login_call(), add_static_login_call()
+
+.EP
+

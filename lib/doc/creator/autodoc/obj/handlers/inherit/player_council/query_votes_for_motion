@@ -1,0 +1,38 @@
+.DT
+query_votes_for_motion
+Disk World creator help
+query_votes_for_motion
+
+.SH Name
+.SP 5 5
+query_votes_for_motion -  This method returns the current set of votes for the specied new rule.
+.EP
+
+.SH Syntax
+.SI 5
+int * query_votes_for_motion(string area,
+int id)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area to lookup the votes in
+%^BOLD%^id%^RESET%^ - the idea to check
+.EI
+
+.SH Returns
+.SI 5
+({ yes, no, abstain })
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/player_council.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current set of votes for the specied new rule.
+.EP
+

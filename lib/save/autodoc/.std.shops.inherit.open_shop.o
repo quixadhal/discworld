@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["set_open_function":({({"void",}),({({"function",}),"func",}),(["main":({"This method sets the open function for the room.",}),"see":({"query_open_function()","check_open()",}),"param":({"func the open function",}),"example":({"// The pub is only open if the barman is alive.set_open_function( (: ( barman ? 1 : 0 ) :) );","void setup() {   ...   // Setup the open function.   set_open_function( (: do_open_check :) );} /* setup() */int do_open_check( object player, int type ) {   if( !barman ) {      add_failed_mess( \"There appears to be no barman here!\\n\" );      return 2;   }   if( type <= PUB_DESSERT && !chef ) {      add_failed_mess( \"The chef isn't here at the moment.\\n\" );      return 2;   }   return 0;} /* do_open_check() */",}),]),}),"is_open":({({"int",}),({({"object",}),"player",({"int",}),"type",}),(["main":({"This method checks to see if the shop is open.",}),"param":({"player the player who we are checking to see if it is open for",}),]),}),"query_open_function":({({"function",}),({}),(["main":({"This method queries the open function for the room/.",}),"return":({"the open function",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"This is the basic inheritable to make things check for beingopen.",}),"started":({"Mon Oct 23 12:04:18 PDT 2000",}),"author":({"Pinkfish",}),])
+define_docs ([])
+includes ([])
+class_docs ([])
+file_name "/std/shops/inherit/open_shop.c"
+last_changed 1522061544

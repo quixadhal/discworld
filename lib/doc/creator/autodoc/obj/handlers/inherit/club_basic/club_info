@@ -1,0 +1,54 @@
+.DT
+club_info
+Disk World creator help
+club_info
+
+.SH Name
+.SP 5 5
+club_info -  The basic club information class.
+.EP
+
+.SH Definition
+.SI 5
+class club_info {
+string actual_name;
+string founder;
+string * recruiters;
+string * members;
+int type;
+mapping accounts;
+int last_paid;
+int last_touched;
+mixed extra_data;
+string description;
+string region;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^actual_name%^RESET%^ - the actual name of the club
+%^BOLD%^founder%^RESET%^ - the founder of the club
+%^BOLD%^recruiters%^RESET%^ - the people who can recruit for the club
+%^BOLD%^members%^RESET%^ - the members of the club
+%^BOLD%^type%^RESET%^ - the type of the club
+%^BOLD%^accounts%^RESET%^ - the accounts in the club
+%^BOLD%^last_paid%^RESET%^ - when the balance was last paid
+%^BOLD%^last_touched%^RESET%^ - when the club was last touched
+%^BOLD%^extra_data%^RESET%^ - specific data for each type of club
+%^BOLD%^region%^RESET%^ - the region the club is in
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_basic.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The basic club information class.
+.EP
+

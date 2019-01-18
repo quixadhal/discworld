@@ -1,0 +1,39 @@
+.DT
+get_room_size
+Disk World creator help
+get_room_size
+
+.SH Name
+.SP 5 5
+get_room_size -  This method returns the room size for a given room.
+.EP
+
+.SH Syntax
+.SI 5
+int get_room_size(string file,
+int level)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^file%^RESET%^ - the file name of the room
+%^BOLD%^level%^RESET%^ - the recursion level
+.EI
+
+.SH Returns
+.SI 5
+the size of the room
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/terrain_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the room size for a given room. It uses a cache
+to speed things up.
+.EP
+

@@ -1,0 +1,2230 @@
+<html><head><title>File basic_room.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/basic_room.c</h2>
+The standard room inheritable.  This contains all the stuff needed to
+construct a standard room.<p><b>See also:</b><br>/std/room/outside.c
+<p>Written by Pinkfish<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.cute_look.c.html">/std/basic/cute_look.c</a>, <a href="std.basic.help_files.c.html">/std/basic/help_files.c</a>, <a href="std.basic.property.c.html">/std/basic/property.c</a>, <a href="std.basic.effects.c.html">/std/basic/effects.c</a>, <a href="std.basic.light.c.html">/std/basic/light.c</a>, <a href="std.basic.extra_look.c.html">/std/basic/extra_look.c</a>, <a href="std.basic.export_inventory.c.html">/std/basic/export_inventory.c</a> and <a href="std.basic.desc.c.html">/std/basic/desc.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.position.h.html">/include/position.h</a>, <a href="include.nroff.h.html">/include/nroff.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a>, <a href="include.dirs.h.html">/include/dirs.h</a>, <a href="include.room.h.html">/include/room.h</a>, <a href="include.situations.h.html">/include/situations.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.weather.h.html">/include/weather.h</a> and <a href="include.door.h.html">/include/door.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_alias"><b>add_alias</b></a>(mixed, string)<dd>
+This method adds an exit alias to the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_day_item"><b>add_day_item</b></a>(mixed, mixed, mixed)<dd>
+This method sets up an item which will only be displayed during the
+day.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_enchant"><b>add_enchant</b></a>(int)<dd>
+Adds number to the current enchantment level of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_exit"><b>add_exit</b></a>(string, mixed, string)<dd>
+This method adds an exit to the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_hidden_object"><b>add_hidden_object</b></a>(object)<dd>
+This puts a hidden object into a room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_item"><b>add_item</b></a>(mixed, mixed, int)<dd>
+This method adds an item description to a room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_night_item"><b>add_night_item</b></a>(mixed, mixed, mixed)<dd>
+This method sets up an item which will only be displayed during the
+night.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_room_chats"><b>add_room_chats</b></a>(string *)<dd>
+Adds more chats to the existing set of room chats
+managed by this chatter object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_sign"><b>add_sign</b></a>(string, mixed, string, mixed, string)<dd>
+This method adds a sign into the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_situation"><b>add_situation</b></a>(mixed, class situation)<dd>
+Adds a situation to the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_use_internal_object"><b>add_use_internal_object</b></a>(object)<dd>
+This method adds an object whose interior bits want to be able to export
+commands.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_zone"><b>add_zone</b></a>(string)<dd>
+This method adds a move zone into the current list of movement zones
+for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#attack_speed"><b>attack_speed</b></a>()<dd>
+This method sets the default attack speed for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#automate_situation"><b>automate_situation</b></a>(mixed, mixed, mixed, mixed, mixed)<dd>
+Automate starting and ending of a situation.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_co_ord"><b>calc_co_ord</b></a>()<dd>
+This method calculates the co-ordinates of this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_exits"><b>calc_exits</b></a>()<dd>
+This method calculates all the exit strings to be used for this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_long_exit"><b>calc_long_exit</b></a>()<dd>
+This method creates the long exit description used in the room long
+descriptions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_short_exit_string"><b>calc_short_exit_string</b></a>()<dd>
+This method returns the exit string used when in brief mode.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_use_for_co_ords"><b>can_use_for_co_ords</b></a>(string)<dd>
+This method is designed to allow a little more flexability in which rooms
+can be used for co-ordinates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_situation"><b>change_situation</b></a>(mixed, mixed, mixed)<dd>
+Starts one or more situations that will end after a
+specified duration.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#end_situation"><b>end_situation</b></a>(mixed)<dd>
+Ends a situation previously added and started on the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#expand_alias"><b>expand_alias</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_inv_match"><b>find_inv_match</b></a>(string, object)<dd>
+This method returns all the matchable objects in the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#flush_co_ord"><b>flush_co_ord</b></a>()<dd>
+This method resets the co-ordinates for the room to zero, and resets
+a flag so that calc_co_ord() can be called again to redetermine 
+the room's co-ordinates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_allowed_position"><b>is_allowed_position</b></a>(string)<dd>
+This method tells us if the passed i nposition is
+allowed in this type of room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_situation_seed"><b>make_situation_seed</b></a>(int, int)<dd>
+Makes a seed value for the random part of when 
+situations turn on and off.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#modify_exit"><b>modify_exit</b></a>(mixed, mixed *)<dd>
+This method modifies the parameters for the exit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#modify_item"><b>modify_item</b></a>(string, mixed)<dd>
+This method will modify certain bits of the specified item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_aliases"><b>query_aliases</b></a>()<dd>
+This method returns the current exit aliases for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_background_enchant"><b>query_background_enchant</b></a>()<dd>
+This method returns the background enchantment of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bright_mess"><b>query_bright_mess</b></a>()<dd>
+This method returns the message to use when it is too bright to see in
+the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_chatter"><b>query_chatter</b></a>()<dd>
+This method returns the current chatter object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_co_ord"><b>query_co_ord</b></a>()<dd>
+Returns the current co-ordinates of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_co_ord_calculated"><b>query_co_ord_calculated</b></a>()<dd>
+This tells us if the co-ordinates were set or if they were calculated.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dark_mess"><b>query_dark_mess</b></a>()<dd>
+This is the message to print instead of the room description when the
+room is dark.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_day"><b>query_day</b></a>()<dd>
+This method returns whether or not it is daytime.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_day_items"><b>query_day_items</b></a>()<dd>
+These are the items only visible during the day.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_day_long"><b>query_day_long</b></a>()<dd>
+This method returns the long description of the room during the day.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_default_position"><b>query_default_position</b></a>()<dd>
+This method returns the current default position asigned to this
+room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dest_dir"><b>query_dest_dir</b></a>(object)<dd>
+Returns an array containing just the destinations and directions used to
+get there.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dest_other"><b>query_dest_other</b></a>(string)<dd>
+This returns information about the exits in the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_destination"><b>query_destination</b></a>(string)<dd>
+This method returns the destination room for an exit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_direc"><b>query_direc</b></a>(object)<dd>
+This method just returns all the directions available to leave from
+the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_door"><b>query_door</b></a>(mixed, string)<dd>
+This method determines if the specified exit is a door or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_door_control"><b>query_door_control</b></a>(string, string)<dd>
+This returns the information about the door in the specified direction.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_door_open"><b>query_door_open</b></a>(string)<dd>
+This method checks to see if the door is open.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dynamic_enchant"><b>query_dynamic_enchant</b></a>()<dd>
+This method returns the current dynamic enchantment of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_enchant"><b>query_enchant</b></a>()<dd>
+Returns the current enchantment level of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_exit"><b>query_exit</b></a>(string)<dd>
+This method determines if there is an exit in the specified direction.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_exits"><b>query_exits</b></a>()<dd>
+This returns the current array of exits.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_hidden_objects"><b>query_hidden_objects</b></a>()<dd>
+This returns the current array of hidden objects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_is_room"><b>query_is_room</b></a>()<dd>
+Returns 1 to indicate that this object is a room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_item"><b>query_item</b></a>()<dd>
+This method returns the current item object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_keep_room_loaded"><b>query_keep_room_loaded</b></a>()<dd>
+This method returns the status of the keep room loaded flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_linker"><b>query_linker</b></a>()<dd>
+This method returns the current linker object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_long_exit"><b>query_long_exit</b></a>()<dd>
+This returns the long exit string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_long_exit_mxp"><b>query_long_exit_mxp</b></a>()<dd>
+This returns the long exit string with mxp codeds added.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_look"><b>query_look</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_look_func"><b>query_look_func</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_night_items"><b>query_night_items</b></a>()<dd>
+These are the items only visible at night.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_night_long"><b>query_night_long</b></a>()<dd>
+This method returns the long description of the room at night.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_not_replaceable"><b>query_not_replaceable</b></a>()<dd>
+This method checks to see if the program is replaceable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_relative"><b>query_relative</b></a>(string)<dd>
+This method checks to see if the exit is a relative one.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_chats"><b>query_room_chats</b></a>()<dd>
+Returns the current set of room chats
+managed by the chatter object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_day_chats"><b>query_room_day_chats</b></a>()<dd>
+This returns the set of chats visible only during the day.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_default_chats"><b>query_room_default_chats</b></a>()<dd>
+This returns the default set of chats, these are mixed with the night
+and day chats to generate the current set.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_night_chats"><b>query_room_night_chats</b></a>()<dd>
+This returns the set of chats visible only at night.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_size"><b>query_room_size</b></a>()<dd>
+This method queries the size of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_size_array"><b>query_room_size_array</b></a>()<dd>
+This method returns the size of the room as a three element array always.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_short_exit_string"><b>query_short_exit_string</b></a>()<dd>
+This method returns the short exit string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_situation_changer"><b>query_situation_changer</b></a>()<dd>
+This method returns the current situation changer object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_size"><b>query_size</b></a>(string)<dd>
+This method returns the size of the exit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_terrain"><b>query_terrain</b></a>()<dd>
+This method returns the current terrain object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_theft_handler"><b>query_theft_handler</b></a>()<dd>
+This method returns the current theft handler for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_use_internal_objects"><b>query_use_internal_objects</b></a>()<dd>
+This method returns all the current use internal objects available.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_visibility"><b>query_visibility</b></a>()<dd>
+This method returns the visibility in this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_wall"><b>query_wall</b></a>()<dd>
+This method returns the current wall object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_zones"><b>query_zones</b></a>()<dd>
+This method returns the set of move zones for this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_alias"><b>remove_alias</b></a>(mixed, string)<dd>
+This method removes the exit aliases from the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_exit"><b>remove_exit</b></a>(string)<dd>
+This method removes the specified exit from the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_hidden_object"><b>remove_hidden_object</b></a>(object)<dd>
+This method removes a hidden object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_item"><b>remove_item</b></a>(string)<dd>
+This method will attempt to remove the item defined by the given string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_room_chats"><b>remove_room_chats</b></a>(string *)<dd>
+Removes chats from the set of room chats
+managed by this chatter object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_use_internal_object"><b>remove_use_internal_object</b></a>(object)<dd>
+This method removes an object whose interor bits want to export.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_zone"><b>remove_zone</b></a>(string)<dd>
+This method removes a move zone from the current list of movement zones
+for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_exits"><b>reset_exits</b></a>()<dd>
+This method removes all the current exits in the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#room_chat"><b>room_chat</b></a>(mixed *, object)<dd>
+This method sets up the room chats.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#room_day_chat"><b>room_day_chat</b></a>(mixed *)<dd>
+This method sets up chats for when the room is in the day cycle.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#room_night_chat"><b>room_night_chat</b></a>(mixed *)<dd>
+This method sets up chats for when the room is in the night cycle.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_background_enchant"><b>set_background_enchant</b></a>(int)<dd>
+This method sets the background enchantment of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bright_mess"><b>set_bright_mess</b></a>(string)<dd>
+This method sets the bright message associated with the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_chat_min_max"><b>set_chat_min_max</b></a>(int, int)<dd>
+Allows the chat interval to be changed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_co_ord"><b>set_co_ord</b></a>(int *)<dd>
+Sets the current co-ordinates of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_dark_mess"><b>set_dark_mess</b></a>(string)<dd>
+This method sets the dark message associated with the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_day_long"><b>set_day_long</b></a>(string)<dd>
+This method sets the long description to display during the day time.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_default_position"><b>set_default_position</b></a>(mixed)<dd>
+This method sets the default position for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_dynamic_enchant"><b>set_dynamic_enchant</b></a>(float)<dd>
+This method sets the current dynamic enchantment of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_enchant"><b>set_enchant</b></a>(int)<dd>
+Sets the current enchantment level of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_keep_room_loaded"><b>set_keep_room_loaded</b></a>(int)<dd>
+This method sets the flag that enables or disables the room being
+cleaned up.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_linker"><b>set_linker</b></a>(string *, string, string, string)<dd>
+This method sets up a linkage between the current room and othert
+rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_night_long"><b>set_night_long</b></a>(string)<dd>
+This method sets up the night long for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_not_replaceable"><b>set_not_replaceable</b></a>(int)<dd>
+This method sets a property to make the program replaceable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_room_size"><b>set_room_size</b></a>(mixed)<dd>
+This method sets the rooms principle radii.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_situation_changer"><b>set_situation_changer</b></a>(mixed)<dd>
+Set a situation changer (in place of the default).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_terrain"><b>set_terrain</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_theft_handler"><b>set_theft_handler</b></a>(string)<dd>
+This method sets the current theft handler for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_wall"><b>set_wall</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_zone"><b>set_zone</b></a>(string)<dd>
+This method adds a move zone into the current list of zones.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#shutdown_all_situations"><b>shutdown_all_situations</b></a>()<dd>
+Shuts down all current and pending situations.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#shutdown_situation"><b>shutdown_situation</b></a>(int, mixed)<dd>
+Shuts down a situation or set of situations initiated with
+change_situation based on the call_out handle
+returned by the call to change_situation.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_situation"><b>start_situation</b></a>(int, int)<dd>
+Starts a situation previously added to the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stop_room_chats"><b>stop_room_chats</b></a>()<dd>
+This method stops all the room chats for the room.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_alias</b></a><pre>
+void add_alias(mixed names,
+string word)
+</pre><dd>
+This method adds an exit alias to the room.
+Aliases are convenient extra forms that can be attached to certain
+exits. In the above functions, the variable names is either a string
+or an array of strings and is, respectively, the alias or aliases
+for the direction passed in word. Since, sometimes, the same alias
+could be used for more than one exit, remove_alias() requires both
+alias(es) and direction in order to remove the correct alias(es). <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>names - the exit names to alias
+<dd>word - the name to alias them too
+<dt><b>See also:</b>
+<dd><a href="#query_aliases">query_aliases()</a> and <a href="#remove_alias">remove_alias()</a><dt><b>Example:</b>
+<dd><pre>add_exit( "north", PATH +"dining_hall", "corridor" );
+add_alias( ({ "enter", "enter hall", "enter dining hall" }), "north" );</pre><dd><pre>
+add_exit( "board carriage", PATH +"carriage", "door" );
+add_alias( "board", "board carriage" );
+</pre></dl>
+
+<dt><a name="add_day_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_day_item</b></a><pre>
+varargs int add_day_item(mixed shorts,
+mixed desc,
+mixed no_plural)
+</pre><dd>
+This method sets up an item which will only be displayed during the
+day.  All of the standard add_item things are available with this
+method.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="std.room.c.html#add_item">/std/room->add_item()</a> and <a href="#add_night_item">add_night_item()
+</a></dl>
+
+<dt><a name="add_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_enchant</b></a><pre>
+int add_enchant(int number)
+</pre><dd>
+Adds number to the current enchantment level of the room.
+The enchanment level controls things like what happens when you
+flip coins and some special messages which give wizards some 
+idea about magic levels.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the new enchantment level to set
+<dt><b>See also:</b>
+<dd><a href="#query_enchant">query_enchant()
+</a></dl>
+
+<dt><a name="add_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_exit</b></a><pre>
+int add_exit(string direc,
+mixed dest,
+string type)
+</pre><dd>
+This method adds an exit to the room.   The direction is the direction in
+which the exit should go.  This is something like "north" or "enter
+gate".  The destination field is where the player will go when they
+enter the exit.  The type is a set type that sets a whole bunch of
+defaults for the room.  The destination can be either a strong
+or an object.
+<p>
+The types are controlled by /obj/handlers/room_handler.c and the current
+types and what this all means are:
+<dl>
+<dd>
+<dl>
+<dt>road
+<dd>Wide road.
+<dt>path
+<dd>Narrower path
+<dt>door
+<dd>And exit with a door.  Defaults to closed but not locked.
+<dt>secret
+<dd>A secret door.  Defaults to closed but not locked.
+<dt>corridor
+<dd>A corridor (bing).
+<dt>hidden
+<dd>A hidden exit without a door
+</dl>
+</dl>
+<p>
+The room aliases are used to expand things for exits.  However they
+don't expand the entire exit name.  They expand it in bits.  For
+instance, if the exit was "enter live eel", you could
+add_alias("eel", "live eel"); and add_alias("bing", "enter"); to
+get both of the bits of the exit.  So "bing eel", "enter eel",
+"bing live eel" etc would work.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#modify_exit">modify_exit()</a>, <a href="#query_dest_dir">query_dest_dir()</a>, <a href="#remove_exit">remove_exit()</a> and /obj/handlers/room_handler
+.c<dt><b>Example:</b>
+<dd><pre>add_exit("north", PATH + "market2", "road");
+add_alias("eel", "live eel");
+add_exit("enter live eel", PATH + "live_eel", "secret");</pre><dd><pre>
+object fluffy_room;
+
+fluffy_room = clone_object(PATH + "fluffy_room");
+add_exit("north", fluffy_room, "road");</pre></dl>
+
+<dt><a name="add_hidden_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_hidden_object</b></a><pre>
+int add_hidden_object(object thing)
+</pre><dd>
+This puts a hidden object into a room. A hidden object is an object that
+exists in the room as far as all the find_match calls go. So, for look at's
+and so on, but does not actually exist in the room so it does not show up
+in the inventory when the player does a look. This is the method used for
+putting signs and doors into rooms, that actually have shorts and you can
+do things to, but do not show up in the inventory. The function init is also
+called on these objects when init is called in the room. The only thing you
+cannot put in your init function is an add_action. You can however define
+up bunches of add_commands...
+<p>
+If this sounds complicated. Think of it as an object that IS in the room, but
+you cannot see it. 
+<p>
+A word of warning here, the init() function will *not* be called on all
+the players when the object is added as hidden.  This means that the
+commands on it will not be available until the player re-enters the room.
+You could get around this by moving everyone out of the room and
+then back in again.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the hidden object to add
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 on a failure
+
+<dt><b>See also:</b>
+<dd><a href="#query_hidden_object">query_hidden_object()</a> and <a href="#remove_hidden_object">remove_hidden_object()</a><dt><b>Example:</b>
+<dd><pre>#include <room.h>
+sign = clone_object(PATH + SIGN);
+add_hidden_object(sign);</pre><dd><pre>
+// Add a hidden object that has actions we want players to be able to
+// use.
+add_hidden_object(fluffy_container);
+players = filter(all_inventory(), (: living($1) :));
+players->move(ROOM_VOID);
+// This forces init() to be recalled.  (This is realtivatively icky
+// way of doing it, but the driver does not give us many alternatives).
+players->move(this_object());</pre></dl>
+
+<dt><a name="add_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_item</b></a><pre>
+varargs int add_item(mixed shorts,
+mixed desc,
+int no_plural)
+</pre><dd>
+This method adds an item description to a room.  This allows you to
+set up objects which do not as such exist, but can be looked at for
+instance.  There should be a lot of these in rooms.  The name of
+the item can be multiple word, and the plural for it is
+automagicaly added, unless the no_plural flag is set.  If the name
+is an array all of the elements in the array respond to the
+description.
+<p>
+If the desc is set to an array, you can use this for handling
+things like read messages and so on too.  Every second element in
+the array is the description/text to be printed and the other
+element is the command upon which the text should be printed.  The
+special command 'long' is used to set the long description.
+<p>
+The special type 'position' is used to allow people to use that
+item to do positions on, like stand, sit, lie etc.
+<p>
+This method also allows you to setup add_command patterns.  If the
+name after the verb is just a string, then the string will be printed
+when that verb is used.  If it is just a function pointer then the
+function will be evaluated and the return result printed.  If it
+is an array, then the first element must be a function pointer and
+the second optional element is the pattern to use for that method.
+Multiple patterns and functions may be specified.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>shorts - the short description of the item
+<dd>desc - the description of the item
+<dd>no_plural - do not automaticaly add a plural for the item
+<dt><b>Returns:</b>
+<dd>1 if successfully added, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#query_item">query_item()</a>, <a href="#remove_item">remove_item()</a> and <a href="#modify_item">modify_item()
+</a><dt><b>Example:</b>
+<dd><pre>add_item("green pot plant", "It is a nasty green pot plant lurking by "
+                            "the door.\n");</pre><dd><pre>
+add_item(({ "telephone", "red phone" }),
+         "Sitting in the corner is the red phone, it is staring unhappily "
+         "into space thinking of cupcakes and better times.\n");</pre><dd><pre>
+add_item("small book", ({ "long", "A small red book with dots on the
+                                  "cover.\n",
+                          "read", "It says 'Rabbit!' in big letters.\n" }) );</pre><dd><pre>
+add_item("green leather couch",
+         ({ "long", "The green leather couch is wonderful , so comfy!  "
+                    " So... Comfy!\n",
+            "position", "the green leather couch" }) );</pre><dd><pre>
+add_item("rotating hologram", (: query_current_hologram_string() :));</pre><dd><pre>
+add_item("glue stick",
+         ({ "long", "The glue stick looks sticky, like you could slime "
+                    "something with it.\n",
+            "slime", ({ (: do_slime :),
+                        "<indirect:living> with <direct:object>" }) }) );</pre></dl>
+
+<dt><a name="add_night_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_night_item</b></a><pre>
+varargs int add_night_item(mixed shorts,
+mixed desc,
+mixed no_plural)
+</pre><dd>
+This method sets up an item which will only be displayed during the
+night.  All of the standard add_item things are available with this
+method.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="std.room.c.html#add_item">/std/room->add_item()</a> and <a href="#add_day_item">add_day_item()
+</a></dl>
+
+<dt><a name="add_room_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_room_chats</b></a><pre>
+void add_room_chats(string * new_chats)
+</pre><dd>
+Adds more chats to the existing set of room chats
+managed by this chatter object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_chats - an array of new chat strings
+<dt><b>See also:</b>
+<dd>remove_room_chats.c, query_room_chats.c and /std/room/basic/chatter
+.c</dl>
+
+<dt><a name="add_sign">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_sign</b></a><pre>
+varargs object add_sign(string sign_long,
+mixed sign_read_mess,
+string sign_short,
+mixed sign_name,
+string sign_language)
+</pre><dd>
+This method adds a sign into the room.  Any of these elements can
+be set to 0, except the long description.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sign_long - the long description of the sign
+<dd>sign_read_mess - the readable message on the sign
+<dd>sign_short - the short description of the sign
+<dd>sign_name - the name of the sign
+<dd>sign_language - the language the sign is written in
+<dt><b>Returns:</b>
+<dd>the object for the sign
+
+</dl>
+
+<dt><a name="add_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_situation</b></a><pre>
+void add_situation(mixed label,
+class situation sit)
+</pre><dd>
+Adds a situation to the room.  These situations can be
+invoked manually with start_situation or automatically via
+automate_situation.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>label - string or number labelling the situation
+<dd>sit - a structure (class) containing all the bits
+of the situation you want to add.  It should be a
+variable of class situation.  You should include
+situations.h where this class is defined.
+Every part is optional.
+eg. 
+start_func  function to be called at start of situation 
+            that might be used to load NPC's or anything
+            beyond a message.
+
+            The start function is passed the label, 
+            a do_start_mess flag and the room object.  
+            If the flag is 1 the situation is starting 
+            rather than being reloaded.  Thus if 
+            do_start_mess is 0 then you should avoid
+            any obvious start messages and make it look
+            like the situation is already underway.
+
+end_func    function to be called an the end of a situation.  
+            The end function is only
+            passed the label and the room object.
+
+start_mess  message told to the room at start of situation
+
+end_mess    message told to the room at end of situation
+
+extra_look  extra look string appended to rooms long 
+            during the situation
+chat_rate   an array of 2 numbers giving the minimum and
+            maximum delay between chats.  If this is set
+            then the chats are not merged with the
+            existing chats but added independently with
+            their own chat rates as given.
+
+chats       an array of chat strings to be active 
+            during the situation 
+
+add_items   a mixed array of ({ item, item description }) 
+            pairs to be active during the situation
+
+random_words  sets of words to insert into text to replace 
+              the special character #n where n is a number.
+            The form of the array is ({  #1array, #2array, ... })
+            where #1array = ({ "#1word1","#1word2",... }) etc.
+            For the duration of the situation one of the strings
+            in #1array is used to replace all instances of #1
+            in the extra_look, start_mess, end_mess, chats
+            and key and the long description part of the add_items.
+            In a situation compounded of many situations
+            the same random seed is used for choosing all #1's
+            for each individual situation for the duration, 
+            and a different seed for all #2's etc. 
+
+<dt><b>See also:</b>
+<dd>start_situation.c, end_situation.c, automate_situation.c, change_situation.c, add_item.c, room_chat.c, add_extra_look.c, set_situation_changer.c, make_situation_seed.c, /include/situation.h and goto learning  search  situation  for working examples.c<dt><b>Example:</b>
+<dd><pre>#include <situations.h>
+
+class situation frogs;
+frogs = new(class situation, 
+    start_mess: "Water seeps out of the ground to form puddles.",
+    extra_look: "There are large puddles on the ground here.",
+    chat_rate: ({ 120,180 }),
+    chats: ({"A hidden frog croaks quietly.",
+             "There is a blooping sound." }),
+    add_items:({ ({"puddle", "The puddles are dark and murky.  " 
+                   "They will probably dry up given time." }) }) );
+add_situation( "frogs", frogs );
+</pre><dd><pre>
+add_situation( "ship", new(class situation, 
+     start_mess: "A #1 ship hoves into view.",
+     extra_look: "There is a #1 ship forging up the river.",
+     chats: ({"The #1 ship's sails flap in the breeze.",
+              "Shouts of sailors carry over to you from the #1 ship." }),
+     add_items: ({ ({"ship", "The #1 ship, the \"#2\" is a small "
+                   "sailing vessel that transports cargo up and "
+                   "down the river."}) }),
+     random_words: ({ ({ "old","waterlogged","heavily laden" }),
+                      ({ "Jemima", "Old Sea Dog", "Randy Mermaid" }) })
+     ) );
+When the situation is started a random choice (eg. "old") replaces #1 
+and a name (eg. "Jemima") replaces #2 in the text strings for
+the duration.  
+</pre><dd><pre>
+add_situation( "frogs", new(class situation, 
+     start_mess: "Water seeps out of the ground to form puddles.",
+     extra_look: "There are large puddles on the ground here.",
+     chats: ({"A hidden frog croaks quietly.",
+              "There is a blooping sound." }),
+     add_items: ({ ({"puddle", "The puddles are dark and murky.  " 
+                     "They will probably dry up given time." }) }) ));</pre><dd><pre>
+This is an empty situation, useful for making pauses in the action.
+add_situation( "pause", new(class situation) );
+</pre></dl>
+
+<dt><a name="add_use_internal_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_use_internal_object</b></a><pre>
+void add_use_internal_object(object thing)
+</pre><dd>
+This method adds an object whose interior bits want to be able to export
+commands.  You can use this for tables an so on, so that stuff on a table
+can still be used.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing whose inventory bits are to be exported
+
+</dl>
+
+<dt><a name="add_zone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_zone</b></a><pre>
+void add_zone(string zone)
+</pre><dd>
+This method adds a move zone into the current list of movement zones
+for the room.  The move zones are used by npcs to see which rooms they
+are allowed to move into.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_zone">set_zone()</a>, <a href="#query_zones">query_zones()</a> and <a href="obj.monster.c.html#add_move_zone">/obj/monster->add_move_zone()
+</a></dl>
+
+<dt><a name="attack_speed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>attack_speed</b></a><pre>
+int attack_speed()
+</pre><dd>
+This method sets the default attack speed for the room.
+This defaults to 15.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the default attack speed
+
+</dl>
+
+<dt><a name="automate_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>automate_situation</b></a><pre>
+varargs void automate_situation(mixed label,
+mixed duration,
+mixed when,
+mixed chance,
+mixed category)
+</pre><dd>
+Automate starting and ending of a situation.
+These situations can be invoked manually with start_situation.
+The automated starting and ending is unaffected by the room 
+unloading.  When the room reloads the situation will be 
+restarted unless its duration is up.
+You must include the file situations.h for the definitions
+of the when masks.  The random seed needs to be set
+consistently for the situations.  This is probably ok
+unless your rooms are clones (see make_situation_seed). <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>label - (mixed) label of the situation to start 
+ up.  If you pass an array such as ({ "frog1", "frog2" }) for the 
+label then that set of situations are started one at
+a time and the total duration is split evenly between them.
+Label is usually an integer or a string or an array of
+integers and/or strings.
+If the string is a list of labels
+separated by , then multiple situations
+are started using those labels.
+<dd>duration - (int) total time (seconds) the overall situation 
+should last.  You can put an array of durations -- one for each
+situation if the label lists more than one situation and then
+the overall time is the sum of the numbers.
+-1 is a special duration.  It means that the situaton given that
+duration is not part of the set but a special background or
+default situation that occurs all the time except when
+this automated situation is going.
+<dd>when - (int) a time of the day mask.  This limits when
+the situation is allowed to occur.  The mask is composed of
+the allowed hours in AM time ( 24 hours clock, (1<<hour) and 
+combined with | (OR) ).   You can just use these
+predefined masks and ignore how it works:
+ WHEN_WEE_HOURS, WHEN_EARLY_MORNING, WHEN_LATE_MORNING, WHEN_AFTERNOON
+ WHEN_EVENING, WHEN_LATENIGHT, WHEN_MIDDAY, WHEN_MORNING, 
+ WHEN_EARLY_MORNING, WHEN_LATE_MORNING, WHEN_NIGHT, WHEN_DAY
+ WHEN_ANY_TIME    
+The masks are defined in /include/situations.h.
+<dd>chance -  (int) chance in 1000 of starting the situation
+ This is tested every duration seconds.
+<dd>category - (optional) if you specify a cateory for the situation
+                then no situations with the same category will overlap.
+                category would usually be a string eg. "boats".
+<dt><b>See also:</b>
+<dd>add_situation.c, start_situation.c, end_situation.c, situations.h, set_situation_changer.c, make_situation_seed.c and goto learning  search  situation  for working examples.c<dt><b>Example:</b>
+<dd><pre>#include <situations.h>
+
+ automate_situation( "frog", 300, WHEN_ANY_TIME, 200 );
+
+This will automatically start the situation labelled "frog" 
+at a random time that is any time of the day with a 200/1000
+chance of it starting per 300 seconds.  It will last for
+300 seconds (5 minutes).  </pre><dd><pre>
+ automate_situation( ({"frog1,pond","frog2,pond"}), 240, 
+                       WHEN_EVENING|WHEN_NIGHT, 300 );
+
+This will automatically start a situation that is a combination 
+of "frog1" and "pond" followed by "frog2" and "pond".  They start
+at a random time but only in the evening or at night.  
+There will be a 300/1000 chance of 
+it starting per 240 seconds.  Both the "frog1" and "frog2" 
+situations will get half the total time (as there are two),  
+120 seconds each, for a total duration of 240 seconds (4 minutes).</pre><dd><pre>
+ automate_situation( ({"frog1,pond","frog2,pond"}), ({ 80,160 }), 
+                       WHEN_EVENING|WHEN_NIGHT, 300 );
+Same as previous example except the durations of the individual
+parts are set: "frog1,pond" for 80 seconds followed by "frog2,pond"
+for 160 seconds.  The total time is 80+160.
+</pre></dl>
+
+<dt><a name="calc_co_ord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_co_ord</b></a><pre>
+void calc_co_ord()
+</pre><dd>
+This method calculates the co-ordinates of this room.  The co-ordinates
+are based on the surrounding rooms co-ordinates, if one of those rooms
+are loaded.  The function 'query_do_not_use_coords' is called on the
+rooms to see if the co-ordinates are allowed to leak out further or
+not.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_co_ord">query_co_ord()</a> and <a href="#modify_exit">modify_exit()
+</a></dl>
+
+<dt><a name="calc_exits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_exits</b></a><pre>
+void calc_exits()
+</pre><dd>
+This method calculates all the exit strings to be used for this room.
+<p>
+
+<dt><a name="calc_long_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_long_exit</b></a><pre>
+void calc_long_exit()
+</pre><dd>
+This method creates the long exit description used in the room long
+descriptions.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_long_exit">query_long_exit()
+</a></dl>
+
+<dt><a name="calc_short_exit_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_short_exit_string</b></a><pre>
+string calc_short_exit_string()
+</pre><dd>
+This method returns the exit string used when in brief mode.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the brief exit string
+<dt><b>See also:</b>
+<dd><a href="#calc_exit_string">calc_exit_string()
+</a></dl>
+
+<dt><a name="can_use_for_co_ords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_use_for_co_ords</b></a><pre>
+int can_use_for_co_ords(string other)
+</pre><dd>
+This method is designed to allow a little more flexability in which rooms
+can be used for co-ordinates.  It should be overridden by higher up
+rooms to do different checks.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it can be used, 0 if not
+
+</dl>
+
+<dt><a name="change_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_situation</b></a><pre>
+varargs mixed change_situation(mixed label,
+mixed duration,
+mixed words)
+</pre><dd>
+Starts one or more situations that will end after a
+specified duration.  You can use an array and make
+further situations commence when others end.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>label - (mixed) label of the situation to start up.  
+If you pass an array such as ({ "frog1", "frog2" }) for the 
+label then that set of situations are started one at
+a time and the total duration is split evenly between them.
+Label is usually an integer or a string or an array of
+integers and/or strings.
+If the string is a list of labels
+separated by , then multiple situations
+are started using those labels.
+<dd>duration - (int) total time (seconds) the overall situation 
+should last.  You can put an array of durations -- one for each
+situation if the label lists more than one situation and then
+the overall time is the sum of the numbers.
+-1 is a special duration.  It means that the labelled situation goes on
+forever (and thus nothing after it in the array will ever go).
+<dd>words - is a list of replacements for #n in the text OR
+a random number seed to use to choose words from random_words.
+eg. ({ "#1", "frog", "#2", "honey" }) or 22
+
+<dt><b>Returns:</b>
+<dd>handle useful for halting the changes later.  It is typically
+a small positive integer.
+<dt><b>See also:</b>
+<dd>shutdown_situation.c, add_situation.c, automate_situation.c and goto learning  search  situation  for working examples.c<dt><b>Example:</b>
+<dd><pre>handle=change_situation( ({ "sew1","sew2" }), ({ 60,60 }) );
+
+if (over) shutdown_situation( handle, ({ "sew1","sew2" }) );</pre><dd><pre>
+change_situation( ({ "background,sew1","background,sew2" }), 120 );</pre><dd><pre>
+change_situation( ({ "building_falling","rubble" }), ({ 120, -1 }) );</pre><dd><pre>
+add_situation( "boat1", 
+  new(class situation,
+    start_mess: "A little fishing boat comes up to the pier.  "
+       "It has the name \"#1\" painted on the side.\n"
+       "A fisherman jumps off the boat and ties its painter to a post.",
+    chats: ({"The little boat bobs up and down next to the pier.",
+             "A fisherman hops off the little boat." }),
+    chat_rate: ({ 20, 30 }),
+    extra_look: "There is a little boat here.",
+    add_items: ({ ({ ({ "#1","little boat" }), 
+      "There is little fishing boat tied up at the pier here.  "
+      "The name \"#1\" is painted on the side."   }) }),
+    end_mess: "The fishermen get back on board and "
+       "the little boat moves on.",
+    random_words: ({ ({ "Honey Toad", "Piker", "Bing" }) })
+  )
+);
+
+change_situation( "boat1", 120, ({ "#1","Floating Egg" }) );
+</pre></dl>
+
+<dt><a name="end_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>end_situation</b></a><pre>
+void end_situation(mixed label)
+</pre><dd>
+Ends a situation previously added and started on the room.  
+These situations can be invoked manually with start_situation 
+or automatically via automate_situation. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>label - label for the situation
+<dt><b>See also:</b>
+<dd>add_situation.c, start_situation.c, automate_situation.c and change_situation
+.c</dl>
+
+<dt><a name="expand_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>expand_alias</b></a><pre>
+string expand_alias(string word)
+</pre>
+<dt><a name="find_inv_match">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_inv_match</b></a><pre>
+object * find_inv_match(string words,
+object looker)
+</pre><dd>
+This method returns all the matchable objects in the room.  This is used
+by find_match to determine the group of objects to select from.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the words to match on
+<dd>looker - the person doing the pmacthing
+<dt><b>Returns:</b>
+<dd>the array of objects to match on
+
+</dl>
+
+<dt><a name="flush_co_ord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>flush_co_ord</b></a><pre>
+void flush_co_ord()
+</pre><dd>
+This method resets the co-ordinates for the room to zero, and resets
+a flag so that calc_co_ord() can be called again to redetermine 
+the room's co-ordinates.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_co_ord">set_co_ord()</a>, <a href="#calc_co_ord">calc_co_ord()</a>, <a href="#query_co_ord">query_co_ord()</a> and <a href="#query_co_ord_calculated">query_co_ord_calculated()
+</a></dl>
+
+<dt><a name="is_allowed_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_allowed_position</b></a><pre>
+int is_allowed_position(string poss)
+</pre><dd>
+This method tells us if the passed i nposition is
+allowed in this type of room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>poss - the position to check
+
+</dl>
+
+<dt><a name="make_situation_seed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_situation_seed</b></a><pre>
+void make_situation_seed(int xval,
+int yval)
+</pre><dd>
+Makes a seed value for the random part of when 
+situations turn on and off.  The two ints should be
+constant for a given room -- eg. the coordinates.
+If this function is not called the seed is 
+generated from the file_name of the object.
+For this reason, rooms that are clones will produce
+erratic results unless this function is called.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>xval - integer to use to make a seed (eg. x coordinate)
+<dd>yval - integer to use to make a seed (eg. y coordinate)
+
+</dl>
+
+<dt><a name="modify_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>modify_exit</b></a><pre>
+int modify_exit(mixed direc,
+mixed * data)
+</pre><dd>
+This method modifies the parameters for the exit.  See the docs in
+/doc/new/room/modify_exit for more complete information.
+<p>
+
+<dt><a name="modify_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>modify_item</b></a><pre>
+int modify_item(string word,
+mixed new_desc)
+</pre><dd>
+This method will modify certain bits of the specified item.  This will
+change only the bits of the pattern that are specified.  If you wish to
+remove elements a better method would be to remove the item and
+then readd it.  The format of the new_desc array is the same as in the
+add_item code.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the name of the item to change
+<dd>new_desc - the bits of the item to change
+<dt><b>See also:</b>
+<dd><a href="#remove_item">remove_item()</a> and <a href="#add_item">add_item()
+</a></dl>
+
+<dt><a name="query_aliases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_aliases</b></a><pre>
+string * query_aliases()
+</pre><dd>
+This method returns the current exit aliases for the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the exit aliases of the room
+<dt><b>See also:</b>
+<dd><a href="#add_alias">add_alias()</a> and <a href="#remove_alias">remove_alias()
+</a></dl>
+
+<dt><a name="query_background_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_background_enchant</b></a><pre>
+int query_background_enchant()
+</pre><dd>
+This method returns the background enchantment of the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the theft handler of the room
+<dt><b>See also:</b>
+<dd><a href="#query_enchant">query_enchant()
+</a></dl>
+
+<dt><a name="query_bright_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bright_mess</b></a><pre>
+string query_bright_mess()
+</pre><dd>
+This method returns the message to use when it is too bright to see in
+the room.  It defaults to: "It's too bright to see anything!".<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the message to print when it is too bright
+<dt><b>See also:</b>
+<dd><a href="#query_dark_mess">query_dark_mess()</a>, <a href="#long">long()</a> and <a href="#set_bright_mess">set_bright_mess()
+</a></dl>
+
+<dt><a name="query_chatter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_chatter</b></a><pre>
+object query_chatter()
+</pre><dd>
+This method returns the current chatter object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the chatter object
+<dt><b>See also:</b>
+<dd><a href="#add_room_chat">add_room_chat()
+</a></dl>
+
+<dt><a name="query_co_ord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_co_ord</b></a><pre>
+int * query_co_ord()
+</pre><dd>
+Returns the current co-ordinates of the room.  The co-ordinates are
+3d, ({ x, y, z }).  So an array with three elements.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current co-ordinates
+<dt><b>See also:</b>
+<dd><a href="#set_co_ord">set_co_ord()
+</a></dl>
+
+<dt><a name="query_co_ord_calculated">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_co_ord_calculated</b></a><pre>
+int query_co_ord_calculated()
+</pre><dd>
+This tells us if the co-ordinates were set or if they were calculated.
+If they were set with set_co_ord then the value of this will be 0
+otherwise it will be 1.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is calculated, 0 if it is not
+<dt><b>See also:</b>
+<dd><a href="#query_co_ord">query_co_ord()</a> and <a href="#set_co_ord">set_co_ord()
+</a></dl>
+
+<dt><a name="query_dark_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dark_mess</b></a><pre>
+string query_dark_mess()
+</pre><dd>
+This is the message to print instead of the room description when the
+room is dark.  It defaults to the message "It's dark in here isn't it?".<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the dark message
+<dt><b>See also:</b>
+<dd><a href="#set_dark_mess">set_dark_mess()</a>, <a href="#long">long()</a> and <a href="#query_bright_mess">query_bright_mess()
+</a></dl>
+
+<dt><a name="query_day">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_day</b></a><pre>
+int query_day()
+</pre><dd>
+This method returns whether or not it is daytime.  The value is
+automatically updated whenever anyone enters the room and so is more
+efficient than checking with the weather handler.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for day, 0 for night.
+
+<dt><b>Example:</b>
+<dd><pre>void init() {
+  ::init();
+  if(is_day()) {
+    setup_daytime_stuff();
+  } else {
+    setup_nighttime_stuff();
+  }
+}</pre></dl>
+
+<dt><a name="query_day_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_day_items</b></a><pre>
+mixed * query_day_items()
+</pre><dd>
+These are the items only visible during the day.
+<p>
+
+<dt><a name="query_day_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_day_long</b></a><pre>
+string query_day_long()
+</pre><dd>
+This method returns the long description of the room during the day.  This is
+used to print out different strings for rooms during the day and during
+the night.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the night long for the room.
+
+</dl>
+
+<dt><a name="query_default_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_default_position</b></a><pre>
+mixed query_default_position()
+</pre><dd>
+This method returns the current default position asigned to this
+room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current default position
+
+</dl>
+
+<dt><a name="query_dest_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dest_dir</b></a><pre>
+varargs string * query_dest_dir(object thing)
+</pre><dd>
+Returns an array containing just the destinations and directions used to
+get there. This is useful for monster or whatever that you want to scan a
+room for exits to leave out of. The array is of the format. ({ direction1,
+destination1, direction2, destination2, ... })
+<p>
+The thing passed in is used as the basis for the relative directions
+if it is an object.  If it is not an object then this is ignored
+altogether.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - used to get the relative directions according to thing
+<dt><b>Returns:</b>
+<dd>the array of direction, destination pairs
+
+<dt><b>See also:</b>
+<dd><a href="#query_dest_other">query_dest_other()</a> and <a href="#add_exit">add_exit()</a></dl>
+
+<dt><a name="query_dest_other">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dest_other</b></a><pre>
+varargs mixed * query_dest_other(string direc)
+</pre><dd>
+This returns information about the exits in the room.  This is the
+information set by modify_exit().  The values from this are probably
+not very useful for normal coding.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#modify_exit">modify_exit()</a> and <a href="#query_dest_dir">query_dest_dir()
+</a></dl>
+
+<dt><a name="query_destination">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_destination</b></a><pre>
+string query_destination(string exit)
+</pre><dd>
+This method returns the destination room for an exit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>exit - the exit name
+<dt><b>Returns:</b>
+<dd>the path of the destination room, or ROOM_VOID on error
+<dt><b>See also:</b>
+<dd><a href="#query_dest_dir">query_dest_dir()</a><dt><b>Example:</b>
+<dd><pre>#include <room.h>
+string dest;
+
+dest = room->query_destination("south");
+if (dest == ROOM_VOID) {
+   do_error();
+} else {
+   do_move("south");
+}
+</pre></dl>
+
+<dt><a name="query_direc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_direc</b></a><pre>
+varargs string * query_direc(object thing)
+</pre><dd>
+This method just returns all the directions available to leave from
+the room.
+<p>
+The thing passed in is used as the basis for the relative directions
+if it is an object.  If it is not an object then this is ignored
+altogether.
+<p>
+<b>Strawberries</b>
+<p>
+Starting from a above,<br>
+Working slowly down under.<br>
+Sliding up the sides<br>
+Eating a meal, fresh cream and syrup.<br>
+<p>
+Round and round, and round again<br>
+Grining micheviously<br>
+One tongue at play<br>
+Firm and hard, fresh strawberries today.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - used to get the relative directions according to thing
+<dt><b>Returns:</b>
+<dd>the array of directions
+
+<dt><b>See also:</b>
+<dd><a href="#query_dest_other">query_dest_other()</a> and <a href="#add_exit">add_exit()</a></dl>
+
+<dt><a name="query_door">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_door</b></a><pre>
+string query_door(mixed dest,
+string name)
+</pre><dd>
+This method determines if the specified exit is a door or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dest - the destination to check for being a door
+<dd>name - the name of the door
+<dt><b>Returns:</b>
+<dd>0 if it is not a door, the direction if it is
+<dt><b>See also:</b>
+<dd><a href="#query_exit">query_exit()</a> and <a href="#add_exit">add_exit()
+</a></dl>
+
+<dt><a name="query_door_control">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_door_control</b></a><pre>
+varargs mixed query_door_control(string direc,
+string name)
+</pre><dd>
+This returns the information about the door in the specified direction.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>direc - the direction to query the door in
+<dd>name - the name of the exit
+<dt><b>Returns:</b>
+<dd>the door control information
+<dt><b>See also:</b>
+<dd><a href="#modify_exit">modify_exit()
+</a></dl>
+
+<dt><a name="query_door_open">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_door_open</b></a><pre>
+int query_door_open(string direc)
+</pre><dd>
+This method checks to see if the door is open.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>direc - the direction of the door
+<dt><b>Returns:</b>
+<dd>-1 on an error, 0 for closed, 1 for open
+<dt><b>See also:</b>
+<dd><a href="#modify_exit">modify_exit()
+</a></dl>
+
+<dt><a name="query_dynamic_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dynamic_enchant</b></a><pre>
+float query_dynamic_enchant()
+</pre><dd>
+This method returns the current dynamic enchantment of the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the theft handler of the room
+<dt><b>See also:</b>
+<dd><a href="#query_enchant">query_enchant()
+</a></dl>
+
+<dt><a name="query_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_enchant</b></a><pre>
+int query_enchant()
+</pre><dd>
+Returns the current enchantment level of the room.  The enchanment
+level controls things like what happens when you flip coins and
+some special messages which give wizards some idea about magic
+levels.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current enchantment
+<dt><b>See also:</b>
+<dd><a href="#set_enchant">set_enchant()
+</a></dl>
+
+<dt><a name="query_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_exit</b></a><pre>
+int query_exit(string direc)
+</pre><dd>
+This method determines if there is an exit in the specified direction.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>direc - the exit to test for
+<dt><b>Returns:</b>
+<dd>1 if it exists, 0 if it does now
+
+</dl>
+
+<dt><a name="query_exits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_exits</b></a><pre>
+string * query_exits()
+</pre><dd>
+This returns the current array of exits.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the exits array
+<dt><b>See also:</b>
+<dd><a href="#add_exit">add_exit()</a>, <a href="#remove_exit">remove_exit()</a> and <a href="#modify_exit">modify_exit()
+</a></dl>
+
+<dt><a name="query_hidden_objects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_hidden_objects</b></a><pre>
+object * query_hidden_objects()
+</pre><dd>
+This returns the current array of hidden objects.  The hidden objects
+are used to allow things to not actually be in the room description
+but be able to be manipulated by commands.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of hidden objects
+
+<dt><b>See also:</b>
+<dd><a href="#add_hidden_object">add_hidden_object()</a> and <a href="#remove_hidden_object">remove_hidden_object()</a></dl>
+
+<dt><a name="query_is_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_is_room</b></a><pre>
+int query_is_room()
+</pre><dd>
+Returns 1 to indicate that this object is a room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 to indicate that this is a room
+
+</dl>
+
+<dt><a name="query_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_item</b></a><pre>
+object query_item()
+</pre><dd>
+This method returns the current item object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current item object
+<dt><b>See also:</b>
+<dd><a href="#add_item">add_item()
+</a></dl>
+
+<dt><a name="query_keep_room_loaded">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_keep_room_loaded</b></a><pre>
+int query_keep_room_loaded()
+</pre><dd>
+This method returns the status of the keep room loaded flag.  If they
+flag is non-0 then the room with not be unloaded.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the status of the keep room loaded flag
+
+</dl>
+
+<dt><a name="query_linker">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_linker</b></a><pre>
+object query_linker()
+</pre><dd>
+This method returns the current linker object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the linker object
+
+</dl>
+
+<dt><a name="query_long_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_long_exit</b></a><pre>
+string query_long_exit()
+</pre><dd>
+This returns the long exit string.  This is calculated when it is
+first needed by the calc_long_exit function.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the long exit string
+<dt><b>See also:</b>
+<dd><a href="#calc_long_exit">calc_long_exit()</a> and <a href="#long">long()
+</a></dl>
+
+<dt><a name="query_long_exit_mxp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_long_exit_mxp</b></a><pre>
+string query_long_exit_mxp()
+</pre><dd>
+This returns the long exit string with mxp codeds added. 
+This is calculated when it is
+first needed by the calc_long_exit function.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the long exit string
+<dt><b>See also:</b>
+<dd><a href="#calc_long_exit">calc_long_exit()</a> and <a href="#long">long()
+</a></dl>
+
+<dt><a name="query_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_look</b></a><pre>
+string query_look(string direc)
+</pre>
+<dt><a name="query_look_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_look_func</b></a><pre>
+mixed * query_look_func(string direc)
+</pre>
+<dt><a name="query_night_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_night_items</b></a><pre>
+mixed * query_night_items()
+</pre><dd>
+These are the items only visible at night.
+<p>
+
+<dt><a name="query_night_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_night_long</b></a><pre>
+string query_night_long()
+</pre><dd>
+This method returns the long description of the room at night.  This is
+used to print out different strings for rooms during the day and during
+the night.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the night long for the room.
+
+</dl>
+
+<dt><a name="query_not_replaceable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_not_replaceable</b></a><pre>
+int query_not_replaceable()
+</pre><dd>
+This method checks to see if the program is replaceable.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if the program is not replaceable
+<dt><b>See also:</b>
+<dd><a href="#set_not_replaceable">set_not_replaceable()
+</a></dl>
+
+<dt><a name="query_relative">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_relative</b></a><pre>
+int query_relative(string direc)
+</pre><dd>
+This method checks to see if the exit is a relative one.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>direc - the direction to check
+<dt><b>See also:</b>
+<dd><a href="#modify_exit">modify_exit()
+</a></dl>
+
+<dt><a name="query_room_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_chats</b></a><pre>
+mixed * query_room_chats()
+</pre><dd>
+Returns the current set of room chats
+managed by the chatter object.  <p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>pointer to the mixed array of chat args
+<dt><b>See also:</b>
+<dd>add_room_chats.c, remove_room_chats.c, room_chat.c and /std/room/basic/chatter
+.c<dt><b>Example:</b>
+<dd><pre> ({ 120, 240, ({ "A frog gimbles the curtains.",
+                 "A truly revolting smell drifts insidiously "
+                 "from the rug." }) })</pre></dl>
+
+<dt><a name="query_room_day_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_day_chats</b></a><pre>
+mixed * query_room_day_chats()
+</pre><dd>
+This returns the set of chats visible only during the day.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the chat array used during the day
+
+</dl>
+
+<dt><a name="query_room_default_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_default_chats</b></a><pre>
+mixed * query_room_default_chats()
+</pre><dd>
+This returns the default set of chats, these are mixed with the night
+and day chats to generate the current set.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mixed set of chats
+
+</dl>
+
+<dt><a name="query_room_night_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_night_chats</b></a><pre>
+mixed * query_room_night_chats()
+</pre><dd>
+This returns the set of chats visible only at night.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the chat array used at night.
+
+</dl>
+
+<dt><a name="query_room_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_size</b></a><pre>
+mixed query_room_size()
+</pre><dd>
+This method queries the size of the room.  The default size of a room
+is 10x10x10.  A room can be any rectangular size, this method will return
+an array of three elements if the room is a non-cube.  If it returns
+a single number then the room is assumed to be cubic.
+<p>
+({ north-south size, east-west size, up-down size })
+<p>
+The sizes are all radii's so they are half the actual width of the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the size of the room
+<dt><b>See also:</b>
+<dd><a href="#set_room_size">set_room_size()</a> and <a href="#query_room_size_array">query_room_size_array()
+</a></dl>
+
+<dt><a name="query_room_size_array">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_size_array</b></a><pre>
+int * query_room_size_array()
+</pre><dd>
+This method returns the size of the room as a three element array always.
+<p>
+({ north-south size, east-west size, up-down size })
+<p>
+The sizes are all radii's so they are half the actual width of the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the size of the room as a three element array
+<dt><b>See also:</b>
+<dd><a href="#query_room_size">query_room_size()</a> and <a href="#set_room_size">set_room_size()
+</a></dl>
+
+<dt><a name="query_short_exit_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_short_exit_string</b></a><pre>
+string query_short_exit_string()
+</pre><dd>
+This method returns the short exit string.  The short exit string is the
+string used in 'brief' mode of a players look.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the short exit string
+<dt><b>See also:</b>
+<dd><a href="#calc_short_exit_string">calc_short_exit_string()</a> and <a href="#query_exit_string">query_exit_string()
+</a></dl>
+
+<dt><a name="query_situation_changer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_situation_changer</b></a><pre>
+object query_situation_changer()
+</pre><dd>
+This method returns the current situation changer object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the situation changer object
+<dt><b>See also:</b>
+<dd><a href="#add_situation">add_situation()</a>, <a href="#automate_situation">automate_situation()</a> and change_situation
+.c</dl>
+
+<dt><a name="query_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_size</b></a><pre>
+int query_size(string direc)
+</pre><dd>
+This method returns the size of the exit.  This is used to check to make
+sure that people can enter it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>direc - the direction of the exit to check
+<dt><b>Returns:</b>
+<dd>the size of the exit
+<dt><b>See also:</b>
+<dd><a href="#modify_exit">modify_exit()
+</a></dl>
+
+<dt><a name="query_terrain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_terrain</b></a><pre>
+object query_terrain()
+</pre><dd>
+This method returns the current terrain object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the terrain object
+<dt><b>See also:</b>
+<dd><a href="#add_room_chat">add_room_chat()
+</a></dl>
+
+<dt><a name="query_theft_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_theft_handler</b></a><pre>
+string query_theft_handler()
+</pre><dd>
+This method returns the current theft handler for the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the theft handler of the room
+<dt><b>See also:</b>
+<dd><a href="#set_theft_handler">set_theft_handler()
+</a></dl>
+
+<dt><a name="query_use_internal_objects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_use_internal_objects</b></a><pre>
+object * query_use_internal_objects()
+</pre><dd>
+This method returns all the current use internal objects available.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of use internal objects here
+
+</dl>
+
+<dt><a name="query_visibility">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_visibility</b></a><pre>
+int query_visibility()
+</pre><dd>
+This method returns the visibility in this room.  The visibility should
+be a percentage which represents the percentage of the maximum visibility
+in the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the visbility
+
+</dl>
+
+<dt><a name="query_wall">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_wall</b></a><pre>
+object query_wall()
+</pre><dd>
+This method returns the current wall object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the wall object
+<dt><b>See also:</b>
+<dd><a href="#add_room_chat">add_room_chat()
+</a></dl>
+
+<dt><a name="query_zones">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_zones</b></a><pre>
+string * query_zones()
+</pre><dd>
+This method returns the set of move zones for this room.  This is used
+by npcs to see which rooms they are allowed to move into.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_zone">add_zone()</a> and <a href="obj.monster.c.html#add_move_zone">/obj/monster->add_move_zone()
+</a></dl>
+
+<dt><a name="remove_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_alias</b></a><pre>
+void remove_alias(mixed names,
+string word)
+</pre><dd>
+This method removes the exit aliases from the room.
+Aliases are convenient extra forms that can be attached to certain
+exits. In the above functions, the variable names is either a string
+or an array of strings and is, respectively, the alias or aliases
+for the direction passed in word. Since, sometimes, the same alias
+could be used for more than one exit, remove_alias() requires both
+alias(es) and direction in order to remove the correct alias(es). <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>names - the names to remove
+<dd>word - what they were aliased to
+<dt><b>See also:</b>
+<dd><a href="#add_alias">add_alias()</a> and <a href="#query_aliases">query_aliases()</a><dt><b>Example:</b>
+<dd><pre>remove_exit( "board carriage" );
+remove_alias( "board", "board carriage" );
+</pre></dl>
+
+<dt><a name="remove_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_exit</b></a><pre>
+int remove_exit(string direc)
+</pre><dd>
+This method removes the specified exit from the room.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_exit">add_exit()</a> and <a href="#modify_exit">modify_exit()
+</a></dl>
+
+<dt><a name="remove_hidden_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_hidden_object</b></a><pre>
+int remove_hidden_object(object thing)
+</pre><dd>
+This method removes a hidden object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the hidden object to remove
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#add_hidden_object">add_hidden_object()</a> and <a href="#query_hidden_objects">query_hidden_objects()
+</a></dl>
+
+<dt><a name="remove_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_item</b></a><pre>
+int remove_item(string word)
+</pre><dd>
+This method will attempt to remove the item defined by the given string.
+This will remove everything associated with that item, verbs, patterns,
+everything.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the name of the item to remove
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 on a failure
+<dt><b>See also:</b>
+<dd><a href="#add_item">add_item()</a> and <a href="#query_item">query_item()
+</a><dt><b>Example:</b>
+<dd><pre>add_item("frog", "Cute, green and sitting on a lilly pad.  Yes!\n");
+...
+remove_item("frog");</pre><dd><pre>
+add_item(({ "big bad chicken", "clucker" }),
+         "The big bad chicken sits and stares at you.\n");
+...
+remove_item("big bad chicken");</pre></dl>
+
+<dt><a name="remove_room_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_room_chats</b></a><pre>
+void remove_room_chats(string * dead_chats)
+</pre><dd>
+Removes chats from the set of room chats
+managed by this chatter object.  If there are no chats
+left the chatter is destructed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dead_chats - an array of chat strings to remove
+<dt><b>See also:</b>
+<dd>add_room_chats.c, query_room_chats.c and /std/room/basic/chatter
+.c</dl>
+
+<dt><a name="remove_use_internal_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_use_internal_object</b></a><pre>
+void remove_use_internal_object(object thing)
+</pre><dd>
+This method removes an object whose interor bits want to export.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object to remove
+
+</dl>
+
+<dt><a name="remove_zone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_zone</b></a><pre>
+void remove_zone(string zone)
+</pre><dd>
+This method removes a move zone from the current list of movement zones
+for the room.  The move zones are used by npcs to see which rooms they
+are allowed to move into.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_zone">add_zone()</a>, <a href="#query_zones">query_zones()</a> and <a href="obj.monster.c.html#add_move_zone">/obj/monster->add_move_zone()
+</a></dl>
+
+<dt><a name="reset_exits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_exits</b></a><pre>
+void reset_exits()
+</pre><dd>
+This method removes all the current exits in the room.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_exit">add_exit()</a>, <a href="#remove_exit">remove_exit()</a> and <a href="#modify_exit">modify_exit()
+</a></dl>
+
+<dt><a name="room_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>room_chat</b></a><pre>
+varargs void room_chat(mixed * args,
+object chatobj)
+</pre><dd>
+This method sets up the room chats.
+Room chats are strings which are printed at (semi) random intervals
+in rooms.  They are used to add atmosphere to a room. A chat will
+be picked at random from the array of chats with a frequency
+controlled by the times min and max. ie. one will be picked every n
+seconds where is varies between min and max seconds. Please don't
+make the values for min and max too small or the messages just
+become annoying!
+<p>
+The argument to the room_chat method is an array of the format:<br>
+({ int min, int max, ({ string *chats }) }).  In place of a chat
+string you may use "#function_name" where function_name is a
+function that exists on the room object.
+<p>
+Repeated calls to this function overwrite the chats for
+the default chatter.
+<p>
+If this function is used in combination with the day/night chats then
+this sets the default chat items for the chatter.  The frequency
+of chats will be taken from the day/night chats, but the messages from
+here will be merged into the day/night chats.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - the room chat arguments
+<dd>chatobj - chatter object in case the default offends you.
+               This argument may be omitted in which case you get 
+               /std/room/basic/chatter.c
+<dt><b>See also:</b>
+<dd><a href="#stop_room_chat">stop_room_chat()</a>, <a href="#add_room_chats">add_room_chats()</a>, <a href="#remove_room_chats">remove_room_chats()</a> and <a href="#set_chat_min_max">set_chat_min_max()
+</a><dt><b>Example:</b>
+<dd><pre>room_chat(({ 120, 240, ({ "A string frog wanders past.",
+                          "#make_soggy_bread",
+                          "A trully revolting smell drifts insidiously "
+                               "from the bakery." }) }) );</pre></dl>
+
+<dt><a name="room_day_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>room_day_chat</b></a><pre>
+void room_day_chat(mixed * args)
+</pre><dd>
+This method sets up chats for when the room is in the day cycle.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - the chatter arguements
+<dt><b>See also:</b>
+<dd><a href="#room_night_chat">room_night_chat()</a> and <a href="std.room.c.html#room_chat">/std/room->room_chat()
+</a></dl>
+
+<dt><a name="room_night_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>room_night_chat</b></a><pre>
+void room_night_chat(mixed * args)
+</pre><dd>
+This method sets up chats for when the room is in the night cycle.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - the chatter arguements
+<dt><b>See also:</b>
+<dd><a href="#room_day_chat">room_day_chat()</a> and <a href="std.room.c.html#room_chat">/std/room->room_chat()
+</a></dl>
+
+<dt><a name="set_background_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_background_enchant</b></a><pre>
+void set_background_enchant(int number)
+</pre><dd>
+This method sets the background enchantment of the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the theft handler of the room
+<dt><b>See also:</b>
+<dd><a href="#set_enchant">set_enchant()
+</a></dl>
+
+<dt><a name="set_bright_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bright_mess</b></a><pre>
+void set_bright_mess(string word)
+</pre><dd>
+This method sets the bright message associated with the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the new bright message
+<dt><b>See also:</b>
+<dd><a href="#query_bright_mess">query_bright_mess()</a> and <a href="#long">long()
+</a></dl>
+
+<dt><a name="set_chat_min_max">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_chat_min_max</b></a><pre>
+void set_chat_min_max(int min,
+int max)
+</pre><dd>
+Allows the chat interval to be changed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>min - minimum interval between chats (seconds)
+<dd>max - maximum interval between chats (seconds)
+
+</dl>
+
+<dt><a name="set_co_ord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_co_ord</b></a><pre>
+void set_co_ord(int * new_co_ord)
+</pre><dd>
+Sets the current co-ordinates of the room.  The co-ordinates are
+3d, ({ x, y, z }).  So an array with three elements.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_co_ord - the new co-ordinates for the room.
+<dt><b>See also:</b>
+<dd><a href="#query_co_ord">query_co_ord()</a> and <a href="#query_co_ord_calculated">query_co_ord_calculated()
+</a></dl>
+
+<dt><a name="set_dark_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_dark_mess</b></a><pre>
+void set_dark_mess(string word)
+</pre><dd>
+This method sets the dark message associated with the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the new dark message
+<dt><b>See also:</b>
+<dd><a href="#query_dark_mess">query_dark_mess()</a> and <a href="#long">long()
+</a></dl>
+
+<dt><a name="set_day_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_day_long</b></a><pre>
+void set_day_long(string str)
+</pre><dd>
+This method sets the long description to display during the day time.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new day long description
+<dt><b>See also:</b>
+<dd><a href="#query_day_long">query_day_long()</a> and <a href="#set_night_long">set_night_long()
+</a></dl>
+
+<dt><a name="set_default_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_default_position</b></a><pre>
+void set_default_position(mixed stuff)
+</pre><dd>
+This method sets the default position for the room.  Se the set
+default position in the living code for a more complete
+example of this.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pos - the default position
+<dt><b>See also:</b>
+<dd><a href="ostd.living.living.c.html#set_default_position">/ostd/living/living->set_default_position()
+</a></dl>
+
+<dt><a name="set_dynamic_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_dynamic_enchant</b></a><pre>
+void set_dynamic_enchant(float number)
+</pre><dd>
+This method sets the current dynamic enchantment of the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the theft handler of the room
+<dt><b>See also:</b>
+<dd><a href="#set_enchant">set_enchant()
+</a></dl>
+
+<dt><a name="set_enchant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_enchant</b></a><pre>
+int set_enchant(int number)
+</pre><dd>
+Sets the current enchantment level of the room.  The enchanment
+level controls things like what happens when you flip coins and
+some special messages which give wizards some idea about magic
+levels.
+When called from the room itself, it sets a background level of 
+enchantment that don't decay, when called from another object it
+sets the current enchantment which then decays towards the background 
+level.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the new enchantment level to set
+<dt><b>See also:</b>
+<dd><a href="#query_enchant">query_enchant()
+</a></dl>
+
+<dt><a name="set_keep_room_loaded">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_keep_room_loaded</b></a><pre>
+void set_keep_room_loaded(int flag)
+</pre><dd>
+This method sets the flag that enables or disables the room being
+cleaned up.  If they flag is set to 1, then room is never cleaned up.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - the room being cleaned up flag
+<dt><b>See also:</b>
+<dd><a href="#query_keep_room_loaded">query_keep_room_loaded()
+</a></dl>
+
+<dt><a name="set_linker">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_linker</b></a><pre>
+varargs int set_linker(string * rooms,
+string d_prep,
+string s_prep,
+string r_name)
+</pre><dd>
+This method sets up a linkage between the current room and othert
+rooms.  The linkage broadcasts things like says and enter/exit
+messages between the rooms.
+<P>
+The the dynamic preposition is used when someone enters/exits
+the room, the static preposition is used when someone says something
+in the room.  The dynamic proposition defaults to "into" and the
+static preposition defaults to "in".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>rooms - the rooms to link together
+<dd>d_prep - the dynamic preposition
+<dd>s_prep - the static preposition
+<dd>r_name - the name of the room/area
+<dt><b>Example:</b>
+<dd><pre>set_linker( ({ PATH + "room1", PATH + "room2", }),
+            "into", "in", "fluffy square");
+</pre></dl>
+
+<dt><a name="set_night_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_night_long</b></a><pre>
+void set_night_long(string str)
+</pre><dd>
+This method sets up the night long for the room.  This will be the
+long description displayed at night in the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new night long description
+<dt><b>See also:</b>
+<dd><a href="#set_day_long">set_day_long()</a> and <a href="#query_night_long">query_night_long()
+</a></dl>
+
+<dt><a name="set_not_replaceable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_not_replaceable</b></a><pre>
+void set_not_replaceable(int replace)
+</pre><dd>
+This method sets a property to make the program replaceable.  A program
+will only be replaced if there is only a setup() function in the room.
+A reset() or a create() will stop the room from being replace and in
+fact any other function existing in there will stop it from being
+replaced as well.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_not_replaceable">query_not_replaceable()
+</a></dl>
+
+<dt><a name="set_room_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_room_size</b></a><pre>
+void set_room_size(mixed number)
+</pre><dd>
+This method sets the rooms principle radii.  If the parameter isa single
+number then the room is assumed to be cubic and dimension applies in
+all directions.  If the input is a three element array then the elements
+apply to all the directions.<br>
+({ north-south size, east-west size, up-down size })
+<p>
+The sizes are all radii's so they are half the actual width of the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the new size of the room
+<dt><b>See also:</b>
+<dd><a href="#query_room_size">query_room_size()</a> and <a href="#query_room_size_array">query_room_size_array()
+</a></dl>
+
+<dt><a name="set_situation_changer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_situation_changer</b></a><pre>
+varargs object set_situation_changer(mixed changer)
+</pre><dd>
+Set a situation changer (in place of the default).
+If there is no argument you get the default:
+/std/room/basic/situation_changer.
+You call this before any other situation related functions.
+If you create your own changer it should inherit one of
+/std/room/basic/situation_changer or
+/std/room/basic/multiroom_situation_changer or
+otherwsie provide the functionality of those objects.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>changer - optional parameter specifying either a path for
+the changer object or an existing object to use.
+<dt><b>See also:</b>
+<dd>add_situation.c, start_situation.c, automate_situation.c and change_situation.c<dt><b>Example:</b>
+<dd><pre>If you have a special changer object used for more than one room
+then in setup for those rooms you should have:
+set_situation_changer(load_object("/w/me/mychanger"));
+Where /w/me/mychanger inherits 
+/std/room/basic/multiroom_situation_changer
+</pre></dl>
+
+<dt><a name="set_terrain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_terrain</b></a><pre>
+int set_terrain(string terrain_name)
+</pre>
+<dt><a name="set_theft_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_theft_handler</b></a><pre>
+void set_theft_handler(string word)
+</pre><dd>
+This method sets the current theft handler for the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the new theft handler for the room
+<dt><b>See also:</b>
+<dd><a href="#query_theft_handler">query_theft_handler()
+</a></dl>
+
+<dt><a name="set_wall">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_wall</b></a><pre>
+void set_wall(mixed * args)
+</pre>
+<dt><a name="set_zone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_zone</b></a><pre>
+void set_zone(string zone)
+</pre><dd>
+This method adds a move zone into the current list of zones.
+This method is depreciated, add_zone should be used instead.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_zone">add_zone()</a> and <a href="#query_zones">query_zones()
+</a></dl>
+
+<dt><a name="shutdown_all_situations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shutdown_all_situations</b></a><pre>
+void shutdown_all_situations()
+</pre><dd>
+Shuts down all current and pending situations.  It also turns off the
+automated situation manager so no more are added.  It does not
+destruct this object so all the add_situations are still loaded
+and make be recommenced with automate_situation.  dest_me is
+the appropriate call to permanently remove all situations.  The
+call is passed to the situation changer object.  If none exists
+then nothing happens.  The situation changer is created when
+an add_situation call is performed. <p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd>add_situation.c, automate_situation.c and change_situation
+.c</dl>
+
+<dt><a name="shutdown_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shutdown_situation</b></a><pre>
+void shutdown_situation(int call,
+mixed label)
+</pre><dd>
+Shuts down a situation or set of situations initiated with
+change_situation based on the call_out handle
+returned by the call to change_situation.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>callout - call_out handle.  If 0 then the last
+known handle is used.
+<dd>label - label or array of labels of situations to clean 
+up with end_situation
+<dd>the_room - the room
+<dt><b>See also:</b>
+<dd>automate_situation.c and change_situation
+.c</dl>
+
+<dt><a name="start_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_situation</b></a><pre>
+void start_situation(int label,
+int do_start_mess)
+</pre><dd>
+Starts a situation previously added to the room.  These situations can be
+invoked manually with start_situation or automatically via
+automate_situation.  The call is passed to the situation
+changer object.  If there isn't one nothing happens. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>label - label for the situation as passed to add_situation
+<dd>do_start_mess - 0 to supress the start_mess string
+       This is to fake it that a situation has been 
+       going for a while when really you just loaded it.
+<dt><b>See also:</b>
+<dd>add_situation.c, end_situation.c, automate_situation.c and change_situation
+.c</dl>
+
+<dt><a name="stop_room_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stop_room_chats</b></a><pre>
+void stop_room_chats()
+</pre><dd>
+This method stops all the room chats for the room.  It also removes
+all the room chats, so if you want to have any more you must
+add them again.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#room_chat">room_chat()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 15:53:21 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

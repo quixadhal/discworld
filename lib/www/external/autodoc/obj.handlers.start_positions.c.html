@@ -1,0 +1,97 @@
+<html><head><title>File start_positions.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a> and <a href="include.login_handler.h.html">/include/login_handler.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_buggy_start"><b>add_buggy_start</b></a>(string)<dd>
+Add a filename to the array of buggy start positions to be removed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_buggy_start"><b>delete_buggy_start</b></a>(string)<dd>
+Remove a filename from the array of buggy start positions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#list_buggy_starts"><b>list_buggy_starts</b></a>()<dd>
+Get a list of all the currently registered buggy start positions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_file"><b>load_file</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#login_callback"><b>login_callback</b></a>(string, string)<dd>
+This is the callback function registered with the login handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_buggy_starts"><b>remove_buggy_starts</b></a>(object)<dd>
+Process a player and remove start positions as required.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_buggy_start">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_buggy_start</b></a><pre>
+int add_buggy_start(string fname)
+</pre><dd>
+Add a filename to the array of buggy start positions to be removed.
+Returns 1 if successful, -1 if the start position was already in the
+list, or 0 for an error.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - The filename of the room.  '.c' will be stripped.
+<dt><b>Returns:</b>
+<dd>The integer success code.
+
+</dl>
+
+<dt><a name="delete_buggy_start">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_buggy_start</b></a><pre>
+int delete_buggy_start(string fname)
+</pre><dd>
+Remove a filename from the array of buggy start positions.
+Returns 1 if successful, -1 if the start position was not in the list,
+or 0 for an error.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - The filename of the room.  '.c' will be stripped.
+<dt><b>Returns:</b>
+<dd>The integer success code.
+
+</dl>
+
+<dt><a name="list_buggy_starts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>list_buggy_starts</b></a><pre>
+string * list_buggy_starts()
+</pre><dd>
+Get a list of all the currently registered buggy start positions.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The list of filenames.
+
+</dl>
+
+<dt><a name="load_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_file</b></a><pre>
+void load_file()
+</pre>
+<dt><a name="login_callback">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>login_callback</b></a><pre>
+void login_callback(string player,
+string type)
+</pre><dd>
+This is the callback function registered with the login handler.  It
+takes two arguments: the player and the type of login event.  It checks
+a property on the player so that it doesn't process the list of buggy
+starts once for each player every single time they log in.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player's name to check.
+<dd>type - the type of login event, as defined in <login_handler.h>.
+
+</dl>
+
+<dt><a name="remove_buggy_starts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_buggy_starts</b></a><pre>
+void remove_buggy_starts(object player)
+</pre><dd>
+Process a player and remove start positions as required.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - The player object to check.
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 01:38:07 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

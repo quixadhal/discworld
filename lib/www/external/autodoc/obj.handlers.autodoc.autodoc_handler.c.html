@@ -1,0 +1,302 @@
+<html><head><title>File autodoc_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/autodoc/autodoc_handler.c</h2>
+Documentation system for removing documentation from source files.
+<p>
+The documentation will be created in the directory /doc/autodoc.  Extra
+documentation should be placed into the other help directories and will
+be accessed via the help system.  The html documentation will be placed
+into the /www/autodoc directory.  The files in theses directories will
+be named with the '/'s replaced with '.'s.  ie: /obj/handlers/room_handler.c
+would be in the file /doc/autodoc/obj.handlers.room_handler.c and
+/www/autodoc/obj.handlers.room_handler.c.html.  An index of the methods
+and object names will be generated from the input files and linked into the
+help system.  An alphabetical index will also be produced that is linked
+to the html stuff.
+<p>
+The first comment which follows the comment format below and occurs right
+before a function will be used as the documentation for that function.  The
+comment must start with two '*'s to distinguish it from a normal comment.
+A special tag at the start of one of the first comments in the file will
+signify that it is a comment for the class.
+<p>
+Only comments before a real function declaration will be used, comments
+before a predeclaration will be ignored.
+<p>
+Any function which is not declared as private and does not have the @ignore
+tag in its description will be placed into the resulting documentation
+file.  This will be done even if no comment was found.
+<p>
+In the text part of the comment the main section is a free form
+documentation, it is merely a description of the whole function.  After
+this several tags can be added to the comment which allows other things
+to be documented.  All the text after the tag is taken as part of that
+tags information.  The main tag should never actually be used, it
+is implied as being the tag associated with the first section of
+comment.
+<p>
+HTML tags will be used in the comments to allow certain things to
+happen.  The tags 'p', 'b', 'i', 'code', 'ul', 'ol', 'dl', 'dd', 'dt', 'pre'
+and 'li' will be supported.
+<p>
+The sequences '/', '\' and '\<' will be processed by the comment
+handling code so that they do not get placed into the output code.
+<p>
+White space is ignored...  Both html and dw nroff format files will be
+created from the documentation maker.
+<p>
+The supported tags are:
+<dl>
+<dt>@param
+<dd>Specify the parameter and what it does.  This should be one short
+    sentance only.  There needs to be one of these for every
+    parameter, the first word of the sentance is the name of the 
+    paramater and the rest is the descrption.  There should be no full
+    stop on the end of the sentance.
+<dt>@member
+<dd>This is used with classes and defines the members of the class.  The
+    definition is the same as for the @param element above.
+<dt>@return
+<dd>Specify what the return value is.  This should be one short
+    sentance only.  Theres should only be one of these in every
+    function.  There should be no full stop on the end of the sentance.
+<dt>@see
+  <dd>Specify an object or function to see.  The format must be one of:
+  <ul>
+  <li> object_name<br><i>@see /global/new_parse</i>
+  <li> function_name()<br><i>@see frog()</i>
+  <li> object_name->function_name()<br><i>@see /global/new_parse->add_command()</i>
+  <li> efun::name()<br><i>@see efun::sort_array()</i>
+  <li> help::name<br>@see help::effects
+  </ul>
+<dt>@ignore
+  <dd>Do not document this function, the whole comment is ignored.
+<dt>@main
+  <dd>The main documentation section.
+<dt>@classification
+   <dd>Used in the effects files to classifiy the effect.  So a tree
+     of the classifications can be derived.
+<dt>@index
+       <dd>Adds in a new index refernece on this name.  This should be one
+           word only.
+<dt>@change
+  <dd>Placed in the class documentation to reference a change list.
+           First line after the tag is the date and the author and
+           then follows a description of the change.
+<dt>@example
+  <dd>If you wish to embed an example in the code.
+<dt>@started
+  <dd>When the file was started.
+<dt>@author
+  <dd>The author of the file.
+</dl>
+
+The output format will look something like the API documentation for
+java.  If you have not seen this before, go to http://www.javasoft.com
+and look in the JDK and then the API section.
+<p>
+Comment format:
+<pre>
+/**
+ *  <text>
+ *    ..
+ *  <text>
+ *
+ */
+</pre>
+
+ie: it starts with a /** and ends with a */ on a line by themselves and
+every intervening line has a * at the start.  By using a \ you can
+make characters escaped.  This means they are not processed by
+the internal system, so to make a end comment appear inside a
+the text you go : */
+<p><b>See also:</b><br><a href="obj.handlers.autodoc.autodoc_file.c.html">/obj/handlers/autodoc/autodoc_file.c</a>, <a href="obj.handlers.autodoc.autodoc_nroff.c.html">/obj/handlers/autodoc/autodoc_nroff.c</a> and <a href="obj.handlers.autodoc.autodoc_html.c.html">/obj/handlers/autodoc/autodoc_html.c</a><p>Written by Pinkfish<p>Started Tue Oct 28 13:25:09 EST 1997
+
+<h3>Example</h3>
+<pre>inherit "/std/object";
+
+/**
+ *   This class is a nice shade of blue and allows all other shades of
+ *   green and yellow to mix well.
+ * @see yellow
+ * @see blue
+ * @change 12/3/97 Pinkfish
+ *    Pushed some of the yellow stuff down a hole and ate a bagel.
+ */
+
+/**
+ * This method mixes the green in with our blue.
+ * @param  green   the green object to mix.
+ */
+void mixGreen(object green) {
+  /* Something wild and exciting! */
+} /* mixGreen() */
+
+/**
+ * This method mixes the yellow in with our blue.
+ * @param  yellow the yellow object to mix.
+ * @return returns a TRUE or FALSE depending on if the mix succeeded.
+ * @example
+ *   mixYellow(12);
+ */
+int mixYellow(object yellow) {
+} /* mixYellow() */
+</pre>
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.autodoc.h.html">/include/autodoc.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_file"><b>add_file</b></a>(string)<dd>
+Adds a file into the list of files to process for autodocumentation.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_autodoc_file"><b>is_autodoc_file</b></a>(string)<dd>
+This method tells us if the file is currently in the autodoc set.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_files"><b>query_files</b></a>()<dd>
+Returns the list of files we are current processing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_help_map"><b>query_help_map</b></a>()<dd>
+Returns the help mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_help_on"><b>query_help_on</b></a>(string, string)<dd>
+This method returns the file name of the help for the specified
+function in the specified file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_summary_map"><b>query_summary_map</b></a>()<dd>
+Retuirns the mapping of file names to a summary.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#recreate_documentation"><b>recreate_documentation</b></a>(string)<dd>
+Recreate documentation for one fiel immediately.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#recreate_indexes"><b>recreate_indexes</b></a>()<dd>
+Regenerate the index files.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_file"><b>remove_file</b></a>(string)<dd>
+Removes a file from the list of files to be processed for autodocumentation.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_file</b></a><pre>
+int add_file(string fname)
+</pre><dd>
+Adds a file into the list of files to process for autodocumentation.
+This file will be processed every time around in the autodocumentation
+loop to check to see if it has been changed and the results will be
+placed into the index.  It automaticly calls recreate_documentation
+in random(60) seconds.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the name of the file to add
+
+<dt><b>Returns:</b>
+<dd>1 if the add succeeds, 0 otherwise.
+
+<dt><b>See also:</b>
+<dd><a href="#recreate_documentation">recreate_documentation()
+</a></dl>
+
+<dt><a name="is_autodoc_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_autodoc_file</b></a><pre>
+int is_autodoc_file(string name)
+</pre><dd>
+This method tells us if the file is currently in the autodoc set.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if the file is found, 0 if not
+
+</dl>
+
+<dt><a name="query_files">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_files</b></a><pre>
+string * query_files()
+</pre><dd>
+Returns the list of files we are current processing.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of strings being the file names
+
+</dl>
+
+<dt><a name="query_help_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_help_map</b></a><pre>
+mapping query_help_map()
+</pre><dd>
+Returns the help mapping.  This is the mapping from function names to
+files.  Each element in the mapping referes to an array of file
+names which contain the function or define.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a mapping of arrays of files
+
+</dl>
+
+<dt><a name="query_help_on">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_help_on</b></a><pre>
+string query_help_on(string file,
+string func)
+</pre><dd>
+This method returns the file name of the help for the specified
+function in the specified file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>file - the file name to find the help in
+<dd>func - the function to look for help on in the file
+<dt><b>Returns:</b>
+<dd>the full path to the help file, 0 if it does not exist
+
+</dl>
+
+<dt><a name="query_summary_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_summary_map</b></a><pre>
+mapping query_summary_map()
+</pre><dd>
+Retuirns the mapping of file names to a summary.  This is only
+valid during the index creation cycle of the documentation generation
+system.  It is used to create a more useful index page.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mapping of file names to summarys
+
+</dl>
+
+<dt><a name="recreate_documentation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>recreate_documentation</b></a><pre>
+int recreate_documentation(string fname)
+</pre><dd>
+Recreate documentation for one fiel immediately.  This does not update
+the index, it merely creates the base files for this file.  It does it
+at a random delay of up to 30 seconds.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the file name to update
+
+</dl>
+
+<dt><a name="recreate_indexes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>recreate_indexes</b></a><pre>
+void recreate_indexes()
+</pre><dd>
+Regenerate the index files.
+<p>
+
+<dt><a name="remove_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_file</b></a><pre>
+int remove_file(string fname)
+</pre><dd>
+Removes a file from the list of files to be processed for autodocumentation.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the name of the file to remove
+
+<dt><b>Returns:</b>
+<dd>1 if the remove succeeds, 0 otherwise.
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 05:15:35 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

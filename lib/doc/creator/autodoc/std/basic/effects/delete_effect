@@ -1,0 +1,39 @@
+.DT
+delete_effect
+Disk World creator help
+delete_effect
+
+.SH Name
+.SP 5 5
+delete_effect -  This removes an effect from the player.
+.EP
+
+.SH Syntax
+.SI 5
+void delete_effect(int i)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^i%^RESET%^ - the enum to remove
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/effects.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This removes an effect from the player.  It uses the enum as
+returned from sid to enum.  This is the number you see in
+the stat of the object next to the effect.
+.EP
+
+.SH See also
+.SP 5 5
+add_effect()
+
+.EP
+

@@ -1,0 +1,49 @@
+.DT
+debug_printf
+Disk World creator help
+debug_printf
+
+.SH Name
+.SP 5 5
+debug_printf -  This method will generate a debug inform for any creators in the room where it is generated.
+.EP
+
+.SH Syntax
+.SI 5
+void debug_printf(string fmt,
+mixed args ...)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^all%^RESET%^ - printf style parameters
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/debug.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will generate a debug inform for any creators in the room
+where it is generated.  It will always attempt to identify the room
+that the event should be sent to.
+
+.EP
+
+.SH Example 1
+.SI 5
+#ifdef DEBUG
+  debug_printf("Error, player is: %O\n", player);
+#endif
+
+.EI
+
+.SH See also
+.SP 5 5
+printf
+
+.EP
+

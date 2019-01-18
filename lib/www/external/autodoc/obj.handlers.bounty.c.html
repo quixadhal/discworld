@@ -1,0 +1,104 @@
+<html><head><title>File bounty.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_bounty"><b>bounty</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_bounties"><b>clear_bounties</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#collect_bounty"><b>collect_bounty</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_bounty"><b>delete_bounty</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#inform_bounty"><b>inform_bounty</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#issue_warrant"><b>issue_warrant</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_bounties"><b>query_all_bounties</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_collectors"><b>query_all_collectors</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bounty"><b>query_bounty</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bounty_info"><b>query_bounty_info</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bounty_value"><b>query_bounty_value</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#register_kill"><b>register_kill</b></a>(object, object *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#report_murder"><b>report_murder</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_file"><b>save_file</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#tidy_bounties"><b>tidy_bounties</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#well_done"><b>well_done</b></a>(object, int)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="clear_bounties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_bounties</b></a><pre>
+void clear_bounties()
+</pre>
+<dt><a name="collect_bounty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>collect_bounty</b></a><pre>
+string collect_bounty()
+</pre>
+<dt><a name="delete_bounty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_bounty</b></a><pre>
+void delete_bounty(string word)
+</pre>
+<dt><a name="inform_bounty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>inform_bounty</b></a><pre>
+void inform_bounty(object thing)
+</pre>
+<dt><a name="issue_warrant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>issue_warrant</b></a><pre>
+void issue_warrant(string killer)
+</pre>
+<dt><a name="query_all_bounties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_bounties</b></a><pre>
+string query_all_bounties()
+</pre>
+<dt><a name="query_all_collectors">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_collectors</b></a><pre>
+string query_all_collectors()
+</pre>
+<dt><a name="query_bounty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bounty</b></a><pre>
+int query_bounty(string word)
+</pre>
+<dt><a name="query_bounty_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bounty_info</b></a><pre>
+string query_bounty_info(string word)
+</pre>
+<dt><a name="query_bounty_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bounty_value</b></a><pre>
+int query_bounty_value(string word)
+</pre>
+<dt><a name="register_kill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>register_kill</b></a><pre>
+void register_kill(object victim,
+object * attackers)
+</pre>
+<dt><a name="report_murder">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>report_murder</b></a><pre>
+string report_murder(string killer)
+</pre>
+<dt><a name="save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_file</b></a><pre>
+void save_file()
+</pre>
+<dt><a name="tidy_bounties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>tidy_bounties</b></a><pre>
+void tidy_bounties()
+</pre>
+<dt><a name="well_done">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>well_done</b></a><pre>
+void well_done(object thing,
+int gender)
+</pre>
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_bounty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>bounty</b></a><pre>
+class bounty {
+string short;
+string * victims;
+int value;
+int active;
+int time;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 16:04:15 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,6 +1,6 @@
 .DT
 shield.c
-DW_wibble autodoc help
+Disk World autodoc help
 shield.c
 
 .SH Description

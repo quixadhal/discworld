@@ -1,0 +1,41 @@
+.DT
+set_feature_chats
+Disk World creator help
+set_feature_chats
+
+.SH Name
+.SP 5 5
+set_feature_chats -  This method is used to add room chats to locations that can view a particular feature.
+.EP
+
+.SH Syntax
+.SI 5
+void set_feature_chats(string title,
+mixed * chats,
+mixed * night_chats)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^title%^RESET%^ - the name of the feature
+%^BOLD%^chats%^RESET%^ - an array of strings (room chats related to the feature)
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to add room chats to locations that can view a
+particular feature. $D substitution is carried out on the chats.
+.EP
+
+.SH See also
+.SP 5 5
+add_feature, modify_feature, room_chat
+
+.EP
+

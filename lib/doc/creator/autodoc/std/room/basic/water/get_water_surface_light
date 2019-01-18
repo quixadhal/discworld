@@ -1,0 +1,39 @@
+.DT
+get_water_surface_light
+Disk World creator help
+get_water_surface_light
+
+.SH Name
+.SP 5 5
+get_water_surface_light -  This function returns the amount of light that will filter down to this room from those above it if set_use_surface_light has been called.
+.EP
+
+.SH Syntax
+.SI 5
+int get_water_surface_light()
+.EI
+
+.SH Returns
+.SI 5
+the amount of light that filters down from rooms above this one.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function returns the amount of light that will filter down to this
+room from those above it if set_use_surface_light has been called.  It is
+intended to be used only by the update_water_light function, but has been
+separated out to allow it to be masked.
+.EP
+
+.SH See also
+.SP 5 5
+update_water_light, query_above_room, query_water_surface_light
+
+.EP
+

@@ -1,0 +1,61 @@
+.DT
+make_money_array_payment
+Disk World creator help
+make_money_array_payment
+
+.SH Name
+.SP 5 5
+make_money_array_payment -  This method makes a payment from a money array.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * make_money_array_payment(string type,
+int value,
+mixed * mon_array,
+string where,
+int use_default)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the type of money to take out (ie: "Lancre Crown")
+%^BOLD%^value%^RESET%^ - the amount of the type to take out
+%^BOLD%^mon_array%^RESET%^ - the money array to use
+%^BOLD%^where%^RESET%^ - the money area
+%^BOLD%^use_default%^RESET%^ - allow the use of the default money type
+.EI
+
+.SH Returns
+.SI 5
+the return array as formated above
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method makes a payment from a money array.  It returns the
+depleted money array, the amount taken out and the change
+needed.  If the type is not set, then the best fit for the value
+is found from the array.
+
+
+The return array is formated as:
+.EP
+.SP 5 5
+({ depleted_money_array, change, taken_from })
+.EP
+.SP 5 5
+The change is an integer value.
+.EP
+
+.SH Example 1
+.SI 5
+ret = make_money_array_payment("Lancre Crown", 2, mon_array, "Lancre", 0);
+.EI
+

@@ -1,0 +1,41 @@
+.DT
+add_message
+Disk World creator help
+add_message
+
+.SH Name
+.SP 5 5
+add_message -  This adds a message into the current list of printable messages.
+.EP
+
+.SH Syntax
+.SI 5
+void add_message(string message,
+mixed * things)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^message%^RESET%^ - the message to add
+%^BOLD%^things%^RESET%^ - the objects which are involved with the message
+.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This adds a message into the current list of printable messages.  This
+will be squided up together and printed out slightly later, this handles
+the concatenating of enter messages, and soul messages.  Etc.
+.EP
+
+.SH See also
+.SP 5 5
+reform_message()
+
+.EP
+

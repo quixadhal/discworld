@@ -1,0 +1,157 @@
+<html><head><title>File money.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/living/money.c</h2>
+This file has all the functions to deal with living objects and
+money.<p><b>See also:</b><br><a href="obj.money.c.html">/obj/money.c</a> and /obj/handlers/money_handler.c
+<p>Written by Pinkfish<hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_money"><b>adjust_money</b></a>(mixed, string)<dd>
+This method adjusts the amount of money the player has.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#pay_money"><b>pay_money</b></a>(mixed, string)<dd>
+This method makes the player make a payment.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_money"><b>query_money</b></a>(string)<dd>
+This method returns all of the money of a certain type on the
+money object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_money_array"><b>query_money_array</b></a>()<dd>
+This method returns the money array associated with the money on
+the player object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_money_object"><b>query_money_object</b></a>(int)<dd>
+This method returns the money object for the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value"><b>query_value</b></a>()<dd>
+This method returns the value of the money as an integer.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value_in"><b>query_value_in</b></a>(string)<dd>
+This method returns the value of the money as in integer in the specified
+place.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_money_array"><b>set_money_array</b></a>(mixed *)<dd>
+This method sets the money array associated with the player.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="adjust_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_money</b></a><pre>
+varargs void adjust_money(mixed amount,
+string type)
+</pre><dd>
+This method adjusts the amount of money the player has.
+It redirects the call off the the money object and calls the
+adjust_money() function on it.  The amount can be a money
+array, in which case it will adjust the size by the members
+of the money array.
+<p>If the money object doesn't exist yet, this function
+might create a new money object.  The exception is that if
+the amount argument is 0, nothing happens.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>amount - the amount to adjust the money by
+<dd>type - the type of coin to adjust
+
+<dt><b>See also:</b>
+<dd><a href="obj.money.c.html#adjust_money">/obj/money->adjust_money()</a></dl>
+
+<dt><a name="pay_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>pay_money</b></a><pre>
+varargs void pay_money(mixed m_array,
+string where)
+</pre><dd>
+This method makes the player make a payment.  This is used for
+shops and things.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>m_array - the money to pay
+<dd>where - the money area to make the payment in
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.money_handler.c.html#make_payment">/obj/handlers/money_handler->make_payment()
+</a></dl>
+
+<dt><a name="query_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_money</b></a><pre>
+int query_money(string type)
+</pre><dd>
+This method returns all of the money of a certain type on the
+money object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of money to return 
+<dt><b>Returns:</b>
+<dd>the number of those money items
+<dt><b>See also:</b>
+<dd><a href="#query_value">query_value()</a> and <a href="#query_value_in">query_value_in()
+</a></dl>
+
+<dt><a name="query_money_array">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_money_array</b></a><pre>
+mixed * query_money_array()
+</pre><dd>
+This method returns the money array associated with the money on
+the player object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the money array on the player object
+<dt><b>See also:</b>
+<dd><a href="#set_money_array">set_money_array()
+</a></dl>
+
+<dt><a name="query_money_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_money_object</b></a><pre>
+object query_money_object(int force)
+</pre><dd>
+This method returns the money object for the player.  If the force
+flag is set then the object will be created if it does not
+exist.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>force - make the money object exist
+
+</dl>
+
+<dt><a name="query_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value</b></a><pre>
+int query_value()
+</pre><dd>
+This method returns the value of the money as an integer.  This is
+an absolute value of their worth.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an integer value of their money
+<dt><b>See also:</b>
+<dd><a href="#query_value_in">query_value_in()
+</a></dl>
+
+<dt><a name="query_value_in">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value_in</b></a><pre>
+int query_value_in(string where)
+</pre><dd>
+This method returns the value of the money as in integer in the specified
+place.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>where - the place in which to determine the money from
+<dt><b>Returns:</b>
+<dd>the integer value of money
+<dt><b>See also:</b>
+<dd><a href="#query_value">query_value()</a> and <a href="#query_money">query_money()
+</a></dl>
+
+<dt><a name="set_money_array">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_money_array</b></a><pre>
+void set_money_array(mixed * new_array)
+</pre><dd>
+This method sets the money array associated with the player.   THis
+will overwrite any current money on the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_array - the new money array for the player
+<dt><b>See also:</b>
+<dd><a href="#query_money_array">query_money_array()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 21:23:59 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

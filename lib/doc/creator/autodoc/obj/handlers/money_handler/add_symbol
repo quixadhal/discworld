@@ -1,0 +1,65 @@
+.DT
+add_symbol
+Disk World creator help
+add_symbol
+
+.SH Name
+.SP 5 5
+add_symbol -  This method adds in a symboliser for a specified money area.
+.EP
+
+.SH Syntax
+.SI 5
+void add_symbol(string word,
+string symboliser)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the money area to add the symbol for
+%^BOLD%^symboliser%^RESET%^ - the path to the symboliser object
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds in a symboliser for a specified money area.
+.EP
+
+.SH Example 1
+.SI 5
+add_symbol("Ankh-Morpork", "/d/am/money");
+.EI
+
+.SH Example 2
+.SI 5
+// This is an example of a symboliser object
+string symbolise_value( int value ) {
+   int dollars, pence;
+
+   dollars = value / 400;
+   pence = ( value % 400 ) / 4;
+   if ( !pence ) {
+      return "A$"+ dollars;
+   }
+   if ( !dollars ) {
+      return pence +"p";
+   }
+   if ( pence < 10 ) {
+      return "A$"+ dollars +".0"+ pence;
+   }
+   return "A$"+ dollars +"."+ pence;
+} /* symbolise_value() */
+.EI
+
+.SH See also
+.SP 5 5
+query_symbols(), query_symbol_for(), remove_symbol()
+
+.EP
+

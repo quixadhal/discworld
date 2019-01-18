@@ -1,0 +1,39 @@
+.DT
+create_html_index_file
+Disk World creator help
+create_html_index_file
+
+.SH Name
+.SP 5 5
+create_html_index_file -  Creates a html index file from the input index information.
+.EP
+
+.SH Syntax
+.SI 5
+void create_html_index_file(string * index,
+string letter,
+string output)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^index%^RESET%^ - the values in the index
+%^BOLD%^letter%^RESET%^ - the letter this is an index of
+%^BOLD%^output%^RESET%^ - the file to write the output to
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/autodoc/autodoc_html.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Creates a html index file from the input index information.
+This will contain all the functions starting with a certain letter
+and the corresponding files they are mentioned in.
+
+.EP
+

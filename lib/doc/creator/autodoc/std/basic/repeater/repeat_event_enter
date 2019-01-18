@@ -1,0 +1,39 @@
+.DT
+repeat_event_enter
+Disk World creator help
+repeat_event_enter
+
+.SH Name
+.SP 5 5
+repeat_event_enter -  This is called on the repeater object to process the actual message event_enter message.
+.EP
+
+.SH Syntax
+.SI 5
+void repeat_event_enter(object caller,
+object ob,
+string mess,
+object prev)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^caller%^RESET%^ - the repeater who sent the message
+%^BOLD%^ob%^RESET%^ - the object that did the event_say
+%^BOLD%^mess%^RESET%^ - the message string
+%^BOLD%^prev%^RESET%^ - the last environment of the object
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/repeater.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is called on the repeater object to process the actual message
+event_enter message.
+.EP
+

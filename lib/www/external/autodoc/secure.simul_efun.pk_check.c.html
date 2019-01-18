@@ -1,0 +1,70 @@
+<html><head><title>File pk_check.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /secure/simul_efun/pk_check.c</h2>
+Contains some simul_efuns.<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a>, <a href="include.login.h.html">/include/login.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#pk_assist"><b>pk_assist</b></a>(mixed, mixed, int)<dd>
+This method checks to see if both of the objects are able to assist each
+other.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#pk_check"><b>pk_check</b></a>(mixed, mixed, int)<dd>
+This method checks to see if both of the objects are able to do a
+pk action on each other.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="pk_assist">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>pk_assist</b></a><pre>
+int pk_assist(mixed assister,
+mixed assistee,
+int off_line)
+</pre><dd>
+This method checks to see if both of the objects are able to assist each
+other. This will return 1 if they cannot complete the action and 0
+They are not able to assist each other if one of them is not PK and
+the other is and the PK is in combat with other players.
+<p>
+If an object is passed into this method, it is first checked with the
+method query_owner_pk_check(), if this returns a non-zero value it is
+used as the person who owns the object.  This allows objects to be
+pk checked when they are not players.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>assister - thing doing the assisting
+<dd>assistee - thing being assisted
+<dt><b>Returns:</b>
+<dd>1 if they cannot attack each other
+
+</dl>
+
+<dt><a name="pk_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>pk_check</b></a><pre>
+int pk_check(mixed thing1,
+mixed thing2,
+int off_line)
+</pre><dd>
+This method checks to see if both of the objects are able to do a
+pk action on each other.  This will return 1 if they cannot
+complete the action, ie: either of them are not player killers.
+It will take an object or a string as the first parameter and attempt
+to check for pkness, if the off_line flag is set it will even check for
+players that are not even logged on.
+<p>
+If an object is passed into this method, it is first checked with the
+method query_owner_pk_check(), if this returns a non-zero value it is
+used as the person who owns the object.  This allows objects to be
+pk checked when they are not players.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing1 - first object to check
+<dd>thing2 - second object to check
+<dd>off_line - allow the check to occur if they are not logged on
+<dt><b>Returns:</b>
+<dd>1 if they cannot attack each other
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 14:37:06 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

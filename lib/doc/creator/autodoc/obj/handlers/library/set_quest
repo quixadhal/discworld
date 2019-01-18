@@ -1,0 +1,61 @@
+.DT
+set_quest
+Disk World creator help
+set_quest
+
+.SH Name
+.SP 5 5
+set_quest -  This method sets the player as having done the quest and if we should give them xp for it This function should be called when a quest is finished.
+.EP
+
+.SH Syntax
+.SI 5
+int set_quest(string pl_name,
+string qu_name,
+int no_xp)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^pl_name%^RESET%^ - name of the player
+%^BOLD%^qu_name%^RESET%^ - name of the quest
+%^BOLD%^no_xp%^RESET%^ - do not give out xp
+.EI
+
+.SH Returns
+.SI 5
+0 if the quest is already completed.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/library.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the player as having done the quest and if we
+should give them xp for it
+This function should be called when a quest is finished.  It will then
+call the quest_completed function on the quest handler and do all
+assorted modifications to the player object etc.  The name should be the
+players name and the quest should be the name of the quest that is
+stored in the quest handler.
+
+
+The include file <library.h> should be used for calls to this handler.
+.EP
+
+.SH Example 1
+.SI 5
+// Set the player as completing the womble friend quest, they get
+// xp for it.
+LIBRARAY->set_quest(this_player()->query_name(), "womble friend", 0);
+
+.EI
+
+.SH See also
+.SP 5 5
+/obj/handlers/quest_handler->quest_completed()
+.EP
+

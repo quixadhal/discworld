@@ -1,0 +1,42 @@
+.DT
+query_shop
+Disk World creator help
+query_shop
+
+.SH Name
+.SP 5 5
+query_shop -  Query a shop's path.
+.EP
+
+.SH Syntax
+.SI 5
+string query_shop(string short_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^short_name%^RESET%^ - The shop name passed to set_very_short()
+.EI
+
+.SH Returns
+.SI 5
+The path to the office, or a blank string if no such shop..EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/player_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Query a shop's path.
+Used by the office to check this is a valid shop.
+.EP
+
+.SH See also
+.SP 5 5
+/std/shops/player_shop/office.c
+
+.EP
+

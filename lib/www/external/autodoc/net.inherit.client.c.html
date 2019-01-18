@@ -1,0 +1,77 @@
+<html><head><title>File client.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Includes</h2>
+This class includes the following files <a href="include.client.h.html">/include/client.h</a>, <a href="include.network.h.html">/include/network.h</a> and <a href="include.socket_errors.h.html">/include/socket_errors.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventAbortCallback"><b>eventAbortCallback</b></a>(int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventClose"><b>eventClose</b></a>(class client)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventCreateSocket"><b>eventCreateSocket</b></a>(string, int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventRead"><b>eventRead</b></a>(int, mixed)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReadCallback"><b>eventReadCallback</b></a>(int, mixed)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventSocketClose"><b>eventSocketClose</b></a>(int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventSocketError"><b>eventSocketError</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventWrite"><b>eventWrite</b></a>(int, mixed)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventWriteCallback"><b>eventWriteCallback</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#SetDestructOnClose"><b>SetDestructOnClose</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#SetRead"><b>SetRead</b></a>(function)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#SetSocketType"><b>SetSocketType</b></a>(int)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="eventCreateSocket">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventCreateSocket</b></a><pre>
+int eventCreateSocket(string host,
+int port)
+</pre>
+<dt><a name="eventWrite">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventWrite</b></a><pre>
+void eventWrite(int fd,
+mixed val)
+</pre>
+<dt><a name="SetDestructOnClose">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>SetDestructOnClose</b></a><pre>
+int SetDestructOnClose(int x)
+</pre>
+<dt><a name="SetRead">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>SetRead</b></a><pre>
+function SetRead(function f)
+</pre>
+<dt><a name="SetSocketType">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>SetSocketType</b></a><pre>
+int SetSocketType(int type)
+</pre>
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="eventAbortCallback">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventAbortCallback</b></a><pre>
+void eventAbortCallback(int fd)
+</pre>
+<dt><a name="eventClose">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventClose</b></a><pre>
+void eventClose(class client sock)
+</pre>
+<dt><a name="eventRead">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventRead</b></a><pre>
+void eventRead(int fd,
+mixed val)
+</pre>
+<dt><a name="eventReadCallback">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventReadCallback</b></a><pre>
+void eventReadCallback(int fd,
+mixed val)
+</pre>
+<dt><a name="eventSocketClose">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventSocketClose</b></a><pre>
+void eventSocketClose(int fd)
+</pre>
+<dt><a name="eventSocketError">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventSocketError</b></a><pre>
+void eventSocketError(string str,
+int x)
+</pre>
+<dt><a name="eventWriteCallback">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventWriteCallback</b></a><pre>
+void eventWriteCallback(int fd)
+</pre>
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 09:00:42 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

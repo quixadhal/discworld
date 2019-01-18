@@ -1,0 +1,38 @@
+.DT
+query_bottom_room
+Disk World creator help
+query_bottom_room
+
+.SH Name
+.SP 5 5
+query_bottom_room -  This function returns the bottom room in a vertical stack of water rooms.
+.EP
+
+.SH Syntax
+.SI 5
+object query_bottom_room()
+.EI
+
+.SH Returns
+.SI 5
+the first room below this one to be on the bottom.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function returns the bottom room in a vertical stack of water rooms.
+If there is a bottom water room, it is returned, else, if the bottom room is
+not water, or there is no bottom room, 0 is returned.
+.EP
+
+.SH See also
+.SP 5 5
+query_below_room, query_bottom
+
+.EP
+

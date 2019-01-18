@@ -1,0 +1,47 @@
+.DT
+set_open_trap
+Disk World creator help
+set_open_trap
+
+.SH Name
+.SP 5 5
+set_open_trap -  This sets the function to be called when someone attempts to open the object.
+.EP
+
+.SH Syntax
+.SI 5
+void set_open_trap(object ob,
+string func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - The object in which the function is stored.
+%^BOLD%^func%^RESET%^ - The function to be called.
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/close_lock.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets the function to be called when someone attempts to
+open the object.  The function does not have to be in the
+object's file, and can be specified using the 'ob' paramater.
+In most cases the function will be stored in the same file,
+so use this_object() in these cases.
+
+The function will be called with a single string parameter of "open" or
+"close"
+
+.EP
+
+.SH See also
+.SP 5 5
+query_open_trap_func(), query_open_trap_ob()
+
+.EP
+

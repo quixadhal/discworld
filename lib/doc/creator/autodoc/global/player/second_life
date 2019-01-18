@@ -1,0 +1,36 @@
+.DT
+second_life
+Disk World creator help
+second_life
+
+.SH Name
+.SP 5 5
+second_life -  This method is called when the player dies.
+.EP
+
+.SH Syntax
+.SI 5
+mixed second_life()
+.EI
+
+.SH Returns
+.SI 5
+always returns 1
+.EI
+
+.SH Defined in
+.SI 5
+/global/player.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when the player dies.  It creates the corpse
+and handles all the bits and pieces that should be dealth with
+when a player dies.
+
+
+If this method returns 0 then the automatic death handling code in the living object is used instead of this.
+.EP
+

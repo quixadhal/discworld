@@ -1,0 +1,264 @@
+<html><head><title>File nomic_rules.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/inherit/nomic_rules.c</h2>
+This handler deals with all the nomic rules for councils.<p>Written by Pinkfish<p>Started Fri Jun 23 19:51:04 PDT 2000
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.nomic_system.h.html">/include/nomic_system.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_nomic_rule"><b>add_nomic_rule</b></a>(string, int, string, string)<dd>
+This method adds a nomic rule into the system.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_nomic_rule_class"><b>add_nomic_rule_class</b></a>(string, class nomic_rule, int)<dd>
+This method adds a nomic rule into the system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_nomic_rule"><b>change_nomic_rule</b></a>(string, class nomic_rule)<dd>
+This method moves a rule from one type to another.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_area"><b>create_area</b></a>(string)<dd>
+This method creates an new nomic area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_nomic_rule"><b>find_nomic_rule</b></a>(string, string, string)<dd>
+This method searches through for the specified rule.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#int_remove_nomic_rule"><b>int_remove_nomic_rule</b></a>(string, int)<dd>
+This method by passes the standard nomic rules check, it can be used
+to remove an immutable rule.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move_nomic_rule"><b>move_nomic_rule</b></a>(string, class nomic_rule, int)<dd>
+This method moves a rule from one type to another.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_nomic_rules"><b>query_all_nomic_rules</b></a>(string)<dd>
+This method returns all the nomic rules for the area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_can_change_rule"><b>query_can_change_rule</b></a>(string, class nomic_rule)<dd>
+This method checks to see if the specified rule can be changed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_nomic_rule"><b>query_nomic_rule</b></a>(string, int)<dd>
+This method returns a nomic rule for the specified area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_type_name"><b>query_type_name</b></a>(int)<dd>
+This method returns the name of the corresponding type name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_type_number"><b>query_type_number</b></a>(string)<dd>
+This method returns the number for the corresponding type name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_nomic_rule"><b>remove_nomic_rule</b></a>(string, int)<dd>
+This method removes a nomic rule from the system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#rule_as_string"><b>rule_as_string</b></a>(int, class nomic_rule)<dd>
+This method returns the rule as a string.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_nomic_rule">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_nomic_rule</b></a><pre>
+int add_nomic_rule(string area,
+int type,
+string creator,
+string text)
+</pre><dd>
+This method adds a nomic rule into the system.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the rule is added in
+<dd>type - the type of rule to add
+<dd>creator - the person that created the rule
+<dd>text - the text associated with the rule
+<dt><b>Returns:</b>
+<dd>the new number of the rule, NOMIC_ERROR on fai;l
+
+</dl>
+
+<dt><a name="change_nomic_rule">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_nomic_rule</b></a><pre>
+int change_nomic_rule(string area,
+class nomic_rule rule)
+</pre><dd>
+This method moves a rule from one type to another.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the rule is added in
+<dd>rule - the rule to move
+<dd>type - the new type of the rule
+<dt><b>Returns:</b>
+<dd>the new number of the rule, NOMIC_ERROR on fai;l
+
+</dl>
+
+<dt><a name="create_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_area</b></a><pre>
+int create_area(string area)
+</pre><dd>
+This method creates an new nomic area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the new nomic area name
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="find_nomic_rule">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_nomic_rule</b></a><pre>
+class nomic_rule find_nomic_rule(string area,
+string creator,
+string text)
+</pre><dd>
+This method searches through for the specified rule.  This stops the
+same rule being added more than once by some error in the code.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the rule is in
+<dd>creator - the creator of the rule
+<dd>text - the text of the rule
+<dt><b>Returns:</b>
+<dd>the rule if it is found, 0 if not
+
+</dl>
+
+<dt><a name="int_remove_nomic_rule">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>int_remove_nomic_rule</b></a><pre>
+int int_remove_nomic_rule(string area,
+int id)
+</pre><dd>
+This method by passes the standard nomic rules check, it can be used
+to remove an immutable rule.
+<p>
+
+<dt><a name="query_all_nomic_rules">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_nomic_rules</b></a><pre>
+class nomic_rule * query_all_nomic_rules(string area)
+</pre><dd>
+This method returns all the nomic rules for the area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to get the rule sin
+<dt><b>Returns:</b>
+<dd>all the rules
+
+</dl>
+
+<dt><a name="query_can_change_rule">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_can_change_rule</b></a><pre>
+int query_can_change_rule(string area,
+class nomic_rule rule)
+</pre><dd>
+This method checks to see if the specified rule can be changed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area in which the rule will be changed in
+<dd>rule - the rule to check
+<dt><b>Returns:</b>
+<dd>1 if it can be changed, 0 if not
+
+</dl>
+
+<dt><a name="query_nomic_rule">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_nomic_rule</b></a><pre>
+class nomic_rule query_nomic_rule(string area,
+int id)
+</pre><dd>
+This method returns a nomic rule for the specified area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to get the rule in
+<dd>id - the id of the rule to match
+<dt><b>Returns:</b>
+<dd>0 if failed, the class if succeeded
+
+</dl>
+
+<dt><a name="query_type_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_type_name</b></a><pre>
+string query_type_name(int type_no)
+</pre><dd>
+This method returns the name of the corresponding type name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type_no - the type number
+<dt><b>Returns:</b>
+<dd>the type name string
+
+</dl>
+
+<dt><a name="query_type_number">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_type_number</b></a><pre>
+int query_type_number(string name)
+</pre><dd>
+This method returns the number for the corresponding type name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the area to get the number of
+<dt><b>Returns:</b>
+<dd>the type number
+
+</dl>
+
+<dt><a name="remove_nomic_rule">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_nomic_rule</b></a><pre>
+int remove_nomic_rule(string area,
+int id)
+</pre><dd>
+This method removes a nomic rule from the system.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the rule is removed in
+<dd>id - the id of the rule to remove
+<dt><b>Returns:</b>
+<dd>the status of the removal, NOMIC_ERROR on fai;l
+
+</dl>
+
+<dt><a name="rule_as_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rule_as_string</b></a><pre>
+string rule_as_string(int indent,
+class nomic_rule rule)
+</pre><dd>
+This method returns the rule as a string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>rule - the rule to make a string
+<dt><b>Returns:</b>
+<dd>the string version of us
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="add_nomic_rule_class">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_nomic_rule_class</b></a><pre>
+int add_nomic_rule_class(string area,
+class nomic_rule new_rule,
+int type)
+</pre><dd>
+This method adds a nomic rule into the system.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the rule is added in
+<dd>new_rule - the rule that is being added
+<dd>type - the type of the rule
+<dt><b>Returns:</b>
+<dd>the new number of the rule, NOMIC_ERROR on fai;l
+
+</dl>
+
+<dt><a name="move_nomic_rule">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>move_nomic_rule</b></a><pre>
+int move_nomic_rule(string area,
+class nomic_rule rule,
+int type)
+</pre><dd>
+This method moves a rule from one type to another.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the rule is added in
+<dd>rule - the rule to move
+<dd>type - the new type of the rule
+<dt><b>Returns:</b>
+<dd>the new number of the rule, NOMIC_ERROR on fai;l
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 04:54:27 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

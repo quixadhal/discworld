@@ -1,0 +1,147 @@
+<html><head><title>File virtuals.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/virtuals.c</h2>
+This handler fixes up virtual objects if their files change, so that their static variables will be adjusted.<p>Written by Dragonkin
+
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_data"><b>add_data</b></a>(string)<dd>
+Adds a path and its static auto load information to the mapping
+and cleans the mapping and paths array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_forbidden"><b>add_forbidden</b></a>(string)<dd>
+Called to add a path to the list of forbidden paths.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_missing"><b>add_missing</b></a>(string)<dd>
+Called by the handler to add a faulty path to the list
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#new_data"><b>new_data</b></a>(string)<dd>
+Called by virtual objects as they are being cloned, if their timestamp is older than their file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_forbidden"><b>query_forbidden</b></a>(string)<dd>
+A function to see if a path is forbidden
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_forbidden_paths"><b>query_forbidden_paths</b></a>()<dd>
+A function to see what paths are forbidden
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_missing_paths"><b>query_missing_paths</b></a>()<dd>
+A function to see what items have faulty paths
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_forbidden"><b>remove_forbidden</b></a>(string)<dd>
+Called to remove a forbidden path from the list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_missing"><b>remove_missing</b></a>(string)<dd>
+Called to remove a faulty path from the list.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_data</b></a><pre>
+void add_data(string path)
+</pre><dd>
+Adds a path and its static auto load information to the mapping
+and cleans the mapping and paths array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>path - the path of the object to add
+
+</dl>
+
+<dt><a name="add_forbidden">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_forbidden</b></a><pre>
+int add_forbidden(string path)
+</pre><dd>
+Called to add a path to the list of forbidden paths.  A forbidden virtual object being loaded will transform into a receipt.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>path - the path of the virtual object to forbid
+<dt><b>Returns:</b>
+<dd>1 if the path is added, 0 if it is already in the list
+
+</dl>
+
+<dt><a name="add_missing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_missing</b></a><pre>
+int add_missing(string path)
+</pre><dd>
+Called by the handler to add a faulty path to the list<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>path - the path of the virtual object
+<dt><b>Returns:</b>
+<dd>1 if added, 0 if not (because it's already in the list or in a /w directory)
+
+</dl>
+
+<dt><a name="new_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>new_data</b></a><pre>
+mapping new_data(string path)
+</pre><dd>
+Called by virtual objects as they are being cloned, if their timestamp is older than their file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>path - the path of the virtual object
+<dt><b>Returns:</b>
+<dd>the object's static auto load info if any, otherwise 0
+
+</dl>
+
+<dt><a name="query_forbidden">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_forbidden</b></a><pre>
+int query_forbidden(string path)
+</pre><dd>
+A function to see if a path is forbidden<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>path - the path of the virtual object to check
+<dt><b>Returns:</b>
+<dd>1 if forbidden, 0 if not
+
+</dl>
+
+<dt><a name="query_forbidden_paths">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_forbidden_paths</b></a><pre>
+string * query_forbidden_paths()
+</pre><dd>
+A function to see what paths are forbidden<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all forbidden paths in the handler
+
+</dl>
+
+<dt><a name="query_missing_paths">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_missing_paths</b></a><pre>
+string * query_missing_paths()
+</pre><dd>
+A function to see what items have faulty paths<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all faulty paths in the handler
+
+</dl>
+
+<dt><a name="remove_forbidden">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_forbidden</b></a><pre>
+void remove_forbidden(string path)
+</pre><dd>
+Called to remove a forbidden path from the list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>path - the path of the virtual object
+
+</dl>
+
+<dt><a name="remove_missing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_missing</b></a><pre>
+void remove_missing(string path)
+</pre><dd>
+Called to remove a faulty path from the list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>path - the path of the virtual object
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 03:01:41 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

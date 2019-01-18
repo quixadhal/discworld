@@ -1,0 +1,210 @@
+<html><head><title>File cloner.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/cloner.c</h2>
+Used for mapping deleted files to new ones when things are changed.
+Updated to a more tidy mechanism by Ceres 14/3/96
+<p>
+Usage: call add_mapping(from, to) /global/cloner
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_illegal"><b>add_illegal</b></a>(string, string, string)<dd>
+This method is used to add objects that we don't want to be reloaded.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_mapping"><b>add_mapping</b></a>(string, string)<dd>
+Use this function to add a new mapping of one filename to another.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clone"><b>clone</b></a>(string)<dd>
+Try and clone the passed in object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#illegal_thing"><b>illegal_thing</b></a>(string, string)<dd>
+Determine if a given object is illegal.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#list_mappings"><b>list_mappings</b></a>(string)<dd>
+This method returns a list of all the current mappings.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_file"><b>load_file</b></a>()<dd>
+Loads the current configuration.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#other_file"><b>other_file</b></a>(string)<dd>
+This method returns the mapped name of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_changes"><b>query_changes</b></a>()<dd>
+This method returns the list of currently moved objects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_illegal"><b>query_illegal</b></a>()<dd>
+List the illegal objects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_illegal"><b>remove_illegal</b></a>(string, string)<dd>
+Remove an item from the illegal array
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_mapping"><b>remove_mapping</b></a>(string)<dd>
+Removes a mapping from the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_file"><b>save_file</b></a>()<dd>
+Saves the current configuration.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_illegal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_illegal</b></a><pre>
+int add_illegal(string basename,
+string short,
+string replacement)
+</pre><dd>
+This method is used to add objects that we don't want to be reloaded.
+This is for those objects that are clones of /std/object or /obj/armour
+or something but which are wrongly configured.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>basename - the base filename of the object
+<dd>short - the short name of the object
+<dd>replacement - the replacement object.
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure
+
+<dt><b>Example:</b>
+<dd><pre>add_illegal("/obj/armour", "blue robe", 
+                       "/obj/armours/robe.arm);
+</pre></dl>
+
+<dt><a name="add_mapping">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_mapping</b></a><pre>
+int add_mapping(string from,
+string to)
+</pre><dd>
+Use this function to add a new mapping of one filename to another.
+Means that if an object of type 'from' is attempted to be cloned
+an object of type 'to' will be cloned instead.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>from - the old object name
+<dd>to - the new object name
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#remove_mapping">remove_mapping()</a> and <a href="#list_mappings">list_mappings()
+</a></dl>
+
+<dt><a name="clone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clone</b></a><pre>
+object clone(string word)
+</pre><dd>
+Try and clone the passed in object.  If the name exists in the changes
+array then the new file name is cloned instead of the old one.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the name of the file to clone
+<dt><b>Returns:</b>
+<dd>the cloned object
+<dt><b>See also:</b>
+<dd><a href="#other_file">other_file()</a> and <a href="#list_mappings">list_mappings()
+</a></dl>
+
+<dt><a name="illegal_thing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>illegal_thing</b></a><pre>
+string illegal_thing(string basename,
+string short)
+</pre><dd>
+Determine if a given object is illegal.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>basename - the basename of the object.
+<dd>short - the shortname of the object.
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure
+
+</dl>
+
+<dt><a name="list_mappings">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>list_mappings</b></a><pre>
+string list_mappings(string str)
+</pre><dd>
+This method returns a list of all the current mappings.  If a
+pattern is given, then only files which contain that string will
+be returned.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the pattern to search for
+<dt><b>Returns:</b>
+<dd>the list of mappings
+<dt><b>See also:</b>
+<dd><a href="#add_mapping">add_mapping()</a> and <a href="#remove_mapping">remove_mapping()
+</a></dl>
+
+<dt><a name="load_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_file</b></a><pre>
+void load_file()
+</pre><dd>
+Loads the current configuration.
+<p>
+
+<dt><a name="other_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>other_file</b></a><pre>
+string other_file(string word)
+</pre><dd>
+This method returns the mapped name of the object.  If no mapping
+exists the passed in value is returned directly.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the object name to get a mapping for
+<dt><b>Returns:</b>
+<dd>the file to use
+<dt><b>See also:</b>
+<dd><a href="#clone">clone()</a> and <a href="#list_mappings">list_mappings()
+</a></dl>
+
+<dt><a name="query_changes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_changes</b></a><pre>
+mapping query_changes()
+</pre><dd>
+This method returns the list of currently moved objects.
+<p>
+
+<dt><a name="query_illegal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_illegal</b></a><pre>
+mapping query_illegal()
+</pre><dd>
+List the illegal objects.
+<p>
+
+<dt><a name="remove_illegal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_illegal</b></a><pre>
+int remove_illegal(string basename,
+string short)
+</pre><dd>
+Remove an item from the illegal array<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>basename - the basename of the object.
+<dd>short - the shortname of the object.
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure
+
+</dl>
+
+<dt><a name="remove_mapping">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_mapping</b></a><pre>
+int remove_mapping(string from)
+</pre><dd>
+Removes a mapping from the object.  This looks to see if an mapping
+exists for the object and removes it if it does.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>from - the object to remove the mapping from
+<dt><b>Returns:</b>
+<dd>1 on success and 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#add_mapping">add_mapping()</a> and <a href="#list_mappings">list_mappings()
+</a></dl>
+
+<dt><a name="save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_file</b></a><pre>
+void save_file()
+</pre><dd>
+Saves the current configuration.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 23:53:22 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

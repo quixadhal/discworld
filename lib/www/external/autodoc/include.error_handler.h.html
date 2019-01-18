@@ -1,0 +1,190 @@
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_error_comment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>error_comment</b></a><pre>
+class error_comment {
+int date;
+string commenter;
+string comment;
+}
+
+</pre><dd>
+The comments associated with the bug.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>date - the date the comment was added
+<dd>commenter - the person who commented on the bug
+<dd>comment - the comment about the bug
+
+</dl>
+
+<dt><a name="class_error_complete">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>error_complete</b></a><pre>
+class error_complete {
+class error_details details;
+class error_comment * comments;
+class error_forward * forwards;
+class error_replies * replies;
+}
+
+</pre><dd>
+All the details of the error.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>details - the details of the error
+<dd>comments - the comments associated with the error
+<dd>forwards - the forwards associated with the error
+<dd>replies - the replies associated with the error
+
+</dl>
+
+<dt><a name="class_error_details">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>error_details</b></a><pre>
+class error_details {
+class error_summary summary;
+int fix_date;
+string fixer;
+string report;
+string runtime;
+}
+
+</pre><dd>
+The details of the bug.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>summary - the summary class for the basic sumamry details
+<dd>fix_date - the date the bug was fixed
+<dd>fixer - the person who fixed the bug
+<dd>report - the report associated with the bug
+<dd>runtime - the runtime error associated with the bug
+
+</dl>
+
+<dt><a name="class_error_forward">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>error_forward</b></a><pre>
+class error_forward {
+int date;
+string forwarder;
+string old_directory;
+}
+
+</pre><dd>
+The forwards associated with the bug.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>date - the date the forward was done
+<dd>forwarder - the person who forwared the bug
+<dd>old_directory - the old directory of the bug
+
+</dl>
+
+<dt><a name="class_error_query">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>error_query</b></a><pre>
+class error_query {
+int no_extra_details;
+int recursive;
+int id;
+int bug_offset;
+int * id_list;
+string dir;
+string assigned_to;
+string file_name;
+string reporter;
+string fixer;
+string * status;
+string * category;
+string * type;
+string order_by;
+}
+
+</pre><dd>
+This is the class used to generate queries through the error handler.
+You do not need to fill in all the fields, only the filled in ones will
+be used as restrictions on the query.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>no_extra_details - this only works with the bug details queries
+                         and it means that only the main data is fetched,
+                         not comments etc.
+<dd>recursive - do recursive directory lookups
+<dd>id - look up this id specifically
+<dd>id_list - look up this list of ids, if this is specified it
+                overrides id
+<dd>bug_offset - the offset to use in the limit command
+<dd>dir - the directory to use
+<dd>assigned_to - who it is assigned to
+<dd>file_name - specific file name to lookup
+<dd>reporter - the reporter to lookup
+<dd>fixer - the person who fixed the bug
+<dd>status - the status of the bug
+<dd>category - the category of the bug
+<dd>type - the type of the bug
+<dd>order_by - one of the ordering methods
+
+</dl>
+
+<dt><a name="class_error_replies">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>error_replies</b></a><pre>
+class error_replies {
+int id;
+int bug_id;
+string sender;
+string recipient;
+string status;
+int senddate;
+string subject;
+string message;
+}
+
+</pre><dd>
+The reply data for the error.  This is where the bug replies are
+stored.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>id - the id of the bug reply
+<dd>bug_id - the id of the bug
+<dd>sender - who sent the bug reply
+<dd>recipient - the recipient of the bug reply
+<dd>status - the status of the bug reply
+<dd>senddate - when the bug was sent
+<dd>subject - the subject of the reply
+<dd>message - the message associated with the bug
+
+</dl>
+
+<dt><a name="class_error_summary">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>error_summary</b></a><pre>
+class error_summary {
+int id;
+int entry_date;
+string filename;
+string category;
+string assigned_to;
+string reporter;
+string type;
+string status;
+string directory;
+}
+
+</pre><dd>
+The summary plus the details is the complete
+error.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>id - the unique id of the bug
+<dd>entry_date - the date the bug was added
+<dd>filename - the filename the bug was put against
+<dd>assigned_to - who the bug is assigned to
+<dd>reporter - the person who reported the bug
+<dd>category - is one of ROOM | OBJECT etc
+<dd>type - is one of TYPO | BUG | IDEA
+<dd>status - is one of OPEN | CLOSED | etc
+<dd>directory - the directory the bug is in
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Fri, 30 Mar 2018 19:31:26 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

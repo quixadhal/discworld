@@ -1,0 +1,50 @@
+<html><head><title>File le.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/le.c</h2>
+This is a quick and dirty line editor.  Useful when ed fails
+or for a few other other things.
+<p>
+
+This is a very quick and dirty line editor cooked up by
+[als] in half an hour on a not-so-stormy night of 10/12/91
+It uses NO input_to's, so ALL commands are prefixed with the command word
+it was simply intended for those times when ed goes down the
+proverbial gurgler.  If you HAVE to use it, set up aliases :)
+commands: r file, w[file], >insert text, /search text,
+number goes to line number, +, -, d, N-> clears line editor
+Have fun, and win awards
+One other possible use for LE is for cute aliases<p>Written by Ember
+<p>Started 10th of December 1991<hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#le"><b>le</b></a>(string)<dd>
+The main access point for le.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#le_commands"><b>le_commands</b></a>()<dd>
+This method adds in all the commands needed to access le.
+</dl><hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="le">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>le</b></a><pre>
+int le(string s)
+</pre><dd>
+The main access point for le.  This takes in the comamnd
+line arg and uses it as it should and does wild and
+exciting thins, especially on those stormy  nights...<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the input string to the line editor
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 on failure
+
+</dl>
+
+<dt><a name="le_commands">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>le_commands</b></a><pre>
+void le_commands()
+</pre><dd>
+This method adds in all the commands needed to access le.
+<p>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 01:03:10 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

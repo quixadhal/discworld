@@ -1,0 +1,34 @@
+.DT
+zap_stat_cache
+Disk World creator help
+zap_stat_cache
+
+.SH Name
+.SP 5 5
+zap_stat_cache -  This method zaps the stat cache when a certain stat changes.
+.EP
+
+.SH Syntax
+.SI 5
+void zap_stat_cache()
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/skills.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method zaps the stat cache when a certain stat changes.
+It calls the function stats_to_zap() on the living object to
+figure out which stats have changed.
+.EP
+
+.SH See also
+.SP 5 5
+/std/living/stats->stats_to_zap()
+
+.EP
+

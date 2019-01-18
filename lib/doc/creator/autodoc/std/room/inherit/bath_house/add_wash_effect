@@ -1,0 +1,51 @@
+.DT
+add_wash_effect
+Disk World creator help
+add_wash_effect
+
+.SH Name
+.SP 5 5
+add_wash_effect -  This method adds an effect to be removed when washing here.
+.EP
+
+.SH Syntax
+.SI 5
+int add_wash_effect(string classification,
+function func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^classification%^RESET%^ - the effect classification to match.
+%^BOLD%^func%^RESET%^ - the function to evaluate when the effect is matched.
+.EI
+
+.SH Returns
+.SI 5
+1 if the effect classification was added, 0 if it could not be
+(most likely a duplicate effect classification)..EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/bath_house.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an effect to be removed when washing here.
+If the effect is matched, then func is evaluated.
+.EP
+
+.SH Example 1
+.SI 5
+add_wash_effect( "body.smell", (: advanced_antiseptic :) );
+.EI
+
+.SH Example 2
+.SI 5
+add_wash_effect( "object.label", (: basic_cleaning( $1, $3,
+   "The labels stuck to your body peel off in the water." ) :) );
+
+.EI
+

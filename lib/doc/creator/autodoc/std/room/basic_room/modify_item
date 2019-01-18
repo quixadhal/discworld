@@ -1,0 +1,43 @@
+.DT
+modify_item
+Disk World creator help
+modify_item
+
+.SH Name
+.SP 5 5
+modify_item -  This method will modify certain bits of the specified item.
+.EP
+
+.SH Syntax
+.SI 5
+int modify_item(string word,
+mixed new_desc)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the name of the item to change
+%^BOLD%^new_desc%^RESET%^ - the bits of the item to change
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will modify certain bits of the specified item.  This will
+change only the bits of the pattern that are specified.  If you wish to
+remove elements a better method would be to remove the item and
+then readd it.  The format of the new_desc array is the same as in the
+add_item code.
+.EP
+
+.SH See also
+.SP 5 5
+remove_item(), add_item()
+
+.EP
+

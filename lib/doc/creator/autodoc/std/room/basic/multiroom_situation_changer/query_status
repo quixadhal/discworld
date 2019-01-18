@@ -1,0 +1,33 @@
+.DT
+query_status
+Disk World creator help
+query_status
+
+.SH Name
+.SP 5 5
+query_status -  returns status of situation manager.
+.EP
+
+.SH Syntax
+.SI 5
+int query_status()
+.EI
+
+.SH Returns
+.SI 5
+status 0 off 1 on 2 sleeping
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/multiroom_situation_changer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+returns status of situation manager.  
+If it is sleeping it will turn on again if a
+player enters the room.
+.EP
+

@@ -1,0 +1,146 @@
+.DT
+add_situation
+Disk World creator help
+add_situation
+
+.SH Name
+.SP 5 5
+add_situation -  Adds a situation to the room.
+.EP
+
+.SH Syntax
+.SI 5
+void add_situation(mixed label,
+class situation sit)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^label%^RESET%^ - string or number labelling the situation
+%^BOLD%^sit%^RESET%^ - a structure (class) containing all the bits
+of the situation you want to add.  It should be a
+variable of class situation.  You should include
+situations.h where this class is defined.
+Every part is optional.
+eg. 
+start_func  function to be called at start of situation 
+            that might be used to load NPC's or anything
+            beyond a message.
+
+            The start function is passed the label, 
+            a do_start_mess flag and the room object.  
+            If the flag is 1 the situation is starting 
+            rather than being reloaded.  Thus if 
+            do_start_mess is 0 then you should avoid
+            any obvious start messages and make it look
+            like the situation is already underway.
+
+end_func    function to be called an the end of a situation.  
+            The end function is only
+            passed the label and the room object.
+
+start_mess  message told to the room at start of situation
+
+end_mess    message told to the room at end of situation
+
+extra_look  extra look string appended to rooms long 
+            during the situation
+chat_rate   an array of 2 numbers giving the minimum and
+            maximum delay between chats.  If this is set
+            then the chats are not merged with the
+            existing chats but added independently with
+            their own chat rates as given.
+
+chats       an array of chat strings to be active 
+            during the situation 
+
+add_items   a mixed array of ({ item, item description }) 
+            pairs to be active during the situation
+
+random_words  sets of words to insert into text to replace 
+              the special character #n where n is a number.
+            The form of the array is ({  #1array, #2array, ... })
+            where #1array = ({ "#1word1","#1word2",... }) etc.
+            For the duration of the situation one of the strings
+            in #1array is used to replace all instances of #1
+            in the extra_look, start_mess, end_mess, chats
+            and key and the long description part of the add_items.
+            In a situation compounded of many situations
+            the same random seed is used for choosing all #1's
+            for each individual situation for the duration, 
+            and a different seed for all #2's etc. 
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Adds a situation to the room.  These situations can be
+invoked manually with start_situation or automatically via
+automate_situation.
+.EP
+
+.SH Example 1
+.SI 5
+#include <situations.h>
+
+class situation frogs;
+frogs = new(class situation, 
+    start_mess: "Water seeps out of the ground to form puddles.",
+    extra_look: "There are large puddles on the ground here.",
+    chat_rate: ({ 120,180 }),
+    chats: ({"A hidden frog croaks quietly.",
+             "There is a blooping sound." }),
+    add_items:({ ({"puddle", "The puddles are dark and murky.  " 
+                   "They will probably dry up given time." }) }) );
+add_situation( "frogs", frogs );
+
+.EI
+
+.SH Example 2
+.SI 5
+add_situation( "ship", new(class situation, 
+     start_mess: "A #1 ship hoves into view.",
+     extra_look: "There is a #1 ship forging up the river.",
+     chats: ({"The #1 ship's sails flap in the breeze.",
+              "Shouts of sailors carry over to you from the #1 ship." }),
+     add_items: ({ ({"ship", "The #1 ship, the \"#2\" is a small "
+                   "sailing vessel that transports cargo up and "
+                   "down the river."}) }),
+     random_words: ({ ({ "old","waterlogged","heavily laden" }),
+                      ({ "Jemima", "Old Sea Dog", "Randy Mermaid" }) })
+     ) );
+When the situation is started a random choice (eg. "old") replaces #1 
+and a name (eg. "Jemima") replaces #2 in the text strings for
+the duration.  
+
+.EI
+
+.SH Example 3
+.SI 5
+add_situation( "frogs", new(class situation, 
+     start_mess: "Water seeps out of the ground to form puddles.",
+     extra_look: "There are large puddles on the ground here.",
+     chats: ({"A hidden frog croaks quietly.",
+              "There is a blooping sound." }),
+     add_items: ({ ({"puddle", "The puddles are dark and murky.  " 
+                     "They will probably dry up given time." }) }) ));
+.EI
+
+.SH Example 4
+.SI 5
+This is an empty situation, useful for making pauses in the action.
+add_situation( "pause", new(class situation) );
+
+.EI
+
+.SH See also
+.SP 5 5
+start_situation, end_situation, automate_situation, change_situation, add_item, room_chat, add_extra_look, set_situation_changer, make_situation_seed, /include/situation.h, goto learning  search  situation  for working examples
+.EP
+

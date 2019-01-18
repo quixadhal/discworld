@@ -1,0 +1,37 @@
+.DT
+test_remove
+Disk World creator help
+test_remove
+
+.SH Name
+.SP 5 5
+test_remove -  This method handles the cannot drop flags.
+.EP
+
+.SH Syntax
+.SI 5
+int test_remove(object ob,
+int flag,
+mixed dest)
+.EI
+
+.SH Returns
+.SI 5
+1 if the object can be added, 0 if not.
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/living.eff_shad.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method handles the cannot drop flags.  This is placed
+into the living object so that things which are marked as
+being unable to be dropped can still be remove from normal
+containers.  This does all sorts of other exciting checks
+now.
+.EP
+

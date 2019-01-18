@@ -1,0 +1,42 @@
+.DT
+pick_unlock
+Disk World creator help
+pick_unlock
+
+.SH Name
+.SP 5 5
+pick_unlock -  This is called when someone successfully unlocks the object.
+.EP
+
+.SH Syntax
+.SI 5
+int pick_unlock(object player)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player%^RESET%^ - The player who is unlocking the object.
+
+.EI
+
+.SH Returns
+.SI 5
+Returns 1 if the object was unlocked, and 0 otherwise.
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/close_lock.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is called when someone successfully unlocks the object.
+If there is a trap, and the trap function returns true, the
+object will not be opened.  If the trap function returns
+false, the object will still be opened even if the trap is
+sprung.
+
+.EP
+

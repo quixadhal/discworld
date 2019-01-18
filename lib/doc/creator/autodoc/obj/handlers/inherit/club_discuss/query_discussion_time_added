@@ -1,0 +1,38 @@
+.DT
+query_discussion_time_added
+Disk World creator help
+query_discussion_time_added
+
+.SH Name
+.SP 5 5
+query_discussion_time_added -  This method returns the timeout time of the current discussion item.
+.EP
+
+.SH Syntax
+.SI 5
+int query_discussion_time_added(string club_name,
+int id)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^id%^RESET%^ - the id of the discussion item
+.EI
+
+.SH Returns
+.SI 5
+the time at which the dicussion item will finish
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_discuss.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the timeout time of the current discussion item.
+.EP
+

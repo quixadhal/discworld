@@ -1,0 +1,138 @@
+.DT
+user_parser.h
+Disk World autodoc help
+user_parser.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^ANY_LIVING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ANY_OBJECT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DIRECT_OBJECT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DISTANT_LIVING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ENV_DIRECT_OBS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ENV_HERE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ENV_HERE_ME%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ENV_ME%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ENV_ME_HERE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^FIND_FIRST%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^FIND_LAST%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^FIND_NONE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^FRACTION%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^INDIRECT_OBJECT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^LIVING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MASTER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^NUMBER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OBJS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OLD_PATTERN_STRING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OPTIONAL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OPTIONAL_SPACES%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PATTERN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PATTERN_OB%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PATTERN_STRING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PATTERN_WEIGHT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^QUOTED_STRING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SHORT_STRING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SINGLE_WORD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^STRING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TARGET_PLAYER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^WIZ_PRESENT_TARGET%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^WORD_LIST%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^WORD_LIST_SPACES%^RESET%^
+.EI
+

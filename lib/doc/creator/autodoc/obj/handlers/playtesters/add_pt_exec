@@ -1,0 +1,43 @@
+.DT
+add_pt_exec
+Disk World creator help
+add_pt_exec
+
+.SH Name
+.SP 5 5
+add_pt_exec -  This method adds the player as a playtester executive.
+.EP
+
+.SH Syntax
+.SI 5
+int add_pt_exec(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the player to add
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playtesters.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds the player as a playtester executive.  The playtester
+needs to already be added as a playtester before becoming a
+playtester executive.
+.EP
+
+.SH See also
+.SP 5 5
+remove_pt_exec(), add_playtester(), query_pt_exec()
+
+.EP
+

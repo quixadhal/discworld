@@ -1,0 +1,43 @@
+.DT
+remove_member
+Disk World creator help
+remove_member
+
+.SH Name
+.SP 5 5
+remove_member -  This method removes a member from the specified mailing list.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_member(string list_name,
+string mem)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^list_name%^RESET%^ - the mailing list to remove the member from
+%^BOLD%^mem%^RESET%^ - the members name to remove
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/mail_track.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method removes a member from the specified mailing list.
+.EP
+
+.SH See also
+.SP 5 5
+add_member(), query_member(), delete_member()
+
+.EP
+

@@ -1,0 +1,45 @@
+.DT
+cat
+Disk World creator help
+cat
+
+.SH Name
+.SP 5 5
+cat -  Write the file out to the screen.
+.EP
+
+.SH Syntax
+.SI 5
+void cat(string file,
+int start_line,
+int number)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^file%^RESET%^ - the file name to cat
+%^BOLD%^start_line%^RESET%^ - the line to start on
+%^BOLD%^number%^RESET%^ - the number of lines to print
+
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/modified_efuns.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Write the file out to the screen.  This should  not be used if possible.
+It is an interface to read_file and other things.  You should perhaps
+look at using more_string ort more_file.
+
+.EP
+
+.SH See also
+.SP 5 5
+/global/more_string->more_string(), /global/more_file->more_file()
+
+.EP
+

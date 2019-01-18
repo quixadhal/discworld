@@ -1,0 +1,46 @@
+.DT
+log_file
+Disk World creator help
+log_file
+
+.SH Name
+.SP 5 5
+log_file -  This method writes a message out ot a log file.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void log_file(string name,
+string fmt,
+mixed * args ...)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the log file
+%^BOLD%^fmt%^RESET%^ - the format string
+%^BOLD%^args%^RESET%^ - the arguments to the sprintf
+
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/modified_efuns.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method writes a message out ot a log file.  The log files are
+normally in "/log".  If a file doesn't start with '/ then "/log/" will be
+preppended to it.
+This does automatic removal of the log files after they get over
+a certain length.  The fmt and args parameters are used to print the
+actual message.
+
+
+If more than one argument is passed to this function, then sprintf will be used to print out the results. 
+
+ie: log_file("ROGER", "%s: frog and %s\n", ctime(time()), query_gumboot()); 
+.EP
+

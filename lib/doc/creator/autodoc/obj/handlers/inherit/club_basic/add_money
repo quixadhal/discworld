@@ -1,0 +1,51 @@
+.DT
+add_money
+Disk World creator help
+add_money
+
+.SH Name
+.SP 5 5
+add_money -  This method will pay a certain amount of money to club.
+.EP
+
+.SH Syntax
+.SI 5
+int add_money(string name,
+int amount,
+int type,
+string person,
+string account)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the club
+%^BOLD%^amount%^RESET%^ - the amount to change the balance by
+%^BOLD%^type%^RESET%^ - the tyope of the transaction
+%^BOLD%^person%^RESET%^ - the person removeing the money
+%^BOLD%^account%^RESET%^ - the account the money is coming from
+.EI
+
+.SH Returns
+.SI 5
+the amount of money not able to be placed in the account.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_basic.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will pay a certain amount of money to club.  This will be
+how long the club is payed until.  The club will cost a certain
+amount for each member as well as a base cost.
+.EP
+
+.SH See also
+.SP 5 5
+remove_money(), query_balance(), query_transactions()
+
+.EP
+

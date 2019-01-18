@@ -1,0 +1,39 @@
+.DT
+query_response_allowed
+Disk World creator help
+query_response_allowed
+
+.SH Name
+.SP 5 5
+query_response_allowed -  This method checks to see if the response is allowed for this object.
+.EP
+
+.SH Syntax
+.SI 5
+int query_response_allowed(object ob,
+string * response)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object to check
+%^BOLD%^response%^RESET%^ - the response that is matched
+.EI
+
+.SH Returns
+.SI 5
+1 if the object is allowed, 0 if it is not
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/response_mon.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the response is allowed for this object.
+NB: objects to which this_object is not visible are disallowed.
+.EP
+

@@ -1,0 +1,523 @@
+<html><head><title>File effects.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/effects.c</h2>
+Basic effects module.
+Extracted from Ember's living effects code by Deutha.<p><b>See also:</b><br>help::effects
+.c<hr><h2>Includes</h2>
+This class includes the following files <a href="include.effect.h.html">/include/effect.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_effect_data"><b>effect_data</b></a>
+<dd>
+This class stores all the data for the effects inheritable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_effect_event"><b>effect_event</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_effect_shadow"><b>effect_shadow</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_effect"><b>add_effect</b></a>(string, mixed)<dd>
+This method adds an effect onto the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#affected_object"><b>affected_object</b></a>()<dd>
+This method returns the outer most shadow on this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#all_expected_ees"><b>all_expected_ees</b></a>(string, int *)<dd>
+Returns the time until the next event that will call func_name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#arg_of"><b>arg_of</b></a>(int)<dd>
+This method returns the current argument associated with the
+given effect number.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_effect"><b>delete_effect</b></a>(int)<dd>
+This removes an effect from the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eff_of"><b>eff_of</b></a>(int)<dd>
+This method returns the effect object for the given effect number.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#effect_freeze"><b>effect_freeze</b></a>()<dd>
+This method freezes all the current effects so that they do
+not continue to be processed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#effect_unfreeze"><b>effect_unfreeze</b></a>()<dd>
+This restarts the internal call_out.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#effects_desting"><b>effects_desting</b></a>()<dd>
+Called when an object is dested.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#effects_matching"><b>effects_matching</b></a>(string)<dd>
+This method returns an array of effects matching the
+classification.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#effects_quiting"><b>effects_quiting</b></a>()<dd>
+Called when a player actually quits.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#effects_thru_death"><b>effects_thru_death</b></a>()<dd>
+This method removes all the effects as we die.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#enum_to_sid"><b>enum_to_sid</b></a>(int)<dd>
+This method turns an effect number into an effect id.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#expected_ee"><b>expected_ee</b></a>(string, int)<dd>
+Returns the time until the next event that will call func_name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#expected_tt"><b>expected_tt</b></a>(int, int)<dd>
+This method returns the time until any EE_REMOVE effect
+is expected to occur.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_effect_enum"><b>query_current_effect_enum</b></a>()<dd>
+This method returns the current enum.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_logging_effects"><b>query_logging_effects</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_effects"><b>reset_effects</b></a>()<dd>
+This method removes all the current effects off the object
+and sets everything back to the initial state.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_arg_of"><b>set_arg_of</b></a>(int, mixed)<dd>
+This sets the argument of the given effect to a new value.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_eeq"><b>set_eeq</b></a>(mixed *)<dd>
+This method is used to force the effects setup in the object to be a
+specified value.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_effs"><b>set_effs</b></a>(mixed *)<dd>
+This method is used to force the effects setup in the object to be a
+specified value.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_logging_effects"><b>set_logging_effects</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#sid_to_enum"><b>sid_to_enum</b></a>(int)<dd>
+This method returns the effect number for the given effect id.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#submit_ee"><b>submit_ee</b></a>(mixed, mixed, int, mixed)<dd>
+This submits an effect event schedule.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#submit_ee2"><b>submit_ee2</b></a>(int, mixed, mixed, int, mixed)<dd>
+This submits an effect event for a specific effect.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_effect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_effect</b></a><pre>
+void add_effect(string eff,
+mixed arg)
+</pre><dd>
+This method adds an effect onto the object.  RThe arg is passed
+directly onto the function 'begining' on the effect
+object.  If the result is non-zero then the return
+value of the begining function is used instead of the
+arg and stored away.  If an effect of the same
+type is already on the object then the function 'merge_effects'
+will be called.  If it returns a non-zero value then the arg for the
+initial effect will be updated to the new value, otherwise both effects
+will run
+with different arguments.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd>help::effects.c and <a href="#submit_ee">submit_ee()
+</a></dl>
+
+<dt><a name="affected_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>affected_object</b></a><pre>
+object affected_object()
+</pre><dd>
+This method returns the outer most shadow on this object.  This is useful
+for making sure functions get calklked right through the shadow
+list.  If there are no objects being shadows, this_object()
+is returned.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the outermost shadow object
+
+</dl>
+
+<dt><a name="all_expected_ees">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>all_expected_ees</b></a><pre>
+varargs int * all_expected_ees(string func_name,
+int * enums)
+</pre><dd>
+Returns the time until the next event that will call func_name.
+If enums is undefined, the event is searched for in this effect,
+otherwise the event is searched for in the specified effect(s).
+
+This returns the a list of the time in seconds until the function
+will be called in the effect(s) specified.  NB: this is not the
+time *between* calls, but the time from Right Now until each call.
+If no outstanding calls to the function are found, an empty array
+is returned.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func_name - - the name of the function the ee will call.
+<dd>enum - - the enums of the effect to check in.
+<dt><b>Returns:</b>
+<dd>time - array containing the seconds until each outstanding
+call to func_name for the effect(s) specified.
+<dt><b>See also:</b>
+<dd><a href="#expected_ee">expected_ee()</a>, <a href="#expected_tt">expected_tt()</a> and <a href="#submit_ee">submit_ee()
+</a></dl>
+
+<dt><a name="arg_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>arg_of</b></a><pre>
+mixed arg_of(int enum)
+</pre><dd>
+This method returns the current argument associated with the
+given effect number.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>enum - the effect number
+<dt><b>Returns:</b>
+<dd>the argument associated with the effect
+<dt><b>See also:</b>
+<dd><a href="#add_effect">add_effect()</a>, <a href="#set_arg_of">set_arg_of()</a> and <a href="#sid_to_enum">sid_to_enum()
+</a></dl>
+
+<dt><a name="delete_effect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_effect</b></a><pre>
+void delete_effect(int i)
+</pre><dd>
+This removes an effect from the player.  It uses the enum as
+returned from sid to enum.  This is the number you see in
+the stat of the object next to the effect.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the enum to remove
+<dt><b>See also:</b>
+<dd><a href="#add_effect">add_effect()
+</a></dl>
+
+<dt><a name="eff_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eff_of</b></a><pre>
+string eff_of(int enum)
+</pre><dd>
+This method returns the effect object for the given effect number.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>enum - the effect number
+<dt><b>Returns:</b>
+<dd>the effect object
+<dt><b>See also:</b>
+<dd><a href="#arg_of">arg_of()</a>, <a href="#add_effect">add_effect()</a> and <a href="#sid_to_enum">sid_to_enum()
+</a></dl>
+
+<dt><a name="effect_freeze">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>effect_freeze</b></a><pre>
+void effect_freeze()
+</pre><dd>
+This method freezes all the current effects so that they do
+not continue to be processed.  Basicly it removes the call_out
+for the effect_timer().  It also ensures the intrval for the
+immediately pending effect
+is correct.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#effect_timer">effect_timer()</a> and <a href="#add_effect">add_effect()
+</a></dl>
+
+<dt><a name="effect_unfreeze">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>effect_unfreeze</b></a><pre>
+void effect_unfreeze()
+</pre><dd>
+This restarts the internal call_out.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#effects_freeze">effects_freeze()</a> and <a href="#add_effect">add_effect()
+</a></dl>
+
+<dt><a name="effects_desting">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>effects_desting</b></a><pre>
+void effects_desting()
+</pre><dd>
+Called when an object is dested.  Calls the desting method on
+all the effects.
+<p>
+
+<dt><a name="effects_matching">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>effects_matching</b></a><pre>
+int * effects_matching(string eff)
+</pre><dd>
+This method returns an array of effects matching the
+classification.  The start part of the classification is
+used to match, so passing "npc." into this function will
+match all the effects which modify how an
+npc functions.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>eff - the classification to match
+<dt><b>Returns:</b>
+<dd>the array of enums corresponding to the effects
+<dt><b>See also:</b>
+<dd><a href="#add_effect">add_effect()
+</a></dl>
+
+<dt><a name="effects_quiting">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>effects_quiting</b></a><pre>
+void effects_quiting()
+</pre><dd>
+Called when a player actually quits.  Calls the quitting method on
+all the effects.
+<p>
+
+<dt><a name="effects_thru_death">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>effects_thru_death</b></a><pre>
+void effects_thru_death()
+</pre><dd>
+This method removes all the effects as we die.  It calls the function
+survive_death() on the effect objects themselves to determine if
+they should be kept when the living dies.
+<p>
+
+<dt><a name="enum_to_sid">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>enum_to_sid</b></a><pre>
+int enum_to_sid(int enum)
+</pre><dd>
+This method turns an effect number into an effect id.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>enum - the effect number
+<dt><b>Returns:</b>
+<dd>the effect id
+
+<dt><b>See also:</b>
+<dd><a href="#sid_to_enum">sid_to_enum()</a> and <a href="#add_effect">add_effect()</a></dl>
+
+<dt><a name="expected_ee">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>expected_ee</b></a><pre>
+varargs int expected_ee(string func_name,
+int enum)
+</pre><dd>
+Returns the time until the next event that will call func_name.
+If enum is undefined, the event is searched for in this effect,
+otherwise the event is searched for in the specified effect.
+
+If no outstanding calls to the function are found, -1 is returned.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func_name - - the name of the function the ee will call.
+<dd>enum - - the enum of the effect to check in.
+<dt><b>Returns:</b>
+<dd>time - the seconds until the next call to func_name for
+the effect specified.
+<dt><b>See also:</b>
+<dd><a href="#all_expected_ees">all_expected_ees()</a>, <a href="#expected_tt">expected_tt()</a> and <a href="#submit_ee">submit_ee()
+</a></dl>
+
+<dt><a name="expected_tt">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>expected_tt</b></a><pre>
+int expected_tt(int flag,
+int new_enum)
+</pre><dd>
+This method returns the time until any EE_REMOVE effect
+is expected to occur.  It will return --1 if no remove
+event is scheduled.  If the flag is not
+set to true, the the current enum is checked, otherwise
+the new_enum is checked.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - itrue, use new_enum not current_enum
+<dt><b>Returns:</b>
+<dd>the time until the remove event will occur
+<dt><b>See also:</b>
+<dd><a href="#submit_ee">submit_ee()</a>, <a href="#add_effect">add_effect()</a>, <a href="#expected_ee">expected_ee()</a> and <a href="#all_expected_ees">all_expected_ees()
+</a></dl>
+
+<dt><a name="query_current_effect_enum">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_effect_enum</b></a><pre>
+int query_current_effect_enum()
+</pre><dd>
+This method returns the current enum.
+<p>
+
+<dt><a name="query_logging_effects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_logging_effects</b></a><pre>
+int query_logging_effects()
+</pre>
+<dt><a name="reset_effects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_effects</b></a><pre>
+void reset_effects()
+</pre><dd>
+This method removes all the current effects off the object
+and sets everything back to the initial state.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_effect">add_effect()
+</a></dl>
+
+<dt><a name="set_arg_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_arg_of</b></a><pre>
+void set_arg_of(int enum,
+mixed newarg)
+</pre><dd>
+This sets the argument of the given effect to a new value.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>enum - the effect number to change
+<dd>newarg - the new argument value
+<dt><b>See also:</b>
+<dd><a href="#sid_to_enum">sid_to_enum()</a>, <a href="#arg_of">arg_of()</a> and <a href="#add_effect">add_effect()
+</a></dl>
+
+<dt><a name="set_logging_effects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_logging_effects</b></a><pre>
+void set_logging_effects(int i)
+</pre>
+<dt><a name="sid_to_enum">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>sid_to_enum</b></a><pre>
+int sid_to_enum(int sid)
+</pre><dd>
+This method returns the effect number for the given effect id.  The
+effect number is an internal nhandle used by delete_effect()
+arg_of() set_arg_of() functions.  "id" is passed into the
+begining/end etc functions on the effect object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sid - the effect id
+<dt><b>Returns:</b>
+<dd>the effect number
+<dt><b>See also:</b>
+<dd><a href="#submit_ee2">submit_ee2()</a>, <a href="#delete_effect">delete_effect()</a>, <a href="#add_effect">add_effect()</a>, <a href="#arg_of">arg_of()</a> and <a href="#set_arg_of">set_arg_of()
+</a></dl>
+
+<dt><a name="submit_ee">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>submit_ee</b></a><pre>
+varargs void submit_ee(mixed fun,
+mixed interval,
+int flags,
+mixed event_args)
+</pre><dd>
+This submits an effect event schedule.  It will call "function name" in your
+effect object after the interval specified in interval_spec, with behaviour
+modified by flags.  Addtional args may optionally be sent to "function name"
+as well.  If none are passed, args == 0.
+interval_spec can be one of:
+<dl><dt>n
+<dd>time in seconds
+<dt>({ m, n })
+<dd>minimum time m seconds, maximum time n seconds, simple random
+    distribution
+<dt>({ m, n, r })
+<dd>as for the ({ m, n }) case, except the random factor is effectively
+    "rolled" r times ... the higher r is, the more likely the interval
+    is to be close to (m + n)/2.
+</dl>
+flags may be:
+<dl>
+<dt>EE_REMOVE
+<dd> remove the effect from the player aftert the function call
+<dt>EE_CONTINUOUS
+<dd>do it repeatedly.  Default (EE_ONCE) is only do it once.
+<dt>EE_ONCE
+<dd>do it once
+</dl>
+These are defined in /include/effect.h
+<p>
+Only one EE_REMOVE can be in place at a time.  Subsequent EE_REMOVEs
+will wipe previous ones.
+<p>
+NB:  submit_ee can ONLY be called from the effect object itself in the
+course of a beginning/handler/end call, or from the effect shadow.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fun - the function to call
+<dd>interval - the interval specifier
+<dd>flags - the flags for the event
+<dd>event_args - additional (optional) args passed to fun
+
+<dt><b>See also:</b>
+<dd><a href="#submit_ee2">submit_ee2()</a>, <a href="include.effect.h.html">/include/effect.h</a> and <a href="#add_effect">add_effect()</a></dl>
+
+<dt><a name="submit_ee2">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>submit_ee2</b></a><pre>
+varargs void submit_ee2(int enum,
+mixed fun,
+mixed interval,
+int flags,
+mixed event_args)
+</pre><dd>
+This submits an effect event for a specific effect.
+Apart from this it is the same as submit_ee()<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>enum - the enum of the effecrt
+<dd>fun - the function to call
+<dd>interval - the interval specifier
+<dd>flags - the flagds associated with the event
+<dd>event_args - additional (optional) args passed to fun
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="set_eeq">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_eeq</b></a><pre>
+void set_eeq(mixed * args)
+</pre><dd>
+This method is used to force the effects setup in the object to be a
+specified value.  THis is used in the effects effect which sets up
+effects on someone using a shadow.  This should only be used on startup.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - the effects array to overwrite the old one with.
+
+</dl>
+
+<dt><a name="set_effs">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_effs</b></a><pre>
+void set_effs(mixed * args)
+</pre><dd>
+This method is used to force the effects setup in the object to be a
+specified value.  THis is used in the effects effect which sets up
+effects on someone using a shadow.  This should only be used on startup.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - the effects array to overwrite the old one with.
+
+</dl>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_effect_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>effect_data</b></a><pre>
+class effect_data {
+int current_enum;
+int next_id;
+int next_event_time;
+class effect_shadow * shadows;
+}
+
+</pre><dd>
+This class stores all the data for the effects inheritable.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>current_enum - used to keep track of the effect being called;
+        beginning/end etc.
+<dd>next_id - the next id to assign to an effect
+<dd>next_event_time - when the next effect is due to go off
+<dd>shadows - the shaodws on the object
+
+</dl>
+
+<dt><a name="class_effect_event">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>effect_event</b></a><pre>
+class effect_event {
+int inctime;
+mixed func;
+int eff_ob_num;
+mixed interval;
+int flags;
+mixed eff_ev_args;
+}
+
+</pre>
+<dt><a name="class_effect_shadow">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>effect_shadow</b></a><pre>
+class effect_shadow {
+object shad_ob;
+int idnum;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 20:10:12 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,53 @@
+.DT
+all_expected_ees
+Disk World creator help
+all_expected_ees
+
+.SH Name
+.SP 5 5
+all_expected_ees -  Returns the time until the next event that will call func_name.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int * all_expected_ees(string func_name,
+int * enums)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^func_name%^RESET%^ - - the name of the function the ee will call.
+%^BOLD%^enum%^RESET%^ - - the enums of the effect to check in.
+.EI
+
+.SH Returns
+.SI 5
+time - array containing the seconds until each outstanding
+call to func_name for the effect(s) specified..EI
+
+.SH Defined in
+.SI 5
+/std/basic/effects.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Returns the time until the next event that will call func_name.
+If enums is undefined, the event is searched for in this effect,
+otherwise the event is searched for in the specified effect(s).
+
+This returns the a list of the time in seconds until the function
+will be called in the effect(s) specified.  NB: this is not the
+time *between* calls, but the time from Right Now until each call.
+If no outstanding calls to the function are found, an empty array
+is returned.
+
+.EP
+
+.SH See also
+.SP 5 5
+expected_ee(), expected_tt(), submit_ee()
+
+.EP
+

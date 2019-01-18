@@ -1,0 +1,437 @@
+<html><head><title>File stable.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/stable.c</h2>
+A stable in which to house your lucky transport.<p>Written by Pinkfish<p>Started Tue Nov 30 23:37:12 PST 1999
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player.h.html">/include/player.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.playtesters.h.html">/include/playtesters.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_stable"><b>stable</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_stable_type"><b>add_stable_type</b></a>(string)<dd>
+This method adds in a type of transport that can be stabled in this
+stable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_to_stable"><b>add_to_stable</b></a>(string, object *)<dd>
+This method adds the horses to the stable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_balance"><b>adjust_balance</b></a>(string, int)<dd>
+This method adjusts the balance of the players stable account.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_stable_type"><b>can_stable_type</b></a>(string)<dd>
+This method checks to see if the specified type of transport can be
+stabled here.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_stable"><b>check_stable</b></a>(string, int, object *, string)<dd>
+This method is used to confirm that they want to spend theirn
+money stabling the horse.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_deposit"><b>do_deposit</b></a>(string)<dd>
+This method adds money to the players stable account.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list"><b>do_list</b></a>()<dd>
+This method shows you a list of all the horse you have in the stables.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_return"><b>do_return</b></a>(string)<dd>
+This method removes an animal from the stables and runs off with it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_stable"><b>do_stable</b></a>(object *)<dd>
+This method allows the person to stable their animal.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_me"><b>load_me</b></a>()<dd>
+This method loads the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#print_ok_message"><b>print_ok_message</b></a>(object, object *)<dd>
+This message prints out something happy when you actually do the
+stabling.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_balance"><b>query_balance</b></a>(string)<dd>
+This method returns the players current balance in their stable
+account.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cost_per_week"><b>query_cost_per_week</b></a>()<dd>
+This method returns the cost per week in the stables.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_money"><b>query_player_money</b></a>(object, string)<dd>
+This method returns the amount of money on the player and in their
+account.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_directory"><b>query_save_directory</b></a>()<dd>
+This method queries the directory we will use to save the players
+transports in.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stable"><b>query_stable</b></a>(string)<dd>
+This method will find the stable associated with the specified player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stable_types"><b>query_stable_types</b></a>()<dd>
+This method returns the types of transports that can be stabled here.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stabling_cost"><b>query_stabling_cost</b></a>(string, int)<dd>
+This method returns the cost of stabling the horse up to the current
+time.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_start_cost"><b>query_start_cost</b></a>()<dd>
+This method returns the basic cost of stabling the animal.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_player_money"><b>remove_player_money</b></a>(object, int, string)<dd>
+This method removes money from the player, it will try and remove from
+their stable balance before taking money off them.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_me"><b>save_me</b></a>()<dd>
+This method saves the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_balance"><b>set_balance</b></a>(string, int)<dd>
+This method sets the current balance of the player stable account.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_cost_per_week"><b>set_cost_per_week</b></a>(int)<dd>
+This method sets the cost per week in the stables.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_directory"><b>set_save_directory</b></a>(string)<dd>
+This method sets the directory we will use to save the players
+transports in.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_stable"><b>set_stable</b></a>(string, class stable *)<dd>
+This method sets the stable to the new value.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_start_cost"><b>set_start_cost</b></a>(int)<dd>
+This method sets the basic cost of stabling the animal.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_stable_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_stable_type</b></a><pre>
+void add_stable_type(string type)
+</pre><dd>
+This method adds in a type of transport that can be stabled in this
+stable.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of transport to add
+
+</dl>
+
+<dt><a name="add_to_stable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_to_stable</b></a><pre>
+int add_to_stable(string name,
+object * horses)
+</pre><dd>
+This method adds the horses to the stable.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the player to whose stable we are adding the horse
+<dd>horses - the horses to add
+<dt><b>Returns:</b>
+<dd>1 if they are successfuly added
+
+</dl>
+
+<dt><a name="adjust_balance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_balance</b></a><pre>
+void adjust_balance(string name,
+int amt)
+</pre><dd>
+This method adjusts the balance of the players stable account.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dd>amt - the amount to adjust the account by
+
+</dl>
+
+<dt><a name="can_stable_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_stable_type</b></a><pre>
+int can_stable_type(string type)
+</pre><dd>
+This method checks to see if the specified type of transport can be
+stabled here.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to check
+<dt><b>Returns:</b>
+<dd>1 if it can be stabled, 0 if not
+
+</dl>
+
+<dt><a name="do_deposit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_deposit</b></a><pre>
+int do_deposit(string mon)
+</pre><dd>
+This method adds money to the players stable account.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the money to be deposited
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list</b></a><pre>
+int do_list()
+</pre><dd>
+This method shows you a list of all the horse you have in the stables.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_return">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_return</b></a><pre>
+int do_return(string num)
+</pre><dd>
+This method removes an animal from the stables and runs off with it.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_stable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_stable</b></a><pre>
+int do_stable(object * obs)
+</pre><dd>
+This method allows the person to stable their animal.  It will cost
+them (of course).
+<p>
+
+<dt><a name="load_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_me</b></a><pre>
+void load_me()
+</pre><dd>
+This method loads the room.
+<p>
+
+<dt><a name="print_ok_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>print_ok_message</b></a><pre>
+void print_ok_message(object me,
+object * horses)
+</pre><dd>
+This message prints out something happy when you actually do the
+stabling.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>me - the person doing the stabling
+<dd>horses - the horses being stabled
+
+</dl>
+
+<dt><a name="query_balance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_balance</b></a><pre>
+int query_balance(string name)
+</pre><dd>
+This method returns the players current balance in their stable
+account.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current stable balance
+
+</dl>
+
+<dt><a name="query_cost_per_week">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cost_per_week</b></a><pre>
+int query_cost_per_week()
+</pre><dd>
+This method returns the cost per week in the stables.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the cost per week
+
+</dl>
+
+<dt><a name="query_player_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_money</b></a><pre>
+int query_player_money(object player,
+string place)
+</pre><dd>
+This method returns the amount of money on the player and in their
+account.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player to check the balance of
+<dd>place - the place in which to check the money
+<dt><b>Returns:</b>
+<dd>the total money on the player and in their account
+
+</dl>
+
+<dt><a name="query_save_directory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_directory</b></a><pre>
+string query_save_directory()
+</pre><dd>
+This method queries the directory we will use to save the players
+transports in.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the save directory
+
+</dl>
+
+<dt><a name="query_stable_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stable_types</b></a><pre>
+string * query_stable_types()
+</pre><dd>
+This method returns the types of transports that can be stabled here.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the types of transport that can be stabled here
+
+</dl>
+
+<dt><a name="query_stabling_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stabling_cost</b></a><pre>
+int query_stabling_cost(string name,
+int pos)
+</pre><dd>
+This method returns the cost of stabling the horse up to the current
+time.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the owner of the stable
+<dt><b>Returns:</b>
+<dd>the cost of stabling the horse
+
+</dl>
+
+<dt><a name="query_start_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_start_cost</b></a><pre>
+int query_start_cost()
+</pre><dd>
+This method returns the basic cost of stabling the animal.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the basic cost
+
+</dl>
+
+<dt><a name="remove_player_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_player_money</b></a><pre>
+void remove_player_money(object player,
+int amt,
+string place)
+</pre><dd>
+This method removes money from the player, it will try and remove from
+their stable balance before taking money off them.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player to remove the money off
+<dd>amt - the amount to remove
+<dd>place - the place the money is from
+
+</dl>
+
+<dt><a name="save_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_me</b></a><pre>
+void save_me()
+</pre><dd>
+This method saves the room.
+<p>
+
+<dt><a name="set_balance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_balance</b></a><pre>
+void set_balance(string name,
+int amt)
+</pre><dd>
+This method sets the current balance of the player stable account.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dd>amt - the amount to set the stable account as
+
+</dl>
+
+<dt><a name="set_cost_per_week">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_cost_per_week</b></a><pre>
+void set_cost_per_week(int cost_per_week)
+</pre><dd>
+This method sets the cost per week in the stables.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cost_per_week - the cost per week
+
+</dl>
+
+<dt><a name="set_save_directory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_directory</b></a><pre>
+void set_save_directory(string directory)
+</pre><dd>
+This method sets the directory we will use to save the players
+transports in.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>save - the directory to save the transports in
+
+</dl>
+
+<dt><a name="set_start_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_start_cost</b></a><pre>
+void set_start_cost(int start_cost)
+</pre><dd>
+This method sets the basic cost of stabling the animal.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>start_cost - the basic cost
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="check_stable">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_stable</b></a><pre>
+void check_stable(string mess,
+int cost,
+object * ok,
+string place)
+</pre><dd>
+This method is used to confirm that they want to spend theirn
+money stabling the horse.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - what the player types
+<dd>cost - the cost of the stabling
+<dd>ok - the horses being stabled
+
+</dl>
+
+<dt><a name="query_stable">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>query_stable</b></a><pre>
+class stable * query_stable(string name)
+</pre><dd>
+This method will find the stable associated with the specified player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the found stable, or 0 if not found
+
+</dl>
+
+<dt><a name="set_stable">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_stable</b></a><pre>
+void set_stable(string name,
+class stable * value)
+</pre><dd>
+This method sets the stable to the new value.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the stable
+<dd>value - the new value of the stable
+
+</dl>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_stable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stable</b></a><pre>
+class stable {
+int date_in;
+int last_paid;
+string name;
+mixed * save_info;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 19:12:59 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

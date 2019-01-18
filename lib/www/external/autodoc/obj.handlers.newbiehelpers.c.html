@@ -1,0 +1,122 @@
+<html><head><title>File newbiehelpers.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/newbiehelpers.c</h2>
+Newbie Helpers Handler
+<p>Written by Dasquian<p>Started on 26 March 2002
+
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.playerinfo.h.html">/include/playerinfo.h</a> and <a href="include.mail.h.html">/include/mail.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_admin"><b>add_admin</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_helper"><b>add_helper</b></a>(object, string)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_file"><b>load_file</b></a>()<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#log_message"><b>log_message</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#no_apply_reason"><b>no_apply_reason</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#no_reject_reason"><b>no_reject_reason</b></a>(object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#no_vouch_reason"><b>no_vouch_reason</b></a>(object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_admin"><b>query_admin</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_can_chat"><b>query_can_chat</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_check_player"><b>query_check_player</b></a>(object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_helper"><b>query_helper</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_list"><b>query_list</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_name"><b>query_name</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reject_application"><b>reject_application</b></a>(object, string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_admin"><b>remove_admin</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_helper"><b>remove_helper</b></a>(object, string, string)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_file"><b>save_file</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#submit_application"><b>submit_application</b></a>(string, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#submit_vouch"><b>submit_vouch</b></a>(string, mixed)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_admin">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_admin</b></a><pre>
+int add_admin(string name)
+</pre>
+<dt><a name="add_helper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_helper</b></a><pre>
+int add_helper(object adder,
+string player)
+</pre>
+<dt><a name="no_apply_reason">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>no_apply_reason</b></a><pre>
+string no_apply_reason(object player)
+</pre>
+<dt><a name="no_reject_reason">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>no_reject_reason</b></a><pre>
+string no_reject_reason(object rejecter,
+string player)
+</pre>
+<dt><a name="no_vouch_reason">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>no_vouch_reason</b></a><pre>
+string no_vouch_reason(object voucher,
+string applicant)
+</pre>
+<dt><a name="query_admin">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_admin</b></a><pre>
+int query_admin(string name)
+</pre>
+<dt><a name="query_can_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_can_chat</b></a><pre>
+int query_can_chat(object who)
+</pre>
+<dt><a name="query_check_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_check_player</b></a><pre>
+string query_check_player(object checker,
+string player)
+</pre>
+<dt><a name="query_helper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_helper</b></a><pre>
+int query_helper(string name)
+</pre>
+<dt><a name="query_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_list</b></a><pre>
+string query_list(object lister)
+</pre>
+<dt><a name="query_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_name</b></a><pre>
+string query_name()
+</pre>
+<dt><a name="reject_application">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reject_application</b></a><pre>
+void reject_application(object rejecter,
+string player,
+string reason,
+string mail)
+</pre>
+<dt><a name="remove_admin">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_admin</b></a><pre>
+int remove_admin(string name)
+</pre>
+<dt><a name="remove_helper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_helper</b></a><pre>
+string remove_helper(object remover,
+string player,
+string reason)
+</pre>
+<dt><a name="submit_application">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>submit_application</b></a><pre>
+void submit_application(string statement,
+object player)
+</pre>
+<dt><a name="submit_vouch">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>submit_vouch</b></a><pre>
+void submit_vouch(string statement,
+mixed args)
+</pre>
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="load_file">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>load_file</b></a><pre>
+void load_file()
+</pre>
+<dt><a name="log_message">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>log_message</b></a><pre>
+void log_message(string message)
+</pre>
+<dt><a name="save_file">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>save_file</b></a><pre>
+void save_file()
+</pre>
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 21:47:37 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

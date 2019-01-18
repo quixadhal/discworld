@@ -1,0 +1,39 @@
+.DT
+mail_count
+Disk World creator help
+mail_count
+
+.SH Name
+.SP 5 5
+mail_count -  This method returns a 2 item array for the amount of mail in a persons inbox.
+.EP
+
+.SH Syntax
+.SI 5
+int * mail_count(string pname)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^pname%^RESET%^ - the players name.
+.EI
+
+.SH Returns
+.SI 5
+a two item array.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/folder_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns a 2 item array for the amount of mail in a persons
+inbox.  This first index is the total number of messages and the second
+is the number that are unread.
+
+.EP
+

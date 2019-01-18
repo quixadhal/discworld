@@ -1,0 +1,157 @@
+<html><head><title>File board_mas.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.misc.board.c.html">/obj/misc/board.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.board.h.html">/include/board.h</a> and <a href="include.mail.h.html">/include/mail.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_new"><b>calc_new</b></a>(object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_add"><b>do_add</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_archive"><b>do_archive</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_arts"><b>do_arts</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_board"><b>do_board</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_boards"><b>do_boards</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_killfile"><b>do_killfile</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_listkillfile"><b>do_listkillfile</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_maximum"><b>do_maximum</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_minimum"><b>do_minimum</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_new"><b>do_new</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_next"><b>do_next</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_prev"><b>do_prev</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_remove"><b>do_remove</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_security"><b>do_security</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_skip"><b>do_skip</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_store"><b>do_store</b></a>(int, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_storeall"><b>do_storeall</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_summary"><b>do_summary</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_timeout"><b>do_timeout</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_transfer"><b>do_transfer</b></a>(int, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_unkillfile"><b>do_unkillfile</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_static_arg"><b>init_static_arg</b></a>(mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#long"><b>long</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move"><b>move</b></a>(object, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_static_auto_load"><b>query_static_auto_load</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_board_name"><b>set_board_name</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_datafile"><b>set_datafile</b></a>(string)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="calc_new">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_new</b></a><pre>
+int calc_new(object who,
+string board)
+</pre>
+<dt><a name="do_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_add</b></a><pre>
+int do_add(string name)
+</pre>
+<dt><a name="do_archive">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_archive</b></a><pre>
+int do_archive(string name)
+</pre>
+<dt><a name="do_arts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_arts</b></a><pre>
+int do_arts()
+</pre>
+<dt><a name="do_board">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_board</b></a><pre>
+int do_board(string str)
+</pre>
+<dt><a name="do_boards">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_boards</b></a><pre>
+int do_boards()
+</pre>
+<dt><a name="do_killfile">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_killfile</b></a><pre>
+int do_killfile(string arg)
+</pre>
+<dt><a name="do_listkillfile">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_listkillfile</b></a><pre>
+int do_listkillfile()
+</pre>
+<dt><a name="do_maximum">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_maximum</b></a><pre>
+int do_maximum(int i)
+</pre>
+<dt><a name="do_minimum">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_minimum</b></a><pre>
+int do_minimum(string i)
+</pre>
+<dt><a name="do_new">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_new</b></a><pre>
+int do_new()
+</pre>
+<dt><a name="do_next">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_next</b></a><pre>
+int do_next()
+</pre>
+<dt><a name="do_prev">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_prev</b></a><pre>
+int do_prev()
+</pre>
+<dt><a name="do_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_remove</b></a><pre>
+int do_remove(string name)
+</pre>
+<dt><a name="do_security">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_security</b></a><pre>
+int do_security()
+</pre>
+<dt><a name="do_skip">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_skip</b></a><pre>
+int do_skip(string str,
+int move_on)
+</pre>
+<dt><a name="do_store">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_store</b></a><pre>
+int do_store(int which,
+string file)
+</pre>
+<dt><a name="do_storeall">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_storeall</b></a><pre>
+int do_storeall(string file)
+</pre>
+<dt><a name="do_summary">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_summary</b></a><pre>
+int do_summary()
+</pre>
+<dt><a name="do_timeout">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_timeout</b></a><pre>
+int do_timeout(int i)
+</pre>
+<dt><a name="do_transfer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_transfer</b></a><pre>
+int do_transfer(int num,
+string str)
+</pre>
+<dt><a name="do_unkillfile">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_unkillfile</b></a><pre>
+int do_unkillfile(string arg)
+</pre>
+<dt><a name="init_static_arg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_static_arg</b></a><pre>
+void init_static_arg(mixed board)
+</pre>
+<dt><a name="long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>long</b></a><pre>
+string long(string str,
+int dark)
+</pre>
+<dt><a name="move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move</b></a><pre>
+varargs int move(object dest,
+string s1,
+string s2)
+</pre>
+<dt><a name="query_static_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_static_auto_load</b></a><pre>
+mixed query_static_auto_load()
+</pre>
+<dt><a name="set_board_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_board_name</b></a><pre>
+void set_board_name(string str)
+</pre>
+<dt><a name="set_datafile">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_datafile</b></a><pre>
+void set_datafile(string str)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 06:33:05 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

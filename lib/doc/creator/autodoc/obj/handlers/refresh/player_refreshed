@@ -1,0 +1,31 @@
+.DT
+player_refreshed
+Disk World creator help
+player_refreshed
+
+.SH Name
+.SP 5 5
+player_refreshed -  This function gets called by the player object whenever a player refreshes, or by any of the various objects that delete players when they get deleted.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void player_refreshed(object player,
+int totally)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/refresh.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function gets called by the player object whenever
+a player refreshes, or by any of the various objects that delete
+players when they get deleted.  You should never call
+this function directly.
+
+.EP
+

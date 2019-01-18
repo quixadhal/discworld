@@ -1,0 +1,41 @@
+.DT
+set_no_collection
+Disk World creator help
+set_no_collection
+
+.SH Name
+.SP 5 5
+set_no_collection -  This sets the no collection flag.
+.EP
+
+.SH Syntax
+.SI 5
+void set_no_collection(int collect)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^collect%^RESET%^ - the new value of no_collections flag
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/print_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets the no collection flag.  It makes it so this room cannot be
+used for collections.  If this is set then there should be an associated
+collection room used to pick up the books from.  This room should
+use the set_office_room() function to set the office room to use
+for the collections.
+.EP
+
+.SH See also
+.SP 5 5
+query_no_collection(), set_office_room()
+
+.EP
+

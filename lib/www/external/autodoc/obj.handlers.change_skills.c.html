@@ -1,0 +1,154 @@
+<html><head><title>File change_skills.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/change_skills.c</h2>
+Handles updating the skill systems to new levels when the skill tree
+is changed.<p><b>See also:</b><br><a href="std.living.skills.c.html">/std/living/skills.c</a><p>Written by Deutha<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.tune.h.html">/include/tune.h</a>, <a href="include.language.h.html">/include/language.h</a>, <a href="include.combat.h.html">/include/combat.h</a>, <a href="include.skills.h.html">/include/skills.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_language_skills"><b>change_language_skills</b></a>(object, int)<dd>
+Changes the skill array up to the new tree involving the
+languages.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_skills"><b>change_skills</b></a>(object)<dd>
+Update the skills from the original skills system to the
+beta skills system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_skills_epsilon"><b>change_skills_epsilon</b></a>(object)<dd>
+Update the skills from the original skills system to the
+beta skills system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_skills_eta"><b>change_skills_eta</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_skills_zeta"><b>change_skills_zeta</b></a>(object)<dd>
+Change everyones skill levels (downwards).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#entering"><b>entering</b></a>(string, string)<dd>
+Called by the login handler, checks to see if an upgrade
+is neede.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#fixup_stats"><b>fixup_stats</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#new_skill_value"><b>new_skill_value</b></a>(int)<dd>
+Calulate the new skill value for the skills version zeta
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_minimum_skill_xp"><b>query_minimum_skill_xp</b></a>(int)<dd>
+Figure out thge minimum amount of xp that could have been used to
+get the skill level.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_version"><b>query_version</b></a>()<dd>
+The current version of the skill tree.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#recalc_parents"><b>recalc_parents</b></a>(mapping, string)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="change_language_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_language_skills</b></a><pre>
+void change_language_skills(object thing,
+int lev)
+</pre><dd>
+Changes the skill array up to the new tree involving the
+languages.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object to upgrade
+<dd>lev - the level we are changing up to.
+
+</dl>
+
+<dt><a name="change_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_skills</b></a><pre>
+void change_skills(object thing)
+</pre><dd>
+Update the skills from the original skills system to the
+beta skills system.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the person to update
+
+</dl>
+
+<dt><a name="change_skills_epsilon">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_skills_epsilon</b></a><pre>
+void change_skills_epsilon(object thing)
+</pre><dd>
+Update the skills from the original skills system to the
+beta skills system.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the person to update
+
+</dl>
+
+<dt><a name="change_skills_eta">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_skills_eta</b></a><pre>
+void change_skills_eta(object thing)
+</pre>
+<dt><a name="change_skills_zeta">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_skills_zeta</b></a><pre>
+void change_skills_zeta(object thing)
+</pre><dd>
+Change everyones skill levels (downwards).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the person to update
+
+</dl>
+
+<dt><a name="entering">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>entering</b></a><pre>
+void entering(string name,
+string type)
+</pre><dd>
+Called by the login handler, checks to see if an upgrade
+is neede.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player logging in
+<dd>type - the type of the login
+<dt><b>See also:</b>
+<dd>/obj/handlers/login_handler.c
+</dl>
+
+<dt><a name="fixup_stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>fixup_stats</b></a><pre>
+void fixup_stats(object thing)
+</pre>
+<dt><a name="new_skill_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>new_skill_value</b></a><pre>
+int new_skill_value(int sk)
+</pre><dd>
+Calulate the new skill value for the skills version zeta
+<p>
+
+<dt><a name="query_minimum_skill_xp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_minimum_skill_xp</b></a><pre>
+int query_minimum_skill_xp(int lvl)
+</pre><dd>
+Figure out thge minimum amount of xp that could have been used to
+get the skill level.  This assumes a leaf skill
+This appears to be the xp equation.  Using it anyway...<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lvl - the level to get to
+<dt><b>Returns:</b>
+<dd>the skill cost in xp
+
+</dl>
+
+<dt><a name="query_version">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_version</b></a><pre>
+string query_version()
+</pre><dd>
+The current version of the skill tree.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the version of the skill system
+
+</dl>
+
+<dt><a name="recalc_parents">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>recalc_parents</b></a><pre>
+mapping recalc_parents(mapping skills,
+string skill)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 16:21:53 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

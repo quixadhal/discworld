@@ -1,0 +1,29 @@
+.DT
+effects_thru_death
+Disk World creator help
+effects_thru_death
+
+.SH Name
+.SP 5 5
+effects_thru_death -  This method removes all the effects as we die.
+.EP
+
+.SH Syntax
+.SI 5
+void effects_thru_death()
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/effects.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method removes all the effects as we die.  It calls the function
+survive_death() on the effect objects themselves to determine if
+they should be kept when the living dies.
+
+.EP
+

@@ -1,0 +1,411 @@
+<html><head><title>File bank_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/bank_handler.c</h2>
+Keep track of each banks data.<hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_bank_data"><b>bank_data</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_franchise"><b>franchise</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_new_franchise"><b>add_new_franchise</b></a>(string, string)<dd>
+This method adds a new franchise to the operation.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_account"><b>adjust_account</b></a>(string, string, int)<dd>
+Change the amount of money a player has at a given bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_new_bank"><b>create_new_bank</b></a>(string, string)<dd>
+THis method creates a new bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_cheat_check"><b>do_cheat_check</b></a>(string, string, int, string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_data_file"><b>get_data_file</b></a>(string)<dd>
+Start up the system by restoreing the players data.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_account"><b>query_account</b></a>(string, string)<dd>
+Find out how much a player has at a given bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_accounts"><b>query_accounts</b></a>(string)<dd>
+Query the accounts a player has.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank_data"><b>query_bank_data</b></a>(string)<dd>
+This method is to be used for testing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank_default_cost_per_month"><b>query_bank_default_cost_per_month</b></a>(string)<dd>
+This method returns the new cost for opening a franchise for the bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank_default_cost_per_new_account"><b>query_bank_default_cost_per_new_account</b></a>(string)<dd>
+This method returns the new cost for opening a franchise for the bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank_default_cost_to_open"><b>query_bank_default_cost_to_open</b></a>(string)<dd>
+This method returns the new cost for opening a franchise for the bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank_franchise_cost_per_month"><b>query_bank_franchise_cost_per_month</b></a>(string, string)<dd>
+This method returns the new cost for opening a franchise for the bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank_franchise_cost_per_new_account"><b>query_bank_franchise_cost_per_new_account</b></a>(string, string)<dd>
+This method returns the new cost for opening a franchise for the bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank_master_office"><b>query_bank_master_office</b></a>(string)<dd>
+This method returns the master office of the bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_banks"><b>query_banks</b></a>()<dd>
+This method returns the current list of banks.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_franchises"><b>query_franchises</b></a>(string)<dd>
+This method returns the franchises for the specified bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_bank"><b>remove_bank</b></a>(string)<dd>
+This method removes a bank from the current list ofbanks.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_account"><b>set_account</b></a>(string, string, int)<dd>
+Sets the balance at a certain bank to the specificed amount.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bank_default_cost_per_month"><b>set_bank_default_cost_per_month</b></a>(string, int)<dd>
+This method sets the new cost for opening a franchise for the bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bank_default_cost_per_new_account"><b>set_bank_default_cost_per_new_account</b></a>(string, int)<dd>
+This method sets the new cost for opening a franchise for the bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bank_default_cost_to_open"><b>set_bank_default_cost_to_open</b></a>(string, int)<dd>
+This method sets the new cost for opening a franchise for the bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bank_franchise_cost_per_month"><b>set_bank_franchise_cost_per_month</b></a>(string, string, int)<dd>
+This method sets the new cost for opening a franchise for the bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bank_franchise_cost_per_new_account"><b>set_bank_franchise_cost_per_new_account</b></a>(string, int)<dd>
+This method sets the new cost for opening a franchise for the bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bank_master_office"><b>set_bank_master_office</b></a>(string, string)<dd>
+This method set the master office of the bank.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_new_franchise">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_new_franchise</b></a><pre>
+void add_new_franchise(string name,
+string franchise_office)
+</pre><dd>
+This method adds a new franchise to the operation.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the bank set
+<dd>franchise_office - the new franchise to add
+
+</dl>
+
+<dt><a name="adjust_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_account</b></a><pre>
+void adjust_account(string name,
+string bank_name,
+int amount)
+</pre><dd>
+Change the amount of money a player has at a given bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dd>bank_name - the name of the bank
+<dd>amount - the amount to change the balance by
+
+</dl>
+
+<dt><a name="create_new_bank">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_new_bank</b></a><pre>
+void create_new_bank(string name,
+string master)
+</pre><dd>
+THis method creates a new bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the bank
+<dd>master - the location of the master bank
+
+</dl>
+
+<dt><a name="do_cheat_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_cheat_check</b></a><pre>
+void do_cheat_check(string name,
+string bank_name,
+int amount,
+string str,
+int after)
+</pre>
+<dt><a name="get_data_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_data_file</b></a><pre>
+int get_data_file(string name)
+</pre><dd>
+Start up the system by restoreing the players data.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the name of the player being restored
+
+</dl>
+
+<dt><a name="query_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_account</b></a><pre>
+int query_account(string word,
+string bank_name)
+</pre><dd>
+Find out how much a player has at a given bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the name of the player
+<dd>bank_name - the name of the bank
+<dt><b>Returns:</b>
+<dd>the current balance, -1 on failure
+
+</dl>
+
+<dt><a name="query_accounts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_accounts</b></a><pre>
+string * query_accounts(string player)
+</pre><dd>
+Query the accounts a player has.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the name of the player
+
+</dl>
+
+<dt><a name="query_bank_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank_data</b></a><pre>
+class bank_data query_bank_data(string name)
+</pre><dd>
+This method is to be used for testing.
+<p>
+
+<dt><a name="query_bank_default_cost_per_month">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank_default_cost_per_month</b></a><pre>
+int query_bank_default_cost_per_month(string name)
+</pre><dd>
+This method returns the new cost for opening a franchise for the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - the bank to change the cost for
+<dd>amount - the new amount to charge to open
+
+</dl>
+
+<dt><a name="query_bank_default_cost_per_new_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank_default_cost_per_new_account</b></a><pre>
+int query_bank_default_cost_per_new_account(string name)
+</pre><dd>
+This method returns the new cost for opening a franchise for the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - the bank to change the cost for
+<dd>amount - the new amount to charge to open
+
+</dl>
+
+<dt><a name="query_bank_default_cost_to_open">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank_default_cost_to_open</b></a><pre>
+int query_bank_default_cost_to_open(string name)
+</pre><dd>
+This method returns the new cost for opening a franchise for the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - the bank to change the cost for
+<dd>amount - the new amount to charge to open
+
+</dl>
+
+<dt><a name="query_bank_franchise_cost_per_month">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank_franchise_cost_per_month</b></a><pre>
+int query_bank_franchise_cost_per_month(string name,
+string franchise_office)
+</pre><dd>
+This method returns the new cost for opening a franchise for the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - the bank to change the cost for
+<dd>franchise - the franchise to change the amounts for
+<dd>amount - the new amount to charge to open
+
+</dl>
+
+<dt><a name="query_bank_franchise_cost_per_new_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank_franchise_cost_per_new_account</b></a><pre>
+int query_bank_franchise_cost_per_new_account(string name,
+string franchise_office)
+</pre><dd>
+This method returns the new cost for opening a franchise for the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - the bank to change the cost for
+<dd>amount - the new amount to charge to open
+
+</dl>
+
+<dt><a name="query_bank_master_office">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank_master_office</b></a><pre>
+string query_bank_master_office(string name)
+</pre><dd>
+This method returns the master office of the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the bank name to check in
+<dt><b>Returns:</b>
+<dd>the master office of the bank
+
+</dl>
+
+<dt><a name="query_banks">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_banks</b></a><pre>
+string * query_banks()
+</pre><dd>
+This method returns the current list of banks.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current list of banks
+
+</dl>
+
+<dt><a name="query_franchises">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_franchises</b></a><pre>
+string * query_franchises(string bank)
+</pre><dd>
+This method returns the franchises for the specified bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - the bank to get the franchises of
+<dt><b>Returns:</b>
+<dd>the list of franchises
+
+</dl>
+
+<dt><a name="remove_bank">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_bank</b></a><pre>
+void remove_bank(string name)
+</pre><dd>
+This method removes a bank from the current list ofbanks.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the bank to remove
+
+</dl>
+
+<dt><a name="set_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_account</b></a><pre>
+void set_account(string name,
+string bank_name,
+int amount)
+</pre><dd>
+Sets the balance at a certain bank to the specificed amount.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dd>bank_name - the name of the bank
+<dd>amount - the amount to set the bank to.
+Query the accounts a player has.
+
+<dd>player - the name of the player
+
+</dl>
+
+<dt><a name="set_bank_default_cost_per_month">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bank_default_cost_per_month</b></a><pre>
+void set_bank_default_cost_per_month(string name,
+int amount)
+</pre><dd>
+This method sets the new cost for opening a franchise for the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - the bank to change the cost for
+<dd>amount - the new amount to charge to open
+
+</dl>
+
+<dt><a name="set_bank_default_cost_per_new_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bank_default_cost_per_new_account</b></a><pre>
+void set_bank_default_cost_per_new_account(string name,
+int amount)
+</pre><dd>
+This method sets the new cost for opening a franchise for the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - the bank to change the cost for
+<dd>amount - the new amount to charge to open
+
+</dl>
+
+<dt><a name="set_bank_default_cost_to_open">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bank_default_cost_to_open</b></a><pre>
+void set_bank_default_cost_to_open(string name,
+int amount)
+</pre><dd>
+This method sets the new cost for opening a franchise for the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - the bank to change the cost for
+<dd>amount - the new amount to charge to open
+
+</dl>
+
+<dt><a name="set_bank_franchise_cost_per_month">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bank_franchise_cost_per_month</b></a><pre>
+void set_bank_franchise_cost_per_month(string name,
+string franchise_office,
+int amount)
+</pre><dd>
+This method sets the new cost for opening a franchise for the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - the bank to change the cost for
+<dd>franchise - the franchise to change the amounts for
+<dd>amount - the new amount to charge to open
+
+</dl>
+
+<dt><a name="set_bank_franchise_cost_per_new_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bank_franchise_cost_per_new_account</b></a><pre>
+void set_bank_franchise_cost_per_new_account(string name,
+int amount)
+</pre><dd>
+This method sets the new cost for opening a franchise for the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - the bank to change the cost for
+<dd>amount - the new amount to charge to open
+
+</dl>
+
+<dt><a name="set_bank_master_office">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bank_master_office</b></a><pre>
+void set_bank_master_office(string name,
+string master)
+</pre><dd>
+This method set the master office of the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the bank name to check in
+<dd>master - the master office of the bank
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_bank_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>bank_data</b></a><pre>
+class bank_data {
+string master_office;
+class franchise * franchises;
+int cost_to_start;
+int default_cost_per_month;
+int default_cost_per_new_account;
+}
+
+</pre>
+<dt><a name="class_franchise">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>franchise</b></a><pre>
+class franchise {
+string office;
+int cost_per_month;
+int cost_per_new_account;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 15:35:59 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

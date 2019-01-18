@@ -1,0 +1,50 @@
+.DT
+add_vote
+Disk World creator help
+add_vote
+
+.SH Name
+.SP 5 5
+add_vote -  This function is called to add a vote to the system.
+.EP
+
+.SH Syntax
+.SI 5
+void add_vote(string type,
+string description,
+string * choices,
+int ending)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - Freeform string giving the type of vote. This is typically used
+by your completion function so that it can perform different actions for
+different types of votes.
+
+%^BOLD%^description%^RESET%^ - The description of the vote as shown to the player.
+
+%^BOLD%^choices%^RESET%^ - An array of vote options eg. ({"Yes", "No" })
+
+%^BOLD%^ending%^RESET%^ - An integer time of when the vote should be terminated.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/voting_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function is called to add a vote to the system.
+
+.EP
+
+.SH See also
+.SP 5 5
+set_completion_action()
+
+.EP
+

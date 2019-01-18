@@ -1,0 +1,42 @@
+.DT
+add_it
+Disk World creator help
+add_it
+
+.SH Name
+.SP 5 5
+add_it -  This method adds a message into all the correct folders and stuff.
+.EP
+
+.SH Syntax
+.SI 5
+void add_it(class mail_message mesg,
+int flag)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^mesg%^RESET%^ - the message to send
+%^BOLD%^flag%^RESET%^ - if this is set to a non-zero value then no delivery messages will
+occur
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/folder_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a message into all the correct folders and stuff.
+This is the method that is called when a piece of mail is actually
+sent.
+.EP
+
+.SH See also
+.SP 5 5
+delete_it()
+
+.EP
+

@@ -1,0 +1,49 @@
+.DT
+add_quest
+Disk World creator help
+add_quest
+
+.SH Name
+.SP 5 5
+add_quest -  This method adds a new quest into the system.
+.EP
+
+.SH Syntax
+.SI 5
+int add_quest(string name,
+int level,
+string title,
+string story)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the quest
+%^BOLD%^level%^RESET%^ - the level of the quest 0-100
+%^BOLD%^title%^RESET%^ - the title for finishing the quest, 0 for none
+%^BOLD%^story%^RESET%^ - the story about the quest
+.EI
+
+.SH Returns
+.SI 5
+1 if successful, 0 if not.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/nquest_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a new quest into the system.  You only need to call
+this ONCE.  The name of the quest must be unique.  The story is
+what can be seen in the players books about the player.
+.EP
+
+.SH See also
+.SP 5 5
+delete_quest(), query_quest_level(), query_quest_title(), query_quest_story()
+
+.EP
+

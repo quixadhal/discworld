@@ -1,0 +1,43 @@
+.DT
+add_senior_playtester
+Disk World creator help
+add_senior_playtester
+
+.SH Name
+.SP 5 5
+add_senior_playtester -  This method adds the player as a senior playtester.
+.EP
+
+.SH Syntax
+.SI 5
+int add_senior_playtester(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the player to add
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playtesters.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds the player as a senior playtester.  The playtester
+needs to already be added as a normal playtester before becoming a
+senior playtester.
+.EP
+
+.SH See also
+.SP 5 5
+remove_senior_playtester(), add_playtester(), query_senior_playtester()
+
+.EP
+

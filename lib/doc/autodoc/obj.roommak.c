@@ -1,6 +1,6 @@
 .DT
 roommak.c
-DW_wibble autodoc help
+Disk World autodoc help
 roommak.c
 
 .SH Inherits

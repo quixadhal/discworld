@@ -1,0 +1,42 @@
+.DT
+is_relationship
+Disk World creator help
+is_relationship
+
+.SH Name
+.SP 5 5
+is_relationship -  This method checks to see if the specified relationship exists.
+.EP
+
+.SH Syntax
+.SI 5
+int is_relationship(string name,
+string person,
+string related,
+string relationship)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the family the relationship is in
+%^BOLD%^person%^RESET%^ - the person the relationship is from
+%^BOLD%^related%^RESET%^ - to person they are related to
+%^BOLD%^relationship%^RESET%^ - the type of relationship they have
+.EI
+
+.SH Returns
+.SI 5
+1 if the relationship exists, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_family.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the specified relationship exists.
+.EP
+

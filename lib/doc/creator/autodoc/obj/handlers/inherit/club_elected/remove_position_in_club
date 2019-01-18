@@ -1,0 +1,44 @@
+.DT
+remove_position_in_club
+Disk World creator help
+remove_position_in_club
+
+.SH Name
+.SP 5 5
+remove_position_in_club -  This method removes a position from a club.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_position_in_club(string name,
+string position)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the club to remove the position from
+%^BOLD%^position%^RESET%^ - the position to remove
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method removes a position from a club.  The 4 basic positions cannot
+be removed.
+.EP
+
+.SH See also
+.SP 5 5
+create_position_in_club()
+
+.EP
+

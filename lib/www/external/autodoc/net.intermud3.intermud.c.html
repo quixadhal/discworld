@@ -1,0 +1,75 @@
+<html><head><title>File intermud.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Inherits</h2>
+This class inherits the following classes <a href="net.inherit.client.c.html">/net/inherit/client.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.network.h.html">/include/network.h</a>, /net/intermud3/intermud.h and <a href="include.socket_errors.h.html">/include/socket_errors.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_list"><b>list</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventConnectionFailure"><b>eventConnectionFailure</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventExternWrite"><b>eventExternWrite</b></a>(mixed *)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventRead"><b>eventRead</b></a>(int, mixed *)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventSocketClose"><b>eventSocketClose</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventWrite"><b>eventWrite</b></a>(int, mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#GetMudName"><b>GetMudName</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#SetDestructOnClose"><b>SetDestructOnClose</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#SetSocketType"><b>SetSocketType</b></a>(int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#Setup"><b>Setup</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="eventExternWrite">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventExternWrite</b></a><pre>
+void eventExternWrite(mixed * packet)
+</pre>
+<dt><a name="eventWrite">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventWrite</b></a><pre>
+void eventWrite(int fd,
+mixed * packet)
+</pre>
+<dt><a name="GetMudName">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>GetMudName</b></a><pre>
+string GetMudName(string mud)
+</pre>
+<dt><a name="SetDestructOnClose">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>SetDestructOnClose</b></a><pre>
+int SetDestructOnClose(int x)
+</pre>
+<dt><a name="SetSocketType">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>SetSocketType</b></a><pre>
+int SetSocketType(int x)
+</pre>
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="eventConnectionFailure">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventConnectionFailure</b></a><pre>
+void eventConnectionFailure()
+</pre>
+<dt><a name="eventRead">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventRead</b></a><pre>
+void eventRead(int fd,
+mixed * packet)
+</pre>
+<dt><a name="eventSocketClose">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventSocketClose</b></a><pre>
+void eventSocketClose(int fd)
+</pre>
+<dt><a name="Setup">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>Setup</b></a><pre>
+void Setup()
+</pre>
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>list</b></a><pre>
+class list {
+int ID;
+mapping List;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Nov 2018 16:34:21 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

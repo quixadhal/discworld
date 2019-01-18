@@ -1,6 +1,6 @@
 .DT
 cure_wand.c
-DW_wibble autodoc help
+Disk World autodoc help
 cure_wand.c
 
 .SH Inherits

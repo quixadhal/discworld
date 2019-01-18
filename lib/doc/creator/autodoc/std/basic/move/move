@@ -1,0 +1,74 @@
+.DT
+move
+Disk World creator help
+move
+
+.SH Name
+.SP 5 5
+move -  The basic move method.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int move(mixed dest,
+string messin,
+string messout)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dest%^RESET%^ - where to move to
+%^BOLD%^messin%^RESET%^ - the message to print when entering
+%^BOLD%^messout%^RESET%^ - the message to print when leaving
+.EI
+
+.SH Returns
+.SI 5
+MOVE_OK on success, or a failure reason on failure.EI
+
+.SH Defined in
+.SI 5
+/std/basic/move.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The basic move method.  The destination can be an object or a string.
+if it is neither of these then the failure MOVE_EMPTY_DEST is
+returned.  If the function test_add() was called on the
+destination and it returns 0 then MOVE_NO_GET is returned as
+a failure.  If the destination is this_object() then
+MOVE_INVALID_DEST is returned as the failure.  If the
+function test_remove is called on the current environment and it
+returns 0 then MOVE_NO_DROP is returned as the move failure.
+
+
+The events "enter" and "exit" are generated as part of the move process. Both of these events are passed two arguments. The exit event is passed the exit message and the destination. The enter event is passed the enter message and the place we came from. 
+
+The function event_move_object() is called (call_other) on the object if the move was successful (MOVE_OK).
+.EP
+
+.SH Example 1
+.SI 5
+move(find_player("pinkfish"));
+.EI
+
+.SH Example 2
+.SI 5
+move("/d/am/am/mendeddrum");
+.EI
+
+.SH Example 3
+.SI 5
+move (environment(find_player("ceres")),
+         the_short()+" flaps in hopelessly.\n",
+         the_short()+" flaps away hopelessly.\n");
+
+.EI
+
+.SH See also
+.SP 5 5
+/include/move_failures.h, /secure/simul_efun->event(), event_move_object()
+.EP
+

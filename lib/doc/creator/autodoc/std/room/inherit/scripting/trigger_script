@@ -1,0 +1,37 @@
+.DT
+trigger_script
+Disk World creator help
+trigger_script
+
+.SH Name
+.SP 5 5
+trigger_script -  This function is called to activate a script in this object.
+.EP
+
+.SH Syntax
+.SI 5
+void trigger_script(string event,
+object who,
+int override)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^event%^RESET%^ - the name of the event to be triggered,
+%^BOLD%^who%^RESET%^ - a reference to the object who triggered the event
+%^BOLD%^override%^RESET%^ - the override for the priority
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/scripting.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function is called to activate a script in this object.
+( Can be left blank, best to use file_name( this_player() ) ).
+.EP
+

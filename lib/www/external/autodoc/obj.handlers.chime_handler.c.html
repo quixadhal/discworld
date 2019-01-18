@@ -1,0 +1,64 @@
+<html><head><title>File chime_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/chime_handler.c</h2>
+This handler deals with clocks which chime. It uses a single 15 minute
+callout to make all clocks on Discworld which choose to chime chime the
+quarter, half or hours.
+<p>Written by Ceres
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.am_time.h.html">/include/am_time.h</a> and <a href="include.chime.h.html">/include/chime.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_chime"><b>chime</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#register_for_chimes"><b>register_for_chimes</b></a>(object, int, string)<dd>
+Register a clock to do chimes.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="register_for_chimes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>register_for_chimes</b></a><pre>
+int register_for_chimes(object ob,
+int num,
+string mess)
+</pre><dd>
+Register a clock to do chimes. The num parameter specifes when to
+chime.  If it is 1 then the clock chimes every hour, if it is
+2 the clock chimes ever half hour, if it is 4 the
+clock chimes every quarter hour.  Anything else and
+the clock never chimes.  NB: if you set it to chime the quarter hours
+it will only chime the quarter hours, it will not chime the hours
+or the half hours.  You need to call this function three times to
+get your clock to chime the hour, half and quarter hours.
+<p>
+The function "chime" will be called on the clock
+when the chime occurs.  The message will be passed in as the first
+argument, the second will be the type of chime (CHIME_HOUR, CHIME_HALF_HOUR,
+CHIME_QUARTER_HOUR).
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object being registered
+<dd>num - when to chime
+<dd>mess - the message to chime with
+
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure.
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_chime">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>chime</b></a><pre>
+class chime {
+object ob;
+int type;
+string mess;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 16:25:33 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

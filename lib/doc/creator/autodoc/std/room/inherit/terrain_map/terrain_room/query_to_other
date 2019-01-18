@@ -1,0 +1,60 @@
+.DT
+query_to_other
+Disk World creator help
+query_to_other
+
+.SH Name
+.SP 5 5
+query_to_other -  The handler calls this function when setting up exits to allow the room to set up any modify_exit parameters which should be applied to exits leading to other locations of different types to this.
+.EP
+
+.SH Syntax
+.SI 5
+varargs mixed * query_to_other(string type,
+string to_direc,
+string from_direc,
+string path_to)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the ASCII character representing the room type the exit leads to
+.EI
+
+.SH Returns
+.SI 5
+an array of exit modifiers. This should take the same form as
+used in modify_exit.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/terrain_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The handler calls this function when setting up exits to allow the
+room to set up any modify_exit parameters which should be applied
+to exits leading to other locations of different types to this. 
+Override it to provide any extra exit modifiers.
+.EP
+
+.SH Example 1
+.SI 5
+mixed *query_to_other(string type)
+
+{ 
+   return ({ "move mess", "You scramble up the stream bank.\n",
+             "enter mess", "$N scrambles up the stream bank from the $F.",
+             "exit mess", "$N scrambles up the stream bank to the $T.",
+             "hidden", "1 });
+}
+.EI
+
+.SH See also
+.SP 5 5
+modify_exit, query_to_same, query_from_other
+
+.EP
+

@@ -1,0 +1,44 @@
+.DT
+remove_playtester
+Disk World creator help
+remove_playtester
+
+.SH Name
+.SP 5 5
+remove_playtester -  This method will remove the playtester from the current list of play testers.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_playtester(string name,
+string reason)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the player to remove
+%^BOLD%^reason%^RESET%^ - the reason for the removal
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playtesters.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will remove the playtester from the current list of
+play testers.
+.EP
+
+.SH See also
+.SP 5 5
+add_playtester(), remove_senior_playtester(), query_playtester()
+
+.EP
+

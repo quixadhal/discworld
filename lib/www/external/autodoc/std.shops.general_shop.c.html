@@ -1,0 +1,1312 @@
+<html><head><title>File general_shop.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/general_shop.c</h2>
+This the base shop.  It buys and sells stuff form players.
+<p>
+A storeroom must be set for the shop!
+<p>
+Original made who knows when.<p><b>See also:</b><br><a href="#set_storeroom">set_storeroom()</a><p>Written by Pinkfish<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a> and <a href="std.shops.inherit.open_shop.c.html">/std/shops/inherit/open_shop.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.armoury.h.html">/include/armoury.h</a>, <a href="include.tasks.h.html">/include/tasks.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.shop.h.html">/include/shop.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_other_shop"><b>add_other_shop</b></a>(mixed)<dd>
+This method adds a shop with shich we will exchange inventories
+of certain types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_mercenary"><b>create_mercenary</b></a>(object)<dd>
+This method creates a mercenaries to wander along with the
+sales rep to get the stuff to the destination.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_rep"><b>create_rep</b></a>()<dd>
+This method creates the sales representative which is sent off
+to exchange goods with other shops.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#creator_object"><b>creator_object</b></a>(object)<dd>
+This method determines whether or not a given object is a creator object
+and should be in this shop or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_browse"><b>do_browse</b></a>(object *)<dd>
+This method is called when the player is browseing stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_buy"><b>do_buy</b></a>(object *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list"><b>do_list</b></a>()<dd>
+This method lists all the objects in stock.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_these"><b>do_list_these</b></a>(object *)<dd>
+This method lists only the specified objects
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_parse"><b>do_parse</b></a>(mixed, object *, object, string, string)<dd>
+This method is the major message processing function for
+the buye messages, sell messages etc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_rep_buy"><b>do_rep_buy</b></a>(mixed *)<dd>
+This method is called when the rep tries to buy stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_sell"><b>do_sell</b></a>(object *)<dd>
+This method does the actual selling.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_value"><b>do_value</b></a>(object *)<dd>
+This method is called when the player is valueing stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_shoplift"><b>event_shoplift</b></a>(object, object, object)<dd>
+This method is called when a shop lift is done on the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_browse_mess"><b>query_browse_mess</b></a>()<dd>
+This method returns the current browse message of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_buy_mess"><b>query_buy_mess</b></a>()<dd>
+This method returns the current buy message of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_list_mess"><b>query_list_mess</b></a>()<dd>
+This method returns the current list message of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_amount"><b>query_max_amount</b></a>()<dd>
+This method returns the maximum value oif an object that can
+be sold here.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_min_amount"><b>query_min_amount</b></a>()<dd>
+This method returns the minimum value oif an object that can
+be sold here.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_no_steal"><b>query_no_steal</b></a>()<dd>
+This method returns the current no steal property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_not_worthy_mess"><b>query_not_worthy_mess</b></a>()<dd>
+This method returns the current not worthy message of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sell_mess"><b>query_sell_mess</b></a>()<dd>
+This method returns the current sell message of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shop"><b>query_shop</b></a>()<dd>
+This method tells us if the shop is really a shop or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shop_lift_items"><b>query_shop_lift_items</b></a>(string, object)<dd>
+This method returns the items which can potentially be shop lifted
+with the passed in string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shop_type"><b>query_shop_type</b></a>()<dd>
+This method returns the type of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shoplift_response_handler"><b>query_shoplift_response_handler</b></a>()<dd>
+This method returns the shop lift response handler for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_steal_difficulty"><b>query_steal_difficulty</b></a>(int)<dd>
+This method returns the current steal difficulty of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stock"><b>query_stock</b></a>(string)<dd>
+This method returns alkl the stock in the shop of various
+types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_store_room"><b>query_store_room</b></a>()<dd>
+This method returns the storeroom associated with the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_strict_currency"><b>query_strict_currency</b></a>()<dd>
+This returns the value of the strict currency variable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_strict_shop"><b>query_strict_shop</b></a>()<dd>
+This method returns the structness of the shop, if the shop is strict
+it will not deal in items of other types at all.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_too_costly_mess"><b>query_too_costly_mess</b></a>()<dd>
+This method returns the current too costly message of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value"><b>query_value</b></a>(object, int)<dd>
+This method returns the value of the object in this shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value_mess"><b>query_value_mess</b></a>()<dd>
+This method returns the current value message of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#rep_came_back"><b>rep_came_back</b></a>()<dd>
+This method is called when the rep gets back home.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#rep_made_it"><b>rep_made_it</b></a>(int)<dd>
+This method is called onces the representative
+reaches its destination.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#scaled_value"><b>scaled_value</b></a>(int)<dd>
+This returns the amount of money you can sell and object for
+which is less than the amount it will be sold for).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#send_out_reps"><b>send_out_reps</b></a>()<dd>
+This method checks to see if there are any other shops
+associated with ours and sends out representatives to them
+to exchange goods.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_browse_function"><b>set_browse_function</b></a>(mixed)<dd>
+This method sets the function to call when browsing something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_browse_message"><b>set_browse_message</b></a>(mixed)<dd>
+This sets the message which will be told to the players when
+they browse something at the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_buy_function"><b>set_buy_function</b></a>(mixed)<dd>
+This method sets the function to call when buying something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_buy_message"><b>set_buy_message</b></a>(mixed)<dd>
+This sets the message which will be told to the players when
+they buy something at the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_cannot_sell_function"><b>set_cannot_sell_function</b></a>(mixed)<dd>
+This method sets the function to call when selling something
+which fails for some reason.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_list_function"><b>set_list_function</b></a>(mixed)<dd>
+This method sets the function to call when listing something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_list_message"><b>set_list_message</b></a>(mixed)<dd>
+This sets the message which will be told to the players when
+they list something at the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_inventory"><b>set_max_inventory</b></a>(int)<dd>
+This method sets the maximum number of inventory items this shop will
+take before it starts to refuse to purchase items from players and
+deleting items from its inventory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_min_amount"><b>set_min_amount</b></a>(int)<dd>
+This method sets the minimum value of items that can be sold here.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_steal"><b>set_no_steal</b></a>(int)<dd>
+This method sets the no steal property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_not_worthy_message"><b>set_not_worthy_message</b></a>(mixed)<dd>
+This sets the message which will be told to the players when
+they sell soemthign that is not worth enough at the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_open_condition"><b>set_open_condition</b></a>(mixed)<dd>
+This sets the conditons which the shop will be open during.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sell_function"><b>set_sell_function</b></a>(mixed)<dd>
+This method sets the function to call when selling something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sell_large"><b>set_sell_large</b></a>(int)<dd>
+This method sets the shop to sell very large objects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sell_message"><b>set_sell_message</b></a>(mixed)<dd>
+This sets the message which will be told to the players when
+they sell something at the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sell_stolen"><b>set_sell_stolen</b></a>(int)<dd>
+This method sets the shop as a place which will receive and
+seel stolen goods.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_shop_type"><b>set_shop_type</b></a>(string)<dd>
+This method sets the type of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_shoplift_response_handler"><b>set_shoplift_response_handler</b></a>(string)<dd>
+This method sets the shop lift response handler for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_steal_difficulty"><b>set_steal_difficulty</b></a>(int)<dd>
+This method sets the difficulty at which to steal stuff from
+this shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_store_room"><b>set_store_room</b></a>(mixed)<dd>
+This method sets the current store room associated with
+the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_strict_currency"><b>set_strict_currency</b></a>(int)<dd>
+This method controls whether or not a shop will accept currency
+from the "default" area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_strict_shop"><b>set_strict_shop</b></a>(int)<dd>
+This method sets the strictness of the shop, if the shop is strict
+it will not deal in items of other types at all.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_too_costly_function"><b>set_too_costly_function</b></a>(mixed)<dd>
+This method sets the function to call when buying something and it
+costs too much.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_too_costly_message"><b>set_too_costly_message</b></a>(mixed)<dd>
+This sets the message which will be told to the players when
+they buy something at the shop and it costs too much.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_up_return"><b>set_up_return</b></a>(object)<dd>
+This method sets up the rep to return home.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_value_function"><b>set_value_function</b></a>(mixed)<dd>
+This method sets the function to call when an item(*s) are being
+valued.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_value_message"><b>set_value_message</b></a>(mixed)<dd>
+This sets the message which will be told to the players when
+they value something at the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#shop_list"><b>shop_list</b></a>(mixed, int)<dd>
+This method creates the list  for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#shop_parse"><b>shop_parse</b></a>(string, mixed, object, string, string, string)<dd>
+This is a minature version of do_parse(), which can be used when you
+set the money array to a function pointer in order to make message
+processing go smoother.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#shoplift_success"><b>shoplift_success</b></a>(object)<dd>
+This method turns the objects into real objects (if that is
+nessessary, it is not with a normal shop).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#summon_guards"><b>summon_guards</b></a>(object)<dd>
+This method is yused to handle guards to protect the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#tidy_inventory"><b>tidy_inventory</b></a>()<dd>
+This method is used by the shop to tidyup its inventory.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_other_shop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_other_shop</b></a><pre>
+void add_other_shop(mixed shop)
+</pre><dd>
+This method adds a shop with shich we will exchange inventories
+of certain types.  So the main shop can sell off its swords and
+stuff to the sword shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>shop - the other shop
+
+</dl>
+
+<dt><a name="create_mercenary">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_mercenary</b></a><pre>
+object create_mercenary(object rep)
+</pre><dd>
+This method creates a mercenaries to wander along with the
+sales rep to get the stuff to the destination.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>rep - the representative to protect
+<dt><b>Returns:</b>
+<dd>the new mercenary
+
+</dl>
+
+<dt><a name="create_rep">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_rep</b></a><pre>
+object create_rep()
+</pre><dd>
+This method creates the sales representative which is sent off
+to exchange goods with other shops.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the sales representative
+<dt><b>See also:</b>
+<dd><a href="#add_other_shop">add_other_shop()</a> and <a href="#send_out_reps">send_out_reps()
+</a></dl>
+
+<dt><a name="creator_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>creator_object</b></a><pre>
+int creator_object(object ob)
+</pre><dd>
+This method determines whether or not a given object is a creator object
+and should be in this shop or not. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to check
+<dt><b>Returns:</b>
+<dd>1 if the object is not allowed, 0 if it is.
+
+</dl>
+
+<dt><a name="do_browse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_browse</b></a><pre>
+int do_browse(object * obs)
+</pre><dd>
+This method is called when the player is browseing stuff.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects to browse
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_buy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_buy</b></a><pre>
+int do_buy(object * obs)
+</pre>
+<dt><a name="do_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list</b></a><pre>
+int do_list()
+</pre><dd>
+This method lists all the objects in stock.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dt><b>Returns:</b>
+<dd>1 on succes, 0 on failure
+</dl>
+
+<dt><a name="do_list_these">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_these</b></a><pre>
+int do_list_these(object * obs)
+</pre><dd>
+This method lists only the specified objects<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#do_list">do_list()
+</a></dl>
+
+<dt><a name="do_parse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_parse</b></a><pre>
+void do_parse(mixed arr,
+object * ob,
+object client,
+string money,
+string extra)
+</pre><dd>
+This method is the major message processing function for
+the buye messages, sell messages etc.  It handles calling
+the functions and setting the results back onto the
+player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arr - the value of the message
+<dd>ob - the objects to process
+<dd>money - the money string
+<dd>extra - the extra string
+
+</dl>
+
+<dt><a name="do_rep_buy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_rep_buy</b></a><pre>
+void do_rep_buy(mixed * bing)
+</pre><dd>
+This method is called when the rep tries to buy stuff.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bing - the stuff to buy
+
+</dl>
+
+<dt><a name="do_sell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_sell</b></a><pre>
+int do_sell(object * in_obs)
+</pre><dd>
+This method does the actual selling.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>in_obs - the objects to sell
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_value</b></a><pre>
+int do_value(object * obs)
+</pre><dd>
+This method is called when the player is valueing stuff.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects to value
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="event_shoplift">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_shoplift</b></a><pre>
+void event_shoplift(object command_ob,
+object thief,
+object victim)
+</pre><dd>
+This method is called when a shop lift is done on the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>command_ob - the command object
+<dd>thief - the theif doing the shop lifting
+<dd>victim - the victim of the shoplifiting, us I guess :)
+<dt><b>See also:</b>
+<dd><a href="#event_shoplift">event_shoplift()</a> and <a href="#set_shoplift_handler">set_shoplift_handler()
+</a></dl>
+
+<dt><a name="query_browse_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_browse_mess</b></a><pre>
+mixed query_browse_mess()
+</pre><dd>
+This method returns the current browse message of the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current browse message of the shop
+
+<dt><b>See also:</b>
+<dd><a href="#set_browse_mess">set_browse_mess()</a></dl>
+
+<dt><a name="query_buy_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_buy_mess</b></a><pre>
+mixed query_buy_mess()
+</pre><dd>
+This method returns the current buy message of the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current buy message of the shop
+
+<dt><b>See also:</b>
+<dd><a href="#set_buy_mess">set_buy_mess()</a></dl>
+
+<dt><a name="query_list_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_list_mess</b></a><pre>
+mixed query_list_mess()
+</pre><dd>
+This method returns the current list message of the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current list message of the shop
+
+<dt><b>See also:</b>
+<dd><a href="#set_list_mess">set_list_mess()</a></dl>
+
+<dt><a name="query_max_amount">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_amount</b></a><pre>
+int query_max_amount()
+</pre><dd>
+This method returns the maximum value oif an object that can
+be sold here.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maximum amount
+<dt><b>See also:</b>
+<dd><a href="#query_min_amount">query_min_amount()</a> and /obj/handlers/money_handler.c
+</dl>
+
+<dt><a name="query_min_amount">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_min_amount</b></a><pre>
+int query_min_amount()
+</pre><dd>
+This method returns the minimum value oif an object that can
+be sold here.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the minimum amount
+<dt><b>See also:</b>
+<dd><a href="#query_max_amount">query_max_amount()</a> and /obj/handlers/money_handler.c
+</dl>
+
+<dt><a name="query_no_steal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_no_steal</b></a><pre>
+int query_no_steal()
+</pre><dd>
+This method returns the current no steal property.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current no steal properyt of the shop
+
+<dt><b>See also:</b>
+<dd><a href="#set_no_steal_mess">set_no_steal_mess()</a></dl>
+
+<dt><a name="query_not_worthy_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_not_worthy_mess</b></a><pre>
+mixed query_not_worthy_mess()
+</pre><dd>
+This method returns the current not worthy message of the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current not worthy message of the shop
+
+<dt><b>See also:</b>
+<dd><a href="#set_not worthy_mess">set_not worthy_mess()</a></dl>
+
+<dt><a name="query_sell_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sell_mess</b></a><pre>
+mixed query_sell_mess()
+</pre><dd>
+This method returns the current sell message of the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current sell message of the shop
+
+<dt><b>See also:</b>
+<dd><a href="#set_sell_mess">set_sell_mess()</a></dl>
+
+<dt><a name="query_shop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shop</b></a><pre>
+int query_shop()
+</pre><dd>
+This method tells us if the shop is really a shop or not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 always
+
+</dl>
+
+<dt><a name="query_shop_lift_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shop_lift_items</b></a><pre>
+object * query_shop_lift_items(string str,
+object player)
+</pre><dd>
+This method returns the items which can potentially be shop lifted
+with the passed in string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name for the object to attempt to shop lift
+<dt><b>Returns:</b>
+<dd>the array of matching objects
+<dt><b>See also:</b>
+<dd><a href="#query_steal_difficulty">query_steal_difficulty()</a> and <a href="#query_shoplift_response_handler">query_shoplift_response_handler()
+</a></dl>
+
+<dt><a name="query_shop_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shop_type</b></a><pre>
+string query_shop_type()
+</pre><dd>
+This method returns the type of the shop.  This conttrols what sort
+of merchandise the shop will buy and sell.
+<p>The types of allowed shops are:
+<ul>
+<li>  jewelery
+<li>  armoury
+<li>  clothes
+<li>  magic
+<li>  none set (ie: 0, general type)
+</ul><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the shop type
+<dt><b>See also:</b>
+<dd><a href="#set_shop_type">set_shop_type()</a> and <a href="#set_strict_shop">set_strict_shop()
+</a></dl>
+
+<dt><a name="query_shoplift_response_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shoplift_response_handler</b></a><pre>
+string query_shoplift_response_handler()
+</pre><dd>
+This method returns the shop lift response handler for the shop.
+This allows the shop to respond in someway to someone shop
+lifting stuff, like the heavys in Ankh-Morpork.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_shoplift_response_handler">set_shoplift_response_handler()</a>, <a href="#set_no_steal">set_no_steal()</a>, <a href="#set_sell_stolen">set_sell_stolen()</a> and <a href="#set_steal_difficulty">set_steal_difficulty()
+</a></dl>
+
+<dt><a name="query_steal_difficulty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_steal_difficulty</b></a><pre>
+int query_steal_difficulty(int i)
+</pre><dd>
+This method returns the current steal difficulty of the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current steal difficulty message of the shop
+
+<dt><b>See also:</b>
+<dd><a href="#set_steal_difficulty_mess">set_steal_difficulty_mess()</a></dl>
+
+<dt><a name="query_stock">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stock</b></a><pre>
+object * query_stock(string type)
+</pre><dd>
+This method returns alkl the stock in the shop of various
+types.  The types are:
+<ul>
+<li>  jewelery
+<li>  armoury
+<li>  clothes
+<li>  magic
+<li>  none set (ie: 0, general type)
+</ul><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of stock to return
+<dt><b>Returns:</b>
+<dd>the array of objects of the type
+
+</dl>
+
+<dt><a name="query_store_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_store_room</b></a><pre>
+object query_store_room()
+</pre><dd>
+This method returns the storeroom associated with the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current store room
+
+<dt><b>See also:</b>
+<dd><a href="#set_store_room">set_store_room()</a></dl>
+
+<dt><a name="query_strict_currency">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_strict_currency</b></a><pre>
+int query_strict_currency()
+</pre><dd>
+This returns the value of the strict currency variable.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 if default currency is accepted, 1 if it is not.
+
+</dl>
+
+<dt><a name="query_strict_shop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_strict_shop</b></a><pre>
+int query_strict_shop()
+</pre><dd>
+This method returns the structness of the shop, if the shop is strict
+it will not deal in items of other types at all.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current strict value
+<dt><b>See also:</b>
+<dd><a href="#set_shop_type">set_shop_type()</a> and <a href="#set_strict_shop">set_strict_shop()
+</a></dl>
+
+<dt><a name="query_too_costly_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_too_costly_mess</b></a><pre>
+mixed query_too_costly_mess()
+</pre><dd>
+This method returns the current too costly message of the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current too costly message of the shop
+
+<dt><b>See also:</b>
+<dd><a href="#set_too costly_mess">set_too costly_mess()</a></dl>
+
+<dt><a name="query_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value</b></a><pre>
+varargs int query_value(object thing,
+int sell)
+</pre><dd>
+This method returns the value of the object in this shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing to value
+<dd>sell - are we selling it?
+<dt><b>Returns:</b>
+<dd>the value of the object here
+<dt><b>See also:</b>
+<dd><a href="#query_max_amount">query_max_amount()</a> and <a href="#query_min_amount">query_min_amount()
+</a></dl>
+
+<dt><a name="query_value_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value_mess</b></a><pre>
+mixed query_value_mess()
+</pre><dd>
+This method returns the current value message of the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current value message of the shop
+
+<dt><b>See also:</b>
+<dd><a href="#set_value_mess">set_value_mess()</a></dl>
+
+<dt><a name="rep_came_back">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rep_came_back</b></a><pre>
+void rep_came_back()
+</pre><dd>
+This method is called when the rep gets back home.
+<p>
+
+<dt><a name="rep_made_it">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rep_made_it</b></a><pre>
+void rep_made_it(int bing)
+</pre><dd>
+This method is called onces the representative
+reaches its destination.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bing - we mkde it ok
+
+</dl>
+
+<dt><a name="scaled_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>scaled_value</b></a><pre>
+int scaled_value(int n)
+</pre><dd>
+This returns the amount of money you can sell and object for
+which is less than the amount it will be sold for).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>n - the value to scale
+<dt><b>Returns:</b>
+<dd>the sell value
+
+</dl>
+
+<dt><a name="send_out_reps">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>send_out_reps</b></a><pre>
+void send_out_reps()
+</pre><dd>
+This method checks to see if there are any other shops
+associated with ours and sends out representatives to them
+to exchange goods.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#create_rep">create_rep()</a> and <a href="#add_other_shop">add_other_shop()
+</a></dl>
+
+<dt><a name="set_browse_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_browse_function</b></a><pre>
+void set_browse_function(mixed func)
+</pre><dd>
+This method sets the function to call when browsing something.  The
+function will be called with two elements, the first being the
+player doing the browsing and the second being the array
+of objects being browsed.
+<p>
+If the function is a string then the function of that name
+will be called on the shop, if it is a function pointer
+then the function pointer will be evaluated.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to call
+<dt><b>See also:</b>
+<dd><a href="#set_sell_function">set_sell_function()</a>, <a href="#set_value_function">set_value_function()</a>, <a href="#set_too_costly_function">set_too_costly_function()</a>, <a href="#set_cannot_sell_function">set_cannot_sell_function() </a>, <a href="#set_browse_function">set_browse_function()</a> and <a href="#set_list_function">set_list_function()
+</a></dl>
+
+<dt><a name="set_browse_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_browse_message</b></a><pre>
+void set_browse_message(mixed str)
+</pre><dd>
+This sets the message which will be told to the players when
+they browse something at the shop.  If the parameter is a string
+then that message is sent to the player and nothing is sent to
+the other people in the room.  If the message is a two element
+array, the first element is sent to the player and the second
+element is sent to the others in the room.  In both these
+cases the pattersn $ob$ will be replaces with the objects
+being sold, $client$ will be replaced with the client, $money$
+will be replaced with the money information, $extra$ will be replaces
+with any extra information.  In the case oif a browse the
+extra information is the long description of the object.
+<p>
+If the parameter is a function pointer, then this is called with
+the parameter func(obs, client, money, extra);<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the message to print
+<dt><b>See also:</b>
+<dd><a href="#set_buy_message">set_buy_message()</a>, <a href="#query_browse_message">query_browse_message()</a>, <a href="#set_set_value_message">set_set_value_message()</a>, <a href="#set_too_costly_message">set_too_costly_message()</a>, <a href="#set_no_worthy_message">set_no_worthy_message()</a>, <a href="#set_sell_message">set_sell_message() </a> and <a href="#set_list_message">set_list_message()</a><dt><b>Example:</b>
+<dd><pre>set_browse_message("$ob$ costs $money$, it looks like:\n$extra$");</pre><dd><pre>
+set_browse_message( ({ "$ob$ costs $money$, it looks like:\n$extra$",
+                     "$client$ browses $ob$.\n"});
+</pre></dl>
+
+<dt><a name="set_buy_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_buy_function</b></a><pre>
+void set_buy_function(mixed func)
+</pre><dd>
+This method sets the function to call when buying something.  The
+function will be called with two elements, the first being the
+player doing the buying and the second being the array
+of objects being bought.
+<p>
+If the function is a string then the function of that name
+will be called on the shop, if it is a function pointer
+then the function pointer will be evaluated.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to call
+<dt><b>See also:</b>
+<dd><a href="#set_sell_function">set_sell_function()</a>, <a href="#set_value_function">set_value_function()</a>, <a href="#set_too_costly_function">set_too_costly_function()</a>, <a href="#set_cannot_sell_function">set_cannot_sell_function() </a>, <a href="#set_browse_function">set_browse_function()</a> and <a href="#set_list_function">set_list_function()
+</a></dl>
+
+<dt><a name="set_buy_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_buy_message</b></a><pre>
+void set_buy_message(mixed str)
+</pre><dd>
+This sets the message which will be told to the players when
+they buy something at the shop.  If the parameter is a string
+then that message is sent to the player and nothing is sent to
+the other people in the room.  If the message is a two element
+array, the first element is sent to the player and the second
+element is sent to the others in the room.  In both these
+cases the pattersn $ob$ will be replaces with the objects
+being sold, $client$ will be replaced with the client, $money$
+will be replaced with the money information, $extra$ will be replaces
+with any extra information.
+<p>
+If the parameter is a function pointer, then this is called with
+the parameter func(obs, client, money, extra);<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the message to print
+<dt><b>See also:</b>
+<dd><a href="#set_sell_message">set_sell_message()</a>, <a href="#query_buy_message">query_buy_message()</a>, <a href="#set_set_value_message">set_set_value_message()</a>, <a href="#set_too_costly_message">set_too_costly_message()</a>, <a href="#set_no_worthy_message">set_no_worthy_message()</a>, <a href="#set_browse_message">set_browse_message() </a> and <a href="#set_list_message">set_list_message()</a><dt><b>Example:</b>
+<dd><pre>set_buy_message("You buy $ob$ for $money$.\n");</pre><dd><pre>
+set_buy_message( ({ "You buy $ob$ for $money$.\n",
+                     "$client$ buys $ob$.\n"});
+</pre></dl>
+
+<dt><a name="set_cannot_sell_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_cannot_sell_function</b></a><pre>
+void set_cannot_sell_function(mixed func)
+</pre><dd>
+This method sets the function to call when selling something
+which fails for some reason.  The
+function will be called with two elements, the first being the
+player doing the selling and the second being the array
+of objects being sold.
+<p>
+If the function is a string then the function of that name
+will be called on the shop, if it is a function pointer
+then the function pointer will be evaluated.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to call
+<dt><b>See also:</b>
+<dd><a href="#set_sell_function">set_sell_function()</a>, <a href="#set_value_function">set_value_function()</a>, <a href="#set_too_costly_function">set_too_costly_function()</a>, <a href="#set_buy_function">set_buy_function() </a>, <a href="#set_browse_function">set_browse_function()</a> and <a href="#set_list_function">set_list_function()
+</a></dl>
+
+<dt><a name="set_list_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_list_function</b></a><pre>
+void set_list_function(mixed func)
+</pre><dd>
+This method sets the function to call when listing something.  The
+function will be called with two elements, the first being the
+player doing the listing and the second being the array
+of objects being listed.
+<p>
+If the function is a string then the function of that name
+will be called on the shop, if it is a function pointer
+then the function pointer will be evaluated.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to call
+<dt><b>See also:</b>
+<dd><a href="#set_sell_function">set_sell_function()</a>, <a href="#set_value_function">set_value_function()</a>, <a href="#set_too_costly_function">set_too_costly_function()</a>, <a href="#set_cannot_sell_function">set_cannot_sell_function() </a>, <a href="#set_browse_function">set_browse_function()</a> and <a href="#set_list_function">set_list_function()
+</a></dl>
+
+<dt><a name="set_list_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_list_message</b></a><pre>
+void set_list_message(mixed str)
+</pre><dd>
+This sets the message which will be told to the players when
+they list something at the shop.  If the parameter is a string
+then that message is sent to the player and nothing is sent to
+the other people in the room.  If the message is a two element
+array, the first element is sent to the player and the second
+element is sent to the others in the room.  In both these
+cases the pattersn $ob$ will be replaces with the objects
+being sold, $client$ will be replaced with the client, $money$
+will be replaced with the money information, $extra$ will be replaces
+with any extra information.  In the case of a list,
+the extra information *is* the list.
+<p>
+If the parameter is a function pointer, then this is called with
+the parameter func(obs, client, money, extra);<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the message to print
+<dt><b>See also:</b>
+<dd><a href="#set_buy_message">set_buy_message()</a>, <a href="#query_buy_message">query_buy_message()</a>, <a href="#set_set_value_message">set_set_value_message()</a>, <a href="#set_too_costly_message">set_too_costly_message()</a>, <a href="#set_no_worthy_message">set_no_worthy_message()</a>, <a href="#set_browse_message">set_browse_message() </a> and <a href="#set_list_message">set_list_message()</a><dt><b>Example:</b>
+<dd><pre>set_list_message("$extra$.\n");</pre><dd><pre>
+set_list_message( ({ "You list $ob$ for $money$.\n",
+                     "$client$ lists $ob$.\n"});
+</pre></dl>
+
+<dt><a name="set_max_inventory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_inventory</b></a><pre>
+void set_max_inventory(int i)
+</pre><dd>
+This method sets the maximum number of inventory items this shop will
+take before it starts to refuse to purchase items from players and
+deleting items from its inventory.
+The default for this is defined as MAX_INVENTORY in shop.h
+<p>
+
+<dt><a name="set_min_amount">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_min_amount</b></a><pre>
+void set_min_amount(int i)
+</pre><dd>
+This method sets the minimum value of items that can be sold here.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_min_amount">query_min_amount()
+</a></dl>
+
+<dt><a name="set_no_steal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_steal</b></a><pre>
+void set_no_steal(int i)
+</pre><dd>
+This method sets the no steal property.  If a shop is set
+as no steal, then it cannot be shoplifted.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new value of the no_steal property
+<dt><b>See also:</b>
+<dd><a href="#set_steal_difficulty">set_steal_difficulty()</a>, <a href="#query_no_steal">query_no_steal()</a> and <a href="#set_sell_stolen">set_sell_stolen()
+</a></dl>
+
+<dt><a name="set_not_worthy_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_not_worthy_message</b></a><pre>
+void set_not_worthy_message(mixed str)
+</pre><dd>
+This sets the message which will be told to the players when
+they sell soemthign that is not worth enough at the shop. 
+If the parameter is a string
+then that message is sent to the player and nothing is sent to
+the other people in the room.  If the message is a two element
+array, the first element is sent to the player and the second
+element is sent to the others in the room.  In both these
+cases the pattersn $ob$ will be replaces with the objects
+being sold, $client$ will be replaced with the client, $money$
+will be replaced with the money information, $extra$ will be replaces
+with any extra information.
+<p>
+If the parameter is a function pointer, then this is called with
+the parameter func(obs, client, money, extra);<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the message to print
+<dt><b>See also:</b>
+<dd><a href="#set_buy_message">set_buy_message()</a>, <a href="#query_not_worthy_message">query_not_worthy_message()</a>, <a href="#set_set_value_message">set_set_value_message()</a>, <a href="#set_too_costly_message">set_too_costly_message()</a>, <a href="#set_browse_message">set_browse_message()</a>, <a href="#set_sell_message">set_sell_message() </a> and <a href="#set_list_message">set_list_message()</a><dt><b>Example:</b>
+<dd><pre>set_not_worthy_message("$ob$ is not worth enough to be sold here.\n");</pre><dd><pre>
+set_not_worthy_message( ({ "$ob$ is not worth enough to be sold here.\n",
+                     "$client$ tries to sell the rubbishy $ob$.\n"});
+</pre></dl>
+
+<dt><a name="set_open_condition">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_open_condition</b></a><pre>
+void set_open_condition(mixed str)
+</pre><dd>
+This sets the conditons which the shop will be open during.  If this
+is set to an integer the shop will always be in that state, so
+if you set the open condition to 0, it would always be closed.
+If it is set to a string, then that function will be called on
+this object to test to see if it is open.  If it iset to 
+function pointer, the function pointer will be evaluated.  If it
+is set to an array, the first element specifies the object and the
+second specifies the function to call.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_open_condition">query_open_condition()</a> and <a href="#is_open">is_open()
+</a></dl>
+
+<dt><a name="set_sell_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sell_function</b></a><pre>
+void set_sell_function(mixed func)
+</pre><dd>
+This method sets the function to call when selling something.  The
+function will be called with two elements, the first being the
+player doing the selling and the second being the array
+of objects being sold.
+<p>
+If the function is a string then the function of that name
+will be called on the shop, if it is a function pointer
+then the function pointer will be evaluated.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to call
+<dt><b>See also:</b>
+<dd><a href="#set_buy_function">set_buy_function()</a>, <a href="#set_value_function">set_value_function()</a>, <a href="#set_too_costly_function">set_too_costly_function()</a>, <a href="#set_cannot_sell_function">set_cannot_sell_function() </a>, <a href="#set_browse_function">set_browse_function()</a> and <a href="#set_list_function">set_list_function()
+</a></dl>
+
+<dt><a name="set_sell_large">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sell_large</b></a><pre>
+void set_sell_large(int i)
+</pre><dd>
+This method sets the shop to sell very large objects. ie. If a player
+cannot carry items they are placed in the room for the player rather
+than not being sold to the player.
+<p>
+
+<dt><a name="set_sell_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sell_message</b></a><pre>
+void set_sell_message(mixed str)
+</pre><dd>
+This sets the message which will be told to the players when
+they sell something at the shop.  If the parameter is a string
+then that message is sent to the player and nothing is sent to
+the other people in the room.  If the message is a two element
+array, the first element is sent to the player and the second
+element is sent to the others in the room.  In both these
+cases the pattersn $ob$ will be replaces with the objects
+being sold, $client$ will be replaced with the client, $money$
+will be replaced with the money information, $extra$ will be replaces
+with any extra information.
+<p>
+If the parameter is a function pointer, then this is called with
+the parameter func(obs, client, money, extra);<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the message to print
+<dt><b>See also:</b>
+<dd><a href="#set_buy_message">set_buy_message()</a>, <a href="#query_sell_message">query_sell_message()</a>, <a href="#set_set_value_message">set_set_value_message()</a>, <a href="#set_too_costly_message">set_too_costly_message()</a>, <a href="#set_no_worthy_message">set_no_worthy_message()</a>, <a href="#set_browse_message">set_browse_message() </a> and <a href="#set_list_message">set_list_message()</a><dt><b>Example:</b>
+<dd><pre>set_sell_message("You sell $ob$ for $money$.\n");</pre><dd><pre>
+set_sell_message( ({ "You sell $ob$ for $money$.\n",
+                     "$client$ sells $ob$.\n"});
+</pre></dl>
+
+<dt><a name="set_sell_stolen">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sell_stolen</b></a><pre>
+void set_sell_stolen(int i)
+</pre><dd>
+This method sets the shop as a place which will receive and
+seel stolen goods.  It automaticly sets the no_steal property
+to 1.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new value for the stolen property
+
+<dt><b>See also:</b>
+<dd><a href="#set_no_steal">set_no_steal()</a>, <a href="#set_steal_difficulty">set_steal_difficulty()</a> and <a href="#query_sell_stolen">query_sell_stolen()</a></dl>
+
+<dt><a name="set_shop_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_shop_type</b></a><pre>
+void set_shop_type(string ty)
+</pre><dd>
+This method sets the type of the shop.  This controls what sort of
+mechandise the shop will buy and sell.
+<p>The types of allowed shops are:
+<ul>
+<li>  jewelery
+<li>  armoury
+<li>  clothes
+<li>  magic
+<li>  none set (ie: 0, general type)
+</ul><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ty - the type of the shop
+
+<dt><b>See also:</b>
+<dd><a href="#query_shop_type">query_shop_type()</a> and <a href="#set_strict_shop">set_strict_shop()</a></dl>
+
+<dt><a name="set_shoplift_response_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_shoplift_response_handler</b></a><pre>
+void set_shoplift_response_handler(string word)
+</pre><dd>
+This method sets the shop lift response handler for the shop.
+This allows the shop to respond in someway to shop lifting
+stuff, like the heavies in Ankh-Morpork.  The function
+'handle_shoplift' will be called on the handler when the
+shop lift is attempted.  It will be passed two arguments
+the first is the thief, the second is the room being
+shoplifted.  This can be set to  afucntion pointer
+which will be evaluated and passed in two arguemtns
+when  a shoplift occurs.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the new shop lift response handler
+
+<dt><b>See also:</b>
+<dd><a href="#query_shoplift_response_handler">query_shoplift_response_handler()</a>, <a href="#set_no_steal">set_no_steal()</a>, <a href="#set_sell_stolen">set_sell_stolen()</a> and <a href="#set_steal_difficulty">set_steal_difficulty()</a></dl>
+
+<dt><a name="set_steal_difficulty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_steal_difficulty</b></a><pre>
+void set_steal_difficulty(int i)
+</pre><dd>
+This method sets the difficulty at which to steal stuff from
+this shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new value for the steal difficulty
+
+<dt><b>See also:</b>
+<dd><a href="#set_no_steal">set_no_steal()</a>, <a href="#set_sell_stolen">set_sell_stolen()</a> and <a href="#query_steal_difficulty">query_steal_difficulty()</a></dl>
+
+<dt><a name="set_store_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_store_room</b></a><pre>
+void set_store_room(mixed ob)
+</pre><dd>
+This method sets the current store room associated with
+the shop.  This is important!  A shop needs a storeroom.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the storeroom to set
+<dt><b>Example:</b>
+<dd><pre>set_store_room(PATH+"store_room");
+</pre></dl>
+
+<dt><a name="set_strict_currency">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_strict_currency</b></a><pre>
+void set_strict_currency(int new_strict)
+</pre><dd>
+This method controls whether or not a shop will accept currency
+from the "default" area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_strict - set this to 1 if the shop should only accept currency
+from the current area it is in (determined by the "place" property).
+
+</dl>
+
+<dt><a name="set_strict_shop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_strict_shop</b></a><pre>
+void set_strict_shop(int i)
+</pre><dd>
+This method sets the strictness of the shop, if the shop is strict
+it will not deal in items of other types at all.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new strict value
+<dt><b>See also:</b>
+<dd><a href="#set_shop_type">set_shop_type()</a> and <a href="#query_strict_shop">query_strict_shop()
+</a></dl>
+
+<dt><a name="set_too_costly_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_too_costly_function</b></a><pre>
+void set_too_costly_function(mixed func)
+</pre><dd>
+This method sets the function to call when buying something and it
+costs too much.  The
+function will be called with two elements, the first being the
+player doing the buying and the second being the array
+of objects which cost too much.
+<p>
+If the function is a string then the function of that name
+will be called on the shop, if it is a function pointer
+then the function pointer will be evaluated.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to call
+<dt><b>See also:</b>
+<dd><a href="#set_sell_function">set_sell_function()</a>, <a href="#set_value_function">set_value_function()</a>, <a href="#set_buy_function">set_buy_function()</a>, <a href="#set_cannot_sell_function">set_cannot_sell_function() </a>, <a href="#set_browse_function">set_browse_function()</a> and <a href="#set_list_function">set_list_function()
+</a></dl>
+
+<dt><a name="set_too_costly_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_too_costly_message</b></a><pre>
+void set_too_costly_message(mixed str)
+</pre><dd>
+This sets the message which will be told to the players when
+they buy something at the shop and it costs too much.
+If the parameter is a string
+then that message is sent to the player and nothing is sent to
+the other people in the room.  If the message is a two element
+array, the first element is sent to the player and the second
+element is sent to the others in the room.  In both these
+cases the pattersn $ob$ will be replaces with the objects
+being sold, $client$ will be replaced with the client, $money$
+will be replaced with the money information, $extra$ will be replaces
+with any extra information.
+<p>
+If the parameter is a function pointer, then this is called with
+the parameter func(obs, client, money, extra);<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the message to print
+<dt><b>See also:</b>
+<dd><a href="#set_buy_message">set_buy_message()</a>, <a href="#query_too_costly_message">query_too_costly_message()</a>, <a href="#set_set_value_message">set_set_value_message()</a>, <a href="#set_browse_message">set_browse_message()</a>, <a href="#set_no_worthy_message">set_no_worthy_message()</a>, <a href="#set_sell_message">set_sell_message() </a> and <a href="#set_list_message">set_list_message()</a><dt><b>Example:</b>
+<dd><pre>set_browse_message("$ob$ is worth too much to be sold here.\n");</pre><dd><pre>
+set_browse_message( ({ "$ob$ is worth too much to be sold here.\n",
+                     "$client$ tries to sell the terribly expensive $ob$.\n"});
+</pre></dl>
+
+<dt><a name="set_up_return">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_up_return</b></a><pre>
+void set_up_return(object rep)
+</pre><dd>
+This method sets up the rep to return home.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>rep - the rep to return home
+
+</dl>
+
+<dt><a name="set_value_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_value_function</b></a><pre>
+void set_value_function(mixed func)
+</pre><dd>
+This method sets the function to call when an item(*s) are being
+valued.  The
+function will be called with three elements, the first being the
+player doing the valueing and the second being the array
+of objects being valued and the third being the string
+value of the objects.
+<p>
+If the function is a string then the function of that name
+will be called on the shop, if it is a function pointer
+then the function pointer will be evaluated.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to call
+<dt><b>See also:</b>
+<dd><a href="#set_sell_function">set_sell_function()</a>, <a href="#set_buy_function">set_buy_function()</a>, <a href="#set_too_costly_function">set_too_costly_function()</a>, <a href="#set_cannot_sell_function">set_cannot_sell_function() </a>, <a href="#set_browse_function">set_browse_function()</a> and <a href="#set_list_function">set_list_function()
+</a></dl>
+
+<dt><a name="set_value_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_value_message</b></a><pre>
+void set_value_message(mixed str)
+</pre><dd>
+This sets the message which will be told to the players when
+they value something at the shop.  If the parameter is a string
+then that message is sent to the player and nothing is sent to
+the other people in the room.  If the message is a two element
+array, the first element is sent to the player and the second
+element is sent to the others in the room.  In both these
+cases the pattersn $ob$ will be replaces with the objects
+being sold, $client$ will be replaced with the client, $money$
+will be replaced with the money information, $extra$ will be replaces
+with any extra information.
+<p>
+If the parameter is a function pointer, then this is called with
+the parameter func(obs, client, money, extra);<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the message to print
+<dt><b>See also:</b>
+<dd><a href="#set_buy_message">set_buy_message()</a>, <a href="#query_value_message">query_value_message()</a>, <a href="#set_set_value_message">set_set_value_message()</a>, <a href="#set_too_costly_message">set_too_costly_message()</a>, <a href="#set_no_worthy_message">set_no_worthy_message()</a>, <a href="#set_browse_message">set_browse_message() </a> and <a href="#set_list_message">set_list_message()</a><dt><b>Example:</b>
+<dd><pre>set_value_message("$ob$ is valued at $money$.\n");</pre><dd><pre>
+set_sell_message( ({ "$ob$ is valued at $money$.\n",
+                     "$client$ values $ob$.\n"});
+</pre></dl>
+
+<dt><a name="shop_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shop_list</b></a><pre>
+string shop_list(mixed arr,
+int detail)
+</pre><dd>
+This method creates the list  for the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arr - the array of objecsts to list
+<dd>detail - display them in detail?
+<dt><b>Returns:</b>
+<dd>the string list
+
+</dl>
+
+<dt><a name="shop_parse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shop_parse</b></a><pre>
+string shop_parse(string str,
+mixed ob,
+object client,
+string money,
+string extra,
+string which)
+</pre><dd>
+This is a minature version of do_parse(), which can be used when you
+set the money array to a function pointer in order to make message
+processing go smoother. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the value of the message
+<dd>ob - the objects to process
+<dd>money - the money string
+<dd>extra - the extra string
+<dt><b>Returns:</b>
+<dd>a parsed string
+
+</dl>
+
+<dt><a name="shoplift_success">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shoplift_success</b></a><pre>
+object shoplift_success(object ob)
+</pre><dd>
+This method turns the objects into real objects (if that is
+nessessary, it is not with a normal shop).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to turn into a normal object
+
+</dl>
+
+<dt><a name="summon_guards">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>summon_guards</b></a><pre>
+void summon_guards(object tp)
+</pre><dd>
+This method is yused to handle guards to protect the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>tp - the object which is shop lifting
+<dt><b>See also:</b>
+<dd><a href="#event_shoplift">event_shoplift()</a> and <a href="#set_shoplift_handler">set_shoplift_handler()
+</a></dl>
+
+<dt><a name="tidy_inventory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>tidy_inventory</b></a><pre>
+void tidy_inventory()
+</pre><dd>
+This method is used by the shop to tidyup its inventory.  It does this by
+desting objects at random until it has reduced the inventory to 3/4 of its
+maximum.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 00:15:39 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

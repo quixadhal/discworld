@@ -1,0 +1,66 @@
+.DT
+priest.h
+Disk World autodoc help
+priest.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^BASIC%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^CLASSROOMS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^HEALING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PRAYERS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PRIESTAM%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PRIESTCHARS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PRIESTDJEL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PRIESTINHERITS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PRIESTITEMS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PRIESTKLK%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PRIESTOC%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PRIESTSAVE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PRIESTTSG%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PRIESTUTILS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TSG%^RESET%^
+.EI
+

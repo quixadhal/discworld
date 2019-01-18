@@ -1,0 +1,411 @@
+<html><head><title>File quest_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/quest_handler.c</h2>
+This class keeps track of the current set of quests availabe in the
+game.<p>Written by Furball
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a> and <a href="include.library.h.html">/include/library.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_quest"><b>add_quest</b></a>(string, int, string, string)<dd>
+This method adds a new quest into the system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_quest_status"><b>change_quest_status</b></a>(string)<dd>
+Change the status of a quest from active to inactive
+and vice versa.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_quest"><b>delete_quest</b></a>(string)<dd>
+This method removes the given quest from the system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_quests"><b>load_quests</b></a>()<dd>
+This method reloads the quests from the save file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#print_some_stats"><b>print_some_stats</b></a>()<dd>
+This method prints out a lot of quest stats.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_fame_str"><b>query_fame_str</b></a>(string)<dd>
+This method returns a string associated with the fame level of the
+player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_fame"><b>query_player_fame</b></a>(string)<dd>
+This method returns the fame of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_story"><b>query_player_story</b></a>(string)<dd>
+This method lists the stories for the quests the player has done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_done"><b>query_quest_done</b></a>(string)<dd>
+This method returns the name of the last person to complete the
+quest.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_level"><b>query_quest_level</b></a>(string)<dd>
+This method returns the level of the quest.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_levels"><b>query_quest_levels</b></a>()<dd>
+This method returns the levels of all the quests.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_names"><b>query_quest_names</b></a>()<dd>
+This method returns the names of all the quests.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_status"><b>query_quest_status</b></a>(string)<dd>
+This method returns the status of a quest.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_stories"><b>query_quest_stories</b></a>()<dd>
+This method returns the stories of all the quests.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_story"><b>query_quest_story</b></a>(string)<dd>
+This method returns the story associated with the quest.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_times"><b>query_quest_times</b></a>(string)<dd>
+This method returns the number of times the quest has been
+completed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_title"><b>query_quest_title</b></a>(string)<dd>
+This method returns the title associated with the quest.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_titles"><b>query_quest_titles</b></a>()<dd>
+This method returns the titles of all the quests.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_total_qp"><b>query_total_qp</b></a>()<dd>
+This returns the current total gp for all of the current quests.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#quest_completed"><b>quest_completed</b></a>(string, string, object)<dd>
+This method should be called in the code when a quest is complete.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_quests"><b>save_quests</b></a>()<dd>
+This method saves the current set of quests to the save file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_quest_level"><b>set_quest_level</b></a>(string, int)<dd>
+This method sets the level of the quest.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_quest_story"><b>set_quest_story</b></a>(string, string)<dd>
+This method sets the story associated with the quest.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_quest_title"><b>set_quest_title</b></a>(string, string)<dd>
+This method sets the title associated with the quest.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_quest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_quest</b></a><pre>
+int add_quest(string name,
+int level,
+string title,
+string story)
+</pre><dd>
+This method adds a new quest into the system.  You only need to call
+this ONCE.  The name of the quest must be unique.  The story is
+what can be seen in the players books about the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the quest
+<dd>level - the level of the quest 0-100
+<dd>title - the title for finishing the quest, 0 for none
+<dd>story - the story about the quest
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#delete_quest">delete_quest()</a>, <a href="#query_quest_level">query_quest_level()</a>, <a href="#query_quest_title">query_quest_title()</a> and <a href="#query_quest_story">query_quest_story()
+</a></dl>
+
+<dt><a name="change_quest_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_quest_status</b></a><pre>
+int change_quest_status(string name)
+</pre><dd>
+Change the status of a quest from active to inactive
+and vice versa.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the - name of a quest.
+
+</dl>
+
+<dt><a name="delete_quest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_quest</b></a><pre>
+int delete_quest(string name)
+</pre><dd>
+This method removes the given quest from the system.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+<dt><b>See also:</b>
+<dd>name the name of the quest to remove.c and <a href="#add_quest">add_quest()
+</a></dl>
+
+<dt><a name="load_quests">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_quests</b></a><pre>
+void load_quests()
+</pre><dd>
+This method reloads the quests from the save file.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#save_quests">save_quests()
+</a></dl>
+
+<dt><a name="print_some_stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>print_some_stats</b></a><pre>
+void print_some_stats()
+</pre><dd>
+This method prints out a lot of quest stats. For debugging purpsoes
+only.
+<p>
+
+<dt><a name="query_fame_str">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_fame_str</b></a><pre>
+string query_fame_str(string name)
+</pre><dd>
+This method returns a string associated with the fame level of the
+player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dt><b>Returns:</b>
+<dd>the fame string
+<dt><b>See also:</b>
+<dd><a href="#query_player_fame">query_player_fame()</a> and <a href="#query_player_story">query_player_story()
+</a></dl>
+
+<dt><a name="query_player_fame">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_fame</b></a><pre>
+int query_player_fame(string name)
+</pre><dd>
+This method returns the fame of the player.
+Gets the fame percentage of the player. Quest points / total quest points<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dt><b>Returns:</b>
+<dd>the fame as a percentage (0-100)
+<dt><b>See also:</b>
+<dd><a href="#query_player_story">query_player_story()</a>, <a href="#query_fame_string">query_fame_string()</a> and <a href="#query_total_qp">query_total_qp()
+</a></dl>
+
+<dt><a name="query_player_story">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_story</b></a><pre>
+string * query_player_story(string name)
+</pre><dd>
+This method lists the stories for the quests the player has done.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dt><b>Returns:</b>
+<dd>the story of the player
+<dt><b>See also:</b>
+<dd><a href="#query_fame_string">query_fame_string()</a> and <a href="#query_player_fame">query_player_fame()
+</a></dl>
+
+<dt><a name="query_quest_done">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_done</b></a><pre>
+mixed query_quest_done(string name)
+</pre><dd>
+This method returns the name of the last person to complete the
+quest.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - thre name of the quest
+<dt><b>Returns:</b>
+<dd>the last person to complete the quest
+<dt><b>See also:</b>
+<dd><a href="#quest_completed">quest_completed()</a>, <a href="#add_quest">add_quest()</a> and <a href="#query_quest_times">query_quest_times()
+</a></dl>
+
+<dt><a name="query_quest_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_level</b></a><pre>
+int query_quest_level(string name)
+</pre><dd>
+This method returns the level of the quest.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the quest
+<dt><b>Returns:</b>
+<dd>the level of the quest, -1 on failure
+<dt><b>See also:</b>
+<dd><a href="#add_quest">add_quest()</a> and <a href="#set_quest_level">set_quest_level()
+</a></dl>
+
+<dt><a name="query_quest_levels">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_levels</b></a><pre>
+int * query_quest_levels()
+</pre><dd>
+This method returns the levels of all the quests.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the levels of all the quests
+<dt><b>See also:</b>
+<dd><a href="#add_quest">add_quest()</a> and <a href="#delete_quest">delete_quest()
+</a></dl>
+
+<dt><a name="query_quest_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_names</b></a><pre>
+string * query_quest_names()
+</pre><dd>
+This method returns the names of all the quests.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the names of all the quests
+<dt><b>See also:</b>
+<dd><a href="#add_quest">add_quest()</a> and <a href="#delete_quest">delete_quest()
+</a></dl>
+
+<dt><a name="query_quest_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_status</b></a><pre>
+int query_quest_status(string name)
+</pre><dd>
+This method returns the status of a quest.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the - name of a quest
+<dt><b>Returns:</b>
+<dd>1 for active, 0 for inactive.
+
+</dl>
+
+<dt><a name="query_quest_stories">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_stories</b></a><pre>
+string * query_quest_stories()
+</pre><dd>
+This method returns the stories of all the quests.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the stories of all the quests
+<dt><b>See also:</b>
+<dd><a href="#add_quest">add_quest()</a> and <a href="#delete_quest">delete_quest()
+</a></dl>
+
+<dt><a name="query_quest_story">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_story</b></a><pre>
+string query_quest_story(string name)
+</pre><dd>
+This method returns the story associated with the quest.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - of the quest
+<dt><b>Returns:</b>
+<dd>the story of the quest
+<dt><b>See also:</b>
+<dd><a href="#add_quest">add_quest()</a> and <a href="#set_quest_story">set_quest_story()
+</a></dl>
+
+<dt><a name="query_quest_times">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_times</b></a><pre>
+int query_quest_times(string name)
+</pre><dd>
+This method returns the number of times the quest has been
+completed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - thre name of the quest
+<dt><b>Returns:</b>
+<dd>the number of times completed
+<dt><b>See also:</b>
+<dd><a href="#quest_completed">quest_completed()</a>, <a href="#add_quest">add_quest()</a> and <a href="#query_quest_done">query_quest_done()
+</a></dl>
+
+<dt><a name="query_quest_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_title</b></a><pre>
+string query_quest_title(string name)
+</pre><dd>
+This method returns the title associated with the quest.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - of the quest
+<dt><b>Returns:</b>
+<dd>the title of the quest
+<dt><b>See also:</b>
+<dd><a href="#add_quest">add_quest()</a> and <a href="#set_quest_title">set_quest_title()
+</a></dl>
+
+<dt><a name="query_quest_titles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_titles</b></a><pre>
+string * query_quest_titles()
+</pre><dd>
+This method returns the titles of all the quests.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the titles of all the quests
+<dt><b>See also:</b>
+<dd><a href="#add_quest">add_quest()</a> and <a href="#delete_quest">delete_quest()
+</a></dl>
+
+<dt><a name="query_total_qp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_total_qp</b></a><pre>
+int query_total_qp()
+</pre><dd>
+This returns the current total gp for all of the current quests.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the total gp
+
+</dl>
+
+<dt><a name="quest_completed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>quest_completed</b></a><pre>
+void quest_completed(string name,
+string quest,
+object prev_ob)
+</pre><dd>
+This method should be called in the code when a quest is complete.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - name of the player
+<dd>quest - the quest completed
+<dd>prev_ob - the object which completed the quest
+<dt><b>See also:</b>
+<dd><a href="#add_quest">add_quest()</a> and <a href="#delete_quest">delete_quest()
+</a></dl>
+
+<dt><a name="save_quests">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_quests</b></a><pre>
+void save_quests()
+</pre><dd>
+This method saves the current set of quests to the save file.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#load_quests">load_quests()
+</a></dl>
+
+<dt><a name="set_quest_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_quest_level</b></a><pre>
+int set_quest_level(string name,
+int level)
+</pre><dd>
+This method sets the level of the quest.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the quest
+<dd>level - the level of the quest
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+<dt><b>See also:</b>
+<dd><a href="#add_quest">add_quest()</a> and <a href="#query_quest_level">query_quest_level()
+</a></dl>
+
+<dt><a name="set_quest_story">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_quest_story</b></a><pre>
+int set_quest_story(string name,
+string story)
+</pre><dd>
+This method sets the story associated with the quest.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - of the quest
+<dd>story - the new story of the quest
+<dt><b>See also:</b>
+<dd><a href="#add_quest">add_quest()</a> and <a href="#query_quest_story">query_quest_story()
+</a></dl>
+
+<dt><a name="set_quest_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_quest_title</b></a><pre>
+int set_quest_title(string name,
+string title)
+</pre><dd>
+This method sets the title associated with the quest.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - of the quest
+<dd>title - the new title of the quest
+<dt><b>See also:</b>
+<dd><a href="#add_quest">add_quest()</a> and <a href="#query_quest_title">query_quest_title()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 00:14:17 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

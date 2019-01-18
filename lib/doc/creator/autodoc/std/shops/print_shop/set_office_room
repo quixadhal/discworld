@@ -1,0 +1,40 @@
+.DT
+set_office_room
+Disk World creator help
+set_office_room
+
+.SH Name
+.SP 5 5
+set_office_room -  Sets the office room to which this collection room is associated.
+.EP
+
+.SH Syntax
+.SI 5
+void set_office_room(string room)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^room%^RESET%^ - the new office room
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/print_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Sets the office room to which this collection room is associated.  If
+this is set on a room, you cannot setup print jobs in the room and this
+room specified here is queried for the information about the jobs to
+collect.
+.EP
+
+.SH See also
+.SP 5 5
+query_office_room(), set_no_collection()
+
+.EP
+

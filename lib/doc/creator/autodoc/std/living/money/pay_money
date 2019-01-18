@@ -1,0 +1,40 @@
+.DT
+pay_money
+Disk World creator help
+pay_money
+
+.SH Name
+.SP 5 5
+pay_money -  This method makes the player make a payment.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void pay_money(mixed m_array,
+string where)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^m_array%^RESET%^ - the money to pay
+%^BOLD%^where%^RESET%^ - the money area to make the payment in
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/money.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method makes the player make a payment.  This is used for
+shops and things.
+.EP
+
+.SH See also
+.SP 5 5
+/obj/handlers/money_handler->make_payment()
+
+.EP
+

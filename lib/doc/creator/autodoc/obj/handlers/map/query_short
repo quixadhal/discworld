@@ -1,0 +1,35 @@
+.DT
+query_short
+Disk World creator help
+query_short
+
+.SH Name
+.SP 5 5
+query_short -  This method returns the short description of the room.
+.EP
+
+.SH Syntax
+.SI 5
+string query_short(string room)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^room%^RESET%^ - the room to return the short description of
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the short description of the room.  This will return
+the short description of named cloned objects as well as attempting to
+force the room to load if it is not found in the internal
+cache.
+.EP
+

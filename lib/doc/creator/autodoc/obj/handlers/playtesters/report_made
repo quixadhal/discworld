@@ -1,0 +1,38 @@
+.DT
+report_made
+Disk World creator help
+report_made
+
+.SH Name
+.SP 5 5
+report_made -  This is called when a playtester makes a bug report.
+.EP
+
+.SH Syntax
+.SI 5
+void report_made(string name,
+string type,
+string file,
+string text)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the playtester
+%^BOLD%^type%^RESET%^ - the type of report
+%^BOLD%^file%^RESET%^ - the file the report is on
+%^BOLD%^text%^RESET%^ - the text associated with the report
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playtesters.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is called when a playtester makes a bug report.
+.EP
+

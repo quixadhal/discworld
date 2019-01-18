@@ -1,0 +1,55 @@
+<html><head><title>File title.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/punishments/title.c</h2>
+This is the method for forcing someone to have a title of some sort.
+It allows a range of different titles to be chosen from.
+This punihshment needs to
+be inherited to work correctly.<p>Written by Pinkfish<p>Started Thu Jun 26 14:46:36 PDT 2003
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.inherit.punishment_inherit.c.html">/std/room/inherit/punishment_inherit.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.nomic_system.h.html">/include/nomic_system.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.playtesters.h.html">/include/playtesters.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#choose_timeout"><b>choose_timeout</b></a>(string, string, class nomic_case, string, function, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_titles"><b>query_titles</b></a>()<dd>
+This method returns the list of allowable titles to use for this
+area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_titles"><b>set_titles</b></a>(string *)<dd>
+This method sets the allowable list of titles used for this area.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="choose_timeout">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>choose_timeout</b></a><pre>
+void choose_timeout(string str,
+string area,
+class nomic_case the_case,
+string type,
+function finish,
+string title)
+</pre>
+<dt><a name="query_titles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_titles</b></a><pre>
+string * query_titles()
+</pre><dd>
+This method returns the list of allowable titles to use for this
+area.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of allowable titles
+
+</dl>
+
+<dt><a name="set_titles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_titles</b></a><pre>
+void set_titles(string * titles)
+</pre><dd>
+This method sets the allowable list of titles used for this area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>titles - the list of titles to use
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 10:23:23 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

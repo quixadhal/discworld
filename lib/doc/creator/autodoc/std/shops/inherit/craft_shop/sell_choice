@@ -1,0 +1,38 @@
+.DT
+sell_choice
+Disk World creator help
+sell_choice
+
+.SH Name
+.SP 5 5
+sell_choice -  This method is used when there is a list of object already listed.
+.EP
+
+.SH Syntax
+.SI 5
+void sell_choice(string answer,
+object * sellables,
+string * names)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^choice%^RESET%^ - the selected choice
+%^BOLD%^sellable%^RESET%^ - the array of sellable objects
+%^BOLD%^names%^RESET%^ - the names of choices for name
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/craft_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used when there is a list of object already listed.  It
+will check to see if the choice entered is valid and then use that
+name when selling the object if it is.
+.EP
+

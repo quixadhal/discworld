@@ -1,0 +1,44 @@
+.DT
+set_enchant
+Disk World creator help
+set_enchant
+
+.SH Name
+.SP 5 5
+set_enchant -  Sets the current enchantment level of the room.
+.EP
+
+.SH Syntax
+.SI 5
+int set_enchant(int number)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^number%^RESET%^ - the new enchantment level to set
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Sets the current enchantment level of the room.  The enchanment
+level controls things like what happens when you flip coins and
+some special messages which give wizards some idea about magic
+levels.
+When called from the room itself, it sets a background level of 
+enchantment that don't decay, when called from another object it
+sets the current enchantment which then decays towards the background 
+level.
+.EP
+
+.SH See also
+.SP 5 5
+query_enchant()
+
+.EP
+

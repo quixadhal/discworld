@@ -1,0 +1,44 @@
+.DT
+update_shop
+Disk World creator help
+update_shop
+
+.SH Name
+.SP 5 5
+update_shop -  Update a shop's path.
+.EP
+
+.SH Syntax
+.SI 5
+int update_shop(string short_name,
+string office_path)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^short_name%^RESET%^ - The shop name passed to set_very_short()
+%^BOLD%^office_path%^RESET%^ - The path to the shop's office.
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 if this shop doesn't exists or no such path..EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/player_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Update a shop's path.
+Lords only.
+.EP
+
+.SH See also
+.SP 5 5
+/std/shops/player_shop/office.c
+
+.EP
+

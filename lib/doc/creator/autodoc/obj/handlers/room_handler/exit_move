@@ -1,0 +1,44 @@
+.DT
+exit_move
+Disk World creator help
+exit_move
+
+.SH Name
+.SP 5 5
+exit_move -  This is the main code for moving someone.
+.EP
+
+.SH Syntax
+.SI 5
+int exit_move(string verb,
+string extra,
+mixed special,
+object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^verb%^RESET%^ - the movement verb
+%^BOLD%^extra%^RESET%^ - extra information
+%^BOLD%^special%^RESET%^ - special informaiton
+%^BOLD%^thing%^RESET%^ - the thing to move
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/room_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the main code for moving someone.  The move_thing code above
+should not be called directly.  This code handlers all the followers
+and any other things that need to be handled.
+.EP
+

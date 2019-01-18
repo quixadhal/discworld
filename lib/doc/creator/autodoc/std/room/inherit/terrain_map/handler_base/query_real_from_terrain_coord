@@ -1,0 +1,36 @@
+.DT
+query_real_from_terrain_coord
+Disk World creator help
+query_real_from_terrain_coord
+
+.SH Name
+.SP 5 5
+query_real_from_terrain_coord -  This method returns the real coordinates from the terrain coordinates.
+.EP
+
+.SH Syntax
+.SI 5
+class coord query_real_from_terrain_coord(int x,
+int y,
+int z)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x%^RESET%^ - the x coordinate
+%^BOLD%^y%^RESET%^ - the y coordinate
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the real coordinates from the terrain coordinates.
+For simplicity we always assume the terrain sits at the water level.
+.EP
+

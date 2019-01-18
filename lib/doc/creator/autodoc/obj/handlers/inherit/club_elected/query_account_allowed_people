@@ -1,0 +1,44 @@
+.DT
+query_account_allowed_people
+Disk World creator help
+query_account_allowed_people
+
+.SH Name
+.SP 5 5
+query_account_allowed_people -  This method returns the people which allowed to manipulate the account.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_account_allowed_people(string club_name,
+string account)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^account%^RESET%^ - the name of the account
+.EI
+
+.SH Returns
+.SI 5
+the array of people which can manipulate the account.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the people which allowed to manipulate the
+account.
+.EP
+
+.SH See also
+.SP 5 5
+add_acount_allowed_person(), remove_account_allowed_person()
+
+.EP
+

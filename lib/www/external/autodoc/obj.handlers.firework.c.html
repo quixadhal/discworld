@@ -1,0 +1,94 @@
+<html><head><title>File firework.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/firework.c</h2>
+This handler helps control the fireworks used in the wizards spells.
+<hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_firework_running"><b>firework_running</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_effects"><b>do_effects</b></a>()<dd>
+This method broadcasts the actual firework messages.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_effects"><b>query_effects</b></a>()<dd>
+This method returns the list of fireworks currently available.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#random_firework"><b>random_firework</b></a>(object, string)<dd>
+This method creates a random firework at the casters location from the
+current list of fireworks.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_effects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_effects</b></a><pre>
+mixed * query_effects()
+</pre><dd>
+This method returns the list of fireworks currently available.
+The list constists of an array of firework effects.  Each effect
+consists of a list of strings.  The strings are printed one by
+one with a delay between each. <br>
+ie:
+<pre>
+({
+  ({
+     mess1,
+     mess2,
+     ...
+   }),
+  ({
+     /* Second effect */
+   })
+});
+</pre><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the effects array
+
+</dl>
+
+<dt><a name="random_firework">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>random_firework</b></a><pre>
+varargs void random_firework(object caster,
+string text)
+</pre><dd>
+This method creates a random firework at the casters location from the
+current list of fireworks.  If the text field is not filled in then
+the casters name is used.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>caster - the caster of the spell
+<dd>text - the text to print in the firework
+<dt><b>See also:</b>
+<dd><a href="#do_effect">do_effect()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="do_effects">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_effects</b></a><pre>
+void do_effects()
+</pre><dd>
+This method broadcasts the actual firework messages.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#random_firework">random_firework()
+</a></dl>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_firework_running">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>firework_running</b></a><pre>
+class firework_running {
+string * messages;
+int index;
+string caster;
+string text;
+int * co_ord;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 18:23:37 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

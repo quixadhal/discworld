@@ -1,0 +1,47 @@
+.DT
+update_cache
+Disk World creator help
+update_cache
+
+.SH Name
+.SP 5 5
+update_cache -  This method goes through the cahce on the directory and removes all the current references to the directory.
+.EP
+
+.SH Syntax
+.SI 5
+void update_cache(string directory,
+int load)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^directory%^RESET%^ - the directory to update
+%^BOLD%^load%^RESET%^ - should we force this to reload
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method goes through the cahce on the directory and
+removes all the current references to the directory.  If the
+load parameter is non-zero then the directory is forced to
+be reloaded even if it already exists.  If this parameter is
+not set then the directory will only be loaded if it is not
+already in the cache.
+
+
+This method uses the functions in the map helper to set the values in all the internal variables. It also swaps the specified directory onto the end of the cache list, so it will be removed later.
+.EP
+
+.SH See also
+.SP 5 5
+clear_cache(), /obj/handlers/map_helper.c
+
+.EP
+

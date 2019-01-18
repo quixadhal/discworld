@@ -1,0 +1,42 @@
+.DT
+add_attack
+Disk World creator help
+add_attack
+
+.SH Name
+.SP 5 5
+add_attack -  This method adds a default attack to the npc.
+.EP
+
+.SH Syntax
+.SI 5
+void add_attack(string attack_name,
+int attack_chance,
+int * attack_data)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^attack_name%^RESET%^ - the name of the attack
+%^BOLD%^attack_chance%^RESET%^ - the chance of the attack occuring
+%^BOLD%^attack_data%^RESET%^ - the damage roll for the attack
+.EI
+
+.SH Defined in
+.SI 5
+/std/races/base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a default attack to the npc.  Please see the
+help on the weapons for more details on this.
+.EP
+
+.SH See also
+.SP 5 5
+query_attacks()
+
+.EP
+

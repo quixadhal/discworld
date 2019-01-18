@@ -1,0 +1,39 @@
+.DT
+query_known_material
+Disk World creator help
+query_known_material
+
+.SH Name
+.SP 5 5
+query_known_material -  Return whether the player knows a particular material.
+.EP
+
+.SH Syntax
+.SI 5
+int query_known_material(string pname,
+string material)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^pname%^RESET%^ - The name of the player.
+%^BOLD%^material%^RESET%^ - The name of the material
+.EI
+
+.SH Returns
+.SI 5
+1 if known 0 if not known.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/cmr_library.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Return whether the player knows a particular material.
+
+.EP
+

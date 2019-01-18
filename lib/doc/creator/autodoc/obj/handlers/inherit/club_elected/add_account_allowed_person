@@ -1,0 +1,41 @@
+.DT
+add_account_allowed_person
+Disk World creator help
+add_account_allowed_person
+
+.SH Name
+.SP 5 5
+add_account_allowed_person -  This method adds a person to the allowed people array.
+.EP
+
+.SH Syntax
+.SI 5
+int add_account_allowed_person(string club_name,
+string account,
+string person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^account%^RESET%^ - the name of the account
+%^BOLD%^person%^RESET%^ - the person to add to the array
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a person to the allowed people array.
+.EP
+
+.SH See also
+.SP 5 5
+remove_acount_allowed_person(), query_account_allowed_person()
+
+.EP
+

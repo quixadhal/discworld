@@ -1,0 +1,217 @@
+<html><head><title>File honours.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/honours.c</h2>
+This room keeps track of the people who have been given the specified
+honoury title and why.  It also makes sure that anyone who logs on
+with the title is allowed to have it.
+<p>
+Don't forget to add the room to the title handler as controlling
+this title.<p>Written by Pinkfish<p>Started Wed Oct 17 13:15:03 PDT 2001
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.player.h.html">/include/player.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_honour"><b>honour</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_to_honour_roll"><b>add_to_honour_roll</b></a>(string, string, string)<dd>
+This method adds a person into the honour role with the specifed
+reason.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_honour_add"><b>do_honour_add</b></a>(string)<dd>
+This allows a person to be added to the honour roll.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_honour_remove"><b>do_honour_remove</b></a>(string, string)<dd>
+This allows a person to be removed from the honour roll.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_honour"><b>do_list_honour</b></a>()<dd>
+List everyone on the honour roll.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#end_honour_add"><b>end_honour_add</b></a>(string, string, string)<dd>
+This is called by the editor when the reason has been set.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#honour_roll_confirm"><b>honour_roll_confirm</b></a>(string, string, string)<dd>
+This is called by the system to confirm the addition.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#inform_of_honour_change"><b>inform_of_honour_change</b></a>(string, string, string, string)<dd>
+This method does any informing about the change in the honour
+status.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_on_honour_roll"><b>is_on_honour_roll</b></a>(string)<dd>
+This method checks to see if the person is on the honour role.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_controlled_titles"><b>query_controlled_titles</b></a>()<dd>
+This method returns the controlled title for the inherit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#readd_all_titles"><b>readd_all_titles</b></a>()<dd>
+A method to go through and specifically readd everyone to the list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_from_honour_roll"><b>remove_from_honour_roll</b></a>(string)<dd>
+This removes the person from the honour role.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_controlled_titles"><b>set_controlled_titles</b></a>(string *)<dd>
+This method sets the title we are to control.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_to_honour_roll">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_to_honour_roll</b></a><pre>
+void add_to_honour_roll(string person,
+string reason,
+string added_by)
+</pre><dd>
+This method adds a person into the honour role with the specifed
+reason.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to honour
+<dd>reason - the reason they were added
+<dd>added_by - the person added by
+
+</dl>
+
+<dt><a name="do_honour_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_honour_add</b></a><pre>
+int do_honour_add(string person)
+</pre><dd>
+This allows a person to be added to the honour roll.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - person to add
+<dd>reason - reason to add them
+
+</dl>
+
+<dt><a name="do_honour_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_honour_remove</b></a><pre>
+int do_honour_remove(string person,
+string reason)
+</pre><dd>
+This allows a person to be removed from the honour roll.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - person to add
+<dd>reason - reason to add them
+
+</dl>
+
+<dt><a name="do_list_honour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_honour</b></a><pre>
+int do_list_honour()
+</pre><dd>
+List everyone on the honour roll.
+<p>
+
+<dt><a name="end_honour_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>end_honour_add</b></a><pre>
+void end_honour_add(string reason,
+string person,
+string bing)
+</pre><dd>
+This is called by the editor when the reason has been set.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>reason - the reason for the addition
+<dd>persno - the person being added
+
+</dl>
+
+<dt><a name="honour_roll_confirm">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>honour_roll_confirm</b></a><pre>
+void honour_roll_confirm(string response,
+string person,
+string reason)
+</pre><dd>
+This is called by the system to confirm the addition.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>reason - the reason for the addition
+<dd>persno - the person being added
+
+</dl>
+
+<dt><a name="inform_of_honour_change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>inform_of_honour_change</b></a><pre>
+void inform_of_honour_change(string type,
+string person,
+string reason,
+string changed_by)
+</pre><dd>
+This method does any informing about the change in the honour
+status.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - add/remove
+<dd>person - the person being added/removed
+<dd>reason - the reason for the addition/removal
+<dd>changed_by - the person who did the change
+
+</dl>
+
+<dt><a name="is_on_honour_roll">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_on_honour_roll</b></a><pre>
+int is_on_honour_roll(string person)
+</pre><dd>
+This method checks to see if the person is on the honour role.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to check
+
+</dl>
+
+<dt><a name="query_controlled_titles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_controlled_titles</b></a><pre>
+string * query_controlled_titles()
+</pre><dd>
+This method returns the controlled title for the inherit.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the controlled title
+
+</dl>
+
+<dt><a name="readd_all_titles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>readd_all_titles</b></a><pre>
+void readd_all_titles()
+</pre><dd>
+A method to go through and specifically readd everyone to the list.
+This helps if something goes wrong and all the titles get lost.
+<p>
+
+<dt><a name="remove_from_honour_roll">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_from_honour_roll</b></a><pre>
+void remove_from_honour_roll(string person)
+</pre><dd>
+This removes the person from the honour role.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to remove
+
+</dl>
+
+<dt><a name="set_controlled_titles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_controlled_titles</b></a><pre>
+void set_controlled_titles(string * title)
+</pre><dd>
+This method sets the title we are to control.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the title to control
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_honour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>honour</b></a><pre>
+class honour {
+int time_added;
+string reason;
+string cap_name;
+string added_by;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 05:42:21 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

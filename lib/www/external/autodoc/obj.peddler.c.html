@@ -7,7 +7,7 @@ sells it. Siel, October 2001
 
 <hr><h2>Inherits</h2>
 This class inherits the following classes <a href="obj.monster.c.html">/obj/monster.c</a> and <a href="std.shops.inherit.clone_on_demand.c.html">/std/shops/inherit/clone_on_demand.c</a><hr><h2>Includes</h2>
-This class includes the following files <a href="include.money.h.html">/include/money.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a>, <a href="include.virtual.h.html">/include/virtual.h</a> and <a href="include.shops.bank.h.html">/include/shops/bank.h</a><hr><h2>Method index</h2>
+This class includes the following files <a href="include.virtual.h.html">/include/virtual.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
 <dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#cost_string"><b>cost_string</b></a>(object, string, object)<dd>
 This method returns the costs of the item as a string.
@@ -76,8 +76,8 @@ These are functions that everyone can access.<p><dl>
 .<dt><a name="cost_string">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cost_string</b></a><pre>
 string cost_string(object thing,
-                   string place,
-                   object buyer)
+string place,
+object buyer)
 </pre><dd>
 This method returns the costs of the item as a string.<p>
 <dd><dl>
@@ -93,9 +93,9 @@ This method returns the costs of the item as a string.<p>
 <dt><a name="do_browse">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_browse</b></a><pre>
 int do_browse(mixed indirect_obs,
-              string dir_match,
-              string indir_match,
-              string * words)
+string dir_match,
+string indir_match,
+string * words)
 </pre><dd>
 The main entrace to the browse for things command.<p>
 <dd><dl>
@@ -107,9 +107,9 @@ The main entrace to the browse for things command.<p>
 <dt><a name="do_buy">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_buy</b></a><pre>
 int do_buy(mixed indirect_obs,
-           string dir_match,
-           string indir_match,
-           string * words)
+string dir_match,
+string indir_match,
+string * words)
 </pre><dd>
 The main entrace to the buy things command.<p>
 <dd><dl>
@@ -132,19 +132,19 @@ The main entrace to the list stuff command.<p>
 <dt><a name="event_enter">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_enter</b></a><pre>
 void event_enter(object ob,
-                 string mess,
-                 object from)
+string mess,
+object from)
 </pre>
 <dt><a name="event_exit">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_exit</b></a><pre>
 void event_exit(object ob,
-                string message,
-                object to)
+string message,
+object to)
 </pre>
 <dt><a name="query_cost">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cost</b></a><pre>
 int query_cost(object thing,
-               object buyer)
+object buyer)
 </pre><dd>
 This method returns the cost of the specified item to the buyer.<p>
 <dd><dl>
@@ -159,7 +159,7 @@ This method returns the cost of the specified item to the buyer.<p>
 <dt><a name="sell_thing">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>sell_thing</b></a><pre>
 void sell_thing(object player,
-                object thing)
+object thing)
 </pre><dd>
 The main entrace to the sell stuff command.<p>
 <dd><dl>
@@ -326,5 +326,5 @@ will be replaced by the item short.
 
 </dl>
 <hr>
-<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 14 Oct 2003 18:16:35 GMT<br>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sun, 01 Apr 2018 20:33:12 GMT<br>
 <hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

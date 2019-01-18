@@ -1,0 +1,55 @@
+.DT
+add_invalid_property
+Disk World creator help
+add_invalid_property
+
+.SH Name
+.SP 5 5
+add_invalid_property -  This function allows a new invalid property to be added to the list of invalid ones.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int add_invalid_property(string property,
+mixed func,
+mixed obj)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^property%^RESET%^ - the property name to be added
+%^BOLD%^func%^RESET%^ - this parameter specifies the name of the function to be 
+called when the property is removed
+%^BOLD%^obj%^RESET%^ - this parameter specifies the path of the object on which func
+is called when the property is removed
+.EI
+
+.SH Returns
+.SI 5
+1 if the property was added as invalid, 0 if it was not..EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/property_tracker.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function allows a new invalid property to be added to the list
+of invalid ones.  The last two parameters are used so that you can
+add a callback if you want to convert a property over to the quest
+handler or whatever. They are optional.
+.EP
+
+.SH Example 1
+.SI 5
+add_invalid_property( "womble frog" )
+.EI
+
+.SH Example 2
+.SI 5
+add_invalid_property( "grave_digger", "convert_property", "/d/sur/Nowhere/chars/isabel" )
+
+.EI
+

@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["query_living_contents":({({"string",}),({({"int",}),"self",}),(["main":({"This method does the inventory of the living objects we all know andlove.  It is used in the long description and the inventory commands.",}),"index":({"inventory",}),"see":({"armour_list()",}),"param":({"self are we showing our own inventory",}),]),}),"query_wearing_hidden":({({"object","*",}),({({"object",}),"looker",({"object","*",}),"things",}),(["main":({"This method returns the items that are hidden by something on top ofthem.",}),"param":({"looker the person looking at the items","things an optional set of things",}),"return":({"the hidden worn types",}),]),}),])
+protected_functions (["query_types_worn":({({"varargs","string","*",}),({({"object","*",}),"things",}),(["main":({"This method returns the list of types of things which are passed intothe array.<p>Two elements in an array is returned, the first element is the list ofall of the different types which are worn and the second is the listof types corresponding to each of the inputs.",}),"see":({"armour_list()",}),"param":({"things the things to check",}),"return":({"a two element array",}),]),}),"armour_list":({({"string",}),({({"object","*",}),"things",({"int",}),"hidden_only",({"int",}),"self",}),(["main":({"This method returns a string list of the armours which the playeris wearing.  It will show also modify the list to show only hiddenitems (items under other items are considered hidden).",}),"see":({"query_types_worn()","query_living_contents()",}),"param":({"things the things to get the list of armours from","hidden_only only show the list of hidden objects",}),]),}),])
+inherits ([])
+main_docs (["main":({"This file contains all the code need to handle the types of carryingwhich npcs tend to involve themselves in.",}),"author":({"Pinkfish",}),])
+define_docs ([])
+includes (["/include/shops/bank.h":1522061544,"/include/money.h":1522061544,"/include/clothing.h":1522061544,])
+class_docs ([])
+file_name "/std/living/carrying.c"
+last_changed 1522061544

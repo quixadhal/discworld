@@ -1,0 +1,122 @@
+.DT
+udp.h
+Disk World autodoc help
+udp.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^MAX_RETRYS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MUDLIST_UDP%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^NAMESERVER_CD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^NETMAIL_D%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PING_A%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PING_Q%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_AFFIRMATION_A%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_BOARD_Q%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_GFINGER_A%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_GFINGER_Q%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_GTELL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_GWIZMSG%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_LOCATE_A%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_LOCATE_Q%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_MAIL_A%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_MAIL_Q%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_MUDLIST_A%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_MUDLIST_Q%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_NO_CONTACT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_PATH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_PING_A%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_PING_Q%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_RWHO_A%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_RWHO_Q%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_SHUTDOWN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_STARTUP%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_SUPPORT_A%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_SUPPORT_Q%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^UDP_WARNING%^RESET%^
+.EI
+

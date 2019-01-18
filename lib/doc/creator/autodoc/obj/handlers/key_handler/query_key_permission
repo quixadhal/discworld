@@ -1,0 +1,46 @@
+.DT
+query_key_permission
+Disk World creator help
+query_key_permission
+
+.SH Name
+.SP 5 5
+query_key_permission -  This method will see if the given key perrmision exists for this key in this particular group and key.
+.EP
+
+.SH Syntax
+.SI 5
+int query_key_permission(string group,
+string key,
+string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^group%^RESET%^ - the key group to look up in
+%^BOLD%^key%^RESET%^ - the key to check
+%^BOLD%^type%^RESET%^ - the permission type to see if it exists
+.EI
+
+.SH Returns
+.SI 5
+1 if the permission exists, 0 if not.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/key_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will see if the given key perrmision exists for this
+key in this particular group and key.
+.EP
+
+.SH See also
+.SP 5 5
+remove_key_permission(), add_key_permission(), set_key_permissions(), query_all_key_permissions(), query_all_keys()
+
+.EP
+

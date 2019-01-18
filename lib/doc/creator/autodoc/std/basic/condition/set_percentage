@@ -1,0 +1,41 @@
+.DT
+set_percentage
+Disk World creator help
+set_percentage
+
+.SH Name
+.SP 5 5
+set_percentage -  This method is used to setup the objects condition.
+.EP
+
+.SH Syntax
+.SI 5
+void set_percentage(int i)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^i%^RESET%^ - the percentage condiion
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/condition.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to setup the objects condition.  Once the maximum
+condition has been set, this is used to set the maximum condition to
+this percentage of the maximum condition.
+It sets the lowest conditon a random value from 70-100% of the
+current condition.
+.EP
+
+.SH See also
+.SP 5 5
+/obj/handlers/armoury.c, set_cond(), set_lowest_cond(), query_max_cond()
+
+.EP
+

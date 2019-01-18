@@ -1,0 +1,42 @@
+.DT
+add_create_rule_motion
+Disk World creator help
+add_create_rule_motion
+
+.SH Name
+.SP 5 5
+add_create_rule_motion -  This method puts a new rule up for voting.
+.EP
+
+.SH Syntax
+.SI 5
+int add_create_rule_motion(string area,
+int type,
+string text,
+string creator)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area for the rule to be voted on in
+%^BOLD%^type%^RESET%^ - the type of the rules
+%^BOLD%^text%^RESET%^ - the text associated with the new rule
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/player_council.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method puts a new rule up for voting.  It is first placed into
+the hands of the magistrates, then into the hands of the players.
+.EP
+

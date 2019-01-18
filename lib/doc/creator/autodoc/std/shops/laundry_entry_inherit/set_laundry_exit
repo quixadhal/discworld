@@ -1,0 +1,47 @@
+.DT
+set_laundry_exit
+Disk World creator help
+set_laundry_exit
+
+.SH Name
+.SP 5 5
+set_laundry_exit -  Used to set the exit from the laundry entrance room into the laundry  itself.
+.EP
+
+.SH Syntax
+.SI 5
+void set_laundry_exit(string direc,
+mixed dest,
+string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^direction%^RESET%^ - The direction of the exit.
+%^BOLD%^dest%^RESET%^ - The destination object. Usually the filename of the destination.
+%^BOLD%^type%^RESET%^ - An exit type as in add_exit.
+.EI
+
+.SH Returns
+.SI 5
+void.EI
+
+.SH Defined in
+.SI 5
+/std/shops/laundry_entry_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Used to set the exit from the laundry entrance room into the laundry 
+itself.
+The parameters are just like those of add_exit.
+.EP
+
+.SH See also
+.SP 5 5
+add_exit
+
+.EP
+

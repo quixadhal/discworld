@@ -1,0 +1,37 @@
+.DT
+mark_read
+Disk World creator help
+mark_read
+
+.SH Name
+.SP 5 5
+mark_read -  This method marks the messages which are not in the unread array in the specified folder as being read.
+.EP
+
+.SH Syntax
+.SI 5
+void mark_read(string pname,
+string fname,
+int * unread)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^pname%^RESET%^ - the player name
+%^BOLD%^fname%^RESET%^ - the folder name
+%^BOLD%^unread%^RESET%^ - the list of messages that are still unread
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/folder_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method marks the messages which are not in the unread array
+in the specified folder as being read.
+.EP
+

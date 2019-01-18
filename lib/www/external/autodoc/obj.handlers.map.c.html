@@ -1,0 +1,710 @@
+<html><head><title>File map.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/map.c</h2>
+This contains information about all the rooms in the mud.  It is used
+by things like the route handler to determine routes between two
+locations.
+<p>
+As coded by Wodan and overhauled by Olorin and overhauled again by Wodan.
+and rewritten by Olorin
+The thing is somehow improving though :)<p>Written by Wodan
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.handlers.inherit.distance_handler.c.html">/obj/handlers/inherit/distance_handler.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.config.h.html">/include/config.h</a> and <a href="include.map_handler.h.html">/include/map_handler.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_changetimes"><b>change_changetimes</b></a>(string, string, int)<dd>
+This method changes the current change time for the room in the
+dirctory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_clusters"><b>change_clusters</b></a>(string, string, int)<dd>
+This method change sthe current cluster for the given room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_co_ords"><b>change_co_ords</b></a>(string, string, int *)<dd>
+This method changes the coordinates of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_map"><b>change_map</b></a>(string, string, string *)<dd>
+This method changes the current values of the map values for the
+specified room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_movezones"><b>change_movezones</b></a>(string, string, string *)<dd>
+This method changes the value of the move zones for the specified
+room and directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_shorts"><b>change_shorts</b></a>(string, string, string)<dd>
+This method changes the short description for the room and directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_sizes"><b>change_sizes</b></a>(string, string, int *)<dd>
+This method changes the currently stored sizes for the room
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_map"><b>check_map</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_save_files"><b>check_save_files</b></a>()<dd>
+This method checks the save files in the directory to check to make
+sure all the rooms still exist in the game.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_cache"><b>clear_cache</b></a>()<dd>
+This method completely clears the cache of all information.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compare_arrays"><b>compare_arrays</b></a>(mixed *, mixed *)<dd>
+This method compares too arrays to see if they are the same.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#del"><b>del</b></a>(string, string)<dd>
+This method deletes a room from the specified directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_room"><b>do_room</b></a>(string)<dd>
+This method will decide if room should be checked, using the checks that
+can be done without loading the room, queue the check of this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cache"><b>query_cache</b></a>()<dd>
+This method returns the current cache stores in the map handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_changetimes"><b>query_changetimes</b></a>(string)<dd>
+This method returns all the change times for the specified directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cluster"><b>query_cluster</b></a>(string)<dd>
+This method returns the cluster number for the specified room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_clusters"><b>query_clusters</b></a>(string)<dd>
+This method returns the current clusters for the specified dir.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_co_ord"><b>query_co_ord</b></a>(string)<dd>
+This method returns the coordinates for the specified room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_co_ords"><b>query_co_ords</b></a>(string)<dd>
+This method returns the coordinates for the specified directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dest_dir"><b>query_dest_dir</b></a>(string)<dd>
+This method returns the destination directory array for the specified
+room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_destination"><b>query_destination</b></a>(string, string)<dd>
+This method returns the destination associated with the exit in the
+room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_known"><b>query_known</b></a>(string)<dd>
+This method returns true if the room is known of to the map handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_map"><b>query_map</b></a>(string)<dd>
+This method attempts to return the map for the current directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_movezones"><b>query_movezones</b></a>(string)<dd>
+This method returns all the move zones for the specified directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_queue"><b>query_queue</b></a>()<dd>
+This method returns the current quere stores in the map handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_size"><b>query_room_size</b></a>(string)<dd>
+This method returns the size of the room, it will attempt to load
+the room if it is not in map handlers current rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_short"><b>query_short</b></a>(string)<dd>
+This method returns the short description of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shorts"><b>query_shorts</b></a>(string)<dd>
+This method will return all the shorts for the specified directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sizes"><b>query_sizes</b></a>(string)<dd>
+This method will return the sizes for all the rooms in the directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_zones"><b>query_zones</b></a>(string)<dd>
+This method returns the move zones for the specified room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#queue_room"><b>queue_room</b></a>(string, int, string)<dd>
+This method will queue the room without doing any tests.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_cluster"><b>set_cluster</b></a>(string, int)<dd>
+This method sets the cluster number for the specified room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_co_ord"><b>set_co_ord</b></a>(string, int *)<dd>
+This method sets the coordinates for the specified room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_stopped"><b>set_stopped</b></a>(int)<dd>
+This method sets the stopped attribute of the map handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#static_query_co_ord"><b>static_query_co_ord</b></a>(string)<dd>
+This method will return the coordinates of the room only using the
+internal map information.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#static_query_short"><b>static_query_short</b></a>(string)<dd>
+This method returns the short description of the room only from
+within the map handlers files.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_room"><b>test_room</b></a>(string)<dd>
+This method tests to see if the specified room exists and is loadable.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_cache"><b>update_cache</b></a>(string, int)<dd>
+This method goes through the cahce on the directory and
+removes all the current references to the directory.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="change_changetimes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_changetimes</b></a><pre>
+void change_changetimes(string dir,
+string room,
+int time)
+</pre><dd>
+This method changes the current change time for the room in the
+dirctory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to change the room in
+<dd>room - the room to change
+<dd>time - the new change time for the room
+<dt><b>See also:</b>
+<dd><a href="#query_changetimes">query_changetimes()
+</a></dl>
+
+<dt><a name="change_clusters">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_clusters</b></a><pre>
+void change_clusters(string dir,
+string room,
+int cluster)
+</pre><dd>
+This method change sthe current cluster for the given room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory in which to change the room
+<dd>room - the room to change the cluster in
+<dd>cluster - the new value for the cluster of the room
+<dt><b>See also:</b>
+<dd><a href="#quert_clusters">quert_clusters()
+</a></dl>
+
+<dt><a name="change_co_ords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_co_ords</b></a><pre>
+void change_co_ords(string dir,
+string room,
+int * coord)
+</pre><dd>
+This method changes the coordinates of the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to change the coordinates in
+<dd>room - the room to change the coordinates for
+<dd>coord - the new coordinates for the room
+
+</dl>
+
+<dt><a name="change_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_map</b></a><pre>
+void change_map(string dir,
+string room,
+string * dd)
+</pre><dd>
+This method changes the current values of the map values for the
+specified room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to change the values in
+<dd>room - the room to change the directory for
+<dd>dd - the array containing the direction, destination pairs
+<dt><b>See also:</b>
+<dd><a href="#query_map">query_map()
+</a></dl>
+
+<dt><a name="change_movezones">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_movezones</b></a><pre>
+void change_movezones(string dir,
+string room,
+string * zones)
+</pre><dd>
+This method changes the value of the move zones for the specified
+room and directory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to change the values in
+<dd>room - the room the change the values in
+<dd>zones - the new set of move zones
+<dt><b>See also:</b>
+<dd><a href="#query_movezones">query_movezones()
+</a></dl>
+
+<dt><a name="change_shorts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_shorts</b></a><pre>
+void change_shorts(string dir,
+string room,
+string sh)
+</pre><dd>
+This method changes the short description for the room and directory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to change the short in
+<dd>room - the room to change the short in
+<dd>sh - the short description for the room
+<dt><b>See also:</b>
+<dd><a href="#query_shorts">query_shorts()
+</a></dl>
+
+<dt><a name="change_sizes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_sizes</b></a><pre>
+void change_sizes(string dir,
+string room,
+int * size)
+</pre><dd>
+This method changes the currently stored sizes for the room<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the direct to change the size in
+<dd>room - the room to change the size in
+<dd>size - the new size for the room
+<dt><b>See also:</b>
+<dd><a href="#query_sizes">query_sizes()
+</a></dl>
+
+<dt><a name="check_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_map</b></a><pre>
+void check_map(string room)
+</pre>
+<dt><a name="check_save_files">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_save_files</b></a><pre>
+void check_save_files()
+</pre><dd>
+This method checks the save files in the directory to check to make
+sure all the rooms still exist in the game.
+<p>
+
+<dt><a name="clear_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_cache</b></a><pre>
+void clear_cache()
+</pre><dd>
+This method completely clears the cache of all information.  This method
+is used for debugging purposes.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#update_cache">update_cache()
+</a></dl>
+
+<dt><a name="compare_arrays">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compare_arrays</b></a><pre>
+int compare_arrays(mixed * ar1,
+mixed * ar2)
+</pre><dd>
+This method compares too arrays to see if they are the same.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ar1 - the first array to compare
+<dd>ar2 - the second array to compare
+
+<dt><b>Returns:</b>
+<dd>1 if they are not the same, 0 if they are
+</dl>
+
+<dt><a name="del">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>del</b></a><pre>
+void del(string dir,
+string room)
+</pre><dd>
+This method deletes a room from the specified directory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to delete the room from
+<dd>room - the room to delete
+
+</dl>
+
+<dt><a name="do_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_room</b></a><pre>
+void do_room(string room)
+</pre><dd>
+This method will decide if room should be checked, using the checks that
+can be done without loading the room, queue the check of this room.
+The callout is to alleviate a problem of too deep recursion errors
+eg. when the room to be checked it loaded because of a command like drag
+This functions should NOT be private, since it's the fundamental interface
+toorooms.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to check
+<dt><b>See also:</b>
+<dd><a href="#queue_room">queue_room()
+</a></dl>
+
+<dt><a name="query_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cache</b></a><pre>
+} string * query_cache()
+</pre><dd>
+This method returns the current cache stores in the map handler.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of directories currently loaded
+<dt><b>See also:</b>
+<dd><a href="#update_cache">update_cache()</a> and <a href="#clear_cache">clear_cache()
+</a></dl>
+
+<dt><a name="query_changetimes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_changetimes</b></a><pre>
+mapping query_changetimes(string dir)
+</pre><dd>
+This method returns all the change times for the specified directory.
+The change times are the time at which the file was last changed.
+This method returns a mapping, the key of the mapping is the
+room and the index of the mapping is the time at which it changed
+(an integer).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the change times for
+<dt><b>Returns:</b>
+<dd>the change times mapping
+<dt><b>See also:</b>
+<dd><a href="#change_changetimes">change_changetimes()
+</a></dl>
+
+<dt><a name="query_cluster">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cluster</b></a><pre>
+int query_cluster(string room)
+</pre><dd>
+This method returns the cluster number for the specified room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to find the cluster for
+<dt><b>Returns:</b>
+<dd>the cluster number for the room
+<dt><b>See also:</b>
+<dd><a href="#set_cluster">set_cluster()
+</a></dl>
+
+<dt><a name="query_clusters">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_clusters</b></a><pre>
+mapping query_clusters(string dir)
+</pre><dd>
+This method returns the current clusters for the specified dir.
+The returned mapping has keys of the room and the values are
+the cluster number.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the clusters for
+<dt><b>Returns:</b>
+<dd>the clusters mapping
+<dt><b>See also:</b>
+<dd><a href="#change_clusters">change_clusters()
+</a></dl>
+
+<dt><a name="query_co_ord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_co_ord</b></a><pre>
+int * query_co_ord(string room)
+</pre><dd>
+This method returns the coordinates for the specified room.  This will
+cause the room to load if possible to extract the coordinates.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room the get the coordinates of
+<dt><b>Returns:</b>
+<dd>the coordinates of the room, 0 on failure
+
+</dl>
+
+<dt><a name="query_co_ords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_co_ords</b></a><pre>
+mapping query_co_ords(string dir)
+</pre><dd>
+This method returns the coordinates for the specified directory.
+The mapping containers keys of the room and the values are the
+coordinates of the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the coordinates for
+<dt><b>Returns:</b>
+<dd>the coordinates mapping
+<dt><b>See also:</b>
+<dd><a href="#change_co_ords">change_co_ords()
+</a></dl>
+
+<dt><a name="query_dest_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dest_dir</b></a><pre>
+string * query_dest_dir(string room)
+</pre><dd>
+This method returns the destination directory array for the specified
+room.  This is equivilant to the method of the same name on /std/room.c
+Returns an array of ({ direction, destination, ... })<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to return the destination direction array for
+<dt><b>Returns:</b>
+<dd>an array of direction, destination pairs
+<dt><b>See also:</b>
+<dd><a href="std.room.c.html#query_dest_dir">/std/room->query_dest_dir()</a> and <a href="#query_destination">query_destination()
+</a></dl>
+
+<dt><a name="query_destination">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_destination</b></a><pre>
+string query_destination(string exit,
+string room)
+</pre><dd>
+This method returns the destination associated with the exit in the
+room. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>exit - the exit in the room to check
+<dd>room - the room in which to check for the exit
+<dt><b>Returns:</b>
+<dd>the destination for the exit
+<dt><b>See also:</b>
+<dd><a href="#query_dest_dir">query_dest_dir()
+</a></dl>
+
+<dt><a name="query_known">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_known</b></a><pre>
+int query_known(string room)
+</pre><dd>
+This method returns true if the room is known of to the map handler.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to test for existance
+<dt><b>Returns:</b>
+<dd>1 if it exists, 0 if it does not
+
+</dl>
+
+<dt><a name="query_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_map</b></a><pre>
+mapping query_map(string dir)
+</pre><dd>
+This method attempts to return the map for the current directory.  This
+returns a mapping which contains an index being the room and the
+indicies are direction, destination pairs.
+<pre>
+([
+   file : ({
+             direction1,
+             destination1,
+             ...
+           }),
+ ])
+</pre><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to load the information for
+<dt><b>Returns:</b>
+<dd>the directions mapping
+<dt><b>See also:</b>
+<dd><a href="#update_cache">update_cache()</a> and <a href="#change_map">change_map()
+</a></dl>
+
+<dt><a name="query_movezones">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_movezones</b></a><pre>
+mapping query_movezones(string dir)
+</pre><dd>
+This method returns all the move zones for the specified directory.
+This method returns a mapping whose keys are the rooms and the
+values are the movezones for that room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the move zones for
+<dt><b>Returns:</b>
+<dd>the movezones mapping
+<dt><b>See also:</b>
+<dd><a href="#change_movezones">change_movezones()
+</a></dl>
+
+<dt><a name="query_queue">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_queue</b></a><pre>
+string * query_queue()
+</pre><dd>
+This method returns the current quere stores in the map handler.  The
+queue is a list of rooms waiting to be processed into the map
+handler.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current queue
+
+</dl>
+
+<dt><a name="query_room_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_size</b></a><pre>
+int * query_room_size(string room)
+</pre><dd>
+This method returns the size of the room, it will attempt to load
+the room if it is not in map handlers current rooms.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to find the size of
+
+</dl>
+
+<dt><a name="query_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_short</b></a><pre>
+string query_short(string room)
+</pre><dd>
+This method returns the short description of the room.  This will return
+the short description of named cloned objects as well as attempting to
+force the room to load if it is not found in the internal
+cache.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to return the short description of
+
+</dl>
+
+<dt><a name="query_shorts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shorts</b></a><pre>
+mapping query_shorts(string dir)
+</pre><dd>
+This method will return all the shorts for the specified directory.
+The mapping returned has keys of the room names and values of the
+short description of the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the shorts for
+<dt><b>Returns:</b>
+<dd>the shorts descriptions mapping
+<dt><b>See also:</b>
+<dd><a href="#change_shorts">change_shorts()
+</a></dl>
+
+<dt><a name="query_sizes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sizes</b></a><pre>
+mapping query_sizes(string dir)
+</pre><dd>
+This method will return the sizes for all the rooms in the directory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the sizes mapping for
+<dt><b>Returns:</b>
+<dd>the sizes mapping
+<dt><b>See also:</b>
+<dd><a href="#change_sizes">change_sizes()
+</a></dl>
+
+<dt><a name="query_zones">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_zones</b></a><pre>
+string * query_zones(string room)
+</pre><dd>
+This method returns the move zones for the specified room.  It will
+load the room if it is not available in the map handlers cache.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to get the zones for
+<dt><b>Returns:</b>
+<dd>the array of move zones for the room
+<dt><b>See also:</b>
+<dd><a href="#query_short">query_short()
+</a></dl>
+
+<dt><a name="queue_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>queue_room</b></a><pre>
+varargs void queue_room(string room,
+int force,
+string reason)
+</pre><dd>
+This method will queue the room without doing any tests.
+This should only be used by people who know what they are doing
+as it bypasses several checks.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to queue
+<dd>force - if it is forced to queue
+<dd>reason - the reason it was queued
+
+</dl>
+
+<dt><a name="set_cluster">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_cluster</b></a><pre>
+void set_cluster(string room,
+int cluster)
+</pre><dd>
+This method sets the cluster number for the specified room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to set the cluster number for
+<dd>cluster - the new cluster number
+<dt><b>See also:</b>
+<dd><a href="#query_cluster">query_cluster()
+</a></dl>
+
+<dt><a name="set_co_ord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_co_ord</b></a><pre>
+void set_co_ord(string room,
+int * coord)
+</pre><dd>
+This method sets the coordinates for the specified room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to set the coordinates for
+<dd>coord - the coordinates to set the room to
+<dt><b>See also:</b>
+<dd><a href="#query_co_ord">query_co_ord()
+</a></dl>
+
+<dt><a name="set_stopped">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_stopped</b></a><pre>
+void set_stopped(int s)
+</pre><dd>
+This method sets the stopped attribute of the map handler.
+If the stopped attribute is non-zero then the map handler will 
+stop processing the currently queued rooms.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the new value of the stopped flag
+
+</dl>
+
+<dt><a name="static_query_co_ord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>static_query_co_ord</b></a><pre>
+int * static_query_co_ord(string room)
+</pre><dd>
+This method will return the coordinates of the room only using the
+internal map information.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to get the coordinates of
+<dt><b>Returns:</b>
+<dd>the coordinates of the room, 0 on failure
+
+</dl>
+
+<dt><a name="static_query_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>static_query_short</b></a><pre>
+string static_query_short(string room)
+</pre><dd>
+This method returns the short description of the room only from
+within the map handlers files.  This will not cause the room
+to load and will not work on cloned file names.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to return the short description of
+<dt><b>See also:</b>
+<dd><a href="#query_short">query_short()
+</a></dl>
+
+<dt><a name="test_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_room</b></a><pre>
+int test_room(string room)
+</pre><dd>
+This method tests to see if the specified room exists and is loadable.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to test for existance
+<dt><b>Returns:</b>
+<dd>1 if it exists and 0 if it does not
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="update_cache">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>update_cache</b></a><pre>
+void update_cache(string directory,
+int load)
+</pre><dd>
+This method goes through the cahce on the directory and
+removes all the current references to the directory.  If the
+load parameter is non-zero then the directory is forced to
+be reloaded even if it already exists.  If this parameter is
+not set then the directory will only be loaded if it is not
+already in the cache.
+<p>
+This method uses the functions in the map helper to set the
+values in all the internal variables.  It also swaps the
+specified directory onto the end of the cache list, so it
+will be removed later.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>directory - the directory to update
+<dd>load - should we force this to reload
+<dt><b>See also:</b>
+<dd><a href="#clear_cache">clear_cache()</a> and /obj/handlers/map_helper.c
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 20:59:21 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

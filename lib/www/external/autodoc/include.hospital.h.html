@@ -1,0 +1,85 @@
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_group_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>group_info</b></a><pre>
+class group_info {
+string * move_zones;
+mapping npcs;
+mapping npc_commands;
+int protect;
+int defend;
+int transient;
+int max_population;
+mixed * storage;
+int no_creates;
+int next_update;
+}
+
+</pre><dd>
+This class stores all the information about an NPC group.
+<p>
+
+<dt><a name="class_npc_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>npc_info</b></a><pre>
+class npc_info {
+string path;
+int unique;
+int delay;
+int transient;
+int nocturnal;
+int diurnal;
+string * seasonal;
+int max_population;
+string * move_zones;
+string * commands;
+object * population;
+int no_deaths;
+int no_created;
+int no_reused;
+int next_update;
+}
+
+</pre><dd>
+This class stores all the information about a particular NPC.
+<p>
+
+<dt><a name="class_regenerated_npc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>regenerated_npc</b></a><pre>
+class regenerated_npc {
+string type;
+string load_position;
+}
+
+</pre><dd>
+This class stores information about a regenerated NPC.<p>
+
+<dt><a name="class_unique_npc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>unique_npc</b></a><pre>
+class unique_npc {
+int next_regen_time;
+}
+
+</pre><dd>
+This class stores all the information about unique NPCs.<p>
+
+<dt><a name="class_zone_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>zone_info</b></a><pre>
+class zone_info {
+int wealth;
+int busy;
+int npc_chance;
+mapping npcs;
+int group_chance;
+mapping groups;
+int zone_chance;
+mapping zones;
+}
+
+</pre><dd>
+This class stores all the information about a zone.<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Fri, 30 Mar 2018 21:44:20 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

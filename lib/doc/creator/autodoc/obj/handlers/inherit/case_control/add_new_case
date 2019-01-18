@@ -1,0 +1,42 @@
+.DT
+add_new_case
+Disk World creator help
+add_new_case
+
+.SH Name
+.SP 5 5
+add_new_case -  This method opens a new case.
+.EP
+
+.SH Syntax
+.SI 5
+int add_new_case(string area,
+string opener,
+string short,
+string * people)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area the case is in
+%^BOLD%^opener%^RESET%^ - the person who opened it
+%^BOLD%^short%^RESET%^ - the short description of the case
+%^BOLD%^people%^RESET%^ - the people involved
+.EI
+
+.SH Returns
+.SI 5
+0 on failure and teh case id on success
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/case_control.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method opens a new case.
+.EP
+

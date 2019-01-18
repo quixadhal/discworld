@@ -1,0 +1,65 @@
+.DT
+query_philosophies
+Disk World creator help
+query_philosophies
+
+.SH Name
+.SP 5 5
+query_philosophies -  This method returns the current set of philosphies available.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_philosophies()
+.EI
+
+.SH Returns
+.SI 5
+a mapping of values.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/philosophies.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current set of philosphies available.
+The mapping consists of the value being the name of the philosphy
+and the value being an array consisting of 5 elements.  You should
+be using this call for anything except debugging purposes.  It
+would create a bad dependancy otherwise.
+
+.EP
+.SP 5 5
+name : ({
+.EP
+.SP 5 5
+      [string]  type (i.e. type.points is used),
+.EP
+.SP 5 5
+      [int]     bonus (i.e. bonus in type.points that is needed),
+.EP
+.SP 5 5
+      [string]  what is needed/increased to start,
+.EP
+.SP 5 5
+      [string]  debate effect file name,
+.EP
+.SP 5 5
+      [mapping] arguments
+.EP
+.SP 5 5
+    })
+.EP
+.SP 5 5
+
+.EP
+
+.SH See also
+.SP 5 5
+query_philosophy_names()
+
+.EP
+

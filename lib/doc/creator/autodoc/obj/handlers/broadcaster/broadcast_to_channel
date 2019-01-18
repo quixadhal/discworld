@@ -1,0 +1,40 @@
+.DT
+broadcast_to_channel
+Disk World creator help
+broadcast_to_channel
+
+.SH Name
+.SP 5 5
+broadcast_to_channel -  Inform channel of message.
+.EP
+
+.SH Syntax
+.SI 5
+void broadcast_to_channel(mixed ob,
+string channel,
+mixed message)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object creating the channel event
+%^BOLD%^channel%^RESET%^ - the channel to inform people about
+%^BOLD%^message%^RESET%^ - the message to tell the channel about
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/broadcaster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Inform channel of message.  The message will get sent to all the objects
+added to the list to the method event_channel_message.  The method
+will be called with three arguements, first is the object that started
+the event, the second the channel it is being send to and the last is the
+message being sent to the channel.
+.EP
+

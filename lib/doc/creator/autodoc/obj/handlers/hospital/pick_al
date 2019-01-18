@@ -1,0 +1,41 @@
+.DT
+pick_al
+Disk World creator help
+pick_al
+
+.SH Name
+.SP 5 5
+pick_al -  This function produces a random alignment for an npc, based on a normal distribution around a supplied average, with a maximum and minimum limit provided by a requested range.
+.EP
+
+.SH Syntax
+.SI 5
+int pick_al(int average,
+int range)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^average%^RESET%^ - The average alignment for this npc
+%^BOLD%^range%^RESET%^ - The range request for alignment - the difference between
+average and maximum possible alignment
+<p>
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/hospital.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function produces a random alignment for an npc, based on a
+normal distribution around a supplied average, with a maximum and
+minimum limit provided by a requested range.
+
+
+The alignment produced will be within the range[ average - range, average + range ]
+.EP
+

@@ -1,0 +1,39 @@
+.DT
+set_timeout
+Disk World creator help
+set_timeout
+
+.SH Name
+.SP 5 5
+set_timeout -  Change the time before a message automatic gets deleted off a board.
+.EP
+
+.SH Syntax
+.SI 5
+int set_timeout(string board,
+int timeout)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^board%^RESET%^ - the name of the board to set the timeout for
+%^BOLD%^timeout%^RESET%^ - the timeout (in seconds)
+.EI
+
+.SH Returns
+.SI 5
+0 on failure and 1 on success
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/board_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Change the time before a message automatic gets deleted off a
+board.
+.EP
+

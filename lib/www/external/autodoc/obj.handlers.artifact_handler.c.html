@@ -1,0 +1,307 @@
+<html><head><title>File artifact_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/artifact_handler.c</h2>
+Keeps track of all the artifacts and the players known artifacts
+arrays.
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_artifact"><b>add_artifact</b></a>(string, string, int, int, int, int)<dd>
+Add a new artifact into the artificat mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_known"><b>add_known</b></a>(string, string)<dd>
+Place an artifact into a players known artifact list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#diagnose_artifact"><b>diagnose_artifact</b></a>(object, object, )<dd>
+Let a player attempt to find out what type of artifact the
+thing is.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_artifact"><b>query_artifact</b></a>(string)<dd>
+Returns the information about the named artificats.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_artifact_bonus"><b>query_artifact_bonus</b></a>(string)<dd>
+Find the bonus to make associated with the artifact.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_artifact_file"><b>query_artifact_file</b></a>(string)<dd>
+Find the file associated with the artifact.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_artifact_level"><b>query_artifact_level</b></a>(string, int)<dd>
+Find the level of the artifact.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_artifact_max"><b>query_artifact_max</b></a>(string)<dd>
+Find the maximum level associated with the artifact.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_artifact_min"><b>query_artifact_min</b></a>(string)<dd>
+Find the minimum level associated with the artifact.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_artifact_value"><b>query_artifact_value</b></a>(string, int)<dd>
+Determine the value of the artificant.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_artifact_value_info"><b>query_artifact_value_info</b></a>(string)<dd>
+Find the value associated with the artifact.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_artifacts"><b>query_artifacts</b></a>()<dd>
+This method returns the artifacts mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_known"><b>query_known</b></a>(string, string)<dd>
+A person will not forget how to recognise an artifact (unless they
+    refresh, in which case all of them are forgotten, i.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_wand_name"><b>query_wand_name</b></a>()<dd>
+The name of the wand.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_artifact"><b>remove_artifact</b></a>(string)<dd>
+Remove the artifact of the given name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_me"><b>save_me</b></a>()<dd>Saves the current state to disk.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#zap"><b>zap</b></a>(object, object, object)<dd>
+Zap the wand!
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_artifact">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_artifact</b></a><pre>
+void add_artifact(string name,
+string file,
+int max,
+int min,
+int bonus,
+int value)
+</pre><dd>
+Add a new artifact into the artificat mapping. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the artifact
+<dd>file - the file name of the artifact
+<dd>max - the maximum level
+<dd>min - the minimum level
+<dd>bonus - the bonus required to make
+<dd>value - the value of the artifact
+
+<dt><b>See also:</b>
+<dd><a href="#query_artificats">query_artificats()</a></dl>
+
+<dt><a name="add_known">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_known</b></a><pre>
+void add_known(string person,
+string artifact)
+</pre><dd>
+Place an artifact into a players known artifact list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the name of the person knowing the artifact
+<dd>artifact - the name of the artifact being know
+
+</dl>
+
+<dt><a name="diagnose_artifact">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>diagnose_artifact</b></a><pre>
+void diagnose_artifact(object thing,
+object person,
+ object)
+</pre><dd>
+Let a player attempt to find out what type of artifact the
+thing is.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the item to diagnose
+<dd>person - the person doing the diagnosis
+
+</dl>
+
+<dt><a name="query_artifact">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_artifact</b></a><pre>
+int query_artifact(string name)
+</pre><dd>
+Returns the information about the named artificats.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the artificant name to get information on
+<dt><b>Returns:</b>
+<dd>the informatioj on the artificant, 0 if the artifact does not exist
+
+</dl>
+
+<dt><a name="query_artifact_bonus">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_artifact_bonus</b></a><pre>
+int query_artifact_bonus(string name)
+</pre><dd>
+Find the bonus to make associated with the artifact.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the artifact
+<dt><b>Returns:</b>
+<dd>the bonus to make associated with the artifact
+
+</dl>
+
+<dt><a name="query_artifact_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_artifact_file</b></a><pre>
+string query_artifact_file(string name)
+</pre><dd>
+Find the file associated with the artifact.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the artifact
+<dt><b>Returns:</b>
+<dd>the file associated with the artifact
+
+</dl>
+
+<dt><a name="query_artifact_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_artifact_level</b></a><pre>
+int query_artifact_level(string name,
+int bonus)
+</pre><dd>
+Find the level of the artifact.  The level is determined as the
+difference between the minimum and maximum artifact level squared
+divided by the bonus passed in minus the bonus to create  plus the difference
+between the maximum and minimum levels plus the maximum level.<br>
+ie:<pre><code>
+level = (((max-min) * (max-min)) / (bonus - make_bonus + max - min)) + min
+</pre></code><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the artifact
+<dd>bonus - the bonus modifier
+<dt><b>Returns:</b>
+<dd>the level of the artifact
+
+</dl>
+
+<dt><a name="query_artifact_max">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_artifact_max</b></a><pre>
+int query_artifact_max(string name)
+</pre><dd>
+Find the maximum level associated with the artifact.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the artifact
+<dt><b>Returns:</b>
+<dd>the maximum level associated with the artifact
+
+</dl>
+
+<dt><a name="query_artifact_min">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_artifact_min</b></a><pre>
+int query_artifact_min(string name)
+</pre><dd>
+Find the minimum level associated with the artifact.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the artifact
+<dt><b>Returns:</b>
+<dd>the minimum level associated with the artifact
+
+</dl>
+
+<dt><a name="query_artifact_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_artifact_value</b></a><pre>
+int query_artifact_value(string name,
+int bonus)
+</pre><dd>
+Determine the value of the artificant.  The value is determined by
+the following equation:<br><code><pre>
+value = (value * max) / query_artifiact_level(name, bonus)
+</code></pre><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the artifact
+<dd>bonus - the bonus modifier
+<dt><b>Returns:</b>
+<dd>the value of the artifact
+
+</dl>
+
+<dt><a name="query_artifact_value_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_artifact_value_info</b></a><pre>
+int query_artifact_value_info(string name)
+</pre><dd>
+Find the value associated with the artifact.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the artifact
+<dt><b>Returns:</b>
+<dd>the value associated with the artifact
+
+</dl>
+
+<dt><a name="query_artifacts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_artifacts</b></a><pre>
+mapping query_artifacts()
+</pre><dd>
+This method returns the artifacts mapping.
+The artifacts mapping has elements of the form:<br><pre><code>
+   name : ({ file, max level, min level, bonus to make, value info })
+e.g. "wand of eternal light" :
+       ({ "/obj/wands/eternal_light", 85, 65, 250, 10000 })</code></pre><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the artificats mapping
+
+</dl>
+
+<dt><a name="query_known">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_known</b></a><pre>
+int query_known(string person,
+string artifact)
+</pre><dd>
+A person will not forget how to recognise an artifact (unless they
+    refresh, in which case all of them are forgotten, i.e. the file
+    is wiped) so to let a person learn to recognise an artifact, add
+    a new line to their file consisting of its name and to see if
+    they know an artifact, check in their file for its name. This
+    method doesn't require a library handler.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person check to see if they know the artifact
+<dd>artifact - the artifact being checked
+<dt><b>Returns:</b>
+<dd>1 if they know it, 0 if they do not
+
+</dl>
+
+<dt><a name="query_wand_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_wand_name</b></a><pre>
+string query_wand_name()
+</pre><dd>
+The name of the wand.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the wand name
+
+</dl>
+
+<dt><a name="remove_artifact">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_artifact</b></a><pre>
+void remove_artifact(string name)
+</pre><dd>
+Remove the artifact of the given name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the artifiact to remove
+
+</dl>
+
+<dt><a name="save_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_me</b></a><pre>
+void save_me()
+</pre><dd>Saves the current state to disk. <p>
+
+<dt><a name="zap">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>zap</b></a><pre>
+void zap(object thing,
+object person,
+object wand)
+</pre><dd>
+Zap the wand!<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing to zap with the wand
+<dd>person - the person doing the zapping
+<dd>wand - the wand being zapped
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 15:21:45 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

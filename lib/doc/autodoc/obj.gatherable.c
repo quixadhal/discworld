@@ -1,6 +1,6 @@
 .DT
 gatherable.c
-DW_wibble autodoc help
+Disk World autodoc help
 gatherable.c
 
 .SH Inherits

@@ -1,0 +1,40 @@
+.DT
+finish_description
+Disk World creator help
+finish_description
+
+.SH Name
+.SP 5 5
+finish_description -  This is the method that is called when the club description has been finished edited.
+.EP
+
+.SH Syntax
+.SI 5
+void finish_description(string describe,
+string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^describe%^RESET%^ - the new description
+%^BOLD%^name%^RESET%^ - the name of the club to describe
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/club_control_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the method that is called when the club description has been
+finished edited.  It will set the description on the club handler.
+.EP
+
+.SH See also
+.SP 5 5
+do_describe()
+
+.EP
+

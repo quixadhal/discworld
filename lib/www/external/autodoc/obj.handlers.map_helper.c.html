@@ -1,0 +1,310 @@
+<html><head><title>File map_helper.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/map_helper.c</h2>
+This is the map helper object.  It contains all the current information
+about the files.  It stores the current directory and keeps track of
+if things have changed so it does not save or load excessively.<p>Written by Wodan
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.map_handler.h.html">/include/map_handler.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_changetimes"><b>change_changetimes</b></a>(string, string, int)<dd>
+This method changes the time at which the specified room was last
+changed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_clusters"><b>change_clusters</b></a>(string, string, int)<dd>
+This method will change the cluster for the specified room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_co_ords"><b>change_co_ords</b></a>(string, string, int *)<dd>
+This method changes the coordinates for the specified room/.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_map"><b>change_map</b></a>(string, string, string *)<dd>
+This method will change the destination direction array for the
+given room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_movezones"><b>change_movezones</b></a>(string, string, string *)<dd>
+This method changes the move zones for the specified room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_shorts"><b>change_shorts</b></a>(string, string, string)<dd>
+This method changes the short for the specified directory and room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_sizes"><b>change_sizes</b></a>(string, string, int)<dd>
+This method changes the roomsize for the specified room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_dir"><b>check_dir</b></a>(string)<dd>
+This method attempts to load in the save file information for
+the specified directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#del"><b>del</b></a>(string, string)<dd>
+This method deletes the specified room from the directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_changetimes"><b>query_changetimes</b></a>(string)<dd>
+This method returns the mapping of rooms to last modified dates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_clusters"><b>query_clusters</b></a>(string)<dd>
+This method returns the cluster mapping for the specified directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_co_ords"><b>query_co_ords</b></a>(string)<dd>
+This method returns the mapping of coordinates to rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_map"><b>query_map</b></a>(string)<dd>
+This method returns the current destination direction mapping for
+the given directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_movezones"><b>query_movezones</b></a>(string)<dd>
+This method returns the mapping of move zones for the specified
+room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shorts"><b>query_shorts</b></a>(string)<dd>
+This method returns the mapping containing all the shorts for the
+specified directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sizes"><b>query_sizes</b></a>(string)<dd>
+This method returns the mapping of sizes for rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_dir"><b>save_dir</b></a>()<dd>
+This method saves the state of the currently loaded directory.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="change_changetimes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_changetimes</b></a><pre>
+void change_changetimes(string dir,
+string room,
+int time)
+</pre><dd>
+This method changes the time at which the specified room was last
+changed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to change the last modified date for
+<dd>room - the room to set the modied time for
+<dd>time - the new time
+
+</dl>
+
+<dt><a name="change_clusters">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_clusters</b></a><pre>
+void change_clusters(string dir,
+string room,
+int cluster)
+</pre><dd>
+This method will change the cluster for the specified room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to change the cluster for
+<dd>room - the room to change the cluster for
+<dd>cluster - the new cluster number
+
+</dl>
+
+<dt><a name="change_co_ords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_co_ords</b></a><pre>
+void change_co_ords(string dir,
+string room,
+int * coord)
+</pre><dd>
+This method changes the coordinates for the specified room/.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to change the room in
+<dd>room - the room to change in the directory
+<dd>coord - the new coordinate
+
+</dl>
+
+<dt><a name="change_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_map</b></a><pre>
+void change_map(string dir,
+string room,
+string * dd)
+</pre><dd>
+This method will change the destination direction array for the
+given room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to change
+<dd>room - the room to change
+<dd>dd - the new destination directory
+
+</dl>
+
+<dt><a name="change_movezones">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_movezones</b></a><pre>
+void change_movezones(string dir,
+string room,
+string * zones)
+</pre><dd>
+This method changes the move zones for the specified room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to change the move zones in
+<dd>room - the room to change the move zones in
+<dd>zones - the new move zones
+
+</dl>
+
+<dt><a name="change_shorts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_shorts</b></a><pre>
+void change_shorts(string dir,
+string room,
+string sh)
+</pre><dd>
+This method changes the short for the specified directory and room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to change the short for
+<dd>room - the room the change the short for
+<dd>sh - the new short for the room
+
+</dl>
+
+<dt><a name="change_sizes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_sizes</b></a><pre>
+void change_sizes(string dir,
+string room,
+int size)
+</pre><dd>
+This method changes the roomsize for the specified room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to change the room in
+<dd>room - the room to change in the directory
+<dd>coord - the new size;
+
+</dl>
+
+<dt><a name="check_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_dir</b></a><pre>
+void check_dir(string dir)
+</pre><dd>
+This method attempts to load in the save file information for
+the specified directory.  If the directory has no save file
+then the mappings will all be initialised to empty.  It will cause
+the previous directory to be saved if this is attempting to load a
+different one.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to load the save information for
+<dt><b>See also:</b>
+<dd><a href="#save_dir">save_dir()
+</a></dl>
+
+<dt><a name="del">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>del</b></a><pre>
+void del(string dir,
+string room)
+</pre><dd>
+This method deletes the specified room from the directory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to remove the room from
+<dd>room - the room to remove
+
+</dl>
+
+<dt><a name="query_changetimes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_changetimes</b></a><pre>
+mapping query_changetimes(string dir)
+</pre><dd>
+This method returns the mapping of rooms to last modified dates.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the mapping for
+<dt><b>Returns:</b>
+<dd>the mapping of last modified dates
+
+</dl>
+
+<dt><a name="query_clusters">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_clusters</b></a><pre>
+mapping query_clusters(string dir)
+</pre><dd>
+This method returns the cluster mapping for the specified directory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the cluster mapping for
+<dt><b>Returns:</b>
+<dd>the cluster mapping for the directory
+
+</dl>
+
+<dt><a name="query_co_ords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_co_ords</b></a><pre>
+mapping query_co_ords(string dir)
+</pre><dd>
+This method returns the mapping of coordinates to rooms.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the mapping for
+<dt><b>Returns:</b>
+<dd>the mapping of coordinates to rooms
+
+</dl>
+
+<dt><a name="query_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_map</b></a><pre>
+mapping query_map(string dir)
+</pre><dd>
+This method returns the current destination direction mapping for
+the given directory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the mapping for
+<dt><b>Returns:</b>
+<dd>the destination direction mapping
+
+</dl>
+
+<dt><a name="query_movezones">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_movezones</b></a><pre>
+mapping query_movezones(string dir)
+</pre><dd>
+This method returns the mapping of move zones for the specified
+room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the move zones for
+<dt><b>Returns:</b>
+<dd>the move zone mapping
+
+</dl>
+
+<dt><a name="query_shorts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shorts</b></a><pre>
+mapping query_shorts(string dir)
+</pre><dd>
+This method returns the mapping containing all the shorts for the
+specified directory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the shorts for
+<dt><b>Returns:</b>
+<dd>the mapping of short descriptions
+
+</dl>
+
+<dt><a name="query_sizes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sizes</b></a><pre>
+mapping query_sizes(string dir)
+</pre><dd>
+This method returns the mapping of sizes for rooms.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to return the mapping for
+<dt><b>Returns:</b>
+<dd>the mapping of sizes for rooms.
+
+</dl>
+
+<dt><a name="save_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_dir</b></a><pre>
+void save_dir()
+</pre><dd>
+This method saves the state of the currently loaded directory.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#check_dir">check_dir()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 21:05:19 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

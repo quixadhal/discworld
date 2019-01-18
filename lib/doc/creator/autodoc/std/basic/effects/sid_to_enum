@@ -1,0 +1,44 @@
+.DT
+sid_to_enum
+Disk World creator help
+sid_to_enum
+
+.SH Name
+.SP 5 5
+sid_to_enum -  This method returns the effect number for the given effect id.
+.EP
+
+.SH Syntax
+.SI 5
+int sid_to_enum(int sid)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^sid%^RESET%^ - the effect id
+.EI
+
+.SH Returns
+.SI 5
+the effect number.EI
+
+.SH Defined in
+.SI 5
+/std/basic/effects.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the effect number for the given effect id.  The
+effect number is an internal nhandle used by delete_effect()
+arg_of() set_arg_of() functions.  "id" is passed into the
+begining/end etc functions on the effect object.
+.EP
+
+.SH See also
+.SP 5 5
+submit_ee2(), delete_effect(), add_effect(), arg_of(), set_arg_of()
+
+.EP
+

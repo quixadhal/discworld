@@ -1,0 +1,80 @@
+.DT
+FreqTest
+Disk World creator help
+FreqTest
+
+.SH Name
+.SP 5 5
+FreqTest -  FreqTest is a routine that evaluates how like english a line of text is.
+.EP
+
+.SH Syntax
+.SI 5
+int FreqTest(string line)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^line%^RESET%^ - line of text to evaluate
+.EI
+
+.SH Returns
+.SI 5
+percentage chance of being english 50-100 ok < 50 might be gibberish 
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/english_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+FreqTest is a routine that evaluates how like english a line of text is.  It
+compares the frequency of the letters, spaces and non-letters to the typical
+number in English (taken from the am board archive).  A typical sentence
+should give a percentage change of being english in the range 50-100.
+Short or unusual sentences can get borderline evaluations (>60) even if they
+are english.
+
+.EP
+
+.SH Example 1
+.SI 5
+"/obj/handlers/english_handler"->FreqTest("Short english sentence")
+Returns: 75
+.EI
+
+.SH Example 2
+.SI 5
+"/obj/handlers/english_handler"->FreqTest("Sqeal spezzial sentenz")
+Returns: 1
+.EI
+
+.SH Example 3
+.SI 5
+"/obj/handlers/english_handler"->FreqTest("eeeeeeee dfs fsfdsfddf")
+Returns: 37
+.EI
+
+.SH Example 4
+.SI 5
+"/obj/handlers/english_handler"->FreqTest("too short");  
+Returns: 59
+.EI
+
+.SH Example 5
+.SI 5
+"/obj/handlers/english_handler"->FreqTest("Don't like l33t sp33k neither");  
+Returns: 36
+.EI
+
+.SH Example 6
+.SI 5
+"/obj/handlers/english_handler"->FreqTest("a small excursion to the
+                                                    zoo should be permissible");
+Returns: 83 
+
+.EI
+

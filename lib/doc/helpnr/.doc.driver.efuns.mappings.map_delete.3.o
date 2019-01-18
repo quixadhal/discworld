@@ -1,0 +1,4 @@
+#/obj/handlers/nroff.c
+nroffed_file ({0,"",8,"NAME","map_delete() - remove a (key, value) pair from a mapping based on the key",8,"SYNOPSIS","void map_delete( mapping m, mixed element );",8,"DESCRIPTION","map_delete removes the (key, value) from the mapping m that has key equalto element.For example, given:mapping names;names = ([]);names[\"truilkan\"] = \"john\";names[\"wayfarer\"] = \"erik\";names[\"jacques\"] = \"dwayne\";Then:map_delete(names,\"truilkan\");causes the mapping 'names' to be equal to:([\"wayfarer\" : \"erik\", \"jacques\" : \"dwayne\"])keys(names) will not contain \"truilkan\" after map_delete(names,\"truilkan\")is called [unless (\"truilkan\", *) is subsequently added back to the mapping].",8,"SEE ALSO","allocate_mapping(3)",})
+nroffed_file_name "/doc/driver/efuns/mappings/map_delete.3"
+modified_time 1526847519

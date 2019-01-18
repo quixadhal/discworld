@@ -1,0 +1,44 @@
+.DT
+publish_paper
+Disk World creator help
+publish_paper
+
+.SH Name
+.SP 5 5
+publish_paper -  This method publishes a new edition of the specified paper.
+.EP
+
+.SH Syntax
+.SI 5
+int publish_paper(string paper,
+string headline,
+class article * articles,
+string * text,
+class advert * adds,
+string * editors)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^paper%^RESET%^ - the paper to publish an edition of
+%^BOLD%^articles%^RESET%^ - the articles in the paper
+%^BOLD%^text%^RESET%^ - the corresponding text to the articles
+%^BOLD%^adds%^RESET%^ - the adverts in the paper
+.EI
+
+.SH Returns
+.SI 5
+1 if successful, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/newspaper.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method publishes a new edition of the specified paper.
+.EP
+

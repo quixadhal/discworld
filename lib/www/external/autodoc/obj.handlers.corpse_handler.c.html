@@ -1,0 +1,133 @@
+<html><head><title>File corpse_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/corpse_handler.c</h2>
+A small handler to keep track of corpses.<p>Written by Pinkfish<p>Started Thu Jun 13 17:22:06 PDT 2002
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_corpse_data"><b>corpse_data</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_corpses"><b>check_corpses</b></a>()<dd>
+This goes through the current list of corpses and tries to find them,
+if not it creates them.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_corpse"><b>create_corpse</b></a>(string, int)<dd>
+This method creates the specific corpse.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#deregister_corpse"><b>deregister_corpse</b></a>(object)<dd>
+This method deregisters the corpse from us.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_player_corpses"><b>find_player_corpses</b></a>(string)<dd>
+Finds all of the corpses for the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_next_corpse_id"><b>query_next_corpse_id</b></a>()<dd>
+This method returns the next corpse id.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#register_corpse"><b>register_corpse</b></a>(object)<dd>
+This method registers the corpse with us.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_corpse"><b>save_corpse</b></a>(object)<dd>
+This method will save the corpse data out to a nice file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="check_corpses">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_corpses</b></a><pre>
+void check_corpses()
+</pre><dd>
+This goes through the current list of corpses and tries to find them,
+if not it creates them.
+<p>
+
+<dt><a name="create_corpse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_corpse</b></a><pre>
+object create_corpse(string name,
+int id)
+</pre><dd>
+This method creates the specific corpse.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the player name to create it for
+<dd>id - the id to create
+<dt><b>Returns:</b>
+<dd>the new corpse
+
+</dl>
+
+<dt><a name="deregister_corpse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>deregister_corpse</b></a><pre>
+void deregister_corpse(object ob)
+</pre><dd>
+This method deregisters the corpse from us.  We forget about it and
+it wombles off into the ether.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>corpse - the corpse to deregister
+
+</dl>
+
+<dt><a name="find_player_corpses">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_player_corpses</b></a><pre>
+object * find_player_corpses(string player)
+</pre><dd>
+Finds all of the corpses for the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the name of the player to find the corpses of
+<dt><b>Returns:</b>
+<dd>the list of player corpses
+
+</dl>
+
+<dt><a name="query_next_corpse_id">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_next_corpse_id</b></a><pre>
+int query_next_corpse_id()
+</pre><dd>
+This method returns the next corpse id.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the next corpse id
+
+</dl>
+
+<dt><a name="register_corpse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>register_corpse</b></a><pre>
+void register_corpse(object ob)
+</pre><dd>
+This method registers the corpse with us.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>corpse - the corpse to register
+
+</dl>
+
+<dt><a name="save_corpse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_corpse</b></a><pre>
+void save_corpse(object ob)
+</pre><dd>
+This method will save the corpse data out to a nice file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to save
+
+</dl>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_corpse_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>corpse_data</b></a><pre>
+class corpse_data {
+int id;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 17:27:57 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

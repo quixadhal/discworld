@@ -1,0 +1,329 @@
+<html><head><title>File stats.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Includes</h2>
+This class includes the following files <a href="include.config.h.html">/include/config.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.skills.h.html">/include/skills.h</a> and <a href="include.living.h.html">/include/living.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_bonus_con"><b>adjust_bonus_con</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_bonus_dex"><b>adjust_bonus_dex</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_bonus_int"><b>adjust_bonus_int</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_bonus_str"><b>adjust_bonus_str</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_bonus_wis"><b>adjust_bonus_wis</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_con"><b>adjust_con</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_dex"><b>adjust_dex</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_int"><b>adjust_int</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_str"><b>adjust_str</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_tmp_con"><b>adjust_tmp_con</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_tmp_dex"><b>adjust_tmp_dex</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_tmp_int"><b>adjust_tmp_int</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_tmp_str"><b>adjust_tmp_str</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_tmp_wis"><b>adjust_tmp_wis</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_wis"><b>adjust_wis</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_inc_rates"><b>calc_inc_rates</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check"><b>check</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_stats_zero"><b>check_stats_zero</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#heart_beat"><b>heart_beat</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#hp_base"><b>hp_base</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#hp_gradient"><b>hp_gradient</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_base_weight"><b>query_base_weight</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bonus_con"><b>query_bonus_con</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bonus_dex"><b>query_bonus_dex</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bonus_int"><b>query_bonus_int</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bonus_str"><b>query_bonus_str</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bonus_wis"><b>query_bonus_wis</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_con"><b>query_con</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dex"><b>query_dex</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_height"><b>query_height</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_inc_rates"><b>query_inc_rates</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_int"><b>query_int</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_no_check"><b>query_no_check</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_real_con"><b>query_real_con</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_real_dex"><b>query_real_dex</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_real_int"><b>query_real_int</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_real_str"><b>query_real_str</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_real_wis"><b>query_real_wis</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_str"><b>query_str</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_tmp_con"><b>query_tmp_con</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_tmp_dex"><b>query_tmp_dex</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_tmp_int"><b>query_tmp_int</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_tmp_str"><b>query_tmp_str</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_tmp_wis"><b>query_tmp_wis</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_weight"><b>query_weight</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_wis"><b>query_wis</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_all"><b>reset_all</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_all2"><b>reset_all2</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_carry_cap"><b>reset_carry_cap</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_gp"><b>reset_gp</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_hp"><b>reset_hp</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#scaled_weight"><b>scaled_weight</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_base_weight"><b>set_base_weight</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_con"><b>set_con</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_dex"><b>set_dex</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_height"><b>set_height</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_int"><b>set_int</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_check"><b>set_no_check</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_str"><b>set_str</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_wis"><b>set_wis</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats_to_zap"><b>stats_to_zap</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_tmps"><b>update_tmps</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#zap_stat"><b>zap_stat</b></a>(string)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="adjust_bonus_con">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_bonus_con</b></a><pre>
+int adjust_bonus_con(int number)
+</pre>
+<dt><a name="adjust_bonus_dex">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_bonus_dex</b></a><pre>
+int adjust_bonus_dex(int number)
+</pre>
+<dt><a name="adjust_bonus_int">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_bonus_int</b></a><pre>
+int adjust_bonus_int(int number)
+</pre>
+<dt><a name="adjust_bonus_str">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_bonus_str</b></a><pre>
+int adjust_bonus_str(int number)
+</pre>
+<dt><a name="adjust_bonus_wis">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_bonus_wis</b></a><pre>
+int adjust_bonus_wis(int number)
+</pre>
+<dt><a name="adjust_con">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_con</b></a><pre>
+int adjust_con(int number)
+</pre>
+<dt><a name="adjust_dex">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_dex</b></a><pre>
+int adjust_dex(int number)
+</pre>
+<dt><a name="adjust_int">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_int</b></a><pre>
+int adjust_int(int number)
+</pre>
+<dt><a name="adjust_str">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_str</b></a><pre>
+int adjust_str(int number)
+</pre>
+<dt><a name="adjust_tmp_con">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_tmp_con</b></a><pre>
+int adjust_tmp_con(int number)
+</pre>
+<dt><a name="adjust_tmp_dex">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_tmp_dex</b></a><pre>
+int adjust_tmp_dex(int number)
+</pre>
+<dt><a name="adjust_tmp_int">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_tmp_int</b></a><pre>
+int adjust_tmp_int(int number)
+</pre>
+<dt><a name="adjust_tmp_str">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_tmp_str</b></a><pre>
+int adjust_tmp_str(int number)
+</pre>
+<dt><a name="adjust_tmp_wis">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_tmp_wis</b></a><pre>
+int adjust_tmp_wis(int number)
+</pre>
+<dt><a name="adjust_wis">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_wis</b></a><pre>
+int adjust_wis(int number)
+</pre>
+<dt><a name="calc_inc_rates">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_inc_rates</b></a><pre>
+void calc_inc_rates()
+</pre>
+<dt><a name="check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check</b></a><pre>
+int check(int number)
+</pre>
+<dt><a name="check_stats_zero">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_stats_zero</b></a><pre>
+void check_stats_zero()
+</pre>
+<dt><a name="heart_beat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>heart_beat</b></a><pre>
+void heart_beat()
+</pre>
+<dt><a name="hp_base">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hp_base</b></a><pre>
+int hp_base()
+</pre>
+<dt><a name="hp_gradient">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hp_gradient</b></a><pre>
+int hp_gradient()
+</pre>
+<dt><a name="query_base_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_base_weight</b></a><pre>
+int query_base_weight()
+</pre>
+<dt><a name="query_bonus_con">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bonus_con</b></a><pre>
+int query_bonus_con()
+</pre>
+<dt><a name="query_bonus_dex">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bonus_dex</b></a><pre>
+int query_bonus_dex()
+</pre>
+<dt><a name="query_bonus_int">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bonus_int</b></a><pre>
+int query_bonus_int()
+</pre>
+<dt><a name="query_bonus_str">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bonus_str</b></a><pre>
+int query_bonus_str()
+</pre>
+<dt><a name="query_bonus_wis">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bonus_wis</b></a><pre>
+int query_bonus_wis()
+</pre>
+<dt><a name="query_con">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_con</b></a><pre>
+int query_con()
+</pre>
+<dt><a name="query_dex">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dex</b></a><pre>
+int query_dex()
+</pre>
+<dt><a name="query_height">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_height</b></a><pre>
+int query_height()
+</pre>
+<dt><a name="query_inc_rates">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_inc_rates</b></a><pre>
+int * query_inc_rates()
+</pre>
+<dt><a name="query_int">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_int</b></a><pre>
+int query_int()
+</pre>
+<dt><a name="query_no_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_no_check</b></a><pre>
+int query_no_check()
+</pre>
+<dt><a name="query_real_con">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_real_con</b></a><pre>
+int query_real_con()
+</pre>
+<dt><a name="query_real_dex">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_real_dex</b></a><pre>
+int query_real_dex()
+</pre>
+<dt><a name="query_real_int">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_real_int</b></a><pre>
+int query_real_int()
+</pre>
+<dt><a name="query_real_str">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_real_str</b></a><pre>
+int query_real_str()
+</pre>
+<dt><a name="query_real_wis">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_real_wis</b></a><pre>
+int query_real_wis()
+</pre>
+<dt><a name="query_str">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_str</b></a><pre>
+int query_str()
+</pre>
+<dt><a name="query_tmp_con">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_tmp_con</b></a><pre>
+int query_tmp_con()
+</pre>
+<dt><a name="query_tmp_dex">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_tmp_dex</b></a><pre>
+int query_tmp_dex()
+</pre>
+<dt><a name="query_tmp_int">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_tmp_int</b></a><pre>
+int query_tmp_int()
+</pre>
+<dt><a name="query_tmp_str">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_tmp_str</b></a><pre>
+int query_tmp_str()
+</pre>
+<dt><a name="query_tmp_wis">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_tmp_wis</b></a><pre>
+int query_tmp_wis()
+</pre>
+<dt><a name="query_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_weight</b></a><pre>
+int query_weight( int)
+</pre>
+<dt><a name="query_wis">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_wis</b></a><pre>
+int query_wis()
+</pre>
+<dt><a name="reset_all">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_all</b></a><pre>
+void reset_all()
+</pre>
+<dt><a name="reset_all2">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_all2</b></a><pre>
+void reset_all2()
+</pre>
+<dt><a name="reset_carry_cap">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_carry_cap</b></a><pre>
+void reset_carry_cap()
+</pre>
+<dt><a name="reset_gp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_gp</b></a><pre>
+void reset_gp()
+</pre>
+<dt><a name="reset_hp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_hp</b></a><pre>
+void reset_hp()
+</pre>
+<dt><a name="scaled_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>scaled_weight</b></a><pre>
+int scaled_weight()
+</pre>
+<dt><a name="set_base_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_base_weight</b></a><pre>
+void set_base_weight(int number)
+</pre>
+<dt><a name="set_con">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_con</b></a><pre>
+int set_con(int number)
+</pre>
+<dt><a name="set_dex">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_dex</b></a><pre>
+int set_dex(int number)
+</pre>
+<dt><a name="set_height">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_height</b></a><pre>
+void set_height(int number)
+</pre>
+<dt><a name="set_int">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_int</b></a><pre>
+int set_int(int number)
+</pre>
+<dt><a name="set_no_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_check</b></a><pre>
+void set_no_check(int i)
+</pre>
+<dt><a name="set_str">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_str</b></a><pre>
+int set_str(int number)
+</pre>
+<dt><a name="set_wis">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_wis</b></a><pre>
+int set_wis(int number)
+</pre>
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+<dt><a name="stats_to_zap">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats_to_zap</b></a><pre>
+string stats_to_zap()
+</pre>
+<dt><a name="update_tmps">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_tmps</b></a><pre>
+void update_tmps()
+</pre>
+<dt><a name="zap_stat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>zap_stat</b></a><pre>
+void zap_stat(string word)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 22:07:45 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,38 @@
+.DT
+adjust_money
+Disk World creator help
+adjust_money
+
+.SH Name
+.SP 5 5
+adjust_money -  This method changes the value of the object by a certain number of coins.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int adjust_money(mixed amt,
+string coin)
+.EI
+
+.SH Returns
+.SI 5
+the new value
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/misc.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method changes the value of the object by a certain number of
+coins.  The coins can be any type.
+.EP
+
+.SH See also
+.SP 5 5
+/obj/handlers/money_handler->query_total_value(), adjust_value(), query_money_array(), set_value()
+.EP
+

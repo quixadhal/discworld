@@ -1,0 +1,43 @@
+.DT
+is_matching_object
+Disk World creator help
+is_matching_object
+
+.SH Name
+.SP 5 5
+is_matching_object -  This method is used by upper objects that only wish to match the ids and not mess with all the context stuff.
+.EP
+
+.SH Syntax
+.SI 5
+int is_matching_object(string * input,
+object viewer,
+class obj_match_context context)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^input%^RESET%^ - the input string
+%^BOLD%^viewer%^RESET%^ - the person viewing the object
+%^BOLD%^context%^RESET%^ - the contex this is to be taken in
+.EI
+
+.SH Returns
+.SI 5
+the singular/plural match flags
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/id_match.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used by upper objects that only wish to match the
+ids and not mess with all the context stuff.  This method will
+return a combination of OBJ_PARSER_MATCH_SINGULAR and
+OBJ_PARSER_MATCH_PLURAL.
+.EP
+

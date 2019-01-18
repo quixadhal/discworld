@@ -1,0 +1,77 @@
+<html><head><title>File more_string.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/more_string.c</h2>
+This file will handle the real moreing of a string to the player.  The
+player object will call out to this, so the all the code and the
+variables are not stored in the player object.<p><b>See also:</b><br>/global/more_file.c
+<p>Written by Pinkfish
+<hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_more_string_info"><b>more_string_info</b></a>
+<dd>
+Information on the string being mored.
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#more_string"><b>more_string</b></a>(string, string, int)<dd>
+Puts a long string through a more function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_finish_func"><b>set_finish_func</b></a>(string, object)<dd>
+Sets the finish function.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="more_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>more_string</b></a><pre>
+varargs int more_string(string text,
+string bity,
+int noreline)
+</pre><dd>
+Puts a long string through a more function.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>text - the text to place through the pager
+<dd>bity - the title of the text
+<dd>noreline - do not do realignment of the text
+<dt><b>See also:</b>
+<dd><a href="global.more_file.c.c.html#more_file">/global/more_file.c->more_file()</a> and <a href="#set_finish_func">set_finish_func()
+</a></dl>
+
+<dt><a name="set_finish_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_finish_func</b></a><pre>
+varargs void set_finish_func(string str,
+object ob)
+</pre><dd>
+Sets the finish function.  This is called when the more_string
+command exits.  If the ob is set to 0 then previous_object() is used
+for it.  The str can be a function pointer as well.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the function name or function pointer to use
+<dd>ob - the object to call it on (ignore for function pointers)
+<dt><b>See also:</b>
+<dd><a href="#more_string">more_string()
+</a></dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_more_string_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>more_string_info</b></a><pre>
+class more_string_info {
+int fsize;
+int topl;
+int botl;
+string last_search;
+string * the_bit;
+string finish_func;
+string more_bit;
+string stat_line;
+object finish_ob;
+}
+
+</pre><dd>
+Information on the string being mored.<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 01:45:14 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

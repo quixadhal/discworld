@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["query_in_editor":({({"int",}),({}),(["main":({"This method returns true if the player is currently in the editor.",}),"return":({"1 if the player is in the editor",}),]),}),"append_signature":({({"string",}),({}),(["main":({"This method will create the signature to append to whatever needsa signature.",}),"return":({"the players signature",}),]),}),"query_editor":({({"string",}),({}),(["main":({"This method will return the players current editor setting.",}),"return":({"the current editor setting.",}),]),}),"do_edit":({({"varargs","int",}),({({"string",}),"str",({"mixed",}),"end_f",({"object",}),"end_o",({"string",}),"fname",({"mixed",}),"extra",}),(["main":({"Edit a string.  This will edit the string or file name and thencall the end function and end object at the end.  It will pas inthe string if the edit is successful, or 0 if it is not.",}),"param":({"str the string to edit","end_f the function to call","end_o the object to call it on (defaul: previous_object())","fname a specific filename to edit","extra an array of any parameters you need to carry into the end function",}),"return":({"0 on failure.",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"This allows a piece of text to be placed into the players ownline editor (which ever one they wish to use).<p>Expansion of the editor.  We will now allow the player to use anyof three different editors.  One of them is the default (the oldone) one of them is ed and the other I am going to write in afew secs....<p>cute line editor thing.  Which even a player could use!",}),"author":({"Pinkfish",}),])
+define_docs ([])
+includes (["/include/player_handler.h":1522061544,"/include/ed.h":1522061544,])
+class_docs ([])
+file_name "/global/line_ed.c"
+last_changed 1522061544

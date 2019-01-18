@@ -1,0 +1,45 @@
+.DT
+query_discussion_item_by_type
+Disk World creator help
+query_discussion_item_by_type
+
+.SH Name
+.SP 5 5
+query_discussion_item_by_type -  This method figures out the discussion item for the club with the given type.
+.EP
+
+.SH Syntax
+.SI 5
+class discussion_idea query_discussion_item_by_type(string club_name,
+int type,
+class discussion_idea idea)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^type%^RESET%^ - the type of the discussion item to find
+.EI
+
+.SH Returns
+.SI 5
+the found discussion item.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_discuss.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method figures out the discussion item for the club with the
+given type.  It will also continue on a search from a last found item.
+.EP
+
+.SH See also
+.SP 5 5
+add_discussion_item()
+
+.EP
+

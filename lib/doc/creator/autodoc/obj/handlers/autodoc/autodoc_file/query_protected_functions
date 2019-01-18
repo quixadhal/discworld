@@ -1,0 +1,38 @@
+.DT
+query_protected_functions
+Disk World creator help
+query_protected_functions
+
+.SH Name
+.SP 5 5
+query_protected_functions -  The mapping of protected functions.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_protected_functions()
+.EI
+
+.SH Returns
+.SI 5
+a mapping containing the protected functions
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/autodoc/autodoc_file.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The mapping of protected functions.
+The mapping is of the form ([ func_name : ({ type, args, docs }) ]).
+The type bit is an array of the type name, ie: ({ "int" }) or
+({ "mixed", "*" }).  The args bit looks like ({ "name", type }),
+where the type is the same as in the previous array.  The docs is
+a mapping of the form ([ "tag" : ({ data }) ]), where each reference
+to a tag creates a new element in the data array.
+
+.EP
+

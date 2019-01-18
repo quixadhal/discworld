@@ -1,0 +1,42 @@
+.DT
+event_inter_creator_tell
+Disk World creator help
+event_inter_creator_tell
+
+.SH Name
+.SP 5 5
+event_inter_creator_tell -  This event is generated when a intermud creator tell is done.
+.EP
+
+.SH Syntax
+.SI 5
+void event_inter_creator_tell(object ob,
+string mname,
+string pname,
+string mess,
+object ig,
+int emote)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object generating the event
+%^BOLD%^mname%^RESET%^ - the name of the mud
+%^BOLD%^pname%^RESET%^ - the name of the player
+%^BOLD%^mess%^RESET%^ - the message
+%^BOLD%^ig%^RESET%^ - the ignore object
+%^BOLD%^emote%^RESET%^ - if it is an emote
+
+.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This event is generated when a intermud creator tell is done.
+.EP
+

@@ -1,0 +1,34 @@
+.DT
+do_end
+Disk World creator help
+do_end
+
+.SH Name
+.SP 5 5
+do_end -  The function to end the interview.
+.EP
+
+.SH Syntax
+.SI 5
+int do_end()
+.EI
+
+.SH Returns
+.SI 5
+0 on failure, 1 on success.
+.EI
+
+.SH Defined in
+.SI 5
+/std/dom/interview_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The function to end the interview.  Will write an entry in the interview
+text containing who the interview was with and when the interview was
+ended.  It will then add the subject to the list of interviewed names and
+save the object.  Finally, it will reset the subject of the room. 
+.EP
+

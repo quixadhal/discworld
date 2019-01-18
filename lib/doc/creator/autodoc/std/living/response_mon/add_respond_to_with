@@ -1,0 +1,82 @@
+.DT
+add_respond_to_with
+Disk World creator help
+add_respond_to_with
+
+.SH Name
+.SP 5 5
+add_respond_to_with -  This method adds a respond message to respond to into the current array of responses.
+.EP
+
+.SH Syntax
+.SI 5
+void add_respond_to_with(mixed * trigger,
+mixed response)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^trigger%^RESET%^ - the trigger to trigger the action on
+%^BOLD%^response%^RESET%^ - the response to the action
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/response_mon.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a respond message to respond to into the
+current array of responses.
+
+
+If response_mon_regexp is not set, the trigger consists of an array of words to be matched (in order) in the string. If there is an array instead of a single word at one point then any of the words in the array will be matched. If response_mon_regexp is set, the trigger is a single string, representing the regular expression to be matched in the string. 
+
+The response is either an array of things to execute (in which case a random one will be chosen each time) or a function pointer or a string. If it is a string then the command of that name will be executed, if the string starts with a '#' then the function named after that will be called on the npc. That was exciting wasn't it? If the string has a $hname$ name in it and it is not a function call (starts with a #) then the $hname$ will be replaced with the name of the triggering object. $hcname$ or $short$ will be replaced with the short of the triggering object. 
+
+In the case of a function call, two arguments are passed into the function: the first is the person which triggered the effect and the second in the message which triggered the effect. 
+
+NOTE: The NPC must explicitly know the language being spoken, even if it's "common". I don't know why. That's just the way it is. See add_language().
+.EP
+
+.SH Example 1
+.SI 5
+// Simple response
+add_respond_to_with(({ "@say", "bing" }), "'Yes!  Bing bing bing!");
+.EI
+
+.SH Example 2
+.SI 5
+// respond to someone saying 'frog' or 'toad'
+add_respond_to_with(({ "@say", ({ "frog", "toad" }) }),
+                    "'Frogs and toads are nice.");
+.EI
+
+.SH Example 3
+.SI 5
+// Randomly say something or bing back at them
+add_respond_to_with(({ "@say", "bing" }),
+                    ({ "'Yes!  Bing bing bing!", "bing $hname$" }));
+.EI
+
+.SH Example 4
+.SI 5
+// Call the function 'rabbit' on the npc.
+add_respond_to_with(({ "@say", "bing" }), "#rabbit");
+.EI
+
+.SH Example 5
+.SI 5
+// Do something cute with a function pointer
+add_respond_to_with(({ "@bing" }),
+                 (: do_command("'something wild for " + $1->a_short()) :));
+.EI
+
+.SH See also
+.SP 5 5
+query_respond_to_with(), query_response_allowed(), set_response_mon_regexp(), query_response_mon_regexp(), regexp(), add_language()
+
+.EP
+

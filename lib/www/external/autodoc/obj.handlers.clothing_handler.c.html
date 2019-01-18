@@ -1,0 +1,371 @@
+<html><head><title>File clothing_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/clothing_handler.c</h2>
+This object handles all the different types of clothing, their
+locations etc.<p>Written by Pinkfish
+
+Fiddled!  Actually added the cloak and dresses areas and fixed here and
+there.<hr><h2>Includes</h2>
+This class includes the following files <a href="include.clothing.h.html">/include/clothing.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_clothing_type"><b>add_clothing_type</b></a>(string, string *, string *)<dd>
+This method adds a new clothing type into the existing clothing
+type mapping.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_clothing_zone"><b>add_clothing_zone</b></a>(string, string *)<dd>
+This method adds a clothing zone.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_equivilant_type"><b>add_equivilant_type</b></a>(string, string)<dd>
+This method adds an equivilant type.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_zone_coverage"><b>add_zone_coverage</b></a>(string, string *)<dd>
+This method sets the zones that a particular clothing type covers
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_wear_or_remove"><b>can_wear_or_remove</b></a>(object, object)<dd>
+This method returns whether or not a player can wear or remove a given item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_clothing_types"><b>query_all_clothing_types</b></a>()<dd>
+This method returns a mapping of the current clothing types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_clothing_zones"><b>query_all_clothing_zones</b></a>()<dd>
+This method returns the clothing zones.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_equivilant_types"><b>query_all_equivilant_types</b></a>()<dd>
+This method returns all the equivilant types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_clothing_cannot_remove"><b>query_clothing_cannot_remove</b></a>(string)<dd>
+This method returns the items you would be unable to remove the
+type with.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_clothing_depth"><b>query_clothing_depth</b></a>(mixed)<dd>
+This method returns the depth of the clothing type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_clothing_hiding"><b>query_clothing_hiding</b></a>(string)<dd>
+This method returns the types which hide this type of thingy.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_clothing_maximum_depth"><b>query_clothing_maximum_depth</b></a>(mixed)<dd>
+This method returns the depth of the clothing type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_clothing_type"><b>query_clothing_type</b></a>(string)<dd>
+This method returns the information associated with the clothing
+of a particular type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_clothing_zone"><b>query_clothing_zone</b></a>(string)<dd>
+This method returns the array of clothing types in the particular
+zone.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_equivilant_type"><b>query_equivilant_type</b></a>(string)<dd>
+This method returns the equivilant type for the given type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_items_blocking"><b>query_items_blocking</b></a>(object, object)<dd>
+This method returns the list of things that are blocking the removal
+of the specific object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_valid_type"><b>query_valid_type</b></a>(string)<dd>
+This method tells us if the type is valid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_zone_level"><b>query_zone_level</b></a>(string)<dd>
+This method returns the level for the specified zone.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_zone_name"><b>query_zone_name</b></a>(string)<dd>
+This method finds the zone for the specific type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_zone_names"><b>query_zone_names</b></a>(string)<dd>
+This method finds all the zones for the specific type.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="can_wear_or_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_wear_or_remove</b></a><pre>
+string can_wear_or_remove(object thing,
+object player)
+</pre><dd>
+This method returns whether or not a player can wear or remove a given item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the item to be worn or removed.
+<dd>player - the person doing the wearing or removing.
+<dt><b>Returns:</b>
+<dd>0 for success, a string for failure.
+
+</dl>
+
+<dt><a name="query_all_clothing_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_clothing_types</b></a><pre>
+mapping query_all_clothing_types()
+</pre><dd>
+This method returns a mapping of the current clothing types.
+<p>
+The make up of this array is:<br>
+<dl>
+<dh>first element
+<dd> is the items which if you're wearing this
+one cannot be removed.
+<dh>second element
+<dd>is the items which hide the given item.
+</dl>
+i.e. The wig type cannot be removed if types hood, helmet
+or hat are also worn, also the wig type is not visible
+if the types hood, helmet or hat are worn.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mapping of clothing types
+<dt><b>See also:</b>
+<dd><a href="#add_clothing_type">add_clothing_type()
+</a></dl>
+
+<dt><a name="query_all_clothing_zones">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_clothing_zones</b></a><pre>
+mapping query_all_clothing_zones()
+</pre><dd>
+This method returns the clothing zones.  The mapping consists of
+arrays of types which are in the particular zones.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the clothing zones
+
+</dl>
+
+<dt><a name="query_all_equivilant_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_equivilant_types</b></a><pre>
+mapping query_all_equivilant_types()
+</pre><dd>
+This method returns all the equivilant types.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the equivilant types
+
+</dl>
+
+<dt><a name="query_clothing_cannot_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_clothing_cannot_remove</b></a><pre>
+string * query_clothing_cannot_remove(string type)
+</pre><dd>
+This method returns the items you would be unable to remove the
+type with.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of clothing to check
+<dt><b>Returns:</b>
+<dd>array of types you would be unable to remove, 0 if invalid type
+<dt><b>See also:</b>
+<dd><a href="#query_clothing_hiding">query_clothing_hiding()</a> and <a href="#query_clothing_depth">query_clothing_depth()
+</a></dl>
+
+<dt><a name="query_clothing_depth">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_clothing_depth</b></a><pre>
+int query_clothing_depth(mixed type)
+</pre><dd>
+This method returns the depth of the clothing type.  The parament
+can also be an array, in which case it will return the minimum
+non-zero depth.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of clothing to check
+<dt><b>Returns:</b>
+<dd>the depth rating of the type
+<dt><b>See also:</b>
+<dd><a href="#query_clothing_cannot_remove">query_clothing_cannot_remove()</a> and <a href="#query_clothing_hiding">query_clothing_hiding()
+</a></dl>
+
+<dt><a name="query_clothing_hiding">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_clothing_hiding</b></a><pre>
+string * query_clothing_hiding(string type)
+</pre><dd>
+This method returns the types which hide this type of thingy.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of clothing to check
+<dt><b>Returns:</b>
+<dd>array of types which would hide this type, 0 if invalid type
+<dt><b>See also:</b>
+<dd><a href="#query_clothing_cannot_remove">query_clothing_cannot_remove()</a> and <a href="#query_clothing_depth">query_clothing_depth()
+</a></dl>
+
+<dt><a name="query_clothing_maximum_depth">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_clothing_maximum_depth</b></a><pre>
+int query_clothing_maximum_depth(mixed type)
+</pre><dd>
+This method returns the depth of the clothing type.  The parament
+can also be an array, in which case it will return the maximum
+non-zero depth.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of clothing to check
+<dt><b>Returns:</b>
+<dd>the depth rating of the type
+<dt><b>See also:</b>
+<dd><a href="#query_clothing_cannot_remove">query_clothing_cannot_remove()</a> and <a href="#query_clothing_hiding">query_clothing_hiding()
+</a></dl>
+
+<dt><a name="query_clothing_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_clothing_type</b></a><pre>
+class clothing_type query_clothing_type(string name)
+</pre><dd>
+This method returns the information associated with the clothing
+of a particular type.
+<p>
+This will returns a class containing the clothing type information
+in it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the type to lookup
+<dt><b>Returns:</b>
+<dd>the clothing type array, 0 if not found
+<dt><b>See also:</b>
+<dd><a href="#query_clothing_cannot_remove">query_clothing_cannot_remove()</a> and <a href="#query_clothing_cannot_remove">query_clothing_cannot_remove()
+</a></dl>
+
+<dt><a name="query_clothing_zone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_clothing_zone</b></a><pre>
+string * query_clothing_zone(string zone)
+</pre><dd>
+This method returns the array of clothing types in the particular
+zone.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>zone - the zone to get the types for
+<dt><b>Returns:</b>
+<dd>the clothing in the current zone
+
+</dl>
+
+<dt><a name="query_equivilant_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_equivilant_type</b></a><pre>
+string query_equivilant_type(string type)
+</pre><dd>
+This method returns the equivilant type for the given type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to get the equivilant fo
+<dt><b>Returns:</b>
+<dd>the equivilant type
+
+</dl>
+
+<dt><a name="query_items_blocking">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_items_blocking</b></a><pre>
+object * query_items_blocking(object thing,
+object player)
+</pre><dd>
+This method returns the list of things that are blocking the removal
+of the specific object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing to find what it is being blocked by
+<dd>player - the player to look it up on
+<dt><b>Returns:</b>
+<dd>the array of objects blocking it
+
+</dl>
+
+<dt><a name="query_valid_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_valid_type</b></a><pre>
+int query_valid_type(string type)
+</pre><dd>
+This method tells us if the type is valid.  It checks both normal
+types and equivilant types.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to check
+<dt><b>Returns:</b>
+<dd>1 if it is valid, 0 if not
+</dl>
+
+<dt><a name="query_zone_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_zone_level</b></a><pre>
+int query_zone_level(string zone)
+</pre><dd>
+This method returns the level for the specified zone.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>zone - the zone to check
+<dt><b>Returns:</b>
+<dd>the level of the zone
+
+</dl>
+
+<dt><a name="query_zone_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_zone_name</b></a><pre>
+string query_zone_name(string type)
+</pre><dd>
+This method finds the zone for the specific type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to find in the zones
+<dt><b>Returns:</b>
+<dd>the zone name, 0 if not found
+
+</dl>
+
+<dt><a name="query_zone_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_zone_names</b></a><pre>
+string * query_zone_names(string type)
+</pre><dd>
+This method finds all the zones for the specific type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to find in the zones
+<dt><b>Returns:</b>
+<dd>the zone names, 0 if not found
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="add_clothing_type">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_clothing_type</b></a><pre>
+void add_clothing_type(string name,
+string * not_remove,
+string * hiding)
+</pre><dd>
+This method adds a new clothing type into the existing clothing
+type mapping.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the clothing type
+<dd>not_remove - the types which if worn you cannot remove this item
+<dd>hiding - the types which hides this clothing
+
+</dl>
+
+<dt><a name="add_clothing_zone">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_clothing_zone</b></a><pre>
+void add_clothing_zone(string zone,
+string * types)
+</pre><dd>
+This method adds a clothing zone.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>zone - the zone name
+<dd>types - the types to add to the zone
+
+</dl>
+
+<dt><a name="add_equivilant_type">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_equivilant_type</b></a><pre>
+void add_equivilant_type(string name,
+string equiv)
+</pre><dd>
+This method adds an equivilant type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the type
+<dd>equiv - what it is equivilant to
+
+</dl>
+
+<dt><a name="add_zone_coverage">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_zone_coverage</b></a><pre>
+void add_zone_coverage(string type,
+string * zones)
+</pre><dd>
+This method sets the zones that a particular clothing type covers<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the clothing type
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 16:32:05 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

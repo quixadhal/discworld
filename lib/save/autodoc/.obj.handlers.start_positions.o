@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["remove_buggy_starts":({({"void",}),({({"object",}),"player",}),(["main":({"Process a player and remove start positions as required.",}),"param":({"player The player object to check.",}),]),}),"list_buggy_starts":({({"string","*",}),({}),(["main":({"Get a list of all the currently registered buggy start positions.",}),"return":({"The list of filenames.",}),]),}),"delete_buggy_start":({({"int",}),({({"string",}),"fname",}),(["main":({"Remove a filename from the array of buggy start positions.Returns 1 if successful, -1 if the start position was not in the list,or 0 for an error.",}),"param":({"fname The filename of the room.  '.c' will be stripped.",}),"return":({"The integer success code.",}),]),}),"add_buggy_start":({({"int",}),({({"string",}),"fname",}),(["main":({"Add a filename to the array of buggy start positions to be removed.Returns 1 if successful, -1 if the start position was already in thelist, or 0 for an error.",}),"param":({"fname The filename of the room.  '.c' will be stripped.",}),"return":({"The integer success code.",}),]),}),"load_file":({({"void",}),({}),([]),}),"login_callback":({({"void",}),({({"string",}),"player",({"string",}),"type",}),(["main":({"This is the callback function registered with the login handler.  Ittakes two arguments: the player and the type of login event.  It checksa property on the player so that it doesn't process the list of buggystarts once for each player every single time they log in.",}),"param":({"player the player's name to check.","type the type of login event, as defined in <login_handler.h>.",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["ignore":({"",}),])
+define_docs (["CHECKED_PROP":([]),"SAVE_FILE":([]),])
+includes (["/include/player_handler.h":1522061544,"/include/login_handler.h":1522061544,])
+class_docs ([])
+file_name "/obj/handlers/start_positions.c"
+last_changed 1522061544

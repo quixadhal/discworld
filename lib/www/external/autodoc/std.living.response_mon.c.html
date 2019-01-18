@@ -1,0 +1,420 @@
+<html><head><title>File response_mon.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/living/response_mon.c</h2>
+This file contains the methods to make the npcs in game respond
+to soul and says.  Allows for a level of npc interation.
+<p>
+Code originaly by nimmox@igor.  Modified for discworld by Pinkfish.
+<p><p><b>See also:</b><br>/obj/monster.c
+<p>Written by Pinkfish<hr><h2>Includes</h2>
+This class includes the following files <a href="include.language.h.html">/include/language.h</a> and <a href="include.soul.h.html">/include/soul.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_response_data"><b>response_data</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_only_respond_to"><b>add_only_respond_to</b></a>(object)<dd>
+This adds an object into the list of objects that we will only respond
+to.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_respond_to_with"><b>add_respond_to_with</b></a>(mixed *, mixed)<dd>
+This method adds a respond message to respond to into the
+current array of responses.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_sub_sequence"><b>check_sub_sequence</b></a>(mixed *)<dd>
+This method checks the subsequence of words to see if it matches
+any of our current response sets.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_person_sayto"><b>event_person_sayto</b></a>(object, string, string, object *)<dd>
+This method is called on the npcs to help in recognising saytos.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#exec_response"><b>exec_response</b></a>(mixed, object, string)<dd>
+This method executes the response to the matched string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_only_respond_to"><b>query_only_respond_to</b></a>()<dd>
+This method returns the current list of people we are only responding
+to.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_respond_to_with"><b>query_respond_to_with</b></a>()<dd>
+This method returns the current responding to with array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_response_allowed"><b>query_response_allowed</b></a>(object, string *)<dd>
+This method checks to see if the response is allowed for this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_response_mon_debug_mode"><b>query_response_mon_debug_mode</b></a>()<dd>
+This method checks to see if the response monster code is in
+debug mode.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_response_mon_regexp"><b>query_response_mon_regexp</b></a>()<dd>
+This method returns the current state of the flag that indicates whether
+to use regular expressions instead of the traditional array of words.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stop_responding"><b>query_stop_responding</b></a>()<dd>
+This method returns the flag determining the toggling of the responses
+of the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_only_respond_to"><b>remove_only_respond_to</b></a>(object)<dd>
+This method removes an object from the list of people to respond to.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_read_marks"><b>remove_read_marks</b></a>(string)<dd>
+This method removes annoying read marks to make the string easier to
+parse.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#senddstr"><b>senddstr</b></a>(string, object)<dd>
+This method runs the command passed in, doing some substitution.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_respond_to_with"><b>set_respond_to_with</b></a>(mixed)<dd>
+This method sets the current responses for the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_response_mon_debug_mode"><b>set_response_mon_debug_mode</b></a>(int)<dd>
+This method sets the current debug flag for the response monster
+code.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_response_mon_regexp"><b>set_response_mon_regexp</b></a>(int)<dd>
+This method sets or clears the flag to use regular expressions instead of
+the traditional arrays of words.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_response_mon_understand_anything"><b>set_response_mon_understand_anything</b></a>(int)<dd>
+This method sets or clears the flag that allows the npc to understand
+any language at all.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_stop_responding"><b>set_stop_responding</b></a>(int)<dd>
+This method allows the toggling of the responses of the npc.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_only_respond_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_only_respond_to</b></a><pre>
+void add_only_respond_to(object person)
+</pre><dd>
+This adds an object into the list of objects that we will only respond
+to.  If this array is empty then we will respond to anyone, if it has
+something in it then we will only respond to them.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to add to the response array
+
+</dl>
+
+<dt><a name="add_respond_to_with">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_respond_to_with</b></a><pre>
+void add_respond_to_with(mixed * trigger,
+mixed response)
+</pre><dd>
+This method adds a respond message to respond to into the
+current array of responses.
+<p>
+If response_mon_regexp is not set, the trigger consists of an
+array of words to be matched
+(in order) in the string.  If there is an array instead of
+a single word at one point then any of the words in the
+array will be matched.  If response_mon_regexp is set, the
+trigger is a single string, representing the regular expression
+to be matched in the string.
+<p>
+The response is either an array of things to execute
+(in which case a random one will be chosen each time) or
+a function pointer or a string.  If it is a string then
+the command of that name will be executed, if the
+string starts with a '#' then the function named after that
+will be called on the npc.  That was exciting wasn't it?
+If the string has a $hname$ name in it and it is not a
+function call (starts with a #) then the $hname$ will be replaced
+with the name of the triggering object. $hcname$ or $short$ will be
+replaced with the short of the triggering object.
+<p>
+In the case of a function call, two arguments are passed into
+the function: the first is the person which triggered the effect
+and the second in the message which triggered the effect.
+<p>
+NOTE: The NPC must explicitly know the language being spoken, even
+if it's "common".  I don't know why.  That's just the way it is.  See
+add_language().<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>trigger - the trigger to trigger the action on
+<dd>response - the response to the action
+<dt><b>See also:</b>
+<dd><a href="#query_respond_to_with">query_respond_to_with()</a>, <a href="#query_response_allowed">query_response_allowed()</a>, <a href="#set_response_mon_regexp">set_response_mon_regexp()</a>, <a href="#query_response_mon_regexp">query_response_mon_regexp()</a>, <a href="#regexp">regexp()</a> and <a href="#add_language">add_language()
+</a><dt><b>Example:</b>
+<dd><pre>// Simple response
+add_respond_to_with(({ "@say", "bing" }), "'Yes!  Bing bing bing!");</pre><dd><pre>
+// respond to someone saying 'frog' or 'toad'
+add_respond_to_with(({ "@say", ({ "frog", "toad" }) }),
+                    "'Frogs and toads are nice.");</pre><dd><pre>
+// Randomly say something or bing back at them
+add_respond_to_with(({ "@say", "bing" }),
+                    ({ "'Yes!  Bing bing bing!", "bing $hname$" }));</pre><dd><pre>
+// Call the function 'rabbit' on the npc.
+add_respond_to_with(({ "@say", "bing" }), "#rabbit");</pre><dd><pre>
+// Do something cute with a function pointer
+add_respond_to_with(({ "@bing" }),
+                 (: do_command("'something wild for " + $1->a_short()) :));</pre></dl>
+
+<dt><a name="event_person_sayto">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_person_sayto</b></a><pre>
+void event_person_sayto(object per,
+string mess,
+string lang,
+object * targets)
+</pre><dd>
+This method is called on the npcs to help in recognising saytos.
+Beware...  A @say message will also be added, so you need to make sure
+you respond to the correct message and not to both.
+<p>
+
+<dt><a name="query_only_respond_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_only_respond_to</b></a><pre>
+object * query_only_respond_to()
+</pre><dd>
+This method returns the current list of people we are only responding
+to.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of people we are responding to
+
+</dl>
+
+<dt><a name="query_respond_to_with">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_respond_to_with</b></a><pre>
+mixed * query_respond_to_with()
+</pre><dd>
+This method returns the current responding to with array.
+The array is of the formant:<pre>
+  ({
+     trigger1,
+     response1,
+     trigger2,
+     response2,
+     ...
+   })
+</pre><p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_respond_to_with">add_respond_to_with()
+</a></dl>
+
+<dt><a name="query_response_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_response_allowed</b></a><pre>
+int query_response_allowed(object ob,
+string * response)
+</pre><dd>
+This method checks to see if the response is allowed for this object.
+NB: objects to which this_object is not visible are disallowed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to check
+<dd>response - the response that is matched
+<dt><b>Returns:</b>
+<dd>1 if the object is allowed, 0 if it is not
+
+</dl>
+
+<dt><a name="query_response_mon_debug_mode">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_response_mon_debug_mode</b></a><pre>
+int query_response_mon_debug_mode()
+</pre><dd>
+This method checks to see if the response monster code is in
+debug mode.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if in debug mode, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#set_response_mon_debug_mode">set_response_mon_debug_mode()
+</a></dl>
+
+<dt><a name="query_response_mon_regexp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_response_mon_regexp</b></a><pre>
+int query_response_mon_regexp()
+</pre><dd>
+This method returns the current state of the flag that indicates whether
+to use regular expressions instead of the traditional array of words.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if using regular expressions, 0 if not
+
+</dl>
+
+<dt><a name="query_stop_responding">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stop_responding</b></a><pre>
+int query_stop_responding()
+</pre><dd>
+This method returns the flag determining the toggling of the responses
+of the npc.
+If this is set to 1, then the npc will stop responding to
+messages.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 to the npc will not respond, 0 it is responding
+<dt><b>See also:</b>
+<dd><a href="#query_stop_responding">query_stop_responding()
+</a></dl>
+
+<dt><a name="remove_only_respond_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_only_respond_to</b></a><pre>
+void remove_only_respond_to(object person)
+</pre><dd>
+This method removes an object from the list of people to respond to.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to remove
+
+</dl>
+
+<dt><a name="set_respond_to_with">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_respond_to_with</b></a><pre>
+void set_respond_to_with(mixed map)
+</pre><dd>
+This method sets the current responses for the npc.
+This will overwrite the current responses in the npc.
+Please use add_respond_to_with in your NPC's instead of this function
+call, as it requires prior knowledge as to the internal structure of
+the respond_to_with code that add_respond_to_with handles nicely.
+The array is of the formant:<pre>
+  ({
+     trigger1,
+     response1,
+     trigger2,
+     response2,
+     ...
+   })
+</pre><p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_respond_to_with">add_respond_to_with()</a> and <a href="#query_respond_to_with">query_respond_to_with()
+</a></dl>
+
+<dt><a name="set_response_mon_debug_mode">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_response_mon_debug_mode</b></a><pre>
+void set_response_mon_debug_mode(int flag)
+</pre><dd>
+This method sets the current debug flag for the response monster
+code.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - the new value of the flag, 1 on, 0 off
+<dt><b>See also:</b>
+<dd><a href="#query_response_mon_debug_mode">query_response_mon_debug_mode()
+</a></dl>
+
+<dt><a name="set_response_mon_regexp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_response_mon_regexp</b></a><pre>
+void set_response_mon_regexp(int flag)
+</pre><dd>
+This method sets or clears the flag to use regular expressions instead of
+the traditional arrays of words.  In addition, this flag inhibits
+the usual stripping of non-alphanumerics from the input strings.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - the new value of the flag: 1 says to use regular expressions,
+0 to not use them
+
+</dl>
+
+<dt><a name="set_response_mon_understand_anything">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_response_mon_understand_anything</b></a><pre>
+void set_response_mon_understand_anything(int flag)
+</pre><dd>
+This method sets or clears the flag that allows the npc to understand
+any language at all.  THis is useful for those times when you need an
+npc that speaks/understands any language.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - the new value of the flag
+
+</dl>
+
+<dt><a name="set_stop_responding">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_stop_responding</b></a><pre>
+void set_stop_responding(int i)
+</pre><dd>
+This method allows the toggling of the responses of the npc.
+If this is set to 1, then the npc will stop responding to
+messages.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - 1 to make the npc not respond, 0 to make it respond again
+<dt><b>See also:</b>
+<dd><a href="#query_stop_responding">query_stop_responding()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="check_sub_sequence">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_sub_sequence</b></a><pre>
+mixed * check_sub_sequence(mixed * words)
+</pre><dd>
+This method checks the subsequence of words to see if it matches
+any of our current response sets.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the words which are to be tested
+<dt><b>Returns:</b>
+<dd>the response to be executed
+<dt><b>See also:</b>
+<dd><a href="#add_respond_to_with">add_respond_to_with()
+</a></dl>
+
+<dt><a name="exec_response">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>exec_response</b></a><pre>
+void exec_response(mixed rep,
+object per,
+string mess)
+</pre><dd>
+This method executes the response to the matched string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>rep - the response to execute
+<dd>per - the person who initiated the event
+<dd>mess - the message that was matched
+<dt><b>See also:</b>
+<dd><a href="#add_respond_to_with">add_respond_to_with()
+</a></dl>
+
+<dt><a name="remove_read_marks">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>remove_read_marks</b></a><pre>
+string remove_read_marks(string str)
+</pre><dd>
+This method removes annoying read marks to make the string easier to
+parse.  Basically it strips puncutation.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the string to remove the punctuation from
+<dt><b>Returns:</b>
+<dd>the string without any punctuation
+
+</dl>
+
+<dt><a name="senddstr">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>senddstr</b></a><pre>
+void senddstr(string str,
+object per)
+</pre><dd>
+This method runs the command passed in, doing some substitution.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the string to execute
+<dd>per - the person who triggered the command
+
+</dl>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_response_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>response_data</b></a><pre>
+class response_data {
+object last_ob;
+string last_mess;
+int stop_responding;
+int use_regexp;
+int last_count;
+int last_time;
+int understand_anything;
+object * only_respond_to;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 21:45:53 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

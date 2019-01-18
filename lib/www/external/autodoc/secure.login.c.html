@@ -1,0 +1,118 @@
+<html><head><title>File login.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /secure/login.c</h2>
+The main login object.
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.mail.h.html">/include/mail.h</a>, <a href="include.data.h.html">/include/data.h</a>, <a href="include.access.h.html">/include/access.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.playerinfo.h.html">/include/playerinfo.h</a>, <a href="include.random_names.h.html">/include/random_names.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a>, <a href="include.login.h.html">/include/login.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_state"><b>state</b></a>
+<dd>
+This structure holds a single state.
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#debug_log"><b>debug_log</b></a>(string, mixed args)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#enter_state"><b>enter_state</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#main_random_name_menu"><b>main_random_name_menu</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_delete_player_file_name"><b>query_delete_player_file_name</b></a>(string)<dd>
+This method returns the path to the deleted player file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_login_ob"><b>query_login_ob</b></a>()<dd>
+This method determines if the object is a login object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_file_name"><b>query_player_file_name</b></a>(string)<dd>
+This method returns the path to the player file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#quit"><b>quit</b></a>(string)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="debug_log">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>debug_log</b></a><pre>
+void debug_log(string fmt,
+mixed args ...)
+</pre>
+<dt><a name="enter_state">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>enter_state</b></a><pre>
+void enter_state(string new_state)
+</pre>
+<dt><a name="main_random_name_menu">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>main_random_name_menu</b></a><pre>
+mixed main_random_name_menu(string event)
+</pre>
+<dt><a name="query_delete_player_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_delete_player_file_name</b></a><pre>
+string query_delete_player_file_name(string name)
+</pre><dd>
+This method returns the path to the deleted player file.
+This is the deleted player files actual normal location, it was written to
+allow moving the player files aruond easier.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of hte player whose file to find
+<dt><b>See also:</b>
+<dd><a href="#test_user">test_user()</a> and <a href="#query_delete_player_file_name">query_delete_player_file_name()
+</a></dl>
+
+<dt><a name="query_login_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_login_ob</b></a><pre>
+int query_login_ob()
+</pre><dd>
+This method determines if the object is a login object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns 1
+
+</dl>
+
+<dt><a name="query_player_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_file_name</b></a><pre>
+string query_player_file_name(string name)
+</pre><dd>
+This method returns the path to the player file.
+This is the player files actual normal location, it was written to
+allow moving the player files aruond easier.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of hte player whose file to find
+<dt><b>See also:</b>
+<dd><a href="#test_user">test_user()</a> and <a href="#query_delete_player_file_name">query_delete_player_file_name()
+</a></dl>
+
+<dt><a name="quit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>quit</b></a><pre>
+mixed quit(string event)
+</pre>
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_state">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>state</b></a><pre>
+class state {
+string name;
+string action;
+string write;
+int noecho;
+mapping events;
+}
+
+</pre><dd>
+This structure holds a single state. A state has a name,
+an action or write and a set of events. <br>
+The name is used to identify the state and must be unique within the
+state table. An action is a function to call while a write is a
+string or file to be written to the screen.  The events mapping
+is made of event and new-state. The event is the trigger and
+new-state is the new state the machine should enter.<p>
+
+An event is a string of the form "type-data" where type is either
+"input" or "return" indicating user input or the return from an
+action function. Thus "return-ok" would be triggered if the action
+function in this state returned "ok" while "input-y" would be
+triggered if the user typed in "y". The special event "input" will
+trigger on any user input while the event "default" will trigger on
+any input or return value.
+
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 11:29:44 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,29 @@
+.DT
+remove_queue
+Disk World creator help
+remove_queue
+
+.SH Name
+.SP 5 5
+remove_queue -  This is called by the stop command.
+.EP
+
+.SH Syntax
+.SI 5
+void remove_queue()
+.EI
+
+.SH Defined in
+.SI 5
+/global/psoul.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is called by the stop command.  It sets the entire queue back to
+empty.  It calls the interrupt functions and stuff if they need to be
+called.
+
+.EP
+

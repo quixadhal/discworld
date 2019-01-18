@@ -1,0 +1,264 @@
+<html><head><title>File locksmith.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/npc/locksmith.c</h2>
+-- Inheritable for playerhousing locksmiths --
+An NPC using this inherit is able to unlock the doors to playerhouses and
+commercial properties when prompted to do so by the rightful owner.
+
+-- How such an NPC works from a player's point of view --
+- A player can "hire" the npc if he wants a door of his house opened.
+- He then has to "pay" (*) the amount the npc demands (if that player killed
+  the npc before, the base price is doubled).  He has 120 seconds to do so.
+- After that happens, the npc will follow the player until the player
+  "asks"s him to opens an exit door.
+- Then player is prompted to enter [y]es [n]o".  If the player confirms and
+  the handler doesn't return this as well, the npc complains and walks off
+  (keeping the money, of course).  Otherwise it unlocks the door and then
+  leaves.
+
+(*) Giving the money to the npc does not work, it'll return it.
+
+The same procedure applies if the player wants all doors opened.
+
+All attempts to hire a locksmith with the result of that action are logged
+in the file defined in LOG
+
+In case of problems you can always try to:
+1) look at the log to see if the player in question hired and payed the npc
+2) call query_client() on the npc
+3) call free_for_hire() on the npc
+4) dest and re-load the npc
+
+<p>Written by Wirble<p>Started Nov. 2001
+<h3>Example</h3>
+<pre>inherit "/std/npc/types/locksmith";
+
+void setup() {
+    // basic npc-setup
+    set_savefile(SAVE + "glodson_killers");
+    set_price(20000); // 50 $AM
+    set_currency_region("Ankh-Morpork");
+    set_domain("/d/am/");
+}
+</pre>
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.monster.c.html">/obj/monster.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#confirmation"><b>confirmation</b></a>(string, object)<dd>
+This function is used to evaluate the client's response to the "is this the
+door"-question.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#free_for_hire"><b>free_for_hire</b></a>()<dd>
+Use this function if something went wrong and the NPC does not react to the
+client/new clients anymore.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move_recording"><b>move_recording</b></a>()<dd>
+This function gets called after every move of the NPC and records it for a
+potential return.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_client"><b>query_client</b></a>()<dd>
+This queries the client's name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_domain"><b>query_domain</b></a>()<dd>
+This queries the NPC's domain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_killers"><b>query_killers</b></a>()<dd>
+This queries the killers of the NPC.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_room"><b>query_last_room</b></a>()<dd>
+This queries the last valid room the NPC was in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_responses"><b>query_responses</b></a>()<dd>
+This queries the responses of the NPC.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_currency_region"><b>set_currency_region</b></a>(string)<dd>
+This function sets the NPCs region for determining the currency.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_domain"><b>set_domain</b></a>(string)<dd>
+This sets the domain the NPC is restricted to.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_price"><b>set_price</b></a>(int)<dd>
+This function sets the base price for unlocking a door.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_responses"><b>set_responses</b></a>(string *)<dd>
+This function sets the NPC's responses for the various commands.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_savefile"><b>set_savefile</b></a>(string)<dd>
+Use this function to set the file where the killers of the NPC are stored,
+if you want to charge the killers the double price for opening their house.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="confirmation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>confirmation</b></a><pre>
+void confirmation(string response,
+object player)
+</pre><dd>
+This function is used to evaluate the client's response to the "is this the
+door"-question.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>response - the response the player entered
+<dd>player - the player doing the input
+
+</dl>
+
+<dt><a name="free_for_hire">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>free_for_hire</b></a><pre>
+void free_for_hire()
+</pre><dd>
+Use this function if something went wrong and the NPC does not react to the
+client/new clients anymore.
+<p>
+
+<dt><a name="move_recording">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move_recording</b></a><pre>
+void move_recording()
+</pre><dd>
+This function gets called after every move of the NPC and records it for a
+potential return.  It should not be called manually.
+<p>
+
+<dt><a name="query_client">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_client</b></a><pre>
+string query_client()
+</pre><dd>
+This queries the client's name.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the client or 0 for no client
+
+</dl>
+
+<dt><a name="query_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_domain</b></a><pre>
+string query_domain()
+</pre><dd>
+This queries the NPC's domain.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the first 6 chars of the domain.
+
+</dl>
+
+<dt><a name="query_killers">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_killers</b></a><pre>
+string * query_killers()
+</pre><dd>
+This queries the killers of the NPC.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array listing the killers' names
+
+</dl>
+
+<dt><a name="query_last_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_room</b></a><pre>
+string query_last_room()
+</pre><dd>
+This queries the last valid room the NPC was in.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the basename of the last room
+
+</dl>
+
+<dt><a name="query_responses">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_responses</b></a><pre>
+string * query_responses()
+</pre><dd>
+This queries the responses of the NPC.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of response-strings
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="set_currency_region">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_currency_region</b></a><pre>
+int set_currency_region(string region)
+</pre><dd>
+This function sets the NPCs region for determining the currency.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>region - the region to use
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="set_domain">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_domain</b></a><pre>
+int set_domain(string domain)
+</pre><dd>
+This sets the domain the NPC is restricted to.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>domain - the first 6 letters of the domain-path, ie "/d/am/"
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="set_price">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_price</b></a><pre>
+int set_price(int price)
+</pre><dd>
+This function sets the base price for unlocking a door.  If the savefile is
+set, a killer will be charged the double price.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>price - the base-price in money-units
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="set_responses">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_responses</b></a><pre>
+int set_responses(string * responses)
+</pre><dd>
+This function sets the NPC's responses for the various commands.  If not
+used generic answers will be used.  Mind that you cannot enter only a few
+responses.  It's all or nothing.  The array should be like this:
+1) response to failed confirmation
+2) response for not hired by that player
+3) response for trying to enter another player's house
+4) response for successful opening of the door
+5) response for already hired by other player
+6) response for not paid yet
+7) response for attempt to hire
+8) response for already paid
+9) response for not enough money to pay
+10) response for cannot find specified exit
+11) response for successful payment (please include 'ask' hint)
+12) response for not leaving the domain
+13) response for already hired by that player<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>responses - an array with the responses, as explained above
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="set_savefile">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_savefile</b></a><pre>
+int set_savefile(string file)
+</pre><dd>
+Use this function to set the file where the killers of the NPC are stored,
+if you want to charge the killers the double price for opening their house.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>file - the name of the file to save to
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 14:06:49 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

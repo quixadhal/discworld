@@ -1,0 +1,255 @@
+<html><head><title>File family.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/family.c</h2>
+This class contains all the stuff needed to control families in a
+player.<p>Written by Pinkfish<p>Started Fri Oct 30 07:53:30 PST 1998
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player.h.html">/include/player.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.clubs.h.html">/include/clubs.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_family_information"><b>family_information</b></a>
+<dd>
+The class for family information in the family stuff for the player.
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_player_club"><b>add_player_club</b></a>(string)<dd>
+This method adds a club to current list of known clubs on the
+family.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_player_title"><b>add_player_title</b></a>(string)<dd>
+This method adds the players title into the list of allowed titles.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_family_name"><b>check_family_name</b></a>()<dd>
+This method checks to make sure the players current family name
+is still valid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_player_titles"><b>query_all_player_titles</b></a>()<dd>
+This method returns all the player titles as a nice list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_family_name"><b>query_family_name</b></a>()<dd>
+This method queries the current family name of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_forced_title"><b>query_forced_title</b></a>()<dd>
+This method returns the title that has been forced upon you.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_clubs"><b>query_player_clubs</b></a>()<dd>
+This method returns the current know clubs the player is a meber of
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_title"><b>query_player_title</b></a>()<dd>
+This method returns the current title of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_player_club"><b>remove_player_club</b></a>(string)<dd>
+This method removes a club from the list of know clubs.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_player_title"><b>remove_player_title</b></a>(string)<dd>
+This method removes the players title from the list of allowed titles.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_family_name"><b>set_family_name</b></a>(string)<dd>
+This method sets the current family name of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_forced_title"><b>set_forced_title</b></a>(string, int)<dd>
+This method sets the forced title for the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_player_title"><b>set_player_title</b></a>(string)<dd>
+This method sets the current title of the player.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_default_titles"><b>setup_default_titles</b></a>()<dd>
+This is used by the refresh code.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_player_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_player_club</b></a><pre>
+int add_player_club(string club)
+</pre><dd>
+This method adds a club to current list of known clubs on the
+family.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club - the club to add
+
+</dl>
+
+<dt><a name="add_player_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_player_title</b></a><pre>
+int add_player_title(string title)
+</pre><dd>
+This method adds the players title into the list of allowed titles.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the title to add into the list
+<dt><b>Returns:</b>
+<dd>1 if the title was added successfuly, 0 if it exists
+<dt><b>See also:</b>
+<dd><a href="#set_player_title">set_player_title()</a> and <a href="#remove_player_title">remove_player_title()</a><dt><b>Example:</b>
+<dd><pre>player->add_player_title("lord");
+</pre></dl>
+
+<dt><a name="check_family_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_family_name</b></a><pre>
+void check_family_name()
+</pre><dd>
+This method checks to make sure the players current family name
+is still valid.  This will be called on startup and at various
+other times.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_family_name">set_family_name()
+</a></dl>
+
+<dt><a name="query_all_player_titles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_player_titles</b></a><pre>
+string * query_all_player_titles()
+</pre><dd>
+This method returns all the player titles as a nice list.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the player titles
+
+</dl>
+
+<dt><a name="query_family_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_family_name</b></a><pre>
+string query_family_name()
+</pre><dd>
+This method queries the current family name of the player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the family, 0 if none set
+<dt><b>See also:</b>
+<dd><a href="#set_family_name">set_family_name()
+</a></dl>
+
+<dt><a name="query_forced_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_forced_title</b></a><pre>
+string query_forced_title()
+</pre><dd>
+This method returns the title that has been forced upon you.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the forced title
+
+</dl>
+
+<dt><a name="query_player_clubs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_clubs</b></a><pre>
+string * query_player_clubs()
+</pre><dd>
+This method returns the current know clubs the player is a meber of<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of known clubs
+
+</dl>
+
+<dt><a name="query_player_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_title</b></a><pre>
+string query_player_title()
+</pre><dd>
+This method returns the current title of the player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current title of the player, 0 if none set
+<dt><b>See also:</b>
+<dd><a href="#query_family_name">query_family_name()
+</a></dl>
+
+<dt><a name="remove_player_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_player_club</b></a><pre>
+void remove_player_club(string club)
+</pre><dd>
+This method removes a club from the list of know clubs.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club - the club to remove
+
+</dl>
+
+<dt><a name="remove_player_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_player_title</b></a><pre>
+void remove_player_title(string title)
+</pre><dd>
+This method removes the players title from the list of allowed titles.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the title to remove from the list
+<dt><b>See also:</b>
+<dd><a href="#set_player_title">set_player_title()</a> and <a href="#add_player_title">add_player_title()
+</a></dl>
+
+<dt><a name="set_family_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_family_name</b></a><pre>
+int set_family_name(string name)
+</pre><dd>
+This method sets the current family name of the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the new family name
+<dt><b>Returns:</b>
+<dd>1 if successfuly set
+
+<dt><b>See also:</b>
+<dd><a href="#query_family_name">query_family_name()</a></dl>
+
+<dt><a name="set_forced_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_forced_title</b></a><pre>
+int set_forced_title(string title,
+int timeout)
+</pre><dd>
+This method sets the forced title for the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>force_title - the new title
+<dd>timeout - the length of time for it to timeout
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="set_player_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_player_title</b></a><pre>
+int set_player_title(string title)
+</pre><dd>
+This method sets the current title of the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the new title to set
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#query_player_title">query_player_title()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="setup_default_titles">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>setup_default_titles</b></a><pre>
+void setup_default_titles()
+</pre><dd>
+This is used by the refresh code.
+<p>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_family_information">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>family_information</b></a><pre>
+class family_information {
+string name;
+string * adjectives;
+string id;
+string * titles;
+string cur_title;
+string * clubs;
+string force_title;
+int force_timeout;
+}
+
+</pre><dd>
+The class for family information in the family stuff for the player.
+This is used internaly to the player object and should not be used
+elsewhere.<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 00:32:14 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

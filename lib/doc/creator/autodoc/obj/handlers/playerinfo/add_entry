@@ -1,0 +1,44 @@
+.DT
+add_entry
+Disk World creator help
+add_entry
+
+.SH Name
+.SP 5 5
+add_entry -  Add a new entry to the player's database.
+.EP
+
+.SH Syntax
+.SI 5
+int add_entry(object creator,
+string player,
+string event,
+string comment,
+mixed * extra)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^source%^RESET%^ - the creator or another object trying to add the event
+%^BOLD%^player%^RESET%^ - the name of the player
+%^BOLD%^event%^RESET%^ - event the name of the event to be added
+%^BOLD%^comment%^RESET%^ - arbitrary comment text (more than one line is OK)
+%^BOLD%^extra%^RESET%^ - arbitrary array of arbitrary objects (can be 0)
+.EI
+
+.SH Returns
+.SI 5
+nonzero if the entry was successfully added to the database
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playerinfo.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Add a new entry to the player's database.
+.EP
+

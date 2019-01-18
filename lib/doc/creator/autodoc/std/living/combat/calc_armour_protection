@@ -1,0 +1,41 @@
+.DT
+calc_armour_protection
+Disk World creator help
+calc_armour_protection
+
+.SH Name
+.SP 5 5
+calc_armour_protection -  Calculate how much of the damage is saved by the armour.
+.EP
+
+.SH Syntax
+.SI 5
+class attack calc_armour_protection(class attack att)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^class%^RESET%^ - attack
+.EI
+
+.SH Returns
+.SI 5
+class attack
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Calculate how much of the damage is saved by the armour.
+
+PRE: all information has been filled in except the amount of damage
+stopped by armour, and which piece of armour did the stopping.
+POST: The damage stopped and which armour did it is filled in.
+
+.EP
+

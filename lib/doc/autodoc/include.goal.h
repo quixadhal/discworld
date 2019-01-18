@@ -1,0 +1,30 @@
+.DT
+goal.h
+Disk World autodoc help
+goal.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^EVENT_HANDLED%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EVENT_NOT_HANDLED%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EVENT_PARTIALLY_HANDLED%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EVENT_USED%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^GOAL_ACHIEVED%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SET_GOAL_ARG%^RESET%^
+.EI
+

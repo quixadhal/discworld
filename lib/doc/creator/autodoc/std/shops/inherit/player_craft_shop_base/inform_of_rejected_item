@@ -1,0 +1,35 @@
+.DT
+inform_of_rejected_item
+Disk World creator help
+inform_of_rejected_item
+
+.SH Name
+.SP 5 5
+inform_of_rejected_item -  This method is called when an item is rejected so people can do whatever they want to about it.
+.EP
+
+.SH Syntax
+.SI 5
+void inform_of_rejected_item(string name,
+class approval_obs approve)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the peron doing the rejection
+%^BOLD%^approve%^RESET%^ - the approval class
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/player_craft_shop_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when an item is rejected so people can do whatever
+they want to about it.  In this case, we keep track of statistics.
+.EP
+

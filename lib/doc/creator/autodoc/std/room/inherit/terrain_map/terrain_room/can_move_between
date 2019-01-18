@@ -1,0 +1,93 @@
+.DT
+can_move_between
+Disk World creator help
+can_move_between
+
+.SH Name
+.SP 5 5
+can_move_between -  This method may be overriden to allow the handler to setup diagonal exits between terrain types that are different.
+.EP
+
+.SH Syntax
+.SI 5
+int can_move_between(string my_type,
+string direc,
+string first_type,
+string second_type,
+string new_base_path)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^my_type%^RESET%^ - our type
+%^BOLD%^direc%^RESET%^ - the direction we are checking in
+%^BOLD%^first_type%^RESET%^ - the first neighbouring path
+%^BOLD%^second_type%^RESET%^ - the second neighbouring path
+%^BOLD%^new_base_path%^RESET%^ - the path of the thing that is the destination
+.EI
+
+.SH Returns
+.SI 5
+return 1 if the exits should be made, 0 otherwise.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/terrain_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method may be overriden to allow the handler to setup diagonal exits
+between terrain types that are different.  What this does, here is
+a small explaination.  If you have a map below:
+
+.EP
+.SP 5 5
+   ff-
+.EP
+.SP 5 5
+   f-f
+.EP
+.SP 5 5
+   -ff
+.EP
+.SP 5 5
+
+.EP
+.SP 5 5
+Where the '-'s are roads, you do not want to let someone diagonaly
+.EP
+.SP 5 5
+jump the road.  So you make it so that you cannot go from the
+.EP
+.SP 5 5
+f on one side of the road to the other.  THis is the default behaviour,
+.EP
+.SP 5 5
+however you want people to be able to actualy walk diagonaly on the road
+.EP
+.SP 5 5
+so you need to override this to allow the road to be walked on.
+.EP
+.SP 5 5
+exits from one or more types of location.
+.EP
+.SP 5 5
+
+
+
+.EP
+.SP 5 5
+The values passed in are the paths to the final object files.  Not the
+.EP
+.SP 5 5
+key values in the map.
+.EP
+
+.SH See also
+.SP 5 5
+can_exit_to, add_room_type, add_road_type, query_to_same, query_to_other, query_from_other
+
+.EP
+

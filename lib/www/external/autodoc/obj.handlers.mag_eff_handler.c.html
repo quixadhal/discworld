@@ -1,0 +1,175 @@
+<html><head><title>File mag_eff_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/mag_eff_handler.c</h2>
+This handler controls the ambient enchantment effects and effects
+from solid grains of octarine.  Ambient enchantment is caused by
+the use of spells in certain locations.  Ambient enchantment can
+be blocked by use of the property "enchantment block".<p>Written by Deutha
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_octonite_crystal"><b>add_octonite_crystal</b></a>(object)<dd>
+This method adds an octonite crystal into the current list of
+octonite crystals.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#ambient_enchantment"><b>ambient_enchantment</b></a>(object)<dd>
+This method returns the current ambient enchantment for the particular
+object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#block"><b>block</b></a>(object)<dd>
+This method checks to see if the particular object is blocking the use
+of enchantments.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#choose_effect"><b>choose_effect</b></a>(int)<dd>
+This method chooses a random effect from the curent list of effects
+defined in the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_effect"><b>do_effect</b></a>(int, string, object)<dd>
+This method causes an effect to occur.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#extra_look"><b>extra_look</b></a>(object)<dd>
+This method returns the extra look information for a piece of octonite.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_octonite_crystals"><b>query_octonite_crystals</b></a>()<dd>
+This method returns the current list of octonite cystals handled
+by this handler.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#schedule_next"><b>schedule_next</b></a>()<dd>
+This schedules the next update to occur.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_octonite"><b>update_octonite</b></a>()<dd>
+This updatest he values associated with the octonite pebbles.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_octonite_crystal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_octonite_crystal</b></a><pre>
+void add_octonite_crystal(object crystal)
+</pre><dd>
+This method adds an octonite crystal into the current list of
+octonite crystals.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>crystal - the crystal to add
+<dt><b>See also:</b>
+<dd><a href="#query_octonite_crystals">query_octonite_crystals()</a>, <a href="#update_octonite">update_octonite()</a> and <a href="#schedule_next">schedule_next()
+</a></dl>
+
+<dt><a name="ambient_enchantment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>ambient_enchantment</b></a><pre>
+int ambient_enchantment(object thing)
+</pre><dd>
+This method returns the current ambient enchantment for the particular
+object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object to get the ambient enchantment for
+<dt><b>Returns:</b>
+<dd>the ambient enchantment of the object
+<dt><b>See also:</b>
+<dd><a href="#do_effect">do_effect()</a>, <a href="#choose_effect">choose_effect()</a> and <a href="#block">block()
+</a></dl>
+
+<dt><a name="block">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>block</b></a><pre>
+int block(object thing)
+</pre><dd>
+This method checks to see if the particular object is blocking the use
+of enchantments.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object to check for enchantment block
+<dt><b>Returns:</b>
+<dd>1 if it is blocking enchanments, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#do_effect">do_effect()</a>, <a href="#ambient_enchantment">ambient_enchantment()</a> and <a href="#choose_effect">choose_effect()
+</a></dl>
+
+<dt><a name="choose_effect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>choose_effect</b></a><pre>
+int * choose_effect(int number)
+</pre><dd>
+This method chooses a random effect from the curent list of effects
+defined in the handler.  It returns an array consisting of
+two elements, the first is the number, the second is a random
+number between the input number multiplied by 6 and then divided
+by 1000.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the intput number
+<dt><b>Returns:</b>
+<dd>an array as described above
+<dt><b>See also:</b>
+<dd><a href="#do_effect">do_effect()</a>, <a href="#ambient_enchantment">ambient_enchantment()</a> and <a href="#block">block()
+</a></dl>
+
+<dt><a name="do_effect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_effect</b></a><pre>
+void do_effect(int number,
+string name,
+object place)
+</pre><dd>
+This method causes an effect to occur.  The number is the severity
+of the effect.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the severity of the magic infestation
+<dd>name - the name of the thing being effected
+<dd>place - the place being effected (room)
+<dt><b>See also:</b>
+<dd><a href="#choose_effect">choose_effect()</a>, <a href="#ambient_enchantment">ambient_enchantment()</a> and <a href="#block">block()
+</a></dl>
+
+<dt><a name="extra_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>extra_look</b></a><pre>
+string extra_look(object thing)
+</pre><dd>
+This method returns the extra look information for a piece of octonite.
+It gives different messages about size depending on its weight.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object to give na extra look for
+<dt><b>Returns:</b>
+<dd>the extra information about the octonite pebbles
+
+</dl>
+
+<dt><a name="query_octonite_crystals">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_octonite_crystals</b></a><pre>
+object * query_octonite_crystals()
+</pre><dd>
+This method returns the current list of octonite cystals handled
+by this handler.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of octonite crystals
+<dt><b>See also:</b>
+<dd><a href="#schedule_next">schedule_next()</a>, <a href="#update_octonite">update_octonite()</a> and <a href="#add_octonite_cyrstal">add_octonite_cyrstal()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="schedule_next">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>schedule_next</b></a><pre>
+void schedule_next()
+</pre><dd>
+This schedules the next update to occur.  The updates are for the
+octonite crystals.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_octonite_crystals">query_octonite_crystals()</a>, <a href="#update_octonite">update_octonite()</a> and <a href="#add_octonite_cyrstal">add_octonite_cyrstal()
+</a></dl>
+
+<dt><a name="update_octonite">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>update_octonite</b></a><pre>
+void update_octonite()
+</pre><dd>
+This updatest he values associated with the octonite pebbles.  They
+decay away slowly releasing ambient magic into the background.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_octonite_crystals">query_octonite_crystals()</a>, <a href="#schedule_next">schedule_next()</a> and <a href="#add_octonite_cyrstal">add_octonite_cyrstal()
+</a></dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 20:36:41 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

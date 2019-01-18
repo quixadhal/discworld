@@ -1,0 +1,50 @@
+<html><head><title>File simple_feature.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/terrain_map/simple_feature.c</h2>
+This type of feature generates distance messages to the feature
+based on how far away it is.  It uses a small basic string as the
+main part of the description and adds in distance messages to show
+how far away the item is.<p>Written by Pinkfish<p>Started Mon Apr  1 12:50:02 PST 2002
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.inherit.terrain_map.feature_base.c.html">/std/room/inherit/terrain_map/feature_base.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.terrain_map.h.html">/include/terrain_map.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_base_description"><b>query_base_description</b></a>()<dd>
+This method returns the basic description for the feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_base_description"><b>set_base_description</b></a>(string)<dd>
+This method sets the basic description for the feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_distance_multiplier"><b>set_distance_multiplier</b></a>(int)<dd>
+This method sets the distance multiplier for the feature.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_base_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_base_description</b></a><pre>
+string query_base_description()
+</pre><dd>
+This method returns the basic description for the feature.
+<p>
+
+<dt><a name="set_base_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_base_description</b></a><pre>
+void set_base_description(string desc)
+</pre><dd>
+This method sets the basic description for the feature.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>desc - the basic description
+
+</dl>
+
+<dt><a name="set_distance_multiplier">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_distance_multiplier</b></a><pre>
+void set_distance_multiplier(int mult)
+</pre><dd>
+This method sets the distance multiplier for the feature.  This is amount
+to multiply the range by to find the actual distance.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 12:13:19 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

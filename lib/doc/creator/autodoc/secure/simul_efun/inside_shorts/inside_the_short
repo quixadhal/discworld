@@ -1,0 +1,42 @@
+.DT
+inside_the_short
+Disk World creator help
+inside_the_short
+
+.SH Name
+.SP 5 5
+inside_the_short -  This method produces the inside messages for the given object up to the player object.
+.EP
+
+.SH Syntax
+.SI 5
+string inside_the_short(object ob,
+object play)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object to generate the short for
+%^BOLD%^play%^RESET%^ - the player to generate the short up to
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/inside_shorts.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method produces the inside messages for the given object up
+to the player object.  This one generates 'the_short' messages.
+This should only be called with an object that is a container.
+It will produce weird and incorrect messages otherwise.
+.EP
+
+.SH See also
+.SP 5 5
+inside_a_short()
+
+.EP
+

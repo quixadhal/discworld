@@ -1,0 +1,41 @@
+.DT
+add_enter_mess
+Disk World creator help
+add_enter_mess
+
+.SH Name
+.SP 5 5
+add_enter_mess -  This function sets the next entry message from this room for a particular object.
+.EP
+
+.SH Syntax
+.SI 5
+void add_enter_mess(object ob,
+string mess)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object for which the next entry message should be set
+%^BOLD%^mess%^RESET%^ - the next entry message for the object
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets the next entry message from this room for a particular
+object.  It is used automagically by the swim_exit function, but can be used
+for other purposes if you feel like it.
+.EP
+
+.SH See also
+.SP 5 5
+get_enter_mess, add_exit_mess, get_exit_mess, swim_exit
+
+.EP
+

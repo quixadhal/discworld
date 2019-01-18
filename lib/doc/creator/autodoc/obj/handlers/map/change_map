@@ -1,0 +1,42 @@
+.DT
+change_map
+Disk World creator help
+change_map
+
+.SH Name
+.SP 5 5
+change_map -  This method changes the current values of the map values for the specified room.
+.EP
+
+.SH Syntax
+.SI 5
+void change_map(string dir,
+string room,
+string * dd)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - the directory to change the values in
+%^BOLD%^room%^RESET%^ - the room to change the directory for
+%^BOLD%^dd%^RESET%^ - the array containing the direction, destination pairs
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method changes the current values of the map values for the
+specified room.
+.EP
+
+.SH See also
+.SP 5 5
+query_map()
+
+.EP
+

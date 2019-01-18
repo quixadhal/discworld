@@ -1,0 +1,342 @@
+<html><head><title>File club_discuss.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/club_discuss.c</h2>
+This file is for adding discussion items to clubs.  It should be included
+into the main club control room.<p><b>See also:</b><br>/obj/handlers/club_handler.c
+<p>Written by Pinkfish<p>Started April 21st 1999<hr><h2>Includes</h2>
+This class includes the following files <a href="include.am_time.h.html">/include/am_time.h</a> and <a href="include.clubs.h.html">/include/clubs.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_memo_item"><b>memo_item</b></a>
+<dd>
+This class is used by the memo discussion item addition code.
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_position"><b>change_position</b></a>(string, int, string)<dd>
+Figure out which of the choices the player wishes to change.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_position_new_name"><b>change_position_new_name</b></a>(string, string, int, string)<dd>
+This method checks to make sure that the entered name to change the
+position to is valid.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#description_confirm"><b>description_confirm</b></a>(string, string, int, string)<dd>
+This method confirms the description typed in is correct.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#discuss_memo_menu"><b>discuss_memo_menu</b></a>(class memo_item)<dd>
+This method runs the menu for the memo discussion item.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#discussion_add_name"><b>discussion_add_name</b></a>(string, int, string)<dd>
+This method checks to make sure that the entered position name is
+valid.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#discussion_finish_information"><b>discussion_finish_information</b></a>(string, mixed *)<dd>
+This method is the return from the editing for the information
+bit and will now try and confirm this.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_discuss"><b>do_discuss</b></a>(int, string, string)<dd>
+The main entry point for all the discussion item types.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_discuss_add_position"><b>do_discuss_add_position</b></a>(int, string)<dd>
+This is the method used to start the discussion of an add position
+discussion item.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_discuss_change_position_name"><b>do_discuss_change_position_name</b></a>(int, string)<dd>
+This is the main entry point for setting up a discussion item to 
+change a position name in the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_discuss_create_account"><b>do_discuss_create_account</b></a>(int, string)<dd>
+This is the main entry point for setting up a discussion item to 
+remove a position from the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_discuss_description"><b>do_discuss_description</b></a>(int, string)<dd>
+This is the entry point for setting up a discussion on changing
+the description of the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_discuss_memo"><b>do_discuss_memo</b></a>(int, string)<dd>
+This is the main entry point for setting up a memo discussion type.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_discuss_no_confidence"><b>do_discuss_no_confidence</b></a>(int, string)<dd>
+This is the main entry point for the no confidence discussion votes.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_discuss_remove_account"><b>do_discuss_remove_account</b></a>(int, string)<dd>
+This is the main entry point for setting up a discussion item to 
+remove an account from the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_discuss_remove_member"><b>do_discuss_remove_member</b></a>(int, string)<dd>
+This is the main entry point for the function to setup a discussion item
+to remove a member from the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_discuss_remove_position"><b>do_discuss_remove_position</b></a>(int, string)<dd>
+This is the main entry point for setting up a discussion item to 
+remove a position from the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_discuss_secret"><b>do_discuss_secret</b></a>(int, string)<dd>
+This method is the main entry point to adding a discussion type to make
+the club secret.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_discuss">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_discuss</b></a><pre>
+int do_discuss(int open,
+string type,
+string club_name)
+</pre><dd>
+The main entry point for all the discussion item types.  Figures out
+which discussion item it is and calls the correct method to start the
+ball rolling.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of the discussion item
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.club_handler.c.html">/obj/handlers/club_handler.c</a>, <a href="#do_discuss_description">do_discuss_description()</a>, <a href="#do_discuss_add_position">do_discuss_add_position()</a>, <a href="#do_discuss_change_position_name">do_discuss_change_position_name()</a> and <a href="#do_discuss_memo">do_discuss_memo()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="change_position">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>change_position</b></a><pre>
+void change_position(string str,
+int open,
+string club_name)
+</pre><dd>
+Figure out which of the choices the player wishes to change.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name of the position to be changed
+<dt><b>See also:</b>
+<dd><a href="#do_discuss_change_position_name">do_discuss_change_position_name()</a>, <a href="#change_position_new_name">change_position_new_name()</a> and <a href="#change_position_new_name_confirm">change_position_new_name_confirm()
+</a></dl>
+
+<dt><a name="change_position_new_name">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>change_position_new_name</b></a><pre>
+void change_position_new_name(string str,
+string position,
+int open,
+string club_name)
+</pre><dd>
+This method checks to make sure that the entered name to change the
+position to is valid.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new name for the position
+<dd>position - the position to change
+<dt><b>See also:</b>
+<dd><a href="#change_position">change_position()</a>, <a href="#do_discuss_change_position_name">do_discuss_change_position_name()</a> and <a href="#change_position_new_name_confirm">change_position_new_name_confirm()
+</a></dl>
+
+<dt><a name="description_confirm">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>description_confirm</b></a><pre>
+void description_confirm(string confirm,
+string str,
+int open,
+string club_name)
+</pre><dd>
+This method confirms the description typed in is correct.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>confirm - the string the used typed to confirm the description
+<dd>str - the description
+<dt><b>See also:</b>
+<dd><a href="#do_discuss_description">do_discuss_description()
+</a></dl>
+
+<dt><a name="discuss_memo_menu">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>discuss_memo_menu</b></a><pre>
+void discuss_memo_menu(class memo_item memo)
+</pre><dd>
+This method runs the menu for the memo discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>memo - the memo item to be used in the menu
+
+</dl>
+
+<dt><a name="discussion_add_name">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>discussion_add_name</b></a><pre>
+void discussion_add_name(string str,
+int open,
+string club_name)
+</pre><dd>
+This method checks to make sure that the entered position name is
+valid.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the position to check
+<dt><b>See also:</b>
+<dd><a href="#do_discuss_add_position">do_discuss_add_position()</a> and <a href="#discussion_add_name_confirm">discussion_add_name_confirm()
+</a></dl>
+
+<dt><a name="discussion_finish_information">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>discussion_finish_information</b></a><pre>
+void discussion_finish_information(string info,
+mixed * data)
+</pre><dd>
+This method is the return from the editing for the information
+bit and will now try and confirm this.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the confirmation string
+<dd>data - the passed in data
+<dt><b>See also:</b>
+<dd><a href="#discussion_add_name">discussion_add_name()</a> and <a href="#do_discuss_add_position">do_discuss_add_position()
+</a></dl>
+
+<dt><a name="do_discuss_add_position">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_discuss_add_position</b></a><pre>
+int do_discuss_add_position(int open,
+string club_name)
+</pre><dd>
+This is the method used to start the discussion of an add position
+discussion item.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#do_discuss">do_discuss()</a>, <a href="#discussion_add_name">discussion_add_name()</a> and <a href="#discussion_add_name_confirm">discussion_add_name_confirm()
+</a></dl>
+
+<dt><a name="do_discuss_change_position_name">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_discuss_change_position_name</b></a><pre>
+int do_discuss_change_position_name(int open,
+string club_name)
+</pre><dd>
+This is the main entry point for setting up a discussion item to 
+change a position name in the club.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#change_position">change_position()</a>, <a href="#change_position_new_name">change_position_new_name()</a>, <a href="#change_position_new_name_confirm">change_position_new_name_confirm()</a> and <a href="#do_discuss">do_discuss()
+</a></dl>
+
+<dt><a name="do_discuss_create_account">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_discuss_create_account</b></a><pre>
+int do_discuss_create_account(int open,
+string club_name)
+</pre><dd>
+This is the main entry point for setting up a discussion item to 
+remove a position from the club.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#do_discuss">do_discuss()
+</a></dl>
+
+<dt><a name="do_discuss_description">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_discuss_description</b></a><pre>
+int do_discuss_description(int open,
+string club_name)
+</pre><dd>
+This is the entry point for setting up a discussion on changing
+the description of the club.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#description_confirm">description_confirm()
+</a></dl>
+
+<dt><a name="do_discuss_memo">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_discuss_memo</b></a><pre>
+int do_discuss_memo(int op,
+string club_name)
+</pre><dd>
+This is the main entry point for setting up a memo discussion type.
+A memo is a user run discussion item which has no effect on any
+real game mechanics.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#do_discuss">do_discuss()
+</a></dl>
+
+<dt><a name="do_discuss_no_confidence">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_discuss_no_confidence</b></a><pre>
+int do_discuss_no_confidence(int open,
+string club_name)
+</pre><dd>
+This is the main entry point for the no confidence discussion votes.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>open - the open flag
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#do_discuss">do_discuss()
+</a></dl>
+
+<dt><a name="do_discuss_remove_account">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_discuss_remove_account</b></a><pre>
+int do_discuss_remove_account(int open,
+string club_name)
+</pre><dd>
+This is the main entry point for setting up a discussion item to 
+remove an account from the club.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#do_discuss">do_discuss()
+</a></dl>
+
+<dt><a name="do_discuss_remove_member">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_discuss_remove_member</b></a><pre>
+int do_discuss_remove_member(int open,
+string club_name)
+</pre><dd>
+This is the main entry point for the function to setup a discussion item
+to remove a member from the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>open - the open flag
+
+</dl>
+
+<dt><a name="do_discuss_remove_position">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_discuss_remove_position</b></a><pre>
+int do_discuss_remove_position(int open,
+string club_name)
+</pre><dd>
+This is the main entry point for setting up a discussion item to 
+remove a position from the club.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#do_discuss">do_discuss()
+</a></dl>
+
+<dt><a name="do_discuss_secret">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_discuss_secret</b></a><pre>
+int do_discuss_secret(int open,
+string club_name)
+</pre><dd>
+This method is the main entry point to adding a discussion type to make
+the club secret.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>open - if the item is being added as an open item
+
+</dl>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_memo_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>memo_item</b></a><pre>
+class memo_item {
+string club_name;
+string subject;
+string description;
+string * choices;
+int timeout;
+int open;
+}
+
+</pre><dd>
+This class is used by the memo discussion item addition code.<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 05:08:31 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

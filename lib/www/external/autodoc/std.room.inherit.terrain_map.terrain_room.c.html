@@ -1,0 +1,745 @@
+<html><head><title>File terrain_room.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/terrain_map/terrain_room.c</h2> Base inherit for a terrain_map room.
+<p>
+This file should be inherited by any room within a terrain mapped
+virtual area.
+<p>
+When inheriting from this file, it is essential that the function
+query_handler_path() be overriden to return the full pathname of
+the handler associated with this area.
+<p>
+To inherit from this file, use the following lines:
+<ul>
+<li>#include <terrain_map.h>
+<li>
+<li>inherit TERRAIN_MAP_OUTSIDE_BASE
+</ul>
+<p><b>See also:</b><br>terrain_map_handler.c, terrain_map_intro.c and terrain_map_example.c<p>Written by Dek<p>Started Thurs April 12 2001 Too Damn Early BST
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.inherit.terrain_map.factory_base.c.html">/std/room/inherit/terrain_map/factory_base.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.terrain_map.h.html">/include/terrain_map.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a> and <a href="include.room.h.html">/include/room.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_feature"><b>feature</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_default_exit"><b>add_default_exit</b></a>(string, string)<dd>
+This method adds a default exit into the list of default exits.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_variable_exit"><b>add_variable_exit</b></a>(string)<dd>
+This method adds a variable exit into the list of variable exits.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_enter_from"><b>can_enter_from</b></a>(string, string, string)<dd>
+This method may be overriden to prevent the handler from setting up
+exits from one or more types of location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_exit_to"><b>can_exit_to</b></a>(string, string, string)<dd>
+This method may be overriden to prevent the handler from setting up
+exits to one or more types of location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_move_between"><b>can_move_between</b></a>(string, string, string, string, string)<dd>
+This method may be overriden to allow the handler to setup diagonal exits
+between terrain types that are different.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_view_adjacent_desc"><b>can_view_adjacent_desc</b></a>(string, string, string, int, string)<dd>
+If this can be seen from this location or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_view_feature"><b>can_view_feature</b></a>(string)<dd>
+This method may be overriden to mask out feature descriptions and chats
+from one or more features in the current terrain map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_view_feature_from"><b>can_view_feature_from</b></a>(string, string, int)<dd>
+This method may be overriden to mask out feature descriptions and chats
+from one or more features in the current terrain map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_map"><b>do_map</b></a>()<dd>
+This method draws a little debug map for the creator.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_map_terrain"><b>do_map_terrain</b></a>()<dd>
+This method draws the map of the entire terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_outside_chats"><b>do_outside_chats</b></a>()<dd>
+This method may be overriden to prevent the handler from setting up
+additional room_chats from appropriate adjacent locations.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#hash"><b>hash</b></a>(int)<dd>
+This method makes a deterministic hash value based on the real co-ordinates
+of this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#hash_time"><b>hash_time</b></a>(int, int)<dd>
+This produces a deterministicly static value that only exists for a
+specific period of time, before moving.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#long_test"><b>long_test</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_default_exits"><b>query_default_exits</b></a>()<dd>
+This method returns the default exits mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dest_coordinate_string"><b>query_dest_coordinate_string</b></a>(int, int, int, string, string)<dd>
+This function allows you to change the destination location of the room
+if nessessary.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dest_dir"><b>query_dest_dir</b></a>(mixed *)<dd>
+Mess with the data.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dest_other"><b>query_dest_other</b></a>(string, mixed *)<dd>
+This messes with the return values of the rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_direction_distance_str"><b>query_direction_distance_str</b></a>(int, string)<dd>
+This method returns a string which says how far they have moved.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_enter_exit_direction"><b>query_enter_exit_direction</b></a>(string, string, string, object, string)<dd>
+This method is used to setup any unusual sorts of entrances to 
+specific room types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_from_other"><b>query_from_other</b></a>(string, string, string, string)<dd>
+The handler calls this function when setting up exits to allow the
+room to set up any modify_exit parameters which should be applied
+to exits leading from other locations of different types to this.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_map_handler"><b>query_map_handler</b></a>()<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_my_real_file_name"><b>query_my_real_file_name</b></a>()<dd>
+This method returns the actual file name of this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_path"><b>query_room_path</b></a>(int, int, int)<dd>
+This method returns the path at the specific co-ordinate.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_terrain_coords"><b>query_terrain_coords</b></a>()<dd>
+This returns the terrain coordinate of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_terrain_handler"><b>query_terrain_handler</b></a>()<dd>
+This method returns the terrain handler for
+the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_terrain_map_block"><b>query_terrain_map_block</b></a>()<dd>
+This method returns if the room is blocking or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_terrain_map_character"><b>query_terrain_map_character</b></a>()<dd>
+This method returns the character to use for this terrain in the player
+visible map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_terrain_map_journey_exit"><b>query_terrain_map_journey_exit</b></a>()<dd>
+This method returns the prefix to use for 'journey' exits in this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_terrain_map_walk_exit"><b>query_terrain_map_walk_exit</b></a>()<dd>
+This method returns the prefix to use for 'walk' exits in this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_to_other"><b>query_to_other</b></a>(string, string, string, string)<dd>
+The handler calls this function when setting up exits to allow the
+room to set up any modify_exit parameters which should be applied
+to exits leading to other locations of different types to this.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_to_same"><b>query_to_same</b></a>(string, string, string, string)<dd>
+The handler calls this function when setting up exits to allow the
+room to set up any modify_exit parameters which should be applied
+to exits leading to other locations of the same type as this.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_handler"><b>reset_handler</b></a>()<dd>
+This method destroys every single room in the associated terrain map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_terrain_handler"><b>set_terrain_handler</b></a>(string)<dd>
+This method sets the terrain handler for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_terrain_map_block"><b>set_terrain_map_block</b></a>(int)<dd>
+This method sets if the particular room is see through or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_terrain_map_character"><b>set_terrain_map_character</b></a>(string)<dd>
+This method sets the character to use for this terrain in the player
+visible map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_default_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_default_exit</b></a><pre>
+void add_default_exit(string exit,
+string location)
+</pre><dd>
+This method adds a default exit into the list of default exits.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>exit - the exit to make variable
+<dd>location - this is the walk exit location
+
+</dl>
+
+<dt><a name="add_variable_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_variable_exit</b></a><pre>
+void add_variable_exit(string exit)
+</pre><dd>
+This method adds a variable exit into the list of variable exits.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>exit - the exit to make variable
+
+</dl>
+
+<dt><a name="can_enter_from">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_enter_from</b></a><pre>
+int can_enter_from(string type,
+string direc,
+string base_path)
+</pre><dd>
+This method may be overriden to prevent the handler from setting up
+exits from one or more types of location.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of location the exit would be from. This is the same as 
+the character used in the ASCII map.
+<dt><b>Returns:</b>
+<dd>return 1 if the exits should be made, 0 otherwise
+<dt><b>See also:</b>
+<dd>can_exit_to.c, add_room_type.c, add_road_type.c, query_to_same.c, query_to_other.c and query_from_other
+.c<dt><b>Example:</b>
+<dd><pre>   int can_enter_from(string type) 
+   
+   {
+      switch (type) {
+         case "#" : return 0;
+         case "*" : return 0;
+         default  : return 1;
+      }
+   }</pre></dl>
+
+<dt><a name="can_exit_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_exit_to</b></a><pre>
+int can_exit_to(string type,
+string direc,
+string base_path)
+</pre><dd>
+This method may be overriden to prevent the handler from setting up
+exits to one or more types of location.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of location the exit would be to. This is the same as 
+the character used in the ASCII map.
+<dt><b>Returns:</b>
+<dd>return 1 if the exits should be made, 0 otherwise
+<dt><b>See also:</b>
+<dd>can_enter_from.c, add_room_type.c, add_road_type.c, query_to_same.c, query_to_other.c and query_from_other
+.c<dt><b>Example:</b>
+<dd><pre>   int can_exit_to(string type) 
+   
+   {
+      switch (type) {
+         case "#" : return 0;
+         case "*" : return 0;
+         default  : return 1;
+      }
+   }</pre></dl>
+
+<dt><a name="can_move_between">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_move_between</b></a><pre>
+int can_move_between(string my_type,
+string direc,
+string first_type,
+string second_type,
+string new_base_path)
+</pre><dd>
+This method may be overriden to allow the handler to setup diagonal exits
+between terrain types that are different.  What this does, here is
+a small explaination.  If you have a map below:
+<pre>
+   ff-
+   f-f
+   -ff
+<pre>
+Where the '-'s are roads, you do not want to let someone diagonaly
+jump the road.  So you make it so that you cannot go from the
+f on one side of the road to the other.  THis is the default behaviour,
+however you want people to be able to actualy walk diagonaly on the road
+so you need to override this to allow the road to be walked on.
+exits from one or more types of location.
+<p>
+The values passed in are the paths to the final object files.  Not the
+key values in the map.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>my_type - our type
+<dd>direc - the direction we are checking in
+<dd>first_type - the first neighbouring path
+<dd>second_type - the second neighbouring path
+<dd>new_base_path - the path of the thing that is the destination
+<dt><b>Returns:</b>
+<dd>return 1 if the exits should be made, 0 otherwise
+<dt><b>See also:</b>
+<dd>can_exit_to.c, add_room_type.c, add_road_type.c, query_to_same.c, query_to_other.c and query_from_other
+.c</dl>
+
+<dt><a name="can_view_adjacent_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_view_adjacent_desc</b></a><pre>
+int can_view_adjacent_desc(string char,
+string key_here,
+string path,
+int z,
+string direc)
+</pre><dd>
+If this can be seen from this location or not.  This can do things
+like dealing with lower levels and stuff.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>char - the character of the item in the map
+<dd>path - the path of the room (0 if an obstacle)
+<dd>z - the z co-ordinate of the room
+<dd>direc - the direction in which the obstacle faces
+
+</dl>
+
+<dt><a name="can_view_feature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_view_feature</b></a><pre>
+int can_view_feature(string name)
+</pre><dd>
+This method may be overriden to mask out feature descriptions and chats
+from one or more features in the current terrain map.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the feature being queried.
+<dt><b>Returns:</b>
+<dd>return 1 if the feature can be viewed from this room, 0 otherwise
+<dt><b>See also:</b>
+<dd>add_feature.c, modify_feature.c, set_feature_chats.c and remove_feature
+.c<dt><b>Example:</b>
+<dd><pre>   int can_view_feature(string name) 
+   
+   {
+      switch (name) {
+         case "mountain" : return 0;
+         case "tree"     : return 0;
+         default         : return 1;
+      }
+   }</pre></dl>
+
+<dt><a name="can_view_feature_from">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_view_feature_from</b></a><pre>
+int can_view_feature_from(string name,
+string direc,
+int distance)
+</pre><dd>
+This method may be overriden to mask out feature descriptions and chats
+from one or more features in the current terrain map.  It allows more
+detailed blocking, based on distance and direction.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the feature being queried.
+<dd>direc - the direction to the feature
+<dd>distance - the range to the feature
+<dt><b>Returns:</b>
+<dd>return 1 if the feature can be viewed from this room, 0 otherwise
+<dt><b>See also:</b>
+<dd>add_feature.c, modify_feature.c, set_feature_chats.c and remove_feature
+.c<dt><b>Example:</b>
+<dd><pre>   int can_view_feature_from(string name, string direc, int distance) 
+   
+   {
+      switch (name) {
+         case "mountain" :
+            switch (direct) {
+            case "east" :
+               return 1;
+            default :
+               return 0;
+            }
+         case "tree"     : return 0;
+         default         : return 1;
+      }
+   }</pre></dl>
+
+<dt><a name="do_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_map</b></a><pre>
+int do_map()
+</pre><dd>
+This method draws a little debug map for the creator.
+<p>
+
+<dt><a name="do_map_terrain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_map_terrain</b></a><pre>
+int do_map_terrain()
+</pre><dd>
+This method draws the map of the entire terrain.
+<p>
+
+<dt><a name="do_outside_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_outside_chats</b></a><pre>
+int do_outside_chats()
+</pre><dd>
+This method may be overriden to prevent the handler from setting up
+additional room_chats from appropriate adjacent locations.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>return 1 if the exits should be made, 0 otherwise
+<dt><b>See also:</b>
+<dd>set_external_chats
+.c</dl>
+
+<dt><a name="hash">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hash</b></a><pre>
+int hash(int mod)
+</pre><dd>
+This method makes a deterministic hash value based on the real co-ordinates
+of this room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mod - the modules to use on the return result
+<dt><b>Returns:</b>
+<dd>a deterministicly random number between 0..mod -1
+
+</dl>
+
+<dt><a name="hash_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hash_time</b></a><pre>
+int hash_time(int mod,
+int period)
+</pre><dd>
+This produces a deterministicly static value that only exists for a
+specific period of time, before moving.  You can use this for movable
+oasises for example.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mod - the modulus to get the random number over
+<dd>period - the period the number should remain constant
+
+</dl>
+
+<dt><a name="long_test">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>long_test</b></a><pre>
+string long_test(string str,
+int dark)
+</pre>
+<dt><a name="query_default_exits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_default_exits</b></a><pre>
+mapping query_default_exits()
+</pre><dd>
+This method returns the default exits mapping.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the default exits mapping
+
+</dl>
+
+<dt><a name="query_dest_coordinate_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dest_coordinate_string</b></a><pre>
+string query_dest_coordinate_string(int x,
+int y,
+int z,
+string direc,
+string key)
+</pre><dd>
+This function allows you to change the destination location of the room
+if nessessary.  This is useful for bridges and other things which need to
+move people up or down one z-coordinate when they cross the line.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x coordinate
+<dd>y - the y coordinate
+<dd>z - the z coordinate
+<dd>direct - the direction used to enter this location
+</dl>
+
+<dt><a name="query_dest_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dest_dir</b></a><pre>
+mixed * query_dest_dir(mixed * data)
+</pre><dd>
+Mess with the data.
+<p>
+
+<dt><a name="query_dest_other">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dest_other</b></a><pre>
+mixed * query_dest_other(string exit,
+mixed * data)
+</pre><dd>
+This messes with the return values of the rooms.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>exit - the exit to look at
+<dd>data - the actual data from the room code
+<dt><b>Returns:</b>
+<dd>the messed with data
+
+</dl>
+
+<dt><a name="query_direction_distance_str">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_direction_distance_str</b></a><pre>
+string query_direction_distance_str(int num,
+string dir)
+</pre><dd>
+This method returns a string which says how far they have moved.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - how many steps in the direction
+<dd>dir - the direction
+
+</dl>
+
+<dt><a name="query_enter_exit_direction">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_enter_exit_direction</b></a><pre>
+string query_enter_exit_direction(string key,
+string key_here,
+string direc,
+object room,
+string base_path)
+</pre><dd>
+This method is used to setup any unusual sorts of entrances to 
+specific room types.  For example so that you have to actually swim
+to get into a river rather than acidentally walking into it.  If
+this does return a string a default exit is not setup for this direction
+so just going 'east' doesn't drop you in the river.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>key - the key of the map location we are coming from
+<dd>key_here - my key of the character in the map
+<dd>direc - the direction the exit is in
+<dd>room - the room being setup
+<dd>base_path - the base path of the object we are coming from
+<dt><b>Returns:</b>
+<dd>0 to do nothing, a string to replace the main exit
+
+</dl>
+
+<dt><a name="query_from_other">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_from_other</b></a><pre>
+varargs mixed * query_from_other(string type,
+string to_direc,
+string from_direc,
+string path_from)
+</pre><dd>
+The handler calls this function when setting up exits to allow the
+room to set up any modify_exit parameters which should be applied
+to exits leading from other locations of different types to this. 
+Override it to provide any extra exit modifiers.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the ASCII character representing the room type the exit leads from
+<dt><b>Returns:</b>
+<dd>an array of exit modifiers. This should take the same form as
+used in modify_exit
+<dt><b>See also:</b>
+<dd>modify_exit.c, query_to_same.c and query_from_other
+.c<dt><b>Example:</b>
+<dd><pre>mixed *query_from_other(string type)
+
+{ 
+   return ({ "move mess", "You scramble down the bank into the stream.\n",
+             "enter mess", "$N scrambles down the $F bank into the stream.",
+             "exit mess", "$N scrambles down the stream bank to the $T" });
+}</pre></dl>
+
+<dt><a name="query_map_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_map_handler</b></a><pre>
+object query_map_handler()
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>returns the handler object associated with this terrain map.
+<dt><b>See also:</b>
+<dd><a href="#query_handler_path">query_handler_path()
+</a></dl>
+
+<dt><a name="query_my_real_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_my_real_file_name</b></a><pre>
+string query_my_real_file_name()
+</pre><dd>
+This method returns the actual file name of this object.
+<p>
+
+<dt><a name="query_room_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_path</b></a><pre>
+string query_room_path(int x,
+int y,
+int z)
+</pre><dd>
+This method returns the path at the specific co-ordinate.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x co-ordinate
+<dd>y - the y co-ordinate
+<dd>z - the z co-ordinate
+<dt><b>Returns:</b>
+<dd>the file name of the new room
+
+</dl>
+
+<dt><a name="query_terrain_coords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_terrain_coords</b></a><pre>
+mixed * query_terrain_coords()
+</pre><dd>
+This returns the terrain coordinate of the room.
+It returns an array that contains the x, y, z values
+of the co-ordinate.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the terrain co-ordinate
+
+</dl>
+
+<dt><a name="query_terrain_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_terrain_handler</b></a><pre>
+string query_terrain_handler()
+</pre><dd>
+This method returns the terrain handler for
+the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the terrain handler
+
+</dl>
+
+<dt><a name="query_terrain_map_block">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_terrain_map_block</b></a><pre>
+int query_terrain_map_block()
+</pre><dd>
+This method returns if the room is blocking or not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>if the room is blocking or not
+
+</dl>
+
+<dt><a name="query_terrain_map_character">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_terrain_map_character</b></a><pre>
+string query_terrain_map_character()
+</pre><dd>
+This method returns the character to use for this terrain in the player
+visible map.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the terrain character
+
+</dl>
+
+<dt><a name="query_terrain_map_journey_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_terrain_map_journey_exit</b></a><pre>
+string query_terrain_map_journey_exit()
+</pre><dd>
+This method returns the prefix to use for 'journey' exits in this room.
+<p>
+
+<dt><a name="query_terrain_map_walk_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_terrain_map_walk_exit</b></a><pre>
+string query_terrain_map_walk_exit()
+</pre><dd>
+This method returns the prefix to use for 'walk' exits in this room.
+<p>
+
+<dt><a name="query_to_other">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_to_other</b></a><pre>
+varargs mixed * query_to_other(string type,
+string to_direc,
+string from_direc,
+string path_to)
+</pre><dd>
+The handler calls this function when setting up exits to allow the
+room to set up any modify_exit parameters which should be applied
+to exits leading to other locations of different types to this. 
+Override it to provide any extra exit modifiers.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the ASCII character representing the room type the exit leads to
+<dt><b>Returns:</b>
+<dd>an array of exit modifiers. This should take the same form as
+used in modify_exit
+<dt><b>See also:</b>
+<dd>modify_exit.c, query_to_same.c and query_from_other
+.c<dt><b>Example:</b>
+<dd><pre>mixed *query_to_other(string type)
+
+{ 
+   return ({ "move mess", "You scramble up the stream bank.\n",
+             "enter mess", "$N scrambles up the stream bank from the $F.",
+             "exit mess", "$N scrambles up the stream bank to the $T.",
+             "hidden", "1 });
+}</pre></dl>
+
+<dt><a name="query_to_same">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_to_same</b></a><pre>
+varargs mixed * query_to_same(string type,
+string to_direc,
+string from_direc,
+string path_to)
+</pre><dd>
+The handler calls this function when setting up exits to allow the
+room to set up any modify_exit parameters which should be applied
+to exits leading to other locations of the same type as this. 
+Override it to provide any extra exit modifiers.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the ASCII character representing this room type
+<dt><b>Returns:</b>
+<dd>an array of exit modifiers. This should take the same form as
+used in modify_exit
+<dt><b>See also:</b>
+<dd>modify_exit.c, query_to_other.c and query_from_other
+.c<dt><b>Example:</b>
+<dd><pre>mixed *query_to_same(string type)
+
+{ 
+   return ({ "move mess", "You wade along the stream bed.\n",
+             "enter mess", "$N wades in from the $F.",
+             "exit mess", "$N wades off to the $T.",
+             "hidden", "1 });
+}</pre></dl>
+
+<dt><a name="reset_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_handler</b></a><pre>
+void reset_handler()
+</pre><dd>
+This method destroys every single room in the associated terrain map.
+It is provided for development purposes only, and should be used cautiously
+as it will currently dump every single player in the map into the void.
+Plans are afoot to make the side-effects a little less dire.
+<p>
+
+<dt><a name="set_terrain_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_terrain_handler</b></a><pre>
+void set_terrain_handler(string handler)
+</pre><dd>
+This method sets the terrain handler for the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>handler - the terrain handler
+
+</dl>
+
+<dt><a name="set_terrain_map_block">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_terrain_map_block</b></a><pre>
+void set_terrain_map_block(int blocking)
+</pre><dd>
+This method sets if the particular room is see through or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>blocking - sets the blocking flag
+
+</dl>
+
+<dt><a name="set_terrain_map_character">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_terrain_map_character</b></a><pre>
+void set_terrain_map_character(string terr)
+</pre><dd>
+This method sets the character to use for this terrain in the player
+visible map.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>char - the character to use in the map
+
+</dl>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed stats()
+</pre>
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_feature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>feature</b></a><pre>
+class feature {
+mapping direcs;
+mixed items;
+int sentance;
+int index;
+int visible;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 12:22:49 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

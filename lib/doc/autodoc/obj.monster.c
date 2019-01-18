@@ -1,6 +1,6 @@
 .DT
 monster.c
-DW_wibble autodoc help
+Disk World autodoc help
 monster.c
 
 .SH Description
@@ -18,12 +18,12 @@ Written by Pinkfish
 
 .SH Inherits
 .SP 5 5
-This class inherits the following classes /global/guild-race, /global/events, /std/living/mon_actions, /std/living/response_mon and /std/living/living.
+This class inherits the following classes /std/living/living, /global/guild-race, /std/living/mon_actions, /std/living/response_mon and /global/events.
 .EP
 
 .SH Includes
 .SP 5 5
-This class includes the following files /include/route.h, /include/playtesters.h, /include/skills.h, /include/move_failures.h, /include/top_ten_tables.h, /include/map.h, /include/combat.h, /include/player.h, /include/wander.h, /include/monster.h, /include/living.h and /include/config.h.
+This class includes the following files /include/combat.h, /include/map.h, /include/wander.h, /include/top_ten_tables.h, /include/config.h, /include/player.h, /include/move_failures.h, /include/monster.h, /include/route.h, /include/skills.h, /include/living.h and /include/playtesters.h.
 .EP
 
 .SH Public Functions
@@ -547,60 +547,6 @@ me - the person initiating the attack
 .EP
 .SP 9 5
 him - the person being attacked
-
-.EP
-
-.SI 3
-* %^BOLD%^event_npc_ritual_casting%^RESET%^
-.EI
-.SI 5
-void event_npc_ritual_casting(object ritual, object caster, object * targets, class spell_argument args)
-.EI
-.SP 7 5
-
-This is the event called when a ritual is being cast.
-.EP
-.SI 7
-%^BOLD%^Parameters:%^RESET%^
-.EI
-.SP 9 5
-spell_ob - the ritual
-.EP
-.SP 9 5
-caster - the caster of the ritual
-.EP
-.SP 9 5
-targets - the targets of the ritual
-.EP
-.SP 9 5
-args - the ritual arguements
-
-.EP
-
-.SI 3
-* %^BOLD%^event_npc_spell_casting%^RESET%^
-.EI
-.SI 5
-void event_npc_spell_casting(object spell, object caster, object * targets, class spell_argument args)
-.EI
-.SP 7 5
-
-This is the event called when a spell is being cast.
-.EP
-.SI 7
-%^BOLD%^Parameters:%^RESET%^
-.EI
-.SP 9 5
-spell_ob - the spell object
-.EP
-.SP 9 5
-caster - the caster of the spell
-.EP
-.SP 9 5
-targets - the targets of the spell
-.EP
-.SP 9 5
-args - the spell arguements
 
 .EP
 

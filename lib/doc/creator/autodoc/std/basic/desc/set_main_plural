@@ -1,0 +1,45 @@
+.DT
+set_main_plural
+Disk World creator help
+set_main_plural
+
+.SH Name
+.SP 5 5
+set_main_plural -  This method sets the main plural for the object.
+.EP
+
+.SH Syntax
+.SI 5
+void set_main_plural(mixed str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the main plural
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/desc.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the main plural for the object.  The main plural
+is like the short description for the pluralised object.  If this
+is not set then the short will attempt to be pluralised to
+figure it out.
+.EP
+
+.SH Example 1
+.SI 5
+set_main_plural("green wombles");
+
+.EI
+
+.SH See also
+.SP 5 5
+efun::pluralize(), query_plural(), query_main_plural(), set_short(), add_plural()
+.EP
+

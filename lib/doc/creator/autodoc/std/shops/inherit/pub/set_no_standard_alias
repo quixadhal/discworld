@@ -1,0 +1,51 @@
+.DT
+set_no_standard_alias
+Disk World creator help
+set_no_standard_alias
+
+.SH Name
+.SP 5 5
+set_no_standard_alias -  This method allows you to turn on or off the addition of standard aliases when new menu items are added.
+.EP
+
+.SH Syntax
+.SI 5
+void set_no_standard_alias(int flag)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^flag%^RESET%^ - 0 if standard aliases should be added, 1 if not
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/pub.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method allows you to turn on or off the addition of standard aliases
+when new menu items are added.  By default it is turned on.  Standard
+aliases are added as follows:
+If you added an item called "Lancre vintage wine" the aliases added would
+be:
+
+.EP
+.SO 6 2 -10
+
+	*	vintage wine 
+	*	lancre wine 
+	*	wine 
+.EO
+.SP 5 5
+An alias of the name in lowercase is always added regardless of whether or not this flag is turned on or off. You may wish to turn this off if you are adding several items which could be mistaken for each other, for instance "Lancre beer" and "Morporkian beer".
+.EP
+
+.SH See also
+.SP 5 5
+add_menu_alias(), query_menu_aliases(), remove_alias(), query_no_standard_alias()
+
+.EP
+

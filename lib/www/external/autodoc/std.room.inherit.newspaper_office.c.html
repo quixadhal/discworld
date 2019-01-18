@@ -1,0 +1,857 @@
+<html><head><title>File newspaper_office.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/newspaper_office.c</h2>
+An office from which a player run newspaper can be run.<p>Written by Obilix<h3>Change history</h3>
+<dl><dt>Pinkfish Fri Apr 27 12:08:29 PDT 2001<dd>Turned into an inherit and made to use a newspaper handler for
+distributing the actual text.
+</dl>
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.board.h.html">/include/board.h</a>, <a href="include.nroff.h.html">/include/nroff.h</a>, <a href="include.mail.h.html">/include/mail.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.housing.h.html">/include/housing.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.room.newspaper.h.html">/include/room/newspaper.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_category_data"><b>category_data</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_our_article"><b>our_article</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_payee_data"><b>payee_data</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_reporter"><b>reporter</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_editor"><b>add_editor</b></a>(string)<dd>
+This method adds a new editor to the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_reporter"><b>add_reporter</b></a>(string)<dd>
+This method adds a new reporter to the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_setter"><b>add_setter</b></a>(string)<dd>
+This method adds a new setter to the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_sponsor"><b>add_sponsor</b></a>(string)<dd>
+This method adds a new sponsor to the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#board_access_check"><b>board_access_check</b></a>(int, string, object, string)<dd>
+This method is here to control access to a board if one is requested.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_article"><b>delete_article</b></a>(class our_article)<dd>
+This method deletes any bitsof the article off the disk.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_advert_list"><b>do_advert_list</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_category_add"><b>do_category_add</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_category_cost"><b>do_category_cost</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_category_cost_per_ten_chars"><b>do_category_cost_per_ten_chars</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_category_list"><b>do_category_list</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_category_open"><b>do_category_open</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_category_remove"><b>do_category_remove</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_everyone_status"><b>do_everyone_status</b></a>()<dd>
+This is the status that everyone can see, not just the employees.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_lock"><b>do_lock</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_submit_add"><b>do_submit_add</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_editor"><b>is_editor</b></a>(string)<dd>
+This method checks to see if the specified person is an editor for
+the paper or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_locked"><b>is_locked</b></a>(class article)<dd>
+This method checks to see if the specified article is locked
+or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_owner"><b>is_owner</b></a>(string)<dd>
+This method checks to see if the specified person is an owner of
+the paper or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_postponed"><b>is_postponed</b></a>(class article)<dd>
+This method checks to see if the specified article is postponed
+or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_reporter"><b>is_reporter</b></a>(string)<dd>
+This method checks to see if the specified person is an reporter for
+the paper or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_setter"><b>is_setter</b></a>(string)<dd>
+This method checks to see if the specified person is an setter for
+the paper or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_sponsor"><b>is_sponsor</b></a>(string)<dd>
+This method checks to see if the specified person is a sponsor for
+the paper or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_article_text"><b>load_article_text</b></a>(class our_article)<dd>
+This method loads the text of an article.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_article_text_by_file"><b>load_article_text_by_file</b></a>(string)<dd>
+This method is used by the web, it loads the article by the file name.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_me"><b>load_me</b></a>()<dd>
+Loads the data in the file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move_article"><b>move_article</b></a>(int, string)<dd>
+This method moves an article up or down in the current article list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#ownership_change"><b>ownership_change</b></a>(string, string)<dd>
+This method is called by the housing system when the ownership changes.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ads"><b>query_ads</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_articles"><b>query_all_articles</b></a>()<dd>
+This method returns the 'article' class bits of the articles.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_editors"><b>query_all_editors</b></a>()<dd>
+This method returns all the current editors of the magazine.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_payees"><b>query_all_payees</b></a>()<dd>
+This method returns all the current payees of the magazine.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_reporters"><b>query_all_reporters</b></a>()<dd>
+This method returns all the current reporters of the magazine.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_setters"><b>query_all_setters</b></a>()<dd>
+This method returns all the current setters of the magazine.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_sponsors"><b>query_all_sponsors</b></a>()<dd>
+This method returns all the current sponsors of the magazine.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_article"><b>query_article</b></a>(string)<dd>
+This method finds an article based on a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_article_index"><b>query_article_index</b></a>(string)<dd>
+This method returns the index of the article in the article array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_article_log_file_name"><b>query_article_log_file_name</b></a>()<dd>
+The file name of the log file for article events.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_articles"><b>query_articles</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank_branch"><b>query_bank_branch</b></a>()<dd>
+This method returns the bank branch to use for depositing money for
+editions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_category"><b>query_category</b></a>(string)<dd>
+This method tries to find a category based on some fuzzy matching.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_edition"><b>query_current_edition</b></a>()<dd>
+This method returns the current edition of the newspaper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_log_file_name"><b>query_log_file_name</b></a>()<dd>
+The file name of the log file for events.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_next_article_file_name"><b>query_next_article_file_name</b></a>()<dd>
+This returns the next number to use for an article.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_owner"><b>query_owner</b></a>()<dd>
+This method returns the current owner of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_paper_name"><b>query_paper_name</b></a>()<dd>
+This method returns the name of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_proxy"><b>query_proxy</b></a>()<dd>
+This method returns the proxy for this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_the_paper_name"><b>query_the_paper_name</b></a>()<dd>
+This method returns the name of the paper with a 'the' in front.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_total_profit"><b>query_total_profit</b></a>(int)<dd>
+This method figures out the total profit from the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_editor"><b>remove_editor</b></a>(string)<dd>
+This method removes a editor from the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_reporter"><b>remove_reporter</b></a>(string)<dd>
+This method removes a reporter from the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_setter"><b>remove_setter</b></a>(string)<dd>
+This method removes a setter from the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_sponsor"><b>remove_sponsor</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_article_text"><b>save_article_text</b></a>(class our_article, string)<dd>
+This method saves an article.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_article_text_by_file"><b>save_article_text_by_file</b></a>(string, string)<dd>
+This method is used by the web, it loads the article by the file name.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_me"><b>save_me</b></a>()<dd>
+Saves the data in the file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_article_title_by_file"><b>set_article_title_by_file</b></a>(string, string)<dd>
+This method is used by the web, it loads the article by the file name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bank_branch"><b>set_bank_branch</b></a>(string)<dd>
+This method sets the bank branch to use for depositing money when
+editions are made.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_owner"><b>set_owner</b></a>(string)<dd>
+This method sets the current owner of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_paper_name"><b>set_paper_name</b></a>(string)<dd>
+This method sets the name of the paper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_proxy"><b>set_proxy</b></a>(string)<dd>
+This method sets up a proxy for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_directory"><b>set_save_directory</b></a>(string)<dd>
+This method sets the directory we are to use for all the
+temporary files and data.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_commands"><b>update_commands</b></a>(string)<dd>
+This method moves the player in and out of the room to fix up their
+commands.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_editor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_editor</b></a><pre>
+void add_editor(string word)
+</pre><dd>
+This method adds a new editor to the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the new editor to add
+
+</dl>
+
+<dt><a name="add_reporter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_reporter</b></a><pre>
+void add_reporter(string word)
+</pre><dd>
+This method adds a new reporter to the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the new reporter to add
+
+</dl>
+
+<dt><a name="add_setter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_setter</b></a><pre>
+void add_setter(string word)
+</pre><dd>
+This method adds a new setter to the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the new setter to add
+
+</dl>
+
+<dt><a name="add_sponsor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_sponsor</b></a><pre>
+void add_sponsor(string word)
+</pre><dd>
+This method adds a new sponsor to the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the new sponsor to add
+
+</dl>
+
+<dt><a name="board_access_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>board_access_check</b></a><pre>
+int board_access_check(int type,
+string board,
+object previous,
+string name)
+</pre><dd>
+This method is here to control access to a board if one is requested.
+It allows only reporters to be able to see or write to it and it
+allows editors to be able to eat messages from it.
+<p>
+
+<dt><a name="delete_article">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_article</b></a><pre>
+void delete_article(class our_article article)
+</pre><dd>
+This method deletes any bitsof the article off the disk.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>article - the article to delete
+
+</dl>
+
+<dt><a name="do_advert_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_advert_list</b></a><pre>
+int do_advert_list()
+</pre>
+<dt><a name="do_category_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_category_add</b></a><pre>
+int do_category_add(string category)
+</pre>
+<dt><a name="do_category_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_category_cost</b></a><pre>
+int do_category_cost(string category,
+string cost)
+</pre>
+<dt><a name="do_category_cost_per_ten_chars">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_category_cost_per_ten_chars</b></a><pre>
+int do_category_cost_per_ten_chars(string category,
+string cost)
+</pre>
+<dt><a name="do_category_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_category_list</b></a><pre>
+int do_category_list()
+</pre>
+<dt><a name="do_category_open">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_category_open</b></a><pre>
+int do_category_open(string category,
+string open)
+</pre>
+<dt><a name="do_category_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_category_remove</b></a><pre>
+int do_category_remove(string category)
+</pre>
+<dt><a name="do_everyone_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_everyone_status</b></a><pre>
+int do_everyone_status()
+</pre><dd>
+This is the status that everyone can see, not just the employees.
+<p>
+
+<dt><a name="do_lock">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_lock</b></a><pre>
+int do_lock(int locked)
+</pre>
+<dt><a name="do_submit_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_submit_add</b></a><pre>
+int do_submit_add(string category)
+</pre>
+<dt><a name="is_editor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_editor</b></a><pre>
+int is_editor(string word)
+</pre><dd>
+This method checks to see if the specified person is an editor for
+the paper or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the person to check
+<dt><b>Returns:</b>
+<dd>1 if they are a editor
+
+</dl>
+
+<dt><a name="is_locked">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_locked</b></a><pre>
+int is_locked(class article art)
+</pre><dd>
+This method checks to see if the specified article is locked
+or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>art - the article to check
+<dt><b>Returns:</b>
+<dd>1 if it is locked, 0 if not
+
+</dl>
+
+<dt><a name="is_owner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_owner</b></a><pre>
+int is_owner(string word)
+</pre><dd>
+This method checks to see if the specified person is an owner of
+the paper or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the person to check
+<dt><b>Returns:</b>
+<dd>1 if they are a owner
+
+</dl>
+
+<dt><a name="is_postponed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_postponed</b></a><pre>
+int is_postponed(class article art)
+</pre><dd>
+This method checks to see if the specified article is postponed
+or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>art - the article to check
+<dt><b>Returns:</b>
+<dd>1 if it is postponed, 0 if not
+
+</dl>
+
+<dt><a name="is_reporter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_reporter</b></a><pre>
+int is_reporter(string word)
+</pre><dd>
+This method checks to see if the specified person is an reporter for
+the paper or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the person to check
+<dt><b>Returns:</b>
+<dd>1 if they are a reporter
+
+</dl>
+
+<dt><a name="is_setter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_setter</b></a><pre>
+int is_setter(string word)
+</pre><dd>
+This method checks to see if the specified person is an setter for
+the paper or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the person to check
+<dt><b>Returns:</b>
+<dd>1 if they are a setter
+
+</dl>
+
+<dt><a name="is_sponsor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_sponsor</b></a><pre>
+int is_sponsor(string word)
+</pre><dd>
+This method checks to see if the specified person is a sponsor for
+the paper or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the person to check
+<dt><b>Returns:</b>
+<dd>1 if they are a sponsor
+
+</dl>
+
+<dt><a name="load_article_text">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_article_text</b></a><pre>
+string load_article_text(class our_article art)
+</pre><dd>
+This method loads the text of an article.
+<p>
+
+<dt><a name="load_article_text_by_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_article_text_by_file</b></a><pre>
+string load_article_text_by_file(string fname)
+</pre><dd>
+This method is used by the web, it loads the article by the file name.
+<p>
+
+<dt><a name="move_article">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move_article</b></a><pre>
+int move_article(int index,
+string up_down)
+</pre><dd>
+This method moves an article up or down in the current article list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>index - the index of the article to move
+<dd>up_down - move it up or down
+
+</dl>
+
+<dt><a name="ownership_change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>ownership_change</b></a><pre>
+void ownership_change(string old_owner,
+string new_owner)
+</pre><dd>
+This method is called by the housing system when the ownership changes.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>old_owner - the old owner
+<dd>new_owner - the newowner
+
+</dl>
+
+<dt><a name="query_ads">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ads</b></a><pre>
+class advert * query_ads()
+</pre>
+<dt><a name="query_all_articles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_articles</b></a><pre>
+class article * query_all_articles()
+</pre><dd>
+This method returns the 'article' class bits of the articles.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the articles.\
+
+</dl>
+
+<dt><a name="query_all_editors">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_editors</b></a><pre>
+string * query_all_editors()
+</pre><dd>
+This method returns all the current editors of the magazine.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the current editors
+
+</dl>
+
+<dt><a name="query_all_payees">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_payees</b></a><pre>
+mapping query_all_payees()
+</pre><dd>
+This method returns all the current payees of the magazine.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>who is to be payed and how much
+
+</dl>
+
+<dt><a name="query_all_reporters">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_reporters</b></a><pre>
+string * query_all_reporters()
+</pre><dd>
+This method returns all the current reporters of the magazine.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the current reporters
+
+</dl>
+
+<dt><a name="query_all_setters">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_setters</b></a><pre>
+string * query_all_setters()
+</pre><dd>
+This method returns all the current setters of the magazine.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the current setters
+
+</dl>
+
+<dt><a name="query_all_sponsors">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_sponsors</b></a><pre>
+string * query_all_sponsors()
+</pre><dd>
+This method returns all the current sponsors of the magazine.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the current sponsors
+
+</dl>
+
+<dt><a name="query_article">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_article</b></a><pre>
+class our_article query_article(string match)
+</pre><dd>
+This method finds an article based on a string.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the article
+
+</dl>
+
+<dt><a name="query_article_index">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_article_index</b></a><pre>
+int query_article_index(string match)
+</pre><dd>
+This method returns the index of the article in the article array.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the article index
+
+</dl>
+
+<dt><a name="query_article_log_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_article_log_file_name</b></a><pre>
+string query_article_log_file_name()
+</pre><dd>
+The file name of the log file for article events.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the article log file name
+
+</dl>
+
+<dt><a name="query_articles">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_articles</b></a><pre>
+class our_article * query_articles()
+</pre>
+<dt><a name="query_bank_branch">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank_branch</b></a><pre>
+string query_bank_branch()
+</pre><dd>
+This method returns the bank branch to use for depositing money for
+editions.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the bank branch to use
+
+</dl>
+
+<dt><a name="query_category">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_category</b></a><pre>
+string query_category(string category)
+</pre><dd>
+This method tries to find a category based on some fuzzy matching.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>category - the category to lookup
+<dt><b>Returns:</b>
+<dd>the fixed up category name
+
+</dl>
+
+<dt><a name="query_current_edition">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_edition</b></a><pre>
+int query_current_edition()
+</pre><dd>
+This method returns the current edition of the newspaper./<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current edition of the newspaper
+
+</dl>
+
+<dt><a name="query_log_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_log_file_name</b></a><pre>
+string query_log_file_name()
+</pre><dd>
+The file name of the log file for events.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the log file name
+
+</dl>
+
+<dt><a name="query_next_article_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_next_article_file_name</b></a><pre>
+string query_next_article_file_name()
+</pre><dd>
+This returns the next number to use for an article.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the next article number
+
+</dl>
+
+<dt><a name="query_owner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_owner</b></a><pre>
+string query_owner()
+</pre><dd>
+This method returns the current owner of the paper.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the owner of the paper
+
+</dl>
+
+<dt><a name="query_paper_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_paper_name</b></a><pre>
+string query_paper_name()
+</pre><dd>
+This method returns the name of the paper.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the paper
+
+</dl>
+
+<dt><a name="query_proxy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_proxy</b></a><pre>
+string query_proxy()
+</pre><dd>
+This method returns the proxy for this room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the proxy for the room
+
+</dl>
+
+<dt><a name="query_the_paper_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_the_paper_name</b></a><pre>
+string query_the_paper_name()
+</pre><dd>
+This method returns the name of the paper with a 'the' in front.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the paper
+
+</dl>
+
+<dt><a name="query_total_profit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_total_profit</b></a><pre>
+int query_total_profit(int num_articles)
+</pre><dd>
+This method figures out the total profit from the paper.
+<p>
+
+<dt><a name="remove_editor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_editor</b></a><pre>
+void remove_editor(string word)
+</pre><dd>
+This method removes a editor from the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the editor to remove
+
+</dl>
+
+<dt><a name="remove_reporter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_reporter</b></a><pre>
+void remove_reporter(string word)
+</pre><dd>
+This method removes a reporter from the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the reporter to remove
+
+</dl>
+
+<dt><a name="remove_setter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_setter</b></a><pre>
+void remove_setter(string word)
+</pre><dd>
+This method removes a setter from the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the setter to remove
+
+</dl>
+
+<dt><a name="remove_sponsor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_sponsor</b></a><pre>
+void remove_sponsor(string word)
+</pre>
+<dt><a name="save_article_text">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_article_text</b></a><pre>
+void save_article_text(class our_article art,
+string text)
+</pre><dd>
+This method saves an article.
+<p>
+
+<dt><a name="save_article_text_by_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_article_text_by_file</b></a><pre>
+void save_article_text_by_file(string fname,
+string text)
+</pre><dd>
+This method is used by the web, it loads the article by the file name.
+<p>
+
+<dt><a name="set_article_title_by_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_article_title_by_file</b></a><pre>
+void set_article_title_by_file(string fname,
+string title)
+</pre><dd>
+This method is used by the web, it loads the article by the file name.
+<p>
+
+<dt><a name="set_bank_branch">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bank_branch</b></a><pre>
+void set_bank_branch(string bank)
+</pre><dd>
+This method sets the bank branch to use for depositing money when
+editions are made.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bank - the bank branch to use
+
+</dl>
+
+<dt><a name="set_owner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_owner</b></a><pre>
+void set_owner(string person)
+</pre><dd>
+This method sets the current owner of the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the new owner
+
+</dl>
+
+<dt><a name="set_paper_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_paper_name</b></a><pre>
+string set_paper_name(string name)
+</pre><dd>
+This method sets the name of the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the new name of the paper
+
+</dl>
+
+<dt><a name="set_proxy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_proxy</b></a><pre>
+void set_proxy(string proxy)
+</pre><dd>
+This method sets up a proxy for the room.  A proxy means all the commands
+are mirrored to the real location, so save files do not get messed up.
+You set this if you have any extra rooms you want to be able to control
+the paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>proxy - the proxy to set
+
+</dl>
+
+<dt><a name="set_save_directory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_directory</b></a><pre>
+void set_save_directory(string dir)
+</pre><dd>
+This method sets the directory we are to use for all the
+temporary files and data.  The actual pubished data will be stored
+by the newspaper handler.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to put stuff in
+
+</dl>
+
+<dt><a name="update_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_commands</b></a><pre>
+void update_commands(string word)
+</pre><dd>
+This method moves the player in and out of the room to fix up their
+commands.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the player to move
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="load_me">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>load_me</b></a><pre>
+void load_me()
+</pre><dd>
+Loads the data in the file.
+<p>
+
+<dt><a name="save_me">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>save_me</b></a><pre>
+void save_me()
+</pre><dd>
+Saves the data in the file.
+<p>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_category_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>category_data</b></a><pre>
+class category_data {
+int cost_per_add;
+int cost_per_ten_chars;
+int open;
+}
+
+</pre>
+<dt><a name="class_our_article">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>our_article</b></a><pre>
+class our_article {
+class article art;
+int flags;
+int length;
+int suggested_payment;
+}
+
+</pre>
+<dt><a name="class_payee_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>payee_data</b></a><pre>
+class payee_data {
+int paid;
+string message;
+}
+
+</pre>
+<dt><a name="class_reporter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reporter</b></a><pre>
+class reporter {
+int date_added;
+int num_articles;
+int total_payed;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 05:59:41 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,47 @@
+.DT
+set_up_dir
+Disk World creator help
+set_up_dir
+
+.SH Name
+.SP 5 5
+set_up_dir -  This function sets the direction that is considered to be up by this room.
+.EP
+
+.SH Syntax
+.SI 5
+void set_up_dir(string dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^mess%^RESET%^ - the new direction to be considered to be up
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets the direction that is considered to be up by this room.
+This is used by several exit messages, and by the water effect to decide
+which way a panicking player will flee to try to reach the surface.  For
+this reason, it should be set to the name of an exit which leads towards a
+surface room.  Also, buoyant objects will be inclined to move in this
+direction.  The default, of course, is "up".
+.EP
+
+.SH Example 1
+.SI 5
+  set_up_dir("upwest");
+
+.EI
+
+.SH See also
+.SP 5 5
+query_up_dir, set_float_in_mess, set_float_out_mess, flee_drowning
+.EP
+

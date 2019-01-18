@@ -1,0 +1,42 @@
+.DT
+set_fall_damage
+Disk World creator help
+set_fall_damage
+
+.SH Name
+.SP 5 5
+set_fall_damage -  Set the amount of damage the player will take if they fall off this roof.
+.EP
+
+.SH Syntax
+.SI 5
+void set_fall_damage(string type,
+int damage)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - The type of fall (weak, slope, step or jump; all to set all damages the same)
+%^BOLD%^damage%^RESET%^ - The amount of damage.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/rooftop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Set the amount of damage the player will take if they fall off this
+roof.  This amount is somewhat randomised.
+
+.EP
+
+.SH See also
+.SP 5 5
+set_slope, set_jump, set_weak_roof
+
+.EP
+

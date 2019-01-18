@@ -1,0 +1,280 @@
+<html><head><title>File new_parse.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/new_parse.c</h2>
+This file contains all the code to support and run the text parsing
+system used by discworld.   This is called 'add_command', please see
+help on add_command for a more detailed listing.<p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="global.command.c.html">/global/command.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.obj_parser.h.html">/include/obj_parser.h</a>, <a href="include.command.h.html">/include/command.h</a>, <a href="include.user_parser.h.html">/include/user_parser.h</a>, <a href="include.soul.h.html">/include/soul.h</a>, <a href="include.function.h.html">/include/function.h</a> and <a href="include.creator.h.html">/include/creator.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_fail_mess_data"><b>fail_mess_data</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_command"><b>add_command</b></a>(string, object, mixed, function)<dd>
+The id is a useful thingy so that things can remember which pattern was 
+parsed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_failed_mess"><b>add_failed_mess</b></a>(object, string, mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_succeeded"><b>add_succeeded</b></a>(mixed)<dd>
+This is called by the object the command is being passed on to find
+whether or not it succeeded on the objects it was passed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_succeeded_mess"><b>add_succeeded_mess</b></a>(object, mixed, object *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_if_allowed"><b>check_if_allowed</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_if_creator"><b>check_if_creator</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_living"><b>check_living</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_message"><b>create_message</b></a>(string *, int *, mixed *, object *, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_fail_messages"><b>get_fail_messages</b></a>(string, object *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#my_find_match"><b>my_find_match</b></a>(string, object *, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#new_parser"><b>new_parser</b></a>(string)<dd>
+This method does all the real work for add_command parsing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#pattern_match"><b>pattern_match</b></a>(string *, mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#print_special_messages"><b>print_special_messages</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_failed_message_exists"><b>query_failed_message_exists</b></a>(object)<dd>
+This method checks to see if the given object has already added a failed
+message yet or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_p_commands"><b>query_p_commands</b></a>()<dd>
+This method returns the current internal set of commands.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_p_objects"><b>query_p_objects</b></a>()<dd>
+This method returns the current mapping between objects and commands.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_parse_command"><b>query_parse_command</b></a>(string)<dd>
+This method returns the information associated with the specific
+command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_parse_command_objects"><b>query_parse_command_objects</b></a>(string)<dd>
+This method returns the objects associated with the parse command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_succ_mess_dir"><b>query_succ_mess_dir</b></a>()<dd>
+This method returns the objects which have success messages already
+attached for.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_succ_mess_indir"><b>query_succ_mess_indir</b></a>()<dd>
+This method returns all the indirect objects used in the success
+messages.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_word_list"><b>query_word_list</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_object"><b>remove_object</b></a>(mixed, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_failed_mess"><b>setup_failed_mess</b></a>(class obj_match)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#syntax_messages"><b>syntax_messages</b></a>(string)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_command</b></a><pre>
+varargs int add_command(string cmd,
+object ob,
+mixed format,
+function funct)
+</pre><dd>
+The id is a useful thingy so that things can remember which pattern was 
+parsed.
+<p>
+
+<dt><a name="add_failed_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_failed_mess</b></a><pre>
+void add_failed_mess(object dir,
+string mess,
+mixed * in_dir)
+</pre>
+<dt><a name="add_succeeded">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_succeeded</b></a><pre>
+int add_succeeded(mixed ob)
+</pre><dd>
+This is called by the object the command is being passed on to find
+whether or not it succeeded on the objects it was passed... and which
+ones. This can be passed an object.. or an array of objects.
+Share and enjoy.
+<p>
+
+<dt><a name="add_succeeded_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_succeeded_mess</b></a><pre>
+int add_succeeded_mess(object dir,
+mixed incoming_mess,
+object * in_dir)
+</pre>
+<dt><a name="check_if_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_if_allowed</b></a><pre>
+int check_if_allowed(object ob)
+</pre>
+<dt><a name="check_if_creator">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_if_creator</b></a><pre>
+int check_if_creator(object ob)
+</pre>
+<dt><a name="check_living">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_living</b></a><pre>
+int check_living(object ob)
+</pre>
+<dt><a name="create_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_message</b></a><pre>
+varargs string create_message(string * bits,
+int * matches,
+mixed * pattern,
+object * dir,
+int flag)
+</pre>
+<dt><a name="get_fail_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_fail_messages</b></a><pre>
+string get_fail_messages(string verb,
+object * fail_obs)
+</pre>
+<dt><a name="my_find_match">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>my_find_match</b></a><pre>
+class obj_match my_find_match(string pattern,
+object * where,
+int type)
+</pre>
+<dt><a name="new_parser">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>new_parser</b></a><pre>
+nomask int new_parser(string str)
+</pre><dd>
+This method does all the real work for add_command parsing.
+<p>
+
+<dt><a name="pattern_match">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>pattern_match</b></a><pre>
+int * pattern_match(string * bits,
+mixed * pattern)
+</pre>
+<dt><a name="print_special_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>print_special_messages</b></a><pre>
+void print_special_messages(string verb)
+</pre>
+<dt><a name="query_failed_message_exists">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_failed_message_exists</b></a><pre>
+int query_failed_message_exists(object dir)
+</pre><dd>
+This method checks to see if the given object has already added a failed
+message yet or not.   This is checking for a direct object, not an 
+indirect object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the object adding the failed message
+<dt><b>Returns:</b>
+<dd>0 if not found, 1 if found
+<dt><b>See also:</b>
+<dd><a href="#add_failed_mess">add_failed_mess()
+</a></dl>
+
+<dt><a name="query_p_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_p_commands</b></a><pre>
+mapping query_p_commands()
+</pre><dd>
+This method returns the current internal set of commands.
+<p>
+([ "command_name" :<br>
+({ ({ pattern_weight, pattern_str, nn, object, function }) })<br>
+])<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current commands list
+<dt><b>See also:</b>
+<dd><a href="#query_p_objects">query_p_objects()
+</a></dl>
+
+<dt><a name="query_p_objects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_p_objects</b></a><pre>
+mapping query_p_objects()
+</pre><dd>
+This method returns the current mapping between objects and commands.<br>
+([ object : ({ "cmd1", "cmd2", ... }), ... ])
+<p>
+This mapping is used when the object leaves the environment to make
+the command updating more efficent.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current object/command mapping
+<dt><b>See also:</b>
+<dd><a href="#query_p_commands">query_p_commands()
+</a></dl>
+
+<dt><a name="query_parse_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_parse_command</b></a><pre>
+mixed * query_parse_command(string name)
+</pre><dd>
+This method returns the information associated with the specific
+command.  This should only be used for debug.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the command name to return info on
+<dt><b>Returns:</b>
+<dd>the information associated with the command
+
+</dl>
+
+<dt><a name="query_parse_command_objects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_parse_command_objects</b></a><pre>
+object * query_parse_command_objects(string name)
+</pre><dd>
+This method returns the objects associated with the parse command.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the command name to return the objects for
+<dt><b>Returns:</b>
+<dd>the objects associated with the command
+
+</dl>
+
+<dt><a name="query_succ_mess_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_succ_mess_dir</b></a><pre>
+object * query_succ_mess_dir()
+</pre><dd>
+This method returns the objects which have success messages already
+attached for.   This allows you to determine which objects already hace
+a success message available.   This array is added to by both the
+add_succeeded_mess and add_failed_mess methods, it disable the
+autogeneration of these messages.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the succeeded message objects
+<dt><b>See also:</b>
+<dd><a href="#add_succeeded_mess">add_succeeded_mess()</a> and <a href="#add_failed_mess">add_failed_mess()
+</a></dl>
+
+<dt><a name="query_succ_mess_indir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_succ_mess_indir</b></a><pre>
+object * query_succ_mess_indir()
+</pre><dd>
+This method returns all the indirect objects used in the success
+messages.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the success message
+
+</dl>
+
+<dt><a name="query_word_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_word_list</b></a><pre>
+string * query_word_list(string list)
+</pre>
+<dt><a name="remove_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_object</b></a><pre>
+int remove_object(mixed ob,
+int was_env)
+</pre>
+<dt><a name="setup_failed_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_failed_mess</b></a><pre>
+void setup_failed_mess(class obj_match failed_match)
+</pre>
+<dt><a name="syntax_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>syntax_messages</b></a><pre>
+int syntax_messages(string str)
+</pre>
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_fail_mess_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>fail_mess_data</b></a><pre>
+class fail_mess_data {
+object * direct;
+object * indirect;
+int weight;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Nov 2018 22:09:47 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

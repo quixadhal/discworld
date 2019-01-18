@@ -1,0 +1,52 @@
+.DT
+make_payment
+Disk World creator help
+make_payment
+
+.SH Name
+.SP 5 5
+make_payment -  This method makes a payment of a particular amount in a particular money area.
+.EP
+
+.SH Syntax
+.SI 5
+varargs mixed * make_payment(string type,
+int value,
+object thing,
+string where)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the type of money to pay in (ie: "Lancre Crown")
+%^BOLD%^value%^RESET%^ - the number of the type to pay
+%^BOLD%^thing%^RESET%^ - the thing which is doing the payment (money object)
+%^BOLD%^where%^RESET%^ - the money area the payment will occur in
+.EI
+
+.SH Returns
+.SI 5
+the payment array.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method makes a payment of a particular amount in a particular
+money area.   Please note that player or living objects can double
+as money objects in this circumstance.  The first element of the
+payment array is the values which should be used to take off
+the player, the second element is the change needed to be payed
+back.
+.EP
+
+.SH See also
+.SP 5 5
+pay_amount_from(), calc_change()
+
+.EP
+

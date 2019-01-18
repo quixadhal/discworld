@@ -1,0 +1,42 @@
+.DT
+bit.h
+Disk World autodoc help
+bit.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^BIT_ALIAS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BIT_CONTROLLER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BIT_EXTRA%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BIT_NAME%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BIT_SIZE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EXTRA_PARENT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EXTRA_SUBBIT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EXTRA_VALUE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EXTRA_WEIGHT%^RESET%^
+.EI
+

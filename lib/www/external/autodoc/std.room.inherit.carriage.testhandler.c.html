@@ -1,0 +1,179 @@
+<html><head><title>File testhandler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/carriage/testhandler.c</h2>
+Pinkfish's rewrite of the carriages.  March 2002.<p>Written by Pinkfish<p>Started Mon Mar  4 23:34:31 PST 2002
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.room.carriage.h.html">/include/room/carriage.h</a>, <a href="include.data.h.html">/include/data.h</a> and <a href="include.room.h.html">/include/room.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_data"><b>load_data</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_carriage_on_route"><b>query_carriage_on_route</b></a>(string)<dd>
+This method returns the carriage object on the specified route.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_route_actual"><b>query_route_actual</b></a>()<dd>
+This method returns all the actual actual routes and where they are.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_route_details"><b>query_route_details</b></a>()<dd>
+Query the details of the route.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_route_names"><b>query_route_names</b></a>()<dd>
+This method returns all the names of all the different routes in the
+system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_route_stops"><b>query_route_stops</b></a>(string)<dd>
+This method returns the list of stops associated with the
+route.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stop_delay"><b>query_stop_delay</b></a>(string)<dd>
+This method returns the delay of the stop, the actual room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stop_location"><b>query_stop_location</b></a>(string)<dd>
+This method returns the location of the stop, the actual room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stop_name"><b>query_stop_name</b></a>(string)<dd>
+This method returns the name of the stop, the actual room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#scan_for_new_data"><b>scan_for_new_data</b></a>()<dd>
+This method scans through all the files and sees if anything has
+changed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_carriage"><b>setup_carriage</b></a>(string, string, string, string, string)<dd>
+This method sets up the carriage handler stuff.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="load_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_data</b></a><pre>
+void load_data()
+</pre>
+<dt><a name="query_carriage_on_route">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_carriage_on_route</b></a><pre>
+object query_carriage_on_route(string route)
+</pre><dd>
+This method returns the carriage object on the specified route.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>route - the route to look for the carriage on
+<dt><b>Returns:</b>
+<dd>the carriage on the route
+
+</dl>
+
+<dt><a name="query_route_actual">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_route_actual</b></a><pre>
+mapping query_route_actual()
+</pre><dd>
+This method returns all the actual actual routes and where they are.
+This should only be used for debugging purposes.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the actual route details
+
+</dl>
+
+<dt><a name="query_route_details">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_route_details</b></a><pre>
+mapping query_route_details()
+</pre><dd>
+Query the details of the route.  This returns everything about the
+details and should not be used.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the route details
+
+</dl>
+
+<dt><a name="query_route_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_route_names</b></a><pre>
+string * query_route_names()
+</pre><dd>
+This method returns all the names of all the different routes in the
+system.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the route names
+
+</dl>
+
+<dt><a name="query_route_stops">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_route_stops</b></a><pre>
+class stop_list_details * query_route_stops(string route)
+</pre><dd>
+This method returns the list of stops associated with the
+route.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>route - the name of the route
+<dt><b>Returns:</b>
+<dd>the stops on the route
+
+</dl>
+
+<dt><a name="query_stop_delay">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stop_delay</b></a><pre>
+int query_stop_delay(string name)
+</pre><dd>
+This method returns the delay of the stop, the actual room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the stop
+<dt><b>Returns:</b>
+<dd>the delay of the stop
+
+</dl>
+
+<dt><a name="query_stop_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stop_location</b></a><pre>
+string query_stop_location(string name)
+</pre><dd>
+This method returns the location of the stop, the actual room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the stop
+<dt><b>Returns:</b>
+<dd>the location of the stop
+
+</dl>
+
+<dt><a name="query_stop_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stop_name</b></a><pre>
+string query_stop_name(string name)
+</pre><dd>
+This method returns the name of the stop, the actual room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the stop
+<dt><b>Returns:</b>
+<dd>the name of the stop
+
+</dl>
+
+<dt><a name="scan_for_new_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>scan_for_new_data</b></a><pre>
+void scan_for_new_data()
+</pre><dd>
+This method scans through all the files and sees if anything has
+changed.
+<p>
+
+<dt><a name="setup_carriage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_carriage</b></a><pre>
+void setup_carriage(string dir,
+string base_dir,
+string carriage,
+string pole,
+string save_file)
+</pre><dd>
+This method sets up the carriage handler stuff.  It sets up the pole
+and the carriage items.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory of the data files
+<dd>base_dir - the base directory to use on the front of paths
+<dd>carriage - what to clone for the carriage
+<dd>pole - what to clone for a pole
+<dd>save_file - where to save the data
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 13:23:49 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

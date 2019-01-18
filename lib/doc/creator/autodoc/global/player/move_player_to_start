@@ -1,0 +1,42 @@
+.DT
+move_player_to_start
+Disk World creator help
+move_player_to_start
+
+.SH Name
+.SP 5 5
+move_player_to_start -  This method is called from within the login code to start up the new player, set their name and move them into the correct location on the mud.
+.EP
+
+.SH Syntax
+.SI 5
+void move_player_to_start(string bong,
+int new_flag,
+string c_name,
+string ident,
+int go_invis)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^bong%^RESET%^ - the name of the player
+%^BOLD%^new_flag%^RESET%^ - are the a new player?
+%^BOLD%^c_name%^RESET%^ - their capital name
+%^BOLD%^ident%^RESET%^ - the ident from the authorisation code
+%^BOLD%^go_invis%^RESET%^ - go invsible on login
+
+.EI
+
+.SH Defined in
+.SI 5
+/global/player.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called from within the login code to start up the
+new player, set their name and move them into the correct
+location on the mud.
+.EP
+

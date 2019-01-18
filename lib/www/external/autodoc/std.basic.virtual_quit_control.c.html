@@ -1,0 +1,65 @@
+<html><head><title>File virtual_quit_control.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/virtual_quit_control.c</h2>
+This method handles problems where players log out in places which are
+virtually controlled.  It does the effort to put them back in, but does
+it in a way that is recursive.  So if they are on a horse in a
+terrain it will work properly.<p>Written by Pinkfish<p>Started Wed Sep 22 18:24:40 PDT 1999<h3>Example</h3>
+<pre>inherit "/std/basic/virtual_quit_control";
+
+void player_quitting(object player, object place) {
+   string pos;
+
+   pos = check_start_pos(environment(place));
+   // Doesn't need to last long since we save immediately.
+   player->add_property(START_PLACE, pos, 10);
+   ::player_quitting(player, environment(place));
+} /* player_quitting() */
+
+// Move the player to the right spot when they login.
+void event_enter(object player) {
+   player->move(player->query_property(START_PLACE));
+} /* move_player_to_real_location() */
+</pre>
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_start_coord"><b>find_start_coord</b></a>(object, object)<dd>
+This method is called on the quit handler when a player quits.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_start_pos"><b>find_start_pos</b></a>(object, object)<dd>
+This method is called on the quit handler when a player quits.
+</dl><hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="find_start_coord">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>find_start_coord</b></a><pre>
+int * find_start_coord(object player,
+object place)
+</pre><dd>
+This method is called on the quit handler when a player quits.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player
+<dd>place - the place they quit from
+<dt><b>Returns:</b>
+<dd>the last position (if that needs to be saved).
+
+</dl>
+
+<dt><a name="find_start_pos">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>find_start_pos</b></a><pre>
+string find_start_pos(object player,
+object place)
+</pre><dd>
+This method is called on the quit handler when a player quits.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player
+<dd>place - the place they quit from
+<dt><b>Returns:</b>
+<dd>the last position (if that needs to be saved).
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 23:11:04 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

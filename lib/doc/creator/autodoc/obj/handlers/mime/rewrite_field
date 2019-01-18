@@ -1,0 +1,42 @@
+.DT
+rewrite_field
+Disk World creator help
+rewrite_field
+
+.SH Name
+.SP 5 5
+rewrite_field -  This method rewrites local email addresses (as found in mudmail) to be usable outside Discworld, for instance from an email client.
+.EP
+
+.SH Syntax
+.SI 5
+string rewrite_field(string header_field)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^header_field%^RESET%^ - the string to rewrite
+.EI
+
+.SH Returns
+.SI 5
+the new string.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/mime.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method rewrites local email addresses (as found in mudmail)
+to be usable outside Discworld, for instance from an email client.
+.EP
+
+.SH See also
+.SP 5 5
+get_email_addrs()
+
+.EP
+

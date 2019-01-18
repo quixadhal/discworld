@@ -1,0 +1,454 @@
+<html><head><title>File terrain_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/terrain_handler.c</h2>
+This is the terrain handler method documentation. For a more general
+introduction to the terrain handler, please see the help for terrains.
+<p><b>See also:</b><br>help::terrains
+.c<p>Written by Sin, Turrican and others...
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.terrain.h.html">/include/terrain.h</a>, <a href="include.map.h.html">/include/map.h</a> and <a href="include.dirs.h.html">/include/dirs.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_fixed_location"><b>add_fixed_location</b></a>(string, string, int *)<dd>
+This method adds a new fixed location for a terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_floating_location"><b>add_floating_location</b></a>(string, string, int *, int)<dd>
+This method adds a new floating location for a terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_cloned_locations"><b>clear_cloned_locations</b></a>(string)<dd>
+This method clears the cloned locations cache for a given terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_connections"><b>clear_connections</b></a>(string)<dd>
+This method clears all connections for a given terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_cloned_location"><b>delete_cloned_location</b></a>(string, string)<dd>
+This method deletes a cloned location for a terrain from the cache.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_fixed_location"><b>delete_fixed_location</b></a>(string, string)<dd>
+This method deletes a fixed location for a terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_floating_location"><b>delete_floating_location</b></a>(string, string, int *)<dd>
+This method deletes a floating location for a terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_location"><b>find_location</b></a>(string, int *)<dd>
+This method is the main entry point for the terrain handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_data_file"><b>get_data_file</b></a>(string)<dd>
+This method loads the data file for a given terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_room_size"><b>get_room_size</b></a>(string, int)<dd>
+This method returns the room size for a given room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#member_cloned_locations"><b>member_cloned_locations</b></a>(int *)<dd>
+This method checks wether there is a cloned location which matches the
+given coordinates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#member_fixed_locations"><b>member_fixed_locations</b></a>(int *)<dd>
+This method checks wether there is a fixed location which matches the
+given coordinates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#member_floating_locations"><b>member_floating_locations</b></a>(int *)<dd>
+This method checks wether there are floating locations which match the
+given coordinates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#modify_fixed_location"><b>modify_fixed_location</b></a>(string, string, int *)<dd>
+This method modifies an existing fixed location for a terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cloned_locations"><b>query_cloned_locations</b></a>(string)<dd>
+This method returns the cloned_locations mapping for a given terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_co_ord"><b>query_co_ord</b></a>(string, string)<dd>
+This method returns the coordinates for a given terrain and fixed location
+filename.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_connected"><b>query_connected</b></a>(string, int *)<dd>
+This method returns wether the given coordinates is connected to another
+room in the terrain handler system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_connection"><b>query_connection</b></a>(string, int *, string)<dd>
+This method returns the connecting room for the given coordinates and
+direction.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_fixed_locations"><b>query_fixed_locations</b></a>(string)<dd>
+This method returns the fixed_locations mapping for the given terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_floating_locations"><b>query_floating_locations</b></a>(string)<dd>
+This method returns the floating_locations array for the given terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_location"><b>setup_location</b></a>(object, string)<dd>
+This method is called when a normal room is loaded which is part of
+a terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#top_floating_location"><b>top_floating_location</b></a>(int *)<dd>
+This method searches the top level floating location for the given
+coordinates.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_fixed_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_fixed_location</b></a><pre>
+int add_fixed_location(string terrain,
+string file,
+int * co_ords)
+</pre><dd>
+This method adds a new fixed location for a terrain.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>terrain - the terrain name
+<dd>file - the file name
+<dd>co_ords - the coordinates for the location
+<dt><b>Returns:</b>
+<dd>1 if it succeeds, 0 if it fails (wrong coordinates or location
+already present)
+<dt><b>See also:</b>
+<dd><a href="#add_floating_location">add_floating_location()</a> and <a href="#modify_fixed_location">modify_fixed_location()
+</a></dl>
+
+<dt><a name="add_floating_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_floating_location</b></a><pre>
+int add_floating_location(string terrain,
+string file,
+int * co_ords,
+int level)
+</pre><dd>
+This method adds a new floating location for a terrain.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>terrain - the terrain name
+<dd>file - the file name
+<dd>co_ords - the coordinates for the location (either a single coordinate
+or 2 forming a bounding rectangle)
+<dd>level - the level of this location
+<dt><b>Returns:</b>
+<dd>1 if it succeeds, 0 if it fails (wrong coordinates or location
+already present)
+<dt><b>See also:</b>
+<dd><a href="#add_fixed_location">add_fixed_location()
+</a></dl>
+
+<dt><a name="clear_cloned_locations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_cloned_locations</b></a><pre>
+void clear_cloned_locations(string terrain)
+</pre><dd>
+This method clears the cloned locations cache for a given terrain.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>terrain - the terrain name
+<dt><b>See also:</b>
+<dd><a href="#clear_connections">clear_connections()
+</a></dl>
+
+<dt><a name="clear_connections">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_connections</b></a><pre>
+void clear_connections(string terrain)
+</pre><dd>
+This method clears all connections for a given terrain. This needs to
+be done when a terrain was modified.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>terrain - the terrain name
+<dt><b>See also:</b>
+<dd><a href="#clear_cloned_locations">clear_cloned_locations()
+</a></dl>
+
+<dt><a name="delete_cloned_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_cloned_location</b></a><pre>
+int delete_cloned_location(string terrain,
+string file)
+</pre><dd>
+This method deletes a cloned location for a terrain from the cache.
+It is meant to be called when a cloned location is destructed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>terrain - the terrain name
+<dd>file - the file name
+<dt><b>Returns:</b>
+<dd>1 if it succeeds, 0 if it fails (location not present)
+<dt><b>See also:</b>
+<dd><a href="#delete_fixed_location">delete_fixed_location()</a> and <a href="#delete_floating_location">delete_floating_location()
+</a></dl>
+
+<dt><a name="delete_fixed_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_fixed_location</b></a><pre>
+int delete_fixed_location(string terrain,
+string file)
+</pre><dd>
+This method deletes a fixed location for a terrain.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>terrain - the terrain name
+<dd>file - the file name
+<dt><b>Returns:</b>
+<dd>1 if it succeeds, 0 if it fails (location not present)
+<dt><b>See also:</b>
+<dd><a href="#delete_cloned_location">delete_cloned_location()</a> and <a href="#delete_floating_location">delete_floating_location()
+</a></dl>
+
+<dt><a name="delete_floating_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_floating_location</b></a><pre>
+int delete_floating_location(string terrain,
+string file,
+int * co_ords)
+</pre><dd>
+This method deletes a floating location for a terrain.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>terrain - the terrain name
+<dd>file - the file name
+<dd>co_ords - the coordinates for the location (either a single coordinate
+or 2 forming a bounding rectangle)
+<dt><b>Returns:</b>
+<dd>1 if it succeeds, 0 if it fails (location not present)
+<dt><b>See also:</b>
+<dd><a href="#delete_cloned_location">delete_cloned_location()</a> and <a href="#delete_fixed_location">delete_fixed_location()
+</a></dl>
+
+<dt><a name="find_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_location</b></a><pre>
+object find_location(string terrain,
+int * co_ords)
+</pre><dd>
+This method is the main entry point for the terrain handler. It loads
+the room that is associated with the given terrain and coordinates.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>terrain - the terrain name
+<dd>co_ords - the coordinates to look up
+<dt><b>Returns:</b>
+<dd>the room that was found or loaded
+<dt><b>See also:</b>
+<dd><a href="#setup_location">setup_location()
+</a></dl>
+
+<dt><a name="get_data_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_data_file</b></a><pre>
+int get_data_file(string word)
+</pre><dd>
+This method loads the data file for a given terrain.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the terrain to load the data for
+<dt><b>Returns:</b>
+<dd>1 if the terrain exists, 0 if it didn't
+
+</dl>
+
+<dt><a name="get_room_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_room_size</b></a><pre>
+int get_room_size(string file,
+int level)
+</pre><dd>
+This method returns the room size for a given room. It uses a cache
+to speed things up.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>file - the file name of the room
+<dd>level - the recursion level
+<dt><b>Returns:</b>
+<dd>the size of the room
+
+</dl>
+
+<dt><a name="member_cloned_locations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>member_cloned_locations</b></a><pre>
+string member_cloned_locations(int * co_ords)
+</pre><dd>
+This method checks wether there is a cloned location which matches the
+given coordinates.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>co_ords - the coordinates to find the room for
+<dt><b>Returns:</b>
+<dd>the file name of the room with the given coordinates, or 0 if
+it is not found
+<dt><b>See also:</b>
+<dd><a href="#member_fixed_locations">member_fixed_locations()</a> and <a href="#member_floating_locations">member_floating_locations()
+</a></dl>
+
+<dt><a name="member_fixed_locations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>member_fixed_locations</b></a><pre>
+string member_fixed_locations(int * co_ords)
+</pre><dd>
+This method checks wether there is a fixed location which matches the
+given coordinates.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>co_ords - the coordinates to find the room for
+<dt><b>Returns:</b>
+<dd>the file name of the room with the given coordinates, or 0 if
+it is not found
+<dt><b>See also:</b>
+<dd><a href="#member_cloned_locations">member_cloned_locations()</a> and <a href="#member_floating_locations">member_floating_locations()
+</a></dl>
+
+<dt><a name="member_floating_locations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>member_floating_locations</b></a><pre>
+mixed * member_floating_locations(int * co_ords)
+</pre><dd>
+This method checks wether there are floating locations which match the
+given coordinates.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>co_ords - the coordinates to find the rooms for
+<dt><b>Returns:</b>
+<dd>an array with the file names of the rooms and the levels, or
+the empty array if none are found
+<dt><b>See also:</b>
+<dd><a href="#member_cloned_locations">member_cloned_locations()</a> and <a href="#member_fixed_locations">member_fixed_locations()
+</a></dl>
+
+<dt><a name="modify_fixed_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>modify_fixed_location</b></a><pre>
+int modify_fixed_location(string terrain,
+string file,
+int * co_ords)
+</pre><dd>
+This method modifies an existing fixed location for a terrain.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>terrain - the terrain name
+<dd>file - the file name
+<dd>co_ords - the coordinates for the location
+<dt><b>Returns:</b>
+<dd>1 if it succeeds, 0 if it fails (wrong coordinates or location
+not found)
+<dt><b>See also:</b>
+<dd><a href="#add_fixed_location">add_fixed_location()
+</a></dl>
+
+<dt><a name="query_cloned_locations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cloned_locations</b></a><pre>
+mapping query_cloned_locations(string terrain)
+</pre><dd>
+This method returns the cloned_locations mapping for a given terrain.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the terrain name
+<dt><b>Returns:</b>
+<dd>the cloned_locations mapping; keys are the file names, values are
+the coordinates for the files. There are also keys on x coordinates to
+facilitate faster coordinate lookups.
+<dt><b>See also:</b>
+<dd><a href="#query_fixed_locations">query_fixed_locations()</a> and <a href="#query_floating_locations">query_floating_locations()
+</a></dl>
+
+<dt><a name="query_co_ord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_co_ord</b></a><pre>
+int * query_co_ord(string terrain,
+string file)
+</pre><dd>
+This method returns the coordinates for a given terrain and fixed location
+filename.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>terrain - the terrain name
+<dd>file - the file name of the location
+<dt><b>Returns:</b>
+<dd>the coordinates
+
+</dl>
+
+<dt><a name="query_connected">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_connected</b></a><pre>
+int query_connected(string terrain,
+int * co_ords)
+</pre><dd>
+This method returns wether the given coordinates is connected to another
+room in the terrain handler system.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>terrain - the terrain name
+<dd>co_ords - the coordinates
+<dt><b>Returns:</b>
+<dd>1 if it is found, 0 otherwise
+<dt><b>See also:</b>
+<dd><a href="#query_connection">query_connection()
+</a></dl>
+
+<dt><a name="query_connection">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_connection</b></a><pre>
+string query_connection(string terrain,
+int * co_ords,
+string direc)
+</pre><dd>
+This method returns the connecting room for the given coordinates and
+direction.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>terrain - the terrain name
+<dd>co_ords - the coordinates
+<dd>direc - the direction to find the room for
+<dt><b>Returns:</b>
+<dd>the file name of the connecting room or 0 if none was found
+<dt><b>See also:</b>
+<dd><a href="#query_connected">query_connected()
+</a></dl>
+
+<dt><a name="query_fixed_locations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_fixed_locations</b></a><pre>
+mapping query_fixed_locations(string word)
+</pre><dd>
+This method returns the fixed_locations mapping for the given terrain.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the terrain name
+<dt><b>Returns:</b>
+<dd>the fixed_locations mapping; keys are the file names, values are
+the coordinates for the files
+<dt><b>See also:</b>
+<dd><a href="#query_cloned_locations">query_cloned_locations()</a> and <a href="#query_floating_locations">query_floating_locations()
+</a></dl>
+
+<dt><a name="query_floating_locations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_floating_locations</b></a><pre>
+mixed * query_floating_locations(string word)
+</pre><dd>
+This method returns the floating_locations array for the given terrain.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the terrain name
+<dt><b>Returns:</b>
+<dd>the floating_locations array; this is an array of arrays where each
+array consists of the file name, an array of 6 coordinates forming a
+bounding box or normal coordinates for the location and the level of the
+floating location
+<dt><b>See also:</b>
+<dd><a href="#query_cloned_locations">query_cloned_locations()</a> and <a href="#query_fixed_locations">query_fixed_locations()
+</a></dl>
+
+<dt><a name="setup_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_location</b></a><pre>
+void setup_location(object place,
+string terrain)
+</pre><dd>
+This method is called when a normal room is loaded which is part of
+a terrain. The terrain handler needs to know about this to be able
+to calculate the exits into the floating portion of the terrain.
+It also sets the coordinates of the room to the values as saved in the
+terrain.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>place - the room object which is a fixed location in the terrain
+<dd>terrain - the terrain name
+<dt><b>See also:</b>
+<dd><a href="#find_location">find_location()
+</a></dl>
+
+<dt><a name="top_floating_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>top_floating_location</b></a><pre>
+string top_floating_location(int * co_ords)
+</pre><dd>
+This method searches the top level floating location for the given
+coordinates.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>co_ords - the coordinates to find the top level for
+<dt><b>Returns:</b>
+<dd>the file name of the top level room with the given coordinates,
+or 0 if none was found
+<dt><b>See also:</b>
+<dd><a href="#member_floating_locations">member_floating_locations()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 02:13:27 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

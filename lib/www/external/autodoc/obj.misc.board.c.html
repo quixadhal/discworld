@@ -1,0 +1,124 @@
+<html><head><title>File board.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.board.h.html">/include/board.h</a> and <a href="include.mail.h.html">/include/mail.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_info_written"><b>info_written</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_commands"><b>add_commands</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_eat"><b>do_eat</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_followup"><b>do_followup</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_post"><b>do_post</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_read"><b>do_read</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_read_new"><b>do_read_new</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_read_next"><b>do_read_next</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_reply"><b>do_reply</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_subjects"><b>do_subjects</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#end_of_thing"><b>end_of_thing</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#include_post"><b>include_post</b></a>(string, int, mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#long"><b>long</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#mark_mine"><b>mark_mine</b></a>(mixed *, mapping)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_new_messages"><b>query_new_messages</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_plural"><b>query_plural</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_board_name"><b>set_board_name</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_datafile"><b>set_datafile</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#short"><b>short</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#the_date"><b>the_date</b></a>(int)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_commands</b></a><pre>
+void add_commands()
+</pre>
+<dt><a name="do_eat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_eat</b></a><pre>
+int do_eat(int num)
+</pre>
+<dt><a name="do_followup">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_followup</b></a><pre>
+int do_followup(int num)
+</pre>
+<dt><a name="do_post">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_post</b></a><pre>
+int do_post(string str)
+</pre>
+<dt><a name="do_read">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_read</b></a><pre>
+int do_read(int num)
+</pre>
+<dt><a name="do_read_new">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_read_new</b></a><pre>
+int do_read_new()
+</pre>
+<dt><a name="do_read_next">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_read_next</b></a><pre>
+int do_read_next()
+</pre>
+<dt><a name="do_reply">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_reply</b></a><pre>
+int do_reply(int num)
+</pre>
+<dt><a name="do_subjects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_subjects</b></a><pre>
+int do_subjects(string search)
+</pre>
+<dt><a name="end_of_thing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>end_of_thing</b></a><pre>
+void end_of_thing(string body)
+</pre>
+<dt><a name="include_post">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>include_post</b></a><pre>
+void include_post(string str,
+int num,
+mixed * stuff)
+</pre>
+<dt><a name="long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>long</b></a><pre>
+string long(string str,
+int dark)
+</pre>
+<dt><a name="mark_mine">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>mark_mine</b></a><pre>
+void mark_mine(mixed * stuff,
+mapping news_rc)
+</pre>
+<dt><a name="query_new_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_new_messages</b></a><pre>
+int query_new_messages()
+</pre>
+<dt><a name="query_plural">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_plural</b></a><pre>
+string query_plural()
+</pre>
+<dt><a name="set_board_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_board_name</b></a><pre>
+void set_board_name(string str)
+</pre>
+<dt><a name="set_datafile">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_datafile</b></a><pre>
+void set_datafile(string str)
+</pre>
+<dt><a name="short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>short</b></a><pre>
+string short(int dark)
+</pre>
+<dt><a name="the_date">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>the_date</b></a><pre>
+string the_date(int i)
+</pre>
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_info_written">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>info_written</b></a><pre>
+class info_written {
+string subject;
+int note_num;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 06:25:53 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

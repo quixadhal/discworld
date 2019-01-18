@@ -1,0 +1,46 @@
+.DT
+remove_group
+Disk World creator help
+remove_group
+
+.SH Name
+.SP 5 5
+remove_group -  This function removes a group from the handler and is only used internally.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_group(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - name of the group to be disbanded
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 if group doesn't exist.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/group_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function removes a group from the handler and is only used
+internally.  No notification of this is given to players, and
+no cleanup is done on their part.
+If you want to force the deletion of a group, use disband_group()
+instead.
+
+.EP
+
+.SH See also
+.SP 5 5
+disband_group()
+
+.EP
+

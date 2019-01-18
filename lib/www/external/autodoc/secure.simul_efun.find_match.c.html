@@ -1,0 +1,54 @@
+<html><head><title>File find_match.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /secure/simul_efun/find_match.c</h2>
+The find_match simul_efun.<p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="secure.simul_efun.obj_parser.c.html">/secure/simul_efun/obj_parser.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.obj_parser.h.html">/include/obj_parser.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#filter_in_me_or_environment"><b>filter_in_me_or_environment</b></a>(object *, object)<dd>
+This method returns the array of objects that are only inside the
+player in question, or in their environment.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_in_me_or_environment"><b>is_in_me_or_environment</b></a>(object, object)<dd>
+This method checks to see if the specified object is in the player
+or the environment.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="filter_in_me_or_environment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>filter_in_me_or_environment</b></a><pre>
+object * filter_in_me_or_environment(object * obs,
+object player)
+</pre><dd>
+This method returns the array of objects that are only inside the
+player in question, or in their environment.  It excludes any items
+in other peoples inventorys.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects to filer
+<dd>player - the player to check
+<dt><b>Returns:</b>
+<dd>the filtered objects
+
+</dl>
+
+<dt><a name="is_in_me_or_environment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_in_me_or_environment</b></a><pre>
+int is_in_me_or_environment(object thing,
+object person)
+</pre><dd>
+This method checks to see if the specified object is in the player
+or the environment.  If it has no environment it is considered to
+be here.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to test
+<dd>player - the player to check against
+<dt><b>Returns:</b>
+<dd>1 if it is, 0 if not
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 13:33:04 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

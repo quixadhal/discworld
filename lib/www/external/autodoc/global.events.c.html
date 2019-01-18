@@ -1,0 +1,1181 @@
+<html><head><title>File events.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/events.c</h2>
+This file contains all the standard event handling code that players
+need.  This will handle things like informs, shouts, says, tells,
+whispers.  Everything!   It formats the message correctly and
+sends it to the player.<p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="global.friends.c.html">/global/friends.c</a>, /global/options_control.c, <a href="global.new_parse.c.html">/global/new_parse.c</a>, /global/play_parse_com.c and <a href="global.communicate.c.html">/global/communicate.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.cmds.options.h.html">/include/cmds/options.h</a>, <a href="include.language.h.html">/include/language.h</a>, <a href="include.dirs.h.html">/include/dirs.h</a>, <a href="include.socket_errors.h.html">/include/socket_errors.h</a>, <a href="include.telnet.h.html">/include/telnet.h</a>, <a href="include.playerinfo.h.html">/include/playerinfo.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.tune.h.html">/include/tune.h</a>, <a href="include.broadcaster.h.html">/include/broadcaster.h</a>, <a href="include.network.h.html">/include/network.h</a>, <a href="include.newbiehelpers.h.html">/include/newbiehelpers.h</a>, <a href="include.living.h.html">/include/living.h</a>, <a href="include.term.h.html">/include/term.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_event_info"><b>event_info</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_message"><b>add_message</b></a>(string, mixed *)<dd>
+This adds a message into the current list of printable messages.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_earmuffs"><b>check_earmuffs</b></a>(string, object)<dd>
+This method checks to see if a particular event is earmuffed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#colour_event"><b>colour_event</b></a>(string, string)<dd>
+This function returns the appropriate colour codes for the given event
+type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#convert_message"><b>convert_message</b></a>(string)<dd>
+This method will handle doing exciting things to messages and
+returning them as a usable format.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_busy"><b>do_busy</b></a>(string)<dd>
+This method handles setting the busy flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_busy_player"><b>do_busy_player</b></a>(object *)<dd>
+This method allows creators to set the player for whom they are currently
+busy too.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_inform"><b>do_inform</b></a>(string)<dd>
+This is the command to handle the inform stuff.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_tell_his"><b>do_tell_his</b></a>(string, int)<dd>
+This method is the command used to print a players tell history.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#enter_exit_mess"><b>enter_exit_mess</b></a>(string, object, int)<dd>
+This method is called when an object leaves or arrives in
+the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#evaluate_message"><b>evaluate_message</b></a>(mixed *)<dd>
+This is the main evaluation routine.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_combat"><b>event_combat</b></a>(object, string, object *, int)<dd>
+This event is generated when a combat message occurs.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_commands"><b>event_commands</b></a>()<dd>
+This method adds all the event commands onto the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_creator_tell"><b>event_creator_tell</b></a>(object, string, string, int, string)<dd>
+This event is generated when a creator tell is done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_emote"><b>event_emote</b></a>(object, string)<dd>
+This method is called when someone does an emote.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_enter"><b>event_enter</b></a>(object, string, )<dd>
+This method is called when an object enters the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_exit"><b>event_exit</b></a>(object, string, object)<dd>
+This method is printed when an object exits the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_inform"><b>event_inform</b></a>(, mixed, string, object)<dd>
+This method is called when an inform event is called.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_inter_creator_tell"><b>event_inter_creator_tell</b></a>(object, string, string, string, object, int)<dd>
+This event is generated when a intermud creator tell is done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_intermud_tell"><b>event_intermud_tell</b></a>(object, string, string, string, object)<dd>
+This event is generated when a creator tell is done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_lord_tell"><b>event_lord_tell</b></a>(object, string, string, int)<dd>
+This event is generated when a lord tell is done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_newbie"><b>event_newbie</b></a>(object, string)<dd>
+This event is generated when a newbie chat event is done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_newbiehelpers"><b>event_newbiehelpers</b></a>(object, string)<dd>
+This event is generated when a newbiehelpers chat event is done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_person_say"><b>event_person_say</b></a>(object, string, string, string, string)<dd>
+This method is called when someone says something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_person_shout"><b>event_person_shout</b></a>(object, string, string, string, int *, int)<dd>
+This method is generated when a shout is done by a player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_person_tell"><b>event_person_tell</b></a>(object, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_player_echo"><b>event_player_echo</b></a>(object, string)<dd>
+This method is called when an echo is generated by a player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_player_echo_to"><b>event_player_echo_to</b></a>(object, string, object)<dd>
+This method is called when an echo to is generated by the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_player_emote_all"><b>event_player_emote_all</b></a>(object, string)<dd>
+This method is called when an emoteall is generated by a player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_say"><b>event_say</b></a>(object, string, mixed, string)<dd>
+This method is called when the 'say' and 'tell_room' simul_efuns is used.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_see"><b>event_see</b></a>(object, string, object, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_soul"><b>event_soul</b></a>(object, string, mixed)<dd>
+This method is called by the soul to print out the soul messages.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_whisper"><b>event_whisper</b></a>(object, string, string, object *, string, object)<dd>
+This method is called when the whisper even is generated.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_write"><b>event_write</b></a>(object, string, string)<dd>
+This method is called by the simul_efun 'write'.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#fit_message"><b>fit_message</b></a>(string)<dd>
+This method fits a message into a the current players screen size.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#fix_for_mxp"><b>fix_for_mxp</b></a>(string)<dd>
+This method does any extra mxp processing on the output string
+so it will work with the client correctly.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#fix_string"><b>fix_string</b></a>(string, int, int, int, mixed * args)<dd>
+This method handles the conversersions for the colour mapping which is
+done on Discworld.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_htell_func"><b>get_htell_func</b></a>()<dd>
+Return function pointer for do_tell_his, for htell only.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#indent_column"><b>indent_column</b></a>(string, int, int)<dd>
+This method handles doing the indenting of the input string, fitting it
+correctly to the width of the column.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#mxp_enable"><b>mxp_enable</b></a>()<dd>
+This is a callback generated by the driver to deal with mxp related
+stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#my_mirror_short"><b>my_mirror_short</b></a>(object, string)<dd>
+This is a special function for use with the reform message, it allows
+the string to be echoed into the list instead of using the object's
+value itself.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#octarine_message"><b>octarine_message</b></a>(string)<dd>
+This method will do the octarine checking for you on the message.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#old_event_intermud_tell"><b>old_event_intermud_tell</b></a>(object, string, string, string, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#print_messages"><b>print_messages</b></a>()<dd>
+This prints out the messages after the delay, printing out the
+messages in a nice cute way.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_busy"><b>query_busy</b></a>()<dd>
+This method tells us if the player/creator/lord is currently in busy
+mode.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cols"><b>query_cols</b></a>()<dd>
+This method returns the current number of columns the player has
+set on their screen.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cur_term"><b>query_cur_term</b></a>()<dd>
+This method returns the current terminal type that is being used.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_earmuffs"><b>query_earmuffs</b></a>()<dd>
+This method tells us if the player currently has earmuffs turned on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_inform_types"><b>query_inform_types</b></a>()<dd>
+This method returns the list of inform types this player can receive.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_my_colours"><b>query_my_colours</b></a>()<dd>
+Return a players list of custom colours.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rows"><b>query_rows</b></a>()<dd>
+This method returns the current number of rows the player has
+set on their screen.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_see_octarine"><b>query_see_octarine</b></a>()<dd>
+This method tests to see if the player can see octarine objects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_term_name"><b>query_term_name</b></a>()<dd>
+This method returns the current terminal name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#receive_snoop"><b>receive_snoop</b></a>(string)<dd>
+This method is generated internally by the driver when this player is
+snooping someone else.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reform_message"><b>reform_message</b></a>(string, mixed *)<dd>
+This method does all those terrible things with messages and $'s
+turning them into real strings.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_colour_map"><b>reset_colour_map</b></a>()<dd>
+This method resets the colour map information on the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_allow_friends_earmuffs"><b>set_allow_friends_earmuffs</b></a>()<dd>
+This method will set the system to allow friends to punch through
+earmuffs.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_cols"><b>set_cols</b></a>(int)<dd>
+This method sets the current number of columns the player has set on
+their screen.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_looked"><b>set_looked</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_my_colours"><b>set_my_colours</b></a>(string, string)<dd>
+set the colour codes for a given event
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_network_terminal_type"><b>set_network_terminal_type</b></a>(string)<dd>
+This method handles the responses from the remote site informing
+us of their terminal type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_rows"><b>set_rows</b></a>(int)<dd>
+This method sets the number of rows on the players screen.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_term_type"><b>set_term_type</b></a>(string)<dd>
+This method sets the current terminal type for the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#show_message"><b>show_message</b></a>(string)<dd>
+This method shows the message to the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#some_more"><b>some_more</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#terminal_type"><b>terminal_type</b></a>(string)<dd>
+This is a call back generated by the driver internally to tell us about
+terminal types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#toggle_earmuffs"><b>toggle_earmuffs</b></a>()<dd>
+This method will change the current value of the earmuffs on the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#window_size"><b>window_size</b></a>(int, int)<dd>
+This is a call back generated by the driver internally to tell us about
+the window size of the remote machine.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_message</b></a><pre>
+void add_message(string message,
+mixed * things)
+</pre><dd>
+This adds a message into the current list of printable messages.  This
+will be squided up together and printed out slightly later, this handles
+the concatenating of enter messages, and soul messages.  Etc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>message - the message to add
+<dd>things - the objects which are involved with the message
+<dt><b>See also:</b>
+<dd><a href="#reform_message">reform_message()
+</a></dl>
+
+<dt><a name="check_earmuffs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_earmuffs</b></a><pre>
+int check_earmuffs(string type,
+object person)
+</pre><dd>
+This method checks to see if a particular event is earmuffed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of event to check
+<dd>person - the person who is being checked for the earmuffing of
+<dt><b>Returns:</b>
+<dd>1 if the event is earmuffed and 0 if it is not
+<dt><b>See also:</b>
+<dd><a href="#toggle_earmuffs">toggle_earmuffs()</a> and <a href="#query_earmuffs">query_earmuffs()</a><dt><b>Example:</b>
+<dd><pre>obs = users();
+
+obs = filter(obs, (: $1->check_earmuffs("shout", this_player()) :) );
+// Do the shout
+</pre></dl>
+
+<dt><a name="colour_event">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>colour_event</b></a><pre>
+string colour_event(string event_type,
+string default_colour)
+</pre><dd>
+This function returns the appropriate colour codes for the given event
+type. It will return the players chosen colour if they've set one or
+the default if not.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>event_type - The type of event
+<dt><b>Returns:</b>
+<dd>a string of colour codes.
+
+</dl>
+
+<dt><a name="convert_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>convert_message</b></a><pre>
+string convert_message(string message)
+</pre><dd>
+This method will handle doing exciting things to messages and
+returning them as a usable format.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>message - the message to evaluate
+<dt><b>Returns:</b>
+<dd>the message in a printable (to the player) format
+<dt><b>See also:</b>
+<dd><a href="#evaluate_message">evaluate_message()
+</a></dl>
+
+<dt><a name="do_busy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_busy</b></a><pre>
+int do_busy(string str)
+</pre><dd>
+This method handles setting the busy flag.  The busy flag can only
+be set by liaisons and lords, why lords?  Just because :)  This
+command was inspired by moonchild.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the on or off string
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_busy_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_busy_player</b></a><pre>
+int do_busy_player(object * obs)
+</pre><dd>
+This method allows creators to set the player for whom they are currently
+busy too.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the player to be busy with
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="evaluate_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>evaluate_message</b></a><pre>
+string evaluate_message(mixed * stuff)
+</pre><dd>
+This is the main evaluation routine.  This is the one that
+co-ordinates the works...  It is used by the print_messages
+routine to create the message to print out.
+<p>
+The input parameter contains two elements, the first is the
+message and the second is the things array.  This corresponds to
+the values returned by the fix_message method.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>stuff - the message to evaulate
+<dt><b>Returns:</b>
+<dd>the nice printed out string
+<dt><b>See also:</b>
+<dd><a href="#print_messages">print_messages()
+</a></dl>
+
+<dt><a name="event_combat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_combat</b></a><pre>
+void event_combat(object thing,
+string message,
+object * exclude,
+int verbose)
+</pre><dd>
+This event is generated when a combat message occurs.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing generateing the event.
+<dd>message - the message to be displayed.
+<dd>exclude - objects not to show this message to.
+<dd>verbose - is the message considered verbose?
+
+</dl>
+
+<dt><a name="event_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_commands</b></a><pre>
+void event_commands()
+</pre><dd>
+This method adds all the event commands onto the player.
+This will be called in the player startup sequence.
+<p>
+
+<dt><a name="event_creator_tell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_creator_tell</b></a><pre>
+nomask void event_creator_tell(object ob,
+string start,
+string mess,
+int forced,
+string channel)
+</pre><dd>
+This event is generated when a creator tell is done.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object generating the event
+<dd>start - the start bit
+<dd>mess - the message bit
+<dd>forced - if it is forced to occur
+<dd>channel - the creator channel to talk on
+
+</dl>
+
+<dt><a name="event_emote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_emote</b></a><pre>
+void event_emote(object thing,
+string mess)
+</pre><dd>
+This method is called when someone does an emote.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object doing the emote
+<dd>mess - the emote to print
+
+</dl>
+
+<dt><a name="event_enter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_enter</b></a><pre>
+void event_enter(object thing,
+string mess,
+ object)
+</pre><dd>
+This method is called when an object enters the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing entering
+<dd>mess - the message to print on entering
+
+</dl>
+
+<dt><a name="event_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_exit</b></a><pre>
+void event_exit(object thing,
+string mess,
+object to)
+</pre><dd>
+This method is printed when an object exits the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object exiting
+<dd>mess - the message to print
+<dd>to - where the object is going to
+
+</dl>
+
+<dt><a name="event_inform">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_inform</b></a><pre>
+nomask varargs void event_inform( object,
+mixed mess,
+string which,
+object thing)
+</pre><dd>
+This method is called when an inform event is called.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the message to print
+<dd>which - the type of inform
+</dl>
+
+<dt><a name="event_inter_creator_tell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_inter_creator_tell</b></a><pre>
+void event_inter_creator_tell(object ob,
+string mname,
+string pname,
+string mess,
+object ig,
+int emote)
+</pre><dd>
+This event is generated when a intermud creator tell is done.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object generating the event
+<dd>mname - the name of the mud
+<dd>pname - the name of the player
+<dd>mess - the message
+<dd>ig - the ignore object
+<dd>emote - if it is an emote
+
+</dl>
+
+<dt><a name="event_intermud_tell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_intermud_tell</b></a><pre>
+void event_intermud_tell(object ob,
+string start,
+string mess,
+string channel,
+object ig)
+</pre><dd>
+This event is generated when a creator tell is done.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object generating the event
+<dd>mname - the name of the mud
+<dd>pname - the name of the player
+<dd>mess - the message
+<dd>ig - the ignore object
+<dd>emote - if it is an emote
+
+</dl>
+
+<dt><a name="event_lord_tell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_lord_tell</b></a><pre>
+nomask void event_lord_tell(object ob,
+string start,
+string mess,
+int forced)
+</pre><dd>
+This event is generated when a lord tell is done.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object generating the event
+<dd>start - the start bit
+<dd>mess - the message bit
+<dd>forced - if it is forced to occur
+
+</dl>
+
+<dt><a name="event_newbie">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_newbie</b></a><pre>
+void event_newbie(object thing,
+string message)
+</pre><dd>
+This event is generated when a newbie chat event is done.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing generateing the newbie chat
+<dd>message - the message the newbie said
+
+</dl>
+
+<dt><a name="event_newbiehelpers">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_newbiehelpers</b></a><pre>
+void event_newbiehelpers(object thing,
+string message)
+</pre><dd>
+This event is generated when a newbiehelpers chat event is done.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing generateing the newbiehelpers chat
+<dd>message - the message the newbiehelper said
+
+</dl>
+
+<dt><a name="event_person_say">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_person_say</b></a><pre>
+void event_person_say(object ob,
+string start,
+string mess,
+string lang,
+string accent)
+</pre><dd>
+This method is called when someone says something.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object doing the say
+<dd>start - the start message
+<dd>mess - the message to say
+<dd>lang - the language it is printed in
+<dd>accent - the accent object to use
+
+</dl>
+
+<dt><a name="event_person_shout">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_person_shout</b></a><pre>
+void event_person_shout(object thing,
+string start,
+string mess,
+string lang,
+int * co_ord,
+int range)
+</pre><dd>
+This method is generated when a shout is done by a player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing doing the shout
+<dd>start - the start string to print
+<dd>mess - the message to print
+<dd>lang - the language the shout is in
+<dd>co_ord - the co-ordinate of the shouter
+<dd>range - the range of the shout
+
+</dl>
+
+<dt><a name="event_person_tell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_person_tell</b></a><pre>
+void event_person_tell(object ob,
+string start,
+string mess)
+</pre>
+<dt><a name="event_player_echo">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_player_echo</b></a><pre>
+void event_player_echo(object ob,
+string mess)
+</pre><dd>
+This method is called when an echo is generated by a player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object doing the echo
+<dd>mess - the message being printed
+
+</dl>
+
+<dt><a name="event_player_echo_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_player_echo_to</b></a><pre>
+void event_player_echo_to(object ob,
+string mess,
+object me)
+</pre><dd>
+This method is called when an echo to is generated by the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object doing the echo to
+<dd>mess - the message being printed
+<dd>me - the person generating the echo to
+
+</dl>
+
+<dt><a name="event_player_emote_all">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_player_emote_all</b></a><pre>
+void event_player_emote_all(object ob,
+string mess)
+</pre><dd>
+This method is called when an emoteall is generated by a player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object doing the emoteall
+<dd>mess - the message being printed
+
+</dl>
+
+<dt><a name="event_say">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_say</b></a><pre>
+void event_say(object caller,
+string str,
+mixed avoid,
+string language)
+</pre><dd>
+This method is called when the 'say' and 'tell_room' simul_efuns is used.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>caller - the object doing the say
+<dd>str - the message to print
+<dd>avoid - the people to avoid in the say
+
+</dl>
+
+<dt><a name="event_see">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_see</b></a><pre>
+void event_see(object caller,
+string words,
+object thing,
+mixed avoid)
+</pre>
+<dt><a name="event_soul">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_soul</b></a><pre>
+varargs void event_soul(object ob,
+string str,
+mixed avoid)
+</pre><dd>
+This method is called by the soul to print out the soul messages.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object doing the soul
+<dd>str - the string to print
+<dd>avoid - the people not to print the message to
+
+</dl>
+
+<dt><a name="event_whisper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_whisper</b></a><pre>
+void event_whisper(object ob,
+string start,
+string mess,
+object * obs,
+string lang,
+object me)
+</pre><dd>
+This method is called when the whisper even is generated.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object whispering
+<dd>start - the start of the whisper message
+<dd>mess - the message to print
+<dd>obs - the objects to tell the message to
+<dd>lang - the lanaguage the whisper is in
+<dd>me - the object doing the whispering
+
+</dl>
+
+<dt><a name="event_write">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_write</b></a><pre>
+void event_write(object caller,
+string str,
+string language)
+</pre><dd>
+This method is called by the simul_efun 'write'.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>caller - the calling object
+<dd>str - the string to write, can be a pointer to two strings with a language
+<dd>language - the language to write with
+
+</dl>
+
+<dt><a name="fit_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>fit_message</b></a><pre>
+string fit_message(string message)
+</pre><dd>
+This method fits a message into a the current players screen size.  This
+does all sorts of other evil stuff too, like handling indenting and
+all sorts of things!  Most of which I do not understand so I won't
+say anything about here.  The $C$ does capitalization, $I$<num>=
+does indenting of all the following lines of <num> spaces.  The
+message automatically has $I$0=$C$ prepended to the message if it
+does not start with $I$.  SO if you start a message with $I$ then it
+will not capitalize the first letter of the message.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>message - the message to fit in
+<dt><b>Returns:</b>
+<dd>the fitted message
+
+</dl>
+
+<dt><a name="fix_for_mxp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>fix_for_mxp</b></a><pre>
+string fix_for_mxp(string input)
+</pre><dd>
+This method does any extra mxp processing on the output string
+so it will work with the client correctly.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>input - the input string
+<dt><b>Returns:</b>
+<dd>the output string with mangling
+
+</dl>
+
+<dt><a name="fix_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>fix_string</b></a><pre>
+varargs string fix_string(string str,
+int width,
+int indent,
+int padding,
+mixed * args ...)
+</pre><dd>
+This method handles the conversersions for the colour mapping which is
+done on Discworld.  This also does octarine message expansion, if the
+keyword %\^OCTARINE:message%\^ is embeded into a string then the
+inside section will be replaced with a blank string if the player
+cannot see octarine messages.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the string to do the conversion on
+<dd>width - the width of the string
+<dd>indent - the size of the indent
+<dd>args - any other arguments
+<dt><b>Returns:</b>
+<dd>the fixed up string
+<dt><b>See also:</b>
+<dd><a href="#efun::terminal_colour">efun::terminal_colour()
+</a></dl>
+
+<dt><a name="get_htell_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_htell_func</b></a><pre>
+function get_htell_func()
+</pre><dd>
+Return function pointer for do_tell_his, for htell only.
+<p>
+
+<dt><a name="indent_column">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>indent_column</b></a><pre>
+string indent_column(string column,
+int width,
+int pad)
+</pre><dd>
+This method handles doing the indenting of the input string, fitting it
+correctly to the width of the column.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>part - the column to do stuff with.
+
+</dl>
+
+<dt><a name="mxp_enable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>mxp_enable</b></a><pre>
+void mxp_enable()
+</pre><dd>
+This is a callback generated by the driver to deal with mxp related
+stuff.
+<p>
+
+<dt><a name="my_mirror_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>my_mirror_short</b></a><pre>
+string my_mirror_short(object thing,
+string arg)
+</pre><dd>
+This is a special function for use with the reform message, it allows
+the string to be echoed into the list instead of using the object's
+value itself.  This is done specifically to handle objects with
+variable shorts, so we get the short description correct at the
+moment it is queried.
+<p>
+
+<dt><a name="octarine_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>octarine_message</b></a><pre>
+string octarine_message(string str)
+</pre><dd>
+This method will do the octarine checking for you on the message.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the string to check
+<dt><b>See also:</b>
+<dd><a href="#query_see_octarine">query_see_octarine()</a><dt><b>Example:</b>
+<dd><pre>string query_long_bit() {
+  return "Glinting and sharp looking, the long sword is an impressive "
+         "weapon in the hands of someone knowledgeable.\n" +
+         this_player()->octarine_message("It glows with a fluffy octarine "
+                                         "aura.\n");
+} /* query_long_bit() */
+</pre></dl>
+
+<dt><a name="old_event_intermud_tell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>old_event_intermud_tell</b></a><pre>
+void old_event_intermud_tell(object ob,
+string start,
+string mess,
+string channel,
+object ig)
+</pre>
+<dt><a name="print_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>print_messages</b></a><pre>
+void print_messages()
+</pre><dd>
+This prints out the messages after the delay, printing out the
+messages in a nice cute way.  It still retains the order of the
+messages though.  This can be forced to occur by a message
+occuring on the player object which requires something to
+be printed.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#evaluate_message">evaluate_message()</a> and <a href="#show_message">show_message()
+</a></dl>
+
+<dt><a name="query_busy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_busy</b></a><pre>
+mixed query_busy()
+</pre><dd>
+This method tells us if the player/creator/lord is currently in busy
+mode.  This will be 1 if the creatopr is generaly busy, or
+it will return the array of players they are busy with.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the busy mode flag
+
+</dl>
+
+<dt><a name="query_cols">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cols</b></a><pre>
+int query_cols()
+</pre><dd>
+This method returns the current number of columns the player has
+set on their screen.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the number of columns on the screen
+<dt><b>See also:</b>
+<dd><a href="#set_cols">set_cols()
+</a></dl>
+
+<dt><a name="query_cur_term">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cur_term</b></a><pre>
+string query_cur_term()
+</pre><dd>
+This method returns the current terminal type that is being used.  This
+will be 0 if the terminal name is set to network and no response has
+been gained from the remote site yet.  Otherwise it should be the
+same value as the terminal name.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current terminal type
+<dt><b>See also:</b>
+<dd><a href="#query_term_name">query_term_name()</a> and <a href="#set_term_type">set_term_type()
+</a></dl>
+
+<dt><a name="query_earmuffs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_earmuffs</b></a><pre>
+int query_earmuffs()
+</pre><dd>
+This method tells us if the player currently has earmuffs turned on.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if earmuffs are on, 0 if they are not
+<dt><b>See also:</b>
+<dd><a href="#check_earmuffs">check_earmuffs()</a> and <a href="#toggle_earmuffs">toggle_earmuffs()
+</a></dl>
+
+<dt><a name="query_inform_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_inform_types</b></a><pre>
+string * query_inform_types()
+</pre><dd>
+This method returns the list of inform types this player can receive.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>array of inform types
+
+</dl>
+
+<dt><a name="query_my_colours">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_my_colours</b></a><pre>
+mapping query_my_colours()
+</pre><dd>
+Return a players list of custom colours.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a mapping of the players custom colours for different events.
+
+</dl>
+
+<dt><a name="query_rows">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rows</b></a><pre>
+int query_rows()
+</pre><dd>
+This method returns the current number of rows the player has
+set on their screen.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the number of rows on the screen
+<dt><b>See also:</b>
+<dd><a href="#set_rows">set_rows()
+</a></dl>
+
+<dt><a name="query_see_octarine">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_see_octarine</b></a><pre>
+int query_see_octarine()
+</pre><dd>
+This method tests to see if the player can see octarine objects.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if they can see octarine, 0 if they cannot
+
+</dl>
+
+<dt><a name="query_term_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_term_name</b></a><pre>
+string query_term_name()
+</pre><dd>
+This method returns the current terminal name.  If this is set to
+network then the network will be queried for the terminal type
+(using telnet suboption negotiation).<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current terminal name
+<dt><b>See also:</b>
+<dd><a href="#query_cur_term">query_cur_term()</a> and <a href="#set_term_type">set_term_type()
+</a></dl>
+
+<dt><a name="receive_snoop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>receive_snoop</b></a><pre>
+void receive_snoop(string mess)
+</pre><dd>
+This method is generated internally by the driver when this player is
+snooping someone else.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the snoop message
+
+</dl>
+
+<dt><a name="reform_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reform_message</b></a><pre>
+mixed * reform_message(string message,
+mixed * things)
+</pre><dd>
+This method does all those terrible things with messages and $'s
+turning them into real strings.  It is a neat function if somewhat
+complicated :)  It was written by Deutha.
+<p>
+The return array has two elements, the first being the reformed
+message and the second being the reformed things array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>message - the message to reform
+<dd>things - some bonus things to reform it with
+<dt><b>Returns:</b>
+<dd>an array consisting of two elements
+
+</dl>
+
+<dt><a name="reset_colour_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_colour_map</b></a><pre>
+void reset_colour_map()
+</pre><dd>
+This method resets the colour map information on the player.  THis is
+called when some change is made to the terminal data and it needs to
+be updated.
+<p>
+
+<dt><a name="set_allow_friends_earmuffs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_allow_friends_earmuffs</b></a><pre>
+void set_allow_friends_earmuffs()
+</pre><dd>
+This method will set the system to allow friends to punch through
+earmuffs.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#check_earmuffs">check_earmuffs()</a> and <a href="#query_earmuffs">query_earmuffs()
+</a></dl>
+
+<dt><a name="set_cols">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_cols</b></a><pre>
+void set_cols(int i)
+</pre><dd>
+This method sets the current number of columns the player has set on
+their screen.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new number of columns
+<dt><b>See also:</b>
+<dd><a href="#query_cols">query_cols()
+</a></dl>
+
+<dt><a name="set_looked">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_looked</b></a><pre>
+void set_looked(object thing)
+</pre>
+<dt><a name="set_my_colours">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_my_colours</b></a><pre>
+void set_my_colours(string event_type,
+string colour)
+</pre><dd>
+set the colour codes for a given event
+<p>
+
+<dt><a name="set_network_terminal_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_network_terminal_type</b></a><pre>
+int set_network_terminal_type(string name)
+</pre><dd>
+This method handles the responses from the remote site informing
+us of their terminal type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the terminal type gathered from the remote site
+<dt><b>Returns:</b>
+<dd>0 if the type was not used, 1 if it was
+<dt><b>See also:</b>
+<dd><a href="#set_term_type">set_term_type()</a>, <a href="#query_term_name">query_term_name()</a> and <a href="#query_cur_term">query_cur_term()
+</a></dl>
+
+<dt><a name="set_rows">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_rows</b></a><pre>
+void set_rows(int i)
+</pre><dd>
+This method sets the number of rows on the players screen.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new number of rows
+<dt><b>See also:</b>
+<dd><a href="#query_rows">query_rows()
+</a></dl>
+
+<dt><a name="set_term_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_term_type</b></a><pre>
+int set_term_type(string str)
+</pre><dd>
+This method sets the current terminal type for the player.  If the type
+is network, then the network will be queried for the terminal type
+and that will be used.  This is the distiction between the current
+terminal type and the terminal name.  The name will be the value that
+is set by the player and the current type will be the information
+garnered from the network (if the name is network) or the same as the
+name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new terminal type
+<dt><b>Returns:</b>
+<dd>1 if the terminal was successful set, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#set_term">set_term()</a>, <a href="#query_term_name">query_term_name()</a> and <a href="#query_cur_term">query_cur_term()
+</a></dl>
+
+<dt><a name="show_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>show_message</b></a><pre>
+void show_message(string message)
+</pre><dd>
+This method shows the message to the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>message - the message to show
+<dt><b>See also:</b>
+<dd><a href="#fit_message">fit_message()
+</a></dl>
+
+<dt><a name="some_more">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>some_more</b></a><pre>
+int some_more(string word)
+</pre>
+<dt><a name="terminal_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>terminal_type</b></a><pre>
+void terminal_type(string type)
+</pre><dd>
+This is a call back generated by the driver internally to tell us about
+terminal types.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the terminal type returned
+
+</dl>
+
+<dt><a name="toggle_earmuffs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>toggle_earmuffs</b></a><pre>
+void toggle_earmuffs()
+</pre><dd>
+This method will change the current value of the earmuffs on the player.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#check_earmuffs">check_earmuffs()</a> and <a href="#query_earmuffs">query_earmuffs()
+</a></dl>
+
+<dt><a name="window_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>window_size</b></a><pre>
+void window_size(int width,
+int height)
+</pre><dd>
+This is a call back generated by the driver internally to tell us about
+the window size of the remote machine.  This information in this is
+only used if the terminal is a network type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>width - the number of columns
+<dd>height - the number of rows
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="do_inform">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_inform</b></a><pre>
+nomask int do_inform(string str)
+</pre><dd>
+This is the command to handle the inform stuff.
+It does all the turning on/off and stuff things for the informs.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the informs to listen to
+<dt><b>See also:</b>
+<dd><a href="#event_inform">event_inform()
+</a></dl>
+
+<dt><a name="do_tell_his">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_tell_his</b></a><pre>
+varargs int do_tell_his(string str,
+int brief)
+</pre><dd>
+This method is the command used to print a players tell history.
+<p>
+
+<dt><a name="enter_exit_mess">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>enter_exit_mess</b></a><pre>
+void enter_exit_mess(string mess,
+object thing,
+int going)
+</pre><dd>
+This method is called when an object leaves or arrives in
+the room.  It prints out
+the message, well adds it to the queue of printable messages.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the message to print
+<dd>thing - the thing which is leaving/arriving
+<dd>going - if it is going
+
+</dl>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_event_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_info</b></a><pre>
+class event_info {
+mapping colour_map;
+string cur_term;
+string last_term;
+object where;
+object * had_shorts;
+mixed * eemessages;
+mixed busy;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 00:27:38 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

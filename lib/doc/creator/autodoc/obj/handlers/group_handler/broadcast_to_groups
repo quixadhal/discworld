@@ -1,0 +1,38 @@
+.DT
+broadcast_to_groups
+Disk World creator help
+broadcast_to_groups
+
+.SH Name
+.SP 5 5
+broadcast_to_groups -  With this function you can broadcaster a message to all or some of the groups currently active.
+.EP
+
+.SH Syntax
+.SI 5
+void broadcast_to_groups(string * name,
+string message)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - a string array with names of groups
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/group_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+With this function you can broadcaster a message to all or
+some of the groups currently active.  It will not include
+your name, so make sure you identify yourself if necessary.
+
+If "name" is empty or 0, the message will be broadcasted
+to all groups.
+
+.EP
+

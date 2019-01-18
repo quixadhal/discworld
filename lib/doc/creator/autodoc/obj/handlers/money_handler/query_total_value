@@ -1,0 +1,44 @@
+.DT
+query_total_value
+Disk World creator help
+query_total_value
+
+.SH Name
+.SP 5 5
+query_total_value -  This method determines the total value of a specified money array.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int query_total_value(mixed mon_array,
+string where)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^mon_array%^RESET%^ - the array to find the value of
+%^BOLD%^where%^RESET%^ - the money area to get the value in
+.EI
+
+.SH Returns
+.SI 5
+the total value as an integer.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method determines the total value of a specified money array.
+A money array consists of pairs of values ({ type, number })
+.EP
+
+.SH See also
+.SP 5 5
+query_value()
+
+.EP
+

@@ -1,0 +1,41 @@
+.DT
+event_shoplift
+Disk World creator help
+event_shoplift
+
+.SH Name
+.SP 5 5
+event_shoplift -  This method is called when a shop lift is done on the shop.
+.EP
+
+.SH Syntax
+.SI 5
+void event_shoplift(object command_ob,
+object thief,
+object victim)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^command_ob%^RESET%^ - the command object
+%^BOLD%^thief%^RESET%^ - the theif doing the shop lifting
+%^BOLD%^victim%^RESET%^ - the victim of the shoplifiting, us I guess :)
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/general_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when a shop lift is done on the shop.
+.EP
+
+.SH See also
+.SP 5 5
+event_shoplift(), set_shoplift_handler()
+
+.EP
+

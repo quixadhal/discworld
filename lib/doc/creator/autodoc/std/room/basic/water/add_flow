@@ -1,0 +1,52 @@
+.DT
+add_flow
+Disk World creator help
+add_flow
+
+.SH Name
+.SP 5 5
+add_flow -  This function adds a water current flowing through a particular exit, which may sweep objects through it or make it harder for them to swim through.
+.EP
+
+.SH Syntax
+.SI 5
+void add_flow(string dir,
+int rate)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - the exit through which the current is flowing
+%^BOLD%^rate%^RESET%^ - the strength of the current
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function adds a water current flowing through a particular exit, which
+may sweep objects through it or make it harder for them to swim through.
+The second argument is the rate of flow.  If this is positive, then water
+will be flowing from this room into the next one.  If it is positive, then
+water will be flowing from the next room into this one.  It is up to the
+coder of the specific rooms to ensure that the currents in different rooms
+match one another.
+.EP
+
+.SH Example 1
+.SI 5
+  // There is a current flowing south.
+  add_flow("north", -80);
+  add_flow("south", 80);
+
+.EI
+
+.SH See also
+.SP 5 5
+delete_flow, query_flow, query_flows, drift, swim_exit
+.EP
+

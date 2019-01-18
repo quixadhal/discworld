@@ -1,0 +1,41 @@
+.DT
+add_alt
+Disk World creator help
+add_alt
+
+.SH Name
+.SP 5 5
+add_alt -  Add an alt character name to this player's dossier.
+.EP
+
+.SH Syntax
+.SI 5
+string add_alt(object creator,
+string player,
+string alt)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player%^RESET%^ - the name of the player
+%^BOLD%^alts%^RESET%^ - the names of the alt characters to add
+.EI
+
+.SH Returns
+.SI 5
+a string describing the outcome of the function call
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playerinfo.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Add an alt character name to this player's dossier. This function succeeds
+if both characters are not "main", or only one if them is "main". Both
+players will have their dossiers modified.
+.EP
+

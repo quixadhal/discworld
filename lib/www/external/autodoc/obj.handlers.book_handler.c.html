@@ -1,0 +1,250 @@
+<html><head><title>File book_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/book_handler.c</h2>
+This handler object deals with all the books that have been published.
+It keeps a save file of every book and a current book number.
+It will allow for easy finding again of preprinted books and for the
+easy removal of any books that happen to contain things like quest
+solutions and stuff.
+<p><b>See also:</b><br><a href="std.book.c.html">/std/book.c</a> and /std/print_shop.c
+<p>Written by Pinkfish<p>Started Sun Feb  1 20:24:33 CST 1998<hr><h2>Includes</h2>
+This class includes the following files <a href="include.language.h.html">/include/language.h</a> and <a href="include.book_handler.h.html">/include/book_handler.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_banished_book"><b>add_banished_book</b></a>(int, string)<dd>
+This method banishes a book number for a certain reason.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_book"><b>add_book</b></a>(object, int, string)<dd>
+Adds a newly minted book into our nice list of stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_book_same"><b>check_book_same</b></a>(object, int)<dd>
+Checks to see if the passed in book is the same as the current book
+number that is set on it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compare_page"><b>compare_page</b></a>(string, string)<dd>
+Compares the open pages of two books to see if the text is the
+same.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compare_pages"><b>compare_pages</b></a>(string *, string *)<dd>
+This method will try and figure out the percentage changed between the
+two page arrays.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_it"><b>load_it</b></a>()<dd>
+Loads the state information from the save file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_banished_books"><b>query_all_banished_books</b></a>()<dd>
+This method returns all the banished books.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_banished_book"><b>query_banished_book</b></a>(int)<dd>
+This method returns the banish string for the book.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_book_exists"><b>query_book_exists</b></a>(int)<dd>
+This tests to see if the given book number exists.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_book_owner"><b>query_book_owner</b></a>(int)<dd>
+This method returns the owner associated with the book of a given
+number.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_book_pages"><b>query_book_pages</b></a>(int)<dd>
+This method returns the pages associated with the book of a given
+number.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pages"><b>query_pages</b></a>(object)<dd>
+This method returns the array of useful pages in a book.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_it"><b>save_it</b></a>()<dd>
+Saves the current state information to the save file.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_banished_book">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_banished_book</b></a><pre>
+int add_banished_book(int book_num,
+string reason)
+</pre><dd>
+This method banishes a book number for a certain reason.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>book_num - the book number to banish
+<dd>reason - the reason it was banished
+<dt><b>Returns:</b>
+<dd>1 on success and 0 on failure.
+<dt><b>See also:</b>
+<dd><a href="#query_banished_book">query_banished_book()</a> and <a href="#query_all_banished_books">query_all_banished_books()
+</a></dl>
+
+<dt><a name="add_book">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_book</b></a><pre>
+int add_book(object book,
+int num,
+string pl_name)
+</pre><dd>
+Adds a newly minted book into our nice list of stuff.  This returns the
+book number for this book.  You can use this to add a book if you already
+know its book number, if it does not match to the saved book number then
+it will return a new number.  If it does match it will return the
+same number.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>book - the book to add
+<dd>num - the possible book number it already has
+<dt><b>See also:</b>
+<dd><a href="#check_book_same">check_book_same()
+</a></dl>
+
+<dt><a name="check_book_same">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_book_same</b></a><pre>
+int check_book_same(object book,
+int num)
+</pre><dd>
+Checks to see if the passed in book is the same as the current book
+number that is set on it.  We only look at the text and ignore the
+type and language with which it is written.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>book - the book to check
+<dd>num - the book number to check against
+<dt><b>See also:</b>
+<dd><a href="#compare_pages">compare_pages()</a> and <a href="#add_book">add_book()
+</a></dl>
+
+<dt><a name="compare_page">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compare_page</b></a><pre>
+int compare_page(string page1,
+string page2)
+</pre><dd>
+Compares the open pages of two books to see if the text is the
+same.  It ignores language and style of writing.  This would also
+work on two pieces of paper.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>page1 - the first book
+<dd>page2 - the second book
+<dt><b>See also:</b>
+<dd><a href="#check_book_same">check_book_same()</a> and <a href="#add_book">add_book()
+</a></dl>
+
+<dt><a name="compare_pages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compare_pages</b></a><pre>
+int compare_pages(string * pages1,
+string * pages2)
+</pre><dd>
+This method will try and figure out the percentage changed between the
+two page arrays.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pages1 - the first page array
+<dd>pages2 - the second page array
+<dt><b>Returns:</b>
+<dd>the percentage the same
+
+</dl>
+
+<dt><a name="load_it">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_it</b></a><pre>
+void load_it()
+</pre><dd>
+Loads the state information from the save file.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#load_it">load_it()
+</a></dl>
+
+<dt><a name="query_all_banished_books">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_banished_books</b></a><pre>
+mapping query_all_banished_books()
+</pre><dd>
+This method returns all the banished books.  The keys are the
+numbers which are banished and the values are the reason for
+the banishment.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the banished books mapping
+<dt><b>See also:</b>
+<dd><a href="#add_banished_book">add_banished_book()</a> and <a href="#query_banished_book">query_banished_book()
+</a></dl>
+
+<dt><a name="query_banished_book">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_banished_book</b></a><pre>
+string query_banished_book(int book_num)
+</pre><dd>
+This method returns the banish string for the book.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>book_num - the book number to check
+<dt><b>Returns:</b>
+<dd>the banish reason, or 0 if none
+<dt><b>See also:</b>
+<dd><a href="#add_banished_book">add_banished_book()</a> and <a href="#query_all_banished_books">query_all_banished_books()
+</a></dl>
+
+<dt><a name="query_book_exists">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_book_exists</b></a><pre>
+int query_book_exists(int book_num)
+</pre><dd>
+This tests to see if the given book number exists.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>book_num - the number to test.
+<dt><b>Returns:</b>
+<dd>1 if it exists, 0 if it does not.
+
+</dl>
+
+<dt><a name="query_book_owner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_book_owner</b></a><pre>
+string query_book_owner(int book_num)
+</pre><dd>
+This method returns the owner associated with the book of a given
+number.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>book_num - the book number to get the pages for
+<dt><b>Returns:</b>
+<dd>the owner of the book
+<dt><b>See also:</b>
+<dd><a href="#query_book_pages">query_book_pages()
+</a></dl>
+
+<dt><a name="query_book_pages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_book_pages</b></a><pre>
+string * query_book_pages(int book_num)
+</pre><dd>
+This method returns the pages associated with the book of a given
+number.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>book_num - the book number to get the pages for
+<dt><b>Returns:</b>
+<dd>the pages for the book
+<dt><b>See also:</b>
+<dd><a href="#query_book_owner">query_book_owner()
+</a></dl>
+
+<dt><a name="query_pages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pages</b></a><pre>
+string * query_pages(object book)
+</pre><dd>
+This method returns the array of useful pages in a book.  It removes
+torn out pages and pages which are added by specific things in the
+game, like the print shop adding a fly leaf.  It just returns the text
+for the pages, since this is what we are interested in.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>book - the book to get the pages from
+<dt><b>Returns:</b>
+<dd>the array of pages
+
+</dl>
+
+<dt><a name="save_it">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_it</b></a><pre>
+void save_it()
+</pre><dd>
+Saves the current state information to the save file.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#save_it">save_it()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 15:57:35 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

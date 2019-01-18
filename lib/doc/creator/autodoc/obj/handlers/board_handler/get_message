@@ -1,0 +1,42 @@
+.DT
+get_message
+Disk World creator help
+get_message
+
+.SH Name
+.SP 5 5
+get_message -  Get the text of a specific message.
+.EP
+
+.SH Syntax
+.SI 5
+string get_message(string board,
+int num,
+string person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^board%^RESET%^ - the board name to get the message from
+%^BOLD%^num%^RESET%^ - the message number to use
+.EI
+
+.SH Returns
+.SI 5
+the message or 0 if it failed
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/board_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Get the text of a specific message.  This will look up the
+text on a board with the given number and return that to the
+caller.  The number is the offset into the subject array in
+which to get the message from.
+.EP
+

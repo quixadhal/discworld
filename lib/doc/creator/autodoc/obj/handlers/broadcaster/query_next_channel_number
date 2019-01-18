@@ -1,0 +1,38 @@
+.DT
+query_next_channel_number
+Disk World creator help
+query_next_channel_number
+
+.SH Name
+.SP 5 5
+query_next_channel_number -  This method keeps track of an ever increasing number for a specified channel type.
+.EP
+
+.SH Syntax
+.SI 5
+int query_next_channel_number(string channel)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^channel%^RESET%^ - the name of the channel
+.EI
+
+.SH Returns
+.SI 5
+the next number in the series
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/broadcaster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method keeps track of an ever increasing number for a specified
+channel type.  THis is used in the wizards spell (for instance) to
+keep track of unique ids for wizard channels.
+.EP
+

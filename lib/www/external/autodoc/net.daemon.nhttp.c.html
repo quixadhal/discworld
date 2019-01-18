@@ -1,0 +1,266 @@
+<html><head><title>File nhttp.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Inherits</h2>
+This class inherits the following classes <a href="net.inherit.server.c.html">/net/inherit/server.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.config.h.html">/include/config.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.localtime.h.html">/include/localtime.h</a>, <a href="include.login_handler.h.html">/include/login_handler.h</a>, <a href="include.network.h.html">/include/network.h</a>, <a href="include.login.h.html">/include/login.h</a>, <a href="include.runtime_config.h.html">/include/runtime_config.h</a>, <a href="include.socket_errors.h.html">/include/socket_errors.h</a>, <a href="include.mime.h.html">/include/mime.h</a> and <a href="include.http.h.html">/include/http.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#auth_failure"><b>auth_failure</b></a>(class http_request)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#auth_name"><b>auth_name</b></a>(class http_request)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#basic_header"><b>basic_header</b></a>(class http_request)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_fulluri"><b>check_fulluri</b></a>(class http_request, string)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clean_sockets"><b>clean_sockets</b></a>()<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#close_connection"><b>close_connection</b></a>(int, int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#each_byterange"><b>each_byterange</b></a>(class http_request, int ref, int ref)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#escape_html"><b>escape_html</b></a>(string)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventNewConnection"><b>eventNewConnection</b></a>(int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventRead"><b>eventRead</b></a>(int, string)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventSocketClosed"><b>eventSocketClosed</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_last_token"><b>find_last_token</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_token"><b>find_token</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#format_date"><b>format_date</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#handle_body"><b>handle_body</b></a>(class http_request)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#handle_request"><b>handle_request</b></a>(class http_request)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#hex_to_decimal"><b>hex_to_decimal</b></a>(string)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#http_header"><b>http_header</b></a>(class http_request)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#internal_byterange"><b>internal_byterange</b></a>(int, int ref, class http_request, string ref, int ref, int ref)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#internal_redirect"><b>internal_redirect</b></a>(class http_request, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#ltime2sec"><b>ltime2sec</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#mime"><b>mime</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#next_token"><b>next_token</b></a>(string ref)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_byterange"><b>parse_byterange</b></a>(string, int, int ref, int ref)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_date"><b>parse_date</b></a>(string)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_headers"><b>parse_headers</b></a>(class http_request, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_uri"><b>parse_uri</b></a>(class http_request, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_file"><b>query_current_file</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_no_reads"><b>query_current_no_reads</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_files_read"><b>query_files_read</b></a>()<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#resolve_callback"><b>resolve_callback</b></a>(string, string, int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#send_file"><b>send_file</b></a>(int, string)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#send_headers"><b>send_headers</b></a>(class http_request, mapping, mixed * args)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#send_string"><b>send_string</b></a>(int, string, int, string, int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#send_string_array"><b>send_string_array</b></a>(int, string *, int, string, int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_byterange"><b>set_byterange</b></a>(class http_request)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_last_modified"><b>set_last_modified</b></a>(class http_request, int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_persist"><b>set_persist</b></a>(class http_request)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#tidy_files_read"><b>tidy_files_read</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#unmime"><b>unmime</b></a>(string ref, int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#use_range_x"><b>use_range_x</b></a>(class http_request)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#uudecode"><b>uudecode</b></a>(string)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#www_authenticate"><b>www_authenticate</b></a>(class http_request)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#www_resolve"><b>www_resolve</b></a>(class http_request)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="escape_html">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>escape_html</b></a><pre>
+string escape_html(string s)
+</pre>
+<dt><a name="find_last_token">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_last_token</b></a><pre>
+int find_last_token(string line,
+string token)
+</pre>
+<dt><a name="find_token">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_token</b></a><pre>
+int find_token(string line,
+string token)
+</pre>
+<dt><a name="format_date">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>format_date</b></a><pre>
+string format_date(int x)
+</pre>
+<dt><a name="handle_body">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>handle_body</b></a><pre>
+int handle_body(class http_request req)
+</pre>
+<dt><a name="hex_to_decimal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hex_to_decimal</b></a><pre>
+int hex_to_decimal(string str)
+</pre>
+<dt><a name="ltime2sec">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>ltime2sec</b></a><pre>
+int ltime2sec(mixed * ltime)
+</pre>
+<dt><a name="mime">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>mime</b></a><pre>
+string mime(string str)
+</pre>
+<dt><a name="next_token">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>next_token</b></a><pre>
+string next_token(string ref line)
+</pre>
+<dt><a name="parse_date">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_date</b></a><pre>
+int parse_date(string date)
+</pre>
+<dt><a name="parse_uri">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_uri</b></a><pre>
+void parse_uri(class http_request req,
+string uri)
+</pre>
+<dt><a name="query_current_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_file</b></a><pre>
+string query_current_file()
+</pre>
+<dt><a name="query_current_no_reads">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_no_reads</b></a><pre>
+int query_current_no_reads(string file)
+</pre>
+<dt><a name="query_files_read">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_files_read</b></a><pre>
+int query_files_read()
+</pre>
+<dt><a name="tidy_files_read">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>tidy_files_read</b></a><pre>
+void tidy_files_read()
+</pre>
+<dt><a name="unmime">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>unmime</b></a><pre>
+int unmime(string ref url,
+int is_path)
+</pre>
+<dt><a name="uudecode">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>uudecode</b></a><pre>
+string uudecode(string bufcoded)
+</pre>
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="auth_failure">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>auth_failure</b></a><pre>
+void auth_failure(class http_request req)
+</pre>
+<dt><a name="auth_name">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>auth_name</b></a><pre>
+string auth_name(class http_request req)
+</pre>
+<dt><a name="basic_header">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>basic_header</b></a><pre>
+void basic_header(class http_request req)
+</pre>
+<dt><a name="check_fulluri">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_fulluri</b></a><pre>
+string check_fulluri(class http_request req,
+string uri)
+</pre>
+<dt><a name="clean_sockets">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>clean_sockets</b></a><pre>
+void clean_sockets()
+</pre>
+<dt><a name="close_connection">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>close_connection</b></a><pre>
+varargs void close_connection(int fd,
+int persist)
+</pre>
+<dt><a name="each_byterange">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>each_byterange</b></a><pre>
+int each_byterange(class http_request req,
+int ref offset,
+int ref length)
+</pre>
+<dt><a name="eventNewConnection">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventNewConnection</b></a><pre>
+void eventNewConnection(int fd)
+</pre>
+<dt><a name="eventRead">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventRead</b></a><pre>
+void eventRead(int fd,
+string str)
+</pre>
+<dt><a name="eventSocketClosed">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>eventSocketClosed</b></a><pre>
+void eventSocketClosed(int fd)
+</pre>
+<dt><a name="handle_request">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>handle_request</b></a><pre>
+void handle_request(class http_request req)
+</pre>
+<dt><a name="http_header">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>http_header</b></a><pre>
+void http_header(class http_request req)
+</pre>
+<dt><a name="internal_byterange">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>internal_byterange</b></a><pre>
+int internal_byterange(int realreq,
+int ref tlength,
+class http_request req,
+string ref r_range,
+int ref offset,
+int ref length)
+</pre>
+<dt><a name="internal_redirect">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>internal_redirect</b></a><pre>
+void internal_redirect(class http_request req,
+string new_uri)
+</pre>
+<dt><a name="parse_byterange">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>parse_byterange</b></a><pre>
+int parse_byterange(string range,
+int clength,
+int ref start,
+int ref end)
+</pre>
+<dt><a name="parse_headers">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>parse_headers</b></a><pre>
+void parse_headers(class http_request req,
+int i)
+</pre>
+<dt><a name="resolve_callback">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>resolve_callback</b></a><pre>
+void resolve_callback(string name,
+string addr,
+int key)
+</pre>
+<dt><a name="send_file">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>send_file</b></a><pre>
+void send_file(int fd,
+string str)
+</pre>
+<dt><a name="send_headers">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>send_headers</b></a><pre>
+void send_headers(class http_request req,
+mapping headers,
+mixed * args ...)
+</pre>
+<dt><a name="send_string">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>send_string</b></a><pre>
+void send_string(int fd,
+string str,
+int mod_date,
+string location,
+int no_length)
+</pre>
+<dt><a name="send_string_array">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>send_string_array</b></a><pre>
+void send_string_array(int fd,
+string * str,
+int mod_date,
+string location,
+int no_length)
+</pre>
+<dt><a name="set_byterange">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_byterange</b></a><pre>
+int set_byterange(class http_request req)
+</pre>
+<dt><a name="set_last_modified">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_last_modified</b></a><pre>
+int set_last_modified(class http_request req,
+int mtime)
+</pre>
+<dt><a name="set_persist">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_persist</b></a><pre>
+int set_persist(class http_request req)
+</pre>
+<dt><a name="use_range_x">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>use_range_x</b></a><pre>
+int use_range_x(class http_request req)
+</pre>
+<dt><a name="www_authenticate">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>www_authenticate</b></a><pre>
+int www_authenticate(class http_request req)
+</pre>
+<dt><a name="www_resolve">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>www_resolve</b></a><pre>
+int www_resolve(class http_request req)
+</pre>
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 09:53:18 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

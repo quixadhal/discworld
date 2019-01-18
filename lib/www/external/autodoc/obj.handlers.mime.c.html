@@ -1,0 +1,104 @@
+<html><head><title>File mime.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/mime.c</h2>
+A parser for RFC 822 compliant messages, with emphasis on
+the headers in them, also known as MIME headers.
+<p>
+RFC 822 describes the format of all Internet messages. This
+includes things like email, usenet news and HTTP protocol
+messages.<p>Written by Turrican<p>Started 22 May 1998
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.mime.h.html">/include/mime.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_email_addrs"><b>get_email_addrs</b></a>(string)<dd>
+This method extracts valid email adresses from the given
+header field or string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_headers"><b>parse_headers</b></a>(string)<dd>
+This method parses an RFC 822 compliant message and extracts all
+the headers into a class mime_header.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#rewrite_field"><b>rewrite_field</b></a>(string)<dd>
+This method rewrites local email addresses (as found in mudmail)
+to be usable outside Discworld, for instance from an email client.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#rewrite_header"><b>rewrite_header</b></a>(string)<dd>
+This method rewrites all the fields from an RFC 822 compliant message
+to make the message suited for Internet transport.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="get_email_addrs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_email_addrs</b></a><pre>
+mixed * get_email_addrs(string arg)
+</pre><dd>
+This method extracts valid email adresses from the given
+header field or string.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arg - the string to parse
+<dt><b>Returns:</b>
+<dd>an array consisting of an array of machine usable email adresses
+(no whitespace and comments) and an array of the full addresses
+<dt><b>See also:</b>
+<dd><a href="#rewrite_field">rewrite_field()
+</a></dl>
+
+<dt><a name="parse_headers">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_headers</b></a><pre>
+class mime_header parse_headers(string message)
+</pre><dd>
+This method parses an RFC 822 compliant message and extracts all
+the headers into a class mime_header. This class contains a mapping
+with the header field names as keys, so you can easily select
+the headers you need.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>message - the message to be parsed
+<dt><b>Returns:</b>
+<dd>a class mime_header with the headers from the message
+
+</dl>
+
+<dt><a name="rewrite_field">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rewrite_field</b></a><pre>
+string rewrite_field(string header_field)
+</pre><dd>
+This method rewrites local email addresses (as found in mudmail)
+to be usable outside Discworld, for instance from an email client.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>header_field - the string to rewrite
+<dt><b>Returns:</b>
+<dd>the new string
+<dt><b>See also:</b>
+<dd><a href="#get_email_addrs">get_email_addrs()
+</a></dl>
+
+<dt><a name="rewrite_header">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rewrite_header</b></a><pre>
+string rewrite_header(string message)
+</pre><dd>
+This method rewrites all the fields from an RFC 822 compliant message
+to make the message suited for Internet transport. It uses the
+rewrite_field() method to achieve this. The affected header fields
+are:
+<UL>
+<LI> To:
+<LI> From:
+<LI> Cc:
+<LI> Bcc:
+<LI> Reply-To:
+</UL><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>message - the message to rewrite
+<dt><b>Returns:</b>
+<dd>the possibly modified message, suited for Internet transport
+<dt><b>See also:</b>
+<dd><a href="#rewrite_field">rewrite_field()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 21:11:59 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

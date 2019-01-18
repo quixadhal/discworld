@@ -1,0 +1,44 @@
+.DT
+housing_auction
+Disk World creator help
+housing_auction
+
+.SH Name
+.SP 5 5
+housing_auction -  This function is called during the various phases of the housing auction.
+.EP
+
+.SH Syntax
+.SI 5
+void housing_auction(int event_type,
+class auction auct,
+string house,
+string buyer,
+int cost,
+object * obs)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^event_type%^RESET%^ - the event that has finished
+%^BOLD%^auct%^RESET%^ - the auction that just finished
+%^BOLD%^house%^RESET%^ - the path of the house being auctioned
+%^BOLD%^buyer%^RESET%^ - the buyer of the house (if sold)
+%^BOLD%^cost%^RESET%^ - how much the house costs
+%^BOLD%^obs%^RESET%^ - the things that were sold (rental agreementsin this case)
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/real_estate_auction.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function is called during the various phases of the housing
+auction.  When each phase ends this method is called and anything
+that needs to be done for the end of the phase is sorted out.
+.EP
+

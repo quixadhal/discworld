@@ -1,0 +1,38 @@
+.DT
+query_hidden_objects
+Disk World creator help
+query_hidden_objects
+
+.SH Name
+.SP 5 5
+query_hidden_objects -  This returns the current array of hidden objects.
+.EP
+
+.SH Syntax
+.SI 5
+object * query_hidden_objects()
+.EI
+
+.SH Returns
+.SI 5
+the array of hidden objects
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This returns the current array of hidden objects.  The hidden objects
+are used to allow things to not actually be in the room description
+but be able to be manipulated by commands.
+.EP
+
+.SH See also
+.SP 5 5
+add_hidden_object(), remove_hidden_object()
+.EP
+

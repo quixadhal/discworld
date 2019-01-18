@@ -1,0 +1,42 @@
+.DT
+ProfaneTest
+Disk World creator help
+ProfaneTest
+
+.SH Name
+.SP 5 5
+ProfaneTest -  ProfaneTest is a routine that evaluates how likely the text is to be profane/swearing/obscenity and so on.
+.EP
+
+.SH Syntax
+.SI 5
+int ProfaneTest(string strin)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^line%^RESET%^ - line of text to evaluate
+.EI
+
+.SH Returns
+.SI 5
+percentage chance of being offensive: chances over 100% can be returned
+        indicating greater likelihood of offense and/or more than one suspect word.
+        If you want it as lily white as possible you should insist on 0.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/english_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+ProfaneTest is a routine that evaluates how likely the text is to
+be profane/swearing/obscenity and so on.  These are the sorts of
+things that would never be allowed as a player name.  Spaces, non
+letters and repeating letters are worked around by this test.
+
+.EP
+

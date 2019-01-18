@@ -1,0 +1,44 @@
+.DT
+combat_information
+Disk World creator help
+combat_information
+
+.SH Name
+.SP 5 5
+combat_information -  This holds the combat information for this player/npc.
+.EP
+
+.SH Definition
+.SI 5
+class combat_information {
+int hbc;
+int mbc;
+int in_combat;
+int special_id;
+object * protectors;
+object * defenders;
+mapping attacker_list;
+mapping hunting_list;
+object concentrating;
+object last_opponent;
+object last_weapon;
+string last_action;
+int last_result;
+int action_defecit;
+class combat_special * specials;
+}
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/combat.h
+.EI
+
+.SH Description
+.SP 5 5
+
+This holds the combat information for this player/npc.
+
+.EP
+

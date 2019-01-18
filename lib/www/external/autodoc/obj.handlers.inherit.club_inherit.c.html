@@ -1,0 +1,107 @@
+<html><head><title>File club_inherit.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/inherit/club_inherit.c</h2>
+This is the handler for all things clubby, a club being a group of
+players.  Each club must have a unique name.  It also handles elections
+for various club positions.
+<p>
+This is broken up into this bit because LPC deals with classes and
+inheritance in extremely odd ways.<p>Written by Pinkfish<p>Started Sun Sep 27 03:35:42 EDT 1998
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.handlers.inherit.club_discuss.c.html">/obj/handlers/inherit/club_discuss.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.mail.h.html">/include/mail.h</a>, <a href="include.library.h.html">/include/library.h</a>, <a href="include.top_ten_tables.h.html">/include/top_ten_tables.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.broadcaster.h.html">/include/broadcaster.h</a>, <a href="include.clubs.h.html">/include/clubs.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_top_ten_tables"><b>top_ten_tables</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_club_members"><b>check_club_members</b></a>(string, string *, class top_ten_tables)<dd>
+This method checks the members of the club and makes sure they have
+not been up to anything naughty, like getting deleted.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_clubs"><b>check_clubs</b></a>(int)<dd>
+This method checks all the clubs to make sure they are currently valid
+and takes money out of the accounts of those that need to pay.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_extra_information"><b>check_extra_information</b></a>(string, string, int)<dd>
+This method checks the extra information for the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_specific_club"><b>check_specific_club</b></a>(string, int, int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_specific_clubs"><b>check_specific_clubs</b></a>(int, int)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="check_clubs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_clubs</b></a><pre>
+void check_clubs(int startup)
+</pre><dd>
+This method checks all the clubs to make sure they are currently valid
+and takes money out of the accounts of those that need to pay.  It
+will notify those whose accounts are deliquent.
+<p>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="check_club_members">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_club_members</b></a><pre>
+void check_club_members(string club_name,
+string * members,
+class top_ten_tables top_info)
+</pre><dd>
+This method checks the members of the club and makes sure they have
+not been up to anything naughty, like getting deleted.  It also
+updates the top ten information on the top ten handler.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>members - the members left to check
+<dd>top_info - the top ten information
+
+</dl>
+
+<dt><a name="check_extra_information">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_extra_information</b></a><pre>
+void check_extra_information(string name,
+string member,
+int startup)
+</pre><dd>
+This method checks the extra information for the club.  Please note
+this does *not* save the information.  You need to do this yourself.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check
+<dt><b>See also:</b>
+<dd><a href="#check_clubs">check_clubs()</a> and <a href="#remove_member">remove_member()
+</a></dl>
+
+<dt><a name="check_specific_club">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_specific_club</b></a><pre>
+void check_specific_club(string club_name,
+int extra_space,
+int startup)
+</pre>
+<dt><a name="check_specific_clubs">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_specific_clubs</b></a><pre>
+void check_specific_clubs(int startup,
+int pos)
+</pre>
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_top_ten_tables">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>top_ten_tables</b></a><pre>
+class top_ten_tables {
+int num;
+int qp;
+int age;
+int start_time;
+int gender;
+int single_gender;
+int rels;
+int no_pks;
+mapping guild;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 04:23:33 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

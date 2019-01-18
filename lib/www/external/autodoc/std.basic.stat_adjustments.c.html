@@ -1,0 +1,87 @@
+<html><head><title>File stat_adjustments.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/stat_adjustments.c</h2>
+This is the stat adjustment inheritable will add stat
+adjustments to the player.  It will also keep track of who they are added to
+so they can be removed correctly.<p>Written by Pinkfish<p>Started Sun May  7 14:41:09 PDT 2000
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.effects.stat_adjustment.h.html">/include/effects/stat_adjustment.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stat_adjustments"><b>query_stat_adjustments</b></a>(object)<dd>
+This method returns the current stat adjustments on the specified
+player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_all_stat_adjustments"><b>remove_all_stat_adjustments</b></a>()<dd>
+This method removes all the stat adjusments currently setup on
+the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_stat_adjustment"><b>remove_stat_adjustment</b></a>(object)<dd>
+This method removes the stat adjustments from the specified player
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_stat_adjustment"><b>set_stat_adjustment</b></a>(object, mapping)<dd>
+This method adds a set of stat adjustments to a specified player
+<pre>
+ ([
+    "str" : 1,
+    "dex" : -1,
+    "wis" : 3
+ ])
+</pre>
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_stat_adjustments">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stat_adjustments</b></a><pre>
+mapping query_stat_adjustments(object play)
+</pre><dd>
+This method returns the current stat adjustments on the specified
+player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>play - the player to find the stat adjustments for
+<dt><b>Returns:</b>
+<dd>the stat adjustments
+
+</dl>
+
+<dt><a name="remove_all_stat_adjustments">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_all_stat_adjustments</b></a><pre>
+void remove_all_stat_adjustments()
+</pre><dd>
+This method removes all the stat adjusments currently setup on
+the object.
+<p>
+
+<dt><a name="remove_stat_adjustment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_stat_adjustment</b></a><pre>
+void remove_stat_adjustment(object player)
+</pre><dd>
+This method removes the stat adjustments from the specified player<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player to remove the stat adjustments from
+
+</dl>
+
+<dt><a name="set_stat_adjustment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_stat_adjustment</b></a><pre>
+void set_stat_adjustment(object player,
+mapping adjs)
+</pre><dd>
+This method adds a set of stat adjustments to a specified player
+<pre>
+ ([
+    "str" : 1,
+    "dex" : -1,
+    "wis" : 3
+ ])
+</pre><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player to add the adjustments too
+<dd>adjs - the adjustments to add
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 22:36:12 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

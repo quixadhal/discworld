@@ -1,0 +1,94 @@
+<html><head><title>File help_files.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/help_files.c</h2>
+This inheritable allows objects or rooms to have help attached to them.<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.nroff.h.html">/include/nroff.h</a> and <a href="include.room.h.html">/include/room.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_help_file"><b>add_help_file</b></a>(string)<dd>
+This method sets up the help for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#help_function"><b>help_function</b></a>()<dd>
+This method returns the help data as a function pointer.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#help_string"><b>help_string</b></a>()<dd>
+This method returns the help as a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_help_file_directory"><b>query_help_file_directory</b></a>()<dd>
+This method is used to get the directory for the help files.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_help_files"><b>query_help_files</b></a>()<dd>
+This method returns the help files for the current room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_help_file"><b>remove_help_file</b></a>(string)<dd>
+This method removes the specified help file from the current ones.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_help_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_help_file</b></a><pre>
+void add_help_file(string help_file)
+</pre><dd>
+This method sets up the help for the room.  All the help file names are
+relative to /doc/room unless a complete path is specified.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>help_file - the help file name
+
+</dl>
+
+<dt><a name="help_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>help_function</b></a><pre>
+mixed * help_function()
+</pre><dd>
+This method returns the help data as a function pointer.
+The function pointer needs to be evaluated to create the actual text.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the function pointer for the help text
+
+</dl>
+
+<dt><a name="help_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>help_string</b></a><pre>
+string help_string()
+</pre><dd>
+This method returns the help as a string.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the help as a string
+
+</dl>
+
+<dt><a name="query_help_file_directory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_help_file_directory</b></a><pre>
+string query_help_file_directory()
+</pre><dd>
+This method is used to get the directory for the help files.
+This should be overridden in higher up objects that use this object.
+<p>
+
+<dt><a name="query_help_files">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_help_files</b></a><pre>
+string query_help_files()
+</pre><dd>
+This method returns the help files for the current room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of help files
+
+</dl>
+
+<dt><a name="remove_help_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_help_file</b></a><pre>
+void remove_help_file(string help_file)
+</pre><dd>
+This method removes the specified help file from the current ones.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>help_file - the help file name to remove
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 20:45:04 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

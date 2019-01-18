@@ -1,0 +1,35 @@
+.DT
+set_response_mon_regexp
+Disk World creator help
+set_response_mon_regexp
+
+.SH Name
+.SP 5 5
+set_response_mon_regexp -  This method sets or clears the flag to use regular expressions instead of the traditional arrays of words.
+.EP
+
+.SH Syntax
+.SI 5
+void set_response_mon_regexp(int flag)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^flag%^RESET%^ - the new value of the flag: 1 says to use regular expressions,
+0 to not use them
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/response_mon.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets or clears the flag to use regular expressions instead of
+the traditional arrays of words.  In addition, this flag inhibits
+the usual stripping of non-alphanumerics from the input strings.
+.EP
+

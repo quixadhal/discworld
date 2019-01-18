@@ -1,0 +1,421 @@
+<html><head><title>File desc.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/desc.c</h2>
+The main description handling class.  Keeps track of the longs short
+etc.<p>Written by Pinkfish<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.hide_invis.c.html">/std/basic/hide_invis.c</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#a_short"><b>a_short</b></a>(int)<dd>
+This method returns the "indeterminate" short.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#long"><b>long</b></a>(string, int)<dd>
+This method returns the current long description.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#one_short"><b>one_short</b></a>(int)<dd>
+This method returns an "out-of-a-group" short.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#poss_short"><b>poss_short</b></a>(int)<dd>
+This method returns the "possessed" short.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#pretty_plural"><b>pretty_plural</b></a>(object)<dd>
+The observer dependant plural.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#pretty_short"><b>pretty_short</b></a>(object)<dd>
+This method does weird stuff.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_determinate"><b>query_determinate</b></a>(object)<dd>
+This returns the determinate for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_long"><b>query_long</b></a>(string, int)<dd>
+This method returns the unadulterated long description.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_long_details"><b>query_long_details</b></a>(string, int, object)<dd>
+This method returns extra details about the object that should be
+known above the basic long.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_main_plural"><b>query_main_plural</b></a>()<dd>
+This method returns the current value of the main plural.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_plural"><b>query_plural</b></a>(int)<dd>
+This method returns the current plural string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_plural_desc"><b>query_plural_desc</b></a>()<dd>
+This method returns the pluralized version of query_short_desc().
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_short"><b>query_short</b></a>()<dd>
+This method returns the unadulterated short description.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_short_desc"><b>query_short_desc</b></a>()<dd>
+This method creates a simple short description for players based on their
+stats, gender and guild.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_long"><b>set_long</b></a>(mixed)<dd>
+This method sets the long description for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_main_plural"><b>set_main_plural</b></a>(mixed)<dd>
+This method sets the main plural for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_short"><b>set_short</b></a>(mixed)<dd>
+This method sets the short description for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#short"><b>short</b></a>(int)<dd>
+This method returns the current short description.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#the_poss_short"><b>the_poss_short</b></a>(int)<dd>
+Just like poss_short() but returning a definite article.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#the_short"><b>the_short</b></a>(int)<dd>
+This method returns the "determinate" short.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="a_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>a_short</b></a><pre>
+varargs string a_short(int flag)
+</pre><dd>
+This method returns the "indeterminate" short.  This function returns a
+string that the message system replaces, when messages are printed, by the
+determinate of the object and its short as given by pretty_short. The
+string should not be stored, since the object to which it refers may
+not later exist; it can be processed with convert_message.
+<p>
+The return of this function needs more processing before the player
+sees it.  In general you will not need to worry about this.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - If this flag is set, do not bring the player out of hiding.
+<dt><b>See also:</b>
+<dd><a href="#set_short">set_short()</a>, <a href="#short">short()</a>, <a href="#the_short">the_short()</a>, <a href="#poss_short">poss_short()</a>, <a href="#one_short">one_short()</a> and <a href="global.events.c.html#convert_message">/global/events->convert_message()</a><dt><b>Example:</b>
+<dd><pre>"a poor beggar"
+"the Weasel"
+"Detritus"
+</pre></dl>
+
+<dt><a name="long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>long</b></a><pre>
+string long(string str,
+int dark)
+</pre><dd>
+This method returns the current long description.  This is
+often overriden to display other information.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the string which matched us
+<dd>dark - is it dark when viewing
+<dt><b>Returns:</b>
+<dd>the current long descriptions
+<dt><b>See also:</b>
+<dd><a href="#set_long">set_long()
+</a></dl>
+
+<dt><a name="one_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>one_short</b></a><pre>
+varargs string one_short(int flag)
+</pre><dd>
+This method returns an "out-of-a-group" short.
+This function returns a string that the message system replaces, when
+messages are printed, by a string dependent on the determinate of
+the object and its short as given by pretty_short. If the viewer
+is not in the same environment as the object or if the determinate is
+defined and is not "a " or "an ", that string is the determinate. If
+there is more than one object with the same plural as that object in its
+environment, then that string is "one of the "; otherwise the
+string is "the ". The output from from one_short should not be
+stored, since the object to which it refers may not later exist; it can be
+processed with convert_message. One_short is mostly used for
+referring to a living object when it performs an action independent
+of any previous actions. 
+<p>
+The return of this function needs more processing before the player
+sees it.  In general you will not need to worry about this.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - If this flag is set, do not bring the player out of hiding.
+<dt><b>See also:</b>
+<dd><a href="#set_short">set_short()</a>, <a href="#short">short()</a>, <a href="#a_short">a_short()</a>, <a href="#the_short">the_short()</a>, <a href="#poss_short">poss_short()</a> and <a href="global.events.c.html#convert_message">/global/events->convert_message()</a><dt><b>Example:</b>
+<dd><pre>"one of the poor beggars"
+"the Weasel"
+"Detritus"
+"One of the sailors falls over"
+</pre></dl>
+
+<dt><a name="poss_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>poss_short</b></a><pre>
+varargs string poss_short(int flag)
+</pre><dd>
+This method returns the "possessed" short.  This function returns a
+string that the message system replaces, when messages are printed, by a
+string dependent on the possessor of the object and its short as
+given by pretty_short. If the object has no environment or is not in a
+living object or corpse, that string is the determinate. If the
+environment of the object is the viewer of the message, that string
+is "your". If the determinate is defined and is not "a " or "an ",
+or, if it is not defined or is "a " or "an " but it is the only thing in its
+environment with its plural, that string is the possessive of the owner, if
+the owner has already been mentioned in constructing a sentence, or the
+owner's the_short plus "'s "; otherwise, the string is "one
+of the " plus the possessive bit as described in the previous part of
+this sentence. Got all that? Good :) The string should not be stored,
+since the object to which it refers may not later exist; it can be
+processed with convert_message. Poss_short is mostly used for referring
+to an object when a person has just used it to do something.
+<p>
+The return of this function needs more processing before the player
+sees it.  In general you will not need to worry about this.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - If this flag is set, do not bring the player out of hiding.
+<dt><b>See also:</b>
+<dd><a href="#set_short">set_short()</a>, <a href="#short">short()</a>, <a href="#a_short">a_short()</a>, <a href="#the_short">the_short()</a>, <a href="#one_short">one_short()</a> and <a href="global.events.c.html#convert_message">/global/events->convert_message()</a><dt><b>Example:</b>
+<dd><pre>"one of Wombat's knives".
+"one of his wands".
+"her Wyrm Sword".
+"Frenkel twists one of his rings."
+</pre></dl>
+
+<dt><a name="pretty_plural">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>pretty_plural</b></a><pre>
+varargs string pretty_plural(object thing)
+</pre><dd>
+The observer dependant plural.  It was specifical written to
+handle money that needed to be displayed over several lines but
+only be one object. The way this was achived was if pretty_plural
+returns an array then each of the elements of the array is considered
+to be a seperate object and displayed accordingly. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the observer
+<dt><b>Returns:</b>
+<dd>the plural string
+
+<dt><b>See also:</b>
+<dd><a href="#set_main_plural">set_main_plural()</a> and <a href="obj.money.c.html#pretty_plural">/obj/money->pretty_plural()</a></dl>
+
+<dt><a name="pretty_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>pretty_short</b></a><pre>
+varargs string pretty_short(object thing)
+</pre><dd>
+This method does weird stuff.  Pretty much it just calls the
+short() function with the dark parameter...  This should not be
+used to generate output.  Use a_short(), the_short(), or
+one_short or poss_short() instead.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the viewer
+<dt><b>Returns:</b>
+<dd>the string being the short
+<dt><b>See also:</b>
+<dd><a href="#short">short()</a>, <a href="global.player.c.html#check_dark">/global/player->check_dark()</a>, <a href="#a_short">a_short()</a>, <a href="#the_short">the_short()</a>, <a href="#poss_short">poss_short()</a> and <a href="#one_short">one_short()
+</a></dl>
+
+<dt><a name="query_determinate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_determinate</b></a><pre>
+string query_determinate(object thing)
+</pre><dd>
+This returns the determinate for the object.  The determinate is
+something like 'the'.  You set the derterminate by setting
+the "determinate" property.  The viewer is check to see if
+they can see the object as well, if it cannot be seen
+"' is returned.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing to check for visibility
+
+<dt><b>See also:</b>
+<dd><a href="std.basic.property.c.html#add_property">/std/basic/property->add_property()</a><dt><b>Example:</b>
+<dd><pre>// Set the determinate property
+add_property("determinate", "the");</pre></dl>
+
+<dt><a name="query_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_long</b></a><pre>
+varargs mixed query_long(string str,
+int dark)
+</pre><dd>
+This method returns the unadulterated long description.  The other
+long calls might modify the output to display some status information.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the long description
+<dt><b>See also:</b>
+<dd><a href="#long">long()</a> and <a href="#set_long">set_long()
+</a></dl>
+
+<dt><a name="query_long_details">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_long_details</b></a><pre>
+string query_long_details(string arg,
+int dark,
+object looker)
+</pre><dd>
+This method returns extra details about the object that should be
+known above the basic long.  This is printed to people who do not
+own the object in question (long() is used if you own it).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arg - the argument the look was called with
+<dd>dark - how dark the place is
+<dd>looker - the person looking at the object
+
+</dl>
+
+<dt><a name="query_main_plural">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_main_plural</b></a><pre>
+mixed query_main_plural()
+</pre><dd>
+This method returns the current value of the main plural.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the main plural
+
+</dl>
+
+<dt><a name="query_plural">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_plural</b></a><pre>
+varargs string query_plural(int dark)
+</pre><dd>
+This method returns the current plural string.  This is often overridden
+to display extra information about the object, like the short and
+long calls.  There is always an exception to a naming scheme :)<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dark - if it was dark when viewing
+
+<dt><b>Returns:</b>
+<dd>the plural string
+<dt><b>See also:</b>
+<dd><a href="#set_main_plural">set_main_plural()</a> and <a href="#query_main_plural">query_main_plural()</a></dl>
+
+<dt><a name="query_plural_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_plural_desc</b></a><pre>
+string query_plural_desc()
+</pre><dd>
+This method returns the pluralized version of query_short_desc(). <p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_short_desc">query_short_desc()
+</a></dl>
+
+<dt><a name="query_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_short</b></a><pre>
+mixed query_short()
+</pre><dd>
+This method returns the unadulterated short description.  The other
+short calls might modify the output to display some status information.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the short description
+<dt><b>See also:</b>
+<dd><a href="#short">short()</a>, <a href="#set_short">set_short()</a>, <a href="#a_short">a_short()</a>, <a href="#the_short">the_short()</a>, <a href="#poss_short">poss_short()</a> and <a href="#one_short">one_short()
+</a></dl>
+
+<dt><a name="query_short_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_short_desc</b></a><pre>
+string query_short_desc()
+</pre><dd>
+This method creates a simple short description for players based on their
+stats, gender and guild.
+<p>
+
+<dt><a name="set_long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_long</b></a><pre>
+void set_long(mixed str)
+</pre><dd>
+This method sets the long description for the object.  The long description
+is what the player sees with they 'look' at the object.  Please make sure
+tht you use sentances in your long description.  Something like
+'The red box' is not a sentance.  You can use colour codes in your
+long description to make it look cool.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the long description
+<dt><b>See also:</b>
+<dd>help::look.c, <a href="#long">long()</a>, <a href="#query_long">query_long()</a> and help::colours.c<dt><b>Example:</b>
+<dd><pre>set_long("Picture perfect and glowing with an internal radience the "
+         "Red Rose is simply wonderful.\n");
+</pre></dl>
+
+<dt><a name="set_main_plural">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_main_plural</b></a><pre>
+void set_main_plural(mixed str)
+</pre><dd>
+This method sets the main plural for the object.  The main plural
+is like the short description for the pluralised object.  If this
+is not set then the short will attempt to be pluralised to
+figure it out.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the main plural
+<dt><b>See also:</b>
+<dd><a href="#efun::pluralize">efun::pluralize()</a>, <a href="#query_plural">query_plural()</a>, <a href="#query_main_plural">query_main_plural()</a>, <a href="#set_short">set_short()</a> and <a href="#add_plural">add_plural()</a><dt><b>Example:</b>
+<dd><pre>set_main_plural("green wombles");
+</pre></dl>
+
+<dt><a name="set_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_short</b></a><pre>
+void set_short(mixed words)
+</pre><dd>
+This method sets the short description for the object.  Be careful
+with using function pointers here, as they do not save when
+players log out.
+<p>
+The short description is the description seen in peoples inventorys and
+in brief mode when you enter rooms. This should be only a few words
+long and should contain a fairly good description of the
+object. Colour processing is done on basicly all of discworlds output,
+so that will work in the short.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the short description
+<dt><b>See also:</b>
+<dd><a href="#short">short()</a>, <a href="#query_short">query_short()</a>, <a href="#a_short">a_short()</a>, <a href="#the_short">the_short()</a>, <a href="#poss_short">poss_short()</a> and <a href="#one_short">one_short()
+</a><dt><b>Example:</b>
+<dd><pre>set_short("red rose");</pre></dl>
+
+<dt><a name="short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>short</b></a><pre>
+varargs string short(int dark)
+</pre><dd>
+This method returns the current short description.  This is often
+overridden to return status information about the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dark - if it is dark when viewing
+
+<dt><b>Returns:</b>
+<dd>the short description string
+</dl>
+
+<dt><a name="the_poss_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>the_poss_short</b></a><pre>
+varargs string the_poss_short(int flag)
+</pre><dd>
+Just like poss_short() but returning a definite article.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#poss_short">poss_short()
+</a></dl>
+
+<dt><a name="the_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>the_short</b></a><pre>
+varargs string the_short(int flag)
+</pre><dd>
+This method returns the "determinate" short.  This function returns a
+string that the message system replaces, when messages are printed, by the
+determinate of the object (or "the" if the determinate is "a", "an" or
+undefined) and its short as given by pretty_short. The string
+should not be stored, since the object to which it refers may not later
+exist; it can be processed with convert_message.
+<p>
+The return of this function needs more processing before the player
+sees it.  In general you will not need to worry about this.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - If this flag is set, do not bring the player out of hiding.
+<dt><b>See also:</b>
+<dd><a href="#set_short">set_short()</a>, <a href="#short">short()</a>, <a href="#a_short">a_short()</a>, <a href="#poss_short">poss_short()</a>, <a href="#one_short">one_short()</a> and <a href="global.events.c.html#convert_message">/global/events->convert_message()</a><dt><b>Example:</b>
+<dd><pre>"the poor beggar"
+"the Weasel"
+"Detritus"
+</pre></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 20:02:26 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

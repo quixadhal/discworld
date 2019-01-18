@@ -1,0 +1,379 @@
+<html><head><title>File case_control.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/inherit/case_control.c</h2>
+This is the system for case control.  It keeps tracks of all the current
+open cases in the area and any modifications that are done to them.<p>Written by Pinkfish<p>Started Tue Jul 11 18:09:01 PDT 2000
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.nomic_system.h.html">/include/nomic_system.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_new_case"><b>add_new_case</b></a>(string, string, string, string *)<dd>
+This method opens a new case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_note_to_case"><b>add_note_to_case</b></a>(string, int, string, string)<dd>
+This method adds a note to the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_person_to_case"><b>add_person_to_case</b></a>(string, int, string, string, string)<dd>
+This method adds a person to the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#appeal_case"><b>appeal_case</b></a>(string, int, string, string)<dd>
+This method sets the case as reopened for an appeal.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#close_case"><b>close_case</b></a>(string, int, string, string, mixed)<dd>
+This method closes the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_area"><b>create_area</b></a>(string)<dd>
+This method creates an area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_case_file_name"><b>query_case_file_name</b></a>(int)<dd>
+This method returns the file name for the case given the id.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_closed_case"><b>query_closed_case</b></a>(string, int)<dd>
+This method returns the case associated with the specified closed
+case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_closed_cases"><b>query_closed_cases</b></a>(string)<dd>
+This method returns the cases which are currently closed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_event_name"><b>query_event_name</b></a>(int)<dd>
+This method returns the short name of the event type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_next_case_id"><b>query_next_case_id</b></a>()<dd>
+This method finds the next case id.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_next_note_id"><b>query_next_note_id</b></a>()<dd>
+This method finds the next note id.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_note"><b>query_note</b></a>(int)<dd>
+This method return the exciting note associated with the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_note_file_name"><b>query_note_file_name</b></a>(int)<dd>
+This method returns the file name for the note given the id.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_open_case"><b>query_open_case</b></a>(string, int)<dd>
+This method returns the case associated with the specified open
+case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_open_cases"><b>query_open_cases</b></a>(string)<dd>
+This returns the cases which are currently open.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_recently_closed_case"><b>query_recently_closed_case</b></a>(string, int)<dd>
+This method returns the case associated with the specified recently
+closed case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_recently_closed_cases"><b>query_recently_closed_cases</b></a>(string)<dd>
+This method returns the set of recently closed cases.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_person_from_case"><b>remove_person_from_case</b></a>(string, int, string, string, string)<dd>
+This method removes a person from the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_recently_closed_cases"><b>update_recently_closed_cases</b></a>()<dd>
+This method goes through and checks the recently closed cases to see
+if any of them need to be moved to the closed set.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_new_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_new_case</b></a><pre>
+int add_new_case(string area,
+string opener,
+string short,
+string * people)
+</pre><dd>
+This method opens a new case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the case is in
+<dd>opener - the person who opened it
+<dd>short - the short description of the case
+<dd>people - the people involved
+<dt><b>Returns:</b>
+<dd>0 on failure and teh case id on success
+
+</dl>
+
+<dt><a name="add_note_to_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_note_to_case</b></a><pre>
+int add_note_to_case(string area,
+int id,
+string person,
+string text)
+</pre><dd>
+This method adds a note to the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to get the case in
+<dd>id - the id of the case
+<dd>person - the person adding the note
+<dd>text - the actual note text
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="add_person_to_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_person_to_case</b></a><pre>
+int add_person_to_case(string area,
+int id,
+string adder,
+string person,
+string text)
+</pre><dd>
+This method adds a person to the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the case is in
+<dd>id - the id of the case
+<dd>adder - the person that adds the person
+<dd>person - the person to be added to the case
+<dd>text - the reason for adding the person
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="appeal_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>appeal_case</b></a><pre>
+int appeal_case(string area,
+int id,
+string appealer,
+string reason)
+</pre><dd>
+This method sets the case as reopened for an appeal.  After an appeal
+the case will be closed again.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the case is in
+<dd>id - the of the case to appeal
+<dd>appealer - the person who does the appeal
+<dd>reason - the reason for the appeal
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="close_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>close_case</b></a><pre>
+int close_case(string area,
+int id,
+string closer,
+string result,
+mixed data)
+</pre><dd>
+This method closes the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the case is in
+<dd>id - the id of the case to close
+<dd>closer - the person that closes the case
+<dd>result - the string saying what the result of the case is
+<dd>desc - the description of the close reason
+<dd>data - special internal data used specifically for appeals
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="create_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_area</b></a><pre>
+void create_area(string area)
+</pre><dd>
+This method creates an area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the name of the area to create
+
+</dl>
+
+<dt><a name="query_case_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_case_file_name</b></a><pre>
+string query_case_file_name(int id)
+</pre><dd>
+This method returns the file name for the case given the id.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id to return
+<dt><b>Returns:</b>
+<dd>the file name
+
+</dl>
+
+<dt><a name="query_closed_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_closed_case</b></a><pre>
+class nomic_case query_closed_case(string area,
+int id)
+</pre><dd>
+This method returns the case associated with the specified closed
+case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to look for the case in
+<dd>id - the id of the case
+<dt><b>Returns:</b>
+<dd>the case class
+
+</dl>
+
+<dt><a name="query_closed_cases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_closed_cases</b></a><pre>
+int * query_closed_cases(string area)
+</pre><dd>
+This method returns the cases which are currently closed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to get the cases in
+<dt><b>Returns:</b>
+<dd>the list of closed cases
+
+</dl>
+
+<dt><a name="query_event_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_event_name</b></a><pre>
+string query_event_name(int type)
+</pre><dd>
+This method returns the short name of the event type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to find the name of
+<dt><b>Returns:</b>
+<dd>the name of the type
+
+</dl>
+
+<dt><a name="query_next_case_id">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_next_case_id</b></a><pre>
+int query_next_case_id()
+</pre><dd>
+This method finds the next case id.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the next case id
+
+</dl>
+
+<dt><a name="query_next_note_id">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_next_note_id</b></a><pre>
+int query_next_note_id()
+</pre><dd>
+This method finds the next note id.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the next note id
+
+</dl>
+
+<dt><a name="query_note">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_note</b></a><pre>
+class nomic_case_note query_note(int note_num)
+</pre><dd>
+This method return the exciting note associated with the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>note_num - the number of the note
+<dt><b>Returns:</b>
+<dd>the note class, or 0 on failure
+
+</dl>
+
+<dt><a name="query_note_file_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_note_file_name</b></a><pre>
+string query_note_file_name(int id)
+</pre><dd>
+This method returns the file name for the note given the id.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id to return
+<dt><b>Returns:</b>
+<dd>the file name
+
+</dl>
+
+<dt><a name="query_open_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_open_case</b></a><pre>
+class nomic_case query_open_case(string area,
+int id)
+</pre><dd>
+This method returns the case associated with the specified open
+case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to look for the case in
+<dd>id - the id of the case
+<dt><b>Returns:</b>
+<dd>the case class
+
+</dl>
+
+<dt><a name="query_open_cases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_open_cases</b></a><pre>
+int * query_open_cases(string area)
+</pre><dd>
+This returns the cases which are currently open.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the are to get the cases in
+<dt><b>Returns:</b>
+<dd>the list of opened cases
+
+</dl>
+
+<dt><a name="query_recently_closed_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_recently_closed_case</b></a><pre>
+class nomic_case query_recently_closed_case(string area,
+int id)
+</pre><dd>
+This method returns the case associated with the specified recently
+closed case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to look for the case in
+<dd>id - the id of the case
+<dt><b>Returns:</b>
+<dd>the case class
+
+</dl>
+
+<dt><a name="query_recently_closed_cases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_recently_closed_cases</b></a><pre>
+int * query_recently_closed_cases(string area)
+</pre><dd>
+This method returns the set of recently closed cases.  These are
+cases that can be appealed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to get the cases in
+<dt><b>Returns:</b>
+<dd>the list of recently closed cases
+
+</dl>
+
+<dt><a name="remove_person_from_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_person_from_case</b></a><pre>
+int remove_person_from_case(string area,
+int id,
+string remover,
+string person,
+string text)
+</pre><dd>
+This method removes a person from the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the case is in
+<dd>id - the id of the case
+<dd>remover - the person that removes the person
+<dd>person - the person to be removed to the case
+<dd>text - the reason for removeing the person
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="update_recently_closed_cases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_recently_closed_cases</b></a><pre>
+void update_recently_closed_cases()
+</pre><dd>
+This method goes through and checks the recently closed cases to see
+if any of them need to be moved to the closed set.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 03:30:43 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

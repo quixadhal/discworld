@@ -1,0 +1,42 @@
+.DT
+query_alias
+Disk World creator help
+query_alias
+
+.SH Name
+.SP 5 5
+query_alias -  This method returns the current list of aliases.
+.EP
+
+.SH Syntax
+.SI 5
+varargs string * query_alias(int no_faux)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^no_faux%^RESET%^ - 1 to ignore faux aliases (optional)
+.EI
+
+.SH Returns
+.SI 5
+the array of aliases (array of strings)
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/id.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current list of aliases.  If faux aliases are
+allowed, they are included, unless the optional parameter is passed.
+.EP
+
+.SH See also
+.SP 5 5
+add_alias(), add_faux_alias(), query_faux_alias(), query_unique_faux_alias(), remove_alias()
+.EP
+

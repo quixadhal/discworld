@@ -1,0 +1,50 @@
+.DT
+add_auto_load_value
+Disk World creator help
+add_auto_load_value
+
+.SH Name
+.SP 5 5
+add_auto_load_value -  This method adds a value into the auto load mapping.
+.EP
+
+.SH Syntax
+.SI 5
+mapping add_auto_load_value(mapping map,
+string file_name,
+string tag,
+mixed value)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^map%^RESET%^ - the mapping to add to
+%^BOLD%^file_name%^RESET%^ - the file name tag of the object doing the adding
+%^BOLD%^tag%^RESET%^ - the tag name to be used
+%^BOLD%^value%^RESET%^ - the value to be stored with it.
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/auto_load.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a value into the auto load mapping.
+.EP
+
+.SH Example 1
+.SI 5
+#define AUTO_LOAD_TAG "object"
+
+mapping query_dynamic_auto_load() {
+   mapping map;
+
+   map = ::query_dynamic_auto_load();
+   map = add_auto_load_value(map, AUTO_LOAD_TAG, "name", name);
+} /* query_dynamic_auto_load() */
+
+.EI
+

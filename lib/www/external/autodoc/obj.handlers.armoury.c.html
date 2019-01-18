@@ -1,0 +1,133 @@
+<html><head><title>File armoury.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/armoury.c</h2>
+Keeps track of all the standard armours, weapons and clothing.
+<p><b>See also:</b><br><a href="include.armoury.h.html">/include/armoury.h</a><p>Written by Furball<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.armoury.h.html">/include/armoury.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#choose_small_item"><b>choose_small_item</b></a>(string)<dd>
+This will choose a small item from the specific area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_area"><b>query_area</b></a>(string)<dd>
+Returns the list of domain armoury items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_smalls"><b>query_smalls</b></a>(string)<dd>
+This returns the list of small objects available for the area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#rehash_specific_dir"><b>rehash_specific_dir</b></a>(string)<dd>
+This method rehashes a specific directory of things.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remap_file_path"><b>remap_file_path</b></a>(string)<dd>
+This method tries to find a match for the object if it has moved between
+directories.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#request_item"><b>request_item</b></a>(string, int, string)<dd>
+General item retreival function.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="choose_small_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>choose_small_item</b></a><pre>
+object choose_small_item(string area)
+</pre><dd>
+This will choose a small item from the specific area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the are to check in
+<dt><b>Returns:</b>
+<dd>the small object to choose
+
+</dl>
+
+<dt><a name="query_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_area</b></a><pre>
+mapping query_area(string domain)
+</pre><dd>
+Returns the list of domain armoury items.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>domain - the domain/area to get the items from.
+<dt><b>Returns:</b>
+<dd>the area sub-mapping.
+
+</dl>
+
+<dt><a name="query_smalls">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_smalls</b></a><pre>
+object * query_smalls(string area)
+</pre><dd>
+This returns the list of small objects available for the area.  These
+are things that can be fgound in gutters and so on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area of the recycling
+<dt><b>Returns:</b>
+<dd>the array of small objects
+
+</dl>
+
+<dt><a name="rehash_specific_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rehash_specific_dir</b></a><pre>
+int rehash_specific_dir(string dir)
+</pre><dd>
+This method rehashes a specific directory of things.  At the moment we
+fudge this a little.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to rehash
+<dt><b>Returns:</b>
+<dd>1 if it found something to rehash
+
+</dl>
+
+<dt><a name="remap_file_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remap_file_path</b></a><pre>
+string remap_file_path(string path)
+</pre><dd>
+This method tries to find a match for the object if it has moved between
+directories.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>path - the old path
+<dt><b>Returns:</b>
+<dd>the new path
+
+</dl>
+
+<dt><a name="request_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>request_item</b></a><pre>
+object request_item(string word,
+int percent,
+string area)
+</pre><dd>
+General item retreival function.  It returns a new item
+it handles any sort of item.  The percentage is the
+percentage condition in which it is returned.
+The "word" parameter is the name of the requested item, essentially
+the filename without directory and with "_"'s changed to " "'s. The
+"percent" parameter is used as measure of how good it
+is compared to a fully functional one. So a 50% dagger is only 50% as
+good as a 100% one.
+<p>
+The file armoury.h defines the ARMOURY variable.  You need to include
+this into your file to use it.  You should include this file and
+uyse ythis define rather than the full path to the armoury, as
+otherwise your code could stuff up :)<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the name of the item to retreive
+<dd>percent - the percentage condition to be in
+<dd>area - the area to choose the item in
+<dt><b>Returns:</b>
+<dd>the requested object, or 0 on failure
+<dt><b>See also:</b>
+<dd><a href="include.armoury.h.html">/include/armoury.h</a><dt><b>Example:</b>
+<dd><pre>// get a slightly worn long sword and give it to the npc.
+ARMOURY->request_item("long sword", 85)->move(npc);</pre><dd><pre>
+// Get a random condition armour.
+armour = ARMOURY->request_item("leather jacket", random(100));
+</pre></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 15:15:57 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

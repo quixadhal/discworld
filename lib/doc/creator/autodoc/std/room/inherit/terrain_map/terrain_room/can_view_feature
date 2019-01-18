@@ -1,0 +1,55 @@
+.DT
+can_view_feature
+Disk World creator help
+can_view_feature
+
+.SH Name
+.SP 5 5
+can_view_feature -  This method may be overriden to mask out feature descriptions and chats from one or more features in the current terrain map.
+.EP
+
+.SH Syntax
+.SI 5
+int can_view_feature(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the feature being queried.
+.EI
+
+.SH Returns
+.SI 5
+return 1 if the feature can be viewed from this room, 0 otherwise.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/terrain_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method may be overriden to mask out feature descriptions and chats
+from one or more features in the current terrain map.
+.EP
+
+.SH Example 1
+.SI 5
+   int can_view_feature(string name) 
+   
+   {
+      switch (name) {
+         case "mountain" : return 0;
+         case "tree"     : return 0;
+         default         : return 1;
+      }
+   }
+.EI
+
+.SH See also
+.SP 5 5
+add_feature, modify_feature, set_feature_chats, remove_feature
+
+.EP
+

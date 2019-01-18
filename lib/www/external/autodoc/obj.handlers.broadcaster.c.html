@@ -1,0 +1,269 @@
+<html><head><title>File broadcaster.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/broadcaster.c</h2>
+Basic sight and sound broadcaster.
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_object_to_channel"><b>add_object_to_channel</b></a>(string, object)<dd>
+This method adds an object to the list of objects to be told about the
+specfied channel.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#broadcast_event"><b>broadcast_event</b></a>(object *, int *, string, int, int, int)<dd>
+Sends an event out to all the things.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#broadcast_to_channel"><b>broadcast_to_channel</b></a>(mixed, string, mixed)<dd>
+Inform channel of message.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_direc_dist"><b>get_direc_dist</b></a>(int *, int *)<dd>
+This method returns the square distance, the name of the direction
+the sound comes from and the up down offset.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_dynamic_arg"><b>init_dynamic_arg</b></a>(mapping)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_channel"><b>is_channel</b></a>(string)<dd>
+This method checks to see if the channel exists.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#npc_hear_shouts"><b>npc_hear_shouts</b></a>(object)<dd>
+Adds an NPC to the list of NPC's who are to receive shout events.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#npc_shout_event"><b>npc_shout_event</b></a>(object, string, string, string, int *, int)<dd>
+This method is called by the shout command to filter the shouts onto
+the npcs that are listening.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#npc_unhear_shouts"><b>npc_unhear_shouts</b></a>(object)<dd>
+Removes an NPC from the list of NPC's who are to receive shout events.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_channel_history"><b>query_channel_history</b></a>(string)<dd>
+This message returns the current history list for the channel.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_channel_members"><b>query_channel_members</b></a>(string)<dd>
+This method must only be used for debugging purposes.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_next_channel_number"><b>query_next_channel_number</b></a>(string)<dd>
+This method keeps track of an ever increasing number for a specified
+channel type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_object_from_channel"><b>remove_object_from_channel</b></a>(string, object)<dd>
+This method removes an object from the list of objects to be told about the
+specified channel.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_object_to_channel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_object_to_channel</b></a><pre>
+void add_object_to_channel(string channel_name,
+object ob)
+</pre><dd>
+This method adds an object to the list of objects to be told about the
+specfied channel.  The method called on the object for the channel
+will be event_channel_message.  The method will be called with
+three arguements, the first is the object generating the event
+the second is the channel the event is generated on and the
+third is the message being sent to the channel.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>channel_name - the name of the channel
+<dd>ob - the object to add to the list
+
+</dl>
+
+<dt><a name="broadcast_event">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>broadcast_event</b></a><pre>
+void broadcast_event(object * things,
+int * centre,
+string message,
+int range,
+int inside,
+int underwater)
+</pre><dd>
+Sends an event out to all the things.  It checks to make sure they
+can hear the event and all that stuff.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>things - things that get told about it 
+<dd>centre - coords where event occurs 
+<dd>message - what the things get told 
+<dd>range - range of telling in room units 
+<dd>inside - tell things if indoors 
+<dd>underwater - tell things if underwater 
+
+</dl>
+
+<dt><a name="broadcast_to_channel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>broadcast_to_channel</b></a><pre>
+void broadcast_to_channel(mixed ob,
+string channel,
+mixed message)
+</pre><dd>
+Inform channel of message.  The message will get sent to all the objects
+added to the list to the method event_channel_message.  The method
+will be called with three arguements, first is the object that started
+the event, the second the channel it is being send to and the last is the
+message being sent to the channel.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object creating the channel event
+<dd>channel - the channel to inform people about
+<dd>message - the message to tell the channel about
+
+</dl>
+
+<dt><a name="get_direc_dist">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_direc_dist</b></a><pre>
+mixed * get_direc_dist(int * co_ord1,
+int * co_ord2)
+</pre><dd>
+This method returns the square distance, the name of the direction
+the sound comes from and the up down offset.  It is used by the shout
+code and by various other things that require this inofmraiont.
+The return array is formated as:<br>
+({ square_distance, name_of_direction, z_offset })<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>co_ord1 - the first co-ordinate
+<dd>co_ord2 - the co-ordinate to compare against
+<dt><b>Returns:</b>
+<dd>the array as described above
+
+</dl>
+
+<dt><a name="init_dynamic_arg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_dynamic_arg</b></a><pre>
+void init_dynamic_arg(mapping arg)
+</pre>
+<dt><a name="is_channel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_channel</b></a><pre>
+int is_channel(string channel)
+</pre><dd>
+This method checks to see if the channel exists.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>channel - the channel name to check for
+<dt><b>Returns:</b>
+<dd>1 if the channel eixsts, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#query_channel_members">query_channel_members()
+</a></dl>
+
+<dt><a name="npc_hear_shouts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>npc_hear_shouts</b></a><pre>
+void npc_hear_shouts(object newlistener)
+</pre><dd>
+Adds an NPC to the list of NPC's who are to receive shout events.
+The NPC need not be removed from this list when he dies -- desting
+the NPC object has the same effect as calling npc_unhear_shouts().
+event_person_shout() is activated on the NPC for all shouts.
+NPC's do not normally detect shouts.
+event_person_shout() on the NPC should be replaced with similar code 
+to that in the broadcaster to determine if the shouter is within 
+range and to generate the desired response.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>newlistener - NPC object to be added to the list
+
+<dt><b>See also:</b>
+<dd><a href="global.events.c.html#event_person_shout">/global/events->event_person_shout()</a> and <a href="#npc_unhear_shouts">npc_unhear_shouts()
+</a></dl>
+
+<dt><a name="npc_shout_event">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>npc_shout_event</b></a><pre>
+void npc_shout_event(object shouter,
+string start,
+string message,
+string lang,
+int * coord,
+int range)
+</pre><dd>
+This method is called by the shout command to filter the shouts onto
+the npcs that are listening.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>shouter - the person who shouted
+<dd>start - the start of the message
+<dd>message - the message shouted
+<dd>lang - the language the message is in
+<dd>coord - the co-ordinate it was shouted from
+<dd>range - the range of the shout
+
+</dl>
+
+<dt><a name="npc_unhear_shouts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>npc_unhear_shouts</b></a><pre>
+int npc_unhear_shouts(object oldlistener)
+</pre><dd>
+Removes an NPC from the list of NPC's who are to receive shout events.
+The NPC need not be removed from this list when he dies -- desting
+the NPC object has the same effect as calling npc_unhear_shouts().
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>oldlistener - NPC object to be removed from the list
+<dt><b>Returns:</b>
+<dd>1 if successfully removed
+
+<dt><b>See also:</b>
+<dd><a href="global.events.c.html#event_person_shout">/global/events->event_person_shout()</a> and <a href="#npc_hear_shouts">npc_hear_shouts()
+</a></dl>
+
+<dt><a name="query_channel_history">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_channel_history</b></a><pre>
+mixed * query_channel_history(string channel)
+</pre><dd>
+This message returns the current history list for the channel.  The
+array is:<br>
+({ ({ person, message }), ... })<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>channel - the channel to get the history of
+<dt><b>Returns:</b>
+<dd>the history of the channel
+<dt><b>See also:</b>
+<dd><a href="#broadcast_to_channel">broadcast_to_channel()
+</a></dl>
+
+<dt><a name="query_channel_members">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_channel_members</b></a><pre>
+object * query_channel_members(string channel)
+</pre><dd>
+This method must only be used for debugging purposes.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>channel - the channel which has all these things on it
+<dt><b>Returns:</b>
+<dd>the array of objects in the channel
+<dt><b>See also:</b>
+<dd><a href="#is_channel">is_channel()
+</a></dl>
+
+<dt><a name="query_next_channel_number">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_next_channel_number</b></a><pre>
+int query_next_channel_number(string channel)
+</pre><dd>
+This method keeps track of an ever increasing number for a specified
+channel type.  THis is used in the wizards spell (for instance) to
+keep track of unique ids for wizard channels.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>channel - the name of the channel
+<dt><b>Returns:</b>
+<dd>the next number in the series
+
+</dl>
+
+<dt><a name="remove_object_from_channel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_object_from_channel</b></a><pre>
+int remove_object_from_channel(string channel_name,
+object ob)
+</pre><dd>
+This method removes an object from the list of objects to be told about the
+specified channel.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>channel_name - the name of the channel
+<dd>ob - the object to add to the channel
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 16:10:55 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

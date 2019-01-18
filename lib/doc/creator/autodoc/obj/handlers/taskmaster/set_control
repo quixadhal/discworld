@@ -1,0 +1,35 @@
+.DT
+set_control
+Disk World creator help
+set_control
+
+.SH Name
+.SP 5 5
+set_control -  This function should only be used in the very rare situations where the last skill checked with query_skill_bonus() wasn't the one relevant for the task attempt.
+.EP
+
+.SH Syntax
+.SI 5
+void set_control(mixed * args)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^args%^RESET%^ - an array consisting of ({ object player, string skill })
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/taskmaster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function should only be used in the very rare situations
+where the last skill checked with query_skill_bonus() wasn't the
+one relevant for the task attempt.
+
+.EP
+

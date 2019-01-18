@@ -1,0 +1,66 @@
+.DT
+error_query
+Disk World creator help
+error_query
+
+.SH Name
+.SP 5 5
+error_query -  This is the class used to generate queries through the error handler.
+.EP
+
+.SH Definition
+.SI 5
+class error_query {
+int no_extra_details;
+int recursive;
+int id;
+int bug_offset;
+int * id_list;
+string dir;
+string assigned_to;
+string file_name;
+string reporter;
+string fixer;
+string * status;
+string * category;
+string * type;
+string order_by;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^no_extra_details%^RESET%^ - this only works with the bug details queries
+                         and it means that only the main data is fetched,
+                         not comments etc.
+%^BOLD%^recursive%^RESET%^ - do recursive directory lookups
+%^BOLD%^id%^RESET%^ - look up this id specifically
+%^BOLD%^id_list%^RESET%^ - look up this list of ids, if this is specified it
+                overrides id
+%^BOLD%^bug_offset%^RESET%^ - the offset to use in the limit command
+%^BOLD%^dir%^RESET%^ - the directory to use
+%^BOLD%^assigned_to%^RESET%^ - who it is assigned to
+%^BOLD%^file_name%^RESET%^ - specific file name to lookup
+%^BOLD%^reporter%^RESET%^ - the reporter to lookup
+%^BOLD%^fixer%^RESET%^ - the person who fixed the bug
+%^BOLD%^status%^RESET%^ - the status of the bug
+%^BOLD%^category%^RESET%^ - the category of the bug
+%^BOLD%^type%^RESET%^ - the type of the bug
+%^BOLD%^order_by%^RESET%^ - one of the ordering methods
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/error_handler.h
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the class used to generate queries through the error handler.
+You do not need to fill in all the fields, only the filled in ones will
+be used as restrictions on the query.
+.EP
+

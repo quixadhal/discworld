@@ -1,0 +1,58 @@
+<html><head><title>File autodoc_nroff.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/autodoc/autodoc_nroff.c</h2>
+This creates an nroff document from the generated automatic documentation.
+It also writes out the single file descriptions for the methods with
+documentation attached.
+<p>Written by Pinkfish<p>Started Tue Oct 28 11:39:47 EST 1997
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.autodoc.h.html">/include/autodoc.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#convert_html"><b>convert_html</b></a>(string, int, int, int)<dd>
+Converts the html tags into nroff format.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_nroff_file"><b>create_nroff_file</b></a>(object, string)<dd>
+Writes the data from the autodoc file object out to a file in nroff
+format.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="convert_html">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>convert_html</b></a><pre>
+string convert_html(string text,
+int depth,
+int preformat,
+int edge_width)
+</pre><dd>
+Converts the html tags into nroff format...
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>text - the text to convert
+<dd>depth - the current depth we are at
+<dd>preformat - is this text preformated?
+<dd>edge_width - the width to use as a buffer on the edge
+<dt><b>Returns:</b>
+<dd>a nroff format file string
+
+</dl>
+
+<dt><a name="create_nroff_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_nroff_file</b></a><pre>
+void create_nroff_file(object file,
+string output)
+</pre><dd>
+Writes the data from the autodoc file object out to a file in nroff
+format.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>file - the autodoc file object
+<dd>output - the output file to write to
+
+<dt><b>See also:</b>
+<dd>/obj/handlers/autodoc/autodoc_handler
+.c</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 05:29:25 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

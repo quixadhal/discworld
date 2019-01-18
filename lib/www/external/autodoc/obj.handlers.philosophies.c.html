@@ -1,0 +1,355 @@
+<html><head><title>File philosophies.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/philosophies.c</h2>
+This handler contains all the information on the philosophies used
+in philosphical debates.<p>Written by Deutha
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_known"><b>add_known</b></a>(string, string)<dd>
+This method adds an argument to the specified person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_philosophy"><b>add_philosophy</b></a>(string, string, int, string, string)<dd>
+This method adds a philosphy into the current list of philosphies.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_philosophy_argument"><b>add_philosophy_argument</b></a>(string, string, mixed)<dd>
+This method adds in a philosophy argument to the specified philosophy.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_known"><b>query_all_known</b></a>(string)<dd>
+This method returns all the arguments known to the person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_known"><b>query_known</b></a>(string, string)<dd>
+This method checks to see if the person knows the argument.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_philosophies"><b>query_philosophies</b></a>()<dd>
+This method returns the current set of philosphies available.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_philosophy"><b>query_philosophy</b></a>(string)<dd>
+This method determines if the named philosphy exists.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_philosophy_all_arguments"><b>query_philosophy_all_arguments</b></a>(string)<dd>
+This method returns the arguments of the philosophy.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_philosophy_argument"><b>query_philosophy_argument</b></a>(string, string)<dd>
+This method returns the values for the specific argument in
+philosophy.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_philosophy_bonus"><b>query_philosophy_bonus</b></a>(string)<dd>
+This method returns the bonus of the philosophy.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_philosophy_effect"><b>query_philosophy_effect</b></a>(string)<dd>
+This method returns the effect of the philosophy.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_philosophy_names"><b>query_philosophy_names</b></a>()<dd>
+This method returns the names of all the current philosophies.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_philosophy_needed"><b>query_philosophy_needed</b></a>(string)<dd>
+This method returns the needed string of the philosophy.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_philosophy_type"><b>query_philosophy_type</b></a>(string)<dd>
+This method returns the type of the philosophy.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_known"><b>remove_known</b></a>(string, string)<dd>
+This method removes an argument from the specified person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_philosophy"><b>remove_philosophy</b></a>(string)<dd>
+This method removes the specified philosophy from the current list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_philosophy_argument"><b>remove_philosophy_argument</b></a>(string, string)<dd>
+This method removes a specified argument from the philosophy.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_known"><b>reset_known</b></a>(string)<dd>
+This method resets the argument list for the specified person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_me"><b>save_me</b></a>()<dd>
+This method saves the current state of the object.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_known">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_known</b></a><pre>
+void add_known(string person,
+string argument)
+</pre><dd>
+This method adds an argument to the specified person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to add the argument to
+<dd>argument - the argument to add to the person
+<dt><b>See also:</b>
+<dd><a href="#query_known">query_known()</a> and <a href="#query_all_known">query_all_known()
+</a></dl>
+
+<dt><a name="add_philosophy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_philosophy</b></a><pre>
+void add_philosophy(string name,
+string type,
+int bonus,
+string needed,
+string effect)
+</pre><dd>
+This method adds a philosphy into the current list of philosphies.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the philosophy
+<dd>type - the type of the philosophy
+<dd>bonus - the bonus of the philosophy
+<dd>needed - the string describing what you need
+<dd>effect - the effect of the philosphy
+<dt><b>See also:</b>
+<dd><a href="#query_philosophy">query_philosophy()</a>, <a href="#query_philosophy_names">query_philosophy_names()</a> and <a href="#remove_philosophy">remove_philosophy()
+</a><dt><b>Example:</b>
+<dd><pre>add_philosophy("theology", "faith", 50, "the power of your faith",
+               "/std/effects/religious/theological_debate");</pre></dl>
+
+<dt><a name="add_philosophy_argument">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_philosophy_argument</b></a><pre>
+void add_philosophy_argument(string name,
+string argument,
+mixed args)
+</pre><dd>
+This method adds in a philosophy argument to the specified philosophy.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the philosophy to add
+<dd>argument - the name of the argument to add
+<dd>args - the parameters for the argument
+<dt><b>See also:</b>
+<dd><a href="#query_philosophy_argument">query_philosophy_argument()</a> and <a href="#remove_philosophy_argument">remove_philosophy_argument()
+</a></dl>
+
+<dt><a name="query_all_known">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_known</b></a><pre>
+string * query_all_known(string person)
+</pre><dd>
+This method returns all the arguments known to the person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to get the arguments for
+<dt><b>Returns:</b>
+<dd>the list of all the known arguments
+<dt><b>See also:</b>
+<dd><a href="#query_known">query_known()</a> and <a href="#add_known">add_known()
+</a></dl>
+
+<dt><a name="query_known">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_known</b></a><pre>
+int query_known(string person,
+string argument)
+</pre><dd>
+This method checks to see if the person knows the argument.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to check the argument for
+<dd>argument - the argument to check to see if it is known
+<dt><b>Returns:</b>
+<dd>1 if it is known, 0 if not.
+<dt><b>See also:</b>
+<dd><a href="#add_known">add_known()</a> and <a href="#query_all_known">query_all_known()
+</a></dl>
+
+<dt><a name="query_philosophies">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_philosophies</b></a><pre>
+mapping query_philosophies()
+</pre><dd>
+This method returns the current set of philosphies available.
+The mapping consists of the value being the name of the philosphy
+and the value being an array consisting of 5 elements.  You should
+be using this call for anything except debugging purposes.  It
+would create a bad dependancy otherwise.
+<pre>
+name : ({
+      [string]  type (i.e. type.points is used),
+      [int]     bonus (i.e. bonus in type.points that is needed),
+      [string]  what is needed/increased to start,
+      [string]  debate effect file name,
+      [mapping] arguments
+    })
+</pre><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a mapping of values
+<dt><b>See also:</b>
+<dd><a href="#query_philosophy_names">query_philosophy_names()
+</a></dl>
+
+<dt><a name="query_philosophy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_philosophy</b></a><pre>
+int query_philosophy(string name)
+</pre><dd>
+This method determines if the named philosphy exists.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the philosphy to test
+<dt><b>Returns:</b>
+<dd>1 if it exists, 0 if it does not
+<dt><b>See also:</b>
+<dd><a href="#query_philosophy_names">query_philosophy_names()</a>, <a href="#add_philosophy">add_philosophy()</a> and <a href="#remove_philosophy">remove_philosophy()
+</a></dl>
+
+<dt><a name="query_philosophy_all_arguments">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_philosophy_all_arguments</b></a><pre>
+mapping query_philosophy_all_arguments(string name)
+</pre><dd>
+This method returns the arguments of the philosophy.  This returns
+a mapping containing the argument values.  This should not be
+used except for debuggin purposes.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the philosophy to get the arguments for
+<dt><b>Returns:</b>
+<dd>the arguments for the philosophy
+<dt><b>See also:</b>
+<dd><a href="#query_philosphy_bonus">query_philosphy_bonus()</a>, <a href="#query_philosphy_type">query_philosphy_type()</a>, <a href="#query_philosphy_needed">query_philosphy_needed()</a>, <a href="#query_philosphy_effect">query_philosphy_effect()</a> and <a href="#query_philosphy_argument">query_philosphy_argument()
+</a></dl>
+
+<dt><a name="query_philosophy_argument">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_philosophy_argument</b></a><pre>
+mixed query_philosophy_argument(string name,
+string argument)
+</pre><dd>
+This method returns the values for the specific argument in
+philosophy.   The returned array consists of three values, they
+are ({ skill, something, something }).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the philosphy to get the arguments for
+<dd>argument - the name of the argument to return
+<dt><b>Returns:</b>
+<dd>an array of the arguments values
+<dt><b>See also:</b>
+<dd><a href="#query_philosphy_bonus">query_philosphy_bonus()</a>, <a href="#query_philosphy_type">query_philosphy_type()</a>, <a href="#query_philosphy_needed">query_philosphy_needed()</a>, <a href="#query_philosphy_effect">query_philosphy_effect()</a>, <a href="#add_philosphy_argument">add_philosphy_argument()</a> and <a href="#remove_philosphy_argument">remove_philosphy_argument()
+</a></dl>
+
+<dt><a name="query_philosophy_bonus">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_philosophy_bonus</b></a><pre>
+int query_philosophy_bonus(string name)
+</pre><dd>
+This method returns the bonus of the philosophy.  An example of the
+return value from this is 50.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the philosophy to get the bonus of
+<dt><b>Returns:</b>
+<dd>the bonus of the philosophy
+<dt><b>See also:</b>
+<dd><a href="#query_philosphy_type">query_philosphy_type()</a>, <a href="#query_philosphy_effect">query_philosphy_effect()</a>, <a href="#query_philosphy_needed">query_philosphy_needed()</a> and <a href="#query_philosphy_argument">query_philosphy_argument()
+</a></dl>
+
+<dt><a name="query_philosophy_effect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_philosophy_effect</b></a><pre>
+string query_philosophy_effect(string name)
+</pre><dd>
+This method returns the effect of the philosophy.  An example of the
+return value from this is "/std/effects/religious/theological_debate".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the philosophy to get the effect of
+<dt><b>Returns:</b>
+<dd>the effect of the philosophy
+<dt><b>See also:</b>
+<dd><a href="#query_philosphy_bonus">query_philosphy_bonus()</a>, <a href="#query_philosphy_type">query_philosphy_type()</a>, <a href="#query_philosphy_needed">query_philosphy_needed()</a> and <a href="#query_philosphy_argument">query_philosphy_argument()
+</a></dl>
+
+<dt><a name="query_philosophy_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_philosophy_names</b></a><pre>
+string * query_philosophy_names()
+</pre><dd>
+This method returns the names of all the current philosophies.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of strings of the names of philosophies
+<dt><b>See also:</b>
+<dd><a href="#query_philosophy">query_philosophy()</a>, <a href="#add_philosophy">add_philosophy()</a> and <a href="#remove_philosophy">remove_philosophy()
+</a></dl>
+
+<dt><a name="query_philosophy_needed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_philosophy_needed</b></a><pre>
+string query_philosophy_needed(string name)
+</pre><dd>
+This method returns the needed string of the philosophy.  An example of the
+return value from this is "the power of your faith".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the philosophy to get the needes string for
+<dt><b>Returns:</b>
+<dd>the needed string for the philosophy
+<dt><b>See also:</b>
+<dd><a href="#query_philosphy_bonus">query_philosphy_bonus()</a>, <a href="#query_philosphy_effect">query_philosphy_effect()</a>, <a href="#query_philosphy_type">query_philosphy_type()</a> and <a href="#query_philosphy_argument">query_philosphy_argument()
+</a></dl>
+
+<dt><a name="query_philosophy_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_philosophy_type</b></a><pre>
+string query_philosophy_type(string name)
+</pre><dd>
+This method returns the type of the philosophy.  An example of the
+return value from this is "faith".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the philosophy to get the type of
+<dt><b>Returns:</b>
+<dd>the type of the philosophy
+<dt><b>See also:</b>
+<dd><a href="#query_philosphy_bonus">query_philosphy_bonus()</a>, <a href="#query_philosphy_effect">query_philosphy_effect()</a>, <a href="#query_philosphy_needed">query_philosphy_needed()</a> and <a href="#query_philosphy_argument">query_philosphy_argument()
+</a></dl>
+
+<dt><a name="remove_known">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_known</b></a><pre>
+int remove_known(string person,
+string argument)
+</pre><dd>
+This method removes an argument from the specified person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to remove the argument from
+<dd>argument - the argument to remove from the person
+<dt><b>See also:</b>
+<dd><a href="#query_known">query_known()</a> and <a href="#query_all_known">query_all_known()
+</a></dl>
+
+<dt><a name="remove_philosophy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_philosophy</b></a><pre>
+void remove_philosophy(string name)
+</pre><dd>
+This method removes the specified philosophy from the current list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the philosphy to remove
+<dt><b>See also:</b>
+<dd><a href="#query_philosophy">query_philosophy()</a>, <a href="#query_philosophy_names">query_philosophy_names()</a> and <a href="#add_philosophy">add_philosophy() 
+</a></dl>
+
+<dt><a name="remove_philosophy_argument">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_philosophy_argument</b></a><pre>
+void remove_philosophy_argument(string name,
+string argument)
+</pre><dd>
+This method removes a specified argument from the philosophy.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the philosphy to remove the argument form
+<dd>argument - the argument name to remove
+<dt><b>See also:</b>
+<dd><a href="#add_philosophy_argument">add_philosophy_argument()</a> and <a href="#query_philosoph_argument">query_philosoph_argument()
+</a></dl>
+
+<dt><a name="reset_known">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_known</b></a><pre>
+int reset_known(string person)
+</pre><dd>
+This method resets the argument list for the specified person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to remove the argument from
+<dt><b>See also:</b>
+<dd><a href="#query_known">query_known()</a> and <a href="#query_all_known">query_all_known()
+</a></dl>
+
+<dt><a name="save_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_me</b></a><pre>
+void save_me()
+</pre><dd>
+This method saves the current state of the object.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 23:03:53 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

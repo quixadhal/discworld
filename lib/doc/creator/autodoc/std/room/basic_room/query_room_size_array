@@ -1,0 +1,41 @@
+.DT
+query_room_size_array
+Disk World creator help
+query_room_size_array
+
+.SH Name
+.SP 5 5
+query_room_size_array -  This method returns the size of the room as a three element array always.
+.EP
+
+.SH Syntax
+.SI 5
+int * query_room_size_array()
+.EI
+
+.SH Returns
+.SI 5
+the size of the room as a three element array.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the size of the room as a three element array always.
+
+
+({ north-south size, east-west size, up-down size }) 
+
+The sizes are all radii's so they are half the actual width of the room.
+.EP
+
+.SH See also
+.SP 5 5
+query_room_size(), set_room_size()
+
+.EP
+

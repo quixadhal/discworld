@@ -1,0 +1,80 @@
+<html><head><title>File extra_look.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/extra_look.c</h2>
+Handles adding bits to the long description of objects.<p>Written by Pinkfish
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_extra_look"><b>add_extra_look</b></a>(object)<dd>
+This method adds an object into the list of extra look objects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_extra_look"><b>calc_extra_look</b></a>()<dd>
+This method creates the extra long stringsbased on the current list
+of objects to use an extra_look on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_extra_look_list"><b>query_extra_look_list</b></a>()<dd>
+This method returns the current list of objects to be used for
+the extra look list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_extra_look"><b>remove_extra_look</b></a>(object)<dd>
+This method removes the object from the list of extra look objects.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_extra_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_extra_look</b></a><pre>
+void add_extra_look(object ob)
+</pre><dd>
+This method adds an object into the list of extra look objects.
+ob will need to have a string extra_look( object ) function defined on
+it which will actually give the extra look string. ob->extra_look() is
+called with the object to which you are adding the extra look.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to add
+<dt><b>See also:</b>
+<dd><a href="#calc_extra_look">calc_extra_look()</a>, <a href="#remove_extra_look">remove_extra_look()</a> and <a href="#query_extra_look_list">query_extra_look_list()
+</a></dl>
+
+<dt><a name="calc_extra_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_extra_look</b></a><pre>
+string calc_extra_look()
+</pre><dd>
+This method creates the extra long stringsbased on the current list
+of objects to use an extra_look on.  The function extra_look() is
+called on every object with this_object() passed in as the first
+(and only) parameter.  If the result is non-zero it is added onto
+the output.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the extra look string
+
+<dt><b>See also:</b>
+<dd><a href="#add_extra_look">add_extra_look()</a>, <a href="#remove_extra_look">remove_extra_look()</a> and <a href="#query_extra_look_list">query_extra_look_list()</a></dl>
+
+<dt><a name="query_extra_look_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_extra_look_list</b></a><pre>
+object * query_extra_look_list()
+</pre><dd>
+This method returns the current list of objects to be used for
+the extra look list.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of extra look objects
+
+<dt><b>See also:</b>
+<dd><a href="#add_extra_look">add_extra_look()</a>, <a href="#remove_extra_look">remove_extra_look()</a> and <a href="#calc_extra_look">calc_extra_look()</a></dl>
+
+<dt><a name="remove_extra_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_extra_look</b></a><pre>
+void remove_extra_look(object ob)
+</pre><dd>
+This method removes the object from the list of extra look objects.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to remove
+<dt><b>See also:</b>
+<dd><a href="#calc_extra_look">calc_extra_look()</a>, <a href="#add_extra_look">add_extra_look()</a> and <a href="#query_extra_look_list">query_extra_look_list()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 20:37:08 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

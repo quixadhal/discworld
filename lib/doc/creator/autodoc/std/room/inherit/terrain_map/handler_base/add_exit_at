@@ -1,0 +1,58 @@
+.DT
+add_exit_at
+Disk World creator help
+add_exit_at
+
+.SH Name
+.SP 5 5
+add_exit_at -  This method is used to add a standard exit to a specified location in a terrain map.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void add_exit_at(int x,
+int y,
+string direc,
+string dest,
+string type,
+mixed modifiers)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x%^RESET%^ - the x coordinate of the room (internal coordinate system)
+%^BOLD%^y%^RESET%^ - the y coordinate of the room (internal coordinate system)
+%^BOLD%^direc%^RESET%^ - the direction of the exit (as in add_exit)
+%^BOLD%^dest%^RESET%^ - the path of the exit's destination (as in add_exit)
+%^BOLD%^type%^RESET%^ - the type of exit (as in add_exit)
+%^BOLD%^modifiers%^RESET%^ - an optional array of exit modifiers (as in modify_exit)
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to add a standard exit to a specified location
+in a terrain map. The chief use is to insert exits to standard rooms
+or other terrain maps.
+.EP
+
+.SH Example 1
+.SI 5
+   add_exit_at(8, 0, "south", PEARWOOD + "stream_entrance", "road",
+                      ({ "move mess", "You wade along the stream bed.\n",
+                         "enter mess", "$N wades in from the north.",
+                         "exit mess", "$N wades off to the $T." }));
+
+.EI
+
+.SH See also
+.SP 5 5
+add_room_type, add_road_type, add_obstacle_type, add_exit, modify_exit
+
+.EP
+

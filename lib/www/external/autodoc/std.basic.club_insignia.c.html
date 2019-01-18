@@ -1,0 +1,347 @@
+<html><head><title>File club_insignia.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/club_insignia.c</h2>
+The club insignia inheritable thingy.<p>Written by Pinkfish<p>Started Sun Oct  4 04:23:52 EDT 1998
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.club_listing.c.html">/std/basic/club_listing.c</a> and <a href="std.basic.club_discuss.c.html">/std/basic/club_discuss.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.broadcaster.h.html">/include/broadcaster.h</a> and <a href="include.clubs.h.html">/include/clubs.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_club_commands"><b>add_club_commands</b></a>(object)<dd>
+This method will add the club commands from the player.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_elected_commands"><b>add_elected_commands</b></a>(object)<dd>
+This method will add the club commands from the player.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#club_chat"><b>club_chat</b></a>(string, int)<dd>
+The says something wonderful and exciting to all the other club members.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#confirm_disbar"><b>confirm_disbar</b></a>(string, string)<dd>
+THis method confirms the disbar request from the player.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#confirm_resign"><b>confirm_resign</b></a>(string, string)<dd>
+This method checks to make sure they really wish to resign.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_announcement"><b>do_announcement</b></a>()<dd>
+This method will print out any announcements associated with the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_brief_mode"><b>do_brief_mode</b></a>(int)<dd>
+This method sets the brief mode of the badge.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_brief_string"><b>do_brief_string</b></a>(string)<dd>
+This method sets the brief message to use for the channel messages.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_channel_off"><b>do_channel_off</b></a>(int)<dd>
+This method handles setting the flag and printing all the happy success
+messages.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_disbar"><b>do_disbar</b></a>(string)<dd>
+This method allows the founders and presidents/vice presidents to disbar
+people from the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_history"><b>do_history</b></a>()<dd>
+This method prints out the history of the channel.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_recruit"><b>do_recruit</b></a>(object *, string)<dd>
+This is the method to use when recruiting people.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_resign"><b>do_resign</b></a>()<dd>
+This method starts the resignation process.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_resign_position"><b>do_resign_position</b></a>(string)<dd>
+This method resigns as a position in the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_channel_message"><b>event_channel_message</b></a>(object, string, mixed *)<dd>
+The method is called when the channel is triggered.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_club_changed"><b>event_club_changed</b></a>(object, string)<dd>
+This method is called when the club type is changed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_joined_club"><b>event_joined_club</b></a>(object, string)<dd>
+This is the event generated when the person joins the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_brief_mode"><b>query_brief_mode</b></a>()<dd>
+This method tells us if the badge is in brief mode or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_brief_string"><b>query_brief_string</b></a>()<dd>
+This method returns the short name for the channel string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_channel_off"><b>query_channel_off</b></a>()<dd>
+This method returns the status of the channel off flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_club"><b>query_club</b></a>()<dd>
+This method returns the club associated with the badge.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_club"><b>set_club</b></a>(string)<dd>
+This method sets the club associated with the badge.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="event_channel_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_channel_message</b></a><pre>
+void event_channel_message(object ob,
+string channel,
+mixed * data)
+</pre><dd>
+The method is called when the channel is triggered.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the person who talked
+<dd>channel - the name of the channel
+<dd>message - the pmessage top print
+<dt><b>See also:</b>
+<dd><a href="#club_chat">club_chat()</a> and <a href="#do_history">do_history()
+</a></dl>
+
+<dt><a name="event_club_changed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_club_changed</b></a><pre>
+void event_club_changed(object person,
+string club_name)
+</pre><dd>
+This method is called when the club type is changed.  It will add on
+the elected club commands, if that is what we have changed too.
+<p>
+
+<dt><a name="event_joined_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_joined_club</b></a><pre>
+void event_joined_club(object person,
+string club_name)
+</pre><dd>
+This is the event generated when the person joins the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person doing the joining
+<dd>club_name - the name of the club being joined
+
+</dl>
+
+<dt><a name="query_brief_mode">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_brief_mode</b></a><pre>
+int query_brief_mode()
+</pre><dd>
+This method tells us if the badge is in brief mode or not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current brief mode
+
+</dl>
+
+<dt><a name="query_brief_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_brief_string</b></a><pre>
+string query_brief_string()
+</pre><dd>
+This method returns the short name for the channel string.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the short name for the channel
+
+</dl>
+
+<dt><a name="query_channel_off">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_channel_off</b></a><pre>
+int query_channel_off()
+</pre><dd>
+This method returns the status of the channel off flag.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current value of the channel off flag
+<dt><b>See also:</b>
+<dd><a href="#club_chat">club_chat()</a> and <a href="#event_channel_message">event_channel_message()
+</a></dl>
+
+<dt><a name="query_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_club</b></a><pre>
+string query_club()
+</pre><dd>
+This method returns the club associated with the badge.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the club associated with the badge
+<dt><b>See also:</b>
+<dd><a href="#set_club">set_club()
+</a></dl>
+
+<dt><a name="set_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_club</b></a><pre>
+void set_club(string club)
+</pre><dd>
+This method sets the club associated with the badge.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club - the name of the club
+<dt><b>See also:</b>
+<dd><a href="#query_club">query_club()
+</a></dl>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="add_club_commands">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_club_commands</b></a><pre>
+void add_club_commands(object per)
+</pre><dd>
+This method will add the club commands from the player.
+<p>
+
+<dt><a name="add_elected_commands">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_elected_commands</b></a><pre>
+void add_elected_commands(object per)
+</pre><dd>
+This method will add the club commands from the player.
+<p>
+
+<dt><a name="club_chat">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>club_chat</b></a><pre>
+int club_chat(string str,
+int emote)
+</pre><dd>
+The says something wonderful and exciting to all the other club members.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the exciting comment I know they will say
+
+</dl>
+
+<dt><a name="confirm_disbar">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>confirm_disbar</b></a><pre>
+void confirm_disbar(string str,
+string name)
+</pre><dd>
+THis method confirms the disbar request from the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the response string
+<dd>name - the name of the person to disbar
+<dt><b>See also:</b>
+<dd><a href="#do_disbar">do_disbar()
+</a></dl>
+
+<dt><a name="confirm_resign">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>confirm_resign</b></a><pre>
+void confirm_resign(string str,
+string position)
+</pre><dd>
+This method checks to make sure they really wish to resign.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the response
+<dt><b>See also:</b>
+<dd><a href="#do_resign">do_resign()
+</a></dl>
+
+<dt><a name="do_announcement">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_announcement</b></a><pre>
+int do_announcement()
+</pre><dd>
+This method will print out any announcements associated with the club.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success
+
+</dl>
+
+<dt><a name="do_brief_mode">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_brief_mode</b></a><pre>
+int do_brief_mode(int mode)
+</pre><dd>
+This method sets the brief mode of the badge.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mode - the brief mode]
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_brief_string">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_brief_string</b></a><pre>
+int do_brief_string(string str)
+</pre><dd>
+This method sets the brief message to use for the channel messages.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the channel message short
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_channel_off">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_channel_off</b></a><pre>
+int do_channel_off(int flag)
+</pre><dd>
+This method handles setting the flag and printing all the happy success
+messages.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - the new flag
+
+</dl>
+
+<dt><a name="do_disbar">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_disbar</b></a><pre>
+int do_disbar(string name)
+</pre><dd>
+This method allows the founders and presidents/vice presidents to disbar
+people from the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the person to disbar
+
+</dl>
+
+<dt><a name="do_history">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_history</b></a><pre>
+int do_history()
+</pre><dd>
+This method prints out the history of the channel.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#club_chat">club_chat()</a> and <a href="#event_channel_message">event_channel_message()
+</a></dl>
+
+<dt><a name="do_recruit">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_recruit</b></a><pre>
+int do_recruit(object * obs,
+string club)
+</pre><dd>
+This is the method to use when recruiting people.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the people to recruit
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd>/obj/handlers/club_handler.c
+</dl>
+
+<dt><a name="do_resign">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_resign</b></a><pre>
+int do_resign()
+</pre><dd>
+This method starts the resignation process.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on succes, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#confirm_resign">confirm_resign()
+</a></dl>
+
+<dt><a name="do_resign_position">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_resign_position</b></a><pre>
+int do_resign_position(string position)
+</pre><dd>
+This method resigns as a position in the club.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on succes, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#confirm_resign">confirm_resign()
+</a></dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 19:30:24 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,179 @@
+<html><head><title>File repeater.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/repeater.c</h2>
+This is used to repeat all events onto the object that requested it
+(excluding events from the object itself).  The methods it calls on
+the repeater object are:
+<ul>
+<li>repeat_event_person_say
+<li>repeat_event_emote
+<li>repeat_event_say
+<li>repeat_event_enter
+<li>repeat_event_exit
+</ul><p>Written by Pinkfish<p>Started Thu Sep 23 19:09:49 PDT 1999
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_repeater_owner"><b>query_repeater_owner</b></a>()<dd>
+This method returns the owner of the repeater.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#repeat_event_emote"><b>repeat_event_emote</b></a>(object, object, string)<dd>
+This is called on the repeater object to process the actual message
+event_emote message.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#repeat_event_enter"><b>repeat_event_enter</b></a>(object, object, string, object)<dd>
+This is called on the repeater object to process the actual message
+event_enter message.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#repeat_event_exit"><b>repeat_event_exit</b></a>(object, object, string, object)<dd>
+This is called on the repeater object to process the actual message
+event_exit message.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#repeat_event_person_say"><b>repeat_event_person_say</b></a>(object, object, string, string, string)<dd>
+This is called on the repeater object to process the actual message
+event_person_say message.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#repeat_event_say"><b>repeat_event_say</b></a>(object, object, string, object *)<dd>
+This is called on the repeater object to process the actual message
+event_say message.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#repeat_event_soul"><b>repeat_event_soul</b></a>(object, object, string, object *)<dd>
+This is called on the repeater object to process the actual message
+event_soul message.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_repeater_owner"><b>set_repeater_owner</b></a>(object)<dd>
+This method sets the owner of the repeater.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_repeater_owner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_repeater_owner</b></a><pre>
+object query_repeater_owner()
+</pre><dd>
+This method returns the owner of the repeater.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the object to inform of all events
+
+</dl>
+
+<dt><a name="repeat_event_emote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>repeat_event_emote</b></a><pre>
+void repeat_event_emote(object caller,
+object ob,
+string mess)
+</pre><dd>
+This is called on the repeater object to process the actual message
+event_emote message.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>caller - the repeater who sent the message
+<dd>ob - the object that did the semote
+<dd>mess - the message string
+
+</dl>
+
+<dt><a name="repeat_event_enter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>repeat_event_enter</b></a><pre>
+void repeat_event_enter(object caller,
+object ob,
+string mess,
+object prev)
+</pre><dd>
+This is called on the repeater object to process the actual message
+event_enter message.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>caller - the repeater who sent the message
+<dd>ob - the object that did the event_say
+<dd>mess - the message string
+<dd>prev - the last environment of the object
+
+</dl>
+
+<dt><a name="repeat_event_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>repeat_event_exit</b></a><pre>
+void repeat_event_exit(object caller,
+object ob,
+string mess,
+object dest)
+</pre><dd>
+This is called on the repeater object to process the actual message
+event_exit message.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>caller - the repeater who sent the message
+<dd>ob - the object that did the event_say
+<dd>mess - the message string
+<dd>exit - where the object is going to
+
+</dl>
+
+<dt><a name="repeat_event_person_say">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>repeat_event_person_say</b></a><pre>
+void repeat_event_person_say(object caller,
+object ob,
+string start,
+string mess,
+string lang)
+</pre><dd>
+This is called on the repeater object to process the actual message
+event_person_say message.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>caller - the repeater who sent the message
+<dd>ob - the object that did the say
+<dd>start - the start string
+<dd>mess - the message string
+<dd>lang - the language the message is in
+
+</dl>
+
+<dt><a name="repeat_event_say">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>repeat_event_say</b></a><pre>
+void repeat_event_say(object caller,
+object ob,
+string mess,
+object * avoid)
+</pre><dd>
+This is called on the repeater object to process the actual message
+event_say message.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>caller - the repeater who sent the message
+<dd>ob - the object that did the event_say
+<dd>mess - the message string
+<dd>avoid - the array of objects not to print the message
+
+</dl>
+
+<dt><a name="repeat_event_soul">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>repeat_event_soul</b></a><pre>
+void repeat_event_soul(object caller,
+object ob,
+string mess,
+object * avoid)
+</pre><dd>
+This is called on the repeater object to process the actual message
+event_soul message.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>caller - the repeater who sent the message
+<dd>ob - the object that did the event_soul
+<dd>mess - the message string
+<dd>avoid - the array of objects not to print the message
+
+</dl>
+
+<dt><a name="set_repeater_owner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_repeater_owner</b></a><pre>
+void set_repeater_owner(object owner)
+</pre><dd>
+This method sets the owner of the repeater.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>owner - the object that owns the repeater
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 22:08:16 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

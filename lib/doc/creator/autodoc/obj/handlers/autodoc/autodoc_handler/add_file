@@ -1,0 +1,48 @@
+.DT
+add_file
+Disk World creator help
+add_file
+
+.SH Name
+.SP 5 5
+add_file -  Adds a file into the list of files to process for autodocumentation.
+.EP
+
+.SH Syntax
+.SI 5
+int add_file(string fname)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^fname%^RESET%^ - the name of the file to add
+
+.EI
+
+.SH Returns
+.SI 5
+1 if the add succeeds, 0 otherwise.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/autodoc/autodoc_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Adds a file into the list of files to process for autodocumentation.
+This file will be processed every time around in the autodocumentation
+loop to check to see if it has been changed and the results will be
+placed into the index.  It automaticly calls recreate_documentation
+in random(60) seconds.
+
+.EP
+
+.SH See also
+.SP 5 5
+recreate_documentation()
+
+.EP
+

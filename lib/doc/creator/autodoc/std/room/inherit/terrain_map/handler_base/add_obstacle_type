@@ -1,0 +1,59 @@
+.DT
+add_obstacle_type
+Disk World creator help
+add_obstacle_type
+
+.SH Name
+.SP 5 5
+add_obstacle_type -  This method is used to add an 'obstacle' to an area map.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void add_obstacle_type(string type,
+string description,
+mixed items,
+mixed item_desc,
+string room_desc)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the ASCII type used on the map to denote the obstacle
+%^BOLD%^description%^RESET%^ - the description of the obstacle, as seen from
+neighbouring rooms
+%^BOLD%^items%^RESET%^ - a string, or array of strings giving the corresponding
+add_item name(s) (identical to the 'shorts' parameter in add_item)
+%^BOLD%^item_desc%^RESET%^ - a string, or array of strings giving the corresponding
+%^BOLD%^items%^RESET%^ - add_item name(s) (identical to the 'shorts' parameter in add_item)
+%^BOLD%^item_desc%^RESET%^ - a string, or array of strings giving the corresponding item desc
+%^BOLD%^room_desc%^RESET%^ - allows a description for the obstacle in the key
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to add an 'obstacle' to an area map. An obstacle is
+effectively an area on the map which cannot be entered, and can be seen
+from adjacent locations. Any occurences of $D in the description will
+be replaced with the direction(s) in which the obstacle can be seen.
+An add_item is automatically performed to allow for consistency.
+.EP
+
+.SH Example 1
+.SI 5
+  add_obstacle("*", "Thick green bushes block your way to the $D.",
+                     ({ "bush", "bushes" }), "Thick and green.", "Thick bushes");
+.EI
+
+.SH See also
+.SP 5 5
+add_room_type, add_road_type, set_external_chats, add_item
+
+.EP
+

@@ -1,0 +1,46 @@
+.DT
+add_project
+Disk World creator help
+add_project
+
+.SH Name
+.SP 5 5
+add_project -   Add a project to the database.
+.EP
+
+.SH Syntax
+.SI 5
+int add_project(string id,
+string nname,
+string lead,
+string desc,
+string * dom,
+string * cre,
+string add_name,
+int size,
+int complexity,
+string * guilds)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/project_management.c
+.EI
+
+.SH Description
+.SP 5 5
+
+ Add a project to the database.
+ @param id the project to add.
+ @param nname the name of the project
+ @param lead the project leader.
+ @param desc the description of the project
+ @param dom the domains the project belongs to
+ @param cre the creators assigned to the project
+ @param add_name the person adding the project.
+ @returns the index of the added project, or -1 if the project already 
+   exists
+
+
+.EP
+

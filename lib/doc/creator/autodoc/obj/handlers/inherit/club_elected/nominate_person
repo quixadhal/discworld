@@ -1,0 +1,47 @@
+.DT
+nominate_person
+Disk World creator help
+nominate_person
+
+.SH Name
+.SP 5 5
+nominate_person -  This method nominates someone for a certain position in the club.
+.EP
+
+.SH Syntax
+.SI 5
+int nominate_person(string club_name,
+string position,
+string person,
+string nominating)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club to nominate someone in
+%^BOLD%^position%^RESET%^ - the position to nominate someone for
+%^BOLD%^person%^RESET%^ - the person to nominate
+%^BOLD%^nominating%^RESET%^ - the person doing the nominating
+.EI
+
+.SH Returns
+.SI 5
+1 if successfuly nominated.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method nominates someone for a certain position in the club.
+.EP
+
+.SH See also
+.SP 5 5
+start_election(), finish_nomination(), vote_for_person()
+
+.EP
+

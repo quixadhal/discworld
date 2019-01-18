@@ -1,0 +1,879 @@
+<html><head><title>File craft_shop.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/inherit/craft_shop.c</h2>
+This room will handle craft shop like things, where you sell stuff to
+the store and it will sell it onto other players after taking
+a margin.  This can be used for potions, pottery, swords, anything!
+This has a few small hooks in here to handle categories in the
+sell process.  Most of the category handling code is dealt with in
+the category based craft shop.<p>Written by Pinkfish<p>Started Thu Feb  5 15:39:57 CST 1998
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.shops.inherit.open_shop.c.html">/std/shops/inherit/open_shop.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.shops.craft_shop.h.html">/include/shops/craft_shop.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_open"><b>check_open</b></a>(object, string)<dd>
+This method checks to see if the shop is open or not.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_sell_name"><b>check_sell_name</b></a>(string)<dd>
+This method makes sure a name is not too long and contains
+no colour codes.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#complete_sale"><b>complete_sale</b></a>(int, string, object *, string)<dd>
+This method is called to complete the sale completely.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#confirm_sale"><b>confirm_sale</b></a>(string, int, string, object *, string)<dd>
+This method confirms the sale after the cost and name have been
+determined.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#confirm_sell_name_choice"><b>confirm_sell_name_choice</b></a>(string, string, object *)<dd>
+This method is used to confirm the choice of name to use when
+selling the object.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#determine_cost"><b>determine_cost</b></a>(string, string, object *)<dd>
+This method figured out the cost of the item based on the value they
+type in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_browse"><b>do_browse</b></a>(object *)<dd>
+This function browses through the current selected list of items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_buy"><b>do_buy</b></a>(object *, int)<dd>
+This method will attempt to buy an object from the shops inventory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_change"><b>do_change</b></a>(object *, string)<dd>
+This function changes the list price of an object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_change_name"><b>do_change_name</b></a>(object *, string)<dd>
+This function changes the list name of an object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_collect"><b>do_collect</b></a>()<dd>
+This method collects any royalties the current player is owed.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_confirm_sale"><b>do_confirm_sale</b></a>(int, string, object *)<dd>
+This method will ask the person to confirm the sale.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_delete"><b>do_delete</b></a>(string)<dd>
+This method will delete a list entry without the owner getting paid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list"><b>do_list</b></a>()<dd>
+This method will list the current set of objects which are
+available to buy.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_read_file"><b>do_read_file</b></a>(int, string)<dd>
+This method handles the reading of the file to the disk.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_royalties"><b>do_royalties</b></a>()<dd>
+This method shows any royalties that you might be able to collect.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_save_file"><b>do_save_file</b></a>(int, mixed, string)<dd>
+This method handles the saving of the file to the disk.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_sell"><b>do_sell</b></a>(object *)<dd>
+This method sells an object into the craft shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_sell_id"><b>do_sell_id</b></a>(object *, string, int)<dd>
+This method tries to sell an object as a name that already exists in
+the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#inform_of_buy"><b>inform_of_buy</b></a>(int, object *, object, string *, string *, string *, int *)<dd>
+This method is called when something is bought and tells us how much
+has been spent.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_able_to_change"><b>is_able_to_change</b></a>(object)<dd>
+This allows the system to override this for player run shops so the
+owner can discount peoples items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_allowed_to_sell"><b>is_allowed_to_sell</b></a>(object *, string, string *)<dd>
+This method checks to see if this item is allowed to be sold in this shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_allowed_to_sell"><b>query_allowed_to_sell</b></a>()<dd>
+This method returns the function used to check to see if an object
+is able to be sold here or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_always_ask_price"><b>query_always_ask_price</b></a>()<dd>
+This method returns the flag on this object that tells us if the shop
+will always ask for a price
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_controller"><b>query_controller</b></a>()<dd>
+This method returns the current value of the controller.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_craft_shop_save_dir"><b>query_craft_shop_save_dir</b></a>()<dd>
+This method returns the file name of the save file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cut"><b>query_cut</b></a>()<dd>
+This method queries the current cut defined for this shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_extra_price_information"><b>query_extra_price_information</b></a>(string, object *)<dd>
+This method returns any extra information about prices that the
+shop wants to display before entering a cost.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_extra_sell_check"><b>query_extra_sell_check</b></a>()<dd>
+This method returns the extra sell check function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_sell_per_person"><b>query_max_sell_per_person</b></a>()<dd>
+This methods returns the maximum number of allowed objects to be
+sold by each person into the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_maximum_sale_value"><b>query_maximum_sale_value</b></a>(string, object *)<dd>
+This method will return the maximum price this item is allowed to
+be sold for.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_minimum_cost"><b>query_minimum_cost</b></a>()<dd>
+This method returns the minimum allowed cost for an item in the
+shop inventory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_no_royalty_commands"><b>query_no_royalty_commands</b></a>()<dd>
+This method returns the flagt the removes the royalty commands from the
+shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_use_name"><b>query_use_name</b></a>()<dd>
+This method returns the flag for the use name of this shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_when_sold_function"><b>query_when_sold_function</b></a>()<dd>
+This method returns the when sold function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reload_shop"><b>reload_shop</b></a>()<dd>
+This method allows you to cause the shop to load itself up.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#sell_choice"><b>sell_choice</b></a>(string, object *, string *)<dd>
+This method is used when there is a list of object already listed.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#sell_name"><b>sell_name</b></a>(string, object *)<dd>
+This method determines the name to list the object under.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_allowed_to_sell"><b>set_allowed_to_sell</b></a>(function)<dd>
+This method sets the function to use to check to see if the object
+is able to be sold here or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_always_ask_price"><b>set_always_ask_price</b></a>(int)<dd>
+This method sets the flag which makes the shop always ask for a price
+when it attempts to save something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_controller"><b>set_controller</b></a>(string)<dd>
+This method sets the controller object for this shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_cut"><b>set_cut</b></a>(int)<dd>
+This method sets the cut for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_extra_sell_check"><b>set_extra_sell_check</b></a>(function)<dd>
+This method sets the extra sell function for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_sell_per_person"><b>set_max_sell_per_person</b></a>(int)<dd>
+This method sets the maxium allowed number of objects to be sold
+by each person into the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_minimum_cost"><b>set_minimum_cost</b></a>(int)<dd>
+This method sets the minimum allowed cost for the item in the
+shop inventory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_royalty_commands"><b>set_no_royalty_commands</b></a>(int)<dd>
+This method sets the flag that removes the royalty commands from the
+shop, if the royalty stuff is be handled somewhere else.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_dir"><b>set_save_dir</b></a>(string)<dd>
+This method sets the save file associated with the controller.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_use_name"><b>set_use_name</b></a>(int)<dd>
+This method sets the flag which makes the shop use the name of the
+item as the sell type always.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_when_sold_function"><b>set_when_sold_function</b></a>(function)<dd>
+This method sets the function to be called on all the objects when
+they are sold.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#value_from_string"><b>value_from_string</b></a>(string, string)<dd>
+This attempts to figure out how much the person is telling us the
+item costs.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="check_open">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_open</b></a><pre>
+int check_open(object player,
+string type)
+</pre><dd>
+This method checks to see if the shop is open or not.  It will setup the
+default fail message if this is what is needed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>command - the command to check for
+<dt><b>See also:</b>
+<dd><a href="#set_open_function">set_open_function()
+</a></dl>
+
+<dt><a name="do_browse">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_browse</b></a><pre>
+int do_browse(object * obs)
+</pre><dd>
+This function browses through the current selected list of items.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the items to browse through
+
+</dl>
+
+<dt><a name="do_buy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_buy</b></a><pre>
+int do_buy(object * obs,
+int force)
+</pre><dd>
+This method will attempt to buy an object from the shops inventory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the string to match an object with
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#do_sell">do_sell()</a> and <a href="#do_list">do_list()
+</a></dl>
+
+<dt><a name="do_change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_change</b></a><pre>
+int do_change(object * obs,
+string change)
+</pre><dd>
+This function changes the list price of an object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the object to change the list price of
+<dd>change - the value to change the list price to
+
+</dl>
+
+<dt><a name="do_change_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_change_name</b></a><pre>
+int do_change_name(object * obs,
+string new_name)
+</pre><dd>
+This function changes the list name of an object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the object to change the list name of
+<dd>new_name - the value to change the list name to
+
+</dl>
+
+<dt><a name="do_collect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_collect</b></a><pre>
+int do_collect()
+</pre><dd>
+This method collects any royalties the current player is owed.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on succes, 0 on failure
+
+</dl>
+
+<dt><a name="do_delete">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_delete</b></a><pre>
+int do_delete(string id)
+</pre><dd>
+This method will delete a list entry without the owner getting paid.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the string to match an object with
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list</b></a><pre>
+int do_list()
+</pre><dd>
+This method will list the current set of objects which are
+available to buy.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#do_sell">do_sell()</a> and <a href="#do_buy">do_buy()
+</a></dl>
+
+<dt><a name="do_royalties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_royalties</b></a><pre>
+int do_royalties()
+</pre><dd>
+This method shows any royalties that you might be able to collect.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on succes, 0 on failure
+
+</dl>
+
+<dt><a name="do_sell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_sell</b></a><pre>
+int do_sell(object * obs)
+</pre><dd>
+This method sells an object into the craft shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects to sell
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#do_list">do_list()</a>, <a href="#do_buy">do_buy()</a> and <a href="#do_sell_id">do_sell_id()
+</a></dl>
+
+<dt><a name="do_sell_id">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_sell_id</b></a><pre>
+int do_sell_id(object * obs,
+string id,
+int force)
+</pre><dd>
+This method tries to sell an object as a name that already exists in
+the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects to sell
+<dd>id - the id to sell them as
+<dt><b>See also:</b>
+<dd><a href="#do_sell">do_sell()</a>, <a href="#do_list">do_list()</a> and <a href="#do_buy">do_buy()
+</a></dl>
+
+<dt><a name="inform_of_buy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>inform_of_buy</b></a><pre>
+void inform_of_buy(int value,
+object * obs,
+object player,
+string * sellers,
+string * names,
+string * cats,
+int * values)
+</pre><dd>
+This method is called when something is bought and tells us how much
+has been spent.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - of the the items sold
+<dd>obs - the objects bought
+<dd>player - who bought them
+<dd>sellers - the people whose items were bought
+<dd>names - the names of the items bought
+<dd>cats - the categories of the items bought
+<dd>values - the values of each item
+
+</dl>
+
+<dt><a name="is_able_to_change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_able_to_change</b></a><pre>
+int is_able_to_change(object ob)
+</pre><dd>
+This allows the system to override this for player run shops so the
+owner can discount peoples items.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to test
+<dt><b>Returns:</b>
+<dd>1 if they can modify the item, 0 if not
+
+</dl>
+
+<dt><a name="is_allowed_to_sell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_allowed_to_sell</b></a><pre>
+int is_allowed_to_sell(object * obs,
+string name,
+string * sellable_names)
+</pre><dd>
+This method checks to see if this item is allowed to be sold in this shop.
+It assumes it is called from a add_command() method and sets up fail
+messages accordingly.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects to check
+<dd>name - the name of the person doing the selling
+<dd>sellable_names - the names of the items to sell
+
+</dl>
+
+<dt><a name="query_allowed_to_sell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_allowed_to_sell</b></a><pre>
+function query_allowed_to_sell()
+</pre><dd>
+This method returns the function used to check to see if an object
+is able to be sold here or not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>func the function to use for checking
+<dt><b>See also:</b>
+<dd><a href="#set_allowed_to_sell">set_allowed_to_sell()
+</a></dl>
+
+<dt><a name="query_always_ask_price">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_always_ask_price</b></a><pre>
+int query_always_ask_price()
+</pre><dd>
+This method returns the flag on this object that tells us if the shop
+will always ask for a price<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the flag
+
+</dl>
+
+<dt><a name="query_controller">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_controller</b></a><pre>
+object query_controller()
+</pre><dd>
+This method returns the current value of the controller.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current controller
+<dt><b>See also:</b>
+<dd><a href="#set_controller">set_controller()
+</a></dl>
+
+<dt><a name="query_craft_shop_save_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_craft_shop_save_dir</b></a><pre>
+string query_craft_shop_save_dir()
+</pre><dd>
+This method returns the file name of the save file.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the file name of the save file
+<dt><b>See also:</b>
+<dd><a href="#set_save_dir">set_save_dir()
+</a></dl>
+
+<dt><a name="query_cut">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cut</b></a><pre>
+int query_cut()
+</pre><dd>
+This method queries the current cut defined for this shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current cut for the shop
+<dt><b>See also:</b>
+<dd><a href="#set_cut">set_cut()
+</a></dl>
+
+<dt><a name="query_extra_price_information">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_extra_price_information</b></a><pre>
+string query_extra_price_information(string person,
+object * obs)
+</pre><dd>
+This method returns any extra information about prices that the
+shop wants to display before entering a cost.  This can be
+overridden in higher inherits to control this more effectively.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an extra string to print
+
+</dl>
+
+<dt><a name="query_extra_sell_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_extra_sell_check</b></a><pre>
+function query_extra_sell_check()
+</pre><dd>
+This method returns the extra sell check function.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the extra sell check function
+<dt><b>See also:</b>
+<dd><a href="#set_extra_sell_check">set_extra_sell_check()
+</a></dl>
+
+<dt><a name="query_max_sell_per_person">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_sell_per_person</b></a><pre>
+int query_max_sell_per_person()
+</pre><dd>
+This methods returns the maximum number of allowed objects to be
+sold by each person into the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the maximum number to be sold
+<dt><b>See also:</b>
+<dd><a href="#set_max_sell_per_person">set_max_sell_per_person()
+</a></dl>
+
+<dt><a name="query_maximum_sale_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_maximum_sale_value</b></a><pre>
+int query_maximum_sale_value(string person,
+object * obs)
+</pre><dd>
+This method will return the maximum price this item is allowed to
+be sold for.  This will return 0 if there is no maximum price<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 if there is no maximum price, or maximum price
+
+</dl>
+
+<dt><a name="query_minimum_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_minimum_cost</b></a><pre>
+int query_minimum_cost()
+</pre><dd>
+This method returns the minimum allowed cost for an item in the
+shop inventory.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_minimum_cost">set_minimum_cost()
+</a></dl>
+
+<dt><a name="query_no_royalty_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_no_royalty_commands</b></a><pre>
+int query_no_royalty_commands()
+</pre><dd>
+This method returns the flagt the removes the royalty commands from the
+shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the royalty command flag
+
+</dl>
+
+<dt><a name="query_use_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_use_name</b></a><pre>
+int query_use_name()
+</pre><dd>
+This method returns the flag for the use name of this shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if the name is used, 0 if not
+
+</dl>
+
+<dt><a name="query_when_sold_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_when_sold_function</b></a><pre>
+function query_when_sold_function()
+</pre><dd>
+This method returns the when sold function.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the when sold function
+<dt><b>See also:</b>
+<dd><a href="#set_when_sold_function">set_when_sold_function()
+</a></dl>
+
+<dt><a name="reload_shop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reload_shop</b></a><pre>
+void reload_shop()
+</pre><dd>
+This method allows you to cause the shop to load itself up.
+<p>
+
+<dt><a name="set_allowed_to_sell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_allowed_to_sell</b></a><pre>
+void set_allowed_to_sell(function func)
+</pre><dd>
+This method sets the function to use to check to see if the object
+is able to be sold here or not.  The function will be called with
+one parameter, that is the object being check for buyability.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to check objects with
+<dt><b>See also:</b>
+<dd><a href="#query_allowed_to_sell">query_allowed_to_sell()
+</a></dl>
+
+<dt><a name="set_always_ask_price">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_always_ask_price</b></a><pre>
+void set_always_ask_price(int ask_price)
+</pre><dd>
+This method sets the flag which makes the shop always ask for a price
+when it attempts to save something.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ask_price - the flag
+
+</dl>
+
+<dt><a name="set_controller">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_controller</b></a><pre>
+void set_controller(string name)
+</pre><dd>
+This method sets the controller object for this shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>controller - the controller name as a string
+<dt><b>See also:</b>
+<dd><a href="#query_controller">query_controller()
+</a></dl>
+
+<dt><a name="set_cut">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_cut</b></a><pre>
+void set_cut(int new_cut)
+</pre><dd>
+This method sets the cut for the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_cut - the new cut of the object
+<dt><b>See also:</b>
+<dd><a href="#query_cut">query_cut()
+</a></dl>
+
+<dt><a name="set_extra_sell_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_extra_sell_check</b></a><pre>
+void set_extra_sell_check(function func)
+</pre><dd>
+This method sets the extra sell function for the shop.  The extra sell
+function is called after the sell process is almost finished.  It can
+check for extra things needed in the sell process, like which page of
+the book to browse.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the extra sell function
+<dt><b>See also:</b>
+<dd><a href="#query_extra_sell_check">query_extra_sell_check()</a> and <a href="#complete_sell">complete_sell()
+</a></dl>
+
+<dt><a name="set_max_sell_per_person">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_sell_per_person</b></a><pre>
+void set_max_sell_per_person(int num)
+</pre><dd>
+This method sets the maxium allowed number of objects to be sold
+by each person into the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the maximum number to be sold
+<dt><b>See also:</b>
+<dd><a href="#query_max_sell_per_person">query_max_sell_per_person()
+</a></dl>
+
+<dt><a name="set_minimum_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_minimum_cost</b></a><pre>
+void set_minimum_cost(int cost)
+</pre><dd>
+This method sets the minimum allowed cost for the item in the
+shop inventory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cost - the minimum cost
+<dt><b>See also:</b>
+<dd><a href="#query_minimum_cost">query_minimum_cost()
+</a></dl>
+
+<dt><a name="set_no_royalty_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_royalty_commands</b></a><pre>
+void set_no_royalty_commands(int flag)
+</pre><dd>
+This method sets the flag that removes the royalty commands from the
+shop, if the royalty stuff is be handled somewhere else.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - the flag to set
+
+</dl>
+
+<dt><a name="set_save_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_dir</b></a><pre>
+void set_save_dir(string fname)
+</pre><dd>
+This method sets the save file associated with the controller.  The save
+file should actually be a directory, the name of the directory plus a
+.o will be used for the save files.  The directory must exist or weird
+errors will occur.
+This should always be set in the setup function of the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the save file
+<dt><b>See also:</b>
+<dd><a href="#set_controller">set_controller()</a> and <a href="#query_save_dir">query_save_dir()
+</a></dl>
+
+<dt><a name="set_use_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_use_name</b></a><pre>
+void set_use_name(int flag)
+</pre><dd>
+This method sets the flag which makes the shop use the name of the
+item as the sell type always.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - 1 to make it force the use name ability
+
+</dl>
+
+<dt><a name="set_when_sold_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_when_sold_function</b></a><pre>
+void set_when_sold_function(function func)
+</pre><dd>
+This method sets the function to be called on all the objects when
+they are sold.  For instance this can be used to close all books
+etc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to use
+<dt><b>Example:</b>
+<dd><pre>// Close the book when it is sold.
+set_when_sold_function( (: $1->set_open_page(0) :) );
+</pre></dl>
+
+<dt><a name="value_from_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>value_from_string</b></a><pre>
+int value_from_string(string str,
+string place)
+</pre><dd>
+This attempts to figure out how much the person is telling us the
+item costs.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the string to get the value of
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="check_sell_name">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_sell_name</b></a><pre>
+int check_sell_name(string name)
+</pre><dd>
+This method makes sure a name is not too long and contains
+no colour codes.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name to list the object as
+<dt><b>Returns:</b>
+<dd>0 if name is unacceptable, 1 if it's OK
+
+</dl>
+
+<dt><a name="complete_sale">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>complete_sale</b></a><pre>
+void complete_sale(int value,
+string name,
+object * sellable,
+string category)
+</pre><dd>
+This method is called to complete the sale completely.  It is split
+up into a second function to allow the extra sell stuff
+to work neatly.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - the value of the objects to sell
+<dd>name - the list name
+<dd>sellable - the list of objects to sell
+<dd>category - the category of the object, 0 if none
+
+</dl>
+
+<dt><a name="confirm_sale">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>confirm_sale</b></a><pre>
+void confirm_sale(string answer,
+int value,
+string name,
+object * sellable,
+string category)
+</pre><dd>
+This method confirms the sale after the cost and name have been
+determined.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>answer - the answer to confirm with
+<dd>value - the value of the object
+<dd>name - the name of the object
+<dd>sellable - the list of sellable objects
+<dd>category - the category of the object, 0 if none
+
+</dl>
+
+<dt><a name="confirm_sell_name_choice">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>confirm_sell_name_choice</b></a><pre>
+void confirm_sell_name_choice(string answer,
+string name,
+object * sellable)
+</pre><dd>
+This method is used to confirm the choice of name to use when
+selling the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>answer - the confirmation choice
+<dd>name - the name to sell it as
+<dd>sellable - the list of objects to sell
+
+</dl>
+
+<dt><a name="determine_cost">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>determine_cost</b></a><pre>
+void determine_cost(string cost,
+string name,
+object * sellable)
+</pre><dd>
+This method figured out the cost of the item based on the value they
+type in.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cost - the cost of the item
+<dd>name - the name of the item
+<dd>sellable - the array of objects to sell
+
+</dl>
+
+<dt><a name="do_confirm_sale">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_confirm_sale</b></a><pre>
+void do_confirm_sale(int value,
+string name,
+object * sellables)
+</pre><dd>
+This method will ask the person to confirm the sale.  It will check
+the extra_sell_check function and then call the extra sale thing.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - the value of the thing being sold
+<dd>name - the name the thing is sold for
+<dd>sellables - the things to sell
+
+</dl>
+
+<dt><a name="do_read_file">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_read_file</b></a><pre>
+string do_read_file(int type,
+string fname)
+</pre><dd>
+This method handles the reading of the file to the disk.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of file to read
+<dd>fname - the file name is optional and only used for data files
+<dt><b>Returns:</b>
+<dd>the value read
+
+</dl>
+
+<dt><a name="do_save_file">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_save_file</b></a><pre>
+void do_save_file(int type,
+mixed value,
+string fname)
+</pre><dd>
+This method handles the saving of the file to the disk.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of file to save
+<dd>value - the value to save to it
+<dd>fname - the file name is optional and only used for data files
+
+</dl>
+
+<dt><a name="sell_choice">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>sell_choice</b></a><pre>
+void sell_choice(string answer,
+object * sellables,
+string * names)
+</pre><dd>
+This method is used when there is a list of object already listed.  It
+will check to see if the choice entered is valid and then use that
+name when selling the object if it is.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>choice - the selected choice
+<dd>sellable - the array of sellable objects
+<dd>names - the names of choices for name
+
+</dl>
+
+<dt><a name="sell_name">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>sell_name</b></a><pre>
+void sell_name(string name,
+object * sellable)
+</pre><dd>
+This method determines the name to list the object under.  This is
+called when a new name is used.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name to list the object as
+<dd>sellable - the list of sellable objects
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 03:01:41 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

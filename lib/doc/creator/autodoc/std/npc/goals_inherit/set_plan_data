@@ -1,0 +1,35 @@
+.DT
+set_plan_data
+Disk World creator help
+set_plan_data
+
+.SH Name
+.SP 5 5
+set_plan_data -  This method changes the data associated with the specified plan.
+.EP
+
+.SH Syntax
+.SI 5
+void set_plan_data(string plan,
+mixed data)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^data%^RESET%^ - the new data for the plan
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/npc/goals_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method changes the data associated with the specified plan.  This
+should only be called from the plan itself, as the plan will not be
+informed of this change.
+.EP
+

@@ -1,0 +1,48 @@
+.DT
+add_world_room_type
+Disk World creator help
+add_world_room_type
+
+.SH Name
+.SP 5 5
+add_world_room_type -  This method is used to add a world map based file into the terrain.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void add_world_room_type(string type,
+string base_path)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the ASCII type used on the map to denote the room
+%^BOLD%^base_path%^RESET%^ - the full pathname of the source file for the room
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to add a world map based file into the terrain.
+It handles all the options like a special road type, but queries all the
+details off the base room instead.
+.EP
+
+.SH Example 1
+.SI 5
+   add_world_room_type("+", ROOMS + "path", "The dusty path leads $D.",
+                 "There is a dusty path to the $D.",
+                 "path", "Hey! Look! A path!");
+.EI
+
+.SH See also
+.SP 5 5
+add_room_type, add_road_type, set_external_chats, add_item
+
+.EP
+

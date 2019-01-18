@@ -1,0 +1,1267 @@
+<html><head><title>File water.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/basic/water.c</h2>
+This is the co-inheritable for rooms containing water.  It handles adding
+the appropriate effects to objects entering the water, skillchecks to see
+if they can move around, making their positions appropriate and things like
+that.  It also takes care of some miscellaneous stuff like salinity,
+turbidity, currents etc.  Rather than using this co-inheritable directly, it
+is recommended that you inherit either /std/room/water_inside.c or
+/std/room/water_outside.c.
+When using this file, remember the following: if you mask event_enter you
+should call the inherited function, and unforeseen consequences may result
+from using modify_exit with the "function", "exit mess" or "enter mess"
+options.  Using "exit mess" or "enter mess" will only disrupt the tailored
+swimming/drifting/floating/sinking exit and entry messages, but changing the
+exit function will allow people through exits without passing the
+appropriate swimming skillcheck.  For this reason, it is recommended to mask
+swim_exit instead, and check that the inherited function returns 1 before
+allowing them to pass.<p><b>See also:</b><br><a href="std.room.water_inside.c.html">/std/room/water_inside.c</a>, <a href="std.room.water_outside.c.html">/std/room/water_outside.c</a> and /std/effects/other/immersed
+.c<p>Written by Bakhtosh<hr><h2>Includes</h2>
+This class includes the following files <a href="include.tasks.h.html">/include/tasks.h</a>, <a href="include.position.h.html">/include/position.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a> and <a href="include.room.h.html">/include/room.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_enter_mess"><b>add_enter_mess</b></a>(object, string)<dd>
+This function sets the next entry message from this room for a particular
+object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_exit_mess"><b>add_exit_mess</b></a>(object, string)<dd>
+This function sets the next exit message from this room for a particular
+object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_flow"><b>add_flow</b></a>(string, int)<dd>
+This function adds a water current flowing through a particular exit, which
+may sweep objects through it or make it harder for them to swim through.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_flow"><b>delete_flow</b></a>(string)<dd>
+This function removes a water current through a particular exit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_drift"><b>do_drift</b></a>()<dd>
+This function is for the drift command, which will allow someone to start
+drifting freely rather than swimming.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_float"><b>do_float</b></a>()<dd>
+This function is for the float command, which will allow someone to start
+floating freely rather than swimming.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_swim"><b>do_swim</b></a>()<dd>
+This function is for the swim command, which will allow someone to stop
+drifting freely and start swimming and resisting anything that tries to move
+them.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_enter_mess"><b>get_enter_mess</b></a>(object, string)<dd>
+This function returns the appropriate entry message for the specified object
+in the specified direction.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_exit_mess"><b>get_exit_mess</b></a>(object, string)<dd>
+This function returns the appropriate exit message for the specified object
+in the specified direction.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_swim_enum"><b>get_swim_enum</b></a>(object)<dd>
+This function returns the effect number of the swimming/immersion effect on
+the object specified.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_water"><b>get_water</b></a>()<dd>
+This function returns some appropriate water from the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_water_surface_light"><b>get_water_surface_light</b></a>()<dd>
+This function returns the amount of light that will filter down to this
+room from those above it if set_use_surface_light has been called.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#lives_in_water"><b>lives_in_water</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_above_room"><b>query_above_room</b></a>()<dd>
+This function returns the room above this one, in the direction set by
+set_up_dir.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_below_room"><b>query_below_room</b></a>()<dd>
+This function returns the room below this one, in the direction set by
+set_down_dir.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bottom"><b>query_bottom</b></a>()<dd>
+This function returns 1 if this is a bottom room, and 0 otherwise.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bottom_mess"><b>query_bottom_mess</b></a>()<dd>
+This function returns the position that non-living items will have when they
+are lying on the bottom in this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bottom_room"><b>query_bottom_room</b></a>()<dd>
+This function returns the bottom room in a vertical stack of water rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_clarity"><b>query_clarity</b></a>()<dd>
+This function returns the current clarity of the water, which is an integer
+variable between 1 and 100.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_death_reason"><b>query_death_reason</b></a>()<dd>
+With this function here, creators will be able to point and laugh when
+someone dies by drowning in a water room because they'll see the death
+reason in an inform.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_default_search_description"><b>query_default_search_description</b></a>()<dd>
+This sets up different search returns for the default 'not there'
+search result.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_down_dir"><b>query_down_dir</b></a>()<dd>
+This function returns the direction that is currently considered to be down
+in this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_float_in_mess"><b>query_float_in_mess</b></a>()<dd>
+This function returns the message that will be displayed when an object
+floats into this room, with the usual $-expansion not done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_float_mess"><b>query_float_mess</b></a>()<dd>
+This function returns the position that non-living items will have when they
+are floating in this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_float_out_mess"><b>query_float_out_mess</b></a>()<dd>
+This function returns the message that will be displayed when an object
+floats out of this room, with the usual $-expansion not done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_flow"><b>query_flow</b></a>(string)<dd>
+This function returns the strength of the current flowing through a
+particular exit, if any.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_flows"><b>query_flows</b></a>()<dd>
+This function returns a mapping of all the current flows through exits in
+this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_nonfloat_mess"><b>query_nonfloat_mess</b></a>()<dd>
+This function returns the position that non-living items will have when they
+are neither sinking nor floating in this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_origin"><b>query_origin</b></a>(string)<dd>
+This function returns the opposite to the direction of a particular exit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_salinity"><b>query_salinity</b></a>()<dd>
+This function returns the current salinity of the water, which is an integer
+variable between 0 and 100.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sink_in_mess"><b>query_sink_in_mess</b></a>()<dd>
+This function returns the message that will be displayed when an object
+sinks into this room, with the usual $-expansion not done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sink_out_mess"><b>query_sink_out_mess</b></a>()<dd>
+This function returns the message that will be displayed when an object
+sinks out of this room, with the usual $-expansion not done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sinking_mess"><b>query_sinking_mess</b></a>()<dd>
+This function returns the position that non-living items will have when they
+are sinking in this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_surface"><b>query_surface</b></a>()<dd>
+This function returns 1 if this is a surface room, and 0 otherwise.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_surface_room"><b>query_surface_room</b></a>()<dd>
+This function returns the top room in a vertical stack of water rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sweep_in_mess"><b>query_sweep_in_mess</b></a>()<dd>
+This function returns the message that will be displayed when an object
+is swept into this room by a current, with the $-expansion not done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sweep_out_mess"><b>query_sweep_out_mess</b></a>()<dd>
+This function returns the message that will be displayed when an object
+is swept out of this room by a current, with the $-expansion not done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_terrain_map_colour"><b>query_terrain_map_colour</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_turbidity"><b>query_turbidity</b></a>()<dd>
+This function returns the current turbidity of the water, which is an
+integer variable between 1 and 100.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_turbulence"><b>query_turbulence</b></a>()<dd>
+This function returns the current turbulence of the water, which is a
+non-negative integer.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_underwater"><b>query_underwater</b></a>()<dd>
+This function returns 1 if this room is underwater (that is, it is not a
+surface room), and 0 otherwise.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_up_dir"><b>query_up_dir</b></a>()<dd>
+This function returns the direction that is currently considered to be up in
+this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_water"><b>query_water</b></a>()<dd>
+This function returns 1 to indicate that this is a water room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_water_surface_light"><b>query_water_surface_light</b></a>()<dd>
+This function returns the amount of light that will filter down to rooms
+below this one that have had set_use_surface_light called in them.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_water_traction_bonus"><b>query_water_traction_bonus</b></a>(object, int)<dd>
+This function returns the bonus that objects get to move along the bottom or
+to resist such movement here.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bottom"><b>set_bottom</b></a>(int)<dd>
+This function sets whether or not this room has a solid surface or bottom in
+it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bottom_mess"><b>set_bottom_mess</b></a>(string)<dd>
+This function sets the position that non-living items will have when they
+are lying on the bottom in this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_clarity"><b>set_clarity</b></a>(int)<dd>
+This function sets the clarity of the water as an integer variable between 1
+and 100.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_down_dir"><b>set_down_dir</b></a>(string)<dd>
+This function sets the direction that is considered to be down by this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_float_in_mess"><b>set_float_in_mess</b></a>(string)<dd>
+This function sets the message that will be displayed when an object floats
+into this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_float_mess"><b>set_float_mess</b></a>(string)<dd>
+This function sets the position that non-living items will have when they
+are floating in this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_float_out_mess"><b>set_float_out_mess</b></a>(string)<dd>
+This function sets the message that will be displayed when an object floats
+out of this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_nonfloat_mess"><b>set_nonfloat_mess</b></a>(string)<dd>
+This function sets the position that non-living items will have when they
+are neither sinking nor floating in this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_salinity"><b>set_salinity</b></a>(int)<dd>
+This function sets the salinity of the water as an integer variable between
+0 and 100.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sink_in_mess"><b>set_sink_in_mess</b></a>(string)<dd>
+This function sets the message that will be displayed when an object sinks
+into this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sink_out_mess"><b>set_sink_out_mess</b></a>(string)<dd>
+This function sets the message that will be displayed when an object sinks
+out of this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sinking_mess"><b>set_sinking_mess</b></a>(string)<dd>
+This function sets the position that non-living items will have when they
+are sinking in this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_surface"><b>set_surface</b></a>(int)<dd>
+This function sets whether or not this room has an interface with air or
+surface in it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sweep_in_mess"><b>set_sweep_in_mess</b></a>(string)<dd>
+This function sets the message that will be displayed when an object is
+swept into this room by a current.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sweep_out_mess"><b>set_sweep_out_mess</b></a>(string)<dd>
+This function sets the message that will be displayed when an object is
+swept out of this room by a current.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_turbidity"><b>set_turbidity</b></a>(int)<dd>
+This function is an alternative method of setting the clarity of the water.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_turbulence"><b>set_turbulence</b></a>(int)<dd>
+This function sets the turbulence of the water as a non-negative integer
+variable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_up_dir"><b>set_up_dir</b></a>(string)<dd>
+This function sets the direction that is considered to be up by this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_use_surface_light"><b>set_use_surface_light</b></a>(int)<dd>
+This function sets whether the room will use the light levels of the
+surface to determine its own.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#soak"><b>soak</b></a>(object, int)<dd>
+This function makes things wet.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#swim_exit"><b>swim_exit</b></a>(string, object, string)<dd>
+This is an exit function set for any exits in a water room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_water_light"><b>update_water_light</b></a>()<dd>
+This function updates the amount of light filtering down to this room from
+the rooms above it, if it is necessary to do so.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_enter_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_enter_mess</b></a><pre>
+void add_enter_mess(object ob,
+string mess)
+</pre><dd>
+This function sets the next entry message from this room for a particular
+object.  It is used automagically by the swim_exit function, but can be used
+for other purposes if you feel like it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object for which the next entry message should be set
+<dd>mess - the next entry message for the object
+<dt><b>See also:</b>
+<dd>get_enter_mess.c, add_exit_mess.c, get_exit_mess.c and swim_exit
+.c</dl>
+
+<dt><a name="add_exit_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_exit_mess</b></a><pre>
+void add_exit_mess(object ob,
+string mess)
+</pre><dd>
+This function sets the next exit message from this room for a particular
+object.  It is used automagically by the swim_exit function, but can be used
+for other purposes if you feel like it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object for which the next exit message should be set
+<dd>mess - the next exit message for the object
+<dt><b>See also:</b>
+<dd>get_exit_mess.c, add_enter_mess.c, get_enter_mess.c and swim_exit
+.c</dl>
+
+<dt><a name="add_flow">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_flow</b></a><pre>
+void add_flow(string dir,
+int rate)
+</pre><dd>
+This function adds a water current flowing through a particular exit, which
+may sweep objects through it or make it harder for them to swim through.
+The second argument is the rate of flow.  If this is positive, then water
+will be flowing from this room into the next one.  If it is positive, then
+water will be flowing from the next room into this one.  It is up to the
+coder of the specific rooms to ensure that the currents in different rooms
+match one another.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the exit through which the current is flowing
+<dd>rate - the strength of the current
+<dt><b>See also:</b>
+<dd>delete_flow.c, query_flow.c, query_flows.c, drift.c and swim_exit.c<dt><b>Example:</b>
+<dd><pre>  // There is a current flowing south.
+  add_flow("north", -80);
+  add_flow("south", 80);
+</pre></dl>
+
+<dt><a name="delete_flow">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_flow</b></a><pre>
+void delete_flow(string dir)
+</pre><dd>
+This function removes a water current through a particular exit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the exit for which any water current should be removed
+<dt><b>See also:</b>
+<dd>add_flow.c, query_flow.c and query_flows
+.c</dl>
+
+<dt><a name="do_drift">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_drift</b></a><pre>
+int do_drift()
+</pre><dd>
+This function is for the drift command, which will allow someone to start
+drifting freely rather than swimming.  It is identical to the float command,
+except for the messages.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>whether the command succeeded
+<dt><b>See also:</b>
+<dd>init.c, do_float.c and do_swim
+.c</dl>
+
+<dt><a name="do_float">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_float</b></a><pre>
+int do_float()
+</pre><dd>
+This function is for the float command, which will allow someone to start
+floating freely rather than swimming.  It is identical to the drift command,
+except for the messages.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>whether the command succeeded
+<dt><b>See also:</b>
+<dd>init.c, do_drift.c and do_swim
+.c</dl>
+
+<dt><a name="do_swim">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_swim</b></a><pre>
+int do_swim()
+</pre><dd>
+This function is for the swim command, which will allow someone to stop
+drifting freely and start swimming and resisting anything that tries to move
+them.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>whether the command succeeded
+<dt><b>See also:</b>
+<dd>init.c, do_float.c and do_drift
+.c</dl>
+
+<dt><a name="get_enter_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_enter_mess</b></a><pre>
+string get_enter_mess(object ob,
+string direc)
+</pre><dd>
+This function returns the appropriate entry message for the specified object
+in the specified direction.  If a value has been set by add_enter_mess then
+it is returned.  The query_origin function is used to find a replacement for
+the "$F" token.  It is used automagically by the swim_exit function, but can
+be overridden if you feel like it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object for which the entry message should be found
+<dd>direc - the direction in which the object is exiting
+<dt><b>Returns:</b>
+<dd>the entry message for this object
+<dt><b>See also:</b>
+<dd>add_enter_mess.c, add_exit_mess.c, get_exit_mess.c and query_origin
+.c</dl>
+
+<dt><a name="get_exit_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_exit_mess</b></a><pre>
+string get_exit_mess(object ob,
+string direc)
+</pre><dd>
+This function returns the appropriate exit message for the specified object
+in the specified direction.  If a value has been set by add_exit_mess then
+it is returned.  It is used automagically by the swim_exit function, but can
+be overridden if you feel like it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object for which the exit message should be found
+<dd>direc - the direction in which the object is exiting
+<dt><b>Returns:</b>
+<dd>the exit message for this object
+<dt><b>See also:</b>
+<dd>add_exit_mess.c, add_enter_mess.c and get_enter_mess
+.c</dl>
+
+<dt><a name="get_swim_enum">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_swim_enum</b></a><pre>
+int get_swim_enum(object thing)
+</pre><dd>
+This function returns the effect number of the swimming/immersion effect on
+the object specified.  If there isn't one, it adds the effect.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object for which the swimming effect number should be found
+<dt><b>Returns:</b>
+<dd>the swimming effect number
+<dt><b>See also:</b>
+<dd>effects_matching.c and query_classification
+.c</dl>
+
+<dt><a name="get_water">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_water</b></a><pre>
+object get_water()
+</pre><dd>
+This function returns some appropriate water from the room.  Its appearance
+will depend on the clarity and salinity set in the room.  The quantity of
+the water object that it returns is not fixed, and will generally be set by
+whatever function called it.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>some water from the room
+<dt><b>See also:</b>
+<dd>soak.c, set_clarity.c, set_turbidity.c and set_salinity
+.c</dl>
+
+<dt><a name="get_water_surface_light">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_water_surface_light</b></a><pre>
+int get_water_surface_light()
+</pre><dd>
+This function returns the amount of light that will filter down to this
+room from those above it if set_use_surface_light has been called.  It is
+intended to be used only by the update_water_light function, but has been
+separated out to allow it to be masked.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the amount of light that filters down from rooms above this one
+<dt><b>See also:</b>
+<dd>update_water_light.c, query_above_room.c and query_water_surface_light
+.c</dl>
+
+<dt><a name="lives_in_water">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>lives_in_water</b></a><pre>
+int lives_in_water(object ob)
+</pre>
+<dt><a name="query_above_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_above_room</b></a><pre>
+object query_above_room()
+</pre><dd>
+This function returns the room above this one, in the direction set by
+set_up_dir.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the room above this one
+<dt><b>See also:</b>
+<dd>set_up_dir.c and query_surface_room
+.c</dl>
+
+<dt><a name="query_below_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_below_room</b></a><pre>
+object query_below_room()
+</pre><dd>
+This function returns the room below this one, in the direction set by
+set_down_dir.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the room below this one
+<dt><b>See also:</b>
+<dd>set_down_dir.c and query_bottom_room
+.c</dl>
+
+<dt><a name="query_bottom">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bottom</b></a><pre>
+int query_bottom()
+</pre><dd>
+This function returns 1 if this is a bottom room, and 0 otherwise.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>whether this is a bottom room
+<dt><b>See also:</b>
+<dd>set_bottom
+.c</dl>
+
+<dt><a name="query_bottom_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bottom_mess</b></a><pre>
+string query_bottom_mess()
+</pre><dd>
+This function returns the position that non-living items will have when they
+are lying on the bottom in this room.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd>set_bottom_mess
+.c</dl>
+
+<dt><a name="query_bottom_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bottom_room</b></a><pre>
+object query_bottom_room()
+</pre><dd>
+This function returns the bottom room in a vertical stack of water rooms.
+If there is a bottom water room, it is returned, else, if the bottom room is
+not water, or there is no bottom room, 0 is returned.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the first room below this one to be on the bottom
+<dt><b>See also:</b>
+<dd>query_below_room.c and query_bottom
+.c</dl>
+
+<dt><a name="query_clarity">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_clarity</b></a><pre>
+int query_clarity()
+</pre><dd>
+This function returns the current clarity of the water, which is an integer
+variable between 1 and 100.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current clarity of the water
+<dt><b>See also:</b>
+<dd>set_clarity.c and query_turbidity
+.c</dl>
+
+<dt><a name="query_death_reason">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_death_reason</b></a><pre>
+string query_death_reason()
+</pre><dd>
+With this function here, creators will be able to point and laugh when
+someone dies by drowning in a water room because they'll see the death
+reason in an inform.  It will also show up in the death log.  It would be a
+good idea to mask this function to return a reason more specific to the
+place where the drowning may occur (such as "drowning in the Djel"), or at
+least a humorous one (such as "failing to realise that scuba gear hasn't
+been invented yet") so that creators will have something to laugh at.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the reason for death
+<dt><b>See also:</b>
+<dd>do_death
+.c</dl>
+
+<dt><a name="query_default_search_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_default_search_description</b></a><pre>
+string * query_default_search_description()
+</pre><dd>
+This sets up different search returns for the default 'not there'
+search result.
+<p>
+
+<dt><a name="query_down_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_down_dir</b></a><pre>
+string query_down_dir()
+</pre><dd>
+This function returns the direction that is currently considered to be down
+in this room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current direction considered to be down
+<dt><b>See also:</b>
+<dd>set_down_dir
+.c</dl>
+
+<dt><a name="query_float_in_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_float_in_mess</b></a><pre>
+string query_float_in_mess()
+</pre><dd>
+This function returns the message that will be displayed when an object
+floats into this room, with the usual $-expansion not done.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current entry message for floating objects
+<dt><b>See also:</b>
+<dd>set_float_in_mess
+.c</dl>
+
+<dt><a name="query_float_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_float_mess</b></a><pre>
+string query_float_mess()
+</pre><dd>
+This function returns the position that non-living items will have when they
+are floating in this room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current position for floating items
+<dt><b>See also:</b>
+<dd>set_float_mess
+.c</dl>
+
+<dt><a name="query_float_out_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_float_out_mess</b></a><pre>
+string query_float_out_mess()
+</pre><dd>
+This function returns the message that will be displayed when an object
+floats out of this room, with the usual $-expansion not done.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current entry message for floating objects
+<dt><b>See also:</b>
+<dd>set_float_out_mess
+.c</dl>
+
+<dt><a name="query_flow">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_flow</b></a><pre>
+int query_flow(string dir)
+</pre><dd>
+This function returns the strength of the current flowing through a
+particular exit, if any.  A positive value represents a current flowing from
+this room into the next one, and a negative value represents a current
+flowing from the next room into this one.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the exit which should have its current returned
+<dt><b>Returns:</b>
+<dd>the current through this ext
+<dt><b>See also:</b>
+<dd>add_flow.c, delete_flow.c and query_flows
+.c</dl>
+
+<dt><a name="query_flows">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_flows</b></a><pre>
+mapping query_flows()
+</pre><dd>
+This function returns a mapping of all the current flows through exits in
+this room.  The keys of the mapping are the exits through which the currents
+flow, and the values are the rates of flow.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a mapping of the current flows through exits in this room
+<dt><b>See also:</b>
+<dd>add_flow.c, delete_flow.c and query_flow
+.c</dl>
+
+<dt><a name="query_nonfloat_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_nonfloat_mess</b></a><pre>
+string query_nonfloat_mess()
+</pre><dd>
+This function returns the position that non-living items will have when they
+are neither sinking nor floating in this room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current position for drifting items
+<dt><b>See also:</b>
+<dd>set_nonfloat_mess
+.c</dl>
+
+<dt><a name="query_origin">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_origin</b></a><pre>
+string query_origin(string dir)
+</pre><dd>
+This function returns the opposite to the direction of a particular exit.
+This information is normally only accessible within the room handler, but it
+is cached here in the origins mapping by the add_exit in this file.  If no
+value is found, "elsewhere" will be returned.  This value is used in exit
+messages to correctly display where they are coming from.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the exit for which the opposite direction should be found
+<dt><b>Returns:</b>
+<dd>the opposite of the specified direction
+<dt><b>See also:</b>
+<dd>add_exit.c and room_handler
+.c</dl>
+
+<dt><a name="query_salinity">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_salinity</b></a><pre>
+int query_salinity()
+</pre><dd>
+This function returns the current salinity of the water, which is an integer
+variable between 0 and 100.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current salinity of the water
+<dt><b>See also:</b>
+<dd>set_salinity
+.c</dl>
+
+<dt><a name="query_sink_in_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sink_in_mess</b></a><pre>
+string query_sink_in_mess()
+</pre><dd>
+This function returns the message that will be displayed when an object
+sinks into this room, with the usual $-expansion not done.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current entry message for sinking objects
+<dt><b>See also:</b>
+<dd>set_sink_in_mess
+.c</dl>
+
+<dt><a name="query_sink_out_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sink_out_mess</b></a><pre>
+string query_sink_out_mess()
+</pre><dd>
+This function returns the message that will be displayed when an object
+sinks out of this room, with the usual $-expansion not done.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current exit message for sinking objects
+<dt><b>See also:</b>
+<dd>set_sink_out_mess
+.c</dl>
+
+<dt><a name="query_sinking_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sinking_mess</b></a><pre>
+string query_sinking_mess()
+</pre><dd>
+This function returns the position that non-living items will have when they
+are sinking in this room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current position for sinking items
+<dt><b>See also:</b>
+<dd>set_sinking_mess
+.c</dl>
+
+<dt><a name="query_surface">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_surface</b></a><pre>
+int query_surface()
+</pre><dd>
+This function returns 1 if this is a surface room, and 0 otherwise.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>whether this is a surface room
+<dt><b>See also:</b>
+<dd>set_surface.c and query_underwater
+.c</dl>
+
+<dt><a name="query_surface_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_surface_room</b></a><pre>
+object query_surface_room()
+</pre><dd>
+This function returns the top room in a vertical stack of water rooms.  If
+there is a surface water room, it is returned, else, if the top room is not
+water, or there is no surface room, 0 is returned.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the first room above this one to be on the surface
+<dt><b>See also:</b>
+<dd>query_above_room.c and query_surface
+.c</dl>
+
+<dt><a name="query_sweep_in_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sweep_in_mess</b></a><pre>
+string query_sweep_in_mess()
+</pre><dd>
+This function returns the message that will be displayed when an object
+is swept into this room by a current, with the $-expansion not done.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current entry message for objects swept by a current
+<dt><b>See also:</b>
+<dd>set_sweep_in_mess
+.c</dl>
+
+<dt><a name="query_sweep_out_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sweep_out_mess</b></a><pre>
+string query_sweep_out_mess()
+</pre><dd>
+This function returns the message that will be displayed when an object
+is swept out of this room by a current, with the $-expansion not done.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current exit message for objects swept by a current
+<dt><b>See also:</b>
+<dd>set_sweep_in_mess
+.c</dl>
+
+<dt><a name="query_terrain_map_colour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_terrain_map_colour</b></a><pre>
+string query_terrain_map_colour()
+</pre>
+<dt><a name="query_turbidity">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_turbidity</b></a><pre>
+int query_turbidity()
+</pre><dd>
+This function returns the current turbidity of the water, which is an
+integer variable between 1 and 100.  It will be equal to 100 minus the
+current clarity of the water.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current turbidity of the water
+<dt><b>See also:</b>
+<dd>set_turbidity.c and query_clarity
+.c</dl>
+
+<dt><a name="query_turbulence">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_turbulence</b></a><pre>
+int query_turbulence()
+</pre><dd>
+This function returns the current turbulence of the water, which is a
+non-negative integer.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current turbulence of the water
+<dt><b>See also:</b>
+<dd>set_turbulence
+.c</dl>
+
+<dt><a name="query_underwater">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_underwater</b></a><pre>
+int query_underwater()
+</pre><dd>
+This function returns 1 if this room is underwater (that is, it is not a
+surface room), and 0 otherwise.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>whether this is an underwater room
+<dt><b>See also:</b>
+<dd>query_surface.c and set_surface
+.c</dl>
+
+<dt><a name="query_up_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_up_dir</b></a><pre>
+string query_up_dir()
+</pre><dd>
+This function returns the direction that is currently considered to be up in
+this room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current direction considered to be up
+<dt><b>See also:</b>
+<dd>set_up_dir
+.c</dl>
+
+<dt><a name="query_water">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_water</b></a><pre>
+int query_water()
+</pre><dd>
+This function returns 1 to indicate that this is a water room.  It fulfills
+the same purpose as the inherits efun in this case, but may be slightly
+easier to use.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1
+<dt><b>See also:</b>
+<dd>inherits
+.c</dl>
+
+<dt><a name="query_water_surface_light">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_water_surface_light</b></a><pre>
+int query_water_surface_light()
+</pre><dd>
+This function returns the amount of light that will filter down to rooms
+below this one that have had set_use_surface_light called in them.  Its
+default is to return a value based on the light in this room and the clarity
+of the water.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the amount of light that filters down to rooms below this one
+<dt><b>See also:</b>
+<dd>set_use_surface_light.c, set_turbidity.c and set_clarity
+.c</dl>
+
+<dt><a name="query_water_traction_bonus">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_water_traction_bonus</b></a><pre>
+int query_water_traction_bonus(object thing,
+int buoyancy)
+</pre><dd>
+This function returns the bonus that objects get to move along the bottom or
+to resist such movement here.  If this should be anything unusual, such as
+for a very smooth bottom or one with handles, this function should be masked
+to return something different.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object that is moving along the bottom
+<dd>buoyancy - the object's relative buoyancy
+<dt><b>Returns:</b>
+<dd>the traction bonus on the bottom here
+<dt><b>See also:</b>
+<dd>swim_exit.c, drift.c and calc_buoyancy
+.c</dl>
+
+<dt><a name="set_bottom">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bottom</b></a><pre>
+void set_bottom(int val)
+</pre><dd>
+This function sets whether or not this room has a solid surface or bottom in
+it.  If it does, then items may appear as being on the bottom, and living
+objects are more able to resist currents (as they have something to hold on
+to).  The parameter of this function can be 1 to make this room have a
+bottom, 0 to make it have no bottom, or -1 (the default) to make it decide
+whether or not it has a bottom by checking to see if it has any exits in the
+current down direction (as set by set_down_dir).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>val - whether or not the room has a bottom
+<dt><b>See also:</b>
+<dd>query_bottom.c, set_bottom_mess.c and set_down_dir
+.c</dl>
+
+<dt><a name="set_bottom_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bottom_mess</b></a><pre>
+void set_bottom_mess(string mess)
+</pre><dd>
+This function sets the position that non-living items will have when they
+are lying on the bottom in this room.  The default is "lying on the bottom".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the new position for items lying on the bottom
+<dt><b>See also:</b>
+<dd>query_bottom_mess.c<dt><b>Example:</b>
+<dd><pre>  set_bottom_mess("lying in the seaweed");
+</pre></dl>
+
+<dt><a name="set_clarity">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_clarity</b></a><pre>
+void set_clarity(int how_clear)
+</pre><dd>
+This function sets the clarity of the water as an integer variable between 1
+and 100.  The main effect of this is to reduce the light levels of the room
+to simulate the obscuring effect of turbid water.  The default clarity is
+90.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>how_clear - the new clarity of the water
+<dt><b>See also:</b>
+<dd>query_clarity.c and set_turbidity
+.c</dl>
+
+<dt><a name="set_down_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_down_dir</b></a><pre>
+void set_down_dir(string dir)
+</pre><dd>
+This function sets the direction that is considered to be down by this room.
+This is used by several exit messages.  Also, dense objects will be inclined
+to move in this direction.  The default, of course, is "down".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mes - the new direction to be considered to be down
+<dt><b>See also:</b>
+<dd>query_down_dir.c, set_sink_in_mess.c and set_sink_out_mess.c<dt><b>Example:</b>
+<dd><pre>  set_down_dir("downeast");
+</pre></dl>
+
+<dt><a name="set_float_in_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_float_in_mess</b></a><pre>
+void set_float_in_mess(string mess)
+</pre><dd>
+This function sets the message that will be displayed when an object floats
+into this room.  The string "$up$" will be replaced by the current up
+direction for this room (as set by set_up_dir), and the usual other
+$-expansion for messages will occur, including the replacement of "$F" by
+the direction from which they are arriving.  The default is "$N float$s $up$
+from $F.".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the new entry message for floating objects
+<dt><b>See also:</b>
+<dd>query_float_in_mess.c, set_up_dir.c and query_up_dir.c<dt><b>Example:</b>
+<dd><pre>  set_float_in_mess("$N float$s into the cavern from $F.");
+</pre></dl>
+
+<dt><a name="set_float_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_float_mess</b></a><pre>
+void set_float_mess(string mess)
+</pre><dd>
+This function sets the position that non-living items will have when they
+are floating in this room.  The default is "floating nearby".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the new position for floating items
+<dt><b>See also:</b>
+<dd>query_float_mess.c<dt><b>Example:</b>
+<dd><pre>  set_float_mess("floating above the seaweed");
+</pre></dl>
+
+<dt><a name="set_float_out_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_float_out_mess</b></a><pre>
+void set_float_out_mess(string mess)
+</pre><dd>
+This function sets the message that will be displayed when an object floats
+out of this room.  The string "$up$" will be replaced by the current up
+direction for this room (as set by set_up_dir), and the usual other
+$-expansion for messages will occur.  The default is "$N float$s $up$.".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the new exit message for floating objects
+<dt><b>See also:</b>
+<dd>query_float_out_mess.c, set_up_dir.c and query_up_dir.c<dt><b>Example:</b>
+<dd><pre>  set_float_out_mess("$N float$s $up$ out of the cavern.");
+</pre></dl>
+
+<dt><a name="set_nonfloat_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_nonfloat_mess</b></a><pre>
+void set_nonfloat_mess(string mess)
+</pre><dd>
+This function sets the position that non-living items will have when they
+are neither sinking nor floating in this room.  The default is "drifting
+nearby".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the new position for drifting items
+<dt><b>See also:</b>
+<dd>query_nonfloat_mess.c<dt><b>Example:</b>
+<dd><pre>  set_nonfloat_mess("drifting amid the seaweed");
+</pre></dl>
+
+<dt><a name="set_salinity">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_salinity</b></a><pre>
+void set_salinity(int how_salty)
+</pre><dd>
+This function sets the salinity of the water as an integer variable between
+0 and 100.  Higher salinity will have a small positive effect on the
+buoyancy of objects in the room.  The default salinity is 0.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>how_salty - the new salinity of the water
+<dt><b>See also:</b>
+<dd>query_salinity.c and calc_buoyancy
+.c</dl>
+
+<dt><a name="set_sink_in_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sink_in_mess</b></a><pre>
+void set_sink_in_mess(string mess)
+</pre><dd>
+This function sets the message that will be displayed when an object sinks
+into this room.  The string "$down$" will be replaced by the current down
+direction for this room (as set by set_down_dir), and the usual other
+$-expansion for messages will occur, including the replacement of "$F" by
+the direction from which they are arriving.  The default is "$N sink$s
+$down$ from $F.".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the new entry message for sinking objects
+<dt><b>See also:</b>
+<dd>query_sink_in_mess.c, set_down_dir.c and query_down_dir.c<dt><b>Example:</b>
+<dd><pre>  set_sink_in_mess("$N sink$s into the cavern from $F.");
+</pre></dl>
+
+<dt><a name="set_sink_out_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sink_out_mess</b></a><pre>
+void set_sink_out_mess(string mess)
+</pre><dd>
+This function sets the message that will be displayed when an object sinks
+out of this room.  The string "$down$" will be replaced by the current down
+direction for this room (as set by set_down_dir), and the usual other
+$-expansion for messages will occur.  The default is "$N sink$s $down$.".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the new exit message for sinking objects
+<dt><b>See also:</b>
+<dd>query_sink_out_mess.c, set_down_dir.c and query_down_dir.c<dt><b>Example:</b>
+<dd><pre>  set_sink_out_mess("$N sink$s $down$ out of the cavern.");
+</pre></dl>
+
+<dt><a name="set_sinking_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sinking_mess</b></a><pre>
+void set_sinking_mess(string mess)
+</pre><dd>
+This function sets the position that non-living items will have when they
+are sinking in this room.  The default is "sinking nearby".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the new position for sinking items
+<dt><b>See also:</b>
+<dd>query_sinking_mess.c<dt><b>Example:</b>
+<dd><pre>  set_sinking_mess("sinking into the seaweed");
+</pre></dl>
+
+<dt><a name="set_surface">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_surface</b></a><pre>
+void set_surface(int val)
+</pre><dd>
+This function sets whether or not this room has an interface with air or
+surface in it.  If it does, then living objects may breathe here, and
+turbidity does not effect visibility.  The parameter of this function can be
+1 to make this room have a surface, 0 to make it have no surface, or -1 (the
+default) to make it decide whether or not it has a surface by checking to
+see if it has any exits in the current up direction (as set by set_up_dir).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>val - whether or not the room has a surface
+<dt><b>See also:</b>
+<dd>query_surface.c, set_clarity.c, set_turbidity.c and set_up_dir
+.c</dl>
+
+<dt><a name="set_sweep_in_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sweep_in_mess</b></a><pre>
+void set_sweep_in_mess(string mess)
+</pre><dd>
+This function sets the message that will be displayed when an object is
+swept into this room by a current.  The usual $-expansion for messages
+will occur.  The default is "$N $V$0=is,are$V$ swept in from $F by the
+current.".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the new entry message for objects swept by a current
+<dt><b>See also:</b>
+<dd>query_sweep_in_mess.c<dt><b>Example:</b>
+<dd><pre>  set_sweep_in_mess("$N $V$0=is,are$V$ washed in from $F by the raging "
+             "torrent.");
+</pre></dl>
+
+<dt><a name="set_sweep_out_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sweep_out_mess</b></a><pre>
+void set_sweep_out_mess(string mess)
+</pre><dd>
+This function sets the message that will be displayed when an object is
+swept out of this room by a current.  The usual $-expansion for messages
+will occur, including the replacement of "$T" by the direction in which they
+are moving.  The default is "$N $V$0=is,are$V$ swept $T by the current.".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the new exit message for objects swept by a current
+<dt><b>See also:</b>
+<dd>query_sweep_out_mess.c<dt><b>Example:</b>
+<dd><pre>  set_sweep_out_mess("$N $V$0=is,are$V$ washed away $T by the raging "
+             "torrent.");
+</pre></dl>
+
+<dt><a name="set_turbidity">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_turbidity</b></a><pre>
+void set_turbidity(int how_murky)
+</pre><dd>
+This function is an alternative method of setting the clarity of the water.
+The turbidity is defined as 100 minus the clarity of the water.  The default
+turbidity is 10.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>how_murky - the new turbidity of the water
+<dt><b>See also:</b>
+<dd>set_clarity.c and query_turbidity
+.c</dl>
+
+<dt><a name="set_turbulence">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_turbulence</b></a><pre>
+void set_turbulence(int how_turbulent)
+</pre><dd>
+This function sets the turbulence of the water as a non-negative integer
+variable.  A random number up to the turbulence is added to the difficulty
+of all skillchecks to leave the room via a water exit with swim_exit as the
+exit function, except when the exiting object is not moving of its own
+accord (such as when it is being swept along by a current).  The default
+turbulence is 100.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>how_turbulent - the new turbulence of the water
+<dt><b>See also:</b>
+<dd>query_turbulence.c and swim_exit
+.c</dl>
+
+<dt><a name="set_up_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_up_dir</b></a><pre>
+void set_up_dir(string dir)
+</pre><dd>
+This function sets the direction that is considered to be up by this room.
+This is used by several exit messages, and by the water effect to decide
+which way a panicking player will flee to try to reach the surface.  For
+this reason, it should be set to the name of an exit which leads towards a
+surface room.  Also, buoyant objects will be inclined to move in this
+direction.  The default, of course, is "up".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the new direction to be considered to be up
+<dt><b>See also:</b>
+<dd>query_up_dir.c, set_float_in_mess.c, set_float_out_mess.c and flee_drowning.c<dt><b>Example:</b>
+<dd><pre>  set_up_dir("upwest");
+</pre></dl>
+
+<dt><a name="set_use_surface_light">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_use_surface_light</b></a><pre>
+void set_use_surface_light(int val)
+</pre><dd>
+This function sets whether the room will use the light levels of the
+surface to determine its own.  If the function is called with a non-zero
+value, the the current light level in the room will be overridden by a new
+value based on the light of the room found by query_above_room.  If the room
+above is an outside room, with light levels that depend on the time of day,
+then the light in this room will be updated every time it is queried.  A
+water room will default to using this option, but it will be overridden by
+any calls to adjust_light (including calls to set_light).  It is possible to
+call set_water_light to avoid this, but it should not be necessary.  If a
+series of rooms with vertical exits between them are all set to use surface
+light, then the effect will be for the light of the room at the top of the
+stack to filter down through the rest, appropriately attenuated by
+turbidity.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>val - whether the room should use light from the surface
+<dt><b>See also:</b>
+<dd>query_above_room.c, query_water_surface_light.c, update_water_light.c, set_water_light.c, set_turbidity.c and set_clarity
+.c</dl>
+
+<dt><a name="soak">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>soak</b></a><pre>
+varargs void soak(object ob,
+int ignore_location)
+</pre><dd>
+This function makes things wet.  Anything entering a water room has this
+function called on it by event_enter, and will have the wetness effect added
+to it if appropriate, as well as to any appropriate objects inside it if it
+isn't waterproof.  Open containers will also be filled with water.  The
+function checks to see that the object is indeed inside the room, unless the
+optional extra argument is non-zero.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to be soaked
+<dd>ignore_location - whether the object should be soaked wherever it is
+<dt><b>See also:</b>
+<dd>get_water
+.c</dl>
+
+<dt><a name="swim_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>swim_exit</b></a><pre>
+int swim_exit(string dir,
+object ob,
+string mess)
+</pre><dd>
+This is an exit function set for any exits in a water room.  It finds the
+difficulty of swimming through the exit, on the basis of the current through
+that exit, the buoyancy of the object and the extra difficulty that it has
+in swimming.  The swimming/immersion effect calculates the latter two with
+calc_buoyancy and swim_difficulty respectively.  The object is subjected to
+a skillcheck in other.movement.swimming to see if it can move through the
+exit.
+There is a guildpoint cost equal to 1/20th of the difficulty of the
+skillcheck.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the direction in which the object is leaving
+<dd>ob - the object that is trying to leave
+<dd>mess - a weird extra string that isn't relevant here
+<dt><b>Returns:</b>
+<dd>whether or not the object can move through the exit
+<dt><b>See also:</b>
+<dd>modify_exit.c, exit_function.c, calc_buoyancy.c, swim_difficulty.c, query_water_traction_bonus.c and perform_task
+.c</dl>
+
+<dt><a name="update_water_light">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_water_light</b></a><pre>
+void update_water_light()
+</pre><dd>
+This function updates the amount of light filtering down to this room from
+the rooms above it, if it is necessary to do so.  It is called by
+query_light in /std/room/water_inside and /std/room/water_outside.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd>set_use_surface_light.c, set_light.c, query_water_surface_light.c and get_water_surface_light
+.c</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 09:35:51 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

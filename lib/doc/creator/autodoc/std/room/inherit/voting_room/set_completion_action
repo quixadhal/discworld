@@ -1,0 +1,41 @@
+.DT
+set_completion_action
+Disk World creator help
+set_completion_action
+
+.SH Name
+.SP 5 5
+set_completion_action -  This function defines a function to be called when the vote is complete.
+.EP
+
+.SH Syntax
+.SI 5
+void set_completion_action(mixed cond)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^cond%^RESET%^ - This will usually be a mixed array of an object and a function.
+It could also be a function pointer.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/voting_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function defines a function to be called when the vote is complete.
+Typically your function will post the vote results somewhere or somesuch.
+The parameters passedinto the function are:
+.EP
+.SP 5 5
+( string type, string description, string* choices, mapping votes, string* voted) 
+.EP
+.SP 5 5
+
+.EP
+

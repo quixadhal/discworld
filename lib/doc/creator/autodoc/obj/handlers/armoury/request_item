@@ -1,0 +1,67 @@
+.DT
+request_item
+Disk World creator help
+request_item
+
+.SH Name
+.SP 5 5
+request_item -  General item retreival function.
+.EP
+
+.SH Syntax
+.SI 5
+object request_item(string word,
+int percent,
+string area)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the name of the item to retreive
+%^BOLD%^percent%^RESET%^ - the percentage condition to be in
+%^BOLD%^area%^RESET%^ - the area to choose the item in
+.EI
+
+.SH Returns
+.SI 5
+the requested object, or 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/armoury.c
+.EI
+
+.SH Description
+.SP 5 5
+
+General item retreival function.  It returns a new item
+it handles any sort of item.  The percentage is the
+percentage condition in which it is returned.
+The "word" parameter is the name of the requested item, essentially
+the filename without directory and with "_"'s changed to " "'s. The
+"percent" parameter is used as measure of how good it
+is compared to a fully functional one. So a 50% dagger is only 50% as
+good as a 100% one.
+
+
+The file armoury.h defines the ARMOURY variable. You need to include this into your file to use it. You should include this file and uyse ythis define rather than the full path to the armoury, as otherwise your code could stuff up :)
+.EP
+
+.SH Example 1
+.SI 5
+// get a slightly worn long sword and give it to the npc.
+ARMOURY->request_item("long sword", 85)->move(npc);
+.EI
+
+.SH Example 2
+.SI 5
+// Get a random condition armour.
+armour = ARMOURY->request_item("leather jacket", random(100));
+
+.EI
+
+.SH See also
+.SP 5 5
+/include/armoury.h
+.EP
+

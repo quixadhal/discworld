@@ -1,0 +1,38 @@
+.DT
+queue_room
+Disk World creator help
+queue_room
+
+.SH Name
+.SP 5 5
+queue_room -  This method will queue the room without doing any tests.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void queue_room(string room,
+int force,
+string reason)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^room%^RESET%^ - the room to queue
+%^BOLD%^force%^RESET%^ - if it is forced to queue
+%^BOLD%^reason%^RESET%^ - the reason it was queued
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will queue the room without doing any tests.
+This should only be used by people who know what they are doing
+as it bypasses several checks.
+.EP
+

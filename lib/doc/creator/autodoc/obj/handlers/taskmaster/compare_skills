@@ -1,0 +1,137 @@
+.DT
+compare_skills
+Disk World creator help
+compare_skills
+
+.SH Name
+.SP 5 5
+compare_skills -  This function will compare the skills of two objects and return which one won and if the winner got a TM.
+.EP
+
+.SH Syntax
+.SI 5
+varargs mixed compare_skills(object offob,
+string offskill,
+object defob,
+string defskill,
+int modifier,
+int off_tm_type,
+int def_tm_type,
+int degree)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^offob%^RESET%^ - The attacking object
+%^BOLD%^offskill%^RESET%^ - The name of the skill the attacker is using
+%^BOLD%^deffob%^RESET%^ - The defending object
+%^BOLD%^deffskill%^RESET%^ - The name of the skill the defender is using
+%^BOLD%^modifier%^RESET%^ - The percentage modifier
+%^BOLD%^off_tm_type%^RESET%^ - This should be one of the standard definitions in
+/include/tasks.h and is for the attacker
+%^BOLD%^def_tm_type%^RESET%^ - This should be one of the standard definitions in
+/include/tasks.h and is for the defender
+%^BOLD%^degree%^RESET%^ - Enable the degree-of-success code.  If this is used, the
+ return value becomes a class instead of an int.
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/taskmaster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function will compare the skills of two objects and return which one
+won and if the winner got a TM.
+With equal skills the chances are 50/50 as to who will win. As the balance
+shifts so do the chances. Additionally a modifier can be applied to
+account for conditions favouring one or the other. This should be
+considered a percentage eg. -50 will add 50% to the defenders chances of
+winning.
+If
+
+.EP
+
+.SH Example 1
+.SI 5
+This is an example of the simpler, binary success/failure behaviour.
+
+switch(TASKER->compare_skills(attacker, "fighting.combat.melee.sharp",
+                              defender, "fighting.combat.parry.unarmed",
+                              25, TM_COMMAND, TM_FREE) {
+case OFFAWARD:
+  tell_object(attacker, "%^YELLOW%^You manage to grasp one of the "
+                        "principles of slicing people up more firmly."
+                        "%^RESET%^\n");
+case OFFWIN:
+  say(defender->one_short() + " loses an arm!\n");
+  break;
+case DEFAWARD:
+  tell_object(defender, "%^YELLOW%^You feel better able to keep your arms "
+                        "attached when parrying unarmed.%^RESET%^\n");
+case DEFWIN:
+  say(defender->one_short() + " keeps " + defender->query_possesive() +
+      " arm attached.\n");
+  break;
+}
+
+.EI
+
+.SH Example 2
+.SI 5
+This is an example of the finer grained degree-of-success behaviour.
+
+class tasker_result tr;
+
+tr = (class tasker_result)TASKER->compare_skills(
+  attacker, "fighting.combat.melee.sharp",
+  defender, "fighting.combat.parry.unarmed",
+  25, TM_COMMAND, TM_FREE, 1 );
+
+switch( tr->result ) {
+case OFFAWARD:
+  tell_object(attacker, "%^YELLOW%^You manage to grasp one of the "
+                        "principles of slicing people up more firmly."
+                        "%^RESET%^\n");
+case OFFWIN:
+  switch( tr->degree ) {
+  case TASKER_MARGINAL:
+    say( "You just barely scrape your opponent's hand.\n" );
+    break;
+  case TASKER_NORMAL:
+    say( "You slice into your opponent's arm.\n" );
+    break;
+  case TASKER_EXCEPTIONAL:
+    say( "You slice deeply into your opponent's muscle and sinew, and "
+      "he screams in pain!\n" );
+    break;
+  case TASKER_CRITICAL:
+    say( "You slice your opponent's arm clean off.  Blood spurts "
+      "everywhere like a cherry slurpee machine gone insane!\n" );
+    break;
+  }
+  break;
+case DEFAWARD:
+  tell_object(defender, "%^YELLOW%^You feel better able to keep your arms "
+                        "attached when parrying unarmed.%^RESET%^\n");
+case DEFWIN:
+  switch( tr->degree ) {
+     ...
+     similar code in here...
+     ...
+  }
+  break;
+}
+
+.EI
+
+.SH See also
+.SP 5 5
+perform_task(), tasker_result
+
+
+.EP
+

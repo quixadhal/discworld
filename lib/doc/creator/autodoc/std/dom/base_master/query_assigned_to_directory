@@ -1,0 +1,37 @@
+.DT
+query_assigned_to_directory
+Disk World creator help
+query_assigned_to_directory
+
+.SH Name
+.SP 5 5
+query_assigned_to_directory -  Finds the person assigned to the specific directory.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_assigned_to_directory(string * dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - the directory to find assignments in
+.EI
+
+.SH Returns
+.SI 5
+the array of people assigned to the directory
+.EI
+
+.SH Defined in
+.SI 5
+/std/dom/base_master.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Finds the person assigned to the specific directory.  It will climb
+up the directory tree looking for who to assign the directory too.
+.EP
+

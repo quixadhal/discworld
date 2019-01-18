@@ -1,0 +1,42 @@
+.DT
+add_amend_rule_motion
+Disk World creator help
+add_amend_rule_motion
+
+.SH Name
+.SP 5 5
+add_amend_rule_motion -  This method adds in a request to amend a rule.
+.EP
+
+.SH Syntax
+.SI 5
+int add_amend_rule_motion(string area,
+int rule_no,
+string amendment,
+string creator)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area to put the amendment in
+%^BOLD%^rule_no%^RESET%^ - the rule to amend
+%^BOLD%^amendment%^RESET%^ - the amendment text
+%^BOLD%^creator%^RESET%^ - the person doing the amendment
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/player_council.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds in a request to amend a rule.
+.EP
+

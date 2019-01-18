@@ -1,0 +1,41 @@
+<html><head><title>File ac_callback.h
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /include/ac_callback.h</h2>
+This file contains the classes and defines used in the 
+armour call back system. 
+<hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_ac_callback_data"><b>ac_callback_data</b></a>
+<dd>
+This class stores armour class call back data.
+</dl><hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_ac_callback_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>ac_callback_data</b></a><pre>
+class ac_callback_data {
+object ob;
+int id;
+function func;
+int priority;
+mixed extra;
+}
+
+</pre><dd>
+This class stores armour class call back data.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>ob - the object that owns the callback.
+<dd>id - the callback id, used to remove it.
+<dd>func - the function called when it is triggered. (either 
+evaluated if it is a function pointer, or call_other()'d if it 
+is an array in the format ({ object, function }) 
+<dd>priority - an integer indicating the priority of the call back,
+functions with a higher priority are evaluated first.
+<dd>extra - any extra data.
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Fri, 30 Mar 2018 13:55:06 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,373 @@
+<html><head><title>File misc.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/misc.c</h2>
+This class contains information relating to the value and the weight
+of the object.<p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.consecrate.c.html">/std/basic/consecrate.c</a>, <a href="std.basic.light.c.html">/std/basic/light.c</a> and <a href="std.basic.move.c.html">/std/basic/move.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_money"><b>adjust_money</b></a>(mixed, string)<dd>
+This method changes the value of the object by a certain number of
+coins.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_value"><b>adjust_value</b></a>(int)<dd>
+This method changes the current value of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_weight"><b>adjust_weight</b></a>(int)<dd>
+This method adjusts the weight by the given amount.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_base_value"><b>query_base_value</b></a>()<dd>
+This method returns the vase value of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_complete_weight"><b>query_complete_weight</b></a>()<dd>
+This method returns the current weight of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_length"><b>query_length</b></a>()<dd>
+This method queries the length of an object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_money"><b>query_money</b></a>(string)<dd>
+This method returns the number of coins of a certain
+type that are in the value of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_money_array"><b>query_money_array</b></a>()<dd>
+This method returns the value of the object as a money array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value"><b>query_value</b></a>()<dd>
+This method returns the current value of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value_at"><b>query_value_at</b></a>(object)<dd>
+This method figures out how much an object will cost in a certain
+place.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value_info"><b>query_value_info</b></a>()<dd>
+This method returns the information associated for all the special
+bits of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value_real"><b>query_value_real</b></a>(string)<dd>
+This method always returns the most expensive value of an item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_weight"><b>query_weight</b></a>()<dd>
+This method returns the current weight of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_width"><b>query_width</b></a>()<dd>
+This method queries the width of an object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_value_info"><b>remove_value_info</b></a>(string)<dd>
+This method removes the value information for a type of
+special object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_length"><b>set_length</b></a>(int)<dd>
+This method sets the length to the given amount.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_value"><b>set_value</b></a>(int)<dd>
+This method sets the value of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_value_info"><b>set_value_info</b></a>(string, int)<dd>
+This method sets the value information for a type of
+special object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_weight"><b>set_weight</b></a>(int)<dd>
+This method sets the weight of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_width"><b>set_width</b></a>(int)<dd>
+This method sets the width to the given amount.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="adjust_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_money</b></a><pre>
+varargs int adjust_money(mixed amt,
+string coin)
+</pre><dd>
+This method changes the value of the object by a certain number of
+coins.  The coins can be any type.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the new value
+
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.money_handler.c.html#query_total_value">/obj/handlers/money_handler->query_total_value()</a>, <a href="#adjust_value">adjust_value()</a>, <a href="#query_money_array">query_money_array()</a> and <a href="#set_value">set_value()</a></dl>
+
+<dt><a name="adjust_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_value</b></a><pre>
+int adjust_value(int i)
+</pre><dd>
+This method changes the current value of the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the amount to change the value by
+<dt><b>Returns:</b>
+<dd>the new value of the object
+
+</dl>
+
+<dt><a name="adjust_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_weight</b></a><pre>
+void adjust_weight(int w)
+</pre><dd>
+This method adjusts the weight by the given amount.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>w - the amount to change the weight by
+<dt><b>See also:</b>
+<dd><a href="#set_weight">set_weight()</a> and <a href="#query_weight">query_weight()
+</a></dl>
+
+<dt><a name="query_base_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_base_value</b></a><pre>
+int query_base_value()
+</pre><dd>
+This method returns the vase value of the object.  This is before
+any scaling from things like condition occurs.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the base value
+
+</dl>
+
+<dt><a name="query_complete_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_complete_weight</b></a><pre>
+int query_complete_weight()
+</pre><dd>
+This method returns the current weight of the object. It does basicly
+the same thing as the previous call.  NB: this_object()->query_weight()
+is pretty much the same as query_weight(), except it takes shadows into
+account.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current weight of the object
+<dt><b>See also:</b>
+<dd><a href="#set_weight">set_weight()</a>, <a href="#adjust_weight">adjust_weight()</a> and <a href="#query_weight">query_weight()
+</a></dl>
+
+<dt><a name="query_length">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_length</b></a><pre>
+int query_length()
+</pre><dd>
+This method queries the length of an object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>w - the amount to set the length to
+<dt><b>See also:</b>
+<dd><a href="#set_length">set_length()
+</a></dl>
+
+<dt><a name="query_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_money</b></a><pre>
+int query_money(string type)
+</pre><dd>
+This method returns the number of coins of a certain
+type that are in the value of the object.  This is not
+a good estimate of value or anything, no idea why it is
+here really.  I am sure I had a good reason
+at the time :)<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of coin to look for
+<dt><b>Returns:</b>
+<dd>the number of coins of that type
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.money_handlers.c.html#create_money_array">/obj/handlers/money_handlers->create_money_array()</a>, <a href="#set_value">set_value()</a>, <a href="#adjust_value">adjust_value()</a>, <a href="#adjust money">adjust money()</a>, <a href="#query_money_array">query_money_array()</a> and <a href="#query_value">query_value()
+</a></dl>
+
+<dt><a name="query_money_array">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_money_array</b></a><pre>
+mixed * query_money_array()
+</pre><dd>
+This method returns the value of the object as a money array.  The
+money array is a list oif coinages followed by a number of coins.
+Eg: <code>({ "copper", 10, "silver", 12 }).</code><p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.money_handlers.c.html#create_money_array">/obj/handlers/money_handlers->create_money_array()</a>, <a href="#set_value">set_value()</a>, <a href="#adjust_value">adjust_value()</a>, <a href="#adjust_money">adjust_money()</a> and <a href="#query_value">query_value()
+</a></dl>
+
+<dt><a name="query_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value</b></a><pre>
+int query_value()
+</pre><dd>
+This method returns the current value of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current value of the object
+
+</dl>
+
+<dt><a name="query_value_at">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value_at</b></a><pre>
+int query_value_at(object place)
+</pre><dd>
+This method figures out how much an object will cost in a certain
+place.  For instance at a shop that does not handle artifcacts an
+artifact will be bought and sold cheaply.  The current types
+of "artifact", "enchantment" and "material" are recognised.
+A property in the shop of the type "artifact valued" will
+cause the values of that type to be taken into account.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>place - the object to find the value at
+<dt><b>Returns:</b>
+<dd>the value in the shop
+<dt><b>See also:</b>
+<dd><a href="#query_value">query_value()</a>, <a href="#set_value_info">set_value_info()</a> and <a href="#adjust_value">adjust_value()
+</a></dl>
+
+<dt><a name="query_value_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value_info</b></a><pre>
+mapping query_value_info()
+</pre><dd>
+This method returns the information associated for all the special
+bits of the object.  The value infor maping ihas keys which are
+the type of value info and the value is the value of it.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the value info mapping
+<dt><b>See also:</b>
+<dd><a href="#set_value_info">set_value_info()</a>, <a href="#query_value_at">query_value_at()</a> and <a href="#remove_value_info">remove_value_info()
+</a></dl>
+
+<dt><a name="query_value_real">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value_real</b></a><pre>
+int query_value_real(string place)
+</pre><dd>
+This method always returns the most expensive value of an item.
+This should be used for things like theif quotas and anything which
+requires the real actual value of an item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>place - the place to find the values in
+
+</dl>
+
+<dt><a name="query_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_weight</b></a><pre>
+int query_weight()
+</pre><dd>
+This method returns the current weight of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current weight of the object
+<dt><b>See also:</b>
+<dd><a href="#set_weight">set_weight()</a> and <a href="#adjust_weight">adjust_weight()
+</a></dl>
+
+<dt><a name="query_width">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_width</b></a><pre>
+int query_width()
+</pre><dd>
+This method queries the width of an object. The width should be the shorter
+side of an object and the length its longer one. Sadly someone chose inches
+as the size units. :(
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>w - the amount to set the width to
+<dt><b>See also:</b>
+<dd><a href="#set_width">set_width()
+</a></dl>
+
+<dt><a name="remove_value_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_value_info</b></a><pre>
+void remove_value_info(string word)
+</pre><dd>
+This method removes the value information for a type of
+special object.  This is the extra value information associated
+with the "artifact", "enchantment" or "material" of the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the type of value information to remove
+<dt><b>See also:</b>
+<dd><a href="#query_value_at">query_value_at()</a>, <a href="#set_value_info">set_value_info()</a> and <a href="#set_value">set_value()
+</a></dl>
+
+<dt><a name="set_length">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_length</b></a><pre>
+void set_length(int l)
+</pre><dd>
+This method sets the length to the given amount. The length should be the
+long side of an object, the width its shorter one. Sadly someone chose
+inches as the size units. :(
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>w - the amount to set the length to.
+<dt><b>See also:</b>
+<dd><a href="#query_length">query_length()
+</a></dl>
+
+<dt><a name="set_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_value</b></a><pre>
+void set_value(int number)
+</pre><dd>
+This method sets the value of the object.  The actual value in
+coins and so forth is worked out by the money handler based on the
+value.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the new value of the object
+<dt><b>See also:</b>
+<dd><a href="#query_value">query_value()</a>, <a href="#adjust_value">adjust_value()</a> and <a href="#query_money_array">query_money_array()
+</a></dl>
+
+<dt><a name="set_value_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_value_info</b></a><pre>
+void set_value_info(string word,
+int number)
+</pre><dd>
+This method sets the value information for a type of
+special object.  This is the extra value information associated
+with the "artifact", "enchantment" or "material" of the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the type of value information
+<dd>number - the amount to set it to
+<dt><b>See also:</b>
+<dd><a href="#query_value_at">query_value_at()</a>, <a href="#remove_value_info">remove_value_info()</a> and <a href="#set_value">set_value()
+</a></dl>
+
+<dt><a name="set_weight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_weight</b></a><pre>
+void set_weight(int w)
+</pre><dd>
+This method sets the weight of the object.  One weight unit
+is 50 grams.
+<p>
+When setting the weights of weapons use the following guide:
+<pre>
+o===================o=====================o================o
+| Weapon            | Approx. Weight (kg) |  Weight Units  |
+o===================o=====================o================o
+| Dagger            |        0.5          |       10       |
+| War Hammer        |        1.1          |       22       |
+| Mace              |        1.3          |       26       |
+| Flail             |        1.5          |       30       |
+| Pole Axe          |        2.3          |       46       |
+| Short Sword       |        0.8          |       16       |
+| Broad Sword       |        1.1          |       22       |
+| Long Sword        |        1.4          |       28       |
+| Bastard Sword     |        1.9          |       38       |
+| Two-handed Sword  |        2.7          |       42       |
+o===================o=====================o================o
+</pre><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>w - the amount to change the weight by
+<dt><b>See also:</b>
+<dd><a href="#adjust_weight">adjust_weight()</a> and <a href="#query_weight">query_weight()
+</a></dl>
+
+<dt><a name="set_width">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_width</b></a><pre>
+void set_width(int w)
+</pre><dd>
+This method sets the width to the given amount.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>w - the amount to set the width to
+<dt><b>See also:</b>
+<dd><a href="#query_width">query_width()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 21:34:12 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

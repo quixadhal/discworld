@@ -1,0 +1,40 @@
+.DT
+is_discussion_position_valid
+Disk World creator help
+is_discussion_position_valid
+
+.SH Name
+.SP 5 5
+is_discussion_position_valid -  This is a special function to be used with the discuss items to make sure that there is not another discussion item checking the same name.
+.EP
+
+.SH Syntax
+.SI 5
+int is_discussion_position_valid(string club_name,
+string position)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club to check
+%^BOLD%^position%^RESET%^ - the position to check for
+.EI
+
+.SH Returns
+.SI 5
+1 if the position is being discussed as an item
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_discuss.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is a special function to be used with the discuss items to
+make sure that there is not another discussion item checking the
+same name.
+.EP
+

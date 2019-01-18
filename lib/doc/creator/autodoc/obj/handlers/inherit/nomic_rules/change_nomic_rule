@@ -1,0 +1,39 @@
+.DT
+change_nomic_rule
+Disk World creator help
+change_nomic_rule
+
+.SH Name
+.SP 5 5
+change_nomic_rule -  This method moves a rule from one type to another.
+.EP
+
+.SH Syntax
+.SI 5
+int change_nomic_rule(string area,
+class nomic_rule rule)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area the rule is added in
+%^BOLD%^rule%^RESET%^ - the rule to move
+%^BOLD%^type%^RESET%^ - the new type of the rule
+.EI
+
+.SH Returns
+.SI 5
+the new number of the rule, NOMIC_ERROR on fai;l
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/nomic_rules.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method moves a rule from one type to another.
+.EP
+

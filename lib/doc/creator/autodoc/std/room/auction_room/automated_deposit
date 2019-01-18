@@ -1,0 +1,39 @@
+.DT
+automated_deposit
+Disk World creator help
+automated_deposit
+
+.SH Name
+.SP 5 5
+automated_deposit -  This function allows an object to deposit an item for auction, Things are the items to auction, auction length is the length in seconds, function_cb and object_cb are function names and object paths to allow a call back to be scheduled for when the auction is over, res price is the reserve price and int_desc is a description that will be written on the case.
+.EP
+
+.SH Syntax
+.SI 5
+int automated_deposit(object * things,
+int auction_length,
+string function_cb,
+string object_cb,
+int res_price,
+string int_desc)
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/auction_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function allows an object to deposit an item for auction,
+Things are the items to auction, auction length is the length in seconds,
+function_cb and object_cb are function names and object paths to allow a
+call back to be scheduled for when the auction is over, res price is
+the reserve price and int_desc is a description that will be written on
+the case. If an error code is generated, it is upon the object calling
+this function to pull those objects back. An object reference isn't
+kept here.
+
+.EP
+

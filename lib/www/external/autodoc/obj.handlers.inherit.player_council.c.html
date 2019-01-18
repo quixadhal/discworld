@@ -1,0 +1,411 @@
+<html><head><title>File player_council.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/inherit/player_council.c</h2>
+This handler is for the control of player houses.<p>Written by Pinkfish<p>Started Fri Jun 23 22:50:02 PDT 2000
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.handlers.inherit.case_control.c.html">/obj/handlers/inherit/case_control.c</a>, <a href="obj.handlers.inherit.nomic_rules.c.html">/obj/handlers/inherit/nomic_rules.c</a> and <a href="obj.handlers.inherit.citizen_elections.c.html">/obj/handlers/inherit/citizen_elections.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.nomic_system.h.html">/include/nomic_system.h</a>, <a href="include.player.h.html">/include/player.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_amend_rule_motion"><b>add_amend_rule_motion</b></a>(string, int, string, string)<dd>
+This method adds in a request to amend a rule.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_create_rule_motion"><b>add_create_rule_motion</b></a>(string, int, string, string)<dd>
+This method puts a new rule up for voting.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_move_rule_type_motion"><b>add_move_rule_type_motion</b></a>(string, int, int, string)<dd>
+This method puts up a request to move a rule from one type to another.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#amend_motion"><b>amend_motion</b></a>(string, int, string, string)<dd>
+This method adds an amendment to the new rule/amendment/whatever, this
+rewrites the text of the ammendment of whatever it is.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_for_completions"><b>check_for_completions</b></a>()<dd>
+This method figures out all the current things and when they completed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#comment_on_motion"><b>comment_on_motion</b></a>(string, int, string, string)<dd>
+This method adds a comment to the new rule/amendment/whatever.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#complete_motion"><b>complete_motion</b></a>(string, int)<dd>
+This method completes the vote on the specified new rule.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_area"><b>create_area</b></a>(string)<dd>
+This method creates a new area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_motion"><b>find_motion</b></a>(string, int, int)<dd>
+This method finds the specified motion.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#has_voted_for_motion"><b>has_voted_for_motion</b></a>(string, int, string)<dd>
+This method checks to see if the person has voted for the specified
+new rule/amendment/whatever
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#motion_as_html"><b>motion_as_html</b></a>(string, class nomic_motion)<dd>
+This method returns the new motion as a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#motion_as_string"><b>motion_as_string</b></a>(int, string, class nomic_motion, int)<dd>
+This method returns the new motion as a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_motions"><b>query_all_motions</b></a>(string)<dd>
+This method returns all the new rules for the specified area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_completion_time"><b>query_completion_time</b></a>(string, class nomic_motion)<dd>
+This method figures out the compleion time for the specified motion.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_motion"><b>query_motion</b></a>(string, int)<dd>
+This method returns a nice new rule.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_votes_for_motion"><b>query_votes_for_motion</b></a>(string, int)<dd>
+This method returns the current set of votes for the specied new rule.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_rule_motion"><b>remove_rule_motion</b></a>(string, int, string)<dd>
+This method remove a request to amend a rule.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#rule_as_html"><b>rule_as_html</b></a>(class nomic_rule)<dd>
+This method turns a rule into html.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#send_council_inform"><b>send_council_inform</b></a>(string, int, string)<dd>
+This method sends informs to all the specified council of some sort of
+nifty council event.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_immutables"><b>update_immutables</b></a>(string)<dd>
+This method updates the immutable laws with the new set of general rules.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#vote_for_motion"><b>vote_for_motion</b></a>(string, int, int, string)<dd>
+This method votes for the specified ammentment/whatever.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_amend_rule_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_amend_rule_motion</b></a><pre>
+int add_amend_rule_motion(string area,
+int rule_no,
+string amendment,
+string creator)
+</pre><dd>
+This method adds in a request to amend a rule.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to put the amendment in
+<dd>rule_no - the rule to amend
+<dd>amendment - the amendment text
+<dd>creator - the person doing the amendment
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="add_create_rule_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_create_rule_motion</b></a><pre>
+int add_create_rule_motion(string area,
+int type,
+string text,
+string creator)
+</pre><dd>
+This method puts a new rule up for voting.  It is first placed into
+the hands of the magistrates, then into the hands of the players.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area for the rule to be voted on in
+<dd>type - the type of the rules
+<dd>text - the text associated with the new rule
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="add_move_rule_type_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_move_rule_type_motion</b></a><pre>
+int add_move_rule_type_motion(string area,
+int rule_no,
+int type,
+string creator)
+</pre><dd>
+This method puts up a request to move a rule from one type to another.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to do the move in
+<dd>rule_no - the rule number to move
+<dd>type - the type to move the rule to
+<dd>creator - the creator of this request
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="amend_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>amend_motion</b></a><pre>
+int amend_motion(string area,
+int id,
+string amend_text,
+string amender)
+</pre><dd>
+This method adds an amendment to the new rule/amendment/whatever, this
+rewrites the text of the ammendment of whatever it is.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the amendmend is to go in
+<dd>id - the rule update id
+<dd>amendmend - the amendmend to make
+<dd>amendmender - the person amendmending
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="check_for_completions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_for_completions</b></a><pre>
+void check_for_completions()
+</pre><dd>
+This method figures out all the current things and when they completed.
+<p>
+
+<dt><a name="comment_on_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>comment_on_motion</b></a><pre>
+int comment_on_motion(string area,
+int id,
+string comment_text,
+string commenter)
+</pre><dd>
+This method adds a comment to the new rule/amendment/whatever.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the comment is to go in
+<dd>id - the rule update id
+<dd>comment - the comment to make
+<dd>commenter - the person commenting
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="complete_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>complete_motion</b></a><pre>
+int complete_motion(string area,
+int id)
+</pre><dd>
+This method completes the vote on the specified new rule.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to complete the rule in
+<dd>id - the id to complete
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="create_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_area</b></a><pre>
+void create_area(string area)
+</pre><dd>
+This method creates a new area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the new area
+
+</dl>
+
+<dt><a name="find_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_motion</b></a><pre>
+class nomic_motion find_motion(string area,
+int rule_no,
+int type)
+</pre><dd>
+This method finds the specified motion.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to look in
+<dd>rule_no - the rule number
+<dd>type - the type of the motion
+<dt><b>Returns:</b>
+<dd>the motion if successful, 0 if not
+
+</dl>
+
+<dt><a name="has_voted_for_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>has_voted_for_motion</b></a><pre>
+int has_voted_for_motion(string area,
+int id,
+string voter)
+</pre><dd>
+This method checks to see if the person has voted for the specified
+new rule/amendment/whatever<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check
+<dd>id - the id to check
+<dd>voter - the person to check for voting
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="motion_as_html">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>motion_as_html</b></a><pre>
+string motion_as_html(string area,
+class nomic_motion motion)
+</pre><dd>
+This method returns the new motion as a string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the motion is defined in
+<dd>motion - the new motion to turn into a styring
+<dt><b>Returns:</b>
+<dd>the string version of the motion
+
+</dl>
+
+<dt><a name="motion_as_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>motion_as_string</b></a><pre>
+string motion_as_string(int indent,
+string area,
+class nomic_motion motion,
+int brief)
+</pre><dd>
+This method returns the new motion as a string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>indent - the indentation to putin front of all the lines
+<dd>area - the area the motion is defined in
+<dd>motion - the new motion to turn into a styring
+<dd>brief - disable comments
+<dt><b>Returns:</b>
+<dd>the string version of the motion
+
+</dl>
+
+<dt><a name="query_all_motions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_motions</b></a><pre>
+class nomic_motion * query_all_motions(string area)
+</pre><dd>
+This method returns all the new rules for the specified area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to return the new rules in
+<dt><b>Returns:</b>
+<dd>the array of new rules
+
+</dl>
+
+<dt><a name="query_completion_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_completion_time</b></a><pre>
+int query_completion_time(string area,
+class nomic_motion motion)
+</pre><dd>
+This method figures out the compleion time for the specified motion.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to check
+<dd>the - motion in the area
+<dt><b>Returns:</b>
+<dd>the completion time
+
+</dl>
+
+<dt><a name="query_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_motion</b></a><pre>
+class nomic_motion query_motion(string area,
+int id)
+</pre><dd>
+This method returns a nice new rule.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the areat to look in
+<dd>id - the id of the new rule to find
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="query_votes_for_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_votes_for_motion</b></a><pre>
+int * query_votes_for_motion(string area,
+int id)
+</pre><dd>
+This method returns the current set of votes for the specied new rule.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to lookup the votes in
+<dd>id - the idea to check
+<dt><b>Returns:</b>
+<dd>({ yes, no, abstain })
+
+</dl>
+
+<dt><a name="remove_rule_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_rule_motion</b></a><pre>
+int remove_rule_motion(string area,
+int rule_no,
+string creator)
+</pre><dd>
+This method remove a request to amend a rule.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to put the amendment in
+<dd>rule_no - the rule to amend
+<dd>amendment - the amendment text
+<dd>creator - the person doing the amendment
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="rule_as_html">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rule_as_html</b></a><pre>
+string rule_as_html(class nomic_rule rule)
+</pre><dd>
+This method turns a rule into html.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>rule - the rule to turn into html
+<dt><b>Returns:</b>
+<dd>the rule as a string
+
+</dl>
+
+<dt><a name="send_council_inform">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>send_council_inform</b></a><pre>
+void send_council_inform(string area,
+int only_magistrates,
+string mess)
+</pre><dd>
+This method sends informs to all the specified council of some sort of
+nifty council event.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area the council is for
+<dd>only_magistrates - only send it to the magistrates?
+<dd>mess - the message to send
+
+</dl>
+
+<dt><a name="update_immutables">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_immutables</b></a><pre>
+void update_immutables(string area)
+</pre><dd>
+This method updates the immutable laws with the new set of general rules.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to update.
+
+</dl>
+
+<dt><a name="vote_for_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>vote_for_motion</b></a><pre>
+int vote_for_motion(string area,
+int id,
+int vote_type,
+string voter)
+</pre><dd>
+This method votes for the specified ammentment/whatever.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the area to vote in
+<dd>id - the id to vote for
+<dd>vote_type - the type of the vote
+<dd>voter - the person is voting
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 05:03:11 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

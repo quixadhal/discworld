@@ -1,0 +1,123 @@
+<html><head><title>File hist_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/hist_handler.c</h2>
+The channel history handler. by Turrican@Discworld.
+Based on the tell history.<p>Started 23-3-1995<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_chat_history"><b>add_chat_history</b></a>(string, string, string)<dd>
+Keep a mesage from a specified line on the chat stick.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_cre_history"><b>add_cre_history</b></a>(string, string)<dd>
+Add the history of the creator channel.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_lord_history"><b>add_lord_history</b></a>(string, string)<dd>
+Adds a amessage into the lord channel history.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_chat_history"><b>query_chat_history</b></a>(string)<dd>
+Returns the current chat channel history.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cre_history"><b>query_cre_history</b></a>()<dd>
+Returns the current creator history.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_lord_history"><b>query_lord_history</b></a>()<dd>
+Returns the current lord history.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_me"><b>save_me</b></a>()<dd>Save the current state.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_chat_history">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_chat_history</b></a><pre>
+void add_chat_history(string channel,
+string start,
+string mess)
+</pre><dd>
+Keep a mesage from a specified line on the chat stick.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>channel - the channel being stored
+<dd>start - the start string (name)
+<dd>mess - the message being stored
+
+</dl>
+
+<dt><a name="add_cre_history">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_cre_history</b></a><pre>
+void add_cre_history(string start,
+string mess)
+</pre><dd>
+Add the history of the creator channel.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>start - the start bit, emote or not
+<dd>mess - the message they said
+
+</dl>
+
+<dt><a name="add_lord_history">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_lord_history</b></a><pre>
+void add_lord_history(string start,
+string mess)
+</pre><dd>
+Adds a amessage into the lord channel history.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>start - the start staring
+<dd>mess - what they actually said
+
+</dl>
+
+<dt><a name="query_chat_history">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_chat_history</b></a><pre>
+mixed * query_chat_history(string channel)
+</pre><dd>
+Returns the current chat channel history. The array contains arrays of
+three elemnts each.,   In each array the first element is the
+start, the second the mssage and thwe third the time.
+<p>
+<code>({  .. ({ start, mess, time }), ({ start, mess, time }), .. })</code><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>channel - the channel to get the history of
+
+<dt><b>Returns:</b>
+<dd>an array of the chat channel history.
+</dl>
+
+<dt><a name="query_cre_history">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cre_history</b></a><pre>
+mixed * query_cre_history()
+</pre><dd>
+Returns the current creator history. The array contains arrays of
+three elemnts each.,   In each array the first element is the
+start, the second the mssage and thwe third the time.
+<p>
+<code>({  .. ({ start, mess, time }), ({ start, mess, time }), .. })</code><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of the creator history.
+
+</dl>
+
+<dt><a name="query_lord_history">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_lord_history</b></a><pre>
+mixed * query_lord_history()
+</pre><dd>
+Returns the current lord history. The array contains arrays of
+three elemnts each.,   In each array the first element is the
+start, the second the mssage and thwe third the time.
+<p>
+<code>({  .. ({ start, mess, time }), ({ start, mess, time }), .. })</code><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of the lord history.
+
+</dl>
+
+<dt><a name="save_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_me</b></a><pre>
+void save_me()
+</pre><dd>Save the current state. <p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 19:19:43 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

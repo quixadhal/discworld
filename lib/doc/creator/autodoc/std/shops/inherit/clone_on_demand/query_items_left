@@ -1,0 +1,51 @@
+.DT
+query_items_left
+Disk World creator help
+query_items_left
+
+.SH Name
+.SP 5 5
+query_items_left -  This function can be used to check the quantity left of an array of items.
+.EP
+
+.SH Syntax
+.SI 5
+int * query_items_left(string * names)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^names%^RESET%^ - an array of the short names of the items you wish to query
+.EI
+
+.SH Returns
+.SI 5
+an array of integers, each one returning like query_number_left
+would for the object in that position of the object array..EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/clone_on_demand.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function can be used to check the quantity left of an array
+of items.  It returns a parallel array of integers.  In other words
+the array it returns contains the numbers of stock in array positions
+corresponding to the array positions of the objects it was passed.
+.EP
+
+.SH Example 1
+.SI 5
+query_items_left( ({ "banana" , "melon" }) )
+would return ({ 12 , 6 }) if there were 12 bananas and 6 melons left.
+.EI
+
+.SH See also
+.SP 5 5
+query_number_left
+
+.EP
+

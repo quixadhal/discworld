@@ -1,6 +1,6 @@
 .DT
 wand.c
-DS2 Discworld autodoc help
+Disk World autodoc help
 wand.c
 
 .SH Description
@@ -15,7 +15,7 @@ A magic wand object for use with all magic wands.
 
 .SH Inherits
 .SP 5 5
-This class inherits the following classes /obj/weapon and /std/basic/artifact.
+This class inherits the following classes /std/basic/artifact and /obj/weapon.
 .EP
 
 .SH Includes

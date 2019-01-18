@@ -1,0 +1,1671 @@
+<html><head><title>File handler_base.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/terrain_map/handler_base.c</h2> Base inherit for terrain map handler.
+<p>
+When creating a new terrain map, inherit from this file to make your area
+handler.
+<p>
+When inheriting from this file, it is essential that the functions
+query_map_file() and setup_handler() be overriden to return the full
+pathname of the area map, and to set up type mappings.
+<p>
+To inherit from this file, use the following lines:
+<ul>
+<li>#include <terrain_map.h>
+<li>
+<li>inherit TERRAIN_MAP_HANDLER_BASE
+</ul>
+<p><b>See also:</b><br>terrain_map_inside.c, terrain_map_outside.c, terrain_map_intro.c and terrain_map_example.c<p>Written by Dek<p>Started Thurs April 12 2001 Too Damn Early BST
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.inherit.terrain_map.distance_str.c.html">/std/room/inherit/terrain_map/distance_str.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player.h.html">/include/player.h</a>, <a href="include.terrain_map.h.html">/include/terrain_map.h</a>, <a href="include.playtesters.h.html">/include/playtesters.h</a> and <a href="include.weather.h.html">/include/weather.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_char_map_data"><b>char_map_data</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_feature_data"><b>feature_data</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_real_coords"><b>real_coords</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_sign_data"><b>sign_data</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_exit_at"><b>add_exit_at</b></a>(int, int, string, string, string, mixed)<dd>
+This method is used to add a standard exit to a specified location
+in a terrain map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_feature"><b>add_feature</b></a>(string, int, int, int, int, int, string *, mixed, mixed, string *, mixed)<dd>
+This method is called to add a new 'feature' to a terrain map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_feature_ob"><b>add_feature_ob</b></a>(string, object)<dd>
+This method is called to add a new 'feature' to a terrain map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_feature_region"><b>add_feature_region</b></a>(string, object, int, string *, mixed, mixed, string *, mixed, int)<dd>
+This method is called to add a new 'feature' to a terrain map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_feature_sentance"><b>add_feature_sentance</b></a>(string, int, int, int, int, int, string *, mixed, mixed, string *, mixed)<dd>
+This method is called to add a new 'feature' to a terrain map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_obstacle_type"><b>add_obstacle_type</b></a>(string, string, mixed, mixed, string)<dd>
+This method is used to add an 'obstacle' to an area map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_random_chat"><b>add_random_chat</b></a>(string, string *)<dd>
+This method is to add to the list of random chats that can be added to
+specific room types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_random_desc"><b>add_random_desc</b></a>(string, string, mixed, mixed)<dd>
+This method is to add to the list of random descriptions that can be added to
+specific room types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_road_special_type"><b>add_road_special_type</b></a>(string, string, int, int, int, string, string, mixed, mixed, mapping)<dd>
+This method is used to add a standard road type to the terrain map,
+mapped to an ASCII character as used in the ASCII room map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_road_type"><b>add_road_type</b></a>(string, string, string, string, mixed, mixed)<dd>
+This method is used to add a standard road type to the terrain map,
+mapped to an ASCII character as used in the ASCII room map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_room_type"><b>add_room_type</b></a>(string, string)<dd>
+This method is used to add a standard room type to the terrain map,
+mapped to an ASCII character as used in the ASCII room map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_sign"><b>add_sign</b></a>(int, int, string, mixed, string, mixed, string)<dd>
+This method is used to add a signpost into a specified location in a
+terrain_map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_special_type"><b>add_special_type</b></a>(string, string, int, int, int, mapping)<dd>
+This method is used to add a standard skip room type to the terrain map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_world_room_type"><b>add_world_room_type</b></a>(string, string)<dd>
+This method is used to add a world map based file into the terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_z_exit_at"><b>add_z_exit_at</b></a>(int, int, int, string, string, string, mixed)<dd>
+This method is used to add a standard exit to a specified location
+in a terrain map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_zones"><b>add_zones</b></a>(string, string *)<dd>
+This method is used to map ASCII characters used in the zone map onto
+one or more actual room zones.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_features"><b>calc_features</b></a>(object)<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_random_chats"><b>calc_random_chats</b></a>(object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_random_descs"><b>calc_random_descs</b></a>(object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#debug_adjacent_terrains"><b>debug_adjacent_terrains</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_adjacent_terrain"><b>find_adjacent_terrain</b></a>(int, int)<dd>
+THis method finds a terrain adjacent to us from this location
+in the specific direction.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_all_adjacent_terrains"><b>find_all_adjacent_terrains</b></a>()<dd>
+This is specifically for debug.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_next_room_from"><b>find_next_room_from</b></a>(int, int, int, string)<dd>
+This method finds the next room in the path.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_room_at_real_coord"><b>find_room_at_real_coord</b></a>(int, int, int)<dd>
+This method finds the room at the specific real coordinate.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_room_at"><b>load_room_at</b></a>(int, int, int)<dd>
+This method is used to find a room at the specified coordinates,
+or to clone and setup a new one if none exists so far.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#modify_feature"><b>modify_feature</b></a>(string, string *, mixed)<dd>
+This method is used to modify the descriptions and/or item descs of
+an established feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_adjacent_terrains"><b>query_adjacent_terrains</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_area_map"><b>query_area_map</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_base_room"><b>query_base_room</b></a>(int, int, int, int)<dd>
+This returns the destination room in the given directoin, initially
+it tries for a normal exit type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_char_map_real_coord"><b>query_char_map_real_coord</b></a>(int, int)<dd>
+This is used by the terrain system to work out what is beside
+us.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_char_maps"><b>query_char_maps</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_climb_base_room"><b>query_climb_base_room</b></a>(int, int, int, int, string ref)<dd>
+This method returns the basic room as the specified location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_debug_map"><b>query_debug_map</b></a>(int, int, int, int, int)<dd>
+This method returns a grid of the specified size around the center
+point to give creators an overview of where they are currently.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_debug_map_char"><b>query_debug_map_char</b></a>(int, int)<dd>
+This method returns the specific debug map character at the
+given location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_debug_map_feature"><b>query_debug_map_feature</b></a>(string)<dd>
+This method returns a grid of the specified size around the center
+point to give creators an overview of where they are currently.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_debug_map_feature_distant"><b>query_debug_map_feature_distant</b></a>(string)<dd>
+This method returns a grid of the specified size around the center
+point to give creators an overview of where they are currently.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_debug_real_coord"><b>query_debug_real_coord</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dest_coordinate_string"><b>query_dest_coordinate_string</b></a>(int, int, int, string, string)<dd>
+This method finds the co-ordinates to use for getting to the
+next room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dimensions"><b>query_dimensions</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_direction_distance"><b>query_direction_distance</b></a>(string)<dd>
+This method returns the distance that is moved if you go in the
+specified direction.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_feature_item_desc"><b>query_feature_item_desc</b></a>(string)<dd>
+This method returns the item description.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_feature_ob"><b>query_feature_ob</b></a>(string)<dd>
+This method returns the region used when calculating the extents of the
+feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_feature_rooms"><b>query_feature_rooms</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_features"><b>query_features</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ground_room"><b>query_ground_room</b></a>(int, int)<dd>
+This method returns the location of the ground room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ground_room_co_ords"><b>query_ground_room_co_ords</b></a>(int, int)<dd>
+This method returns the ground room for a specific co-ordinate.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_map_file"><b>query_map_file</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_more_terrains_rooms_from"><b>query_more_terrains_rooms_from</b></a>(int, int, int, string, int, int, string, int)<dd>
+This method is used by connecting terrains to find the next room in
+sequence.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_map"><b>query_player_map</b></a>(int, int, int, int)<dd>
+This method returns the player line of sight view of the current terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_map_internal_template"><b>query_player_map_internal_template</b></a>(mixed *, mapping, mixed *, int, int, int, int)<dd>
+This method does the updating of the map based on the template.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_map_template"><b>query_player_map_template</b></a>(int, int, int, int, int)<dd>
+This method generates a player map using templates instead of using
+lines from the center point.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_random_chats"><b>query_random_chats</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_random_descs"><b>query_random_descs</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_real_coords"><b>query_real_coords</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_real_from_terrain_coord"><b>query_real_from_terrain_coord</b></a>(int, int, int)<dd>
+This method returns the real coordinates from the terrain coordinates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room"><b>query_room</b></a>(int, int, int)<dd>
+This method queries the path of a room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_at"><b>query_room_at</b></a>(int, int, int)<dd>
+This method is used to find a room at the specified coordinates,
+if one has already been cloned.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_map"><b>query_room_map</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_room_zones"><b>query_room_zones</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rooms_in_block"><b>query_rooms_in_block</b></a>(int, int, int, int, int)<dd>
+This method is used to find all the rooms currently cloned within a
+specified rectangular area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rooms_in_range"><b>query_rooms_in_range</b></a>(int, int, int, int, int)<dd>
+This method is used to find all the rooms currently cloned within a
+specified distance of the specified coordinates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rooms_in_zone"><b>query_rooms_in_zone</b></a>(string)<dd>
+This method is used to find all rooms currently loaded within the
+specified room zone.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rooms_to"><b>query_rooms_to</b></a>(int, int, int, string, int, string, int, int)<dd>
+This method find the specific squence of rooms in the given direction
+with the given room jump.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_signposts"><b>query_signposts</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_standard_exits"><b>query_standard_exits</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_terrain_from_real_coord"><b>query_terrain_from_real_coord</b></a>(int, int, int)<dd>
+This method returns the room coordinates from the real coordinates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_visible_distance"><b>query_visible_distance</b></a>()<dd>
+This method returns the distance that you can see in this terrain.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_zone_map"><b>query_zone_map</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_zone_types"><b>query_zone_types</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_feature"><b>remove_feature</b></a>(string)<dd>
+This method is used to remove a named feature from the terrain map
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_external_chats"><b>set_external_chats</b></a>(string, mixed)<dd>
+This method is used to setup 'external' chats for a road or obstacle,
+which will be added to the room chats of adjacent locations.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_feature_chats"><b>set_feature_chats</b></a>(string, mixed *, mixed *)<dd>
+This method is used to add room chats to locations that can view a
+particular feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_newline_mode"><b>set_newline_mode</b></a>(int)<dd>
+This method sets the 'newline' mode for room description extras.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_random_chat_limit"><b>set_random_chat_limit</b></a>(int)<dd>
+This method is used to limit the number of random chats that are
+picked out for each room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_random_desc_limit"><b>set_random_desc_limit</b></a>(int)<dd>
+This method is used to limit the number of random descs that are
+picked out for each room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_real_coordinates"><b>set_real_coordinates</b></a>(int, int, int, int)<dd>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_real_coordinates_no_inform"><b>set_real_coordinates_no_inform</b></a>(int, int, int, int)<dd>
+This method sets the real coordinates for the room without informing
+the map handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_real_offsets"><b>set_real_offsets</b></a>(int, int, int)<dd>
+This method sets the real offsets for movement in the rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_visible_distance"><b>set_visible_distance</b></a>(int)<dd>
+This method sets the distance you can see in this terrain based on the
+map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_handler"><b>setup_handler</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_room"><b>setup_room</b></a>(object, string)<dd>
+The main nasty func for setting up a room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#tell_feature"><b>tell_feature</b></a>(string, mixed)<dd>
+This message displays messages in all rooms within range of a feature.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#tell_zones"><b>tell_zones</b></a>(mixed, string, mixed)<dd>
+This method displays a message in all the currently loaded rooms
+within the specified zone(s).
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_exit_at">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_exit_at</b></a><pre>
+varargs void add_exit_at(int x,
+int y,
+string direc,
+string dest,
+string type,
+mixed modifiers)
+</pre><dd>
+This method is used to add a standard exit to a specified location
+in a terrain map. The chief use is to insert exits to standard rooms
+or other terrain maps.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x coordinate of the room (internal coordinate system)
+<dd>y - the y coordinate of the room (internal coordinate system)
+<dd>direc - the direction of the exit (as in add_exit)
+<dd>dest - the path of the exit's destination (as in add_exit)
+<dd>type - the type of exit (as in add_exit)
+<dd>modifiers - an optional array of exit modifiers (as in modify_exit)
+<dt><b>See also:</b>
+<dd>add_room_type.c, add_road_type.c, add_obstacle_type.c, add_exit.c and modify_exit
+.c<dt><b>Example:</b>
+<dd><pre>   add_exit_at(8, 0, "south", PEARWOOD + "stream_entrance", "road",
+                      ({ "move mess", "You wade along the stream bed.\n",
+                         "enter mess", "$N wades in from the north.",
+                         "exit mess", "$N wades off to the $T." }));
+</pre></dl>
+
+<dt><a name="add_feature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_feature</b></a><pre>
+void add_feature(string title,
+int x,
+int y,
+int width,
+int height,
+int range,
+string * descs,
+mixed items,
+mixed item_desc,
+string * night_descs,
+mixed night_items)
+</pre><dd>
+This method is called to add a new 'feature' to a terrain map.
+Features have no real existance, but add atmosphere to a whole area,
+by being visible across a large number of locations.
+You define location, size, item desc, and add an array of 'longs'
+sorted by distance, plus the usual item descriptions. Any occurrences
+of $D in the longs array will be replaced by the direction in which
+the feature lies.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the name of the feature
+<dd>x - the x coordinate of the room (internal coordinate system)
+<dd>y - the y coordinate of the room (internal coordinate system)
+<dd>width - the width of the feature
+<dd>height - the height of the feature
+<dd>range - the distance (number of rooms) it can be seen for
+<dd>descs - array of descriptions to be shown at different ranges.
+These are divided equally along the total range
+<dd>items - add_item name(s) (identical to the 'shorts' parameter in add_item)
+<dd>item_desc - a string, or array of strings giving the corresponding
+<dd>night_descs - the night description array
+<dd>night_items - the descriptions for the items at night
+<dt><b>See also:</b>
+<dd>add_road_type.c, add_obstacle_type.c, set_feature_chats.c, modify_feature.c and add_item
+.c<dt><b>Example:</b>
+<dd><pre>  add_feature("northmountain", 3, 0, 5, 1, 7,
+           ({ "A huge snowy mountain towers over you to the $D.",
+              "A huge snowy mountain looms to the $D.",
+              "A fair way off to the $D, you can see a huge snowy mountain.",
+              "A long way $Dwards, you glimpse the snowy peak of a "
+              "mountain." }),
+              "mountain", "From here, it looks quite astoundingly huge.",
+           ({ "A huge black bulk obscures the sky to the $D.",
+              "A huge black bulk covers the horizon to the $D.",
+              "A black lump obscures the horizon to the $D",
+              "" }),
+              "The dark black silloette looks like a mountain.");</pre></dl>
+
+<dt><a name="add_feature_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_feature_ob</b></a><pre>
+void add_feature_ob(string title,
+object feature)
+</pre><dd>
+This method is called to add a new 'feature' to a terrain map.
+Features have no real existance, but add atmosphere to a whole area,
+by being visible across a large number of locations.
+You define location, size, item desc, and add an array of 'longs'
+sorted by distance, plus the usual item descriptions. Any occurrences
+of $D in the longs array will be replaced by the direction in which
+the feature lies.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the name of the feature
+<dd>region - the region object to use in calculating the feature
+<dd>range - the distance (number of rooms) it can be seen for
+<dd>descs - array of descriptions to be shown at different ranges.
+These are divided equally along the total range
+<dd>items - add_item name(s) (identical to the 'shorts' parameter in add_item)
+<dd>item_desc - a string, or array of strings giving the corresponding
+<dd>whole_sentance - use a whole sentance for the descriptions or wrap
+them up into fragments
+<dt><b>See also:</b>
+<dd>add_road_type.c, add_obstacle_type.c, set_feature_chats.c, modify_feature.c and add_item
+.c<dt><b>Example:</b>
+<dd><pre>  region = clone_object(TERRAIN_MAP_REGION_POLYGON);
+  region->add_vertex(12, 13);
+  region->add_vertex(14,15);
+  region->add_vertex(17,18);
+  add_feature_region("northmountain", region, 7,
+           ({ "A huge snowy mountain towers over you to the $D.",
+              "A huge snowy mountain looms to the $D.",
+              "A fair way off to the $D, you can see a huge snowy mountain.",
+              "A long way $Dwards, you glimpse the snowy peak of a "
+              "mountain." }),
+              "mountain", "From here, it looks quite astoundingly huge.",
+           ({ }), 0 );</pre></dl>
+
+<dt><a name="add_feature_region">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_feature_region</b></a><pre>
+void add_feature_region(string title,
+object region,
+int range,
+string * descs,
+mixed items,
+mixed item_desc,
+string * night_descs,
+mixed night_items,
+int whole_sentance)
+</pre><dd>
+This method is called to add a new 'feature' to a terrain map.
+Features have no real existance, but add atmosphere to a whole area,
+by being visible across a large number of locations.
+You define location, size, item desc, and add an array of 'longs'
+sorted by distance, plus the usual item descriptions. Any occurrences
+of $D in the longs array will be replaced by the direction in which
+the feature lies.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the name of the feature
+<dd>region - the region object to use in calculating the feature
+<dd>range - the distance (number of rooms) it can be seen for
+<dd>descs - array of descriptions to be shown at different ranges.
+These are divided equally along the total range
+<dd>items - add_item name(s) (identical to the 'shorts' parameter in add_item)
+<dd>item_desc - a string, or array of strings giving the corresponding
+<dd>whole_sentance - use a whole sentance for the descriptions or wrap
+them up into fragments
+<dt><b>See also:</b>
+<dd>add_road_type.c, add_obstacle_type.c, set_feature_chats.c, modify_feature.c and add_item
+.c<dt><b>Example:</b>
+<dd><pre>  region = clone_object(TERRAIN_MAP_REGION_POLYGON);
+  region->add_vertex(12, 13);
+  region->add_vertex(14,15);
+  region->add_vertex(17,18);
+  add_feature_region("northmountain", region, 7,
+           ({ "A huge snowy mountain towers over you to the $D.",
+              "A huge snowy mountain looms to the $D.",
+              "A fair way off to the $D, you can see a huge snowy mountain.",
+              "A long way $Dwards, you glimpse the snowy peak of a "
+              "mountain." }),
+              "mountain", "From here, it looks quite astoundingly huge.",
+           ({ }), 0 );</pre></dl>
+
+<dt><a name="add_feature_sentance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_feature_sentance</b></a><pre>
+void add_feature_sentance(string title,
+int x,
+int y,
+int width,
+int height,
+int range,
+string * descs,
+mixed items,
+mixed item_desc,
+string * night_descs,
+mixed night_items)
+</pre><dd>
+This method is called to add a new 'feature' to a terrain map.
+Features have no real existance, but add atmosphere to a whole area,
+by being visible across a large number of locations.  This method is
+different to the normal add_feature in that the system will try
+and construct a sentance from the features instead of once sentance
+per feature.
+You define location, size, item desc, and add an array of 'longs'
+sorted by distance, plus the usual item descriptions. Any occurrences
+of $D in the longs array will be replaced by the direction in which
+the feature lies.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the name of the feature
+<dd>x - the x coordinate of the room (internal coordinate system)
+<dd>y - the y coordinate of the room (internal coordinate system)
+<dd>width - the width of the feature
+<dd>height - the height of the feature
+<dd>range - the distance (number of rooms) it can be seen for
+<dd>descs - array of descriptions to be shown at different ranges.
+<dd>items - add_item name(s) (identical to the 'shorts' parameter in add_item)
+<dd>item_desc - a string, or array of strings giving the corresponding
+These are divided equally along the total range
+<dt><b>See also:</b>
+<dd>add_road_type.c, add_obstacle_type.c, set_feature_chats.c, modify_feature.c and add_item
+.c<dt><b>Example:</b>
+<dd><pre>  add_feature_sentance("northmountain", 3, 0, 5, 1, 7,
+           ({ "a huge snowy mountain towers over you to the $D",
+              "a huge snowy mountain looms to the $D",
+              "a fair way off to the $D, you can see a huge snowy mountain",
+              "a long way $Dwards, you glimpse the snowy peak of a "
+              "mountain" }),
+              "mountain", "From here, it looks quite astoundingly huge." );</pre></dl>
+
+<dt><a name="add_obstacle_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_obstacle_type</b></a><pre>
+varargs void add_obstacle_type(string type,
+string description,
+mixed items,
+mixed item_desc,
+string room_desc)
+</pre><dd>
+This method is used to add an 'obstacle' to an area map. An obstacle is
+effectively an area on the map which cannot be entered, and can be seen
+from adjacent locations. Any occurences of $D in the description will
+be replaced with the direction(s) in which the obstacle can be seen.
+An add_item is automatically performed to allow for consistency.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the ASCII type used on the map to denote the obstacle
+<dd>description - the description of the obstacle, as seen from
+neighbouring rooms
+<dd>items - a string, or array of strings giving the corresponding
+add_item name(s) (identical to the 'shorts' parameter in add_item)
+<dd>item_desc - a string, or array of strings giving the corresponding
+<dd>items - add_item name(s) (identical to the 'shorts' parameter in add_item)
+<dd>item_desc - a string, or array of strings giving the corresponding item desc
+<dd>room_desc - allows a description for the obstacle in the key
+<dt><b>See also:</b>
+<dd>add_room_type.c, add_road_type.c, set_external_chats.c and add_item
+.c<dt><b>Example:</b>
+<dd><pre>  add_obstacle("*", "Thick green bushes block your way to the $D.",
+                     ({ "bush", "bushes" }), "Thick and green.", "Thick bushes");</pre></dl>
+
+<dt><a name="add_random_chat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_random_chat</b></a><pre>
+void add_random_chat(string types,
+string * chats)
+</pre><dd>
+This method is to add to the list of random chats that can be added to
+specific room types. A specific random sequence is used so that the randoms
+won't vary over time.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>types - the string of ASCII character type(s) that this desc could apply to
+<dd>chats - an array of chats to add. Usual add_chat format.
+<dt><b>See also:</b>
+<dd>set_random_desc_limit.c, set_random_chat_limit.c and add_random_chat
+.c</dl>
+
+<dt><a name="add_random_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_random_desc</b></a><pre>
+void add_random_desc(string types,
+string description,
+mixed items,
+mixed item_desc)
+</pre><dd>
+This method is to add to the list of random descriptions that can be added to
+specific room types. A specific random sequence is used so that the randoms
+won't vary over time.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>types - the string of ASCII character type(s) that this desc could apply to
+<dd>items - add_item name(s) (identical to the 'shorts' parameter in add_item)
+<dd>item_desc - a string, or array of strings giving the corresponding item desc
+<dt><b>See also:</b>
+<dd>set_random_desc_limit.c, set_random_chat_limit.c, add_random_chat.c and add_item
+.c</dl>
+
+<dt><a name="add_road_special_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_road_special_type</b></a><pre>
+varargs void add_road_special_type(string type,
+string base_path,
+int size,
+int road_skip,
+int height,
+string room_desc,
+string description,
+mixed items,
+mixed item_desc,
+mapping height_rooms)
+</pre><dd>
+This method is used to add a standard road type to the terrain map,
+mapped to an ASCII character as used in the ASCII room map.
+A road is a terrain map room which can be seen from adjacent locations.
+The handler uses 'room_desc' to add an entry to the room description,
+describing where the road goes. 'description' is added to the
+descriptions of adjacent locations, to enable the road to be seen.
+In 'room_desc' and 'description', $D will be expanded to the relevant
+directions.
+A skipped
+room is one in which every nth room in the terrain will be skipped
+unless it has something interesting in it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the ASCII type used on the map to denote the room
+<dd>base_path - the full pathname of the source file for the room
+<dd>size - the number of rooms in each clump to skip over
+<dd>road_skip - if this is 1 then the skip type is a 'road skip', this
+will assume the path is one wide and try to follow around curves
+<dd>height - the height of the room
+<dd>room_desc - the 'continuation' description, which added to the room description to show where the road leads
+<dd>description - the 'adjacent' description, which is seen from adjacent locations.
+<dd>items - add_item name(s) (identical to the 'shorts' parameter in add_item)
+<dd>item_desc - a string, or array of strings giving the corresponding item desc
+<dd>height_rooms - is a mapping containing what rooms to use at different height levels
+<dt><b>See also:</b>
+<dd>add_room_type.c, add_road_type.c, set_external_chats.c and add_item
+.c<dt><b>Example:</b>
+<dd><pre>   add_road_type("+", ROOMS + "path", "The dusty path leads $D.",
+                 "There is a dusty path to the $D.",
+                 "path", "Hey! Look! A path!");</pre></dl>
+
+<dt><a name="add_road_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_road_type</b></a><pre>
+varargs void add_road_type(string type,
+string base_path,
+string room_desc,
+string description,
+mixed items,
+mixed item_desc)
+</pre><dd>
+This method is used to add a standard road type to the terrain map,
+mapped to an ASCII character as used in the ASCII room map.
+A road is a terrain map room which can be seen from adjacent locations.
+The handler uses 'room_desc' to add an entry to the room description,
+describing where the road goes. 'description' is added to the
+descriptions of adjacent locations, to enable the road to be seen.
+In 'room_desc' and 'description', $D will be expanded to the relevant
+directions.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the ASCII type used on the map to denote the room
+<dd>base_path - the full pathname of the source file for the room
+<dd>room_desc - the 'continuation' description, which added to the room description to show where the road leads
+<dd>description - the 'adjacent' description, which is seen from adjacent locations.
+<dd>items - add_item name(s) (identical to the 'shorts' parameter in add_item)
+<dd>item_desc - a string, or array of strings giving the corresponding item desc
+<dt><b>See also:</b>
+<dd>add_room_type.c, add_road_type.c, set_external_chats.c and add_item
+.c<dt><b>Example:</b>
+<dd><pre>   add_road_type("+", ROOMS + "path", "The dusty path leads $D.",
+                 "There is a dusty path to the $D.",
+                 "path", "Hey! Look! A path!");</pre></dl>
+
+<dt><a name="add_room_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_room_type</b></a><pre>
+void add_room_type(string type,
+string base_path)
+</pre><dd>
+This method is used to add a standard room type to the terrain map,
+mapped to an ASCII character as used in the ASCII room map.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the ASCII type used on the map to denote the room
+<dd>base_path - the full pathname of the source file for the room
+<dt><b>See also:</b>
+<dd>add_room_type.c, add_road_type.c and add_obstacle_type
+.c<dt><b>Example:</b>
+<dd><pre>   add_room_type(".", ROOMS + "field");</pre></dl>
+
+<dt><a name="add_sign">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_sign</b></a><pre>
+void add_sign(int x,
+int y,
+string sign_long,
+mixed sign_read_mess,
+string sign_short,
+mixed sign_name,
+string sign_language)
+</pre><dd>
+This method is used to add a signpost into a specified location in a
+terrain_map. It is identical to the /std/room/ add_sign, except for
+the x and y coordinates which specify where the sign should go.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the name of the feature
+<dd>x - the x coordinate of the center point
+<dd>y - the y coordinate of the center point
+<dt><b>See also:</b>
+<dd>add_sign
+.c<dt><b>Example:</b>
+<dd><pre>  add_sign(4, 3, "A wooden signpost.\n",
+                 "\n-----------------\n"
+                   "| Ladder: East  |\n"
+                   "| Bridge: South |\n"
+                   "-----------------",
+                 "signpost", ({ "signpost", "sign" }), "common");
+</pre></dl>
+
+<dt><a name="add_special_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_special_type</b></a><pre>
+void add_special_type(string type,
+string base_path,
+int size,
+int road_skip,
+int height,
+mapping height_rooms)
+</pre><dd>
+This method is used to add a standard skip room type to the terrain map.
+Mapped to an ASCII character as used in the ASCII room map.  A skipped
+room is one in which every nth room in the terrain will be skipped
+unless it has something interesting in it.  The height is used to
+do specific sorts of checks, like if a specific direction is passable or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the ASCII type used on the map to denote the room
+<dd>base_path - the full pathname of the source file for the room
+<dd>size - the number of rooms in each clump to skip over
+<dd>road_skip - if this is 1 then the skip type is a 'road skip', this
+will assume the path is one wide and try to follow around curves
+<dd>height - the height of the room
+<dd>height_rooms - is a mapping containing what rooms to use at different height levels
+<dt><b>See also:</b>
+<dd>add_room_type.c, add_road_type.c and add_obstacle_type
+.c<dt><b>Example:</b>
+<dd><pre>   add_room_type(".", ROOMS + "field");</pre></dl>
+
+<dt><a name="add_world_room_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_world_room_type</b></a><pre>
+varargs void add_world_room_type(string type,
+string base_path)
+</pre><dd>
+This method is used to add a world map based file into the terrain.
+It handles all the options like a special road type, but queries all the
+details off the base room instead.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the ASCII type used on the map to denote the room
+<dd>base_path - the full pathname of the source file for the room
+<dt><b>See also:</b>
+<dd>add_room_type.c, add_road_type.c, set_external_chats.c and add_item
+.c<dt><b>Example:</b>
+<dd><pre>   add_world_room_type("+", ROOMS + "path", "The dusty path leads $D.",
+                 "There is a dusty path to the $D.",
+                 "path", "Hey! Look! A path!");</pre></dl>
+
+<dt><a name="add_z_exit_at">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_z_exit_at</b></a><pre>
+varargs void add_z_exit_at(int x,
+int y,
+int z,
+string direc,
+string dest,
+string type,
+mixed modifiers)
+</pre><dd>
+This method is used to add a standard exit to a specified location
+in a terrain map. The chief use is to insert exits to standard rooms
+or other terrain maps.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x coordinate of the room (internal coordinate system)
+<dd>y - the y coordinate of the room (internal coordinate system)
+<dd>direc - the direction of the exit (as in add_exit)
+<dd>dest - the path of the exit's destination (as in add_exit)
+<dd>type - the type of exit (as in add_exit)
+<dd>modifiers - an optional array of exit modifiers (as in modify_exit)
+<dt><b>See also:</b>
+<dd>add_room_type.c, add_road_type.c, add_obstacle_type.c, add_exit.c and modify_exit
+.c<dt><b>Example:</b>
+<dd><pre>   add_exit_at(8, 0, "south", PEARWOOD + "stream_entrance", "road",
+                      ({ "move mess", "You wade along the stream bed.\n",
+                         "enter mess", "$N wades in from the north.",
+                         "exit mess", "$N wades off to the $T." }));
+</pre></dl>
+
+<dt><a name="add_zones">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_zones</b></a><pre>
+void add_zones(string type,
+string * zone_names)
+</pre><dd>
+This method is used to map ASCII characters used in the zone map onto
+one or more actual room zones.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the ASCII character used in the zone map
+<dd>zones - a zone name or an array of zone names
+<dt><b>Example:</b>
+<dd><pre>  add_zones("*", ({ "zone2", "zone1" }));
+</pre></dl>
+
+<dt><a name="calc_features">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_features</b></a><pre>
+mapping calc_features(object room)
+</pre><dd><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the blocking data
+
+</dl>
+
+<dt><a name="calc_random_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_random_chats</b></a><pre>
+void calc_random_chats(object room,
+string key)
+</pre>
+<dt><a name="calc_random_descs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_random_descs</b></a><pre>
+void calc_random_descs(object room,
+string key)
+</pre>
+<dt><a name="debug_adjacent_terrains">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>debug_adjacent_terrains</b></a><pre>
+string * debug_adjacent_terrains()
+</pre>
+<dt><a name="find_adjacent_terrain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_adjacent_terrain</b></a><pre>
+string find_adjacent_terrain(int x,
+int y)
+</pre><dd>
+THis method finds a terrain adjacent to us from this location
+in the specific direction.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x location
+<dd>y - the y location
+
+</dl>
+
+<dt><a name="find_all_adjacent_terrains">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_all_adjacent_terrains</b></a><pre>
+void find_all_adjacent_terrains()
+</pre><dd>
+This is specifically for debug.  It finds al the adjacent terrains.
+<p>
+
+<dt><a name="find_next_room_from">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_next_room_from</b></a><pre>
+string * find_next_room_from(int x,
+int y,
+int z,
+string direc)
+</pre><dd>
+This method finds the next room in the path.  It returns the next
+room as the first element in the array and the list of the directions
+to get there as the second element.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the start x position
+<dd>y - the start y position
+<dd>z - the start z position
+<dd>direc - the direction to go from here
+<dt><b>Returns:</b>
+<dd>({ the end location, directions... })
+
+</dl>
+
+<dt><a name="find_room_at_real_coord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_room_at_real_coord</b></a><pre>
+string find_room_at_real_coord(int x,
+int y,
+int z)
+</pre><dd>
+This method finds the room at the specific real coordinate.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x location
+<dd>y - the y location
+<dt><b>Returns:</b>
+<dd>the room, or 0 on failure
+
+</dl>
+
+<dt><a name="load_room_at">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_room_at</b></a><pre>
+object load_room_at(int x,
+int y,
+int z)
+</pre><dd>
+This method is used to find a room at the specified coordinates,
+or to clone and setup a new one if none exists so far.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x coordinate of the room (internal coordinate system)
+<dd>y - the y coordinate of the room (internal coordinate system)
+<dt><b>Returns:</b>
+<dd>the room at those coordinates, or 0 if none can be cloned
+<dt><b>See also:</b>
+<dd>load_room_at.c and query_room
+.c</dl>
+
+<dt><a name="modify_feature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>modify_feature</b></a><pre>
+varargs void modify_feature(string title,
+string * descs,
+mixed item_desc)
+</pre><dd>
+This method is used to modify the descriptions and/or item descs of
+an established feature. Changes will be instantly seen in all the
+rooms the feature is visible from.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the name of the feature
+<dd>descs - array of descriptions to be shown at different ranges.
+add_item name(s) (identical to the 'shorts' parameter in add_item)
+<dd>item_desc - a string, or array of strings giving the corresponding
+These are divided equally along the total range
+<dt><b>See also:</b>
+<dd>set_feature_chats.c, add_feature.c and add_item
+.c</dl>
+
+<dt><a name="query_adjacent_terrains">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_adjacent_terrains</b></a><pre>
+mapping query_adjacent_terrains()
+</pre>
+<dt><a name="query_area_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_area_map</b></a><pre>
+mixed * query_area_map()
+</pre>
+<dt><a name="query_base_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_base_room</b></a><pre>
+string query_base_room(int x,
+int y,
+int z,
+int map_room)
+</pre><dd>
+This returns the destination room in the given directoin, initially
+it tries for a normal exit type.  If that fails, it tries for a climbing
+exit type.  A climbing exit type is one that moves up or down from the
+current z height.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x co-ordinate
+<dd>y - the y co-ordinate
+<dd>z - the z co-ordinate
+<dd>base - the base path of the parent terrain handler
+
+</dl>
+
+<dt><a name="query_char_map_real_coord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_char_map_real_coord</b></a><pre>
+class char_map_data query_char_map_real_coord(int x,
+int y)
+</pre><dd>
+This is used by the terrain system to work out what is beside
+us.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x position
+<dd>y - the y position
+
+</dl>
+
+<dt><a name="query_char_maps">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_char_maps</b></a><pre>
+mapping query_char_maps()
+</pre>
+<dt><a name="query_climb_base_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_climb_base_room</b></a><pre>
+string query_climb_base_room(int x,
+int y,
+int z,
+int map_room,
+string ref base)
+</pre><dd>
+This method returns the basic room as the specified location.  A climb
+room type means a room that is up or down on the z axis from where we
+are, but we are allowed to climb to.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x location
+<dd>y - the y location
+<dd>z - the z location
+<dd>map_room - check down through the air for the room for the map
+<dd>base - the updated base (for climbing rooms)
+<dt><b>Returns:</b>
+<dd>the basic room for the location
+
+</dl>
+
+<dt><a name="query_debug_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_debug_map</b></a><pre>
+string query_debug_map(int x,
+int y,
+int width,
+int showx,
+int showy)
+</pre><dd>
+This method returns a grid of the specified size around the center
+point to give creators an overview of where they are currently.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x co-ordinate
+<dd>y - the y co-ordinate
+<dd>width - the width of the box
+
+</dl>
+
+<dt><a name="query_debug_map_char">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_debug_map_char</b></a><pre>
+string query_debug_map_char(int x,
+int y)
+</pre><dd>
+This method returns the specific debug map character at the
+given location.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x location
+<dd>y - the y location
+<dt><b>Returns:</b>
+<dd>the map character
+
+</dl>
+
+<dt><a name="query_debug_map_feature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_debug_map_feature</b></a><pre>
+string query_debug_map_feature(string name)
+</pre><dd>
+This method returns a grid of the specified size around the center
+point to give creators an overview of where they are currently.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x co-ordinate
+<dd>y - the y co-ordinate
+<dd>width - the width of the box
+
+</dl>
+
+<dt><a name="query_debug_map_feature_distant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_debug_map_feature_distant</b></a><pre>
+string query_debug_map_feature_distant(string feature)
+</pre><dd>
+This method returns a grid of the specified size around the center
+point to give creators an overview of where they are currently.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x co-ordinate
+<dd>y - the y co-ordinate
+<dd>width - the width of the box
+
+</dl>
+
+<dt><a name="query_debug_real_coord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_debug_real_coord</b></a><pre>
+class real_coords query_debug_real_coord()
+</pre>
+<dt><a name="query_dest_coordinate_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dest_coordinate_string</b></a><pre>
+string query_dest_coordinate_string(int x,
+int y,
+int z,
+string direc,
+string key)
+</pre><dd>
+This method finds the co-ordinates to use for getting to the
+next room.  THis handles messing about to make bridges and things<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x coordinate
+<dd>y - the y coordinate
+<dd>z - the z coordinate
+<dd>direc - the direction it is from
+<dd>key - the key is it from
+<dt><b>Returns:</b>
+<dd>the new mangled co-ordinates
+
+</dl>
+
+<dt><a name="query_dimensions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dimensions</b></a><pre>
+int * query_dimensions()
+</pre>
+<dt><a name="query_direction_distance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_direction_distance</b></a><pre>
+int query_direction_distance(string dir)
+</pre><dd>
+This method returns the distance that is moved if you go in the
+specified direction.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the distance
+
+</dl>
+
+<dt><a name="query_feature_item_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_feature_item_desc</b></a><pre>
+varargs string query_feature_item_desc(string title)
+</pre><dd>
+This method returns the item description.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the title of the feature
+<dt><b>Returns:</b>
+<dd>the feature item description
+
+</dl>
+
+<dt><a name="query_feature_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_feature_ob</b></a><pre>
+object query_feature_ob(string name)
+</pre><dd>
+This method returns the region used when calculating the extents of the
+feature.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the feature to find the region of
+<dt><b>Returns:</b>
+<dd>the feature region
+
+</dl>
+
+<dt><a name="query_feature_rooms">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_feature_rooms</b></a><pre>
+mapping query_feature_rooms()
+</pre>
+<dt><a name="query_features">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_features</b></a><pre>
+mapping query_features()
+</pre>
+<dt><a name="query_ground_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ground_room</b></a><pre>
+string query_ground_room(int x,
+int y)
+</pre><dd>
+This method returns the location of the ground room.  It is basically
+just the co-ordates connected onto the terrain_handler definition.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x location
+<dd>y - the y location
+<dt><b>Returns:</b>
+<dd>the string name of the ground room
+
+</dl>
+
+<dt><a name="query_ground_room_co_ords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ground_room_co_ords</b></a><pre>
+int * query_ground_room_co_ords(int x,
+int y)
+</pre><dd>
+This method returns the ground room for a specific co-ordinate.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x location
+<dd>y - the y location
+<dt><b>Returns:</b>
+<dd>the terrain co-ordinates of the ground room
+
+</dl>
+
+<dt><a name="query_map_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_map_file</b></a><pre>
+string query_map_file()
+</pre>
+<dt><a name="query_more_terrains_rooms_from">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_more_terrains_rooms_from</b></a><pre>
+mixed * query_more_terrains_rooms_from(int x,
+int y,
+int z,
+string direc,
+int moves_left,
+int jump,
+string main_key,
+int road_jump)
+</pre><dd>
+This method is used by connecting terrains to find the next room in
+sequence.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the real x coordinate
+<dd>y - the real y coordinate
+<dd>moves_left - the number of moves left to pop along
+<dd>jump - the jump length we are looking for
+<dd>main_key - the key, this is only used for non-road jumps
+<dd>road_jump - is this a road jump
+
+</dl>
+
+<dt><a name="query_player_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_map</b></a><pre>
+string query_player_map(int x_c,
+int y_c,
+int z_c,
+int visibility)
+</pre><dd>
+This method returns the player line of sight view of the current terrain.
+It depends on height and other wonderful things.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x_c - the x center point
+<dd>y_c - the y center point
+<dd>z_c - the z center point
+<dd>visibility - the visibility percentage currently
+
+</dl>
+
+<dt><a name="query_player_map_internal_template">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_map_internal_template</b></a><pre>
+mapping query_player_map_internal_template(mixed * map,
+mapping key,
+mixed * colours,
+int x_c,
+int y_c,
+int z_c,
+int distance)
+</pre><dd>
+This method does the updating of the map based on the template.
+Pretty easy really, check each location in the map to see if it
+exists and what we should do with it.
+<p>
+
+<dt><a name="query_player_map_template">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_map_template</b></a><pre>
+string query_player_map_template(int x_c,
+int y_c,
+int z_c,
+int visibility,
+int max_size)
+</pre><dd>
+This method generates a player map using templates instead of using
+lines from the center point.  This is more efficent than a
+line drawing method.  THe max_size is used to
+make sure the size of the visible area is squashed, if we want a
+smaller partial map for other displays.  The max size must be
+an odd number.
+<p>
+
+<dt><a name="query_random_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_random_chats</b></a><pre>
+mapping query_random_chats()
+</pre>
+<dt><a name="query_random_descs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_random_descs</b></a><pre>
+mapping query_random_descs()
+</pre>
+<dt><a name="query_real_coords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_real_coords</b></a><pre>
+mixed * query_real_coords()
+</pre>
+<dt><a name="query_real_from_terrain_coord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_real_from_terrain_coord</b></a><pre>
+class coord query_real_from_terrain_coord(int x,
+int y,
+int z)
+</pre><dd>
+This method returns the real coordinates from the terrain coordinates.
+For simplicity we always assume the terrain sits at the water level.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x coordinate
+<dd>y - the y coordinate
+
+</dl>
+
+<dt><a name="query_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room</b></a><pre>
+mixed query_room(int x,
+int y,
+int z)
+</pre><dd>
+This method queries the path of a room. If it takes the form:
+'/d/full/path/name.c:x:y' where x and y are integers, it clones
+a new room at the specified coordinates, sets it up fully, and returns it.
+If the room path is of the standard form, it simply returns the loaded
+room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room_path - the full pathname of the room to be cloned.
+<dt><b>Returns:</b>
+<dd>the cloned/loaded room, or 0 if it could not be cloned/loaded
+<dt><b>See also:</b>
+<dd>load_room_at.c and query_room_at
+.c</dl>
+
+<dt><a name="query_room_at">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_at</b></a><pre>
+object query_room_at(int x,
+int y,
+int z)
+</pre><dd>
+This method is used to find a room at the specified coordinates,
+if one has already been cloned.
+If a room has been cloned at those coordinates, it is returned,<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x coordinate of the room (internal coordinate system)
+<dd>y - the y coordinate of the room (internal coordinate system)
+<dt><b>Returns:</b>
+<dd>the room at those coordinates, or 0 if none has been cloned
+<dt><b>See also:</b>
+<dd>load_room_at.c, query_room.c, query_rooms_in_block.c and query_rooms_in_range
+.c</dl>
+
+<dt><a name="query_room_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_map</b></a><pre>
+mixed * query_room_map()
+</pre>
+<dt><a name="query_room_zones">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_room_zones</b></a><pre>
+mapping query_room_zones()
+</pre>
+<dt><a name="query_rooms_in_block">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rooms_in_block</b></a><pre>
+object * query_rooms_in_block(int x,
+int y,
+int z,
+int width,
+int height)
+</pre><dd>
+This method is used to find all the rooms currently cloned within a
+specified rectangular area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x coordinate of rectangle's bottom left corner
+<dd>y - the y coordinate of rectangle's bottom left corner
+<dd>width - the width of the rectangle
+<dd>height - the height of the rectangle
+<dt><b>Returns:</b>
+<dd>an array containing any rooms currently cloned within the
+specified rectangle
+<dt><b>See also:</b>
+<dd>query_room_at.c, query_rooms_in_range.c and query_rooms_in_zone
+.c</dl>
+
+<dt><a name="query_rooms_in_range">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rooms_in_range</b></a><pre>
+varargs object * query_rooms_in_range(int x,
+int y,
+int z,
+int max,
+int min)
+</pre><dd>
+This method is used to find all the rooms currently cloned within a
+specified distance of the specified coordinates.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x coordinate of the center point
+<dd>y - the y coordinate of the center point
+<dd>max - the maximum distance of rooms to be returned
+<dd>min - the minimum distance of rooms to be returned. Defaults to 0
+<dt><b>Returns:</b>
+<dd>an array containing any rooms currently cloned within the
+specified range
+<dt><b>See also:</b>
+<dd>query_room_at.c, query_rooms_in_block.c and query_rooms_in_zone
+.c</dl>
+
+<dt><a name="query_rooms_in_zone">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rooms_in_zone</b></a><pre>
+object * query_rooms_in_zone(string zone)
+</pre><dd>
+This method is used to find all rooms currently loaded within the
+specified room zone.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>zone - the name of the room zone
+<dt><b>Returns:</b>
+<dd>an array containing all the currently cloned rooms within this zone
+<dt><b>See also:</b>
+<dd>query_rooms_in_block.c and query_rooms_in_range
+.c</dl>
+
+<dt><a name="query_rooms_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rooms_to</b></a><pre>
+mixed * query_rooms_to(int x,
+int y,
+int z,
+string direc,
+int len,
+string main_key,
+int jump_len,
+int road_type)
+</pre><dd>
+This method find the specific squence of rooms in the given direction
+with the given room jump.  We do not worry about contents here.  Only if
+it is a special interest marker or if there are two different ways from
+the location of the same type.  Items in the map are set as being
+special interest to stop a jump.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x co-ordinate to start from
+<dd>y - the y co-ordinate to start from
+<dt><b>Returns:</b>
+<dd>the list of rooms
+
+</dl>
+
+<dt><a name="query_signposts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_signposts</b></a><pre>
+mapping query_signposts()
+</pre>
+<dt><a name="query_standard_exits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_standard_exits</b></a><pre>
+mapping query_standard_exits()
+</pre>
+<dt><a name="query_terrain_from_real_coord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_terrain_from_real_coord</b></a><pre>
+class coord query_terrain_from_real_coord(int x,
+int y,
+int z)
+</pre><dd>
+This method returns the room coordinates from the real coordinates.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x coordinate
+<dd>y - the y coordinate
+
+</dl>
+
+<dt><a name="query_visible_distance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_visible_distance</b></a><pre>
+int query_visible_distance()
+</pre><dd>
+This method returns the distance that you can see in this terrain.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the visible distance in the terrain
+
+</dl>
+
+<dt><a name="query_zone_map">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_zone_map</b></a><pre>
+mixed * query_zone_map()
+</pre>
+<dt><a name="query_zone_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_zone_types</b></a><pre>
+mapping query_zone_types()
+</pre>
+<dt><a name="remove_feature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_feature</b></a><pre>
+void remove_feature(string title)
+</pre><dd>
+This method is used to remove a named feature from the terrain map<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the name of the feature
+<dt><b>See also:</b>
+<dd>add_feature
+.c</dl>
+
+<dt><a name="set_external_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_external_chats</b></a><pre>
+void set_external_chats(string type,
+mixed chats)
+</pre><dd>
+This method is used to setup 'external' chats for a road or obstacle,
+which will be added to the room chats of adjacent locations. You
+should supply the ASCII character corresponding to the road/obstacle
+type, and an array of chat strings (in the same format as supplied to
+room_chat)<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the ASCII type used on the map to denote the room
+<dd>base_path - the full pathname of the source file for the room
+   set_external_chats("=",
+                ({ "The stream bubbles merrily on its way.",
+                   "You hear a faint splashing sound from the stream." }));
+<dt><b>See also:</b>
+<dd>add_road_type.c, add_obstacle_type.c, set_feature_chats.c and room_chat
+.c</dl>
+
+<dt><a name="set_feature_chats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_feature_chats</b></a><pre>
+void set_feature_chats(string title,
+mixed * chats,
+mixed * night_chats)
+</pre><dd>
+This method is used to add room chats to locations that can view a
+particular feature. $D substitution is carried out on the chats.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the name of the feature
+<dd>chats - an array of strings (room chats related to the feature)
+<dt><b>See also:</b>
+<dd>add_feature.c, modify_feature.c and room_chat
+.c</dl>
+
+<dt><a name="set_newline_mode">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_newline_mode</b></a><pre>
+void set_newline_mode(int mode)
+</pre><dd>
+This method sets the 'newline' mode for room description extras.
+If set to 1, a newline will be inserted after all feature and
+neighbouring room items. 1 is the default.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mode - the new mode.
+
+</dl>
+
+<dt><a name="set_random_chat_limit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_random_chat_limit</b></a><pre>
+void set_random_chat_limit(int new_limit)
+</pre><dd>
+This method is used to limit the number of random chats that are
+picked out for each room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_limit - the new chat limit
+<dt><b>See also:</b>
+<dd>set_random_desc_limit.c, add_random_desc.c and add_random_chat
+.c</dl>
+
+<dt><a name="set_random_desc_limit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_random_desc_limit</b></a><pre>
+void set_random_desc_limit(int new_limit)
+</pre><dd>
+This method is used to limit the number of random descs that are
+picked out for each room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_limit - the new desc limit
+<dt><b>See also:</b>
+<dd>set_random_chat_limit.c, add_random_desc.c and add_random_chat
+.c</dl>
+
+<dt><a name="set_real_coordinates">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_real_coordinates</b></a><pre>
+void set_real_coordinates(int x1,
+int y1,
+int x2,
+int y2)
+</pre><dd><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x1 - the start x location
+<dd>y1 - the start y location
+<dd>x1 - the end x location
+<dd>y1 - the end y location
+
+</dl>
+
+<dt><a name="set_real_coordinates_no_inform">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_real_coordinates_no_inform</b></a><pre>
+void set_real_coordinates_no_inform(int x1,
+int y1,
+int x2,
+int y2)
+</pre><dd>
+This method sets the real coordinates for the room without informing
+the map handler.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x1 - the start x location
+<dd>y1 - the start y location
+<dd>x1 - the end x location
+<dd>y1 - the end y location
+
+</dl>
+
+<dt><a name="set_real_offsets">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_real_offsets</b></a><pre>
+void set_real_offsets(int xoff,
+int yoff,
+int zoff)
+</pre><dd>
+This method sets the real offsets for movement in the rooms.  This
+is needed in rooms that do not have real co-ordinates set but still
+require movement to generate the correct messages.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>xoff - how far you move in the x direction
+<dd>yoff - how far you move in the y direction
+<dd>zoff - how far you move in the z direction
+
+</dl>
+
+<dt><a name="set_visible_distance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_visible_distance</b></a><pre>
+void set_visible_distance(int distance)
+</pre><dd>
+This method sets the distance you can see in this terrain based on the
+map.  The distance is used to determine nice little map things to show
+the players.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>distance - the distance you can see
+
+</dl>
+
+<dt><a name="setup_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_handler</b></a><pre>
+void setup_handler()
+</pre>
+<dt><a name="setup_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_room</b></a><pre>
+void setup_room(object room,
+string base_path)
+</pre><dd>
+The main nasty func for setting up a room. It adds all the necessary exits,
+and adds to the room's extra_look & add_items for anything outside the room
+which should be visible. It's fairly nasty. But hey - it works.
+<p>
+
+<dt><a name="tell_feature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>tell_feature</b></a><pre>
+varargs void tell_feature(string title,
+mixed message)
+</pre><dd>
+This message displays messages in all rooms within range of a feature.
+The message can be either a string, which goes to all the rooms, or an
+array of strings, in which case they get spread across the distances (in
+which case you should supply the same number of array elements as in the
+descriptions in the original add_feature. Any occurences of $D in the
+message(s) will be replaced in each room with the direction that the
+feature lies in.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>title - the name of the feature, as used in add_feature
+<dd>message - the message to be displayed
+<dt><b>See also:</b>
+<dd>tell_rooms_in_zone.c, add_feature.c, modify_feature.c and set_feature_chats
+.c</dl>
+
+<dt><a name="tell_zones">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>tell_zones</b></a><pre>
+varargs void tell_zones(mixed zones,
+string message,
+mixed mess_class)
+</pre><dd>
+This method displays a message in all the currently loaded rooms
+within the specified zone(s).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>zones - a zone name as a string, or an array of zone names
+<dd>message - the message to be displayed
+<dd>mess_class - the message type. Normally this need not be specified
+<dt><b>See also:</b>
+<dd>query_rooms_in_zone.c and tell_feature
+.c</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_char_map_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>char_map_data</b></a><pre>
+class char_map_data {
+string char;
+string colour;
+string path;
+string room_desc;
+mixed items;
+mixed item_desc;
+mixed chats;
+int type;
+int height;
+mapping height_rooms;
+int whole_sentance;
+string adjacent_desc;
+int room_jump;
+int room_jump_matching;
+}
+
+</pre>
+<dt><a name="class_feature_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>feature_data</b></a><pre>
+class feature_data {
+int range;
+string * descs;
+string * night_descs;
+mixed f_items;
+mixed f_item_desc;
+mixed f_item_night_desc;
+int whole_sentance;
+mixed chats;
+mixed night_chats;
+object feature_ob;
+}
+
+</pre>
+<dt><a name="class_real_coords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>real_coords</b></a><pre>
+class real_coords {
+int x1;
+int y1;
+int x2;
+int y2;
+int xdiff;
+int ydiff;
+int xydiff;
+int zdiff;
+int in_world_map;
+}
+
+</pre>
+<dt><a name="class_sign_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>sign_data</b></a><pre>
+class sign_data {
+string long;
+string read_mess;
+string short;
+string name;
+string language;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 11:28:09 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

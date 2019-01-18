@@ -1,6 +1,6 @@
 .DT
 virtual_room.c
-DS2 Discworld autodoc help
+Disk World autodoc help
 virtual_room.c
 
 .SH Inherits

@@ -1,0 +1,46 @@
+.DT
+query_nominators_for
+Disk World creator help
+query_nominators_for
+
+.SH Name
+.SP 5 5
+query_nominators_for -  This method returns the people who nominated the specified person to the position.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_nominators_for(string club_name,
+string position,
+string nominated)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^position%^RESET%^ - the position they were nominated for
+%^BOLD%^nominated%^RESET%^ - the person who was nominated
+.EI
+
+.SH Returns
+.SI 5
+who nominated them.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the people who nominated the specified person
+to the position.
+.EP
+
+.SH See also
+.SP 5 5
+query_nominated_for(), is_nomination_accepted()
+
+.EP
+

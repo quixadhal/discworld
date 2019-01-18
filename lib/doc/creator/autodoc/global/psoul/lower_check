@@ -1,0 +1,37 @@
+.DT
+lower_check
+Disk World creator help
+lower_check
+
+.SH Name
+.SP 5 5
+lower_check -  This function will get called when all other commands and actions have refused to do anything for this input from the user.
+.EP
+
+.SH Syntax
+.SI 5
+int lower_check(string str)
+.EI
+
+.SH Returns
+.SI 5
+1 if the user's input is "stop", otherwise 0.
+.EI
+
+.SH Defined in
+.SI 5
+/global/psoul.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function will get called when all other commands and actions
+have refused to do anything for this input from the user.  This
+function adds some extra time for the user, and then returns.
+
+
+
+This function is registered via add_action() with a priority of -10000. If you want to bypass it, then use a priority higher than that. If you want to see what strings get dropped by the entire add_action() stack, then use a priority lower. 
+.EP
+

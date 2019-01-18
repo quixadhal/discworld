@@ -1,0 +1,235 @@
+<html><head><title>File alias.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/alias.c</h2>
+The alias control module for players.<p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="global.history.c.html">/global/history.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.alias.h.html">/include/alias.h</a>, <a href="include.player.h.html">/include/player.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_player_alias"><b>add_player_alias</b></a>(string, mixed *)<dd>
+This method sets the alias to the new value.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#alias_commands"><b>alias_commands</b></a>()<dd>
+This method adds all the alias commands onto the player.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#exec_alias"><b>exec_alias</b></a>(string, string)<dd>
+This method runs the alias and executes all the commands in the
+alias.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#expand_alias"><b>expand_alias</b></a>(string, string)<dd>
+This method expands the alias from the input string thingy.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_alias"><b>is_alias</b></a>(string)<dd>
+This method tells us if the given name is an alias.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_doing_alias"><b>is_doing_alias</b></a>(string)<dd>
+This method checks to see if the player is doing the specified alias
+already.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_aliases"><b>query_aliases</b></a>()<dd>
+This method returns a complete list of all the aliases
+defined on the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_alias"><b>query_player_alias</b></a>(string)<dd>
+This method returns the value of the specified alias.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_alias_thing"><b>remove_alias_thing</b></a>(string)<dd>
+This is called to signify the end of an alias.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_all_aliases"><b>remove_all_aliases</b></a>()<dd>
+This method zaps all the current aliases defined.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_player_alias"><b>remove_player_alias</b></a>(string)<dd>
+This method will remove the alias from the player.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#run_alias"><b>run_alias</b></a>(string, string)<dd>
+Attempt to expand the alias.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_doing_alias"><b>set_doing_alias</b></a>(string)<dd>
+This method sets us as currently doing the given alias.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_player_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_player_alias</b></a><pre>
+int add_player_alias(string name,
+mixed * value)
+</pre><dd>
+This method sets the alias to the new value.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the alias
+<dd>value - the value to set the alias too
+<dt><b>See also:</b>
+<dd><a href="#query_player_alias">query_player_alias()
+</a></dl>
+
+<dt><a name="alias_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>alias_commands</b></a><pre>
+void alias_commands()
+</pre><dd>
+This method adds all the alias commands onto the player.  The commands
+are 'alias', 'unalias', 'ealias', 'END_ALIAS' and the "*" pattern
+expand the alias.
+<p>
+
+<dt><a name="is_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_alias</b></a><pre>
+int is_alias(string verb)
+</pre><dd>
+This method tells us if the given name is an alias.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verb - the verb to check
+<dt><b>Returns:</b>
+<dd>1 if it is an alias, 0 if not
+
+</dl>
+
+<dt><a name="query_aliases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_aliases</b></a><pre>
+mapping query_aliases()
+</pre><dd>
+This method returns a complete list of all the aliases
+defined on the player.  This is the internal mapping so it will
+be quite unreadable.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mapping of aliases
+
+<dt><b>See also:</b>
+<dd><a href="#print_aliases">print_aliases()</a> and <a href="include.alias.h.html">/include/alias.h</a></dl>
+
+<dt><a name="query_player_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_alias</b></a><pre>
+mixed * query_player_alias(string name)
+</pre><dd>
+This method returns the value of the specified alias.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the alias to query
+<dt><b>Returns:</b>
+<dd>the value of the alias
+<dt><b>See also:</b>
+<dd><a href="#add_player_alias">add_player_alias()
+</a></dl>
+
+<dt><a name="remove_alias_thing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_alias_thing</b></a><pre>
+int remove_alias_thing(string verb)
+</pre><dd>
+This is called to signify the end of an alias.  This is needed
+keep track of recursive aliases and such like.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verb - the verb name to remove
+<dt><b>Returns:</b>
+<dd>always returns 1
+<dt><b>See also:</b>
+<dd><a href="#set_doing_alias">set_doing_alias()</a> and <a href="#is_doing_alias">is_doing_alias()
+</a></dl>
+
+<dt><a name="remove_all_aliases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_all_aliases</b></a><pre>
+int remove_all_aliases()
+</pre><dd>
+This method zaps all the current aliases defined.  This can only be
+called by a high lord.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 on failure and 1 on success
+
+</dl>
+
+<dt><a name="remove_player_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_player_alias</b></a><pre>
+int remove_player_alias(string name)
+</pre><dd>
+This method will remove the alias from the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the alias
+<dt><b>See also:</b>
+<dd><a href="#query_player_alias">query_player_alias()</a> and <a href="#add_player_alias">add_player_alias()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="exec_alias">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>exec_alias</b></a><pre>
+void exec_alias(string verb,
+string args)
+</pre><dd>
+This method runs the alias and executes all the commands in the
+alias.  You should probably use run_alias() instead.  This calls
+set_doing_alias() to setup blocking.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verb - the name of the alias
+<dd>args - the arguments associated with the alias
+<dt><b>See also:</b>
+<dd><a href="#run_alias">run_alias()</a> and <a href="#set_doing_alias">set_doing_alias()
+</a></dl>
+
+<dt><a name="expand_alias">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>expand_alias</b></a><pre>
+string * expand_alias(string verb,
+string args)
+</pre><dd>
+This method expands the alias from the input string thingy.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verb - the verb to expand
+<dd>args - the arguments to the verb
+<dt><b>See also:</b>
+<dd><a href="#run_alias">run_alias()
+</a></dl>
+
+<dt><a name="is_doing_alias">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>is_doing_alias</b></a><pre>
+int is_doing_alias(string verb)
+</pre><dd>
+This method checks to see if the player is doing the specified alias
+already.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verb - the verb to check
+<dt><b>See also:</b>
+<dd><a href="#exec_alias">exec_alias()</a> and <a href="#set_doing_alias">set_doing_alias()
+</a></dl>
+
+<dt><a name="run_alias">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>run_alias</b></a><pre>
+string * run_alias(string verb,
+string args)
+</pre><dd>
+Attempt to expand the alias.    This will look up the alias and
+see if it is defined.  If it is, it will attempt to expand the 
+alias. This does not call set_doing_alias().  This will
+return 0 if the alias does not exist, or the alias is already
+being run.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verb - the name of the alias to expand
+<dd>args - the arguments to the alias
+<dt><b>Returns:</b>
+<dd>the array if the alias was expanded, 0 if failed
+<dt><b>See also:</b>
+<dd><a href="#exec_alias">exec_alias()</a>, <a href="#is_doing_alias">is_doing_alias()</a>, <a href="#set_doing_alias">set_doing_alias()</a> and <a href="#expand_alias">expand_alias()
+</a></dl>
+
+<dt><a name="set_doing_alias">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_doing_alias</b></a><pre>
+void set_doing_alias(string verb)
+</pre><dd>
+This method sets us as currently doing the given alias.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verb - the alias to do
+<dt><b>See also:</b>
+<dd><a href="#is_doing_alias">is_doing_alias()
+</a></dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 23:34:14 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

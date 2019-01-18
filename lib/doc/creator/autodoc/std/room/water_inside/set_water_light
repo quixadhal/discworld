@@ -1,0 +1,43 @@
+.DT
+set_water_light
+Disk World creator help
+set_water_light
+
+.SH Name
+.SP 5 5
+set_water_light -  This function is used to set the light in a water room without overriding the use of set_use_surface_light(1).
+.EP
+
+.SH Syntax
+.SI 5
+int set_water_light(int number)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^number%^RESET%^ - the new light level
+.EI
+
+.SH Returns
+.SI 5
+the new light level.EI
+
+.SH Defined in
+.SI 5
+/std/room/water_inside.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function is used to set the light in a water room without overriding
+the use of set_use_surface_light(1).  There should be no reason to use it
+outside of the water inheritable.
+.EP
+
+.SH See also
+.SP 5 5
+set_light, set_use_surface_light, update_water_light
+
+.EP
+

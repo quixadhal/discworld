@@ -1,0 +1,65 @@
+<html><head><title>File array.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /secure/simul_efun/array.c</h2>
+Cotains some simul_efuns.<p>Written by Pinkfish
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#all_environment"><b>all_environment</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete"><b>delete</b></a>(mixed, int, int)<dd>
+This method deletes and element from an array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#insert"><b>insert</b></a>(mixed, mixed, int)<dd>
+This method inserts an element into the array.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="all_environment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>all_environment</b></a><pre>
+object * all_environment(object ob)
+</pre>
+<dt><a name="delete">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete</b></a><pre>
+mixed delete(mixed arr,
+int start,
+int len)
+</pre><dd>
+This method deletes and element from an array.  This is an old method and
+should not be used any more.  The method can be replaced with the
+code  "arr[0..start-1] + arr[start+len..]".
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arr - the array to delete an element from
+<dd>start - the start position to delete from
+<dd>len - the number of elements to delete
+<dt><b>Returns:</b>
+<dd>the new array
+
+</dl>
+
+<dt><a name="insert">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>insert</b></a><pre>
+mixed insert(mixed arr,
+mixed el,
+int pos)
+</pre><dd>
+This method inserts an element into the array.  This method is obsolete
+and should not be used.  It inserts an element into the array at the
+specified point.
+This function accepts strings as well as arrays.
+<p>
+The code to do this is: "arr[0..pos-1] + ({ el }) + arr[pos..]".
+
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arr - the array to insert the element into.
+<dd>el - the element to insert
+<dd>pos - the position at which to insert it
+<dt><b>Returns:</b>
+<dd>the array with the element inserted into it
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 12:43:04 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

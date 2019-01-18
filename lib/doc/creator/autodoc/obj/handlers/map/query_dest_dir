@@ -1,0 +1,43 @@
+.DT
+query_dest_dir
+Disk World creator help
+query_dest_dir
+
+.SH Name
+.SP 5 5
+query_dest_dir -  This method returns the destination directory array for the specified room.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_dest_dir(string room)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^room%^RESET%^ - the room to return the destination direction array for
+.EI
+
+.SH Returns
+.SI 5
+an array of direction, destination pairs.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the destination directory array for the specified
+room.  This is equivilant to the method of the same name on /std/room.c
+Returns an array of ({ direction, destination, ... })
+.EP
+
+.SH See also
+.SP 5 5
+/std/room->query_dest_dir(), query_destination()
+
+.EP
+

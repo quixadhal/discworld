@@ -1,0 +1,285 @@
+<html><head><title>File armour.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/living/armour.c</h2>
+This file contains all the armour related code for the living
+objects.<p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.armour_logic.c.html">/std/armour_logic.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.race.h.html">/include/race.h</a>, <a href="include.armour.h.html">/include/armour.h</a>, <a href="include.function.h.html">/include/function.h</a> and <a href="include.clothing.h.html">/include/clothing.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_armours"><b>clear_armours</b></a>()<dd>
+This method will make sure all the armours are unworn by the living
+object.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#equivalent_armour_types"><b>equivalent_armour_types</b></a>(mixed, string)<dd>
+This method checks to see if the two armour types are
+equivilant or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ac"><b>query_ac</b></a>(string, int, string)<dd>
+This function returns the amount of damage that can be blocked
+by the armour on a specified zone.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_armour_callbacks"><b>query_armour_callbacks</b></a>()<dd>
+Query all the callback data.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_armours"><b>query_armours</b></a>()<dd>
+This method returns all the armours that the is currently being
+worn.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skin"><b>query_skin</b></a>()<dd>
+This method returns the current skin of the living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stopped"><b>query_stopped</b></a>()<dd>
+This returns the object which stopped the blow.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_wearing"><b>query_wearing</b></a>()<dd>
+This method returns all the objects you are currently wearing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#register_armour_callback"><b>register_armour_callback</b></a>(int, mixed, mixed)<dd>
+Register a callback for magical protection.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_armour"><b>remove_armour</b></a>(object)<dd>
+This method will remove the armour from the living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_armour_callback"><b>remove_armour_callback</b></a>(int, int)<dd>
+Remove a registered callback, used when the protection ends.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_skin"><b>set_skin</b></a>(string)<dd>
+This method sets the current skin of the living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_stopped"><b>set_stopped</b></a>(mixed)<dd>
+This method sets the object which stops the call.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_armour_callback"><b>update_armour_callback</b></a>(int, int, mixed)<dd>
+Update the data for an armour callback.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#wear_armour"><b>wear_armour</b></a>(object, int)<dd>
+This is the method used to get the living object to wear a piece of
+armour or clothing.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="clear_armours">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_armours</b></a><pre>
+void clear_armours()
+</pre><dd>
+This method will make sure all the armours are unworn by the living
+object.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_wearing">query_wearing()
+</a></dl>
+
+<dt><a name="query_ac">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ac</b></a><pre>
+varargs int query_ac(string type,
+int amount,
+string zone)
+</pre><dd>
+This function returns the amount of damage that can be blocked
+by the armour on a specified zone.  It automatically
+damages the armour, and sets the stopped object to be the
+the object (piece of armour) that stopped the blow.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - The type of damage, eg: "sharp", "blunt", "pierce".
+<dd>amount - The amount of damage that is being done.
+<dd>zone - The zone which the damage is being done through, eg: "head".
+<dt><b>Returns:</b>
+<dd>The amount of damage that will be blocked.
+<dt><b>See also:</b>
+<dd><a href="#query_wearing">query_wearing()
+</a></dl>
+
+<dt><a name="query_armour_callbacks">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_armour_callbacks</b></a><pre>
+mixed * query_armour_callbacks()
+</pre><dd>
+Query all the callback data. This should typically only be used for
+debugging purposes.
+<p>
+
+<dt><a name="query_armours">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_armours</b></a><pre>
+object * query_armours()
+</pre><dd>
+This method returns all the armours that the is currently being
+worn.  This will always return the same value as query_wearing()<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of armours
+
+<dt><b>See also:</b>
+<dd><a href="#query_wearing">query_wearing()</a></dl>
+
+<dt><a name="query_skin">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skin</b></a><pre>
+string query_skin()
+</pre><dd>
+This method returns the current skin of the living object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the skin of the object
+<dt><b>See also:</b>
+<dd><a href="#set_skin">set_skin()
+</a></dl>
+
+<dt><a name="query_stopped">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stopped</b></a><pre>
+mixed query_stopped()
+</pre><dd>
+This returns the object which stopped the blow.  This is only valid
+inside and after a query_ac() call.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the object which stopped the call
+
+</dl>
+
+<dt><a name="query_wearing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_wearing</b></a><pre>
+object * query_wearing()
+</pre><dd>
+This method returns all the objects you are currently wearing.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current array of worn objects the array of worn stuff
+<dt><b>See also:</b>
+<dd><a href="#query_armours">query_armours()
+</a></dl>
+
+<dt><a name="register_armour_callback">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>register_armour_callback</b></a><pre>
+int register_armour_callback(int level,
+mixed callback,
+mixed data)
+</pre><dd>
+Register a callback for magical protection.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>level - How close the protection is to the skin.
+<dd>callback - The object & function to be called.
+<dd>data - Any extra data to be passed.
+<dt><b>Returns:</b>
+<dd>an ID to identify this callback.
+
+</dl>
+
+<dt><a name="remove_armour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_armour</b></a><pre>
+int remove_armour(object thing)
+</pre><dd>
+This method will remove the armour from the living object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the armour to remove
+<dt><b>Returns:</b>
+<dd>1 if was unsuccessful and 0 if it was successful
+<dt><b>See also:</b>
+<dd><a href="#wear_armour">wear_armour()</a>, <a href="#query_armours">query_armours()</a> and <a href="#query_wearing">query_wearing()
+</a></dl>
+
+<dt><a name="remove_armour_callback">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_armour_callback</b></a><pre>
+int remove_armour_callback(int level,
+int id)
+</pre><dd>
+Remove a registered callback, used when the protection ends.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>level - The level of the callback
+<dd>id - The callbacks ID.
+
+<dt><b>See also:</b>
+<dd><a href="#register_armour_callback">register_armour_callback()
+</a></dl>
+
+<dt><a name="set_skin">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_skin</b></a><pre>
+void set_skin(string word)
+</pre><dd>
+This method sets the current skin of the living object.  This can
+be done by the race object and by specific spells or effects.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the new skin type
+<dt><b>See also:</b>
+<dd><a href="#query_skin">query_skin()
+</a></dl>
+
+<dt><a name="set_stopped">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_stopped</b></a><pre>
+void set_stopped(mixed arg)
+</pre><dd>
+This method sets the object which stops the call.  This should be
+used to do weird stuff.  I have no idea what it should be used for
+at all and I am just rambling.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arg - the new value of the stopped object
+
+</dl>
+
+<dt><a name="update_armour_callback">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_armour_callback</b></a><pre>
+int update_armour_callback(int level,
+int id,
+mixed data)
+</pre><dd>
+Update the data for an armour callback.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>level - The level of the callback
+<dd>id - The callbacks ID.
+<dd>data - The new data.
+
+<dt><b>See also:</b>
+<dd><a href="#register_armour_callback">register_armour_callback()
+</a></dl>
+
+<dt><a name="wear_armour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>wear_armour</b></a><pre>
+string wear_armour(object armour,
+int doing_hold)
+</pre><dd>
+This is the method used to get the living object to wear a piece of
+armour or clothing.  This is called from inside the armour or clothing
+code itself.  It will call the function set_worn_by() on the
+armour or clothing and if this returns a non-zero result then it
+will add it into the current list of worn types.  Assuming the
+type of the armour fits into the allowed list.  It will also
+call the functon hold_item on the object if it is required to be
+held as well (ie: shield).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>armour - the armour to wear
+<dd>doing_hold - if this is called by the hold command
+<dt><b>Returns:</b>
+<dd>the failure message, or 0 if ok
+<dt><b>See also:</b>
+<dd><a href="#remove_armour">remove_armour()</a>, <a href="#query_armours">query_armours()</a> and <a href="#query_wearing">query_wearing()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="equivalent_armour_types">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>equivalent_armour_types</b></a><pre>
+int equivalent_armour_types(mixed comp,
+string type)
+</pre><dd>
+This method checks to see if the two armour types are
+equivilant or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>comp - the first type
+<dd>type - the second type
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 19:39:19 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

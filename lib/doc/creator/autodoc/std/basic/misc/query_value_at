@@ -1,0 +1,46 @@
+.DT
+query_value_at
+Disk World creator help
+query_value_at
+
+.SH Name
+.SP 5 5
+query_value_at -  This method figures out how much an object will cost in a certain place.
+.EP
+
+.SH Syntax
+.SI 5
+int query_value_at(object place)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^place%^RESET%^ - the object to find the value at
+.EI
+
+.SH Returns
+.SI 5
+the value in the shop.EI
+
+.SH Defined in
+.SI 5
+/std/basic/misc.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method figures out how much an object will cost in a certain
+place.  For instance at a shop that does not handle artifcacts an
+artifact will be bought and sold cheaply.  The current types
+of "artifact", "enchantment" and "material" are recognised.
+A property in the shop of the type "artifact valued" will
+cause the values of that type to be taken into account.
+.EP
+
+.SH See also
+.SP 5 5
+query_value(), set_value_info(), adjust_value()
+
+.EP
+

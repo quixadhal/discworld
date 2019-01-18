@@ -1,0 +1,39 @@
+.DT
+do_query_open_bugs_for_fname
+Disk World creator help
+do_query_open_bugs_for_fname
+
+.SH Name
+.SP 5 5
+do_query_open_bugs_for_fname -  This returns the bug summary for all the open bugs associated with the specified file.
+.EP
+
+.SH Syntax
+.SI 5
+int do_query_open_bugs_for_fname(string fname,
+function finished)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^fname%^RESET%^ - the file name
+%^BOLD%^finished%^RESET%^ - the function to call when things are finished
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/error_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This returns the bug summary for all the open bugs associated with
+the specified file.
+.EP
+

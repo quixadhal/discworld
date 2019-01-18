@@ -1,0 +1,35 @@
+.DT
+touch_project
+Disk World creator help
+touch_project
+
+.SH Name
+.SP 5 5
+touch_project -   Touch a project.
+.EP
+
+.SH Syntax
+.SI 5
+void touch_project(string id,
+string reason,
+string name)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/project_management.c
+.EI
+
+.SH Description
+.SP 5 5
+
+ Touch a project.  We use this project to set when a project
+ was last touched, by whom and what they did.  We also save
+ the data file at this point.
+ @param id the project ID
+ @param reason the way the project was touched
+ @param name the name of the person touching the project
+ 
+
+.EP
+

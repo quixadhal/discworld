@@ -1,0 +1,222 @@
+<html><head><title>File base_master.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/dom/base_master.c</h2>
+Called to check for rcsforcing of a file.  By default we allow the deputies
+to rcsforce things.<hr><h2>Includes</h2>
+This class includes the following files <a href="include.error_handler.h.html">/include/error_handler.h</a>, <a href="include.project_management.h.html">/include/project_management.h</a> and <a href="include.player_handler.h.html">/include/player_handler.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_deputy"><b>add_deputy</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_member"><b>add_member</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_permission"><b>add_permission</b></a>(string, string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_rcsforce_allowed"><b>add_rcsforce_allowed</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#assign_people_to_directory"><b>assign_people_to_directory</b></a>(string, string *)<dd>
+This method allows a specific person to be assigned to the given
+directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_rcsforce"><b>can_rcsforce</b></a>(string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_call_tree"><b>check_call_tree</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_permission"><b>check_permission</b></a>(string, string *, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#nuke_creator_project_cache"><b>nuke_creator_project_cache</b></a>(string *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_access"><b>query_access</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_assigned_to_directory"><b>query_assigned_to_directory</b></a>(string *)<dd>
+Finds the person assigned to the specific directory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_changelog"><b>query_changelog</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_deputies"><b>query_deputies</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_deputy"><b>query_deputy</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_directory_assignments"><b>query_directory_assignments</b></a>()<dd>
+This method returns all the current assignments from directory to the
+people who are looking after them.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_domain"><b>query_domain</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_idle_mess"><b>query_idle_mess</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_lord"><b>query_lord</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_members"><b>query_members</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_prevent_shadow"><b>query_prevent_shadow</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_project"><b>query_project</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_use_tracker"><b>query_use_tracker</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_deputy"><b>remove_deputy</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_member"><b>remove_member</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_permission"><b>remove_permission</b></a>(string, string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_rcsforce_allowed"><b>remove_rcsforce_allowed</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_me"><b>save_me</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_idle_mess"><b>set_idle_mess</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_project"><b>set_project</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_use_tracker"><b>set_use_tracker</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#valid_read"><b>valid_read</b></a>(, string, )<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#valid_write"><b>valid_write</b></a>(string *, string, )</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_deputy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_deputy</b></a><pre>
+int add_deputy(string name)
+</pre>
+<dt><a name="add_member">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_member</b></a><pre>
+int add_member(string name)
+</pre>
+<dt><a name="add_permission">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_permission</b></a><pre>
+int add_permission(string euid,
+string path,
+int mask)
+</pre>
+<dt><a name="add_rcsforce_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_rcsforce_allowed</b></a><pre>
+int add_rcsforce_allowed(string creator,
+string directory)
+</pre>
+<dt><a name="assign_people_to_directory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>assign_people_to_directory</b></a><pre>
+int assign_people_to_directory(string dir,
+string * people)
+</pre><dd>
+This method allows a specific person to be assigned to the given
+directory.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to assign someone too
+<dd>people - the people who are assigned to the directory
+
+</dl>
+
+<dt><a name="can_rcsforce">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_rcsforce</b></a><pre>
+int can_rcsforce(string file,
+string person,
+string locker)
+</pre>
+<dt><a name="check_call_tree">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_call_tree</b></a><pre>
+int check_call_tree(int only_lord)
+</pre>
+<dt><a name="check_permission">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_permission</b></a><pre>
+int check_permission(string euid,
+string * path,
+int mask)
+</pre>
+<dt><a name="nuke_creator_project_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>nuke_creator_project_cache</b></a><pre>
+int nuke_creator_project_cache(string * creators)
+</pre>
+<dt><a name="query_access">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_access</b></a><pre>
+mapping query_access()
+</pre>
+<dt><a name="query_assigned_to_directory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_assigned_to_directory</b></a><pre>
+string * query_assigned_to_directory(string * dir)
+</pre><dd>
+Finds the person assigned to the specific directory.  It will climb
+up the directory tree looking for who to assign the directory too.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to find assignments in
+<dt><b>Returns:</b>
+<dd>the array of people assigned to the directory
+
+</dl>
+
+<dt><a name="query_changelog">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_changelog</b></a><pre>
+string query_changelog(string filename)
+</pre>
+<dt><a name="query_deputies">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_deputies</b></a><pre>
+string * query_deputies()
+</pre>
+<dt><a name="query_deputy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_deputy</b></a><pre>
+int query_deputy(string name)
+</pre>
+<dt><a name="query_directory_assignments">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_directory_assignments</b></a><pre>
+mapping query_directory_assignments()
+</pre><dd>
+This method returns all the current assignments from directory to the
+people who are looking after them.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the directory assignment mapping
+
+</dl>
+
+<dt><a name="query_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_domain</b></a><pre>
+string query_domain()
+</pre>
+<dt><a name="query_idle_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_idle_mess</b></a><pre>
+string query_idle_mess()
+</pre>
+<dt><a name="query_lord">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_lord</b></a><pre>
+string query_lord()
+</pre>
+<dt><a name="query_members">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_members</b></a><pre>
+string * query_members()
+</pre>
+<dt><a name="query_prevent_shadow">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_prevent_shadow</b></a><pre>
+int query_prevent_shadow()
+</pre>
+<dt><a name="query_project">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_project</b></a><pre>
+string query_project(string name)
+</pre>
+<dt><a name="query_use_tracker">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_use_tracker</b></a><pre>
+int query_use_tracker()
+</pre>
+<dt><a name="remove_deputy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_deputy</b></a><pre>
+int remove_deputy(string name)
+</pre>
+<dt><a name="remove_member">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_member</b></a><pre>
+int remove_member(string name)
+</pre>
+<dt><a name="remove_permission">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_permission</b></a><pre>
+int remove_permission(string euid,
+string path,
+int mask)
+</pre>
+<dt><a name="remove_rcsforce_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_rcsforce_allowed</b></a><pre>
+int remove_rcsforce_allowed(string creator,
+string directory)
+</pre>
+<dt><a name="save_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_me</b></a><pre>
+void save_me()
+</pre>
+<dt><a name="set_idle_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_idle_mess</b></a><pre>
+int set_idle_mess(string txt)
+</pre>
+<dt><a name="set_project">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_project</b></a><pre>
+int set_project(string name,
+string pro)
+</pre>
+<dt><a name="set_use_tracker">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_use_tracker</b></a><pre>
+void set_use_tracker(int i)
+</pre>
+<dt><a name="valid_read">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>valid_read</b></a><pre>
+int valid_read( string,
+string euid,
+ string)
+</pre>
+<dt><a name="valid_write">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>valid_write</b></a><pre>
+int valid_write(string * path,
+string euid,
+ string)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 21:43:54 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

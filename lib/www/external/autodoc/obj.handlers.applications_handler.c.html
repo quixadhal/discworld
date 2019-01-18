@@ -1,0 +1,218 @@
+<html><head><title>File applications_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/applications_handler.c</h2>
+ Applications handler
+ @author Drakkos
+ @started 30/01/2003
+
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.board.h.html">/include/board.h</a>, <a href="include.mail.h.html">/include/mail.h</a>, <a href="include.library.h.html">/include/library.h</a>, <a href="include.applications.h.html">/include/applications.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.playerinfo.h.html">/include/playerinfo.h</a>, <a href="include.player.h.html">/include/player.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_application"><b>add_application</b></a>(string, string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_application_type"><b>add_application_type</b></a>(string, int, string, int, int, int, int, string *, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#application_requirements"><b>application_requirements</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_application"><b>delete_application</b></a>(string, string)<dd>
+ Deletes an application from the system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_vouch"><b>delete_vouch</b></a>(string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_application"><b>find_application</b></a>(string, string)<dd>
+ Find a particular application.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_type"><b>find_type</b></a>(string)<dd>
+ Find a particular application type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#fix_name"><b>fix_name</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#format_application"><b>format_application</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#list_applications"><b>list_applications</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_me"><b>load_me</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_vouch"><b>make_vouch</b></a>(string, string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#number_of_vouches"><b>number_of_vouches</b></a>(string, string)<dd>
+ Returns the number of vouches a player has received for an application.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_application_vouches"><b>query_application_vouches</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_applications_accepted"><b>query_applications_accepted</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_domain_status"><b>query_domain_status</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_intro_text"><b>query_intro_text</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_name"><b>query_name</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_questions"><b>query_questions</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_responsibility"><b>query_responsibility</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_types"><b>query_types</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_vouch"><b>query_vouch</b></a>(string, string, string)<dd>
+ Query the vouch for a particular player in a particular category.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_vouches_for_all"><b>query_vouches_for_all</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_me"><b>save_me</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#toggle_domain_lock"><b>toggle_domain_lock</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#valid_application"><b>valid_application</b></a>(string, string)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_application">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_application</b></a><pre>
+int add_application(string t,
+string n,
+string te,
+string dom)
+</pre>
+<dt><a name="add_application_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_application_type</b></a><pre>
+varargs void add_application_type(string t,
+int v,
+string b,
+int g,
+int q,
+int a,
+int ti,
+string * qu,
+string intro,
+string responsibility)
+</pre>
+<dt><a name="application_requirements">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>application_requirements</b></a><pre>
+string application_requirements(string type)
+</pre>
+<dt><a name="delete_application">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_application</b></a><pre>
+int delete_application(string t,
+string n)
+</pre><dd>
+ Deletes an application from the system.
+
+ @param name The name of the aplicant
+ @param type The type of application.
+ @return 1 for success, 0 for failure.
+
+<p>
+
+<dt><a name="delete_vouch">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_vouch</b></a><pre>
+int delete_vouch(string who,
+string name,
+string position)
+</pre>
+<dt><a name="find_application">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_application</b></a><pre>
+int find_application(string name,
+string type)
+</pre><dd>
+ Find a particular application.
+
+ @param name The name of the candidate.
+ @param type The type of application.
+ @return the index of the candidate, or -1 if none found.
+
+<p>
+
+<dt><a name="find_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_type</b></a><pre>
+int find_type(string type)
+</pre><dd>
+ Find a particular application type.
+
+ @param type The type of application.
+ @return the index of the type, or -1 if none found.
+
+<p>
+
+<dt><a name="fix_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>fix_name</b></a><pre>
+int fix_name(string n,
+string n2)
+</pre>
+<dt><a name="format_application">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>format_application</b></a><pre>
+string format_application(int i)
+</pre>
+<dt><a name="list_applications">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>list_applications</b></a><pre>
+string list_applications()
+</pre>
+<dt><a name="load_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_me</b></a><pre>
+void load_me()
+</pre>
+<dt><a name="make_vouch">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_vouch</b></a><pre>
+int make_vouch(string t,
+string p,
+string n,
+string v)
+</pre>
+<dt><a name="number_of_vouches">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>number_of_vouches</b></a><pre>
+int number_of_vouches(string name,
+string type)
+</pre><dd>
+ Returns the number of vouches a player has received for an application.
+
+ @param i The index of the application.
+ @return 1 for success, 0 for failure.
+
+<p>
+
+<dt><a name="query_application_vouches">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_application_vouches</b></a><pre>
+mapping query_application_vouches(string type,
+string name)
+</pre>
+<dt><a name="query_applications_accepted">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_applications_accepted</b></a><pre>
+int query_applications_accepted(string dom)
+</pre>
+<dt><a name="query_domain_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_domain_status</b></a><pre>
+mapping query_domain_status()
+</pre>
+<dt><a name="query_intro_text">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_intro_text</b></a><pre>
+string query_intro_text(string type)
+</pre>
+<dt><a name="query_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_name</b></a><pre>
+string query_name()
+</pre>
+<dt><a name="query_questions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_questions</b></a><pre>
+string * query_questions(string type)
+</pre>
+<dt><a name="query_responsibility">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_responsibility</b></a><pre>
+string query_responsibility(string type)
+</pre>
+<dt><a name="query_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_types</b></a><pre>
+string * query_types()
+</pre>
+<dt><a name="query_vouch">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_vouch</b></a><pre>
+string query_vouch(string t,
+string p,
+string n)
+</pre><dd>
+ Query the vouch for a particular player in a particular category.
+
+ @param t The type of application.
+ @param p The name of the player.
+ @param n The name of the voucher.
+ @return the text of the vouch or 0 if none exists.
+
+<p>
+
+<dt><a name="query_vouches_for_all">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_vouches_for_all</b></a><pre>
+mapping query_vouches_for_all(string name)
+</pre>
+<dt><a name="save_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_me</b></a><pre>
+void save_me()
+</pre>
+<dt><a name="toggle_domain_lock">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>toggle_domain_lock</b></a><pre>
+int toggle_domain_lock(string dom)
+</pre>
+<dt><a name="valid_application">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>valid_application</b></a><pre>
+int valid_application(string name,
+string type)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 15:11:01 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

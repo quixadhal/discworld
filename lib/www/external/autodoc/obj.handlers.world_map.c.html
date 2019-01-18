@@ -1,0 +1,197 @@
+<html><head><title>File world_map.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/world_map.c</h2>
+This is the handler to help control the world map.  It co-ordinates
+all the terrains connecting themselves together.  All terrains are
+rectangular.<p>Written by Pinkfish<p>Started Fri Mar 22 16:58:35 PST 2002
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.terrain_map.h.html">/include/terrain_map.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_region"><b>region</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_feature"><b>add_feature</b></a>(string)<dd>
+This method adds a feature into the world map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_terrain"><b>add_terrain</b></a>(string, int, int, int, int)<dd>
+This method adds the specified terrain to the world map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_room_at"><b>find_room_at</b></a>(int, int)<dd>
+This method finds the specific room at the specific location
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_terrain_at"><b>find_terrain_at</b></a>(int, int)<dd>
+This method finds the terrain at the specific location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#generate_blocking"><b>generate_blocking</b></a>(int, int, string *, string *, string *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_blocking_template"><b>query_blocking_template</b></a>(int, int, int)<dd>
+Find the template to use for the area blocked by an obstacle.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_features_at"><b>query_features_at</b></a>(int, int)<dd>
+This method returns the list of all the features available at the
+specific location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_features_in_region"><b>query_features_in_region</b></a>(int, int, int, int)<dd>
+This method finds all the features inside the specified region.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_map_template"><b>query_map_template</b></a>(int)<dd>
+This method returns the template for the specific size of the
+map.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_feature"><b>remove_feature</b></a>(string)<dd>
+This method removes a feature from the world map.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_feature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_feature</b></a><pre>
+void add_feature(string feature)
+</pre><dd>
+This method adds a feature into the world map.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>feature - the feature to add
+
+</dl>
+
+<dt><a name="add_terrain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_terrain</b></a><pre>
+int add_terrain(string path,
+int x1,
+int y1,
+int x2,
+int y2)
+</pre><dd>
+This method adds the specified terrain to the world map.
+<p>
+
+<dt><a name="find_room_at">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_room_at</b></a><pre>
+string find_room_at(int x,
+int y)
+</pre><dd>
+This method finds the specific room at the specific location<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x co-ordinate
+<dd>y - the y co-ordinate
+<dt><b>Returns:</b>
+<dd>the path to the room
+
+</dl>
+
+<dt><a name="find_terrain_at">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_terrain_at</b></a><pre>
+string find_terrain_at(int x,
+int y)
+</pre><dd>
+This method finds the terrain at the specific location.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x co-ordinate
+<dd>y - the y co-ordinate
+<dt><b>Returns:</b>
+<dd>the path to the terrain
+
+</dl>
+
+<dt><a name="generate_blocking">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>generate_blocking</b></a><pre>
+mixed * generate_blocking(int x,
+int y,
+string * start,
+string * straight,
+string * diagonal)
+</pre>
+<dt><a name="query_blocking_template">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_blocking_template</b></a><pre>
+string * query_blocking_template(int x,
+int y,
+int type)
+</pre><dd>
+Find the template to use for the area blocked by an obstacle.
+This will do nifty template fitting stuff for obstacles.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x co-ordinate of the blockage
+<dd>y - the y co-ordinate of the blockage
+<dd>type - the type is 0 for normal, 1 for straight, 2 for diagonal
+
+</dl>
+
+<dt><a name="query_features_at">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_features_at</b></a><pre>
+string * query_features_at(int x,
+int y)
+</pre><dd>
+This method returns the list of all the features available at the
+specific location.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the x position
+<dd>y - the y position
+<dt><b>Returns:</b>
+<dd>the features at the location
+
+</dl>
+
+<dt><a name="query_features_in_region">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_features_in_region</b></a><pre>
+string * query_features_in_region(int x1_orig,
+int y1_orig,
+int x2_orig,
+int y2_orig)
+</pre><dd>
+This method finds all the features inside the specified region.  This
+is quite expensive in terms of evaluation cost, so do not try and call
+this too much.  Cache the results if possible.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x1 - the top x location
+<dd>y1 - the top y location
+<dd>x2 - the bottom x location
+<dd>y2 - the bottom y location
+<dt><b>Returns:</b>
+<dd>the features in the region
+
+</dl>
+
+<dt><a name="query_map_template">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_map_template</b></a><pre>
+mixed * query_map_template(int size)
+</pre><dd>
+This method returns the template for the specific size of the
+map.  This is for visibility considerations.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>size - the size of the template
+<dt><b>Returns:</b>
+<dd>the template
+
+</dl>
+
+<dt><a name="remove_feature">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_feature</b></a><pre>
+void remove_feature(string feature)
+</pre><dd>
+This method removes a feature from the world map.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>feature - the feature to remove
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_region">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>region</b></a><pre>
+class region {
+mixed * terrains;
+string * features;
+int last_touched;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 03:23:39 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

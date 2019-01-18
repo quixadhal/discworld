@@ -1,0 +1,41 @@
+.DT
+query_p_objects
+Disk World creator help
+query_p_objects
+
+.SH Name
+.SP 5 5
+query_p_objects -  This method returns the current mapping between objects and commands.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_p_objects()
+.EI
+
+.SH Returns
+.SI 5
+the current object/command mapping.EI
+
+.SH Defined in
+.SI 5
+/global/new_parse.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current mapping between objects and commands.
+.EP
+.SP 5 5
+([ object : ({ "cmd1", "cmd2", ... }), ... ]) 
+
+This mapping is used when the object leaves the environment to make the command updating more efficent.
+.EP
+
+.SH See also
+.SP 5 5
+query_p_commands()
+
+.EP
+

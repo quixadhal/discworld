@@ -1,0 +1,484 @@
+<html><head><title>File council_cases.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/council_cases.c</h2>
+This room is for handling control of cases.  It allows people to
+add notes, open cases and general have a wild time in case land.<p>Started Fri Jul 21 18:57:34 PDT 2000
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a> and <a href="std.room.inherit.council_base.c.html">/std/room/inherit/council_base.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.nomic_system.h.html">/include/nomic_system.h</a> and <a href="include.mail.h.html">/include/mail.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_punishment_type"><b>add_punishment_type</b></a>(string, string)<dd>
+This method adds a type to the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#close_case_desc"><b>close_case_desc</b></a>(string, mixed *)<dd>
+This method sets up an exciting set of closing comments for the
+case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#complete_punishment"><b>complete_punishment</b></a>(string, class nomic_case, mixed)<dd>
+This method starts the punishment check thingy to get any extra
+arguements.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_add_note"><b>do_add_note</b></a>(int)<dd>
+This method adds a note to an open case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_add_person"><b>do_add_person</b></a>(int, string)<dd>
+This method adds a person to an open case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_appeal_case"><b>do_appeal_case</b></a>(int)<dd>
+This method appeals the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_close_case"><b>do_close_case</b></a>(int, string)<dd>
+This method closes the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_case"><b>do_list_case</b></a>(int)<dd>
+This method lists the specified open case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_closed_case"><b>do_list_closed_case</b></a>(int)<dd>
+This method lists the specified closed case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_closed_cases"><b>do_list_closed_cases</b></a>()<dd>
+This method lists all the recently closed cases.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_open_cases"><b>do_list_open_cases</b></a>()<dd>
+This method lists all the currently open cases.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_punishments"><b>do_list_punishments</b></a>()<dd>
+This method lists the current set of punishments known by this
+area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_punishments_desc"><b>do_list_punishments_desc</b></a>(string)<dd>
+This method lists the current set of punishments known by this
+area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_open_case"><b>do_open_case</b></a>(string, string)<dd>
+Opening a case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_player_status"><b>do_player_status</b></a>(string)<dd>
+This is the command to print the status of the current open and
+recently closed cases.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_remove_person"><b>do_remove_person</b></a>(int, string)<dd>
+This method adds a person to an open case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_last_appealer"><b>is_last_appealer</b></a>(class nomic_case, string)<dd>
+This method checks and sees if the person is the last person to appeal
+the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_last_closer"><b>is_last_closer</b></a>(class nomic_case, string)<dd>
+This method checks and sees if the person is the last person to close
+the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_punishment_types"><b>query_all_punishment_types</b></a>()<dd>
+This method returns the name of all the allowed punishment types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_case_short"><b>query_case_short</b></a>(class nomic_case)<dd>
+The short description of the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_extra_player_status"><b>query_extra_player_status</b></a>(string)<dd>
+This method returns any extra information to print about a player in
+the status information.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_appealer"><b>query_last_appealer</b></a>(class nomic_case)<dd>
+This method finds the last person to appeal the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_closer"><b>query_last_closer</b></a>(class nomic_case)<dd>
+This method checks and sees if the person is the last person to close
+the case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_punishment_mail_info"><b>query_punishment_mail_info</b></a>(string, class nomic_case, mixed)<dd>
+This method returns the mail information of the punishment.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_punishment_short"><b>query_punishment_short</b></a>(string, class nomic_case, mixed)<dd>
+This method returns the short of the punishment.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_punishment_type"><b>query_punishment_type</b></a>(string)<dd>
+This method returns the file associated with the type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_punishment"><b>start_punishment</b></a>(string, class nomic_case, function)<dd>
+This method starts the punishment check thingy to get any extra
+arguements.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#suspend_punishment"><b>suspend_punishment</b></a>(class nomic_case)<dd>
+This method suspends the punishment after it is started.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_punishment_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_punishment_type</b></a><pre>
+void add_punishment_type(string name,
+string file)
+</pre><dd>
+This method adds a type to the room.  A type is a type of
+punishment that can be applied to the person when the case is close.
+The different functions have the following arguments:<br>
+start_punishment(the_case, type, finish_func)<br>
+query_short(the_case, type, data)<br>
+complete_punishment(the_case, type, data)<br>
+finish_func(the_case, type, data) (from start())<br>
+suspend_punishment(the_case, type, data)<br>
+<P>
+The functions are all called on a inheritable file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the type
+<dd>short - the function to make the short description
+<dd>start - the function to call at the start
+<dd>complete - the function to call at the completion
+<dd>suspend - suspend the punishment
+
+</dl>
+
+<dt><a name="close_case_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>close_case_desc</b></a><pre>
+void close_case_desc(string desc,
+mixed * extra)
+</pre><dd>
+This method sets up an exciting set of closing comments for the
+case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>desc - the closing desc
+<dd>extra - the extra data
+
+</dl>
+
+<dt><a name="complete_punishment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>complete_punishment</b></a><pre>
+void complete_punishment(string name,
+class nomic_case the_case,
+mixed data)
+</pre><dd>
+This method starts the punishment check thingy to get any extra
+arguements.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the punishment to check
+<dd>the_case - th case we are messing with
+<dd>finish - the finish function to call
+
+</dl>
+
+<dt><a name="do_add_note">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_add_note</b></a><pre>
+int do_add_note(int case_id)
+</pre><dd>
+This method adds a note to an open case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>case_id - the id of the case to add a note to
+<dt><b>Returns:</b>
+<dd>1 for success, 0 if failed
+
+</dl>
+
+<dt><a name="do_add_person">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_add_person</b></a><pre>
+int do_add_person(int case_id,
+string person)
+</pre><dd>
+This method adds a person to an open case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>case_id - the case to add it to
+<dd>person - the person to add
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_appeal_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_appeal_case</b></a><pre>
+int do_appeal_case(int case_id)
+</pre><dd>
+This method appeals the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>case_id - the id of the case
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_close_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_close_case</b></a><pre>
+int do_close_case(int case_id,
+string type)
+</pre><dd>
+This method closes the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>case_id - the id of the case
+<dd>type - the type of closing
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_list_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_case</b></a><pre>
+int do_list_case(int case_id)
+</pre><dd>
+This method lists the specified open case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>case_id - the case to list
+<dt><b>Returns:</b>
+<dd>1 for success, 0 if failed
+
+</dl>
+
+<dt><a name="do_list_closed_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_closed_case</b></a><pre>
+int do_list_closed_case(int case_id)
+</pre><dd>
+This method lists the specified closed case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>case_id - the case to list
+<dt><b>Returns:</b>
+<dd>1 for success, 0 if failed
+
+</dl>
+
+<dt><a name="do_list_closed_cases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_closed_cases</b></a><pre>
+int do_list_closed_cases()
+</pre><dd>
+This method lists all the recently closed cases.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for success, 0 if failed
+
+</dl>
+
+<dt><a name="do_list_open_cases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_open_cases</b></a><pre>
+int do_list_open_cases()
+</pre><dd>
+This method lists all the currently open cases.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for success, 0 if failed
+
+</dl>
+
+<dt><a name="do_list_punishments">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_punishments</b></a><pre>
+int do_list_punishments()
+</pre><dd>
+This method lists the current set of punishments known by this
+area.
+<p>
+
+<dt><a name="do_list_punishments_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_punishments_desc</b></a><pre>
+int do_list_punishments_desc(string type)
+</pre><dd>
+This method lists the current set of punishments known by this
+area.
+<p>
+
+<dt><a name="do_open_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_open_case</b></a><pre>
+int do_open_case(string people,
+string short)
+</pre><dd>
+Opening a case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>people - the people the case ie against
+<dd>short - the short description of the case
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_player_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_player_status</b></a><pre>
+int do_player_status(string person)
+</pre><dd>
+This is the command to print the status of the current open and
+recently closed cases.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player to show
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_remove_person">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_remove_person</b></a><pre>
+int do_remove_person(int case_id,
+string person)
+</pre><dd>
+This method adds a person to an open case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>case_id - the case to add it to
+<dd>person - the person to add
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="is_last_appealer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_last_appealer</b></a><pre>
+int is_last_appealer(class nomic_case the_case,
+string person)
+</pre><dd>
+This method checks and sees if the person is the last person to appeal
+the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to check
+
+</dl>
+
+<dt><a name="is_last_closer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_last_closer</b></a><pre>
+int is_last_closer(class nomic_case the_case,
+string person)
+</pre><dd>
+This method checks and sees if the person is the last person to close
+the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to check
+
+</dl>
+
+<dt><a name="query_all_punishment_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_punishment_types</b></a><pre>
+string * query_all_punishment_types()
+</pre><dd>
+This method returns the name of all the allowed punishment types.
+<p>
+
+<dt><a name="query_case_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_case_short</b></a><pre>
+string query_case_short(class nomic_case the_case)
+</pre><dd>
+The short description of the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the_case - the case to get a short desc
+<dt><b>Returns:</b>
+<dd>the short description of the case
+
+</dl>
+
+<dt><a name="query_extra_player_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_extra_player_status</b></a><pre>
+string query_extra_player_status(string player)
+</pre><dd>
+This method returns any extra information to print about a player in
+the status information.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player we are checking
+<dt><b>Returns:</b>
+<dd>any extra information
+
+</dl>
+
+<dt><a name="query_last_appealer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_appealer</b></a><pre>
+string query_last_appealer(class nomic_case the_case)
+</pre><dd>
+This method finds the last person to appeal the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to check
+
+</dl>
+
+<dt><a name="query_last_closer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_closer</b></a><pre>
+string query_last_closer(class nomic_case the_case)
+</pre><dd>
+This method checks and sees if the person is the last person to close
+the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to check
+
+</dl>
+
+<dt><a name="query_punishment_mail_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_punishment_mail_info</b></a><pre>
+string query_punishment_mail_info(string name,
+class nomic_case the_case,
+mixed data)
+</pre><dd>
+This method returns the mail information of the punishment.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the punishment type
+<dd>the_case - the caseof the thingy
+<dd>data - the extra punishment type data
+<dt><b>Returns:</b>
+<dd>the short of the type
+
+</dl>
+
+<dt><a name="query_punishment_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_punishment_short</b></a><pre>
+string query_punishment_short(string name,
+class nomic_case the_case,
+mixed data)
+</pre><dd>
+This method returns the short of the punishment.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the punishment type
+<dd>the_case - the caseof the thingy
+<dd>data - the extra punishment type data
+<dt><b>Returns:</b>
+<dd>the short of the type
+
+</dl>
+
+<dt><a name="query_punishment_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_punishment_type</b></a><pre>
+string query_punishment_type(string name)
+</pre><dd>
+This method returns the file associated with the type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the nam eof the class to lookup
+<dt><b>Returns:</b>
+<dd>the file of the type
+
+</dl>
+
+<dt><a name="start_punishment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_punishment</b></a><pre>
+void start_punishment(string name,
+class nomic_case the_case,
+function finish)
+</pre><dd>
+This method starts the punishment check thingy to get any extra
+arguements.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the punishment to check
+<dd>the_case - th case we are messing with
+<dd>finish - the finish function to call
+
+</dl>
+
+<dt><a name="suspend_punishment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>suspend_punishment</b></a><pre>
+void suspend_punishment(class nomic_case the_case)
+</pre><dd>
+This method suspends the punishment after it is started.  Used in the
+appeals process.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the_case - th case we are messing with
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 16:38:25 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

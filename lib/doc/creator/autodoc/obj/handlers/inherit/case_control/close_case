@@ -1,0 +1,45 @@
+.DT
+close_case
+Disk World creator help
+close_case
+
+.SH Name
+.SP 5 5
+close_case -  This method closes the case.
+.EP
+
+.SH Syntax
+.SI 5
+int close_case(string area,
+int id,
+string closer,
+string result,
+mixed data)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area the case is in
+%^BOLD%^id%^RESET%^ - the id of the case to close
+%^BOLD%^closer%^RESET%^ - the person that closes the case
+%^BOLD%^result%^RESET%^ - the string saying what the result of the case is
+%^BOLD%^desc%^RESET%^ - the description of the close reason
+%^BOLD%^data%^RESET%^ - special internal data used specifically for appeals
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/case_control.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method closes the case.
+.EP
+

@@ -1,0 +1,40 @@
+.DT
+add_book_to_library
+Disk World creator help
+add_book_to_library
+
+.SH Name
+.SP 5 5
+add_book_to_library -  This function adds the specified object to the library 
+.EP
+
+.SH Syntax
+.SI 5
+varargs int add_book_to_library(mixed thing,
+int copies,
+string cap_title,
+string cap_author,
+int borrowable)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - Either a filename, or object. If its an object we record its autoload info
+%^BOLD%^copies%^RESET%^ - how many copies to add
+%^BOLD%^cap_title%^RESET%^ - The capitalized title its cataloged under
+%^BOLD%^cap_author%^RESET%^ - The capitalized author of the work
+%^BOLD%^borrowable%^RESET%^ - 1 if it can be borrowed, 0 if its reference only
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/p_library.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function adds the specified object to the library 
+.EP
+

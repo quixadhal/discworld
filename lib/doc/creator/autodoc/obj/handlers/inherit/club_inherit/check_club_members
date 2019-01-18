@@ -1,0 +1,38 @@
+.DT
+check_club_members
+Disk World creator help
+check_club_members
+
+.SH Name
+.SP 5 5
+check_club_members -  This method checks the members of the club and makes sure they have not been up to anything naughty, like getting deleted.
+.EP
+
+.SH Syntax
+.SI 5
+void check_club_members(string club_name,
+string * members,
+class top_ten_tables top_info)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^members%^RESET%^ - the members left to check
+%^BOLD%^top_info%^RESET%^ - the top ten information
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks the members of the club and makes sure they have
+not been up to anything naughty, like getting deleted.  It also
+updates the top ten information on the top ten handler.
+.EP
+

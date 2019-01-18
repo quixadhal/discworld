@@ -1,0 +1,50 @@
+.DT
+query_discount
+Disk World creator help
+query_discount
+
+.SH Name
+.SP 5 5
+query_discount -  This function can be masked and used to determine a discount that is applied to all items sold, so for instance you could check the guild of 'ob' and give a discount to Witches, or something.
+.EP
+
+.SH Syntax
+.SI 5
+float query_discount(object ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object doing the buying
+.EI
+
+.SH Returns
+.SI 5
+a float to multiply the price by.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/pub.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function can be masked and used to determine a discount that is
+applied to all items sold, so for instance you could check the guild of
+'ob' and give a discount to Witches, or something.  By default the
+discount is zero, so query_discount returns 1.0
+.EP
+
+.SH Example 1
+.SI 5
+// Give Priests a 10% discount
+float query_discount( object ob ) {
+   if( ob->query_guild_ob() == "/std/guilds/priest.c" )
+      return 0.9;
+   else
+      return 1.0;
+}
+
+.EI
+

@@ -1,0 +1,43 @@
+.DT
+add_playtester
+Disk World creator help
+add_playtester
+
+.SH Name
+.SP 5 5
+add_playtester -  This method adds the playtester to the array of current play testers.
+.EP
+
+.SH Syntax
+.SI 5
+int add_playtester(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the player to add
+.EI
+
+.SH Returns
+.SI 5
+1 if successful, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playtesters.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds the playtester to the array of current play
+testers.  NOTE: This uses get_age_raw(), which will cause lag if called on
+lots of playerfiles.
+.EP
+
+.SH See also
+.SP 5 5
+remove_playtester(), query_playtester(), add_senior_playtester(), valid_playtester()
+
+.EP
+

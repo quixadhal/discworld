@@ -1,0 +1,137 @@
+<html><head><title>File random_names.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/random_names.c</h2>
+Generates random names for whatever reason.
+<p>
+Werd - a perl script that generates random words according to some
+           simple rules (inspired by phrase structure trees in Syntax).
+<p>
+Based on a program by Mark Rosenfelder (markrose@spss.com)
+           called psrGrammar
+<p>
+Rewritten in perl by Chris Pound (pound@rice.edu)
+<p>
+Rewritten in lpc by Pinkfish@Discworld MUD.
+           10th of January 1996.
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a> and <a href="include.random_names.h.html">/include/random_names.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_test_language"><b>add_test_language</b></a>(string)<dd>
+This method adds in a language as a test language.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#open_file"><b>open_file</b></a>(string)<dd>
+Read in a random name grammer from the data dir.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_languages"><b>query_languages</b></a>()<dd>
+The list of all the current languages known.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_test_languages"><b>query_test_languages</b></a>()<dd>
+This is the list of test rules in the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#random_name"><b>random_name</b></a>(string)<dd>
+Generate a random name in the given language.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_test_language"><b>remove_test_language</b></a>(string)<dd>
+This method removes a language as a test language.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#unique_name"><b>unique_name</b></a>(string)<dd>
+Return a name that is not banished or a player name already.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_test_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_test_language</b></a><pre>
+void add_test_language(string lang)
+</pre><dd>
+This method adds in a language as a test language.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - the test language to add
+
+</dl>
+
+<dt><a name="open_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>open_file</b></a><pre>
+void open_file(string f)
+</pre><dd>
+Read in a random name grammer from the data dir.   Any line with
+# at the start is considered a comment, and anything after
+a # on a line is ignored.   Every line in the file will have
+3 fields seperated by a :.   The first field is the name
+the second is a one letter expansion string, the third is a
+a space separeted list of things to expand it to.
+<p>
+The word starts off as a "W", this is looked up in the expansion
+first string list.   If it is found then that is expanded to 
+a random selection of the space seperated data elements.   This
+process is repeated until there are no bits in the word that can
+be expanded.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>f - the name of the file to read
+
+</dl>
+
+<dt><a name="query_languages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_languages</b></a><pre>
+string * query_languages()
+</pre><dd>
+The list of all the current languages known.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of the language names.
+
+</dl>
+
+<dt><a name="query_test_languages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_test_languages</b></a><pre>
+string * query_test_languages()
+</pre><dd>
+This is the list of test rules in the handler.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of test rules
+
+</dl>
+
+<dt><a name="random_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>random_name</b></a><pre>
+string random_name(string lang)
+</pre><dd>
+Generate a random name in the given language.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - the language to generate teh name int
+<dt><b>Returns:</b>
+<dd>the random name
+
+</dl>
+
+<dt><a name="remove_test_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_test_language</b></a><pre>
+void remove_test_language(string lang)
+</pre><dd>
+This method removes a language as a test language.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - the test language to remove
+
+</dl>
+
+<dt><a name="unique_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>unique_name</b></a><pre>
+string unique_name(string lang)
+</pre><dd>
+Return a name that is not banished or a player name already.
+It is > 2 and < 11 chars, it is not banished, a player or
+in the game.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - the language to generat ethe name in
+<dt><b>Returns:</b>
+<dd>the generated name
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 00:20:53 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

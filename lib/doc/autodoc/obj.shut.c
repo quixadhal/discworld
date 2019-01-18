@@ -1,6 +1,6 @@
 .DT
 shut.c
-Dead DW2 autodoc help
+Disk World autodoc help
 shut.c
 
 .SH Inherits
@@ -10,7 +10,7 @@ This class inherits the following classes /std/container.
 
 .SH Includes
 .SP 5 5
-This class includes the following files /include/socket_errors.h and /include/network.h.
+This class includes the following files /include/network.h and /include/socket_errors.h.
 .EP
 
 .SH Public Functions

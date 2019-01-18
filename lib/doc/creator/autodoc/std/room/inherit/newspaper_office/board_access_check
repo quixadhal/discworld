@@ -1,0 +1,32 @@
+.DT
+board_access_check
+Disk World creator help
+board_access_check
+
+.SH Name
+.SP 5 5
+board_access_check -  This method is here to control access to a board if one is requested.
+.EP
+
+.SH Syntax
+.SI 5
+int board_access_check(int type,
+string board,
+object previous,
+string name)
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/newspaper_office.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is here to control access to a board if one is requested.
+It allows only reporters to be able to see or write to it and it
+allows editors to be able to eat messages from it.
+
+.EP
+

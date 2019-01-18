@@ -1,0 +1,50 @@
+.DT
+query_artifact_level
+Disk World creator help
+query_artifact_level
+
+.SH Name
+.SP 5 5
+query_artifact_level -  Find the level of the artifact.
+.EP
+
+.SH Syntax
+.SI 5
+int query_artifact_level(string name,
+int bonus)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the artifact
+%^BOLD%^bonus%^RESET%^ - the bonus modifier
+.EI
+
+.SH Returns
+.SI 5
+the level of the artifact
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/artifact_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Find the level of the artifact.  The level is determined as the
+difference between the minimum and maximum artifact level squared
+divided by the bonus passed in minus the bonus to create  plus the difference
+between the maximum and minimum levels plus the maximum level.
+.EP
+.SP 5 5
+ie:
+.EP
+.SP 5 5
+level = (((max-min) * (max-min)) / (bonus - make_bonus + max - min)) + min
+.EP
+.SP 5 5
+
+.EP
+

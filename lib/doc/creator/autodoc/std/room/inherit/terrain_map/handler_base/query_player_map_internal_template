@@ -1,0 +1,35 @@
+.DT
+query_player_map_internal_template
+Disk World creator help
+query_player_map_internal_template
+
+.SH Name
+.SP 5 5
+query_player_map_internal_template -  This method does the updating of the map based on the template.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_player_map_internal_template(mixed * map,
+mapping key,
+mixed * colours,
+int x_c,
+int y_c,
+int z_c,
+int distance)
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method does the updating of the map based on the template.
+Pretty easy really, check each location in the map to see if it
+exists and what we should do with it.
+
+.EP
+

@@ -1,0 +1,40 @@
+.DT
+open_file
+Disk World creator help
+open_file
+
+.SH Name
+.SP 5 5
+open_file -  Read in a random name grammer from the data dir.
+.EP
+
+.SH Syntax
+.SI 5
+void open_file(string f)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^f%^RESET%^ - the name of the file to read
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/random_names.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Read in a random name grammer from the data dir.   Any line with
+# at the start is considered a comment, and anything after
+a # on a line is ignored.   Every line in the file will have
+3 fields seperated by a :.   The first field is the name
+the second is a one letter expansion string, the third is a
+a space separeted list of things to expand it to.
+
+
+The word starts off as a "W", this is looked up in the expansion first string list. If it is found then that is expanded to a random selection of the space seperated data elements. This process is repeated until there are no bits in the word that can be expanded.
+.EP
+

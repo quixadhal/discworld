@@ -1,0 +1,158 @@
+<html><head><title>File holdable.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/holdable.c</h2>
+A nice file to allow you to setup an object as being holdable.  To deal
+with this inheritable you only need to define the method held_this_item
+if you wish to do anything when the item is held.<p>Written by Pinkfish<p>Started Wed Feb  2 15:38:10 PST 2000
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#held_this_item"><b>held_this_item</b></a>(int, object, mixed)<dd>
+This method is called by the inheritable when the object is change from
+being held to unheld, or vica versa.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#hold_item"><b>hold_item</b></a>(object, int)<dd>
+
+Attempts to free up enough limbs for this_object to be held.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move"><b>move</b></a>(mixed)<dd>
+This method should be called by the upper level moves.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_holder"><b>query_holder</b></a>()<dd>
+This method returns the person who is holding the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_my_limb"><b>query_my_limb</b></a>()<dd>
+This method returns the current limb the object is being
+held in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_no_limbs"><b>query_no_limbs</b></a>()<dd>
+This method returns the number of limbs that the object uses.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_holder"><b>set_holder</b></a>(object, int)<dd>
+This method is called from the living object when we are held or
+unheld.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_limbs"><b>set_no_limbs</b></a>(int)<dd>
+This method sets the number of limbs the object uses when held.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="held_this_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>held_this_item</b></a><pre>
+int held_this_item(int held,
+object holder,
+mixed arg)
+</pre><dd>
+This method is called by the inheritable when the object is change from
+being held to unheld, or vica versa.  This should be used to turn on 
+and off light sources and so on.  The method will also be called with 
+a 2 if the object was held and we are doing an initialisation sequence.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>held - 1 if the item is held, 0 if not, 2 if held on init
+<dd>holder - this is person already holding it when removed, new holder when held
+<dd>arg - an argument use in the autoloading, passed into init_dynamic_arg
+<dt><b>Returns:</b>
+<dd>1 if the hold/remove was successful
+
+</dl>
+
+<dt><a name="hold_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hold_item</b></a><pre>
+varargs int * hold_item(object who,
+int pos)
+</pre><dd>
+
+Attempts to free up enough limbs for this_object to be held.  If
+items are dropped to make this possible, who is notified.  If 
+enough limbs are freed, attempts to hold this_object.  If the position
+is undefined (ie: not specified) then it will try and choose a limb
+by itself.
+<p>
+The return numbers are the limb numbers that were used by holding the
+item.
+<p>
+hold_item: As designed by Tannah!<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>who - The living object trying to hold this one.
+<dd>pos - the position to hold the item in
+<dt><b>Returns:</b>
+<dd>the an (int *) if successful or ({ }) if not enough limbs are freed
+
+</dl>
+
+<dt><a name="move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move</b></a><pre>
+int move(mixed ob)
+</pre><dd>
+This method should be called by the upper level moves.  The result
+needs to be check, if it is not MOVE_OK then the move should be
+stopped.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to move
+
+</dl>
+
+<dt><a name="query_holder">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_holder</b></a><pre>
+object query_holder()
+</pre><dd>
+This method returns the person who is holding the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the person holding the object
+
+</dl>
+
+<dt><a name="query_my_limb">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_my_limb</b></a><pre>
+int query_my_limb()
+</pre><dd>
+This method returns the current limb the object is being
+held in.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the number limb the object is held in
+
+</dl>
+
+<dt><a name="query_no_limbs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_no_limbs</b></a><pre>
+int query_no_limbs()
+</pre><dd>
+This method returns the number of limbs that the object uses.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the number of limbs the object uses when held
+
+</dl>
+
+<dt><a name="set_holder">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_holder</b></a><pre>
+int set_holder(object ob,
+int limb)
+</pre><dd>
+This method is called from the living object when we are held or
+unheld.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the person holding us
+<dd>limb - the limb we are being held in
+
+</dl>
+
+<dt><a name="set_no_limbs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_limbs</b></a><pre>
+void set_no_limbs(int num)
+</pre><dd>
+This method sets the number of limbs the object uses when held.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the number of limbs
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 20:58:32 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

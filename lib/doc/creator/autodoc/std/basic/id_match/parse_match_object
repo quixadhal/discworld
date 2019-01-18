@@ -1,0 +1,43 @@
+.DT
+parse_match_object
+Disk World creator help
+parse_match_object
+
+.SH Name
+.SP 5 5
+parse_match_object -  This code is for the new parser.
+.EP
+
+.SH Syntax
+.SI 5
+mixed parse_match_object(string * input,
+object viewer,
+class obj_match_context context)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^input%^RESET%^ - the input string
+%^BOLD%^viewer%^RESET%^ - the person viewing the object
+%^BOLD%^context%^RESET%^ - the contex this is to be taken in
+.EI
+
+.SH Returns
+.SI 5
+({ type, ob }), 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/id_match.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This code is for the new parser...  It returns an array which contains
+two elements.  The first is the type of the match, plural or singular,
+and the second is the object it matched.  Usualy this_object() but
+it can be used to swap new objects.
+.EP
+

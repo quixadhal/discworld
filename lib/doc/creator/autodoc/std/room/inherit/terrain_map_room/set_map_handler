@@ -1,0 +1,33 @@
+.DT
+set_map_handler
+Disk World creator help
+set_map_handler
+
+.SH Name
+.SP 5 5
+set_map_handler -  This sets the map handler, OBSOLETE.
+.EP
+
+.SH Syntax
+.SI 5
+void set_map_handler(mixed handler)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^handler%^RESET%^ - the new handler
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets the map handler, OBSOLETE. This should be done by overriding query_map_handler()
+in the main inherited file. It doesn't get set fast enough otherwise.
+.EP
+

@@ -1,0 +1,46 @@
+.DT
+do_deposit
+Disk World creator help
+do_deposit
+
+.SH Name
+.SP 5 5
+do_deposit -  This method allows to you deposit money into the club.
+.EP
+
+.SH Syntax
+.SI 5
+int do_deposit(string mon,
+string name,
+string account,
+string reason)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^obs%^RESET%^ - the money objects to deposit
+%^BOLD%^name%^RESET%^ - the name of the club to deposit them to
+%^BOLD%^reason%^RESET%^ - the reason of the deposit
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/club_control_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method allows to you deposit money into the club.
+.EP
+
+.SH See also
+.SP 5 5
+do_balance(), query_percentage_cut(), set_percentage_cut()
+
+.EP
+

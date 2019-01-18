@@ -1,0 +1,44 @@
+.DT
+garble_text
+Disk World creator help
+garble_text
+
+.SH Name
+.SP 5 5
+garble_text -  Garble written text.
+.EP
+
+.SH Syntax
+.SI 5
+string garble_text(string lang,
+mixed text,
+object thing,
+object player)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^lang%^RESET%^ - the language written in
+%^BOLD%^text%^RESET%^ - the text which has been written
+%^BOLD%^thing%^RESET%^ - the thing which is written on
+%^BOLD%^player%^RESET%^ - the player doing the reading
+.EI
+
+.SH Returns
+.SI 5
+the garbled text as a string
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/languages.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Garble written text.  This is the same as garble_say, but it works on
+written text.
+
+.EP
+

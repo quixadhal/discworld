@@ -1,0 +1,40 @@
+.DT
+query_all_player_quest_info
+Disk World creator help
+query_all_player_quest_info
+
+.SH Name
+.SP 5 5
+query_all_player_quest_info -  This method returns all the quest information for a player.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_all_player_quest_info(string pl_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^pl_name%^RESET%^ - the name of the player
+.EI
+
+.SH Returns
+.SI 5
+the mapping containing all the quest info
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/library.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns all the quest information for a player.
+This information is used for quests which have several parts to them
+and information needs to be stored about the player as they attempt
+to complete it.  The keys of the mapping are the quest names and the
+values are the information associated with the quest.
+.EP
+

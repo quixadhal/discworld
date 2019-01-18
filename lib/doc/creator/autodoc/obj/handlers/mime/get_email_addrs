@@ -1,0 +1,44 @@
+.DT
+get_email_addrs
+Disk World creator help
+get_email_addrs
+
+.SH Name
+.SP 5 5
+get_email_addrs -  This method extracts valid email adresses from the given header field or string.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * get_email_addrs(string arg)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^arg%^RESET%^ - the string to parse
+.EI
+
+.SH Returns
+.SI 5
+an array consisting of an array of machine usable email adresses
+(no whitespace and comments) and an array of the full addresses.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/mime.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method extracts valid email adresses from the given
+header field or string.
+
+.EP
+
+.SH See also
+.SP 5 5
+rewrite_field()
+
+.EP
+

@@ -1,0 +1,54 @@
+.DT
+wash_player
+Disk World creator help
+wash_player
+
+.SH Name
+.SP 5 5
+wash_player -  This method washes a player.
+.EP
+
+.SH Syntax
+.SI 5
+int wash_player(object ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object to wash
+.EI
+
+.SH Returns
+.SI 5
+1 if the player was washed successfully, 0 if they weren't.
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/bath_house.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method washes a player.  Any wash commands that are defined
+must ultimately call this function, so that all of the wash
+functions can be evaluated.
+
+
+When an effect is found on the player for a matching wash effect classification, the function specified is evaluated with the following parameters: 
+.EP
+.SO 6 2 -10
+
+	*	ob, the player who is being washed 
+	*	classification, the classification of the effect that was matched. 
+	*	arg, the arguments to the effect. 
+	*	effect_enum, the position of the effect in the player's effect list. 
+	*	effect_ob, the object that the effect is found in. 
+.EO
+.SP 5 5
+
+
+After this, the finished functions are evaluated with two arguments, the first one being ob, the second one being an array of all the wash effect classifications that were matched correctly.
+.EP
+

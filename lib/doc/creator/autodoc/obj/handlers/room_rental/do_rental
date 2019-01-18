@@ -1,0 +1,55 @@
+.DT
+do_rental
+Disk World creator help
+do_rental
+
+.SH Name
+.SP 5 5
+do_rental -  Handles the actual renting of the room.
+.EP
+
+.SH Syntax
+.SI 5
+int do_rental(object player_ob,
+string room_short,
+object office)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player_ob%^RESET%^ - the player who is renting the room
+%^BOLD%^room_short%^RESET%^ - the short of the room that is to be rented
+%^BOLD%^office%^RESET%^ - the current office
+
+.EI
+
+.SH Returns
+.SI 5
+value dependent on success of rental. See below for details
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/room_rental.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Handles the actual renting of the room.  If the prospective
+tenant is already renting the room, it extends the rental.
+
+returns:
+RENTAL_SUCCESSFUL if the rental is successful
+RENTAL_NO_SUCH_ROOM if the room isn't on the books
+RENTAL_ALREADY_RENTED if someone else is renting the room already
+RENTAL_NO_MONEY if the player hasn't enough money
+
+.EP
+
+.SH See also
+.SP 5 5
+remove_rental()
+
+.EP
+

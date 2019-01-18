@@ -1,0 +1,46 @@
+.DT
+test_active
+Disk World creator help
+test_active
+
+.SH Name
+.SP 5 5
+test_active -  This method determines if a player is still active.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int test_active(string player,
+int noload)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player%^RESET%^ - the name of the user
+%^BOLD%^noload%^RESET%^ - optional parameter to prevent test_active() loading the
+              player 
+file.
+.EI
+
+.SH Returns
+.SI 5
+active or inactive (1 or 0)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/player_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method determines if a player is still active.
+If you need to perform this on a lot of players please use the noload
+parameter. When noload is set to 1 test_active will not attempt to load
+the player file if it isn't currently loaded and will instead just do a
+simple calculation of the players last login time. This is less accurate
+but avoids lagging the mud.
+
+.EP
+

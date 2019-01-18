@@ -1,0 +1,40 @@
+.DT
+is_critical
+Disk World creator help
+is_critical
+
+.SH Name
+.SP 5 5
+is_critical -  Figure out whether a given margin of success/failure will result in a critical or not.
+.EP
+
+.SH Syntax
+.SI 5
+int is_critical(int margin)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^margin%^RESET%^ - the margin of success.
+.EI
+
+.SH Returns
+.SI 5
+1 if the result is a critical, 0 otherwise.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/taskmaster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Figure out whether a given margin of success/failure will result
+in a critical or not.  Takes an integer between -100 and 100,
+representing the margin by which a skillcheck succeeded, and does
+some logarithmic-type equations to figure out whether it should
+result in a critical or not.
+.EP
+

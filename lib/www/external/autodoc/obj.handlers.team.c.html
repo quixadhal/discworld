@@ -1,0 +1,272 @@
+<html><head><title>File team.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/team.c</h2>
+This handler deals with grouping players into teams. Teams are entirely
+optional.  The handler deals with creating, joining, leaving and ending
+teams.  It also provides functions to find out who's a member of which
+team etc.<p>
+
+Commands will be available to do group things (group chatting, group
+health etc.) By default team members will protect each other and follow
+the leader.
+<p>Written by Ceres<p>Started June 96
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a> and <a href="include.login_handler.h.html">/include/login_handler.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_group"><b>group</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#end_group"><b>end_group</b></a>(string)<dd>
+This method ends a group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#join_group"><b>join_group</b></a>(string, object)<dd>
+This method joins a player into an existing group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#leave_group"><b>leave_group</b></a>(string, object)<dd>
+This method removes a player from the group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#leaving"><b>leaving</b></a>(string, string)<dd>
+When a player leaves the game automatically remove them from their team.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#list_groups"><b>list_groups</b></a>()<dd>
+This methor returns the list all the current teams.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#new_group"><b>new_group</b></a>(string, object, int)<dd>
+This method creates a new team.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_full"><b>query_full</b></a>(string)<dd>
+This method checks if its ok to join a group.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_group"><b>query_group</b></a>(object)<dd>
+This method finds out which team player is a member of.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_locked"><b>query_locked</b></a>(string)<dd>
+This method determines if the team is locked.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_members"><b>query_members</b></a>(string)<dd>
+This method returns the members of the team.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_owner"><b>query_owner</b></a>(string)<dd>
+This method determine the owner (leader)  of a team.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_policy"><b>query_policy</b></a>(string)<dd>
+This method returns the policy of the team
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_locked"><b>set_locked</b></a>(string, int)<dd>
+This method sets the lock flag on the team.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_group"><b>test_group</b></a>(string)<dd>
+This method determine if a team exists.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="end_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>end_group</b></a><pre>
+int end_group(string g_name)
+</pre><dd>
+This method ends a group.  Closes it, finishes it, done, finito.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>g_name - the name of the group to close
+<dt><b>See also:</b>
+<dd><a href="#new_group">new_group()
+</a></dl>
+
+<dt><a name="join_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>join_group</b></a><pre>
+int join_group(string g_name,
+object player)
+</pre><dd>
+This method joins a player into an existing group.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>g_name - the name of the group to join
+<dd>player - the player to join to the group
+<dt><b>See also:</b>
+<dd><a href="#new_group">new_group()</a>, <a href="#end_group">end_group()</a> and <a href="#leave_group">leave_group()
+</a></dl>
+
+<dt><a name="leave_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>leave_group</b></a><pre>
+int leave_group(string g_name,
+object player)
+</pre><dd>
+This method removes a player from the group.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>g_name - the name of the group to leave
+<dd>player - the player to leave the group
+<dt><b>See also:</b>
+<dd><a href="#join_group">join_group()
+</a></dl>
+
+<dt><a name="leaving">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>leaving</b></a><pre>
+void leaving(string p_name,
+string type)
+</pre><dd>
+When a player leaves the game automatically remove them from their team.
+this function is called automatically by the login handler for every
+player who leaves the game<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>p_name - the player name who is leaving
+<dd>type - the type of action being preformed
+<dt><b>See also:</b>
+<dd>/obj/handlers/login_handler
+.c</dl>
+
+<dt><a name="list_groups">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>list_groups</b></a><pre>
+string * list_groups()
+</pre><dd>
+This methor returns the list all the current teams.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of all the current team
+
+</dl>
+
+<dt><a name="new_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>new_group</b></a><pre>
+int new_group(string g_name,
+object leader,
+int policy)
+</pre><dd>
+This method creates a new team.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>g_name - the name of the group
+<dd>leader - the leader of the group (object)
+<dd>policy - the policy of the group
+<dt><b>See also:</b>
+<dd><a href="#end_group">end_group()
+</a></dl>
+
+<dt><a name="query_full">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_full</b></a><pre>
+int query_full(string g_name)
+</pre><dd>
+This method checks if its ok to join a group.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>g_name - the name of the group
+<dt><b>Returns:</b>
+<dd>1 if the team is full, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#join_group">join_group()
+</a></dl>
+
+<dt><a name="query_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_group</b></a><pre>
+string query_group(object player)
+</pre><dd>
+This method finds out which team player is a member of.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player to find the team of
+<dt><b>Returns:</b>
+<dd>the team they are a member of
+
+</dl>
+
+<dt><a name="query_locked">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_locked</b></a><pre>
+int query_locked(string g_name)
+</pre><dd>
+This method determines if the team is locked.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>g_name - the name of the team to test
+<dt><b>Returns:</b>
+<dd>1 if locked, 0 if unlocked
+<dt><b>See also:</b>
+<dd><a href="#set_locked">set_locked()
+</a></dl>
+
+<dt><a name="query_members">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_members</b></a><pre>
+object * query_members(string g_name)
+</pre><dd>
+This method returns the members of the team.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>g_name - the name of the group to get the member of
+<dt><b>Returns:</b>
+<dd>the members names as strings
+<dt><b>See also:</b>
+<dd><a href="#query_owner">query_owner()</a>, <a href="#query_policy">query_policy()</a> and <a href="#query_leader">query_leader()
+</a></dl>
+
+<dt><a name="query_owner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_owner</b></a><pre>
+object query_owner(string g_name)
+</pre><dd>
+This method determine the owner (leader)  of a team.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>g_name - the name of the group to get the owner for
+<dt><b>Returns:</b>
+<dd>the object refering to the owner
+<dt><b>See also:</b>
+<dd><a href="#query_members">query_members()</a> and <a href="#query_policy">query_policy()
+</a></dl>
+
+<dt><a name="query_policy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_policy</b></a><pre>
+int query_policy(string g_name)
+</pre><dd>
+This method returns the policy of the team<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>g_name - the name of the team
+<dt><b>Returns:</b>
+<dd>the policy of the team
+<dt><b>See also:</b>
+<dd><a href="#query_members">query_members()</a> and <a href="#query_leader">query_leader()
+</a></dl>
+
+<dt><a name="set_locked">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_locked</b></a><pre>
+int set_locked(string g_name,
+int lock)
+</pre><dd>
+This method sets the lock flag on the team.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>g_name - the name of the team
+<dd>lock - the new lock flag
+<dt><b>See also:</b>
+<dd><a href="#query_locked">query_locked()
+</a></dl>
+
+<dt><a name="test_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_group</b></a><pre>
+int test_group(string g_name)
+</pre><dd>
+This method determine if a team exists.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>g_name - the name of the team
+<dt><b>Returns:</b>
+<dd>1 if the team exists, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#new_group">new_group()</a> and <a href="#query_group">query_group()
+</a></dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_group">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>group</b></a><pre>
+class group {
+object leader;
+int policy;
+object * members;
+int locked;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 01:59:21 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

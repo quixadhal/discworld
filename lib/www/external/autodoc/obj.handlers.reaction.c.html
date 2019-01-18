@@ -1,0 +1,64 @@
+<html><head><title>File reaction.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Includes</h2>
+This class includes the following files <a href="include.reaction.h.html">/include/reaction.h</a> and <a href="include.move_failures.h.html">/include/move_failures.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_reaction"><b>check_reaction</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#dest_substance"><b>dest_substance</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#merge_cont_medium"><b>merge_cont_medium</b></a>(object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#merge_effects"><b>merge_effects</b></a>(mapping, mapping, int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move_substance"><b>move_substance</b></a>(object *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_reaction"><b>query_reaction</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_reactions"><b>query_reactions</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#restore_from_files"><b>restore_from_files</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_from_files"><b>update_from_files</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#write_dbg"><b>write_dbg</b></a>(string)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="check_reaction">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_reaction</b></a><pre>
+void check_reaction(object a)
+</pre>
+<dt><a name="dest_substance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>dest_substance</b></a><pre>
+void dest_substance(object ob)
+</pre>
+<dt><a name="merge_cont_medium">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>merge_cont_medium</b></a><pre>
+object merge_cont_medium(object a,
+string medium_alias)
+</pre>
+<dt><a name="merge_effects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>merge_effects</b></a><pre>
+mapping merge_effects(mapping effects_a,
+mapping effects_m,
+int q_a,
+int q_m)
+</pre>
+<dt><a name="move_substance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move_substance</b></a><pre>
+void move_substance(object * ob)
+</pre>
+<dt><a name="query_reaction">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_reaction</b></a><pre>
+mixed * query_reaction(string name_a,
+string name_b)
+</pre>
+<dt><a name="query_reactions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_reactions</b></a><pre>
+mapping query_reactions()
+</pre>
+<dt><a name="restore_from_files">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>restore_from_files</b></a><pre>
+void restore_from_files()
+</pre>
+<dt><a name="update_from_files">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_from_files</b></a><pre>
+void update_from_files(string fn)
+</pre>
+<dt><a name="write_dbg">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>write_dbg</b></a><pre>
+void write_dbg(string str)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 00:35:03 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

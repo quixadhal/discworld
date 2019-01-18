@@ -1,0 +1,45 @@
+.DT
+money_array_from_string
+Disk World creator help
+money_array_from_string
+
+.SH Name
+.SP 5 5
+money_array_from_string -  This method attempts to find a money value from a string.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * money_array_from_string(string str,
+string where)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the string to find the value of
+.EI
+
+.SH Returns
+.SI 5
+a money array of the types matched.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method attempts to find a money value from a string.  It will
+attempt to do fuzzy matching of the type.  This means it will match on
+partial matches, this could lead to somewhat weird behaviour...  So it
+goes...  It will return a money array, rather than a value
+.EP
+
+.SH See also
+.SP 5 5
+money_value_string()
+
+.EP
+

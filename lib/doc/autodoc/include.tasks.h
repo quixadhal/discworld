@@ -1,0 +1,213 @@
+.DT
+tasks.h
+Disk World autodoc help
+tasks.h
+
+.SH Description
+.SP 5 5
+
+This is the class you get when using the degree of success code for the
+taskmaster.
+.EP
+.SP 10 5
+
+.EP
+
+.SH Classes
+
+.SI 3
+* %^BOLD%^tasker_result%^RESET%^
+class tasker_result {
+int result;
+int degree;
+int raw;
+}
+
+.EI
+
+
+.SH Defines
+.SI 3
+* %^BOLD%^AWARD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BARF%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^BASE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^CONTINUOUS_COVERT_TM%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^COVERT_TM%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DECAY%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DEFAWARD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DEFWIN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DRAW%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^E_MODIFIER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^FAIL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^FAITH_TM%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^FAITH_TM_HALF%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MAGIC_TM%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MAGIC_TM_HALF%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MODIFIER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OFFAWARD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OFFWIN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OTHER_TM%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PERCEPTION_TM%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SUCCEED%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_AWARD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_BARF%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_CRITICAL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_CRITICAL_PERCENTAGE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_DEFAWARD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_DEFWIN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_DRAW%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_EXCEPTIONAL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_EXCEPTIONAL_UPPER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_FAIL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_MARGINAL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_MARGINAL_UPPER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_NORMAL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_NORMAL_UPPER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_OFFAWARD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_OFFWIN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TASKER_SUCCEED%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TM_COMMAND%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TM_CONTINUOUS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TM_FIXED%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TM_FREE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TM_NONE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TM_RITUAL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TM_SPELL%^RESET%^
+.EI
+

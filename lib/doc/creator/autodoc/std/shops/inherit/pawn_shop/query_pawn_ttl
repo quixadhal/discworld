@@ -1,0 +1,33 @@
+.DT
+query_pawn_ttl
+Disk World creator help
+query_pawn_ttl
+
+.SH Name
+.SP 5 5
+query_pawn_ttl -  This returns the time to live of pawned items, in seconds.
+.EP
+
+.SH Syntax
+.SI 5
+int query_pawn_ttl()
+.EI
+
+.SH Returns
+.SI 5
+[int] The time in seconds before the shop will sell a pawned item.
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/pawn_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This returns the time to live of pawned items, in seconds.  That is, the
+length of time between an item's being pawned and the shop selling that
+item to recoup its costs.
+.EP
+

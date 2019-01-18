@@ -1,6 +1,6 @@
 .DT
 salve.c
-DW_wibble autodoc help
+Disk World autodoc help
 salve.c
 
 .SH Inherits

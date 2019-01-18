@@ -1,0 +1,157 @@
+<html><head><title>File newspaper_subscription.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/newspaper_subscription.c</h2>
+Newspaper subscription room
+This room handles subscriptions for one specific newspaper.<p><b>See also:</b><br><a href="obj.handlers.newspaper.c.html">/obj/handlers/newspaper.c</a> and help:subscription_room.c<p>Written by Wirble<p>Started August 2001
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.mail.h.html">/include/mail.h</a>, <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.room.newspaper.h.html">/include/room/newspaper.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_publish_paper"><b>event_publish_paper</b></a>(string)<dd>
+This function has to be called whenever a new issue of the paper is
+released.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_money_place"><b>query_money_place</b></a>()<dd>
+This method returns the money place for the newsper.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_price_international_newspaper_box"><b>query_price_international_newspaper_box</b></a>()<dd>
+This returns the base cost of the international newspaper box.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_price_newspaper_box"><b>query_price_newspaper_box</b></a>()<dd>
+This returns the base cost of the newspaper box.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_price_per_issue_box"><b>query_price_per_issue_box</b></a>()<dd>
+This method queries the cost per issue for boxes.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_price_per_issue_subscriber"><b>query_price_per_issue_subscriber</b></a>()<dd>
+This queries the prices for subscriptions and boxes.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_money_place"><b>set_money_place</b></a>(string)<dd>
+This sets the region the newspaper is in.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_paper"><b>set_paper</b></a>(string)<dd>
+This sets the paper this particular room is for.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_parcel"><b>set_parcel</b></a>(string)<dd>
+This sets the parcel region for the room and thereby determines to which post
+office the newspapers will be delivered, i.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_savefile"><b>set_savefile</b></a>(string)<dd>
+This sets the savefile for the room.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="event_publish_paper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_publish_paper</b></a><pre>
+void event_publish_paper(string paper)
+</pre><dd>
+This function has to be called whenever a new issue of the paper is
+released.
+<p>
+
+<dt><a name="query_money_place">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_money_place</b></a><pre>
+string query_money_place()
+</pre><dd>
+This method returns the money place for the newsper.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the money place for the newspaper
+
+</dl>
+
+<dt><a name="query_price_international_newspaper_box">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_price_international_newspaper_box</b></a><pre>
+int query_price_international_newspaper_box()
+</pre><dd>
+This returns the base cost of the international newspaper box.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the base cost of the international newspaper box.
+
+</dl>
+
+<dt><a name="query_price_newspaper_box">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_price_newspaper_box</b></a><pre>
+int query_price_newspaper_box()
+</pre><dd>
+This returns the base cost of the newspaper box.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the base cost of the newspaper box.
+
+</dl>
+
+<dt><a name="query_price_per_issue_box">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_price_per_issue_box</b></a><pre>
+int query_price_per_issue_box()
+</pre><dd>
+This method queries the cost per issue for boxes.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>cost per issue for a box
+
+</dl>
+
+<dt><a name="query_price_per_issue_subscriber">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_price_per_issue_subscriber</b></a><pre>
+int query_price_per_issue_subscriber()
+</pre><dd>
+This queries the prices for subscriptions and boxes.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>price per issue to parcel subscribers
+
+</dl>
+
+<dt><a name="set_money_place">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_money_place</b></a><pre>
+void set_money_place(string new_region)
+</pre><dd>
+This sets the region the newspaper is in. i.e. Ankh-Morpork or Klatch.  This
+will be used for determining the correct currency.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_region - The region to use.
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="set_paper">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_paper</b></a><pre>
+void set_paper(string new_paper)
+</pre><dd>
+This sets the paper this particular room is for.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>new_paper - The paper's official name with correct capitalization.
+
+</dl>
+
+<dt><a name="set_parcel">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_parcel</b></a><pre>
+void set_parcel(string parcel_region)
+</pre><dd>
+This sets the parcel region for the room and thereby determines to which post
+office the newspapers will be delivered, i.e. Ankh-Morpork.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>parcel_region - The region to use.
+
+</dl>
+
+<dt><a name="set_savefile">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_savefile</b></a><pre>
+void set_savefile(string filename)
+</pre><dd>
+This sets the savefile for the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>filename - The full filename to use
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 18:09:25 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

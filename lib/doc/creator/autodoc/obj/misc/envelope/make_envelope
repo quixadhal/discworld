@@ -1,0 +1,57 @@
+.DT
+make_envelope
+Disk World creator help
+make_envelope
+
+.SH Name
+.SP 5 5
+make_envelope -  This is the method used to define the envelope.
+.EP
+
+.SH Syntax
+.SI 5
+void make_envelope(string description,
+int size)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^description%^RESET%^ - a brief description of the envelope
+%^BOLD%^size%^RESET%^ - the maximum weight of the envelope plus contents
+.EI
+
+.SH Defined in
+.SI 5
+/obj/misc/envelope.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the method used to define the envelope.  It works just like the
+"make_bottle()" call on "/obj/bottle.c", and must be done whenever one is
+created.  The description should be short and should not include the size
+of the envelope - this will be inferred from the size specified.  A size
+of 3 or less will be "small", 4 to 5 will be "medium", 6 to 8 is "large"
+and anything over that will be a "large packet".  The default and minimum
+size is 2.
+.EP
+
+.SH Example 1
+.SI 5
+// Make "a small pink envelope".
+make_envelope( "pink", 3 );
+.EI
+
+.SH Example 2
+.SI 5
+// Make "a large frog flavoured packet"
+make_envelope( "frog flavoured", 10 );
+.EI
+
+.SH See also
+.SP 5 5
+query_envelope_status()
+
+.EP
+

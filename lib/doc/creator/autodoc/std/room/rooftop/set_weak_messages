@@ -1,0 +1,45 @@
+.DT
+set_weak_messages
+Disk World creator help
+set_weak_messages
+
+.SH Name
+.SP 5 5
+set_weak_messages -  Set the messages for when a player falls through a weak roof.
+.EP
+
+.SH Syntax
+.SI 5
+void set_weak_messages(string player,
+string from,
+string to,
+string warn)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player%^RESET%^ - the message shown to the player.
+%^BOLD%^from%^RESET%^ - the message shown in the room the player is leaving.
+%^BOLD%^to%^RESET%^ - the message shown in the room the player is entering.
+%^BOLD%^warn%^RESET%^ - the message shown to the room just before the roof collapses.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/rooftop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Set the messages for when a player falls through a weak roof.
+
+.EP
+
+.SH See also
+.SP 5 5
+set_weak_roof
+
+.EP
+

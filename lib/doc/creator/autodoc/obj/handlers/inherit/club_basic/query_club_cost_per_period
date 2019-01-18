@@ -1,0 +1,42 @@
+.DT
+query_club_cost_per_period
+Disk World creator help
+query_club_cost_per_period
+
+.SH Name
+.SP 5 5
+query_club_cost_per_period -  This method determines how much the club will cost to run each pay period.
+.EP
+
+.SH Syntax
+.SI 5
+int query_club_cost_per_period(string club_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club to get the fees for
+.EI
+
+.SH Returns
+.SI 5
+the amount the club will cost in the next pay period.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_basic.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method determines how much the club will cost to run each
+pay period.
+.EP
+
+.SH See also
+.SP 5 5
+query_time_fees_due()
+
+.EP
+

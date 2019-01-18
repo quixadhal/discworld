@@ -1,0 +1,76 @@
+.DT
+set_default_position
+Disk World creator help
+set_default_position
+
+.SH Name
+.SP 5 5
+set_default_position -  This sets the default position of the object.
+.EP
+
+.SH Syntax
+.SI 5
+void set_default_position(mixed str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the new default position
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/living.no_eff_shad.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets the default position of the object.  This is used to
+allow things to default to some other exciting off beat and froopy
+default position.  The paramater to this is the command code
+used to put the object back into the default position or an
+array which contains three or one elements, the first is the string
+to use as the position, the second and third (if they exist) are
+the string to tell the person when changing and the string to tell
+everyone else when changing position.  The paramer can also be
+a function pointer, if it is then it will be evaluated and
+have two parameters passed into the function.  The first is
+the object returing to the position and the second is the leaving
+flag.
+
+
+Please note! After setting the position you will need to make the object return to the default position to use it. 
+
+A second note! A room can also define a query_default_position() function which will be called, if this returns a value (and the override flag is not set) then that will be used for the default position.
+.EP
+
+.SH Example 1
+.SI 5
+set_default_position("/cmds/living/kneel");
+.EI
+
+.SH Example 2
+.SI 5
+set_default_position(({ "running" }));
+.EI
+
+.SH Example 3
+.SI 5
+set_default_position(({ "fishing",
+                        "You start to fish.\n",
+                        the_short() + " starts to fish.\n" }));
+.EI
+
+.SH Example 4
+.SI 5
+npc->set_default_position(({ "running" }));
+npc->return_to_default_position(1);
+
+.EI
+
+.SH See also
+.SP 5 5
+query_default_position(), set_always_use_default_position(), /obj/monster()->set_cannot_change_position(), return_to_default_position()
+.EP
+

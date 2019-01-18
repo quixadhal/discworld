@@ -1,0 +1,41 @@
+.DT
+set_script_data_location
+Disk World creator help
+set_script_data_location
+
+.SH Name
+.SP 5 5
+set_script_data_location -  This method replaces the script data at the specified location in the script with a new item.
+.EP
+
+.SH Syntax
+.SI 5
+int set_script_data_location(string name,
+int pos,
+class script_data data)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the script name
+%^BOLD%^pos%^RESET%^ - the position to replace
+%^BOLD%^data%^RESET%^ - the data to replace it with
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/scripting.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method replaces the script data at the specified location in
+the script with a new item.
+.EP
+

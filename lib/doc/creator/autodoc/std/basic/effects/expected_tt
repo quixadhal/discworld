@@ -1,0 +1,46 @@
+.DT
+expected_tt
+Disk World creator help
+expected_tt
+
+.SH Name
+.SP 5 5
+expected_tt -  This method returns the time until any EE_REMOVE effect is expected to occur.
+.EP
+
+.SH Syntax
+.SI 5
+int expected_tt(int flag,
+int new_enum)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^flag%^RESET%^ - itrue, use new_enum not current_enum
+.EI
+
+.SH Returns
+.SI 5
+the time until the remove event will occur.EI
+
+.SH Defined in
+.SI 5
+/std/basic/effects.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the time until any EE_REMOVE effect
+is expected to occur.  It will return --1 if no remove
+event is scheduled.  If the flag is not
+set to true, the the current enum is checked, otherwise
+the new_enum is checked.
+.EP
+
+.SH See also
+.SP 5 5
+submit_ee(), add_effect(), expected_ee(), all_expected_ees()
+
+.EP
+

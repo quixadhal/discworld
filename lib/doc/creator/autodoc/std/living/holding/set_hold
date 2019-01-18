@@ -1,0 +1,57 @@
+.DT
+set_hold
+Disk World creator help
+set_hold
+
+.SH Name
+.SP 5 5
+set_hold -  This method sets the object as held.
+.EP
+
+.SH Syntax
+.SI 5
+int * set_hold(object ob,
+int pos,
+int limbs)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object to hold
+%^BOLD%^pos%^RESET%^ - the position in the limb array to start holding at
+%^BOLD%^limbs%^RESET%^ - the number of limbs to be used (1 or 2 usually). leave as
+zero for default.
+.EI
+
+.SH Returns
+.SI 5
+a array of limb numbers.EI
+
+.SH Defined in
+.SI 5
+/std/living/holding.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the object as held.  It will attempt to hold it starting
+at the given position in the limbs array.
+
+
+The return array contains the index of the limbs from which the item was added, if the array is 0 size then no items were added.
+.EP
+
+.SH See also
+.SP 5 5
+set_unhold(), query_limbs()
+
+Editors Note: I have changed set_hold so that it no longer 
+automatically unholds objects. I am moving that functionality to the
+hold command. If you want your objects to be in a specific limb,
+you have to free it up yourself using set_unhold.
+If you don't care which limbs, you just have to free up enough limbs
+to hold it.
+
+.EP
+

@@ -1,0 +1,156 @@
+<html><head><title>File auto_load.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/auto_load.c</h2>
+Handles the automatic loading and saving of objects into the
+players inventories on log in/out.<p>Written by Pinkfish<hr><h2>Includes</h2>
+This class includes the following files <a href="include.virtual.h.html">/include/virtual.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_auto_load"><b>create_auto_load</b></a>(object *, int)<dd>
+Creates the complete auto load array from the array of objects
+passed into this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_auto_load_alt"><b>load_auto_load_alt</b></a>(mixed *, object, object, function)<dd>
+The new method of handling auto loading of objects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_auto_load_to_array"><b>load_auto_load_to_array</b></a>(mixed *, object)<dd>
+This method creates all the objects and sets them up now.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_auto_load_to_inventory"><b>load_auto_load_to_inventory</b></a>(mixed *, object, object, function)<dd>
+This method loads all the objects from the array and places them
+into the inventory of the specified object.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_auto_load_string"><b>query_auto_load_string</b></a>()<dd>
+This method retrusn the auto load string which is used to
+regenerate the players inventory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_auto_loading"><b>query_auto_loading</b></a>()<dd>
+This method tells us if the player is in the inventory regeneration
+phase still.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_auto_load_string"><b>set_auto_load_string</b></a>(mixed)<dd>
+This method sets the current auto load string to the specified value.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="create_auto_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_auto_load</b></a><pre>
+string * create_auto_load(object * obs,
+int into_array)
+</pre><dd>
+Creates the complete auto load array from the array of objects
+passed into this object.  It returns an array of elements 
+as specified in auto_str_ob.  The arrays from auto_str_ob() are
+added together, so every 3 elemnts in the array is a new
+autoload object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects to create an autoload string for
+<dd>into_array - place the results directly iunto the auto_load array
+<dt><b>Returns:</b>
+<dd>the auto load array
+<dt><b>See also:</b>
+<dd><a href="#auto_str_ob">auto_str_ob()
+</a></dl>
+
+<dt><a name="load_auto_load_alt">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_auto_load_alt</b></a><pre>
+void load_auto_load_alt(mixed * auto_string,
+object dest,
+object tell_pl,
+function finished)
+</pre><dd>
+The new method of handling auto loading of objects.  This determines
+if the object failed to load and gives the player a recipt if it does
+not.
+<p>
+The finished variable should <b>only</b> be set in outer
+level calls to this.  If you set it inside containers when they call
+this it will cause errors.  This will only be called from within
+the player object itself.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>auto_string - the values specifing the objects to auto load
+<dd>dest - the destination to put the objects in
+<dd>tell - who to tell about errors
+<dd>finished - the function to call when the auto loading has completed
+<dt><b>See also:</b>
+<dd><a href="#create_auto_load">create_auto_load()</a> and <a href="#load_auto_load">load_auto_load()
+</a></dl>
+
+<dt><a name="load_auto_load_to_array">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_auto_load_to_array</b></a><pre>
+object * load_auto_load_to_array(mixed * auto_string,
+object tell_pl)
+</pre><dd>
+This method creates all the objects and sets them up now.  This will
+not move any of the objects anywhere...  Relying on the calling
+code to handle this.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>auto_string - the values specifing the objects to auto load
+<dd>dest - the destination to put the objects in
+<dd>tell - who to tell about errors
+<dd>finished - the function to call when the auto loading has completed
+<dt><b>See also:</b>
+<dd><a href="#create_auto_load">create_auto_load()</a> and <a href="#load_auto_load">load_auto_load()
+</a></dl>
+
+<dt><a name="load_auto_load_to_inventory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_auto_load_to_inventory</b></a><pre>
+void load_auto_load_to_inventory(mixed * auto_string,
+object dest,
+object tell_pl,
+function move_f)
+</pre><dd>
+This method loads all the objects from the array and places them
+into the inventory of the specified object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>auto_string - the values specifing the objects to auto load
+<dd>dest - the destination to put the objects in
+<dd>tell - who to tell about errors
+<dd>move_f - the function to call to move the object to it's destination
+<dt><b>See also:</b>
+<dd><a href="#create_auto_load">create_auto_load()</a> and <a href="#load_auto_load">load_auto_load()
+</a></dl>
+
+<dt><a name="query_auto_loading">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_auto_loading</b></a><pre>
+int query_auto_loading()
+</pre><dd>
+This method tells us if the player is in the inventory regeneration
+phase still.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if the inventory is being regenerated, 0 otherwise.
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="query_auto_load_string">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>query_auto_load_string</b></a><pre>
+mixed query_auto_load_string()
+</pre><dd>
+This method retrusn the auto load string which is used to
+regenerate the players inventory.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of the auto load string
+<dt><b>See also:</b>
+<dd><a href="#set_auto_load_string">set_auto_load_string()
+</a></dl>
+
+<dt><a name="set_auto_load_string">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_auto_load_string</b></a><pre>
+void set_auto_load_string(mixed str)
+</pre><dd>
+This method sets the current auto load string to the specified value.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_auto_load_string">query_auto_load_string()
+</a></dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 23:41:16 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

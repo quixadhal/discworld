@@ -1,0 +1,37 @@
+.DT
+login_callback
+Disk World creator help
+login_callback
+
+.SH Name
+.SP 5 5
+login_callback -  This is the callback function registered with the login handler.
+.EP
+
+.SH Syntax
+.SI 5
+void login_callback(string player,
+string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player%^RESET%^ - the player's name to check.
+%^BOLD%^type%^RESET%^ - the type of login event, as defined in <login_handler.h>.
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/start_positions.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the callback function registered with the login handler.  It
+takes two arguments: the player and the type of login event.  It checks
+a property on the player so that it doesn't process the list of buggy
+starts once for each player every single time they log in.
+.EP
+

@@ -1,0 +1,35 @@
+.DT
+add_magistrate
+Disk World creator help
+add_magistrate
+
+.SH Name
+.SP 5 5
+add_magistrate -  This method adds a magistrate to the area.
+.EP
+
+.SH Syntax
+.SI 5
+int add_magistrate(string area,
+string magistrate)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area to add the magistrate too
+%^BOLD%^magistrate%^RESET%^ - the magistrate to add
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/citizens.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a magistrate to the area.  If there are no more
+magistrate slots then this fails.
+.EP
+

@@ -1,0 +1,39 @@
+.DT
+query_items_blocking
+Disk World creator help
+query_items_blocking
+
+.SH Name
+.SP 5 5
+query_items_blocking -  This method returns the list of things that are blocking the removal of the specific object.
+.EP
+
+.SH Syntax
+.SI 5
+object * query_items_blocking(object thing,
+object player)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - the thing to find what it is being blocked by
+%^BOLD%^player%^RESET%^ - the player to look it up on
+.EI
+
+.SH Returns
+.SI 5
+the array of objects blocking it
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/clothing_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the list of things that are blocking the removal
+of the specific object.
+.EP
+

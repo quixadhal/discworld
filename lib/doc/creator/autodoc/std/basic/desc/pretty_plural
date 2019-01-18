@@ -1,0 +1,45 @@
+.DT
+pretty_plural
+Disk World creator help
+pretty_plural
+
+.SH Name
+.SP 5 5
+pretty_plural -  The observer dependant plural.
+.EP
+
+.SH Syntax
+.SI 5
+varargs string pretty_plural(object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - the observer
+.EI
+
+.SH Returns
+.SI 5
+the plural string
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/desc.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The observer dependant plural.  It was specifical written to
+handle money that needed to be displayed over several lines but
+only be one object. The way this was achived was if pretty_plural
+returns an array then each of the elements of the array is considered
+to be a seperate object and displayed accordingly. 
+.EP
+
+.SH See also
+.SP 5 5
+set_main_plural(), /obj/money->pretty_plural()
+.EP
+

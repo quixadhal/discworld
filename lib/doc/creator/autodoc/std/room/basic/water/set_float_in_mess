@@ -1,0 +1,47 @@
+.DT
+set_float_in_mess
+Disk World creator help
+set_float_in_mess
+
+.SH Name
+.SP 5 5
+set_float_in_mess -  This function sets the message that will be displayed when an object floats into this room.
+.EP
+
+.SH Syntax
+.SI 5
+void set_float_in_mess(string mess)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^mess%^RESET%^ - the new entry message for floating objects
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets the message that will be displayed when an object floats
+into this room.  The string "$up$" will be replaced by the current up
+direction for this room (as set by set_up_dir), and the usual other
+$-expansion for messages will occur, including the replacement of "$F" by
+the direction from which they are arriving.  The default is "$N float$s $up$
+from $F.".
+.EP
+
+.SH Example 1
+.SI 5
+  set_float_in_mess("$N float$s into the cavern from $F.");
+
+.EI
+
+.SH See also
+.SP 5 5
+query_float_in_mess, set_up_dir, query_up_dir
+.EP
+

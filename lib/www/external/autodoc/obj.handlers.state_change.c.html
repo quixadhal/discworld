@@ -1,0 +1,72 @@
+<html><head><title>File state_change.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/state_change.c</h2>
+This handler is meant to simulate the changing of an object's
+"state", such as melting, grinding, etc.  In reality, rather than
+changing the source object, the transform() method clones a
+completely new object, based on the internal lookup table; it is
+the caller's responsibility to dest the source object and put the
+new one in its place.
+<p>
+The handler's lookup table is stored in a series of files:
+any files in /obj/state_change ending in .dat will be added
+to the table when the handler is loaded.  See /include/state_change.h
+for field definitions.  The data files are loaded by the data
+handler, and can contain fancy things like expressions and function
+pointers.<p><b>See also:</b><br><a href="include.state_change.h.html">/include/state_change.h</a> and /obj/handlers/data.c
+<p>Written by Jeremy<hr><h2>Includes</h2>
+This class includes the following files <a href="include.state_change.h.html">/include/state_change.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_table"><b>query_table</b></a>()<dd>
+This method returns the entire lookup table.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#transform"><b>transform</b></a>(object, string, object)<dd>
+This method is generally called by the object doing the state
+change (e.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_table">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_table</b></a><pre>
+mixed query_table()
+</pre><dd>
+This method returns the entire lookup table.  It is mainly for
+debugging.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the state_change lookup table
+
+</dl>
+
+<dt><a name="transform">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>transform</b></a><pre>
+varargs object transform(object ob,
+string transformation,
+object player)
+</pre><dd>
+This method is generally called by the object doing the state
+change (e.g., a food grinder).  It looks up the specified source
+object in the table and clones the "transformed" object as specified.
+<p>
+The table is indexed by the source object as follows: if the source
+object has a property "state name", the value of this is used.  If
+not, the object's medium alias (if any, regardless of whether the
+object is continuous) is used.  Failing these, the object's short
+description is used.  The first one resulting in a valid string is
+concatenated with the transformation string (with a ":" between)
+and the result is used as the index.  If the lookup fails, 0 is
+returned.
+<p>
+Note that the resulting object is only cloned.  It is the responsibility
+of the caller to dest the source and put the result in its place.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the source object
+<dd>transformation - a string specifying the transformation (e.g., "grind")
+<dd>The - player to whom this state change will be attributed to! [optional]
+<dt><b>Returns:</b>
+<dd>the result of the transformation 
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 01:44:39 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,213 @@
+<html><head><title>File light.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/light.c</h2>
+This method handles the light changing and control.<p>Written by Pinkfish<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_inform_light_change"><b>add_inform_light_change</b></a>(object)<dd>
+This method adds an object to be informed of light change events.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_light"><b>adjust_light</b></a>(int)<dd>
+This changes the current light level.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#inform_of_light_level_change"><b>inform_of_light_level_change</b></a>(object)<dd>
+This method tells all our environments that the light level has
+changed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#light_level_changed"><b>light_level_changed</b></a>()<dd>
+This method tells us that the light levels have changed and should
+be recalculated when queried.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#new_recalc_light"><b>new_recalc_light</b></a>()<dd>
+This method forces a recalculation of the current light level in this
+object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_light"><b>query_light</b></a>()<dd>
+This returns the total light level of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_light_needs_inform"><b>query_light_needs_inform</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_my_light"><b>query_my_light</b></a>()<dd>
+This method returns the light associated with this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_opaque"><b>query_opaque</b></a>()<dd>
+This method checks to see if the object is opaque or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_inform_light_change"><b>remove_inform_light_change</b></a>(object)<dd>
+This method removes an object from the current list of things to
+be informed of a light change.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_opaque"><b>reset_opaque</b></a>()<dd>
+This method makes the object transparent (default).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_light"><b>set_light</b></a>(int)<dd>
+This sets the current light level.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_opaque"><b>set_opaque</b></a>()<dd>
+This method makes this object opaque.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_inform_light_change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_inform_light_change</b></a><pre>
+void add_inform_light_change(object ob)
+</pre><dd>
+This method adds an object to be informed of light change events.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to be informed of light change events
+
+</dl>
+
+<dt><a name="adjust_light">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_light</b></a><pre>
+int adjust_light(int number)
+</pre><dd>
+This changes the current light level. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the amount to chage it by
+<dt><b>See also:</b>
+<dd><a href="#set_light">set_light()</a>, <a href="#query_my_light">query_my_light()</a> and <a href="#query_light">query_light()
+</a></dl>
+
+<dt><a name="inform_of_light_level_change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>inform_of_light_level_change</b></a><pre>
+void inform_of_light_level_change(object ob)
+</pre><dd>
+This method tells all our environments that the light level has
+changed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object whose environment we should tell about the change
+<dt><b>See also:</b>
+<dd><a href="#light_level_changed">light_level_changed()
+</a></dl>
+
+<dt><a name="light_level_changed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>light_level_changed</b></a><pre>
+void light_level_changed()
+</pre><dd>
+This method tells us that the light levels have changed and should
+be recalculated when queried.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#inform_of_light_level_change">inform_of_light_level_change()
+</a></dl>
+
+<dt><a name="new_recalc_light">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>new_recalc_light</b></a><pre>
+varargs void new_recalc_light()
+</pre><dd>
+This method forces a recalculation of the current light level in this
+object.
+<p>
+
+<dt><a name="query_light">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_light</b></a><pre>
+int query_light()
+</pre><dd>
+This returns the total light level of the object.   This includes the
+light levels of anything that happens to be inside us.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>current light level
+<dt><b>See also:</b>
+<dd><a href="#query_my_light">query_my_light()</a> and <a href="#set_light">set_light()
+</a></dl>
+
+<dt><a name="query_light_needs_inform">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_light_needs_inform</b></a><pre>
+int query_light_needs_inform()
+</pre>
+<dt><a name="query_my_light">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_my_light</b></a><pre>
+int query_my_light()
+</pre><dd>
+This method returns the light associated with this object.   This does
+not count the light levels of anything inside us.
+<p>
+
+<dt><a name="query_opaque">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_opaque</b></a><pre>
+int query_opaque()
+</pre><dd>
+This method checks to see if the object is opaque or not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is opaque, 0 if not
+
+</dl>
+
+<dt><a name="remove_inform_light_change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_inform_light_change</b></a><pre>
+void remove_inform_light_change(object ob)
+</pre><dd>
+This method removes an object from the current list of things to
+be informed of a light change.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to remove from the inform list
+
+</dl>
+
+<dt><a name="reset_opaque">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_opaque</b></a><pre>
+void reset_opaque()
+</pre><dd>
+This method makes the object transparent (default).   This means that the
+light from items inside does escape.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_opaque">set_opaque()</a> and <a href="#set_light">set_light()
+</a></dl>
+
+<dt><a name="set_light">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_light</b></a><pre>
+int set_light(int number)
+</pre><dd>
+This sets the current light level.   This method calls adjust_light() 
+with the correct value to set the light level.
+<BR><BR>
+Light Levels:
+<BR>
+   Magically Darkened Room   0-
+<BR>
+   Absolutely Dark Room      0
+<BR>
+   Standard Dark Room        5
+<BR>
+   Dimly Lit Room            20
+<BR>
+   Mine Shaft with Candles   30
+<BR>
+   Partially Lit Room        50
+<BR>
+   Well Lit Room             60
+<BR>
+   Shaded Forest             60
+<BR>
+   Brightly Lit Room         80
+<BR>
+   Direct Sunlight           100
+<BR>
+   Explosion or flash        200+
+<BR><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - The new light level.
+<dt><b>See also:</b>
+<dd><a href="#query_my_light">query_my_light()</a> and <a href="#query_light">query_light()
+</a></dl>
+
+<dt><a name="set_opaque">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_opaque</b></a><pre>
+void set_opaque()
+</pre><dd>
+This method makes this object opaque.   This means that light does not
+escpae from it.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#not_obscured_object">not_obscured_object()</a> and <a href="#set_light">set_light()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 21:26:24 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,47 @@
+.DT
+filter_legal_tender
+Disk World creator help
+filter_legal_tender
+
+.SH Name
+.SP 5 5
+filter_legal_tender -  This method figures out the legal and illegal tender money from the specified money object in the specified money area.
+.EP
+
+.SH Syntax
+.SI 5
+varargs object * filter_legal_tender(object money,
+string where)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^money%^RESET%^ - the money object to get the legal tender from
+%^BOLD%^where%^RESET%^ - the money area the tender is for
+.EI
+
+.SH Returns
+.SI 5
+an two element array of objects ({ legal, illegal }).EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method figures out the legal and illegal tender money from
+the specified money object in the specified money area.   This method
+returns a two element array which consists of the legal and illegal
+tender for the given money area.   ({ legal, illegal }).  WARNING:
+This method destructs the money object passed to it.
+.EP
+
+.SH See also
+.SP 5 5
+parse_money(), filter_legal_money_array(), filter_legal_money_to_array()
+
+.EP
+

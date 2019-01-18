@@ -1,0 +1,44 @@
+.DT
+add_random_desc
+Disk World creator help
+add_random_desc
+
+.SH Name
+.SP 5 5
+add_random_desc -  This method is to add to the list of random descriptions that can be added to specific room types.
+.EP
+
+.SH Syntax
+.SI 5
+void add_random_desc(string types,
+string description,
+mixed items,
+mixed item_desc)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^types%^RESET%^ - the string of ASCII character type(s) that this desc could apply to
+%^BOLD%^items%^RESET%^ - add_item name(s) (identical to the 'shorts' parameter in add_item)
+%^BOLD%^item_desc%^RESET%^ - a string, or array of strings giving the corresponding item desc
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is to add to the list of random descriptions that can be added to
+specific room types. A specific random sequence is used so that the randoms
+won't vary over time.
+.EP
+
+.SH See also
+.SP 5 5
+set_random_desc_limit, set_random_chat_limit, add_random_chat, add_item
+
+.EP
+

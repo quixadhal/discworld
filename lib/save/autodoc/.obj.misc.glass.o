@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["make_glass":({({"void",}),({({"string",}),"drink",({"string",}),"glass_description",({"string",}),"glass_size",({"int",}),"amount",({"int",}),"has_contents",}),(["main":({"This function is used to transform the glass into a new type of glass, changing the short descriptions and adding aliases and adjectives.If the 'contents' parameter is 1, then the glass is automatically filledup with a drink made from /obj/reagents/generic_liquid.ob",}),"see":({"/obj/bottle",}),"param":({"drink The name of the drink to be created","glass_description The description given when there is something in the glass.","glass_size The size of the glass, (in words), for example \"large glass\",","amount The amount of liquid the glass should hold.","has_contents Fill the glass up with 'drink'.",}),"example":({"// Create a large glass of tomato juiceglass = clone_object(\"/obj/glass\");glass->make_glass(\"tomato juice\", \"Red, thick, delicious.\\n\",     \"large glass\", 4000, 1);glass->move(this_object());","inherit \"/obj/glass\";void setup() {// Do your own configuration of the glass, then call make_glass    ...    make_glass(\"chocolate milkshake\", \"Yumm...\", \"shot glass\", 100, 0);    ...// Place your own contents in, do other funky stuff.}",}),]),}),"init_static_arg":({({"void",}),({({"mapping",}),"map",}),([]),}),])
+protected_functions ([])
+inherits (["/obj/vessel":({}),])
+main_docs (["main":({"A nice little inheritable and constructible glass object thing.",}),"author":({"Taffyd",}),])
+define_docs ([])
+includes ([])
+class_docs ([])
+file_name "/obj/misc/glass.c"
+last_changed 1522061544

@@ -1,0 +1,43 @@
+.DT
+query_failed_message_exists
+Disk World creator help
+query_failed_message_exists
+
+.SH Name
+.SP 5 5
+query_failed_message_exists -  This method checks to see if the given object has already added a failed message yet or not.
+.EP
+
+.SH Syntax
+.SI 5
+int query_failed_message_exists(object dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - the object adding the failed message
+.EI
+
+.SH Returns
+.SI 5
+0 if not found, 1 if found.EI
+
+.SH Defined in
+.SI 5
+/global/new_parse.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the given object has already added a failed
+message yet or not.   This is checking for a direct object, not an 
+indirect object.
+.EP
+
+.SH See also
+.SP 5 5
+add_failed_mess()
+
+.EP
+

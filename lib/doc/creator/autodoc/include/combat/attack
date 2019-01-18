@@ -1,0 +1,78 @@
+.DT
+attack
+Disk World creator help
+attack
+
+.SH Name
+.SP 5 5
+attack -  This class stores all the information about a given attack.
+.EP
+
+.SH Definition
+.SI 5
+class attack {
+object attacker;
+class tactics attacker_tactics;
+class combat_special * attacker_specials;
+object attacker_concentrating;
+object attack_weapon;
+string attack_action;
+string attack_skill;
+mixed * attack_data;
+int attacker_defecit;
+int attack_cost;
+int attack_modifier;
+object attacker_last_opponent;
+object attacker_last_weapon;
+string attacker_last_action;
+int attacker_last_result;
+object opponent;
+class combat_special * defender_specials;
+object person_hit;
+object defender;
+int distance;
+class tactics defender_tactics;
+object defender_concentrating;
+object defense_weapon;
+string defense_limb;
+string defense_action;
+string defense_skill;
+int defender_defecit;
+int defense_cost;
+int defender_cost;
+int protector_cost;
+int defense_modifier;
+object defender_last_opponent;
+object defender_last_weapon;
+string defender_last_action;
+int defender_last_result;
+int damage;
+int armour_stopped;
+mixed stopped_by;
+string target_zone;
+int result;
+int degree;
+object corpse;
+string * attack_messages;
+string * defense_messages;
+int verbose;
+int repeat_count;
+int repeat;
+}
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/combat.h
+.EI
+
+.SH Description
+.SP 5 5
+
+This class stores all the information about a given attack. One of these is
+created for every attack. It contains attacker and defender information and
+is passed in to and back from every special attack.
+
+.EP
+

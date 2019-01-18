@@ -1,0 +1,44 @@
+.DT
+query_destination
+Disk World creator help
+query_destination
+
+.SH Name
+.SP 5 5
+query_destination -  This method returns the destination associated with the exit in the room.
+.EP
+
+.SH Syntax
+.SI 5
+string query_destination(string exit,
+string room)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^exit%^RESET%^ - the exit in the room to check
+%^BOLD%^room%^RESET%^ - the room in which to check for the exit
+.EI
+
+.SH Returns
+.SI 5
+the destination for the exit.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the destination associated with the exit in the
+room. 
+.EP
+
+.SH See also
+.SP 5 5
+query_dest_dir()
+
+.EP
+

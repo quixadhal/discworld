@@ -1,0 +1,44 @@
+.DT
+add_property
+Disk World creator help
+add_property
+
+.SH Name
+.SP 5 5
+add_property -  Adds a property onto the object.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int add_property(string var,
+mixed val,
+int tim)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^var%^RESET%^ - the name of the property
+%^BOLD%^val%^RESET%^ - the value to give the property
+%^BOLD%^tim%^RESET%^ - the time before the property should time out
+
+.EI
+
+.SH Returns
+.SI 5
+1 if it succeeded, 0 if it failed.
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/property.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Adds a property onto the object.  Allows you to add a property
+onto the current object.  You can also set a time for the property
+to last.
+
+.EP
+

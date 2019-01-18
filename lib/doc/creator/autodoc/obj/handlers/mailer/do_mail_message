@@ -1,0 +1,54 @@
+.DT
+do_mail_message
+Disk World creator help
+do_mail_message
+
+.SH Name
+.SP 5 5
+do_mail_message -  This method allows a message to be mailed.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int do_mail_message(string t,
+string from,
+string sub,
+string ccs,
+string body,
+ int,
+string only_to,
+int flag)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^t%^RESET%^ - who it is to
+%^BOLD%^from%^RESET%^ - who it is from
+%^BOLD%^sub%^RESET%^ - the subject of the message
+%^BOLD%^ccs%^RESET%^ - the carbon copy recipients
+%^BOLD%^body%^RESET%^ - the body of the message
+%^BOLD%^only_to%^RESET%^ - only mail to the to address
+%^BOLD%^flag%^RESET%^ - prevent this_player() from getting the messages if flag != 0
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/mailer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method allows a message to be mailed.  It checks the previous
+object to make sure it is one of the allowed set to
+do mailing.
+.EP
+
+.SH Example 1
+.SI 5
+MAIL_HANDLER->do_mail_message("pinkfish", "gumboot, killer tomato":,
+                              "About the tomatoes", "",
+                  "The grass ius greener yesterday,.\nYours\nGumboot.");
+
+.EI
+

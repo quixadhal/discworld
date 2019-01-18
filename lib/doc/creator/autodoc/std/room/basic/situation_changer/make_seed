@@ -1,0 +1,36 @@
+.DT
+make_seed
+Disk World creator help
+make_seed
+
+.SH Name
+.SP 5 5
+make_seed -  Makes a seed value for the random part of when  situations turn on and off.
+.EP
+
+.SH Syntax
+.SI 5
+void make_seed(int xval,
+int yval)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^xval%^RESET%^ - integer to use to make a seed (eg. x coordinate)
+%^BOLD%^yval%^RESET%^ - integer to use to make a seed (eg. y coordinate)
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/situation_changer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Makes a seed value for the random part of when 
+situations turn on and off.  The two ints must be 
+constant for a given room -- like the coordinates.
+.EP
+

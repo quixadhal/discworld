@@ -1,0 +1,168 @@
+<html><head><title>File room_rental_office.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/room_rental_office.c</h2>
+A Room Rental Office inheritable
+
+by goldenthread started 24 Sep y2k1
+
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.room.room_rental.h.html">/include/room/room_rental.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_room"><b>add_room</b></a>(string, int)<dd>
+This method adds a room into the offices list of rooms to rent.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_rooms"><b>clear_rooms</b></a>()<dd>
+This method removes all the rooms from the offices list of rooms to rent.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_room"><b>delete_room</b></a>(string)<dd>
+This method deletes a room from the offices list of rooms to rent.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list"><b>do_list</b></a>()<dd>
+The command to print the list of rooms available to rent.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_rental"><b>do_rental</b></a>(string)<dd>
+This method attempts to rent a room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_domain"><b>query_domain</b></a>()<dd>
+Queries the domain of the current office.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_list"><b>query_list</b></a>()<dd>
+This method returns the list of all the rooms available from this
+office.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_location"><b>query_location</b></a>()<dd>
+Queries the location of the current office.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_domain"><b>set_domain</b></a>(string)<dd>
+Sets the domain of the current office.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_location"><b>set_location</b></a>(string)<dd>
+Sets the location of the current office.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_room</b></a><pre>
+int add_room(string room,
+int cost)
+</pre><dd>
+This method adds a room into the offices list of rooms to rent.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to add
+<dd>cost - how much the room costs to rent
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="clear_rooms">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_rooms</b></a><pre>
+int clear_rooms()
+</pre><dd>
+This method removes all the rooms from the offices list of rooms to rent.
+Use this function with caution.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="delete_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_room</b></a><pre>
+int delete_room(string room)
+</pre><dd>
+This method deletes a room from the offices list of rooms to rent.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to delete
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list</b></a><pre>
+int do_list()
+</pre><dd>
+The command to print the list of rooms available to rent.
+<p>
+
+<dt><a name="do_rental">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_rental</b></a><pre>
+int do_rental(string room)
+</pre><dd>
+This method attempts to rent a room.  It checks the return from the
+handler and prints the appropriate message.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room to try and rent
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="query_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_domain</b></a><pre>
+string query_domain()
+</pre><dd>
+Queries the domain of the current office.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the domain of the office.
+
+</dl>
+
+<dt><a name="query_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_list</b></a><pre>
+string query_list()
+</pre><dd>
+This method returns the list of all the rooms available from this
+office.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the string list of rooms
+
+</dl>
+
+<dt><a name="query_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_location</b></a><pre>
+string query_location()
+</pre><dd>
+Queries the location of the current office.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the location of the office.
+
+</dl>
+
+<dt><a name="set_domain">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_domain</b></a><pre>
+void set_domain(string dom)
+</pre><dd>
+Sets the domain of the current office.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dom - the domain
+
+</dl>
+
+<dt><a name="set_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_location</b></a><pre>
+void set_location(string loc)
+</pre><dd>
+Sets the location of the current office.
+This is a name to identify the "hotel" or
+local group of rooms.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>loc - the location
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 06:30:27 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

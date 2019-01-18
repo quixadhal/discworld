@@ -1,0 +1,43 @@
+.DT
+query_door_type
+Disk World creator help
+query_door_type
+
+.SH Name
+.SP 5 5
+query_door_type -  This method returns information about the door type, the door has extra information associated with it than the standard exit type.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * query_door_type(string type,
+string direc,
+string dest)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the type of the door
+%^BOLD%^direc%^RESET%^ - the direction the door points
+%^BOLD%^dest%^RESET%^ - the destination of the door
+.EI
+
+.SH Returns
+.SI 5
+the door type array of information
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/room_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns information about the door type, the door has
+extra information associated with it than the standard exit type.
+This function does a double job of trying to find the corresponding
+door on the other side of the room.
+.EP
+

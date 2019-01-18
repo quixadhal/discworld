@@ -1,0 +1,241 @@
+<html><head><title>File property.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/property.c</h2>
+The property handling system.  This handles all the stuff to do with
+properties.
+<p>Written by Pinkfish<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_properties"><b>add_properties</b></a>(mapping)<dd>
+Adds a mapping of properties in, instead of just one.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_property"><b>add_property</b></a>(string, mixed, int)<dd>
+Adds a property onto the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_is_timed_property"><b>query_is_timed_property</b></a>(string)<dd>
+Is this property value timed?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_properties"><b>query_properties</b></a>()<dd>
+returns a mapping with all the properties in it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_property"><b>query_property</b></a>(string)<dd>
+Returns the value of the property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_property_exists"><b>query_property_exists</b></a>(string)<dd>
+Does this property exist?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_property_stats"><b>query_property_stats</b></a>(string)<dd>
+Returns some facts about the property, in the format
+({ Filename of object which added stat, time added, time expiring })
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_property_time_left"><b>query_property_time_left</b></a>(string)<dd>
+If this is a timed property it returns the amount of time left.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stats"><b>query_stats</b></a>()<dd>
+Return all property statistics
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_timed_properties"><b>query_timed_properties</b></a>()<dd>
+Returns a mapping of all the timed properties.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reload_player_properties"><b>reload_player_properties</b></a>()<dd>
+Fixes the times back up again after it has been loaded.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_property"><b>remove_property</b></a>(string)<dd>
+Removes a property off the object.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_player_properties"><b>save_player_properties</b></a>()<dd>
+Updates the timeouts and stuff before saving the player object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_properties"><b>set_properties</b></a>(mapping)<dd>
+Resets all properties
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_properties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_properties</b></a><pre>
+void add_properties(mapping map)
+</pre><dd>
+Adds a mapping of properties in, instead of just one.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>map - the mapping of properties
+
+</dl>
+
+<dt><a name="add_property">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_property</b></a><pre>
+varargs int add_property(string var,
+mixed val,
+int tim)
+</pre><dd>
+Adds a property onto the object.  Allows you to add a property
+onto the current object.  You can also set a time for the property
+to last.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>var - the name of the property
+<dd>val - the value to give the property
+<dd>tim - the time before the property should time out
+
+<dt><b>Returns:</b>
+<dd>1 if it succeeded, 0 if it failed.
+
+</dl>
+
+<dt><a name="query_is_timed_property">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_is_timed_property</b></a><pre>
+int query_is_timed_property(string str)
+</pre><dd>
+Is this property value timed?
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the property to check
+
+<dt><b>Returns:</b>
+<dd>1 if it is, 0 if not
+</dl>
+
+<dt><a name="query_properties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_properties</b></a><pre>
+mapping query_properties()
+</pre><dd>
+returns a mapping with all the properties in it.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a mapping of all the properties
+
+</dl>
+
+<dt><a name="query_property">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_property</b></a><pre>
+mixed query_property(string str)
+</pre><dd>
+Returns the value of the property.  This will return the current value
+of the named property.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the property to find
+<dt><b>Returns:</b>
+<dd>the value of the property
+<dt><b>See also:</b>
+<dd><a href="#query_property_exists">query_property_exists(), query_is_timed_property(), 
+query_property_time_left()
+</a></dl>
+
+<dt><a name="query_property_exists">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_property_exists</b></a><pre>
+int query_property_exists(string str)
+</pre><dd>
+Does this property exist?
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the property to check
+<dt><b>Returns:</b>
+<dd>1 if the property exists, 0 if it does not
+
+</dl>
+
+<dt><a name="query_property_stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_property_stats</b></a><pre>
+mixed query_property_stats(string var)
+</pre><dd>
+Returns some facts about the property, in the format
+({ Filename of object which added stat, time added, time expiring })
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>The - property statistics are wanted on
+<dt><b>Returns:</b>
+<dd>That stuff just mentioned.
+
+</dl>
+
+<dt><a name="query_property_time_left">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_property_time_left</b></a><pre>
+int query_property_time_left(string str)
+</pre><dd>
+If this is a timed property it returns the amount of time left.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the property name
+<dt><b>Returns:</b>
+<dd>the amount ot time left
+
+</dl>
+
+<dt><a name="query_stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stats</b></a><pre>
+mapping query_stats()
+</pre><dd>
+Return all property statistics
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>A mapping full of stats
+<dt><b>See also:</b>
+<dd>query_property_stats
+.c</dl>
+
+<dt><a name="query_timed_properties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_timed_properties</b></a><pre>
+mapping query_timed_properties()
+</pre><dd>
+Returns a mapping of all the timed properties.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a mapping of all the timed properties
+
+</dl>
+
+<dt><a name="remove_property">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_property</b></a><pre>
+int remove_property(string var)
+</pre><dd>
+Removes a property off the object.  This removes the named property
+from the object.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>var - the name of the property
+<dt><b>Returns:</b>
+<dd>always returns 1
+
+</dl>
+
+<dt><a name="set_properties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_properties</b></a><pre>
+void set_properties(mapping map)
+</pre><dd>
+Resets all properties<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>map - the mapping of properties
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="reload_player_properties">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>reload_player_properties</b></a><pre>
+void reload_player_properties()
+</pre><dd>
+Fixes the times back up again after it has been loaded.
+<p>
+
+<dt><a name="save_player_properties">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>save_player_properties</b></a><pre>
+void save_player_properties()
+</pre><dd>
+Updates the timeouts and stuff before saving the player object.
+<p>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 21:54:22 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,605 @@
+<html><head><title>File id.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/id.c</h2>
+This class keeps track of all the aliases, names and adjectives
+which are used to match the object.<p><b>See also:</b><br><a href="global.player.c.html#add_command">/global/player->add_command()</a> and /std/basic/desc.c
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.id_match.c.html">/std/basic/id_match.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.parse_command.h.html">/include/parse_command.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_Id"><b>Id</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_adjective"><b>add_adjective</b></a>(mixed)<dd>
+This method adds an adjective to the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_alias"><b>add_alias</b></a>(mixed)<dd>
+This method adds an alias to the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_faux_adjective"><b>add_faux_adjective</b></a>(mixed)<dd>
+This method adds a faux adjective to the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_faux_alias"><b>add_faux_alias</b></a>(mixed)<dd>
+This method adds a faux alias to the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_plural"><b>add_plural</b></a>(mixed)<dd>
+This method adds a plural onto the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_plural_adjective"><b>add_plural_adjective</b></a>(mixed)<dd>
+This method adds an plural adjective to the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_plurals"><b>add_plurals</b></a>(string *)<dd>
+This method adds multiple plurals to the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#faux_id_allowed"><b>faux_id_allowed</b></a>()<dd>
+This method is used by the id function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#id"><b>id</b></a>(string)<dd>
+This method is used by the present efun.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#id_adjective"><b>id_adjective</b></a>(string)<dd>
+This method is similar to the id function, except this will check the
+adjectives instead of the aliases and the name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#id_plural"><b>id_plural</b></a>(string)<dd>
+This method is similar to the id function, except this will check the
+plural names instead of the aliases and the name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#id_plural_adjective"><b>id_plural_adjective</b></a>(string)<dd>
+This method is similar to the id function, except this will check the
+plural adjectives instead of the aliases and the name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_adjectives"><b>query_adjectives</b></a>(int)<dd>
+This method returns the current list of adjectives associated with
+this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_alias"><b>query_alias</b></a>(int)<dd>
+This method returns the current list of aliases.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cap_name"><b>query_cap_name</b></a>()<dd>
+This method returns the capitalized name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_faux_adjectives"><b>query_faux_adjectives</b></a>()<dd>
+This method returns the current list of faux adjectives, including
+duplicates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_faux_alias"><b>query_faux_alias</b></a>()<dd>
+This method returns the current list of faux aliases, with duplicates
+included.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_name"><b>query_name</b></a>()<dd>
+This method returns the name of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_plural_adjectives"><b>query_plural_adjectives</b></a>()<dd>
+This method returns the current list of plural adjectives associated with
+this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_plurals"><b>query_plurals</b></a>()<dd>
+This method returns the complete list of plurals for the
+object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_unique_faux_adjectives"><b>query_unique_faux_adjectives</b></a>()<dd>
+This method returns a unique list of faux adjectives.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_unique_faux_alias"><b>query_unique_faux_alias</b></a>()<dd>
+This method returns the unique list of faux aliases.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_adjective"><b>remove_adjective</b></a>(mixed)<dd>
+This method will remove an adjective from the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_alias"><b>remove_alias</b></a>(string)<dd>
+This method removes an alias from the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_faux_adjective"><b>remove_faux_adjective</b></a>(mixed)<dd>
+This method will remove a faux adjective from the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_faux_alias"><b>remove_faux_alias</b></a>(string)<dd>
+This method removes a faux alias from the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_plural"><b>remove_plural</b></a>(string)<dd>
+This method removes a plural from the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_plural_adjective"><b>remove_plural_adjective</b></a>(mixed)<dd>
+This method will remove an plural adjective from the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_adjectives"><b>set_adjectives</b></a>(string *)<dd>
+This method sets all the adjectives for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_aliases"><b>set_aliases</b></a>(string *)<dd>
+This method sets the entire alias array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_name"><b>set_name</b></a>(string)<dd>
+This method sets the name of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_plural_adjectives"><b>set_plural_adjectives</b></a>(string *)<dd>
+This method sets all the plural adjectives for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_plurals"><b>set_plurals</b></a>(string *)<dd>
+This method sets the compete array of plurals.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_adjective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_adjective</b></a><pre>
+void add_adjective(mixed str)
+</pre><dd>
+This method adds an adjective to the object.   The adjectives are used
+for the object matching routines.    For example, if you have a "green
+bath tun" then "green" and "bath" are adjectives.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_alias">add_alias()</a>, <a href="#remove_adjective">remove_adjective()</a>, <a href="#query_adjectives">query_adjectives()</a> and <a href="#set_adjectives">set_adjectives()
+</a></dl>
+
+<dt><a name="add_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_alias</b></a><pre>
+void add_alias(mixed str)
+</pre><dd>
+This method adds an alias to the object.   An alias for the object is the
+part used as the main noun for the object. ie in the case of a "green
+bath tub", "bathtub" might be an alias for the object. and "green"
+and "bath" would be adjectives. The value set with add_alias is also
+used with present. This means you can make up an alias for an object
+that players cannot normaly access but you can
+get a handle on with present. For an exmple of this look at the money
+object.
+<p>
+The function takes an array or a string as an argument.   If an array
+is passed in each element of the array is added to the alias
+array, if it is a string then the string elemnt is added to the
+array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the alias(s) to add
+<dt><b>See also:</b>
+<dd><a href="#set_name">set_name()</a>, <a href="#remove_alias">remove_alias()</a>, <a href="#set_aliases">set_aliases()</a> and <a href="#query_alias">query_alias()</a><dt><b>Example:</b>
+<dd><pre>set_name("tub");
+set_short("green bath tub");
+add_alias("bathtub");
+add_adjective("green");
+add_adjective("bath");
+</pre></dl>
+
+<dt><a name="add_faux_adjective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_faux_adjective</b></a><pre>
+void add_faux_adjective(mixed str)
+</pre><dd>
+This method adds a faux adjective to the object.   Faux adjectives are
+ignored by objects that ignore identifiers.
+<p>
+The function takes an array or a string as an argument.   If an array
+is passed in each element of the array is added to the faux adjective
+array, if it is a string then each word in the string element is added
+to the array.  Elements that are already real adjectives of the object
+are ignored.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_adjective">add_adjective()</a>, <a href="#remove_faux_adjective">remove_faux_adjective()</a> and <a href="#ignore_identifiers">ignore_identifiers()
+</a></dl>
+
+<dt><a name="add_faux_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_faux_alias</b></a><pre>
+void add_faux_alias(mixed str)
+</pre><dd>
+This method adds a faux alias to the object.   Faux aliases are
+ignored by objects that ignore identifiers.
+<p>
+The function takes an array or a string as an argument.   If an array
+is passed in each element of the array is added to the faux alias
+array, if it is a string then the string element is added to the
+array.  Elements that are already real aliases of the object are ignored.
+Duplication in this list is allowed; a separate list without duplicates
+is maintained to improve performance.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the alias(s) to add
+<dt><b>See also:</b>
+<dd><a href="#query_faux_alias">query_faux_alias()</a>, <a href="#query_unique_faux_alias">query_unique_faux_alias()</a>, <a href="#add_alias">add_alias()</a>, <a href="#add_faux_adjective">add_faux_adjective()</a>, <a href="#remove_faux_alias">remove_faux_alias()</a>, <a href="#ignore_identifiers">ignore_identifiers()</a> and <a href="#parse_command_id_list">parse_command_id_list()</a><dt><b>Example:</b>
+<dd><pre></pre></dl>
+
+<dt><a name="add_plural">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_plural</b></a><pre>
+void add_plural(mixed str)
+</pre><dd>
+This method adds a plural onto the object.   The plurals will be
+used in plural name matching by thje find_match simul_efun<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="secure.simul_efun.c.html#find_match">/secure/simul_efun->find_match()</a>, <a href="#set_plurals">set_plurals()</a>, <a href="#remove_plural">remove_plural()</a>, <a href="#query_plurals">query_plurals()</a> and <a href="#add_plurals">add_plurals()
+</a></dl>
+
+<dt><a name="add_plural_adjective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_plural_adjective</b></a><pre>
+void add_plural_adjective(mixed str)
+</pre><dd>
+This method adds an plural adjective to the object.   The plural
+adjectives are used for the
+object matching routines.  Plural adjectives should be used very rarely,
+they are used in cases where the plural of a name is determined by the
+adjective rather than it's alias.  For example: pair of shoes, pairs
+of shoes.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_alias">add_alias()</a>, <a href="#remove_plural_adjective">remove_plural_adjective()</a>, <a href="#query_plural_adjectives">query_plural_adjectives()</a> and <a href="#set_plural_adjectives">set_plural_adjectives()
+</a></dl>
+
+<dt><a name="add_plurals">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_plurals</b></a><pre>
+void add_plurals(string * str)
+</pre><dd>
+This method adds multiple plurals to the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the array of plurals to add
+<dt><b>See also:</b>
+<dd><a href="#add_plural">add_plural()</a>, <a href="#remove_plural">remove_plural()</a> and <a href="#query_plurals">query_plurals()
+</a></dl>
+
+<dt><a name="faux_id_allowed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>faux_id_allowed</b></a><pre>
+int faux_id_allowed()
+</pre><dd>
+This method is used by the id function.   It determines whether or
+not an object in the calling list ignores identifiers.
+If none do, then faux aliases may be used.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if faux ids may be used
+<dt><b>See also:</b>
+<dd>add_faux_alias.c, add_faux_adjective.c and ignore_identifiers
+.c</dl>
+
+<dt><a name="id">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>id</b></a><pre>
+int id(string str)
+</pre><dd>
+This method is used by the present efun.   It determines if the
+passed in string is an alias or the name of the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the value to check
+<dt><b>Returns:</b>
+<dd>1 if the name matches
+
+</dl>
+
+<dt><a name="id_adjective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>id_adjective</b></a><pre>
+int id_adjective(string word)
+</pre><dd>
+This method is similar to the id function, except this will check the
+adjectives instead of the aliases and the name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the adjective to check
+<dt><b>Returns:</b>
+<dd>1 if the name matches one of the adjectives, 0 otherwise
+<dt><b>See also:</b>
+<dd><a href="#id">id()</a> and <a href="#id_plural">id_plural()
+</a></dl>
+
+<dt><a name="id_plural">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>id_plural</b></a><pre>
+int id_plural(string str)
+</pre><dd>
+This method is similar to the id function, except this will check the
+plural names instead of the aliases and the name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name to check
+<dt><b>Returns:</b>
+<dd>1 if the name matches one of the plurals, 0 otherwise
+<dt><b>See also:</b>
+<dd><a href="#id">id()</a> and <a href="#id_adjective">id_adjective()
+</a></dl>
+
+<dt><a name="id_plural_adjective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>id_plural_adjective</b></a><pre>
+int id_plural_adjective(string word)
+</pre><dd>
+This method is similar to the id function, except this will check the
+plural adjectives instead of the aliases and the name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name to check
+<dt><b>Returns:</b>
+<dd>1 if the name matches one of the plurals, 0 otherwise
+<dt><b>See also:</b>
+<dd><a href="#id">id()</a> and <a href="#id_plural">id_plural()
+</a></dl>
+
+<dt><a name="query_adjectives">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_adjectives</b></a><pre>
+varargs string * query_adjectives(int no_faux)
+</pre><dd>
+This method returns the current list of adjectives associated with
+this object.  If faux ids are allowed, then faux adjectives are
+included if the optional parameter is not 1.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>no_faux - 1 to ignore faux adjectives
+<dt><b>Returns:</b>
+<dd>the complete list of adjectives
+
+</dl>
+
+<dt><a name="query_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_alias</b></a><pre>
+varargs string * query_alias(int no_faux)
+</pre><dd>
+This method returns the current list of aliases.  If faux aliases are
+allowed, they are included, unless the optional parameter is passed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>no_faux - 1 to ignore faux aliases (optional)
+<dt><b>Returns:</b>
+<dd>the array of aliases (array of strings)
+
+<dt><b>See also:</b>
+<dd><a href="#add_alias">add_alias()</a>, <a href="#add_faux_alias">add_faux_alias()</a>, <a href="#query_faux_alias">query_faux_alias()</a>, <a href="#query_unique_faux_alias">query_unique_faux_alias()</a> and <a href="#remove_alias">remove_alias()</a></dl>
+
+<dt><a name="query_cap_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cap_name</b></a><pre>
+string query_cap_name()
+</pre><dd>
+This method returns the capitalized name.   It calls the function
+capitalize() on the name<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#query_name">query_name()</a>, <a href="#set_name">set_name()</a> and <a href="#efun::capitalize">efun::capitalize()
+</a></dl>
+
+<dt><a name="query_faux_adjectives">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_faux_adjectives</b></a><pre>
+string * query_faux_adjectives()
+</pre><dd>
+This method returns the current list of faux adjectives, including
+duplicates.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of faux adjectives (array of strings)
+
+<dt><b>See also:</b>
+<dd><a href="#add_faux_adjective">add_faux_adjective()</a>, <a href="#remove_faux_adjective">remove_faux_adjective()</a>, <a href="#query_adjectives">query_adjectives()</a> and <a href="#query_unique_faux_adjectives">query_unique_faux_adjectives()</a></dl>
+
+<dt><a name="query_faux_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_faux_alias</b></a><pre>
+string * query_faux_alias()
+</pre><dd>
+This method returns the current list of faux aliases, with duplicates
+included.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of faux aliases (array of strings)
+
+<dt><b>See also:</b>
+<dd><a href="#add_faux_alias">add_faux_alias()</a>, <a href="#remove_faux_alias">remove_faux_alias()</a> and <a href="#query_unique_faux_alias">query_unique_faux_alias()</a></dl>
+
+<dt><a name="query_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_name</b></a><pre>
+string query_name()
+</pre><dd>
+This method returns the name of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the object
+<dt><b>See also:</b>
+<dd><a href="#set_name">set_name()</a>, <a href="#add_alias">add_alias()</a> and <a href="#add_adjective">add_adjective()
+</a></dl>
+
+<dt><a name="query_plural_adjectives">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_plural_adjectives</b></a><pre>
+string * query_plural_adjectives()
+</pre><dd>
+This method returns the current list of plural adjectives associated with
+this object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the complete list of plural adjectives
+
+</dl>
+
+<dt><a name="query_plurals">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_plurals</b></a><pre>
+string * query_plurals()
+</pre><dd>
+This method returns the complete list of plurals for the
+object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the complete array of plurals
+
+</dl>
+
+<dt><a name="query_unique_faux_adjectives">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_unique_faux_adjectives</b></a><pre>
+string * query_unique_faux_adjectives()
+</pre><dd>
+This method returns a unique list of faux adjectives.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of faux adjectives (array of strings)
+
+<dt><b>See also:</b>
+<dd><a href="#query_adjectives">query_adjectives()</a>, <a href="#id_adjective">id_adjective()</a> and <a href="#remove_faux_adjective">remove_faux_adjective()</a></dl>
+
+<dt><a name="query_unique_faux_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_unique_faux_alias</b></a><pre>
+string * query_unique_faux_alias()
+</pre><dd>
+This method returns the unique list of faux aliases.  It is this list
+that id() uses.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of faux aliases (array of strings) without duplication
+
+<dt><b>See also:</b>
+<dd><a href="#query_faux_alias">query_faux_alias()</a> and <a href="#id">id()</a></dl>
+
+<dt><a name="remove_adjective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_adjective</b></a><pre>
+void remove_adjective(mixed str)
+</pre><dd>
+This method will remove an adjective from the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the adective(s) to remove
+
+<dt><b>See also:</b>
+<dd><a href="#add_alias">add_alias()</a>, <a href="#add_adjective">add_adjective()</a> and <a href="#query_adjectives">query_adjectives()</a></dl>
+
+<dt><a name="remove_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_alias</b></a><pre>
+int remove_alias(string str)
+</pre><dd>
+This method removes an alias from the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the alias to remove
+<dt><b>Returns:</b>
+<dd>1 if the alias is found, 0 if not
+
+<dt><b>See also:</b>
+<dd><a href="#add_alias">add_alias()</a> and <a href="#query_alias">query_alias()</a></dl>
+
+<dt><a name="remove_faux_adjective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_faux_adjective</b></a><pre>
+void remove_faux_adjective(mixed str)
+</pre><dd>
+This method will remove a faux adjective from the object.  Note that,
+if the adjective has been added more than once, only one instance is
+removed from the array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the adective(s) to remove
+
+<dt><b>See also:</b>
+<dd><a href="#add_faux_alias">add_faux_alias()</a>, <a href="#add_faux_adjective">add_faux_adjective()</a> and <a href="#query_adjectives">query_adjectives()</a></dl>
+
+<dt><a name="remove_faux_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_faux_alias</b></a><pre>
+int remove_faux_alias(string str)
+</pre><dd>
+This method removes a faux alias from the object.  Note that, if the
+alias has been added more than once, only one instance is removed
+from the array.  If the last instance of an alias is removed from the
+list, it is also removed from the unique list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the faux alias to remove
+<dt><b>Returns:</b>
+<dd>1 if the alias is found, 0 if not
+
+<dt><b>See also:</b>
+<dd><a href="#add_faux_alias">add_faux_alias()</a>, <a href="#add_faux_adjective">add_faux_adjective()</a>, <a href="#query_alias">query_alias()</a> and <a href="#query_unique_faux_alias">query_unique_faux_alias()</a></dl>
+
+<dt><a name="remove_plural">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_plural</b></a><pre>
+void remove_plural(string str)
+</pre><dd>
+This method removes a plural from the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the plural to remove
+<dt><b>See also:</b>
+<dd><a href="#add_plural">add_plural()</a>, <a href="#query_plurals">query_plurals()</a> and <a href="#set_plurals">set_plurals()
+</a></dl>
+
+<dt><a name="remove_plural_adjective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_plural_adjective</b></a><pre>
+void remove_plural_adjective(mixed str)
+</pre><dd>
+This method will remove an plural adjective from the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the adective(s) to remove
+
+<dt><b>See also:</b>
+<dd><a href="#add_alias">add_alias()</a>, <a href="#add_plural_adjective">add_plural_adjective()</a> and <a href="#query_plural_adjectives">query_plural_adjectives()</a></dl>
+
+<dt><a name="set_adjectives">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_adjectives</b></a><pre>
+void set_adjectives(string * str)
+</pre><dd>
+This method sets all the adjectives for the object.   This method
+should not be used, please use add_adjective instead.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the array of adjectives
+
+<dt><b>See also:</b>
+<dd><a href="#add_adjective">add_adjective()</a>, <a href="#remove_adjective">remove_adjective()</a> and <a href="#query_adjectives">query_adjectives()</a></dl>
+
+<dt><a name="set_aliases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_aliases</b></a><pre>
+void set_aliases(string * str)
+</pre><dd>
+This method sets the entire alias array.   It overrides any current alias
+definitions and sets the alias arry.   This should be used carefully
+if at all.   Use add_alias instead.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new alias array
+
+</dl>
+
+<dt><a name="set_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_name</b></a><pre>
+void set_name(string str)
+</pre><dd>
+This method sets the name of the object.   The name is the basic handle
+used to reference the object.   It should not have any spaces
+in it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name
+<dt><b>See also:</b>
+<dd><a href="#query_name">query_name()</a>, <a href="#add_alias">add_alias()</a> and <a href="#add_adjective">add_adjective()
+</a><dt><b>Example:</b>
+<dd><pre>set_name("rabbit");</pre></dl>
+
+<dt><a name="set_plural_adjectives">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_plural_adjectives</b></a><pre>
+void set_plural_adjectives(string * str)
+</pre><dd>
+This method sets all the plural adjectives for the object.   This method
+should not be used, please use add_plural_adjective instead.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the array of plural adjectives
+
+<dt><b>See also:</b>
+<dd><a href="#add_plural_adjective">add_plural_adjective()</a>, <a href="#remove_plural_adjective">remove_plural_adjective()</a> and <a href="#query_plural_adjectives">query_plural_adjectives()</a></dl>
+
+<dt><a name="set_plurals">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_plurals</b></a><pre>
+void set_plurals(string * str)
+</pre><dd>
+This method sets the compete array of plurals.   This shod
+not be used, use add_plural and remove_plural instead.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_plural">add_plural()</a>, <a href="#remove_plural">remove_plural()</a> and <a href="#query_plurals">query_plurals()
+</a></dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_Id">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>Id</b></a><pre>
+class Id {
+string name;
+string * alias;
+string * faux_alias;
+string * unique_faux_alias;
+string * adjectives;
+string * faux_adjectives;
+string * unique_faux_adjectives;
+string * plural_adjectives;
+string * plurals;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 21:06:00 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

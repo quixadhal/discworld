@@ -1,0 +1,59 @@
+.DT
+lot
+Disk World creator help
+lot
+
+.SH Name
+.SP 5 5
+lot -  A few notes about this class, I didn't like the way the old one worked, when a lot moved to expired_lots, there was no real way to recover it Instead, we will keep one array of all lots, with differing status's depending on whats happening.
+.EP
+
+.SH Definition
+.SI 5
+class lot {
+int case_code;
+class store assoc_store;
+string seller;
+string status;
+int expiration_time;
+int reserve_price;
+mapping bids;
+mixed * lot_autoload;
+mixed * current_bid;
+string * auto_bids;
+string notes;
+string * excluded;
+}
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/auction_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+A few notes about this class, I didn't like the way the old one
+worked, when a lot moved to expired_lots, there was no real way to recover it
+Instead, we will keep one array of all lots, with differing status's depending
+on whats happening.
+IE: Open: Accepting bids.
+    Waiting: Seller: It did not take any acceptable bids and it is waiting collection
+      by the seller.
+    Waiting: Buyer: A bid was taken and we are waiting for payment.
+    Waiting: Buyer (lapsed): A bid was taken, but lapsed. There are no 
+      other bidders, so in the next cycle the seller will be mailed and
+      status changed to Waiting: Seller.
+    Waiting Creator Intervention:  A lot has fallen over in some way,
+      and needs a creator to fix it.
+    Closed: The bid has been collected (by either buyer or seller),
+      lots will stay in this status for 2 hours after collection.
+      Then payment will be credited to the payment array and the lot will 
+      be deleted.
+Case code is used in reference to the store class.
+The rest are the same as they were in the last version
+
+.EP
+

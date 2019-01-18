@@ -1,0 +1,47 @@
+.DT
+run_alias
+Disk World creator help
+run_alias
+
+.SH Name
+.SP 5 5
+run_alias -  Attempt to expand the alias.
+.EP
+
+.SH Syntax
+.SI 5
+string * run_alias(string verb,
+string args)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^verb%^RESET%^ - the name of the alias to expand
+%^BOLD%^args%^RESET%^ - the arguments to the alias
+.EI
+
+.SH Returns
+.SI 5
+the array if the alias was expanded, 0 if failed.EI
+
+.SH Defined in
+.SI 5
+/global/alias.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Attempt to expand the alias.    This will look up the alias and
+see if it is defined.  If it is, it will attempt to expand the 
+alias. This does not call set_doing_alias().  This will
+return 0 if the alias does not exist, or the alias is already
+being run.
+.EP
+
+.SH See also
+.SP 5 5
+exec_alias(), is_doing_alias(), set_doing_alias(), expand_alias()
+
+.EP
+

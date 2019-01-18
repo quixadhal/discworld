@@ -1,0 +1,41 @@
+.DT
+find_nomic_rule
+Disk World creator help
+find_nomic_rule
+
+.SH Name
+.SP 5 5
+find_nomic_rule -  This method searches through for the specified rule.
+.EP
+
+.SH Syntax
+.SI 5
+class nomic_rule find_nomic_rule(string area,
+string creator,
+string text)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area the rule is in
+%^BOLD%^creator%^RESET%^ - the creator of the rule
+%^BOLD%^text%^RESET%^ - the text of the rule
+.EI
+
+.SH Returns
+.SI 5
+the rule if it is found, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/nomic_rules.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method searches through for the specified rule.  This stops the
+same rule being added more than once by some error in the code.
+.EP
+

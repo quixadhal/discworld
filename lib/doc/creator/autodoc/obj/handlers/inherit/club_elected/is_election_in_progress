@@ -1,0 +1,41 @@
+.DT
+is_election_in_progress
+Disk World creator help
+is_election_in_progress
+
+.SH Name
+.SP 5 5
+is_election_in_progress -  This method checks to see if there is currently an election in progress.
+.EP
+
+.SH Syntax
+.SI 5
+int is_election_in_progress(string club)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club to check for an election
+.EI
+
+.SH Returns
+.SI 5
+1 if there is an election in progress, 0 if not.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if there is currently an election in progress.
+.EP
+
+.SH See also
+.SP 5 5
+complete_election(), start_election(), is_nomination_in_progress(), is_voting_in_progress()
+
+.EP
+

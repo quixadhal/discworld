@@ -1,0 +1,44 @@
+.DT
+soak
+Disk World creator help
+soak
+
+.SH Name
+.SP 5 5
+soak -  This function makes things wet.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void soak(object ob,
+int ignore_location)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object to be soaked
+%^BOLD%^ignore_location%^RESET%^ - whether the object should be soaked wherever it is
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function makes things wet.  Anything entering a water room has this
+function called on it by event_enter, and will have the wetness effect added
+to it if appropriate, as well as to any appropriate objects inside it if it
+isn't waterproof.  Open containers will also be filled with water.  The
+function checks to see that the object is indeed inside the room, unless the
+optional extra argument is non-zero.
+.EP
+
+.SH See also
+.SP 5 5
+get_water
+
+.EP
+

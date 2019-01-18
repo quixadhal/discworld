@@ -1,0 +1,61 @@
+.DT
+add_object
+Disk World creator help
+add_object
+
+.SH Name
+.SP 5 5
+add_object -  This method is used to add an item to the storage.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int add_object(string name,
+int max_per_reset,
+string display_as)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the object to add.
+%^BOLD%^max_per_reset%^RESET%^ - the maximum number of items to be available at any one time
+%^BOLD%^display_as%^RESET%^ - the name that this item is displayed as in shops
+.EI
+
+.SH Returns
+.SI 5
+1 if the item was added successfully to the store, 0 if it was not.
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/clone_on_demand.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to add an item to the storage.
+When this method is called, create_object() is called
+(with the object name as an arg) in the inheriting file.
+If no object is returned by that function,
+the name is cloned with clone_object(), and failing that
+request_item() is called in the armoury against the name.
+
+This method makes add_weapon() and add_armour() obsolete.
+
+.EP
+
+.SH Example 1
+.SI 5
+add_object( "frog", 1 + random( 3 ) );
+// This will try and create an object called frog, in the order mentioned
+// above
+.EI
+
+.SH Example 2
+.SI 5
+add_object( "/obj/food/apple.food", 0 );
+// Add unlimited numbers of apples.
+.EI
+

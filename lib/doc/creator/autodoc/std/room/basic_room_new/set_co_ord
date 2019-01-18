@@ -1,0 +1,38 @@
+.DT
+set_co_ord
+Disk World creator help
+set_co_ord
+
+.SH Name
+.SP 5 5
+set_co_ord -  Sets the current co-ordinates of the room.
+.EP
+
+.SH Syntax
+.SI 5
+void set_co_ord(int * new_co_ord)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^new_co_ord%^RESET%^ - the new co-ordinates for the room.
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room_new.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Sets the current co-ordinates of the room.  The co-ordinates are
+3d, ({ x, y, z }).  So an array with three elements.
+.EP
+
+.SH See also
+.SP 5 5
+query_co_ord(), query_co_ord_calculated()
+
+.EP
+

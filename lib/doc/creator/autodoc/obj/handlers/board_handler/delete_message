@@ -1,0 +1,41 @@
+.DT
+delete_message
+Disk World creator help
+delete_message
+
+.SH Name
+.SP 5 5
+delete_message -  Remove a message from a board.
+.EP
+
+.SH Syntax
+.SI 5
+int delete_message(string board,
+int off,
+string override_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^board%^RESET%^ - the board to remove the message from
+%^BOLD%^off%^RESET%^ - the offset to delete
+%^BOLD%^override_name%^RESET%^ - used by the web boards
+.EI
+
+.SH Returns
+.SI 5
+0 on failure and 1 on success
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/board_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Remove a message from a board.  The offset is the offset into the
+subjects array.
+.EP
+

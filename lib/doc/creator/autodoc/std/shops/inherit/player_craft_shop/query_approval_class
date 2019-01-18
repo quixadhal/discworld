@@ -1,0 +1,38 @@
+.DT
+query_approval_class
+Disk World creator help
+query_approval_class
+
+.SH Name
+.SP 5 5
+query_approval_class -  This method returns the approval class from the string name.
+.EP
+
+.SH Syntax
+.SI 5
+class approval_obs query_approval_class(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the string name
+%^BOLD%^approved%^RESET%^ - from the approved or waiting list
+.EI
+
+.SH Returns
+.SI 5
+the approval object
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/player_craft_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the approval class from the string name.  THis is
+assumed to be called from inside a command.
+.EP
+

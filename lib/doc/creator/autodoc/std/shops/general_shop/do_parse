@@ -1,0 +1,42 @@
+.DT
+do_parse
+Disk World creator help
+do_parse
+
+.SH Name
+.SP 5 5
+do_parse -  This method is the major message processing function for the buye messages, sell messages etc.
+.EP
+
+.SH Syntax
+.SI 5
+void do_parse(mixed arr,
+object * ob,
+object client,
+string money,
+string extra)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^arr%^RESET%^ - the value of the message
+%^BOLD%^ob%^RESET%^ - the objects to process
+%^BOLD%^money%^RESET%^ - the money string
+%^BOLD%^extra%^RESET%^ - the extra string
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/general_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is the major message processing function for
+the buye messages, sell messages etc.  It handles calling
+the functions and setting the results back onto the
+player.
+.EP
+

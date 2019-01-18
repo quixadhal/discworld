@@ -1,0 +1,45 @@
+.DT
+load_room_at
+Disk World creator help
+load_room_at
+
+.SH Name
+.SP 5 5
+load_room_at -  This method is used to find a room at the specified coordinates, or to clone and setup a new one if none exists so far.
+.EP
+
+.SH Syntax
+.SI 5
+object load_room_at(int x,
+int y,
+int z)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x%^RESET%^ - the x coordinate of the room (internal coordinate system)
+%^BOLD%^y%^RESET%^ - the y coordinate of the room (internal coordinate system)
+.EI
+
+.SH Returns
+.SI 5
+the room at those coordinates, or 0 if none can be cloned.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to find a room at the specified coordinates,
+or to clone and setup a new one if none exists so far.
+.EP
+
+.SH See also
+.SP 5 5
+load_room_at, query_room
+
+.EP
+

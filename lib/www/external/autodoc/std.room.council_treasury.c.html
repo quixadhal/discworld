@@ -1,0 +1,146 @@
+<html><head><title>File council_treasury.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/council_treasury.c</h2>
+This is the council treasury inheritable.  It does fun stuff!  Kudos to
+Pinkfish for the deposit/withdrawl stuff, which I shamelessy stole 
+from /std/bank.<p>Written by Kili<p>Started Late October 2001
+<hr><h2>Inherits</h2>
+This class inherits the following classes /std/room.c and <a href="std.room.inherit.council_base.c.html">/std/room/inherit/council_base.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.nomic_system.h.html">/include/nomic_system.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_transaction"><b>transaction</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_time"><b>check_time</b></a>()<dd>
+This will check the time of the last transactions, and move them into a
+log file if they are over two weeks old.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_me"><b>load_me</b></a>()<dd>
+Load the variables for this treasury.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_me"><b>save_me</b></a>()<dd>
+Save the variables for this treasury.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#security_check"><b>security_check</b></a>(object, int)<dd>
+This will check to see if the player attempting an action is allowed to
+perform that action.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_archive"><b>set_archive</b></a>(string)<dd>
+This sets the file to which old logs will be transferred after two weeks.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_place"><b>set_place</b></a>(string)<dd>
+Set the location of the treasury, to determine what type of currency to use
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_file"><b>set_save_file</b></a>(string)<dd>
+Set the save file for the treasury
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_security_levels"><b>set_security_levels</b></a>(int, int, int *)<dd>
+This sets what you must be to read the log and deposit cash, and also
+wether you are logging withdrawls and deposits.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="check_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_time</b></a><pre>
+void check_time()
+</pre><dd>
+This will check the time of the last transactions, and move them into a
+log file if they are over two weeks old.
+<p>
+
+<dt><a name="load_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_me</b></a><pre>
+void load_me()
+</pre><dd>
+Load the variables for this treasury.
+<p>
+
+<dt><a name="save_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_me</b></a><pre>
+void save_me()
+</pre><dd>
+Save the variables for this treasury.
+<p>
+
+<dt><a name="security_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>security_check</b></a><pre>
+int security_check(object player,
+int type)
+</pre><dd>
+This will check to see if the player attempting an action is allowed to
+perform that action.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - The player attempting the action
+<dd>type - The type of action (deposting, reading logs, etc.).
+
+</dl>
+
+<dt><a name="set_archive">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_archive</b></a><pre>
+void set_archive(string word)
+</pre><dd>
+This sets the file to which old logs will be transferred after two weeks.  
+You can then modify the council archives to read the file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The file to write to
+
+</dl>
+
+<dt><a name="set_place">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_place</b></a><pre>
+void set_place(string word)
+</pre><dd>
+Set the location of the treasury, to determine what type of currency to use<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The location
+
+</dl>
+
+<dt><a name="set_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_file</b></a><pre>
+void set_save_file(string file)
+</pre><dd>
+Set the save file for the treasury<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>file - The file to save to
+
+</dl>
+
+<dt><a name="set_security_levels">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_security_levels</b></a><pre>
+void set_security_levels(int read_log,
+int deposits,
+int * logging)
+</pre><dd>
+This sets what you must be to read the log and deposit cash, and also
+wether you are logging withdrawls and deposits.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>read_log - 2 for magistrate, 1 for citizen, 0 for anyone is able to
+read the log
+<dd>deposits - Same as for read_log, to see who can deposit
+<dd>logging - ({withdrwals, deposits}), are we logging? 0 for no, 1 for yes
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_transaction">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>transaction</b></a><pre>
+class transaction {
+string person;
+int amount;
+string reason;
+int date;
+string action;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 17:13:19 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,34 @@
+.DT
+update_water_light
+Disk World creator help
+update_water_light
+
+.SH Name
+.SP 5 5
+update_water_light -  This function updates the amount of light filtering down to this room from the rooms above it, if it is necessary to do so.
+.EP
+
+.SH Syntax
+.SI 5
+void update_water_light()
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function updates the amount of light filtering down to this room from
+the rooms above it, if it is necessary to do so.  It is called by
+query_light in /std/room/water_inside and /std/room/water_outside.
+.EP
+
+.SH See also
+.SP 5 5
+set_use_surface_light, set_light, query_water_surface_light, get_water_surface_light
+
+.EP
+

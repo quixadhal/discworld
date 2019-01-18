@@ -1,0 +1,41 @@
+.DT
+family_info
+Disk World creator help
+family_info
+
+.SH Name
+.SP 5 5
+family_info -  This method prints out the information associated with the family.
+.EP
+
+.SH Syntax
+.SI 5
+int family_info(string name,
+string person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the family to show the information about
+%^BOLD%^show_election%^RESET%^ - if non-zero show the election information
+%^BOLD%^person%^RESET%^ - the person who is showing the information
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/club_listing.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method prints out the information associated with the family.
+The stuff printed out here is directly lifted from the family control room.
+This method is designed to work with add_command().
+.EP
+

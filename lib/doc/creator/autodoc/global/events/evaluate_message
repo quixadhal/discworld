@@ -1,0 +1,46 @@
+.DT
+evaluate_message
+Disk World creator help
+evaluate_message
+
+.SH Name
+.SP 5 5
+evaluate_message -  This is the main evaluation routine.
+.EP
+
+.SH Syntax
+.SI 5
+string evaluate_message(mixed * stuff)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^stuff%^RESET%^ - the message to evaulate
+.EI
+
+.SH Returns
+.SI 5
+the nice printed out string.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the main evaluation routine.  This is the one that
+co-ordinates the works...  It is used by the print_messages
+routine to create the message to print out.
+
+
+The input parameter contains two elements, the first is the message and the second is the things array. This corresponds to the values returned by the fix_message method.
+.EP
+
+.SH See also
+.SP 5 5
+print_messages()
+
+.EP
+

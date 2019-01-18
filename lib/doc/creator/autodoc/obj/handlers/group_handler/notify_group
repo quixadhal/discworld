@@ -1,0 +1,46 @@
+.DT
+notify_group
+Disk World creator help
+notify_group
+
+.SH Name
+.SP 5 5
+notify_group -  This function broadcasts a message to the group's channel using the broadcaster handler.
+.EP
+
+.SH Syntax
+.SI 5
+void notify_group(string name,
+object broadcaster,
+mixed message)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the group
+%^BOLD%^object%^RESET%^ - person or object doing the broadcasting
+%^BOLD%^message%^RESET%^ - the message to be broadcasted
+
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/group_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function broadcasts a message to the group's channel using
+the broadcaster handler.  The first argument specifies the
+group's name (not short), which also acts as the channel
+name.  The second argument is the object doing the broadcasting.
+The third argument varies.  It can either be a simple string,
+in which case that string is printed as the message.  It can
+also be a two-element string array.  The first element is
+printed only to the object specified in the second argument.
+The second element is printed to everyone else.
+
+.EP
+

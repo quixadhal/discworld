@@ -1,0 +1,39 @@
+<html><head><title>File image.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/image.c</h2>
+Images can be used to efficiently store per-room area information.
+Two current uses are for height maps (ie, third coordinate) and
+exit maps (eg, a maze).  Along a row represents W-E (left to right),
+and along a column represents N-S (top to bottom).  (0,0) in the image
+corresponds to the northwestern-most room of the area.<p>
+Currently, the only supported image type is RAW.
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.image.h.html">/include/image.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_image"><b>load_image</b></a>(string, int)<dd>
+This method reads in the given image file, and returns a two-dimensional
+array of integers representing the data in the file.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="load_image">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_image</b></a><pre>
+varargs class IMAGE_INFO load_image(string image_file,
+int rle)
+</pre><dd>
+This method reads in the given image file, and returns a two-dimensional
+array of integers representing the data in the file.  The 'rle'
+flag is currently unused; in the future, it will be used to return
+the array in a "run-length encoded" format, where each group of identical
+elements in a row will be represented as a count/value pair.  This
+may be more efficient for large arrays with sparse data.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>image_file - the pathname of the file containing the image
+<dt><b>Returns:</b>
+<dd>a 2-D array of ints, representing the image
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 19:40:29 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

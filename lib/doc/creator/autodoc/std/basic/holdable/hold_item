@@ -1,0 +1,48 @@
+.DT
+hold_item
+Disk World creator help
+hold_item
+
+.SH Name
+.SP 5 5
+hold_item -   Attempts to free up enough limbs for this_object to be held.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int * hold_item(object who,
+int pos)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^who%^RESET%^ - The living object trying to hold this one.
+%^BOLD%^pos%^RESET%^ - the position to hold the item in
+.EI
+
+.SH Returns
+.SI 5
+the an (int *) if successful or ({ }) if not enough limbs are freed
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/holdable.c
+.EI
+
+.SH Description
+.SP 5 5
+
+
+Attempts to free up enough limbs for this_object to be held.  If
+items are dropped to make this possible, who is notified.  If 
+enough limbs are freed, attempts to hold this_object.  If the position
+is undefined (ie: not specified) then it will try and choose a limb
+by itself.
+
+
+The return numbers are the limb numbers that were used by holding the item. 
+
+hold_item: As designed by Tannah!
+.EP
+

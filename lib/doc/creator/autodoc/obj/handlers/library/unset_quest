@@ -1,0 +1,43 @@
+.DT
+unset_quest
+Disk World creator help
+unset_quest
+
+.SH Name
+.SP 5 5
+unset_quest -  This method removes a quest from the players list of completed quests.
+.EP
+
+.SH Syntax
+.SI 5
+int unset_quest(string pl_name,
+string qu_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^pl_name%^RESET%^ - the player name
+%^BOLD%^qu_name%^RESET%^ - the quest name
+.EI
+
+.SH Returns
+.SI 5
+0 if they have not done the quest, 1 if they habe.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/library.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method removes a quest from the players list of completed quests.
+.EP
+
+.SH See also
+.SP 5 5
+/obj/handlers/quest_handler.c
+
+.EP
+

@@ -1,0 +1,155 @@
+<html><head><title>File refresh.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/refresh.c</h2>
+This is the Refresh Handler.  When a player refreshes, this
+handler is called so that all the miscellaneous bookkeeping
+about that player can be reset.  This should be used
+for taking someone out of the playtesters' group, resetting the
+criminal ledger in KLK, etc.  Everything, in short,
+which is not a property on the player object or otherwise
+can be handled entirely by the player object without using any other
+objects.
+
+Similarly, whenever a player gets deleted, this handler
+gets called upon to call a number of deletion callbacks
+to remove bookeeping about that player.
+
+If you have code that stores information about a player outside of
+the player object, then you should call register_refresh()
+and possibly register_delete()
+on this handler.  That will then remember the function you
+give it.  Then, whenever a player refreshes or deletes, the
+function you specified will get called with the player object
+and a flag to indicate if this is a total refresh or a partial
+refresh (for refresh callbacks) or a string with the player
+name (for player deletions).  Do the right thing.
+will get called with the player object and a flag to indicate
+if this is a total refresh or a partial refresh.  Do the
+right thing.
+
+If your object moves to a different file, then you will
+have to manually unregister the object from the refresh
+handler.  This is very important!  To unregister, simply
+call register_function() again, with the same object, but
+give 0 for the function.
+
+Each object can have only one refresh function registered,
+and clones can't have any!
+
+You can easily use the same function for both a deletion
+and refresh callback.  All you do is declare the function
+   void callback_func(mixed player, int flag)
+and then test flag to see if it is PARTIAL_REFRESH,
+TOTAL_REFRESH, or PLAYER_DELETED.  In the last case, player
+will be a string.  Otherwise player is an object.
+<p>Written by Sin
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.refresh.h.html">/include/refresh.h</a> and <a href="include.playerinfo.h.html">/include/playerinfo.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#player_deleted"><b>player_deleted</b></a>(string)<dd>
+This, like player_refreshed(), goes through and calls all the
+registered deletion callbacks.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#player_refreshed"><b>player_refreshed</b></a>(object, int)<dd>
+This function gets called by the player object whenever
+a player refreshes, or by any of the various objects that delete
+players when they get deleted.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_funcs"><b>query_funcs</b></a>()<dd>
+Return the current list of callback functions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#register_delete"><b>register_delete</b></a>(mixed, string)<dd>
+This function does almost exactly what register_refresh() does,
+but it is used for registering delete handlers.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#register_refresh"><b>register_refresh</b></a>(mixed, string)<dd>
+Use this function to tell the refresh handler about functions that
+you want to have called whenever any player refreshes or gets
+deleted.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()<dd>
+This function supports the 'stat' command.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="player_deleted">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>player_deleted</b></a><pre>
+varargs void player_deleted(string player)
+</pre><dd>
+This, like player_refreshed(), goes through and calls all the
+registered deletion callbacks.  In this case, however, the
+deletion callbacks get called with a _string_ rather than
+an object.  That string is the name of the player who is being
+deleted.
+<p>
+
+<dt><a name="player_refreshed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>player_refreshed</b></a><pre>
+varargs void player_refreshed(object player,
+int totally)
+</pre><dd>
+This function gets called by the player object whenever
+a player refreshes, or by any of the various objects that delete
+players when they get deleted.  You should never call
+this function directly.
+<p>
+
+<dt><a name="query_funcs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_funcs</b></a><pre>
+mapping query_funcs()
+</pre><dd>
+Return the current list of callback functions.
+<p>
+
+<dt><a name="register_delete">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>register_delete</b></a><pre>
+string register_delete(mixed ob,
+string func)
+</pre><dd>
+This function does almost exactly what register_refresh() does,
+but it is used for registering delete handlers.
+
+Delete callbacks are called with two parameters as well, but
+the first parameter is a string containing the player's name,
+while the second parameter is the integer PLAYER_DELETED.
+<p>
+
+<dt><a name="register_refresh">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>register_refresh</b></a><pre>
+string register_refresh(mixed ob,
+string func)
+</pre><dd>
+Use this function to tell the refresh handler about functions that
+you want to have called whenever any player refreshes or gets
+deleted.
+
+Typically, you will call this by hand, with the 'call' command,
+rather than coding a call to this function into your code.
+
+The first parameter is the object that contains the callback
+to be called.  This can be either a pointer to the object, or
+the filename to the object.
+
+The second parameter is the name of the function that should be
+called.  This callback should take two parameters: an object for
+the player who is affected, and an integer, which will be either
+PARTIAL_REFRESH or TOTAL_REFRESH.
+
+This function will refuse to register a callback if either:
+the object is a clone, the callback isn't defined in the object, or
+the callback is a function pointer.
+<p>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre><dd>
+This function supports the 'stat' command.  If you stat the
+refresh handler, you'll see up to 4 things: the number of
+refresh callbacks registered, the number of delete callbacks registered,
+the person or object who loaded the refresh handler, and the
+time that the handler got loaded.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 00:41:57 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

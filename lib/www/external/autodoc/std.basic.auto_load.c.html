@@ -1,0 +1,71 @@
+<html><head><title>File auto_load.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/auto_load.c</h2>
+This file has generic methods of accessing auto load information.  This
+will save memory and generaly be more useful than the previous version.
+It shoudl also solve a lot of the container in container problems,<p>Written by Pinkfish<p>Started Wed Feb 17 13:46:35 PST 1999
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_auto_load_value"><b>add_auto_load_value</b></a>(mapping, string, string, mixed)<dd>
+This method adds a value into the auto load mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_auto_load_value"><b>query_auto_load_value</b></a>(mapping, string, string)<dd>
+This method will attempt to read the tag value for the given name out of
+the auto load mapping.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_auto_load_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_auto_load_value</b></a><pre>
+mapping add_auto_load_value(mapping map,
+string file_name,
+string tag,
+mixed value)
+</pre><dd>
+This method adds a value into the auto load mapping.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>map - the mapping to add to
+<dd>file_name - the file name tag of the object doing the adding
+<dd>tag - the tag name to be used
+<dd>value - the value to be stored with it.
+<dt><b>Example:</b>
+<dd><pre>#define AUTO_LOAD_TAG "object"
+
+mapping query_dynamic_auto_load() {
+   mapping map;
+
+   map = ::query_dynamic_auto_load();
+   map = add_auto_load_value(map, AUTO_LOAD_TAG, "name", name);
+} /* query_dynamic_auto_load() */
+</pre></dl>
+
+<dt><a name="query_auto_load_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_auto_load_value</b></a><pre>
+mixed query_auto_load_value(mapping map,
+string file_name,
+string tag)
+</pre><dd>
+This method will attempt to read the tag value for the given name out of
+the auto load mapping.
+<p>
+This works backwards compatible with the old method of dealing with tags
+and file names.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>map - the auto load mapping
+<dd>file_name - the file name tag to use
+<dd>tag - the tag to use in the file name
+<dt><b>Example:</b>
+<dd><pre>#define AUTO_LOAD_TAG "object"
+
+mapping init_dynamic_arg(mapping map) {
+   mapping map;
+
+   map = ::query_dynamic_auto_load();
+   map = add_auto_load_value(map, AUTO_LOAD_TAG, "name", name);
+} /* init_dynamic_arg() */
+</pre></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 18:59:04 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,43 @@
+.DT
+query_num
+Disk World creator help
+query_num
+
+.SH Name
+.SP 5 5
+query_num -  This method turns a number into a string.
+.EP
+
+.SH Syntax
+.SI 5
+string query_num(int n,
+int limit)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^i%^RESET%^ - the number to return as a string
+%^BOLD%^limit%^RESET%^ - the largest number to process
+.EI
+
+.SH Returns
+.SI 5
+the number as a nice string
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/query_number.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method turns a number into a string.  It returns a string of the
+form "one hundred and twenty four".  This function should be used and
+not number_as_string below.
+The limit argument is used to set the cut off point at which it will
+print "many".
+
+.EP
+

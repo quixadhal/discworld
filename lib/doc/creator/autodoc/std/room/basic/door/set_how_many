@@ -1,0 +1,39 @@
+.DT
+set_how_many
+Disk World creator help
+set_how_many
+
+.SH Name
+.SP 5 5
+set_how_many -  This method sets how many doors there are so that plurals and everything are set correctly.
+.EP
+
+.SH Syntax
+.SI 5
+void set_how_many(int number)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^number%^RESET%^ - the number of doors this door should represent.
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/door.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets how many doors there are so that plurals
+and everything are set correctly.  It also flags the door
+with the "group object" property.
+.EP
+
+.SH See also
+.SP 5 5
+query_how_many()
+
+.EP
+

@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["add_bit":({({"void",}),({({"object",}),"ob",}),(["main":({"Adds in a decable object into ther decaying array.",}),"param":({"ob the bit to decay",}),]),}),"query_num_bits":({({"int",}),({}),([]),}),"query_bits":({({"object","*",}),({}),([]),}),"kickstart":({({"void",}),({}),([]),}),"remove_bit":({({"void",}),({({"object",}),"ob",}),(["main":({"Removes the decable object from the decaying array.",}),"param":({"ob the bit to remove",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["changed":({"17 Dec 1997 -- Sin   I added a reset_eval_cost() call into the do_update() routine   so that it wouldn't quit when there were a whole bunch of   bits to decay.","6 Jan 1998 -- Sin   I modified the do_update() routine so it'll register a callback   even if one of the bits fails to decay.  That should help prevent   the callout from disappearing.  If it does disappear, I added   a kickstart function.",}),"main":({"Decays all the decable objects in the game.",}),"author":({"Ember",}),"see":({"/obj/food.c","/std/bit.c","/obj/corpse.c",}),])
+define_docs ([])
+includes (["/include/bits_controller.h":1522061544,])
+class_docs ([])
+file_name "/obj/handlers/bits_controller.c"
+last_changed 1522061544

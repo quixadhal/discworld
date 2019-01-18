@@ -1,0 +1,194 @@
+<html><head><title>File bank.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/bank.c</h2>
+This is the bank inheritable.  It handles all the bank transactions
+and other such exciting stuff.<p>Written by Pinkfish
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_open"><b>check_open</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_balance"><b>do_balance</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_close"><b>do_close</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_deposit"><b>do_deposit</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_open"><b>do_open</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_save"><b>do_save</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_withdraw"><b>do_withdraw</b></a>(int, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_account"><b>get_account</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_bank_robbers"><b>make_bank_robbers</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_account_cost"><b>query_account_cost</b></a>()<dd>
+This method returns the amount of money it costs to start an account
+at this bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank_name"><b>query_bank_name</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_money_place"><b>query_money_place</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_percentage"><b>query_percentage</b></a>()<dd>
+This method queries the percentage the bank charges on transactions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_place"><b>query_place</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_file"><b>query_save_file</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_total_account"><b>query_total_account</b></a>()<dd>
+This method returns the total value of all the accounts.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_total_made"><b>query_total_made</b></a>()<dd>
+This method returns the amount of money the bank has made off the
+players.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_account"><b>set_account</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_account_cost"><b>set_account_cost</b></a>(int)<dd>
+This method sets the amount of money that it costs to start an account
+at this bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bank_name"><b>set_bank_name</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_percentage"><b>set_percentage</b></a>(int)<dd>
+This method sets the percentage the bank charges on transactions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_place"><b>set_place</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_file"><b>set_save_file</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="check_open">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_open</b></a><pre>
+int check_open(string word)
+</pre>
+<dt><a name="do_balance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_balance</b></a><pre>
+int do_balance()
+</pre>
+<dt><a name="do_close">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_close</b></a><pre>
+int do_close()
+</pre>
+<dt><a name="do_deposit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_deposit</b></a><pre>
+int do_deposit(string words)
+</pre>
+<dt><a name="do_open">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_open</b></a><pre>
+int do_open()
+</pre>
+<dt><a name="do_save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_save</b></a><pre>
+void do_save()
+</pre>
+<dt><a name="do_withdraw">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_withdraw</b></a><pre>
+int do_withdraw(int number,
+string type)
+</pre>
+<dt><a name="get_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_account</b></a><pre>
+int get_account()
+</pre>
+<dt><a name="make_bank_robbers">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_bank_robbers</b></a><pre>
+int make_bank_robbers()
+</pre>
+<dt><a name="query_account_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_account_cost</b></a><pre>
+int query_account_cost()
+</pre><dd>
+This method returns the amount of money it costs to start an account
+at this bank.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the account cost
+
+</dl>
+
+<dt><a name="query_bank_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank_name</b></a><pre>
+string query_bank_name()
+</pre>
+<dt><a name="query_money_place">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_money_place</b></a><pre>
+string query_money_place()
+</pre>
+<dt><a name="query_percentage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_percentage</b></a><pre>
+int query_percentage()
+</pre><dd>
+This method queries the percentage the bank charges on transactions.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the percentage the bank charges
+
+</dl>
+
+<dt><a name="query_place">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_place</b></a><pre>
+string query_place()
+</pre>
+<dt><a name="query_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_file</b></a><pre>
+string query_save_file()
+</pre>
+<dt><a name="query_total_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_total_account</b></a><pre>
+int query_total_account()
+</pre><dd>
+This method returns the total value of all the accounts.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the totaly value of all the accounts
+
+</dl>
+
+<dt><a name="query_total_made">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_total_made</b></a><pre>
+int query_total_made()
+</pre><dd>
+This method returns the amount of money the bank has made off the
+players.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>total_made - the amount of money mae
+
+</dl>
+
+<dt><a name="set_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_account</b></a><pre>
+int set_account(int amount)
+</pre>
+<dt><a name="set_account_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_account_cost</b></a><pre>
+void set_account_cost(int number)
+</pre><dd>
+This method sets the amount of money that it costs to start an account
+at this bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the cost of starting an account
+
+</dl>
+
+<dt><a name="set_bank_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bank_name</b></a><pre>
+void set_bank_name(string word)
+</pre>
+<dt><a name="set_percentage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_percentage</b></a><pre>
+void set_percentage(int number)
+</pre><dd>
+This method sets the percentage the bank charges on transactions.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the percentage to charge
+
+</dl>
+
+<dt><a name="set_place">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_place</b></a><pre>
+void set_place(string word)
+</pre>
+<dt><a name="set_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_file</b></a><pre>
+void set_save_file(string word)
+</pre>
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 23:02:39 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

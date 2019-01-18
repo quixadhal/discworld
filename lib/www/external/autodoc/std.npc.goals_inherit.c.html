@@ -1,0 +1,302 @@
+<html><head><title>File goals_inherit.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/npc/goals_inherit.c</h2>
+This is the goal handler for the npcs.  It will handle all the goals
+and ordering them, figuring out which goal to run.<p>Written by Pinkfish<p>Started Thu Jul 30 17:06:19 PDT 1998
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.npc.goals.h.html">/include/npc/goals.h</a> and <a href="std.npc.goal_inherit.h.html">/std/npc/goal_inherit.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_goal_information"><b>goal_information</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_plan_info"><b>plan_info</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#activate_plan"><b>activate_plan</b></a>(string, string, mixed)<dd>
+This activates the plan on the npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_goal"><b>add_goal</b></a>(string, mixed)<dd>
+This method will add a goal to the NPC.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_goal_event"><b>add_goal_event</b></a>(string, string)<dd>
+This method adds an event for a goal to react to.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_goal_priority"><b>change_goal_priority</b></a>(string)<dd>
+This method changes the priority of the specified goal.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_current_plan_finished"><b>check_current_plan_finished</b></a>()<dd>
+This method checks to see if the top plan is finished or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#notify_npc_event"><b>notify_npc_event</b></a>(string, mixed * information)<dd>
+This method is called when an event needs to be notified about.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_events"><b>query_events</b></a>()<dd>
+This method is *only* to be used for debugging.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_goal_data"><b>query_goal_data</b></a>(string)<dd>
+This method returns the data associated with this goal.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_goal_plan_data"><b>query_goal_plan_data</b></a>(string, string)<dd>
+This method returns the data associated with the specified plan.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_goal_priority"><b>query_goal_priority</b></a>(string)<dd>
+This method returns the priotity of the goal.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_goals"><b>query_goals</b></a>()<dd>
+This method is *only* to be used for debugging.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_goal"><b>remove_goal</b></a>(string)<dd>
+This method removes the goal from the current goal list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_goal_event"><b>remove_goal_event</b></a>(string, string)<dd>
+This method removes the goal event for the goal.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_goal_data"><b>set_goal_data</b></a>(string, mixed)<dd>
+This method returns the data associated with this goal.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_goal_plan_data"><b>set_goal_plan_data</b></a>(string, string, mixed)<dd>
+This method sets the default data associated with the specified plan.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_plan_data"><b>set_plan_data</b></a>(string, mixed)<dd>
+This method changes the data associated with the specified plan.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="activate_plan">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>activate_plan</b></a><pre>
+void activate_plan(string plan,
+string goal,
+mixed data)
+</pre><dd>
+This activates the plan on the npc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>plan - the plan to activate
+<dd>goal - the goal which is activating the plan
+
+</dl>
+
+<dt><a name="add_goal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_goal</b></a><pre>
+void add_goal(string goal,
+mixed data)
+</pre><dd>
+This method will add a goal to the NPC.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>goal - the goal to add
+<dd>data - the data associated with the goal
+
+</dl>
+
+<dt><a name="add_goal_event">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_goal_event</b></a><pre>
+void add_goal_event(string goal,
+string event)
+</pre><dd>
+This method adds an event for a goal to react to.  This should only be
+done from inside the goal initialisation code, and other parts of the
+goal.  We will only add things for goals which we know about.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>goal - the goal the event is for
+<dd>event - the event name to react to
+<dt><b>See also:</b>
+<dd><a href="#change_priority">change_priority()</a> and <a href="#remove_goal_event">remove_goal_event()
+</a></dl>
+
+<dt><a name="change_goal_priority">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_goal_priority</b></a><pre>
+void change_goal_priority(string goal)
+</pre><dd>
+This method changes the priority of the specified goal.  It will recall
+the query_priority() method on the goal to figure out the new priority.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>goal - the goal whose priority to change
+<dt><b>See also:</b>
+<dd><a href="#add_goal_event">add_goal_event()</a>, <a href="#remove_goal_event">remove_goal_event()</a> and <a href="#query_goal_priority">query_goal_priority()
+</a></dl>
+
+<dt><a name="check_current_plan_finished">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_current_plan_finished</b></a><pre>
+int check_current_plan_finished()
+</pre><dd>
+This method checks to see if the top plan is finished or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>plan - the plan to finish
+<dt><b>Returns:</b>
+<dd>1 if the plan has been finished, 0 if not
+
+</dl>
+
+<dt><a name="notify_npc_event">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>notify_npc_event</b></a><pre>
+varargs void notify_npc_event(string event,
+mixed * information ...)
+</pre><dd>
+This method is called when an event needs to be notified about.
+The event handling routines should try to be short.  They should
+just modify the priority of something, or add a new goal to the
+current list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>event - the event to tell us about
+<dd>information - the information associated with the event
+
+</dl>
+
+<dt><a name="query_events">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_events</b></a><pre>
+mapping query_events()
+</pre><dd>
+This method is *only* to be used for debugging.
+<p>
+
+<dt><a name="query_goal_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_goal_data</b></a><pre>
+mixed query_goal_data(string goal)
+</pre><dd>
+This method returns the data associated with this goal.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>goal - the goal to get the data for
+<dt><b>Returns:</b>
+<dd>the data associated with the goal
+<dt><b>See also:</b>
+<dd><a href="#query_goal_priority">query_goal_priority()</a> and <a href="#set_goal_data">set_goal_data()
+</a></dl>
+
+<dt><a name="query_goal_plan_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_goal_plan_data</b></a><pre>
+mixed query_goal_plan_data(string goal,
+string plan)
+</pre><dd>
+This method returns the data associated with the specified plan.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>goal - the foal to query the information for
+<dd>plan - the name of the plan to get the data for
+<dt><b>Returns:</b>
+<dd>the plans data
+<dt><b>See also:</b>
+<dd><a href="#set_default_plan_data">set_default_plan_data()
+</a></dl>
+
+<dt><a name="query_goal_priority">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_goal_priority</b></a><pre>
+int query_goal_priority(string goal)
+</pre><dd>
+This method returns the priotity of the goal.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>goal - the goal to query the priority of
+<dt><b>Returns:</b>
+<dd>the priority of the goal
+<dt><b>See also:</b>
+<dd><a href="#change_goal_priority">change_goal_priority()
+</a></dl>
+
+<dt><a name="query_goals">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_goals</b></a><pre>
+mapping query_goals()
+</pre><dd>
+This method is *only* to be used for debugging.
+<p>
+
+<dt><a name="remove_goal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_goal</b></a><pre>
+void remove_goal(string goal)
+</pre><dd>
+This method removes the goal from the current goal list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>goal - the goal to remove
+
+</dl>
+
+<dt><a name="remove_goal_event">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_goal_event</b></a><pre>
+void remove_goal_event(string goal,
+string event)
+</pre><dd>
+This method removes the goal event for the goal.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>goal - the goal to remove the event for
+<dd>event - the event name to not react to
+<dt><b>See also:</b>
+<dd><a href="#add_goal_event">add_goal_event()</a> and <a href="#change_priority">change_priority()
+</a></dl>
+
+<dt><a name="set_goal_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_goal_data</b></a><pre>
+int set_goal_data(string goal,
+mixed data)
+</pre><dd>
+This method returns the data associated with this goal.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>goal - the goal to get the data for
+<dd>data - the new data for the goal
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#query_goal_priority">query_goal_priority()</a> and <a href="#query_goal_data">query_goal_data()
+</a></dl>
+
+<dt><a name="set_goal_plan_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_goal_plan_data</b></a><pre>
+void set_goal_plan_data(string goal,
+string plan,
+mixed data)
+</pre><dd>
+This method sets the default data associated with the specified plan.
+This should be things like global plan things, the level at which the
+npc will run away.  Etc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>goal - the goal to check the data for
+<dd>plan - the name of the plan
+<dd>data - the data associated with the plan
+<dt><b>See also:</b>
+<dd><a href="#query_default_plan_data">query_default_plan_data()
+</a></dl>
+
+<dt><a name="set_plan_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_plan_data</b></a><pre>
+void set_plan_data(string plan,
+mixed data)
+</pre><dd>
+This method changes the data associated with the specified plan.  This
+should only be called from the plan itself, as the plan will not be
+informed of this change.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>data - the new data for the plan
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_goal_information">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>goal_information</b></a><pre>
+class goal_information {
+mixed data;
+int priority;
+string * events;
+}
+
+</pre>
+<dt><a name="class_plan_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>plan_info</b></a><pre>
+class plan_info {
+int priority;
+mixed data;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 13:51:19 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

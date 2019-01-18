@@ -1,0 +1,47 @@
+.DT
+set_long
+Disk World creator help
+set_long
+
+.SH Name
+.SP 5 5
+set_long -  This method sets the long description for the object.
+.EP
+
+.SH Syntax
+.SI 5
+void set_long(mixed str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the long description
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/desc.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the long description for the object.  The long description
+is what the player sees with they 'look' at the object.  Please make sure
+tht you use sentances in your long description.  Something like
+'The red box' is not a sentance.  You can use colour codes in your
+long description to make it look cool.
+.EP
+
+.SH Example 1
+.SI 5
+set_long("Picture perfect and glowing with an internal radience the "
+         "Red Rose is simply wonderful.\n");
+
+.EI
+
+.SH See also
+.SP 5 5
+help::look, long(), query_long(), help::colours
+.EP
+

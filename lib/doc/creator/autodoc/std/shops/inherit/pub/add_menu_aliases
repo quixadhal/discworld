@@ -1,0 +1,50 @@
+.DT
+add_menu_aliases
+Disk World creator help
+add_menu_aliases
+
+.SH Name
+.SP 5 5
+add_menu_aliases -  This method allows you to add multiple aliases at once.
+.EP
+
+.SH Syntax
+.SI 5
+void add_menu_aliases(string * aliases,
+string actual)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^aliases%^RESET%^ - an array of aliases to add
+%^BOLD%^alias%^RESET%^ - the real item that the aliases refer to
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/pub.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method allows you to add multiple aliases at once.  Many aliases are
+added by default so you shouldn't have to use this too often.  See the 
+help on "set_no_standard_alias()" to see what aliases are added 
+automatically.
+.EP
+
+.SH Example 1
+.SI 5
+// Add friendly aliases to "Beef burger and chips"
+add_menu_aliases( ({ "beef burger",
+                     "beefburger",
+                       "burger" }), "Beef burger and chips" );
+.EI
+
+.SH See also
+.SP 5 5
+add_menu_alias(), query_menu_aliases(), remove_menu_alias(), set_no_standard_alias()
+
+.EP
+

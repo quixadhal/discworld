@@ -1,0 +1,161 @@
+<html><head><title>File health.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/living/health.c</h2>
+Returns the current value of the callingdeath variable.
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.drinks.h.html">/include/drinks.h</a> and <a href="include.living.h.html">/include/living.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_gp"><b>adjust_gp</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_hp"><b>adjust_hp</b></a>(int, object, object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_volume"><b>adjust_volume</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_xp"><b>adjust_xp</b></a>(int, int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_surrender"><b>check_surrender</b></a>()<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_wimpy"><b>check_wimpy</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_gp_info"><b>clear_gp_info</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#health_string"><b>health_string</b></a>(int, int ref)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_callingdeath"><b>query_callingdeath</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_counts"><b>query_counts</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_drink_info"><b>query_drink_info</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_gp"><b>query_gp</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_hp"><b>query_hp</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_gp"><b>query_max_gp</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_hp"><b>query_max_hp</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_specific_gp"><b>query_specific_gp</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_surrender"><b>query_surrender</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_volume"><b>query_volume</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_wimpy"><b>query_wimpy</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_xp"><b>query_xp</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_callingdeath"><b>reset_callingdeath</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_gp"><b>set_gp</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_hp"><b>set_hp</b></a>(int, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_gp"><b>set_max_gp</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_hp"><b>set_max_hp</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_surrender"><b>set_surrender</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_wimpy"><b>set_wimpy</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_volumes"><b>update_volumes</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="adjust_gp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_gp</b></a><pre>
+int adjust_gp(int number)
+</pre>
+<dt><a name="adjust_hp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_hp</b></a><pre>
+varargs int adjust_hp(int number,
+object attacker,
+object weapon,
+string attack)
+</pre>
+<dt><a name="adjust_volume">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_volume</b></a><pre>
+int adjust_volume(int type,
+int amount)
+</pre>
+<dt><a name="adjust_xp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_xp</b></a><pre>
+varargs int adjust_xp(int number,
+int shared)
+</pre>
+<dt><a name="clear_gp_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_gp_info</b></a><pre>
+void clear_gp_info()
+</pre>
+<dt><a name="health_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>health_string</b></a><pre>
+varargs string health_string(int flag,
+int ref health_level)
+</pre>
+<dt><a name="query_callingdeath">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_callingdeath</b></a><pre>
+int query_callingdeath()
+</pre>
+<dt><a name="query_counts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_counts</b></a><pre>
+mapping query_counts()
+</pre>
+<dt><a name="query_drink_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_drink_info</b></a><pre>
+int * query_drink_info()
+</pre>
+<dt><a name="query_gp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_gp</b></a><pre>
+int query_gp()
+</pre>
+<dt><a name="query_hp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_hp</b></a><pre>
+int query_hp()
+</pre>
+<dt><a name="query_max_gp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_gp</b></a><pre>
+int query_max_gp()
+</pre>
+<dt><a name="query_max_hp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_hp</b></a><pre>
+int query_max_hp()
+</pre>
+<dt><a name="query_specific_gp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_specific_gp</b></a><pre>
+int query_specific_gp(string gp_type)
+</pre>
+<dt><a name="query_surrender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_surrender</b></a><pre>
+int query_surrender()
+</pre>
+<dt><a name="query_volume">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_volume</b></a><pre>
+int query_volume(int type)
+</pre>
+<dt><a name="query_wimpy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_wimpy</b></a><pre>
+int query_wimpy()
+</pre>
+<dt><a name="query_xp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_xp</b></a><pre>
+int query_xp()
+</pre>
+<dt><a name="reset_callingdeath">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_callingdeath</b></a><pre>
+void reset_callingdeath()
+</pre>
+<dt><a name="set_gp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_gp</b></a><pre>
+int set_gp(int number)
+</pre>
+<dt><a name="set_hp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_hp</b></a><pre>
+varargs int set_hp(int number,
+object attacker)
+</pre>
+<dt><a name="set_max_gp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_gp</b></a><pre>
+int set_max_gp(int number)
+</pre>
+<dt><a name="set_max_hp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_hp</b></a><pre>
+int set_max_hp(int number)
+</pre>
+<dt><a name="set_surrender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_surrender</b></a><pre>
+int set_surrender(int number)
+</pre>
+<dt><a name="set_wimpy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_wimpy</b></a><pre>
+int set_wimpy(int number)
+</pre>
+<dt><a name="update_volumes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_volumes</b></a><pre>
+void update_volumes()
+</pre>
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="check_surrender">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_surrender</b></a><pre>
+int check_surrender()
+</pre>
+<dt><a name="check_wimpy">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_wimpy</b></a><pre>
+int check_wimpy()
+</pre>
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 20:35:37 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

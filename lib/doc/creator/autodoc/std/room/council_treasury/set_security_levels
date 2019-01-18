@@ -1,0 +1,38 @@
+.DT
+set_security_levels
+Disk World creator help
+set_security_levels
+
+.SH Name
+.SP 5 5
+set_security_levels -  This sets what you must be to read the log and deposit cash, and also wether you are logging withdrawls and deposits.
+.EP
+
+.SH Syntax
+.SI 5
+void set_security_levels(int read_log,
+int deposits,
+int * logging)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^read_log%^RESET%^ - 2 for magistrate, 1 for citizen, 0 for anyone is able to
+read the log
+%^BOLD%^deposits%^RESET%^ - Same as for read_log, to see who can deposit
+%^BOLD%^logging%^RESET%^ - ({withdrwals, deposits}), are we logging? 0 for no, 1 for yes
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/council_treasury.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets what you must be to read the log and deposit cash, and also
+wether you are logging withdrawls and deposits.
+.EP
+

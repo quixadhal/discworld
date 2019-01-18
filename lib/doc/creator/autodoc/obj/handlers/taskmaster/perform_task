@@ -1,0 +1,127 @@
+.DT
+perform_task
+Disk World creator help
+perform_task
+
+.SH Name
+.SP 5 5
+perform_task -  This function will perform a task.
+.EP
+
+.SH Syntax
+.SI 5
+varargs mixed perform_task(object person,
+string skill,
+int difficulty,
+int tm_type,
+int degree)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^person%^RESET%^ - the one attempting the task (could be any living thing)
+%^BOLD%^skill%^RESET%^ - the skill tested against
+%^BOLD%^difficulty%^RESET%^ - the lowest bonus where the attempt can succeed
+%^BOLD%^tm_type%^RESET%^ - This should use one of the standard definitions in 
+/include/tasks.h. They are:
+       TM_FIXED - for use where the difficulty is a fixed value
+       TM_FREE  - for use when the tm attempt doesn't cost anything.
+       TM_CONTINUOUS - for use in continuous actions eg. combat or sneak
+       TM_COMMAND - for use with guild commands
+       TM_RITUAL - when the action is a ritual
+       TM_SPELL - when the action is a spell
+       TM_NONE - when you want there to be no chance of a tm
+%^BOLD%^degree%^RESET%^ - Whether or not to use the degree of success code
+
+.EI
+
+.SH Returns
+.SI 5
+BARF if something screwed up, AWARD if the task succeeded, and
+should give an advance, SUCCEED if it succeeded, FAIL if it failed. If
+the degree of success code is used, it will pass out a 3-element class.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/taskmaster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function will perform a task.  It handles all the stuff about
+looking up the skill, and giving the tm advance, but doesn't give
+any messages to the player, you'll have to do that.
+If you set the 'degree' parameter to 1, it will return a 3-element
+class instead of the standard binary success/failure result.
+
+.EP
+
+.SH Example 1
+.SI 5
+This is an example of the simpler, binary success/failure behaviour.
+
+switch(TASKER->perform_task( person, "covert.manipulation.stealing",
+                             300, TM_COMMAND ) ) {
+ case AWARD :
+   tell_object( person, "%^YELLOW%^You manage to grasp the principles "
+               "of stealing more firmly.%^RESET%^\n" );
+   // Note, no break;
+ case SUCCEED :
+   // Whatever happens when it succeeds
+   break;
+ default :
+   // Whatever happens when it fails
+}
+
+.EI
+
+.SH Example 2
+.SI 5
+This is an example of the finer grained degree-of-success behaviour.
+
+class tasker_result tr;
+
+tr = (class tasker_result)TASKER->perform_task( person,
+  "other.direction", 300, TM_FREE, 1 );
+switch( tr->result ) {
+case AWARD:
+  tell_object(attacker, "%^YELLOW%^You feel very aligned!%^RESET%^\n" );
+case SUCCEED:
+   switch( tr->degree ) {
+   case TASKER_MARGINAL:
+      say( "You think he went thataway. Maybe.\n" );
+      break;
+   case TASKER_NORMAL:
+      say( "You're pretty sure he went that way.\n" );
+      break;
+   case TASKER_EXCEPTIONAL:
+      say( "He definitely went thataway!\n" );
+      break;
+   case TASKER_CRITICAL:
+      say( "Your surity that he went thataway is so powerful that even "
+        "if he didn't go thataway, he'll be in that direction.\n" );
+      break;
+  }
+  break;
+case FAIL:
+  switch( tr->degree ) {
+     ...
+     Boy, it's a good thing I've already explained this, or I'd be
+     pretty hard-pressed to think of an example of a critical failure
+     for other.direction.  You get the idea.
+     ...
+  }
+  break;
+}
+
+.EI
+
+.SH See also
+.SP 5 5
+compare_skills(), tasker_result
+
+
+.EP
+

@@ -1,0 +1,37 @@
+.DT
+create_main_index
+Disk World creator help
+create_main_index
+
+.SH Name
+.SP 5 5
+create_main_index -  Creates the basic index file which points to all the other index files.
+.EP
+
+.SH Syntax
+.SI 5
+void create_main_index(mapping chars,
+string output_dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^letters%^RESET%^ - the names of all the other index files
+%^BOLD%^output_dir%^RESET%^ - the directory to write stuff to
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/autodoc/autodoc_html.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Creates the basic index file which points to all the other index
+files...  The input letters array is a paired array, the first element
+is the letter and the second is the file name.
+
+.EP
+

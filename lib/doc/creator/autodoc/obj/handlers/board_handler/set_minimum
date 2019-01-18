@@ -1,0 +1,40 @@
+.DT
+set_minimum
+Disk World creator help
+set_minimum
+
+.SH Name
+.SP 5 5
+set_minimum -  Sets the minimum number of message to keep on a board.
+.EP
+
+.SH Syntax
+.SI 5
+int set_minimum(string board,
+int min)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^board%^RESET%^ - the board to set the minimum for
+%^BOLD%^min%^RESET%^ - the number of message to keep
+.EI
+
+.SH Returns
+.SI 5
+0 on failure and 1 on success
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/board_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Sets the minimum number of message to keep on a board.  If there is less
+than this
+number then they will not be auto deleted.
+.EP
+

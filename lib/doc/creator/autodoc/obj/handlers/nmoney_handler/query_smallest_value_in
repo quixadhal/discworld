@@ -1,0 +1,38 @@
+.DT
+query_smallest_value_in
+Disk World creator help
+query_smallest_value_in
+
+.SH Name
+.SP 5 5
+query_smallest_value_in -  This returns the smallest value in the specified area.
+.EP
+
+.SH Syntax
+.SI 5
+int query_smallest_value_in(string where)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^where%^RESET%^ - the area to check
+
+.EI
+
+.SH Returns
+.SI 5
+the smallest value in the specified area.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/nmoney_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This returns the smallest value in the specified area.  Used to
+make sure we are not charging too little or too much when doing
+comparisons.
+.EP
+

@@ -1,0 +1,45 @@
+.DT
+check_door
+Disk World creator help
+check_door
+
+.SH Name
+.SP 5 5
+check_door -  This method checks to see if the door exists or not.
+.EP
+
+.SH Syntax
+.SI 5
+void check_door(mixed args)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^args%^RESET%^ - the arguements passed into the function
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/room_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the door exists or not.
+It is passed in the room we are going from and the direction the
+exit faces in the array.
+.EP
+.SP 5 5
+({ room_from, direction })
+.EP
+.SP 5 5
+This is the function which generates those door xx not found messages.
+.EP
+
+.SH See also
+.SP 5 5
+query_door_type()
+
+.EP
+

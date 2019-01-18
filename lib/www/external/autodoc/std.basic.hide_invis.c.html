@@ -1,0 +1,119 @@
+<html><head><title>File hide_invis.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/hide_invis.c</h2>
+This method returns the current hide/invisible states on the object.
+The mapping is of the format:\n
+<pre>
+([ <hide type name> :
+    ({
+       who,
+       see,
+       ({ obj, method }), // Remove method
+     }),
+...
+])
+</pre><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_hide_invis"><b>add_hide_invis</b></a>(string, object, mixed, string *)<dd>
+This method adds a hide/invis state to the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#hide_invis_string"><b>hide_invis_string</b></a>()<dd>
+This method returns an extra bit to stick on the end of the players
+name to show when they are hiding and so on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#perception_check"><b>perception_check</b></a>(object)<dd>
+This does a perception check to see if the person can be seen.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_hide_invis"><b>query_hide_invis</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_visible"><b>query_visible</b></a>(object)<dd>
+This is the method called to check to see if the person is visible or
+not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_hide_invis"><b>remove_hide_invis</b></a>(string, int)<dd>
+This method removed the hiding of the specified type off the object.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_hide_invis">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_hide_invis</b></a><pre>
+int add_hide_invis(string type,
+object who,
+mixed see,
+string * gone)
+</pre><dd>
+This method adds a hide/invis state to the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the name of the type of hiding
+<dd>who - no idea
+<dd>see - no idea
+<dd>gone - the method and object to call when the hiding is removed
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="hide_invis_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hide_invis_string</b></a><pre>
+string hide_invis_string()
+</pre><dd>
+This method returns an extra bit to stick on the end of the players
+name to show when they are hiding and so on.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the extra bit to stick after a person's name based on the state
+
+</dl>
+
+<dt><a name="perception_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>perception_check</b></a><pre>
+int perception_check(object thing)
+</pre><dd>
+This does a perception check to see if the person can be seen.
+This is variable on light level, amongst other things.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the person doing the looking
+
+</dl>
+
+<dt><a name="query_hide_invis">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_hide_invis</b></a><pre>
+mapping query_hide_invis()
+</pre>
+<dt><a name="query_visible">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_visible</b></a><pre>
+int query_visible(object thing)
+</pre><dd>
+This is the method called to check to see if the person is visible or
+not.
+This is masked in /global/wiz_file_comm to handle
+creator invisibility.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the object doing the looking
+<dt><b>Returns:</b>
+<dd>1 if visible, 0 if not
+
+</dl>
+
+<dt><a name="remove_hide_invis">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_hide_invis</b></a><pre>
+varargs int remove_hide_invis(string type,
+int quiet)
+</pre><dd>
+This method removed the hiding of the specified type off the object.
+This method will call the function setup when the hiding was added
+when the hiding is removed. If you pass 1 as the second argument, it
+will send the 'quiet' flag to the callback function.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of hiding to remove
+<dd>quiet - flag to pass along to the callback function
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 20:51:10 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

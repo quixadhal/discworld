@@ -1,0 +1,339 @@
+<html><head><title>File library.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/library.c</h2>
+The library is a sort of information center.
+Currently it supports only the recording on stories about players and
+recording the quests that they have done.<p><b>See also:</b><br>/include/library.h
+<p>Written by Furball<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a> and <a href="include.quest_handler.h.html">/include/quest_handler.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_qinfo"><b>qinfo</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clean_cache"><b>clean_cache</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#flush_cache"><b>flush_cache</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_most_recent_quest"><b>get_most_recent_quest</b></a>(string)<dd>
+This method returns the most recently completed quest by the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_most_recent_time"><b>get_most_recent_time</b></a>(string)<dd>
+This method get sthe most recent time a quest was complete by the
+player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_player_quest_info"><b>query_all_player_quest_info</b></a>(string)<dd>
+This method returns all the quest information for a player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_player_quest_info"><b>query_player_quest_info</b></a>(string, string)<dd>
+This method returns the quest info for a specific quest.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_done"><b>query_quest_done</b></a>(string, string)<dd>
+This method tells us if the player has completed the quest.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_points"><b>query_quest_points</b></a>(string)<dd>
+This method returns the current number of quest points gathered
+by the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quest_time"><b>query_quest_time</b></a>(string, string)<dd>
+This method returns the time at which a quest is completed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_quests"><b>query_quests</b></a>(string)<dd>
+This method returns the set of currently completed quests by the
+player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_story"><b>query_story</b></a>(string)<dd>
+This method returns the story associated with the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_title"><b>query_title</b></a>(string)<dd>
+This method returns the players current title.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#restart"><b>restart</b></a>(mixed)<dd>
+This method is called when a player refreshes totaly so they can
+start again from scratch.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_them"><b>save_them</b></a>(object)<dd>
+This method causes the player to be saved.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_player_quest_info"><b>set_player_quest_info</b></a>(string, string, mixed *)<dd>
+This method  sets the information related to the players quest.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_quest"><b>set_quest</b></a>(string, string, int)<dd>
+This method sets the player as having done the quest and if we
+should give them xp for it
+This function should be called when a quest is finished.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#unset_quest"><b>unset_quest</b></a>(string, string)<dd>
+This method removes a quest from the players list of completed quests.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="clean_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clean_cache</b></a><pre>
+void clean_cache()
+</pre>
+<dt><a name="flush_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>flush_cache</b></a><pre>
+int flush_cache(string name)
+</pre>
+<dt><a name="get_most_recent_quest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_most_recent_quest</b></a><pre>
+string get_most_recent_quest(string name)
+</pre><dd>
+This method returns the most recently completed quest by the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the player name
+<dt><b>Returns:</b>
+<dd>the most recently completed quest
+
+</dl>
+
+<dt><a name="get_most_recent_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_most_recent_time</b></a><pre>
+int get_most_recent_time(string name)
+</pre><dd>
+This method get sthe most recent time a quest was complete by the
+player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player 
+<dt><b>Returns:</b>
+<dd>the time of the most recently completed quest
+
+</dl>
+
+<dt><a name="query_all_player_quest_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_player_quest_info</b></a><pre>
+mapping query_all_player_quest_info(string pl_name)
+</pre><dd>
+This method returns all the quest information for a player.
+This information is used for quests which have several parts to them
+and information needs to be stored about the player as they attempt
+to complete it.  The keys of the mapping are the quest names and the
+values are the information associated with the quest.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pl_name - the name of the player
+<dt><b>Returns:</b>
+<dd>the mapping containing all the quest info
+
+</dl>
+
+<dt><a name="query_player_quest_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_player_quest_info</b></a><pre>
+mixed * query_player_quest_info(string pl_name,
+string qu_info)
+</pre><dd>
+This method returns the quest info for a specific quest.
+This information is used for quests which have several parts to them
+and information needs to be stored about the player as they attempt
+to complete it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pl_name - the player name
+<dd>qu_info - the quest name
+<dt><b>Returns:</b>
+<dd>the information associated with the quest
+
+</dl>
+
+<dt><a name="query_quest_done">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_done</b></a><pre>
+int query_quest_done(string player,
+string quest)
+</pre><dd>
+This method tells us if the player has completed the quest.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the name of the player
+<dd>quest - the quest name
+<dt><b>Returns:</b>
+<dd>1 if the quest has been done, 0 if it has not
+
+</dl>
+
+<dt><a name="query_quest_points">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_points</b></a><pre>
+int query_quest_points(string name)
+</pre><dd>
+This method returns the current number of quest points gathered
+by the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the player
+<dt><b>Returns:</b>
+<dd>the current number of quest pointds
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.query_handler.c.html#query_quest_level">/obj/handlers/query_handler->query_quest_level()
+</a></dl>
+
+<dt><a name="query_quest_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quest_time</b></a><pre>
+int query_quest_time(string name,
+string qu_name)
+</pre><dd>
+This method returns the time at which a quest is completed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player to get the time for
+<dd>qu_name - the name of the quest
+<dt><b>Returns:</b>
+<dd>the time at which it is completed
+
+</dl>
+
+<dt><a name="query_quests">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_quests</b></a><pre>
+string * query_quests(string name)
+</pre><dd>
+This method returns the set of currently completed quests by the
+player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dt><b>Returns:</b>
+<dd>the array of completed quests
+
+</dl>
+
+<dt><a name="query_story">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_story</b></a><pre>
+string query_story(string name)
+</pre><dd>
+This method returns the story associated with the player.   This is
+created from all the information about the quests they have done
+joined together into a neato story.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the player name
+<dt><b>Returns:</b>
+<dd>the story of the player
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.quest_handler.c.html#query_quest_story">/obj/handlers/quest_handler->query_quest_story()
+</a></dl>
+
+<dt><a name="query_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_title</b></a><pre>
+string query_title(string name)
+</pre><dd>
+This method returns the players current title.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the player
+<dt><b>Returns:</b>
+<dd>their current title, 0 if no title
+<dt><b>See also:</b>
+<dd>/obj/handlers/quest_handler.c
+</dl>
+
+<dt><a name="restart">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>restart</b></a><pre>
+int restart(mixed name)
+</pre><dd>
+This method is called when a player refreshes totaly so they can
+start again from scratch.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the player name
+<dt><b>Returns:</b>
+<dd>0 if they do not exists, 1 if they do
+
+</dl>
+
+<dt><a name="save_them">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_them</b></a><pre>
+void save_them(object thing)
+</pre><dd>
+This method causes the player to be saved.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the player to save
+
+</dl>
+
+<dt><a name="set_player_quest_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_player_quest_info</b></a><pre>
+void set_player_quest_info(string pl_name,
+string qu_info,
+mixed * details)
+</pre><dd>
+This method  sets the information related to the players quest.
+This information is used for quests which have several parts to them
+and information needs to be stored about the player as they attempt
+to complete it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pl_name - the name of the player
+<dd>qu_info - the quest name
+<dd>details - the information associated with the quest.
+
+</dl>
+
+<dt><a name="set_quest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_quest</b></a><pre>
+int set_quest(string pl_name,
+string qu_name,
+int no_xp)
+</pre><dd>
+This method sets the player as having done the quest and if we
+should give them xp for it
+This function should be called when a quest is finished.  It will then
+call the quest_completed function on the quest handler and do all
+assorted modifications to the player object etc.  The name should be the
+players name and the quest should be the name of the quest that is
+stored in the quest handler.
+<p>
+The include file <library.h> should be used for calls to this
+handler.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pl_name - name of the player
+<dd>qu_name - name of the quest
+<dd>no_xp - do not give out xp
+<dt><b>Returns:</b>
+<dd>0 if the quest is already completed
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.quest_handler.c.html#quest_completed">/obj/handlers/quest_handler->quest_completed()</a><dt><b>Example:</b>
+<dd><pre>// Set the player as completing the womble friend quest, they get
+// xp for it.
+LIBRARAY->set_quest(this_player()->query_name(), "womble friend", 0);
+</pre></dl>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+<dt><a name="unset_quest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>unset_quest</b></a><pre>
+int unset_quest(string pl_name,
+string qu_name)
+</pre><dd>
+This method removes a quest from the players list of completed quests.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pl_name - the player name
+<dd>qu_name - the quest name
+<dt><b>Returns:</b>
+<dd>0 if they have not done the quest, 1 if they habe
+<dt><b>See also:</b>
+<dd>/obj/handlers/quest_handler.c
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_qinfo">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>qinfo</b></a><pre>
+class qinfo {
+int cached;
+string player_name;
+string * quests;
+int * times;
+string text_file;
+mapping player_quest_info;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 20:16:15 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

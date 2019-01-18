@@ -1,0 +1,43 @@
+.DT
+set_goal_plan_data
+Disk World creator help
+set_goal_plan_data
+
+.SH Name
+.SP 5 5
+set_goal_plan_data -  This method sets the default data associated with the specified plan.
+.EP
+
+.SH Syntax
+.SI 5
+void set_goal_plan_data(string goal,
+string plan,
+mixed data)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^goal%^RESET%^ - the goal to check the data for
+%^BOLD%^plan%^RESET%^ - the name of the plan
+%^BOLD%^data%^RESET%^ - the data associated with the plan
+.EI
+
+.SH Defined in
+.SI 5
+/std/npc/goals_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the default data associated with the specified plan.
+This should be things like global plan things, the level at which the
+npc will run away.  Etc.
+.EP
+
+.SH See also
+.SP 5 5
+query_default_plan_data()
+
+.EP
+

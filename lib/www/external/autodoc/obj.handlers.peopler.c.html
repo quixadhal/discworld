@@ -1,0 +1,99 @@
+<html><head><title>File peopler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/peopler.c</h2>
+This prints out nicely formated lists of information.  It ius used
+by the people, finger etc commands.<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.peopler.h.html">/include/peopler.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_command"><b>do_command</b></a>(mixed *, string, function, int)<dd>
+This method is the main access point to the peopler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_people"><b>get_people</b></a>(string)<dd>
+This method returns the list of people using the 'str' as a 
+constraint.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#review"><b>review</b></a>()<dd>
+The review command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_var"><b>set_var</b></a>(string)<dd>
+Sets a variable.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_command</b></a><pre>
+int do_command(mixed * pattern,
+string constraint,
+function sort_func,
+int only_duplicates)
+</pre><dd>
+This method is the main access point to the peopler.  It prints out
+the commands.  The optional sort function allows you to sort on 
+somethign other than the name of the player.
+<p>
+The format of the pattern string is an array with every second element
+being the type and the other element being the width of the printable
+string.
+<pre>
+   ({ type, width,  ... })
+</pre>
+With strings the width is the string...<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pattern - the pattern to print with
+<dd>constraint - All the names should start with this, 0 fo rnone
+<dd>sort_func - the function to sort with (optional)
+<dd>only_duplicates - only print entries whicxh are the same (using the
+        sort_func
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+<dt><b>See also:</b>
+<dd>help::people.c, help::netstat.c, help::snetstat.c, help::netdups.c, help::terms.c and help::dirs
+.c</dl>
+
+<dt><a name="get_people">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_people</b></a><pre>
+object * get_people(string str)
+</pre><dd>
+This method returns the list of people using the 'str' as a 
+constraint.  So it only shows the people who match with the
+str.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the constraint string
+<dt><b>Returns:</b>
+<dd>the array of people
+
+</dl>
+
+<dt><a name="review">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>review</b></a><pre>
+int review()
+</pre><dd>
+The review command.  Prints out the current settings for
+the commands.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the player name restriction string
+<dt><b>Returns:</b>
+<dd>0 if it failed, 1 if it succeeded
+<dt><b>See also:</b>
+<dd>help::review
+.c</dl>
+
+<dt><a name="set_var">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_var</b></a><pre>
+int set_var(string str)
+</pre><dd>
+Sets a variable.  Sets the variable to the specified value.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the - name and arg of the varible
+<dt><b>Returns:</b>
+<dd>0 on failure, 1 on success
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 22:57:13 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

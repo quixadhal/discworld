@@ -1,0 +1,46 @@
+.DT
+is_allowed_to_modify_account
+Disk World creator help
+is_allowed_to_modify_account
+
+.SH Name
+.SP 5 5
+is_allowed_to_modify_account -  This method checks to see if the specified person is allowed to access the account.
+.EP
+
+.SH Syntax
+.SI 5
+int is_allowed_to_modify_account(string club_name,
+string account,
+string person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^account%^RESET%^ - the name of the account
+%^BOLD%^person%^RESET%^ - the person's name to check
+.EI
+
+.SH Returns
+.SI 5
+1 if they can access the account, 0 if they cannot.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the specified person is allowed to
+access the account.  It checks based on both position and name.
+.EP
+
+.SH See also
+.SP 5 5
+query_account_allowed_people(), add_money(), remove_money(), query_account_allowed_positions()
+
+.EP
+

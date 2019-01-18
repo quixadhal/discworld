@@ -1,0 +1,44 @@
+.DT
+remove_person_from_case
+Disk World creator help
+remove_person_from_case
+
+.SH Name
+.SP 5 5
+remove_person_from_case -  This method removes a person from the case.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_person_from_case(string area,
+int id,
+string remover,
+string person,
+string text)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area the case is in
+%^BOLD%^id%^RESET%^ - the id of the case
+%^BOLD%^remover%^RESET%^ - the person that removes the person
+%^BOLD%^person%^RESET%^ - the person to be removed to the case
+%^BOLD%^text%^RESET%^ - the reason for removeing the person
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/case_control.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method removes a person from the case.
+.EP
+

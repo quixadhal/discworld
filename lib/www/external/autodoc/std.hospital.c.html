@@ -90,7 +90,7 @@ diurnal, nocturnal and seasonal npcs.
 <dt>Carmine April 9th<br><dd>Added some alignment-generation code.</dl>
 <hr><h2>Inherits</h2>
 This class inherits the following classes /std/hospital/alignment.c and /std/room.c<hr><h2>Includes</h2>
-This class includes the following files <a href="include.weather.h.html">/include/weather.h</a>, <a href="include.hospital.h.html">/include/hospital.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a> and <a href="include.data.h.html">/include/data.h</a><hr><h2>Method index</h2>
+This class includes the following files <a href="include.armoury.h.html">/include/armoury.h</a>, <a href="include.data.h.html">/include/data.h</a>, <a href="include.hospital.h.html">/include/hospital.h</a> and <a href="include.weather.h.html">/include/weather.h</a><hr><h2>Method index</h2>
 <dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#do_report"><b>do_report</b></a>()<dd>
 Prints a report of all the npcs in the hospital currently.
@@ -221,7 +221,7 @@ Prints a report of all the npcs in the hospital currently.
 <dt><a name="get_item">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_item</b></a><pre>
 int get_item(object destination,
-             string * items)
+string * items)
 </pre><dd>
 This function provides an interface to the armoury, selecting
 an item at random from the 'items' array and attempting to
@@ -247,8 +247,8 @@ cloned, and then moved to destination.
 <dt><a name="hospital_log_file">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hospital_log_file</b></a><pre>
 void hospital_log_file(string file,
-                       string format,
-                       mixed * args ...)
+string format,
+mixed * args ...)
 </pre><dd>
 This method provides log_file() functionality but for /d/am/log
 instead.  You should use this method to record errors and whatever
@@ -323,8 +323,8 @@ to create the npc.  In the case of unique npcs they are not cloned.<p>
 <dt><a name="load_random_npc">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_random_npc</b></a><pre>
 object * load_random_npc(string zone,
-                         int wealth,
-                         int busy)
+int wealth,
+int busy)
 </pre><dd>
 This method randomly selects an NPC or a group of NPC's from
 the list of defined NPC's for the room/region.
@@ -446,7 +446,7 @@ only be used for debugging.<p>
 <dt><a name="query_npc_current_population">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_npc_current_population</b></a><pre>
 int query_npc_current_population(string npc,
-                                 int clean)
+int clean)
 </pre><dd>
 This method returns the current population of this npc<p>
 <dd><dl>
@@ -624,7 +624,7 @@ These are functions that only objects inheriting the class can access.<p>
 <dt><a name="finish_compiling">
 <img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>finish_compiling</b></a><pre>
 void finish_compiling(string fname,
-                      mapping data)
+mapping data)
 </pre><dd>
 This is called by the data compiler when the system has
 finished compiling the data file.<p>
@@ -673,5 +673,5 @@ variables will be initialised to their defaults and
 
 
 <hr>
-<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 06 Sep 2003 03:04:54 GMT<br>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sun, 01 Apr 2018 15:46:48 GMT<br>
 <hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,39 @@
+.DT
+state
+Disk World creator help
+state
+
+.SH Name
+.SP 5 5
+state -  This structure holds a single state.
+.EP
+
+.SH Definition
+.SI 5
+class state {
+string name;
+string action;
+string write;
+int noecho;
+mapping events;
+}
+
+.EI
+
+.SH Defined in
+.SI 5
+/secure/login.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This structure holds a single state. A state has a name,
+an action or write and a set of events. 
+.EP
+.SP 5 5
+The name is used to identify the state and must be unique within the state table. An action is a function to call while a write is a string or file to be written to the screen. The events mapping is made of event and new-state. The event is the trigger and new-state is the new state the machine should enter.
+
+An event is a string of the form "type-data" where type is either "input" or "return" indicating user input or the return from an action function. Thus "return-ok" would be triggered if the action function in this state returned "ok" while "input-y" would be triggered if the user typed in "y". The special event "input" will trigger on any user input while the event "default" will trigger on any input or return value. 
+.EP
+

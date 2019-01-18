@@ -1,0 +1,170 @@
+<html><head><title>File bath_house.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/bath_house.c</h2>
+Bath house inheritable!<p>Written by Taffyd<p>Started 30/04/00 12:08
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.effect.h.html">/include/effect.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_finished_func"><b>add_finished_func</b></a>(function)<dd>
+This adds a function to be evalauted when all of the wash effects
+have been evaluated.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_wash_effect"><b>add_wash_effect</b></a>(string, function)<dd>
+This method adds an effect to be removed when washing here.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#advanced_antiseptic"><b>advanced_antiseptic</b></a>(object, string, int, mixed, object)<dd>
+This is a basic cleaning method that can be used to remove a few
+default things.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#apply_soap"><b>apply_soap</b></a>(object, string *)<dd>
+This is the default finished func.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#basic_cleaning"><b>basic_cleaning</b></a>(object, int, string)<dd>
+This is a small cut down cleaning effect that displays a message.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_baths"><b>query_baths</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_wash_classifications"><b>query_wash_classifications</b></a>()<dd>
+This returns a list of all the effect classifications that are currently
+being managed.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_wash_effect"><b>remove_wash_effect</b></a>(string)<dd>
+This method removes a wash effect.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#wash_player"><b>wash_player</b></a>(object)<dd>
+This method washes a player.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#wet_person"><b>wet_person</b></a>(object, string *)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_baths">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_baths</b></a><pre>
+int query_baths()
+</pre>
+<dt><a name="query_wash_classifications">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_wash_classifications</b></a><pre>
+string * query_wash_classifications()
+</pre><dd>
+This returns a list of all the effect classifications that are currently
+being managed.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of strings.
+
+</dl>
+
+<dt><a name="wash_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>wash_player</b></a><pre>
+int wash_player(object ob)
+</pre><dd>
+This method washes a player.  Any wash commands that are defined
+must ultimately call this function, so that all of the wash
+functions can be evaluated.
+<p>
+When an effect is found on the player for a matching wash effect
+classification, the function specified is evaluated with the following
+parameters:
+<ul>
+ <li>ob, the player who is being washed
+ <li>classification, the classification of the effect that was matched.
+ <li>arg, the arguments to the effect.
+ <li>effect_enum, the position of the effect in the player's effect list.
+ <li>effect_ob, the object that the effect is found in.
+</ul>
+<p>
+After this, the finished functions are evaluated with two arguments, the first
+one being ob, the second one being an array of all the wash effect classifications
+that were matched correctly.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to wash
+<dt><b>Returns:</b>
+<dd>1 if the player was washed successfully, 0 if they weren't.
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="add_finished_func">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_finished_func</b></a><pre>
+int add_finished_func(function func)
+</pre><dd>
+This adds a function to be evalauted when all of the wash effects
+have been evaluated.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to be evaluated
+<dt><b>Returns:</b>
+<dd>1
+
+</dl>
+
+<dt><a name="add_wash_effect">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_wash_effect</b></a><pre>
+int add_wash_effect(string classification,
+function func)
+</pre><dd>
+This method adds an effect to be removed when washing here.
+If the effect is matched, then func is evaluated.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>classification - the effect classification to match.
+<dd>func - the function to evaluate when the effect is matched.
+<dt><b>Returns:</b>
+<dd>1 if the effect classification was added, 0 if it could not be
+(most likely a duplicate effect classification).
+<dt><b>Example:</b>
+<dd><pre>add_wash_effect( "body.smell", (: advanced_antiseptic :) );</pre><dd><pre>
+add_wash_effect( "object.label", (: basic_cleaning( $1, $3,
+   "The labels stuck to your body peel off in the water." ) :) );
+</pre></dl>
+
+<dt><a name="advanced_antiseptic">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>advanced_antiseptic</b></a><pre>
+void advanced_antiseptic(object ob,
+string classification,
+int effect_enum,
+mixed arg,
+object effect_ob)
+</pre><dd>
+This is a basic cleaning method that can be used to remove a few
+default things.
+<p>
+
+<dt><a name="apply_soap">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>apply_soap</b></a><pre>
+void apply_soap(object ob,
+string * applied_effects)
+</pre><dd>
+This is the default finished func. It adds soap.
+<p>
+
+<dt><a name="basic_cleaning">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>basic_cleaning</b></a><pre>
+void basic_cleaning(object ob,
+int effect_enum,
+string message)
+</pre><dd>
+This is a small cut down cleaning effect that displays a message.
+<p>
+
+<dt><a name="remove_wash_effect">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>remove_wash_effect</b></a><pre>
+int remove_wash_effect(string classification)
+</pre><dd>
+This method removes a wash effect.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the - classification of the effect to be removed.
+<dt><b>Returns:</b>
+<dd>1 if the effect was successfully removed, 0 if it wasn't.
+
+</dl>
+
+<dt><a name="wet_person">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>wet_person</b></a><pre>
+void wet_person(object ob,
+string * applied_effects)
+</pre>
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 04:52:01 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

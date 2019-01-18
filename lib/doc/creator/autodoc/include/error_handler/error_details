@@ -1,0 +1,43 @@
+.DT
+error_details
+Disk World creator help
+error_details
+
+.SH Name
+.SP 5 5
+error_details -  The details of the bug.
+.EP
+
+.SH Definition
+.SI 5
+class error_details {
+class error_summary summary;
+int fix_date;
+string fixer;
+string report;
+string runtime;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^summary%^RESET%^ - the summary class for the basic sumamry details
+%^BOLD%^fix_date%^RESET%^ - the date the bug was fixed
+%^BOLD%^fixer%^RESET%^ - the person who fixed the bug
+%^BOLD%^report%^RESET%^ - the report associated with the bug
+%^BOLD%^runtime%^RESET%^ - the runtime error associated with the bug
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/error_handler.h
+.EI
+
+.SH Description
+.SP 5 5
+
+The details of the bug.
+.EP
+

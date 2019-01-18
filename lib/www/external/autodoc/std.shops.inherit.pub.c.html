@@ -1,0 +1,563 @@
+<html><head><title>File pub.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/inherit/pub.c</h2>
+This is the inheritable bit of the pub.  The actual file you should
+inherit is /std/shops/pub_shop.c
+<p>
+Based on the original "pub.c" code, this version allows you to buy an
+actual drink (inna glass) instead of just forcefeeding you with whatever
+you purchase.  You can also create food and serve it on plates, in boxes,
+or whatever.
+<p>
+The items on sale are either cloned from the armoury, cloned from a file
+or cloned in the "create_item()" code in the pub code itself.  Containers
+for these items are done in the same way, using the "create_container()"
+function.  This is the same as the "create_object()" system in
+"item_shop.c".  You can also buy items for other people (or groups of
+other people) in the pub.
+<p>
+There are several standard glasses and plates available for drinks and
+food in the "pub_shop.h" header file, if you don't want to create the
+glasses and plates yourself.  These plates use the "/obj/misc/plate.c"
+inheritable file.
+<p>
+A "counter" will automatically be placed in the pub.  If any item cannot
+be moved into the person who ordered it (i.e they are carrying too much )
+it will be placed on the counter.  Empty glasses and so on will be
+cleared from the counter after 3 seconds.  To ensure that this happens,
+make sure that the container object you use has the property "pub item"
+added to it.  Items will only be cleared if they are empty.<p><b>See also:</b><br><a href="std.shops.pub_shop.c.html">/std/shops/pub_shop.c</a>, <a href="include.shops.pub_shop.h.html">/include/shops/pub_shop.h</a> and /include/volumes.h
+<p>Written by Lemming<p>Started 23/10/1999<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.shops.inherit.shop_event.c.html">/std/shops/inherit/shop_event.c</a> and <a href="std.shops.inherit.open_shop.c.html">/std/shops/inherit/open_shop.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a>, <a href="include.map.h.html">/include/map.h</a>, <a href="include.money.h.html">/include/money.h</a> and <a href="include.shops.pub_shop.h.html">/include/shops/pub_shop.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_menu_alias"><b>add_menu_alias</b></a>(mixed, string)<dd>
+This method allows you to add an alias to an item sold in the pub.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_menu_aliases"><b>add_menu_aliases</b></a>(string *, string)<dd>
+This method allows you to add multiple aliases at once.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_menu_item"><b>add_menu_item</b></a>(string, int, int, string, string, int, int)<dd>
+This is the method used to add items to the menu.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_counter"><b>make_counter</b></a>()<dd>
+This function creates the counter for the pub.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_counter"><b>query_counter</b></a>()<dd>
+This method returns the object currently being used as a counter in the
+pub.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discount"><b>query_discount</b></a>(object)<dd>
+This function can be masked and used to determine a discount that is
+applied to all items sold, so for instance you could check the guild of
+'ob' and give a discount to Witches, or something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_display_header"><b>query_display_header</b></a>()<dd>
+This method returns a flag stating whether display of the menu header
+is on or off.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_display_subheadings"><b>query_display_subheadings</b></a>()<dd>
+This method returns a flag stating whether display of the menu subheadings
+is on or off.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language"><b>query_language</b></a>()<dd>
+This method returns the language used in the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_menu"><b>query_menu</b></a>()<dd>
+This method returns the object currently being used as a menu in the
+pub.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_menu_aliases"><b>query_menu_aliases</b></a>()<dd>
+This method returns a list of all the aliases currently available in
+the pub.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_menu_header"><b>query_menu_header</b></a>()<dd>
+This method returns the current menu header text.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_menu_items"><b>query_menu_items</b></a>()<dd>
+This method returns a list of all the items currently available in
+the pub.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_menu_subheadings"><b>query_menu_subheadings</b></a>()<dd>
+This method returns the current menu subheading text.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_no_standard_alias"><b>query_no_standard_alias</b></a>()<dd>
+This method returns a flag stating whether standard aliases will be added
+or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pub"><b>query_pub</b></a>()<dd>
+This method checks to see if this is a pub.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#read"><b>read</b></a>()<dd>
+This method produces the menu from the item information, with the menu
+header at the top, all items available grouped by type and sorted by
+cost.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_menu_alias"><b>remove_menu_alias</b></a>(string)<dd>
+This method allows you to remove an alias from those currently available
+in the pub.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_menu_item"><b>remove_menu_item</b></a>(string)<dd>
+This method allows you to remove an item from those currently available
+in the pub.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_display_header"><b>set_display_header</b></a>(int)<dd>
+This method allows you to switch the menu header (defaults to "The menu
+reads:") that appears at the top of the menu on and off.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_display_subheadings"><b>set_display_subheadings</b></a>(int)<dd>
+This method allows you to switch the subheadings ("Alcoholic Beverages",
+"Meals", etc) that appear above different types of items on and off.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_language"><b>set_language</b></a>(string)<dd>
+This method sets the language to use in the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_menu_header"><b>set_menu_header</b></a>(string)<dd>
+This method sets the header that appears at the top of the menu.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_menu_subheadings"><b>set_menu_subheadings</b></a>(int, string)<dd>
+This method sets the subheadings that appear at the top of the menu.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_standard_alias"><b>set_no_standard_alias</b></a>(int)<dd>
+This method allows you to turn on or off the addition of standard aliases
+when new menu items are added.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_menu_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_menu_alias</b></a><pre>
+void add_menu_alias(mixed alias,
+string actual)
+</pre><dd>
+This method allows you to add an alias to an item sold in the pub.  Many
+aliases are added by default so you shouldn't have to use this too
+often.  See the help on "set_no_standard_alias()" to see what aliases are
+added automatically.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>alias - the alias to add
+<dd>alias - the real item that the alias refers to
+<dt><b>See also:</b>
+<dd><a href="#add_menu_aliases">add_menu_aliases()</a>, <a href="#query_menu_aliases">query_menu_aliases()</a>, <a href="#remove_menu_alias">remove_menu_alias()</a> and <a href="#set_no_standard_alias">set_no_standard_alias()
+</a><dt><b>Example:</b>
+<dd><pre>// Allow "buy lancre ale" instead of "buy Ale from Lancre"
+add_menu_alias( "lancre ale", "Ale from Lancre" );</pre></dl>
+
+<dt><a name="add_menu_aliases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_menu_aliases</b></a><pre>
+void add_menu_aliases(string * aliases,
+string actual)
+</pre><dd>
+This method allows you to add multiple aliases at once.  Many aliases are
+added by default so you shouldn't have to use this too often.  See the 
+help on "set_no_standard_alias()" to see what aliases are added 
+automatically.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>aliases - an array of aliases to add
+<dd>alias - the real item that the aliases refer to
+<dt><b>See also:</b>
+<dd><a href="#add_menu_alias">add_menu_alias()</a>, <a href="#query_menu_aliases">query_menu_aliases()</a>, <a href="#remove_menu_alias">remove_menu_alias()</a> and <a href="#set_no_standard_alias">set_no_standard_alias()
+</a><dt><b>Example:</b>
+<dd><pre>// Add friendly aliases to "Beef burger and chips"
+add_menu_aliases( ({ "beef burger",
+                     "beefburger",
+                       "burger" }), "Beef burger and chips" );</pre></dl>
+
+<dt><a name="add_menu_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_menu_item</b></a><pre>
+varargs void add_menu_item(string name,
+int type,
+int cost,
+string item,
+string container,
+int volume,
+int intox)
+</pre><dd>
+This is the method used to add items to the menu.  Only the first four
+parameters are required, the rest are optional.
+<p>
+The "type" parameter is used to determine which section of the menu the
+item should reside in, and should be selected from those in the
+"pub_shop.h" header file.
+<p>
+The "item" parameter is used to generate the actual product on sale.  This
+value can be:
+<ul>
+<li> a name, which is passed to the "create_item()" function in the room code
+<li> a filename, which is cloned, or
+<li> an armoury identifier, which is passed to the armoury handler.
+</ul>
+<p>
+The "container" parameter is the same as the "item" parameter, except that
+it refers to the container the item comes in and is passed to
+"create_container()" instead of "create_item()".  You can also use the
+standard containers listed in the "pub_shop.h" header file.  It is
+optional, and setting it to 0 will cause it to be ignored.
+<p>
+The "volume" parameter is optional and is passed directly to
+"set_amount()" on the object cloned from "item".  It can be used to alter
+the volume of a liquid cloned from a file, so the file itself does not
+have to be changed.  It is optional, and setting it to 0 will cause it to
+be ignored.  If this is set to 0 then the item will fill up the
+container.  Standard volume definitions can be found in the "volumes.h"
+header file.
+<p>
+The last parameter, "intox", is optional and is used only by NPCs to
+determine how alcoholic an item is.  This should be between 0 and 10,
+with 0 being non-alcoholic and 10 being something like Suicider.  It 
+defaults to 0.  Note:  This has no effect on the actual alcohol content
+of the item.
+<p>
+The different volumes of standard containers can be taken from
+/include/volumes.h which has defines for all the standard volumes.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the description to be displayed on the menu
+<dd>type - the type of item
+<dd>cost - the cost of the item
+<dd>item - the name, filename or armoury identifier for the item itself
+<dd>container - the name, filename or armoury identifier for the
+container (optional)
+<dd>volume - the volume that the item should be set to (optional)
+<dd>intox - the intoxification value, on a scale of 0 to 10 (optional)
+<dt><b>See also:</b>
+<dd><a href="#query_menu_items">query_menu_items()</a>, <a href="#remove_menu_item">remove_menu_item()</a> and /include/volumes.h
+<dt><b>Example:</b>
+<dd><pre>// Add a main course called "Big meat pie", cloned from the file
+// "/obj/food/meatpie.food"
+add_menu_item( "Big meat pie", PUB_MAINCOURSE, 1000,
+   "/obj/food/meatpie.food" );</pre><dd><pre>
+// Same as above, but let's put the pie on a plate
+add_menu_item( "Big meat pie", PUB_MAINCOURSE, 1000,
+   "/obj/food/meatpie.food", PUB_STD_PLATE );</pre><dd><pre>
+// Add a glass of ale, with the ale cloned from a file and the glass
+// cloned in the "create_container()" function in the room code
+add_menu_item( "Pint of ale", PUB_ALCOHOL, 500, "/obj/food/ale.food",
+   "new_pint_glass" );</pre><dd><pre>
+// The same as above, but we only want half a pint of ale in the glass, we
+// want to use the standard glasses in the header file and we want to set
+// the intoxification value of the ale to 5
+add_menu_item( "Half-pint of ale in a pint glass", PUB_ALCOHOL, 300,
+   "/obj/food/ale.food", PUB_STD_PINT, VOLUME_HALFPINT, 5 );</pre><dd><pre>
+// Create a beefburger with added vodka in the "create_item()" function in
+// the room code and put it in a small satchel from the armoury
+add_menu_item( "Beefburger with special sauce", PUB_MAINCOURSE, 800,
+   "vodka_burger", "small satchel", 0, 7 );</pre></dl>
+
+<dt><a name="make_counter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_counter</b></a><pre>
+object make_counter()
+</pre><dd>
+This function creates the counter for the pub.  It defaults to cloning
+PUB_COUNTER_FILE and making it a hidden object.
+If you are creating your own counter object then making it hidden is a
+good idea.  If it's not hidden, make sure it at least cannot be moved or
+buried.
+The counter should clear empty objects with the "pub item" property if
+they are placed on it.  Making it clear non-empty objects is a bad idea,
+since items will be placed here if the purchaser is unable to carry
+them.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the new counter object
+<dt><b>See also:</b>
+<dd><a href="#query_counter">query_counter()</a> and /include/shops/pub_shop.h
+</dl>
+
+<dt><a name="query_counter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_counter</b></a><pre>
+object query_counter()
+</pre><dd>
+This method returns the object currently being used as a counter in the
+pub.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the file name of the counter
+<dt><b>See also:</b>
+<dd><a href="#make_counter">make_counter()
+</a></dl>
+
+<dt><a name="query_discount">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discount</b></a><pre>
+float query_discount(object ob)
+</pre><dd>
+This function can be masked and used to determine a discount that is
+applied to all items sold, so for instance you could check the guild of
+'ob' and give a discount to Witches, or something.  By default the
+discount is zero, so query_discount returns 1.0<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object doing the buying
+<dt><b>Returns:</b>
+<dd>a float to multiply the price by
+<dt><b>Example:</b>
+<dd><pre>// Give Priests a 10% discount
+float query_discount( object ob ) {
+   if( ob->query_guild_ob() == "/std/guilds/priest.c" )
+      return 0.9;
+   else
+      return 1.0;
+}
+</pre></dl>
+
+<dt><a name="query_display_header">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_display_header</b></a><pre>
+int query_display_header()
+</pre><dd>
+This method returns a flag stating whether display of the menu header
+is on or off.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for header, 0 for no header
+<dt><b>See also:</b>
+<dd><a href="#set_display_header">set_display_header()</a>, <a href="#set_menu_header">set_menu_header()</a> and <a href="#query_menu_header">query_menu_header()
+</a></dl>
+
+<dt><a name="query_display_subheadings">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_display_subheadings</b></a><pre>
+int query_display_subheadings()
+</pre><dd>
+This method returns a flag stating whether display of the menu subheadings
+is on or off.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for headings, 0 for no headings
+<dt><b>See also:</b>
+<dd><a href="#set_display_subheadings">set_display_subheadings()</a>, <a href="#set_menu_subheadings">set_menu_subheadings()</a> and <a href="#query_menu_subheadings">query_menu_subheadings()
+</a></dl>
+
+<dt><a name="query_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language</b></a><pre>
+string query_language()
+</pre><dd>
+This method returns the language used in the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the language used in the shop
+
+</dl>
+
+<dt><a name="query_menu">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_menu</b></a><pre>
+object query_menu()
+</pre><dd>
+This method returns the object currently being used as a menu in the
+pub.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the file name of the menu
+
+</dl>
+
+<dt><a name="query_menu_aliases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_menu_aliases</b></a><pre>
+mapping query_menu_aliases()
+</pre><dd>
+This method returns a list of all the aliases currently available in
+the pub.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>alias : real name
+<dt><b>See also:</b>
+<dd><a href="#add_menu_alias">add_menu_alias()</a>, <a href="#add_menu_aliases">add_menu_aliases()</a>, <a href="#remove_menu_alias">remove_menu_alias()</a> and <a href="#set_no_standard_alias">set_no_standard_alias()
+</a></dl>
+
+<dt><a name="query_menu_header">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_menu_header</b></a><pre>
+string query_menu_header()
+</pre><dd>
+This method returns the current menu header text.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the menu header text
+<dt><b>See also:</b>
+<dd><a href="#set_menu_header">set_menu_header()</a>, <a href="#set_display_header">set_display_header()</a> and <a href="#query_display_header">query_display_header()
+</a></dl>
+
+<dt><a name="query_menu_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_menu_items</b></a><pre>
+mapping query_menu_items()
+</pre><dd>
+This method returns a list of all the items currently available in
+the pub.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>items available, listing type, price and intoxification value
+<dt><b>See also:</b>
+<dd><a href="#add_menu_item">add_menu_item()</a> and <a href="#remove_menu_item">remove_menu_item()
+</a></dl>
+
+<dt><a name="query_menu_subheadings">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_menu_subheadings</b></a><pre>
+string * query_menu_subheadings()
+</pre><dd>
+This method returns the current menu subheading text.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the menu subheadings
+<dt><b>See also:</b>
+<dd><a href="#set_menu_subheadings">set_menu_subheadings()</a>, <a href="#set_display_subheadings">set_display_subheadings()</a> and <a href="#query_display_subheadings">query_display_subheadings()
+</a></dl>
+
+<dt><a name="query_no_standard_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_no_standard_alias</b></a><pre>
+int query_no_standard_alias()
+</pre><dd>
+This method returns a flag stating whether standard aliases will be added
+or not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 if standard aliases will be added, 1 if not
+<dt><b>See also:</b>
+<dd><a href="#set_no_standard_alias">set_no_standard_alias()
+</a></dl>
+
+<dt><a name="query_pub">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pub</b></a><pre>
+int query_pub()
+</pre><dd>
+This method checks to see if this is a pub.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always return 1
+
+</dl>
+
+<dt><a name="read">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>read</b></a><pre>
+string read()
+</pre><dd>
+This method produces the menu from the item information, with the menu
+header at the top, all items available grouped by type and sorted by
+cost.  If you don't want the menu printed this way then mask this
+function and return your own.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the menu text
+<dt><b>See also:</b>
+<dd><a href="#add_menu_item">add_menu_item()</a>, <a href="#set_display_header">set_display_header()</a>, <a href="#set_menu_header">set_menu_header()</a>, <a href="#set_display_subheadings">set_display_subheadings()</a> and <a href="#set_menu_subheadings">set_menu_subheadings()
+</a></dl>
+
+<dt><a name="remove_menu_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_menu_alias</b></a><pre>
+int remove_menu_alias(string alias)
+</pre><dd>
+This method allows you to remove an alias from those currently available
+in the pub.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>alias - the alias to remove from the list
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 if unsuccessful
+<dt><b>See also:</b>
+<dd><a href="#add_menu_alias">add_menu_alias()</a>, <a href="#add_menu_aliases">add_menu_aliases()</a>, <a href="#query_menu_aliases">query_menu_aliases()</a> and <a href="#set_no_standard_alias">set_no_standard_alias()
+</a></dl>
+
+<dt><a name="remove_menu_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_menu_item</b></a><pre>
+int remove_menu_item(string name)
+</pre><dd>
+This method allows you to remove an item from those currently available
+in the pub.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the item to remove
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 if unsuccessful
+<dt><b>See also:</b>
+<dd><a href="#add_menu_item">add_menu_item()</a> and <a href="#query_menu_items">query_menu_items()
+</a></dl>
+
+<dt><a name="set_display_header">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_display_header</b></a><pre>
+void set_display_header(int value)
+</pre><dd>
+This method allows you to switch the menu header (defaults to "The menu
+reads:") that appears at the top of the menu on and off.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - set to 1 to display header or 0 to remove them
+<dt><b>See also:</b>
+<dd><a href="#query_display_header">query_display_header()</a>, <a href="#set_menu_header">set_menu_header()</a> and <a href="#query_menu_header">query_menu_header()
+</a></dl>
+
+<dt><a name="set_display_subheadings">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_display_subheadings</b></a><pre>
+void set_display_subheadings(int value)
+</pre><dd>
+This method allows you to switch the subheadings ("Alcoholic Beverages",
+"Meals", etc) that appear above different types of items on and off.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - set to 1 to display subheadings or 0 to remove them
+<dt><b>See also:</b>
+<dd><a href="#query_display_subheadings">query_display_subheadings()</a>, <a href="#set_menu_subheadings">set_menu_subheadings()</a> and <a href="#query_menu_subheadings">query_menu_subheadings()
+</a></dl>
+
+<dt><a name="set_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_language</b></a><pre>
+void set_language(string language)
+</pre><dd>
+This method sets the language to use in the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>language - the language to use
+
+</dl>
+
+<dt><a name="set_menu_header">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_menu_header</b></a><pre>
+void set_menu_header(string header)
+</pre><dd>
+This method sets the header that appears at the top of the menu.  By
+default this is "The menu reads:".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>header - the new menu header
+<dt><b>See also:</b>
+<dd><a href="#query_menu_header">query_menu_header()</a>, <a href="#set_display_header">set_display_header()</a> and <a href="#query_display_header">query_display_header()
+</a></dl>
+
+<dt><a name="set_menu_subheadings">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_menu_subheadings</b></a><pre>
+void set_menu_subheadings(int subheading,
+string text)
+</pre><dd>
+This method sets the subheadings that appear at the top of the menu.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>subheading - the subheading to change (use the #defines listed in
+"pub_shop.h")
+<dd>text - the new menu subheading text
+<dt><b>See also:</b>
+<dd><a href="#query_menu_subheadings">query_menu_subheadings()</a>, <a href="#set_display_subheadings">set_display_subheadings()</a> and <a href="#query_display_subheadings">query_display_subheadings()
+</a></dl>
+
+<dt><a name="set_no_standard_alias">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_standard_alias</b></a><pre>
+void set_no_standard_alias(int flag)
+</pre><dd>
+This method allows you to turn on or off the addition of standard aliases
+when new menu items are added.  By default it is turned on.  Standard
+aliases are added as follows:
+If you added an item called "Lancre vintage wine" the aliases added would
+be:
+<ul>
+<li> vintage wine
+<li> lancre wine
+<li> wine
+</ul>
+An alias of the name in lowercase is always added regardless of whether
+or not this flag is turned on or off.  You may wish to turn this off if
+you are adding several items which could be mistaken for each other, for
+instance "Lancre beer" and "Morporkian beer".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>flag - 0 if standard aliases should be added, 1 if not
+<dt><b>See also:</b>
+<dd><a href="#add_menu_alias">add_menu_alias()</a>, <a href="#query_menu_aliases">query_menu_aliases()</a>, <a href="#remove_alias">remove_alias()</a> and <a href="#query_no_standard_alias">query_no_standard_alias()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 04:26:17 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

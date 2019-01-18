@@ -1,0 +1,738 @@
+<html><head><title>File club_discuss.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/inherit/club_discuss.c</h2>
+This is the handler for all things clubby, a club being a group of
+players.  Each club must have a unique name.  It also handles elections
+for various club positions.<p>Written by Pinkfish<p>Started Sun Sep 27 03:35:42 EDT 1998
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.handlers.inherit.club_elected.c.html">/obj/handlers/inherit/club_elected.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.broadcaster.h.html">/include/broadcaster.h</a> and <a href="include.clubs.h.html">/include/clubs.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_discussion_item"><b>add_discussion_item</b></a>(string, int, string, string, string, string *, int, mixed)<dd>
+This method will add a discussion item to the table to be voted on.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#archive_discussion_item"><b>archive_discussion_item</b></a>(string, string, string)<dd>
+This method is called when a discussion item is finished.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#broadcast_discuss_message"><b>broadcast_discuss_message</b></a>(string, int, string, string)<dd>
+This method sends a message to all the discussion items in the club
+and then marks the club as changed if any of them return a non-zero
+value.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_reference_discussion_item"><b>can_reference_discussion_item</b></a>(string, int, string)<dd>
+This method checks to see if the specified person can see the
+discussion idea.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#complete_discussion_item"><b>complete_discussion_item</b></a>(string, int)<dd>
+This method completes the discussion item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#has_voted_for_discussion_item"><b>has_voted_for_discussion_item</b></a>(string, int, string)<dd>
+This method checks to see if the specified person has already voted for
+this discussion item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_committee_discussion_item"><b>is_committee_discussion_item</b></a>(string, int)<dd>
+This method checks to see if the discussion item is a committee only
+item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_discuss_nominateable"><b>is_discuss_nominateable</b></a>(string, int)<dd>
+This method checks to see if the discussion item is a votable
+item or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_discuss_person_nominated"><b>is_discuss_person_nominated</b></a>(string, int, string, string)<dd>
+This method checks to see if the given nomination has already been 
+done.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_discuss_votable"><b>is_discuss_votable</b></a>(string, int)<dd>
+This method checks to see if the discussion item is a votable
+item or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_discussion_item_finished"><b>is_discussion_item_finished</b></a>(string, int)<dd>
+This method checks to see if the discussion item is completed yet.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_discussion_item_quorum"><b>is_discussion_item_quorum</b></a>(string, int)<dd>
+This method checks to see if quorum has been reached or not
+for the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_discussion_position_valid"><b>is_discussion_position_valid</b></a>(string, string)<dd>
+This is a special function to be used with the discuss items to
+make sure that there is not another discussion item checking the
+same name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_no_quorum_discussion_item"><b>is_no_quorum_discussion_item</b></a>(string, int)<dd>
+This method checks to see if the discussion item has no quorum
+associated with it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_valid_discussion_choice"><b>is_valid_discussion_choice</b></a>(string, int, string)<dd>
+This checks to see if the specified choice is a real discussion item
+choice.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_valid_discussion_item_type"><b>is_valid_discussion_item_type</b></a>(int)<dd>
+This method checks to make sure the type of the discussion item
+is valid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#nominate_discussion_item"><b>nominate_discussion_item</b></a>(string, int, string, string)<dd>
+This message does the nomination thing for those discussion items
+which accept nominations.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_discussion_items"><b>query_all_discussion_items</b></a>(string)<dd>
+This method returns all the current discussion items for this
+club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discussion_added_by"><b>query_discussion_added_by</b></a>(string, int)<dd>
+This method returns the person who added the discussion item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discussion_choices"><b>query_discussion_choices</b></a>(string, int)<dd>
+This method returns all the choices for this discussion item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discussion_item"><b>query_discussion_item</b></a>(string, int)<dd>
+This method figures out the discussion item for the club with the
+given id.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discussion_item_by_type"><b>query_discussion_item_by_type</b></a>(string, int, class discussion_idea)<dd>
+This method figures out the discussion item for the club with the
+given type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discussion_item_long_description"><b>query_discussion_item_long_description</b></a>(string, int)<dd>
+This method returns a nice little description of the discussion item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discussion_item_number_voted"><b>query_discussion_item_number_voted</b></a>(string, int)<dd>
+This method returns the number of people who have voted for the
+discussion item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discussion_item_quorum_number"><b>query_discussion_item_quorum_number</b></a>(string, int)<dd>
+This method returns the number of people needed for quorum
+in this discussion item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discussion_item_short_description"><b>query_discussion_item_short_description</b></a>(string, int)<dd>
+This method returns a nice little description of the discussion item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discussion_nomination"><b>query_discussion_nomination</b></a>(string, int)<dd>
+This method returns the nomination mapping for the discussion item
+if it exists.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discussion_optional_data"><b>query_discussion_optional_data</b></a>(string, int)<dd>
+This method returns the optional data of the discussion item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discussion_time_added"><b>query_discussion_time_added</b></a>(string, int)<dd>
+This method returns the timeout time of the current discussion item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discussion_time_finish"><b>query_discussion_time_finish</b></a>(string, int)<dd>
+This method returns the timeout time of the current discussion item.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_discussion_item"><b>remove_discussion_item</b></a>(string, class discussion_idea)<dd>
+This method removes a discussion item from the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#send_discuss_message"><b>send_discuss_message</b></a>(string, int, class discussion_idea, string, string)<dd>
+This method sends a message to all the discussion items in the club
+and then marks the club as changed if any of them return a non-zero
+value.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_by_election"><b>setup_by_election</b></a>(string, string, string)<dd>
+This method setups up a by-election for the specified position in the
+club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#vote_for_discussion_item"><b>vote_for_discussion_item</b></a>(string, int, string, string)<dd>
+This method sets up the discussion item as being voted by the
+person specified.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#withdraw_discussion_item"><b>withdraw_discussion_item</b></a>(string, int, string)<dd>
+This message does the withdraw thing for those discussion items
+which accept nominations.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_discussion_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_discussion_item</b></a><pre>
+int add_discussion_item(string club,
+int type,
+string added_by,
+string name,
+string info,
+string * choices,
+int time_to_finish,
+mixed extra_data)
+</pre><dd>
+This method will add a discussion item to the table to be voted on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club - the club the item is being added to
+<dd>type - the type of the discussion item to be added
+<dd>added_by - who added the discussion item
+<dd>name - the name of the discussion item
+<dd>choices - the choices for the discussion item
+<dd>time_to_finish - the amount of time the election has to run
+<dd>extra_data - any optional data associated with the discussion idea
+<dt><b>Returns:</b>
+<dd>1 if successfully added, 0 if not
+
+</dl>
+
+<dt><a name="can_reference_discussion_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_reference_discussion_item</b></a><pre>
+int can_reference_discussion_item(string club_name,
+int id,
+string person)
+</pre><dd>
+This method checks to see if the specified person can see the
+discussion idea. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion idea
+<dd>person - the name of the person
+<dt><b>See also:</b>
+<dd><a href="#vote_for_discussion_item">vote_for_discussion_item()
+</a></dl>
+
+<dt><a name="complete_discussion_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>complete_discussion_item</b></a><pre>
+int complete_discussion_item(string club_name,
+int id)
+</pre><dd>
+This method completes the discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>1 if successful, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#add_discussion_item">add_discussion_item()
+</a></dl>
+
+<dt><a name="has_voted_for_discussion_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>has_voted_for_discussion_item</b></a><pre>
+int has_voted_for_discussion_item(string club_name,
+int id,
+string person)
+</pre><dd>
+This method checks to see if the specified person has already voted for
+this discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dd>person - the name of the person to check
+
+</dl>
+
+<dt><a name="is_committee_discussion_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_committee_discussion_item</b></a><pre>
+int is_committee_discussion_item(string club_name,
+int id)
+</pre><dd>
+This method checks to see if the discussion item is a committee only
+item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>1 if it is a committee only item, 0 if it is open
+
+</dl>
+
+<dt><a name="is_discuss_nominateable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_discuss_nominateable</b></a><pre>
+int is_discuss_nominateable(string club_name,
+int id)
+</pre><dd>
+This method checks to see if the discussion item is a votable
+item or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>1 if it is votable, 0 if not
+
+</dl>
+
+<dt><a name="is_discuss_person_nominated">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_discuss_person_nominated</b></a><pre>
+int is_discuss_person_nominated(string club_name,
+int id,
+string nominator,
+string nominated)
+</pre><dd>
+This method checks to see if the given nomination has already been 
+done.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion ite,
+<dd>nominator - the person doing the nomination
+<dd>nominated - the person being nominated
+<dt><b>Returns:</b>
+<dd>1 if they are already nominated, 0 if not
+
+</dl>
+
+<dt><a name="is_discuss_votable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_discuss_votable</b></a><pre>
+int is_discuss_votable(string club_name,
+int id)
+</pre><dd>
+This method checks to see if the discussion item is a votable
+item or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>1 if it is votable, 0 if not
+
+</dl>
+
+<dt><a name="is_discussion_item_finished">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_discussion_item_finished</b></a><pre>
+int is_discussion_item_finished(string club_name,
+int id)
+</pre><dd>
+This method checks to see if the discussion item is completed yet.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>1 if the discussion item is finished
+<dt><b>See also:</b>
+<dd><a href="#vote_for_discussion_item">vote_for_discussion_item()
+</a></dl>
+
+<dt><a name="is_discussion_item_quorum">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_discussion_item_quorum</b></a><pre>
+int is_discussion_item_quorum(string club_name,
+int id)
+</pre><dd>
+This method checks to see if quorum has been reached or not
+for the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to check for quorum
+<dd>id - the discussion item id
+<dt><b>Returns:</b>
+<dd>1 if quorum is reached, 0 if not
+
+</dl>
+
+<dt><a name="is_discussion_position_valid">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_discussion_position_valid</b></a><pre>
+int is_discussion_position_valid(string club_name,
+string position)
+</pre><dd>
+This is a special function to be used with the discuss items to
+make sure that there is not another discussion item checking the
+same name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to check
+<dd>position - the position to check for
+<dt><b>Returns:</b>
+<dd>1 if the position is being discussed as an item
+
+</dl>
+
+<dt><a name="is_no_quorum_discussion_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_no_quorum_discussion_item</b></a><pre>
+int is_no_quorum_discussion_item(string club_name,
+int id)
+</pre><dd>
+This method checks to see if the discussion item has no quorum
+associated with it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>1 if it has no quorum, 0 if it is does
+
+</dl>
+
+<dt><a name="is_valid_discussion_choice">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_valid_discussion_choice</b></a><pre>
+int is_valid_discussion_choice(string club_name,
+int id,
+string choice)
+</pre><dd>
+This checks to see if the specified choice is a real discussion item
+choice.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dd>choice - the choice to check
+
+</dl>
+
+<dt><a name="is_valid_discussion_item_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_valid_discussion_item_type</b></a><pre>
+int is_valid_discussion_item_type(int type)
+</pre><dd>
+This method checks to make sure the type of the discussion item
+is valid.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of the discussion item
+<dt><b>Returns:</b>
+<dd>1 if it is valid, 0 if not
+
+</dl>
+
+<dt><a name="nominate_discussion_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>nominate_discussion_item</b></a><pre>
+int nominate_discussion_item(string club_name,
+int id,
+string nominator,
+string nominated)
+</pre><dd>
+This message does the nomination thing for those discussion items
+which accept nominations.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dd>nominator - the person doing the nomination
+<dd>nominated - the person nominated
+
+</dl>
+
+<dt><a name="query_all_discussion_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_discussion_items</b></a><pre>
+class discussion_idea * query_all_discussion_items(string club_name)
+</pre><dd>
+This method returns all the current discussion items for this
+club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to query the discussion items for
+<dt><b>Returns:</b>
+<dd>the list of current discussion items
+
+</dl>
+
+<dt><a name="query_discussion_added_by">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discussion_added_by</b></a><pre>
+string query_discussion_added_by(string club_name,
+int id)
+</pre><dd>
+This method returns the person who added the discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>the name of the person who added the discussion item
+
+</dl>
+
+<dt><a name="query_discussion_choices">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discussion_choices</b></a><pre>
+string * query_discussion_choices(string club_name,
+int id)
+</pre><dd>
+This method returns all the choices for this discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>an array of the valid set of choices, empty array on failure
+
+</dl>
+
+<dt><a name="query_discussion_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discussion_item</b></a><pre>
+class discussion_idea query_discussion_item(string club_name,
+int id)
+</pre><dd>
+This method figures out the discussion item for the club with the
+given id.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>the found discussion item
+<dt><b>See also:</b>
+<dd><a href="#add_discussion_item">add_discussion_item()
+</a></dl>
+
+<dt><a name="query_discussion_item_by_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discussion_item_by_type</b></a><pre>
+class discussion_idea query_discussion_item_by_type(string club_name,
+int type,
+class discussion_idea idea)
+</pre><dd>
+This method figures out the discussion item for the club with the
+given type.  It will also continue on a search from a last found item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>type - the type of the discussion item to find
+<dt><b>Returns:</b>
+<dd>the found discussion item
+<dt><b>See also:</b>
+<dd><a href="#add_discussion_item">add_discussion_item()
+</a></dl>
+
+<dt><a name="query_discussion_item_long_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discussion_item_long_description</b></a><pre>
+string query_discussion_item_long_description(string club_name,
+int id)
+</pre><dd>
+This method returns a nice little description of the discussion item.
+This is a longer description, useful in more places.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>a long description of the item
+
+</dl>
+
+<dt><a name="query_discussion_item_number_voted">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discussion_item_number_voted</b></a><pre>
+int query_discussion_item_number_voted(string club_name,
+int id)
+</pre><dd>
+This method returns the number of people who have voted for the
+discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to check for quorum
+<dd>id - the discussion item id
+<dt><b>Returns:</b>
+<dd>the number of people who have voted
+
+</dl>
+
+<dt><a name="query_discussion_item_quorum_number">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discussion_item_quorum_number</b></a><pre>
+int query_discussion_item_quorum_number(string club_name,
+int id)
+</pre><dd>
+This method returns the number of people needed for quorum
+in this discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to check for quorum
+<dd>id - the discussion item id
+<dt><b>Returns:</b>
+<dd>the number of people needed for quorum
+
+</dl>
+
+<dt><a name="query_discussion_item_short_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discussion_item_short_description</b></a><pre>
+string query_discussion_item_short_description(string club_name,
+int id)
+</pre><dd>
+This method returns a nice little description of the discussion item.
+This is a very short description usable in lists and stuff.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>a short description of the item
+
+</dl>
+
+<dt><a name="query_discussion_nomination">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discussion_nomination</b></a><pre>
+mapping query_discussion_nomination(string club_name,
+int id)
+</pre><dd>
+This method returns the nomination mapping for the discussion item
+if it exists.  The nomination mapping is of the format:<br>
+<pre>
+([
+   name : ({ nomated_by, nominated_by, ... })
+   ..
+ ])
+</pre><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>the mapping as described above
+
+</dl>
+
+<dt><a name="query_discussion_optional_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discussion_optional_data</b></a><pre>
+mixed query_discussion_optional_data(string club_name,
+int id)
+</pre><dd>
+This method returns the optional data of the discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>the optional data in the club
+
+</dl>
+
+<dt><a name="query_discussion_time_added">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discussion_time_added</b></a><pre>
+int query_discussion_time_added(string club_name,
+int id)
+</pre><dd>
+This method returns the timeout time of the current discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>the time at which the dicussion item will finish
+
+</dl>
+
+<dt><a name="query_discussion_time_finish">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discussion_time_finish</b></a><pre>
+int query_discussion_time_finish(string club_name,
+int id)
+</pre><dd>
+This method returns the timeout time of the current discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>the time at which the dicussion item will finish
+
+</dl>
+
+<dt><a name="setup_by_election">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_by_election</b></a><pre>
+int setup_by_election(string club,
+string position,
+string info)
+</pre><dd>
+This method setups up a by-election for the specified position in the
+club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club - the club to make a byelection in
+<dd>position - the position the byelection is for
+<dd>info - the information about the vote
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="vote_for_discussion_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>vote_for_discussion_item</b></a><pre>
+int vote_for_discussion_item(string club_name,
+int id,
+string person,
+string choice)
+</pre><dd>
+This method sets up the discussion item as being voted by the
+person specified.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dd>person - the person doing the voting
+<dd>choice - the choices there are to vote on
+<dt><b>See also:</b>
+<dd><a href="#add_discussion_item">add_discussion_item()
+</a></dl>
+
+<dt><a name="withdraw_discussion_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>withdraw_discussion_item</b></a><pre>
+int withdraw_discussion_item(string club_name,
+int id,
+string withdraw)
+</pre><dd>
+This message does the withdraw thing for those discussion items
+which accept nominations.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>id - the id of the discussion item
+<dd>withdraw - the person being withdrawn
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="archive_discussion_item">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>archive_discussion_item</b></a><pre>
+int archive_discussion_item(string club_name,
+string subject,
+string item)
+</pre><dd>
+This method is called when a discussion item is finished.  It then
+archives it or whatever else it wishes to do with the item<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>item - the text string of the finished item
+
+</dl>
+
+<dt><a name="broadcast_discuss_message">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>broadcast_discuss_message</b></a><pre>
+void broadcast_discuss_message(string club_name,
+int message,
+string arg1,
+string arg2)
+</pre><dd>
+This method sends a message to all the discussion items in the club
+and then marks the club as changed if any of them return a non-zero
+value.  This is used for events like a member being removed of a
+position being changed in name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>message - the message number
+<dd>arg1 - the first arguement
+<dd>arg2 - the second arguement
+
+</dl>
+
+<dt><a name="remove_discussion_item">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>remove_discussion_item</b></a><pre>
+int remove_discussion_item(string club_name,
+class discussion_idea item)
+</pre><dd>
+This method removes a discussion item from the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to remove the discussion item
+<dd>item - the discusion item to remove
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="send_discuss_message">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>send_discuss_message</b></a><pre>
+mixed send_discuss_message(string club_name,
+int message,
+class discussion_idea item,
+string arg1,
+string arg2)
+</pre><dd>
+This method sends a message to all the discussion items in the club
+and then marks the club as changed if any of them return a non-zero
+value.  This is used for events like a member being removed of a
+position being changed in name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dd>message - the message number
+<dd>arg1 - the first arguement
+<dd>arg2 - the second arguement
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 04:01:23 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

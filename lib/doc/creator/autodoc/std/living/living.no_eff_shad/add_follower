@@ -1,0 +1,43 @@
+.DT
+add_follower
+Disk World creator help
+add_follower
+
+.SH Name
+.SP 5 5
+add_follower -  This method adds a follower to the living object.
+.EP
+
+.SH Syntax
+.SI 5
+int add_follower(object ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object to follow us
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/living.no_eff_shad.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a follower to the living object.  A follower will
+happily follow around the person in front.  Used in the follow
+command.
+.EP
+
+.SH See also
+.SP 5 5
+remove_follower(), query_followers()
+.EP
+

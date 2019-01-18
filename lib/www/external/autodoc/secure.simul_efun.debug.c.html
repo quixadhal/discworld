@@ -1,0 +1,62 @@
+<html><head><title>File debug.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /secure/simul_efun/debug.c</h2>
+Debugging simul efuns.
+<p>Written by Ceres
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#debug_printf"><b>debug_printf</b></a>(string, mixed args)<dd>
+This method will generate a debug inform for any creators in the room
+where it is generated.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#tell_creator"><b>tell_creator</b></a>(mixed, string, mixed args)<dd>
+This method writes a message to a creator, it's mainly meant 
+for debug messages where sending a message to a specific 
+creator is smarter than sending it to players, who will only get confused.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="debug_printf">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>debug_printf</b></a><pre>
+void debug_printf(string fmt,
+mixed args ...)
+</pre><dd>
+This method will generate a debug inform for any creators in the room
+where it is generated.  It will always attempt to identify the room
+that the event should be sent to.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>all - printf style parameters
+<dt><b>See also:</b>
+<dd>printf
+.c<dt><b>Example:</b>
+<dd><pre>#ifdef DEBUG
+  debug_printf("Error, player is: %O\n", player);
+#endif
+</pre></dl>
+
+<dt><a name="tell_creator">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>tell_creator</b></a><pre>
+varargs void tell_creator(mixed cres,
+string fmt,
+mixed args ...)
+</pre><dd>
+This method writes a message to a creator, it's mainly meant 
+for debug messages where sending a message to a specific 
+creator is smarter than sending it to players, who will only get confused.
+
+Typically you should use debug_printf() instead of this.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cre - the name or object to send the message to
+<dd>fmt - the format string
+<dd>args - the arguments to the sprintf
+
+<dt><b>See also:</b>
+<dd>debug_printf
+.c</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 13:11:04 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

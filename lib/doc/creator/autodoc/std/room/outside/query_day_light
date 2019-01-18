@@ -1,0 +1,34 @@
+.DT
+query_day_light
+Disk World creator help
+query_day_light
+
+.SH Name
+.SP 5 5
+query_day_light -  This method returns the current level of day light in the room.
+.EP
+
+.SH Syntax
+.SI 5
+int query_day_light()
+.EI
+
+.SH Returns
+.SI 5
+the current daylight level
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/outside.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current level of day light in the room.  The
+day light is the light level the room is set to if there was full sun
+and no darkness at all.  Mostly a percentage of this is calculated
+in the query_light() method.
+.EP
+

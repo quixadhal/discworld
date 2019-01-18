@@ -1,0 +1,45 @@
+.DT
+create_real_object
+Disk World creator help
+create_real_object
+
+.SH Name
+.SP 5 5
+create_real_object -  The main point of entry.
+.EP
+
+.SH Syntax
+.SI 5
+object create_real_object(object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - an object in the store
+.EI
+
+.SH Returns
+.SI 5
+the original object.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/clone_on_demand.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The main point of entry. 'thing' should be an object already placed
+in the clone_on_demand store container via 'add_object'. This
+method then duplicates that object, replaces the original copy in
+the container with this new one, and returns the original which can
+be delt with as normal.
+.EP
+
+.SH See also
+.SP 5 5
+add_object
+
+.EP
+

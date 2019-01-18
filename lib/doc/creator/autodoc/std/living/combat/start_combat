@@ -1,0 +1,35 @@
+.DT
+start_combat
+Disk World creator help
+start_combat
+
+.SH Name
+.SP 5 5
+start_combat -  This method is called when combat starts.
+.EP
+
+.SH Syntax
+.SI 5
+void start_combat(object opponent)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^opponent%^RESET%^ - The first opponent to be attacked.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when combat starts.  You can overload this function
+to make your NPC do things at the start of combat.
+You do not need to call ::start_combat() since this is just a stub function.
+
+.EP
+

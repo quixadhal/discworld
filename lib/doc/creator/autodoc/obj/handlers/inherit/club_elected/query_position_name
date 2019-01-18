@@ -1,0 +1,44 @@
+.DT
+query_position_name
+Disk World creator help
+query_position_name
+
+.SH Name
+.SP 5 5
+query_position_name -  This method figures out the actualy index of the position in the mappings and stuff associated with the position.
+.EP
+
+.SH Syntax
+.SI 5
+string query_position_name(string club_name,
+string position)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^position%^RESET%^ - the position to create the index for
+.EI
+
+.SH Returns
+.SI 5
+the position index.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method figures out the actualy index of the position in the mappings
+and stuff associated with the position.
+.EP
+
+.SH See also
+.SP 5 5
+query_valid_positions(), nominate_person(), vote_for_person()
+
+.EP
+

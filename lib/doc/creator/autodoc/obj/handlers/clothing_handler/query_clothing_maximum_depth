@@ -1,0 +1,43 @@
+.DT
+query_clothing_maximum_depth
+Disk World creator help
+query_clothing_maximum_depth
+
+.SH Name
+.SP 5 5
+query_clothing_maximum_depth -  This method returns the depth of the clothing type.
+.EP
+
+.SH Syntax
+.SI 5
+int query_clothing_maximum_depth(mixed type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the type of clothing to check
+.EI
+
+.SH Returns
+.SI 5
+the depth rating of the type.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/clothing_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the depth of the clothing type.  The parament
+can also be an array, in which case it will return the maximum
+non-zero depth.
+.EP
+
+.SH See also
+.SP 5 5
+query_clothing_cannot_remove(), query_clothing_hiding()
+
+.EP
+

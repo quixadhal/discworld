@@ -1,0 +1,40 @@
+.DT
+set_object_domain
+Disk World creator help
+set_object_domain
+
+.SH Name
+.SP 5 5
+set_object_domain -  This method sets the domain the objects will be created from.
+.EP
+
+.SH Syntax
+.SI 5
+void set_object_domain(string domain)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^domain%^RESET%^ - the domain to try and create from
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/clone_on_demand.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the domain the objects will be created from.
+The default objects will always be matched as well.  So setting
+this will allow objects from the default of the specified armoury
+domain.
+.EP
+
+.SH Example 1
+.SI 5
+set_object_domain("cwc");
+
+.EI
+

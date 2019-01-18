@@ -1,0 +1,45 @@
+.DT
+modify_feature
+Disk World creator help
+modify_feature
+
+.SH Name
+.SP 5 5
+modify_feature -  This method is used to modify the descriptions and/or item descs of an established feature.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void modify_feature(string title,
+string * descs,
+mixed item_desc)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^title%^RESET%^ - the name of the feature
+%^BOLD%^descs%^RESET%^ - array of descriptions to be shown at different ranges.
+add_item name(s) (identical to the 'shorts' parameter in add_item)
+%^BOLD%^item_desc%^RESET%^ - a string, or array of strings giving the corresponding
+These are divided equally along the total range
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to modify the descriptions and/or item descs of
+an established feature. Changes will be instantly seen in all the
+rooms the feature is visible from.
+.EP
+
+.SH See also
+.SP 5 5
+set_feature_chats, add_feature, add_item
+
+.EP
+

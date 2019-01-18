@@ -1,0 +1,243 @@
+<html><head><title>File new_soul.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/new_soul.c</h2>
+The soul handler for Discworld.  Handles the soul definitions and
+the mangling needed to print the output for the players.
+<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player.h.html">/include/player.h</a>, <a href="include.user_parser.h.html">/include/user_parser.h</a>, <a href="include.soul.h.html">/include/soul.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_soul_command"><b>add_soul_command</b></a>(string, mixed)<dd>
+Adds in a soul command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clean_cache"><b>clean_cache</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#command_control"><b>command_control</b></a>(string, object *, , string, string *, string)<dd>
+The main soul handling bit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_soul_command"><b>delete_soul_command</b></a>(string)<dd>
+Deletes the soul command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_force"><b>do_force</b></a>(mixed *)<dd>
+Attempts to do the force on the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_name"><b>get_name</b></a>(object, int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#help_list"><b>help_list</b></a>()<dd>
+The list of soul comands in the look at soul function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#help_string"><b>help_string</b></a>(string)<dd>
+Returns the help string for the soul ocmmand.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_it"><b>load_it</b></a>()<dd>
+Loads the previous state of the soul object off the disc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pcache_size"><b>query_pcache_size</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_scache_size"><b>query_scache_size</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_soul_command"><b>query_soul_command</b></a>(string)<dd>
+This returns the arrays that are used by the pattern
+matcher in the player object.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_soul_command_data"><b>query_soul_command_data</b></a>(string)<dd>
+Used internally to get the soul command data.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_soul_command_stuff"><b>query_soul_command_stuff</b></a>(string)<dd>
+Returns the data associated with soul command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_soul_commands"><b>query_soul_commands</b></a>()<dd>
+The name of all the soul commands.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_it"><b>save_it</b></a>()<dd>
+Saves the current state of the soul object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_soul_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_soul_command</b></a><pre>
+void add_soul_command(string name,
+mixed data)
+</pre><dd>
+Adds in a soul command.  Only allows additions from
+the soul compiler.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the soul command
+<dd>data - the data associated with the soul command
+
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.soul_compiler.c.html">/obj/handlers/soul_compiler.c</a></dl>
+
+<dt><a name="clean_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clean_cache</b></a><pre>
+void clean_cache()
+</pre>
+<dt><a name="command_control">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>command_control</b></a><pre>
+int command_control(string verb,
+object * obs,
+ string,
+string in_dir_match,
+string * args,
+string pattern)
+</pre><dd>
+The main soul handling bit.  This is called by the add_command code
+when a soul command is matched.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verb - the verb matched
+<dd>obs - the objects to do the soul command on
+<dd>in_dir_match - the name which was matched for the peoples names
+<dd>args - the values of the string and stuff
+<dd>pattern - the pattern which was matched.
+<dt><b>Returns:</b>
+<dd>1 if the command succeeded, 0 if it failed
+
+</dl>
+
+<dt><a name="delete_soul_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_soul_command</b></a><pre>
+void delete_soul_command(string name)
+</pre><dd>
+Deletes the soul command.  This is used to remove soul commands
+that are no longer used.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the soul command name to delete
+
+</dl>
+
+<dt><a name="do_force">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_force</b></a><pre>
+void do_force(mixed * arr)
+</pre><dd>
+Attempts to do the force on the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arr - the args used to force
+
+</dl>
+
+<dt><a name="get_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_name</b></a><pre>
+string get_name(object ob,
+int use_name,
+int type)
+</pre>
+<dt><a name="help_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>help_list</b></a><pre>
+string help_list()
+</pre><dd>
+The list of soul comands in the look at soul function.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of all the soul commands formated for the screen
+
+</dl>
+
+<dt><a name="help_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>help_string</b></a><pre>
+string help_string(string verb)
+</pre><dd>
+Returns the help string for the soul ocmmand.  Creates a nice helkp
+message for the passed soul command.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verb - the soul command to get help on
+<dt><b>Returns:</b>
+<dd>the soul command help string
+
+</dl>
+
+<dt><a name="load_it">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_it</b></a><pre>
+void load_it()
+</pre><dd>
+Loads the previous state of the soul object off the disc.
+<p>
+
+<dt><a name="query_pcache_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pcache_size</b></a><pre>
+int query_pcache_size()
+</pre>
+<dt><a name="query_scache_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_scache_size</b></a><pre>
+int query_scache_size()
+</pre>
+<dt><a name="query_soul_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_soul_command</b></a><pre>
+mixed * query_soul_command(string name)
+</pre><dd>
+This returns the arrays that are used by the pattern
+matcher in the player object. Called from inside add_command interface.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the souul command name to find
+<dt><b>Returns:</b>
+<dd>0 if no command found, otherwise an array of patterns
+<dt><b>See also:</b>
+<dd><a href="global.new_parse.c.html#add_command">/global/new_parse->add_command()
+</a></dl>
+
+<dt><a name="query_soul_command_stuff">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_soul_command_stuff</b></a><pre>
+mixed * query_soul_command_stuff(string str)
+</pre><dd>
+Returns the data associated with soul command.
+Probably not very useful, but useful for debugging.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the soul command to get the data for
+<dt><b>Returns:</b>
+<dd>the data associated with the soul command
+
+</dl>
+
+<dt><a name="query_soul_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_soul_commands</b></a><pre>
+string * query_soul_commands()
+</pre><dd>
+The name of all the soul commands.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array containing the names of all the soul commands
+
+</dl>
+
+<dt><a name="save_it">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_it</b></a><pre>
+void save_it()
+</pre><dd>
+Saves the current state of the soul object.
+<p>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="query_soul_command_data">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>query_soul_command_data</b></a><pre>
+mixed * query_soul_command_data(string str)
+</pre><dd>
+Used internally to get the soul command data.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the soul command to get data for
+<dt><b>Returns:</b>
+<dd>the soul command data
+<dt><b>See also:</b>
+<dd><a href="#query_soul_command_stuff">query_soul_command_stuff()
+</a></dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 21:42:41 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

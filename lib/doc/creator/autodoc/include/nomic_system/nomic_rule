@@ -1,0 +1,44 @@
+.DT
+nomic_rule
+Disk World creator help
+nomic_rule
+
+.SH Name
+.SP 5 5
+nomic_rule -  The information on nomic rules.
+.EP
+
+.SH Definition
+.SI 5
+class nomic_rule {
+int id;
+int type;
+int date_created;
+string creator;
+string text;
+class nomic_amendment * amendments;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^id%^RESET%^ - the id of the rule (unique)
+%^BOLD%^date_create%^RESET%^ - when the rule was created
+%^BOLD%^creator%^RESET%^ - who created the rule
+%^BOLD%^text%^RESET%^ - the text of the rule
+%^BOLD%^amendments%^RESET%^ - the amendments to the rule
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/nomic_system.h
+.EI
+
+.SH Description
+.SP 5 5
+
+The information on nomic rules.
+.EP
+

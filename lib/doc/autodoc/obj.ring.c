@@ -1,11 +1,11 @@
 .DT
 ring.c
-DW_wibble autodoc help
+Disk World autodoc help
 ring.c
 
 .SH Inherits
 .SP 5 5
-This class inherits the following classes /std/basic/artifact and /obj/armour.
+This class inherits the following classes /obj/armour and /std/basic/artifact.
 .EP
 
 .SH Includes

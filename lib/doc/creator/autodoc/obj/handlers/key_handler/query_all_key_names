@@ -1,0 +1,42 @@
+.DT
+query_all_key_names
+Disk World creator help
+query_all_key_names
+
+.SH Name
+.SP 5 5
+query_all_key_names -  This method returns all the key names for the given key group.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_all_key_names(string group)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^group%^RESET%^ - the key group
+.EI
+
+.SH Returns
+.SI 5
+the mapping containing the key names.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/key_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns all the key names for the given key group.
+The index of the mapping is the key type and the value is its name.
+.EP
+
+.SH See also
+.SP 5 5
+delete_key_name(), set_key_name(), query_key_name()
+
+.EP
+

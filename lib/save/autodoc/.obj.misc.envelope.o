@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["make_envelope":({({"void",}),({({"string",}),"description",({"int",}),"size",}),(["main":({"This is the method used to define the envelope.  It works just like the\"make_bottle()\" call on \"/obj/bottle.c\", and must be done whenever one iscreated.  The description should be short and should not include the sizeof the envelope - this will be inferred from the size specified.  A sizeof 3 or less will be \"small\", 4 to 5 will be \"medium\", 6 to 8 is \"large\"and anything over that will be a \"large packet\".  The default and minimumsize is 2.",}),"see":({"query_envelope_status()",}),"param":({"description a brief description of the envelope","size the maximum weight of the envelope plus contents",}),"example":({"// Make \"a small pink envelope\".make_envelope( \"pink\", 3 );","// Make \"a large frog flavoured packet\"make_envelope( \"frog flavoured\", 10 );",}),]),}),"query_envelope_status":({({"int",}),({}),(["main":({"This is the method used to query what status the envelope is in.",}),"see":({"make_envelope()",}),"return":({"1 for unsealed, 2 for sealed, 3 for sealed and then torn open",}),]),}),])
+protected_functions ([])
+inherits (["/obj/baggage":({}),])
+main_docs (["main":({"Paper envelopes that can be written on, closed, sealed and unsealed.  Usea call to \"make_envelope()\" to set the size and description of theenvelope.",}),"started":({"7/1/2000",}),"author":({"Lemming",}),])
+define_docs (["OPENED":([]),"SMALL":([]),"LARGE":([]),"SEALED":([]),"UNSEALED":([]),"MEDIUM":([]),])
+includes ([])
+class_docs ([])
+file_name "/obj/misc/envelope.c"
+last_changed 1522061544

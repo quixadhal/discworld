@@ -1,0 +1,739 @@
+<html><head><title>File expressions.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/expressions.c</h2>
+This is an inheritable to handle certain sorts of expressions in stuff.
+These expression can be setup by players (or creators) and then run
+or evaluated.  It allows controlling the types usable by the expression
+handlers, strings, arrays, mappings, integers and floats.<p>Written by Pinkfish<p>Started Thu May  4 22:44:34 PDT 2000
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.expressions.h.html">/include/expressions.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_func_variable_thing"><b>func_variable_thing</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_function_thing"><b>function_thing</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_user_function_thing"><b>user_function_thing</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_variable_thing"><b>variable_thing</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_allowed_function"><b>add_allowed_function</b></a>(string, int, int *, function)<dd>
+This method adds in an allowed function and specifies the types it
+takes.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_allowed_variable"><b>add_allowed_variable</b></a>(string, int, function)<dd>
+This method adds in an allowed variable and specifies it's type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#evaluate_expression"><b>evaluate_expression</b></a>(class parse_node *, mixed args)<dd>
+This method evaluates the expression and creates a nice end result
+thingy.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_alpha"><b>is_alpha</b></a>(int)<dd>
+This method checks to see if the passed in character is an alpha
+or not.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_array_type"><b>is_array_type</b></a>(int)<dd>
+This checks to make sure that the type is an array.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_null_array_type"><b>is_null_array_type</b></a>(int)<dd>
+This checks to make sure that the type is a null array.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_number"><b>is_number</b></a>(int)<dd>
+This method checks to see if the passed in character is a number
+or not.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_number_type"><b>is_number_type</b></a>(int)<dd>
+This checks to make sure that the type is a number based type.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_space"><b>is_space</b></a>(int)<dd>
+This method checks to see if the passed in character is a space or
+a space equivilant.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_boolean_string"><b>parse_boolean_string</b></a>(string)<dd>
+A very small recursive decent parser which must return a boolean
+value.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_integer_string"><b>parse_integer_string</b></a>(string)<dd>
+A very small recursive decent parser which must return a integer
+value.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_money_string"><b>parse_money_string</b></a>(string)<dd>
+A very small recursive decent parser which must return a money
+value.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_user_expression"><b>parse_user_expression</b></a>(string, string)<dd>
+This method attempts to parse a user expression.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_user_expression_definition"><b>parse_user_expression_definition</b></a>(string)<dd>
+This will pass the arguments to a user defined function and return
+an array of three elements.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_expression_string"><b>query_expression_string</b></a>(class parse_node *, int)<dd>
+This method returns the expresion as a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_function_args_types"><b>query_function_args_types</b></a>(string)<dd>
+This method returns the type of the function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_function_names"><b>query_function_names</b></a>()<dd>
+This method returns all the function names defined in this expression
+inheritable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_function_type"><b>query_function_type</b></a>(string)<dd>
+This method returns the type of the function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_function_value"><b>query_function_value</b></a>(string)<dd>
+This method returns the value of the function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_function_variable_position"><b>query_function_variable_position</b></a>(string)<dd>
+This method returns the position of the function variable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_function_variable_type"><b>query_function_variable_type</b></a>(string)<dd>
+This method returns the type of the function variable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_expression_error"><b>query_last_expression_error</b></a>()<dd>
+This method returns the last error if there was an error in the parsing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_expression_warning"><b>query_last_expression_warning</b></a>()<dd>
+This method returns the last warning if there was an warning in the parsing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_null_type"><b>query_null_type</b></a>(int)<dd>
+This method returns a null object of the specified type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_operator_name"><b>query_operator_name</b></a>(int)<dd>
+This method returns the string value of the operator name.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_token"><b>query_token</b></a>(string)<dd>
+This method find the next token.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_type_name"><b>query_type_name</b></a>(int)<dd>
+This method returns the name of the type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_type_value"><b>query_type_value</b></a>(string)<dd>
+This method returns the value of the type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_user_function_arg_names"><b>query_user_function_arg_names</b></a>(string)<dd>
+This method returns the argument names names of the user defined
+function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_user_function_arg_types"><b>query_user_function_arg_types</b></a>(string)<dd>
+This method returns the argument names types of the user defined
+function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_user_function_args"><b>query_user_function_args</b></a>(string)<dd>
+This method returns the argument names and types of the user defined
+function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_user_function_expression"><b>query_user_function_expression</b></a>(string)<dd>
+This method returns the expression of the user defined function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_user_function_names"><b>query_user_function_names</b></a>()<dd>
+This method returns the list of user defined functions in the
+inheritable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_user_function_return_type"><b>query_user_function_return_type</b></a>(string)<dd>
+This method returns the return type of the user defined function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_user_function_string"><b>query_user_function_string</b></a>(string)<dd>
+This method makes a nice string representation of the user function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_variable_names"><b>query_variable_names</b></a>()<dd>
+This method returns the names of all the variables.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_variable_type"><b>query_variable_type</b></a>(string)<dd>
+This method returns the type of the variable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_variable_value"><b>query_variable_value</b></a>(string)<dd>
+This method returns the value of the variable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_user_expression"><b>remove_user_expression</b></a>(string)<dd>
+This method removes the currently defined user expression.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#sizeof_function"><b>sizeof_function</b></a>(mixed *, mixed args)<dd>
+Does a sizeof an array.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_allowed_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_allowed_function</b></a><pre>
+void add_allowed_function(string name,
+int type,
+int * args,
+function value)
+</pre><dd>
+This method adds in an allowed function and specifies the types it
+takes.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the function
+<dd>type - the return type of the function
+<dd>args - the types of the arguements (an array)
+<dd>value - the function to call to get the value
+
+</dl>
+
+<dt><a name="add_allowed_variable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_allowed_variable</b></a><pre>
+void add_allowed_variable(string name,
+int type,
+function value)
+</pre><dd>
+This method adds in an allowed variable and specifies it's type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the variable
+<dd>type - the type of the variable
+<dd>value - the value of the variable
+
+</dl>
+
+<dt><a name="evaluate_expression">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>evaluate_expression</b></a><pre>
+class parse_node evaluate_expression(class parse_node * expr,
+mixed args ...)
+</pre><dd>
+This method evaluates the expression and creates a nice end result
+thingy.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>expr - the exrpession to evaluate
+<dd>args - the optional args parsed into the various function calls
+<dt><b>Returns:</b>
+<dd>the type and value of the expression, 0 if failed
+
+</dl>
+
+<dt><a name="parse_boolean_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_boolean_string</b></a><pre>
+class parse_node * parse_boolean_string(string str)
+</pre><dd>
+A very small recursive decent parser which must return a boolean
+value.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the input string
+<dt><b>Returns:</b>
+<dd>the array control structure
+
+</dl>
+
+<dt><a name="parse_integer_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_integer_string</b></a><pre>
+class parse_node * parse_integer_string(string str)
+</pre><dd>
+A very small recursive decent parser which must return a integer
+value.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the input string
+<dt><b>Returns:</b>
+<dd>the array control structure
+
+</dl>
+
+<dt><a name="parse_money_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_money_string</b></a><pre>
+class parse_node * parse_money_string(string str)
+</pre><dd>
+A very small recursive decent parser which must return a money
+value.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the input string
+<dt><b>Returns:</b>
+<dd>the array control structure
+
+</dl>
+
+<dt><a name="parse_user_expression">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_user_expression</b></a><pre>
+string parse_user_expression(string def,
+string str)
+</pre><dd>
+This method attempts to parse a user expression.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the function
+<dd>args - the name and types of the arguments
+<dd>str - the input string
+<dt><b>Returns:</b>
+<dd>the name of the function, 0 on failure
+
+</dl>
+
+<dt><a name="parse_user_expression_definition">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_user_expression_definition</b></a><pre>
+mixed * parse_user_expression_definition(string def)
+</pre><dd>
+This will pass the arguments to a user defined function and return
+an array of three elements.  The first is the name of the function,
+the second is the array of arguments types and the third is the array of
+argument names.
+<p>
+
+<dt><a name="query_expression_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_expression_string</b></a><pre>
+string query_expression_string(class parse_node * expr,
+int brief)
+</pre><dd>
+This method returns the expresion as a string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>expr - the expression
+<dd>brief - don't expand the variable names
+<dt><b>Returns:</b>
+<dd>the expression as a string
+
+</dl>
+
+<dt><a name="query_function_args_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_function_args_types</b></a><pre>
+int * query_function_args_types(string name)
+</pre><dd>
+This method returns the type of the function.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the function to check
+<dt><b>Returns:</b>
+<dd>the args of the function, null array is not found
+
+</dl>
+
+<dt><a name="query_function_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_function_names</b></a><pre>
+string * query_function_names()
+</pre><dd>
+This method returns all the function names defined in this expression
+inheritable.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the function names
+
+</dl>
+
+<dt><a name="query_function_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_function_type</b></a><pre>
+int query_function_type(string name)
+</pre><dd>
+This method returns the type of the function.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the function to check
+<dt><b>Returns:</b>
+<dd>the type of the function, EXPRESSION_TYPE_ERROR if there is no
+function
+
+</dl>
+
+<dt><a name="query_function_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_function_value</b></a><pre>
+function query_function_value(string name)
+</pre><dd>
+This method returns the value of the function.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the function to find
+<dt><b>Returns:</b>
+<dd>the value of the function, 0 if not found
+
+</dl>
+
+<dt><a name="query_function_variable_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_function_variable_position</b></a><pre>
+int query_function_variable_position(string name)
+</pre><dd>
+This method returns the position of the function variable.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the function variable to check
+<dt><b>Returns:</b>
+<dd>the type of the variable, EXPRESSION_TYPE_ERROR if there is no
+variable
+
+</dl>
+
+<dt><a name="query_function_variable_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_function_variable_type</b></a><pre>
+int query_function_variable_type(string name)
+</pre><dd>
+This method returns the type of the function variable.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the function variable to check
+<dt><b>Returns:</b>
+<dd>the type of the variable, EXPRESSION_TYPE_ERROR if there is no
+variable
+
+</dl>
+
+<dt><a name="query_last_expression_error">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_expression_error</b></a><pre>
+string query_last_expression_error()
+</pre><dd>
+This method returns the last error if there was an error in the parsing.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the last error
+
+</dl>
+
+<dt><a name="query_last_expression_warning">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_expression_warning</b></a><pre>
+string query_last_expression_warning()
+</pre><dd>
+This method returns the last warning if there was an warning in the parsing.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the last warning
+
+</dl>
+
+<dt><a name="query_null_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_null_type</b></a><pre>
+class parse_node query_null_type(int type)
+</pre><dd>
+This method returns a null object of the specified type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to get the null object of
+<dt><b>Returns:</b>
+<dd>the null object
+
+</dl>
+
+<dt><a name="query_operator_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_operator_name</b></a><pre>
+string query_operator_name(int operator)
+</pre><dd>
+This method returns the string value of the operator name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>operator - the operator name to return
+<dt><b>Returns:</b>
+<dd>the string name of the operator
+
+</dl>
+
+<dt><a name="query_type_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_type_name</b></a><pre>
+string query_type_name(int type)
+</pre><dd>
+This method returns the name of the type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to get the string name of
+<dt><b>Returns:</b>
+<dd>the string name of the type
+
+</dl>
+
+<dt><a name="query_type_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_type_value</b></a><pre>
+int query_type_value(string type)
+</pre><dd>
+This method returns the value of the type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to get the integer value of
+<dt><b>Returns:</b>
+<dd>the integer value of the type
+
+</dl>
+
+<dt><a name="query_user_function_arg_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_user_function_arg_names</b></a><pre>
+mixed * query_user_function_arg_names(string name)
+</pre><dd>
+This method returns the argument names names of the user defined
+function. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the function to lookup
+<dt><b>Returns:</b>
+<dd>information on the arguments, 0 on failure
+
+</dl>
+
+<dt><a name="query_user_function_arg_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_user_function_arg_types</b></a><pre>
+mixed * query_user_function_arg_types(string name)
+</pre><dd>
+This method returns the argument names types of the user defined
+function. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the function to lookup
+<dt><b>Returns:</b>
+<dd>information on the arguments, 0 on failure
+
+</dl>
+
+<dt><a name="query_user_function_args">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_user_function_args</b></a><pre>
+mixed * query_user_function_args(string name)
+</pre><dd>
+This method returns the argument names and types of the user defined
+function.  It returns an array of two elements, the first is an
+array of names and the second is an array of types.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - the arguments to return
+<dt><b>Returns:</b>
+<dd>information on the arguments, 0 on failure
+
+</dl>
+
+<dt><a name="query_user_function_expression">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_user_function_expression</b></a><pre>
+class parse_node * query_user_function_expression(string name)
+</pre><dd>
+This method returns the expression of the user defined function.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the function to look up
+<dt><b>Returns:</b>
+<dd>the expression of the user defined function
+
+</dl>
+
+<dt><a name="query_user_function_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_user_function_names</b></a><pre>
+string * query_user_function_names()
+</pre><dd>
+This method returns the list of user defined functions in the
+inheritable.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of user defined functions
+
+</dl>
+
+<dt><a name="query_user_function_return_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_user_function_return_type</b></a><pre>
+int query_user_function_return_type(string name)
+</pre><dd>
+This method returns the return type of the user defined function.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the return type, EXPRESSION_TYPE_ERROR on error
+
+</dl>
+
+<dt><a name="query_user_function_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_user_function_string</b></a><pre>
+string query_user_function_string(string func)
+</pre><dd>
+This method makes a nice string representation of the user function.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the name of the user function to get a string of
+<dt><b>Returns:</b>
+<dd>the user function string
+
+</dl>
+
+<dt><a name="query_variable_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_variable_names</b></a><pre>
+string * query_variable_names()
+</pre><dd>
+This method returns the names of all the variables.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the variable names
+
+</dl>
+
+<dt><a name="query_variable_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_variable_type</b></a><pre>
+int query_variable_type(string name)
+</pre><dd>
+This method returns the type of the variable.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the variable to check
+<dt><b>Returns:</b>
+<dd>the type of the variable, EXPRESSION_TYPE_ERROR if there is no
+variable
+
+</dl>
+
+<dt><a name="query_variable_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_variable_value</b></a><pre>
+function query_variable_value(string name)
+</pre><dd>
+This method returns the value of the variable.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the variable to find
+<dt><b>Returns:</b>
+<dd>the value of the variable, 0 if not found
+
+</dl>
+
+<dt><a name="remove_user_expression">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_user_expression</b></a><pre>
+int remove_user_expression(string name)
+</pre><dd>
+This method removes the currently defined user expression.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the expression to remove
+
+</dl>
+
+<dt><a name="sizeof_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>sizeof_function</b></a><pre>
+int sizeof_function(mixed * arr,
+mixed args ...)
+</pre><dd>
+Does a sizeof an array.  Nifty...<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>arr - the array to get the sizeof
+<dd>args - the rest of the arguments
+<dt><b>Returns:</b>
+<dd>the sizeof the array
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="is_alpha">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>is_alpha</b></a><pre>
+int is_alpha(int alpha)
+</pre><dd>
+This method checks to see if the passed in character is an alpha
+or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>alpha - the character to check
+<dt><b>Returns:</b>
+<dd>1 if it alpha, 0 if not
+
+</dl>
+
+<dt><a name="is_array_type">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>is_array_type</b></a><pre>
+int is_array_type(int type)
+</pre><dd>
+This checks to make sure that the type is an array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to check
+<dt><b>Returns:</b>
+<dd>1 if it is an array, 0 if not
+
+</dl>
+
+<dt><a name="is_null_array_type">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>is_null_array_type</b></a><pre>
+int is_null_array_type(int type)
+</pre><dd>
+This checks to make sure that the type is a null array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to check
+<dt><b>Returns:</b>
+<dd>1 if it is a null array, 0 if not
+
+</dl>
+
+<dt><a name="is_number">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>is_number</b></a><pre>
+int is_number(int number)
+</pre><dd>
+This method checks to see if the passed in character is a number
+or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the character to check
+<dt><b>Returns:</b>
+<dd>1 if it is a number, 0 if not
+
+</dl>
+
+<dt><a name="is_number_type">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>is_number_type</b></a><pre>
+int is_number_type(int type)
+</pre><dd>
+This checks to make sure that the type is a number based type.
+This can be controlled to make sure that any added types are also
+allowed to be treated as numbers.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to check
+<dt><b>Returns:</b>
+<dd>1 if it is a number, 0 if not
+
+</dl>
+
+<dt><a name="is_space">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>is_space</b></a><pre>
+int is_space(int space)
+</pre><dd>
+This method checks to see if the passed in character is a space or
+a space equivilant.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>space - the character to check
+<dt><b>Returns:</b>
+<dd>1 if it is a space, 0 if not
+
+</dl>
+
+<dt><a name="query_token">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>query_token</b></a><pre>
+string * query_token(string str)
+</pre><dd>
+This method find the next token.  It can be overrideen in higher things
+to deal with special token types (ie: money).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the input string
+<dt><b>Returns:</b>
+<dd>({ token, rest })
+
+</dl>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_func_variable_thing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>func_variable_thing</b></a><pre>
+class func_variable_thing {
+int type;
+int arg_no;
+}
+
+</pre>
+<dt><a name="class_function_thing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>function_thing</b></a><pre>
+class function_thing {
+int type;
+function value;
+int * args;
+int return_pos;
+}
+
+</pre>
+<dt><a name="class_user_function_thing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>user_function_thing</b></a><pre>
+class user_function_thing {
+int type;
+class parse_node * expr;
+int * arg_types;
+string * arg_names;
+}
+
+</pre>
+<dt><a name="class_variable_thing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>variable_thing</b></a><pre>
+class variable_thing {
+int type;
+function value;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 20:32:28 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["remove_shop_observer":({({"void",}),({({"object",}),"observer",}),(["main":({"This method removes an object from the list to recieve shop events.",}),"param":({"observer the observer to remove",}),]),}),"broadcast_shop_event":({({"int",}),({({"string",}),"type",({"object",}),"player",({"mixed","args",}),"...",}),(["main":({"This method sends the event to all the people who have been set toreceive shop events.  The shop event function is calledevent_shop(object shop, ...).<p>If this method returns 1 then the default messages are supressed.",}),"param":({"type the type of the event","player the player in the event","args the arguements in the event",}),"return":({"1 to supress the default messages",}),]),}),"add_shop_observer":({({"void",}),({({"object",}),"observer",}),(["main":({"This method adds an object into the list to receive shop events.",}),"param":({"observer the observer to add",}),]),}),])
+protected_functions ([])
+inherits ([])
+main_docs (["main":({"This inheritable allows broadcasting of shop events to whoeverwants to hear them.  The most useful case of this is broadcastingto yourself so you can tell when shops do specific things.  Theshop event will always be called 'event_shop' + type.  For example'event_shop_failed_buy'.  Each specificshop will setup different parameters to the shop event, exceptthe first three parameters will always be the event name,shop object and the third is the player.",}),"started":({"Mon Oct 23 12:23:41 PDT 2000",}),"author":({"Pinkfish",}),])
+define_docs ([])
+includes ([])
+class_docs ([])
+file_name "/std/shops/inherit/shop_event.c"
+last_changed 1522061544

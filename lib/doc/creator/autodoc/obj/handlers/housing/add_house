@@ -1,0 +1,45 @@
+.DT
+add_house
+Disk World creator help
+add_house
+
+.SH Name
+.SP 5 5
+add_house -  Add a new house to the handler.
+.EP
+
+.SH Syntax
+.SI 5
+int add_house(string house,
+string * other_rooms,
+string address,
+string region,
+int type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^house%^RESET%^ - the basename of the house
+%^BOLD%^other_rooms%^RESET%^ - an array of other rooms in the house
+%^BOLD%^address%^RESET%^ - a string for the address
+%^BOLD%^region%^RESET%^ - the region (used for house sales)
+%^BOLD%^type%^RESET%^ - an integer. 1 for owned, 0 for rented.
+.EI
+
+.SH Returns
+.SI 5
+1 for success, 0 for failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/housing.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Add a new house to the handler.
+
+.EP
+

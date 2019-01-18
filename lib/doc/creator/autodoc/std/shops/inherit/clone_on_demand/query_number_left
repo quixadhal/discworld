@@ -1,0 +1,40 @@
+.DT
+query_number_left
+Disk World creator help
+query_number_left
+
+.SH Name
+.SP 5 5
+query_number_left -  This function returns the quantity of particular object available to be cloned on demand.
+.EP
+
+.SH Syntax
+.SI 5
+int query_number_left(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - is the short name of the object you wish to query.
+.EI
+
+.SH Returns
+.SI 5
+the number left, returns INFINITE_LEFT if the shop has an infinite
+number, returns -1 if the item isn't stocked.
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/clone_on_demand.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function returns the quantity of particular object available
+to be cloned on demand. In matching which object is the one in
+question it uses the short name of the object, which is passed as
+an argument to the function.
+.EP
+

@@ -1,0 +1,37 @@
+.DT
+mail
+Disk World creator help
+mail
+
+.SH Name
+.SP 5 5
+mail -  This is the main mail function.
+.EP
+
+.SH Syntax
+.SI 5
+int mail(string str,
+string sub)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - 0 or "" for no default address
+%^BOLD%^sub%^RESET%^ - the default subject
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/mail_track.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the main mail function.  It tries to start up a mailer with
+the default address and subject.  If their is no default address then
+the mailer uses it's menu mode, otherwise it sends one mail and then
+leaves.
+.EP
+

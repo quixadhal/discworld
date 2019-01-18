@@ -1,0 +1,34 @@
+.DT
+set_one_way
+Disk World creator help
+set_one_way
+
+.SH Name
+.SP 5 5
+set_one_way -  This method is used to set whether or not the door is one way.
+.EP
+
+.SH Syntax
+.SI 5
+void set_one_way(int number)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^number%^RESET%^ - pass 1 if the door is one way, or 0 if it isn't.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/door.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to set whether or not the door is one way.
+A one way door won't trigger a "broken door" message when there's
+no exit leading back.
+.EP
+

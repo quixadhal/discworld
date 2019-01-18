@@ -1,0 +1,46 @@
+.DT
+add_to_approval_list
+Disk World creator help
+add_to_approval_list
+
+.SH Name
+.SP 5 5
+add_to_approval_list -  This method adds an item to the list of items that need to be approved.
+.EP
+
+.SH Syntax
+.SI 5
+object * add_to_approval_list(string seller,
+object * sellables,
+int value,
+string name,
+string category,
+int approved)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^seller%^RESET%^ - name of the player
+%^BOLD%^sellables%^RESET%^ - the list of items to sell
+%^BOLD%^value%^RESET%^ - the cost of the item
+%^BOLD%^name%^RESET%^ - the name of the items
+%^BOLD%^category%^RESET%^ - the category of the item
+%^BOLD%^approved%^RESET%^ - a flag to say if this was approved or not
+.EI
+
+.SH Returns
+.SI 5
+obs the objects we bought
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/player_craft_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an item to the list of items that need to be approved.
+.EP
+

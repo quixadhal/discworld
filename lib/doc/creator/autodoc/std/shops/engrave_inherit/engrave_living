@@ -1,0 +1,44 @@
+.DT
+engrave_living
+Disk World creator help
+engrave_living
+
+.SH Name
+.SP 5 5
+engrave_living -  This method is called when a living object is attempted to be engraved.
+.EP
+
+.SH Syntax
+.SI 5
+int engrave_living(object * obs)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^liv%^RESET%^ - the living objects
+.EI
+
+.SH Returns
+.SI 5
+0 use default fail mesasage, 1 override default fail message.EI
+
+.SH Defined in
+.SI 5
+/std/shops/engrave_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when a living object is attempted to be engraved.
+This should be overridden in the inheritable to print out the
+message you wish to say.  If this function returns 1 then the
+default failed message is not used.
+.EP
+
+.SH See also
+.SP 5 5
+do_engrave()
+
+.EP
+

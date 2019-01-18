@@ -1,0 +1,38 @@
+.DT
+set_store_room
+Disk World creator help
+set_store_room
+
+.SH Name
+.SP 5 5
+set_store_room -  This method sets the current store room associated with the shop.
+.EP
+
+.SH Syntax
+.SI 5
+void set_store_room(mixed ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the storeroom to set
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/general_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the current store room associated with
+the shop.  This is important!  A shop needs a storeroom.
+.EP
+
+.SH Example 1
+.SI 5
+set_store_room(PATH+"store_room");
+
+.EI
+

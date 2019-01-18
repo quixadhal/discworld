@@ -1,0 +1,47 @@
+.DT
+create_club
+Disk World creator help
+create_club
+
+.SH Name
+.SP 5 5
+create_club -  This method creates a club.
+.EP
+
+.SH Syntax
+.SI 5
+int create_club(string name,
+string founder,
+int type,
+string region)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the club
+%^BOLD%^founder%^RESET%^ - the founder of the club
+%^BOLD%^region%^RESET%^ - the region of the club
+.EI
+
+.SH Returns
+.SI 5
+1 was able to create the club, 0 if unable to create the club.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_basic.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method creates a club.  The founder and the recruiter set is
+initialy set to the founder.
+.EP
+
+.SH See also
+.SP 5 5
+disband_club(), change_club_type()
+
+.EP
+

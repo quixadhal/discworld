@@ -1,0 +1,163 @@
+<html><head><title>File nationality.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/living/nationality.c</h2>
+The details for handling nationality.<p>Written by Pinkfish<p>Started Wed Jun 26 13:22:26 PDT 2002
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.config.h.html">/include/config.h</a> and <a href="include.living.h.html">/include/living.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_nationality"><b>query_nationality</b></a>()<dd>
+This method returns the nationality of the living.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_nationality_accent_ob"><b>query_nationality_accent_ob</b></a>()<dd>
+This method returns the accent to use for this nationality/region
+setup on the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_nationality_data"><b>query_nationality_data</b></a>()<dd>
+This method returns the nationality data of the living.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_nationality_description"><b>query_nationality_description</b></a>(object)<dd>
+This method returns the description of the nationality.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_nationality_name"><b>query_nationality_name</b></a>()<dd>
+This method returns the name of the nationality.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_nationality_region"><b>query_nationality_region</b></a>()<dd>
+This method returns the nationality region of the living.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_nationality_start_location"><b>query_nationality_start_location</b></a>()<dd>
+This method returns the start location for this player/npc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_nationality"><b>set_nationality</b></a>(string)<dd>
+This method sets the nationality of the living.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_nationality_data"><b>set_nationality_data</b></a>(mixed)<dd>
+This method sets the nationality data of the person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_nationality_region"><b>set_nationality_region</b></a>(string)<dd>
+This method sets the nationality region of the person.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_nationality">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_nationality</b></a><pre>
+string query_nationality()
+</pre><dd>
+This method returns the nationality of the living.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the nationality of the living object
+
+</dl>
+
+<dt><a name="query_nationality_accent_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_nationality_accent_ob</b></a><pre>
+string query_nationality_accent_ob()
+</pre><dd>
+This method returns the accent to use for this nationality/region
+setup on the player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the accent object to use
+
+</dl>
+
+<dt><a name="query_nationality_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_nationality_data</b></a><pre>
+mixed query_nationality_data()
+</pre><dd>
+This method returns the nationality data of the living.  The
+data is any free form data needed by the nationality.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the nationality data of the living object
+
+</dl>
+
+<dt><a name="query_nationality_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_nationality_description</b></a><pre>
+string query_nationality_description(object looker)
+</pre><dd>
+This method returns the description of the nationality.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>looker - the person looking at the them
+<dt><b>Returns:</b>
+<dd>the name of the nationality
+
+</dl>
+
+<dt><a name="query_nationality_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_nationality_name</b></a><pre>
+string query_nationality_name()
+</pre><dd>
+This method returns the name of the nationality.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the nationality
+
+</dl>
+
+<dt><a name="query_nationality_region">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_nationality_region</b></a><pre>
+string query_nationality_region()
+</pre><dd>
+This method returns the nationality region of the living.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the nationality region of the living object
+
+</dl>
+
+<dt><a name="query_nationality_start_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_nationality_start_location</b></a><pre>
+string query_nationality_start_location()
+</pre><dd>
+This method returns the start location for this player/npc.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the start location
+
+</dl>
+
+<dt><a name="set_nationality">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_nationality</b></a><pre>
+void set_nationality(string nationality)
+</pre><dd>
+This method sets the nationality of the living.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>nationaltiy - the new nationality
+
+<dt><b>See also:</b>
+<dd>setup_nationality
+.c</dl>
+
+<dt><a name="set_nationality_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_nationality_data</b></a><pre>
+void set_nationality_data(mixed data)
+</pre><dd>
+This method sets the nationality data of the person.  The
+data is any extre free form data needed by the nationality.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>data - the new data for the living
+
+</dl>
+
+<dt><a name="set_nationality_region">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_nationality_region</b></a><pre>
+void set_nationality_region(string region)
+</pre><dd>
+This method sets the nationality region of the person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>region - the new region of the person
+
+<dt><b>See also:</b>
+<dd>setup_nationality
+.c</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 21:31:05 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

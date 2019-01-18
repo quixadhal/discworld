@@ -1,0 +1,35 @@
+.DT
+do_claim
+Disk World creator help
+do_claim
+
+.SH Name
+.SP 5 5
+do_claim -  This method sets up the copyright for the objects.
+.EP
+
+.SH Syntax
+.SI 5
+int do_claim(object * obs)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^obs%^RESET%^ - the objects to claim copyright on
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/print_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets up the copyright for the objects.  This will check for
+existing copyright status and then check with the book handler to see
+if it still fits the criteria.  If it does not then it will add itself
+as a new book.
+.EP
+

@@ -1,0 +1,41 @@
+.DT
+start_election
+Disk World creator help
+start_election
+
+.SH Name
+.SP 5 5
+start_election -  This method starts an election for the specified club.
+.EP
+
+.SH Syntax
+.SI 5
+int start_election(string club_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club to start an election for
+.EI
+
+.SH Returns
+.SI 5
+1 if the election is successful started.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method starts an election for the specified club.
+.EP
+
+.SH See also
+.SP 5 5
+nominate_person(), finish_nominations(), vote_for_person()
+
+.EP
+

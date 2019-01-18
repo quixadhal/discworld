@@ -1,0 +1,39 @@
+.DT
+housing
+Disk World creator help
+housing
+
+.SH Name
+.SP 5 5
+housing -  This class stores all the data about a given house.
+.EP
+
+.SH Definition
+.SI 5
+class housing {
+string * other_rooms;
+string owner;
+string address;
+string region;
+int type;
+int value;
+string bank;
+}
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/housing.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This class stores all the data about a given house. The class is used
+within the houses mapping. The key of the mapping is the basename of the
+house (the filename of the main room) and the value is this class, which
+explains why this class doesn't have a name or filename field for the house.
+
+.EP
+

@@ -1,0 +1,44 @@
+.DT
+set_step_messages
+Disk World creator help
+set_step_messages
+
+.SH Name
+.SP 5 5
+set_step_messages -  Set the messages for when a player falls off by moving in the wrong direction.
+.EP
+
+.SH Syntax
+.SI 5
+void set_step_messages(string player,
+string from,
+string to)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player%^RESET%^ - the message shown to the player.
+%^BOLD%^from%^RESET%^ - the message shown in the room the player is leaving.
+%^BOLD%^to%^RESET%^ - the message shown in the room the player is entering.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/rooftop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Set the messages for when a player falls off by moving in the wrong
+direction.
+
+.EP
+
+.SH See also
+.SP 5 5
+set_jump
+
+.EP
+

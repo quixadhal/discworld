@@ -1,0 +1,49 @@
+.DT
+query_all_values
+Disk World creator help
+query_all_values
+
+.SH Name
+.SP 5 5
+query_all_values -  This method returns the mapping containing all the values of the currently valid money types.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_all_values()
+.EI
+
+.SH Returns
+.SI 5
+the mapping of values.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the mapping containing all the values of the
+currently valid money types.   The mapping has keys of the domain
+of the money and has a value of an array.   The array contains
+alternating name, value pairs.
+
+.EP
+.SP 5 5
+([ "default": ({ "brass", 1, "copper", 10, "silver", 100,
+.EP
+.SP 5 5
+                                            "gold", 2000, "platinum", 6000 }) ])
+.EP
+.SP 5 5
+
+.EP
+
+.SH See also
+.SP 5 5
+query_values(), query_values_in()
+
+.EP
+

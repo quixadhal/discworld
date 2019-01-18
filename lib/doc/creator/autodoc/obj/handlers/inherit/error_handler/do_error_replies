@@ -1,0 +1,36 @@
+.DT
+do_error_replies
+Disk World creator help
+do_error_replies
+
+.SH Name
+.SP 5 5
+do_error_replies -  This method looks for all the error replies for the specific recipient.
+.EP
+
+.SH Syntax
+.SI 5
+int do_error_replies(string recipient,
+int only_new,
+function finished)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^recipient%^RESET%^ - the recipient
+%^BOLD%^only_new%^RESET%^ - only new messages
+%^BOLD%^finished%^RESET%^ - the function to call on finishing
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/error_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method looks for all the error replies for the specific recipient.
+.EP
+

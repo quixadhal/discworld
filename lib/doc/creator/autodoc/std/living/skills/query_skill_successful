@@ -1,0 +1,41 @@
+.DT
+query_skill_successful
+Disk World creator help
+query_skill_successful
+
+.SH Name
+.SP 5 5
+query_skill_successful -  This method does a skill successful check.
+.EP
+
+.SH Syntax
+.SI 5
+int query_skill_successful(string str,
+int mod)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the skill to check
+%^BOLD%^mod%^RESET%^ - the modification value
+.EI
+
+.SH Returns
+.SI 5
+1 if the skill check is successful
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/skills.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method does a skill successful check.  Does this check:
+.EP
+.SP 5 5
+(bonus + mos) >= random(200)
+.EP
+

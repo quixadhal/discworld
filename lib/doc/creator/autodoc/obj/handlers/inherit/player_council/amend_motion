@@ -1,0 +1,43 @@
+.DT
+amend_motion
+Disk World creator help
+amend_motion
+
+.SH Name
+.SP 5 5
+amend_motion -  This method adds an amendment to the new rule/amendment/whatever, this rewrites the text of the ammendment of whatever it is.
+.EP
+
+.SH Syntax
+.SI 5
+int amend_motion(string area,
+int id,
+string amend_text,
+string amender)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area the amendmend is to go in
+%^BOLD%^id%^RESET%^ - the rule update id
+%^BOLD%^amendmend%^RESET%^ - the amendmend to make
+%^BOLD%^amendmender%^RESET%^ - the person amendmending
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/player_council.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an amendment to the new rule/amendment/whatever, this
+rewrites the text of the ammendment of whatever it is.
+.EP
+

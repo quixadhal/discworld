@@ -1,0 +1,50 @@
+.DT
+add_material
+Disk World creator help
+add_material
+
+.SH Name
+.SP 5 5
+add_material -  Add a new material to the handler.
+.EP
+
+.SH Syntax
+.SI 5
+string add_material(string word,
+int colour,
+int type,
+int skill_reqd,
+int skill_thresh)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - The name of the material
+%^BOLD%^colour%^RESET%^ - The index into the colour array for the colour of the
+                material. (see colour.h)
+%^BOLD%^type%^RESET%^ - Type of material
+%^BOLD%^skill_reqd%^RESET%^ - Index into the array of skills (see cmr_handler.h)
+%^BOLD%^skill_thresh%^RESET%^ - The bonus required in the appropriate skill.
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/cmr_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Add a new material to the handler.
+The colour of the material is an index into the COLOUR array defined in
+colour.h. The type of material is an index into the MATERIALS array defined
+in cmr.h. skill_reqd is an index into the SKILLS array defined in cmr.h but
+can also take the special value of 99 to indicate that the material can only
+be identified if someone has told the person what the material is or 0 to
+indicate that everyone knows what the material is.
+If the skill_reqd is a skill the skill_thresh is the bonus needed in that
+skill to identify the material.
+
+.EP
+

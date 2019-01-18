@@ -1,0 +1,51 @@
+.DT
+match_objects_in_environments
+Disk World creator help
+match_objects_in_environments
+
+.SH Name
+.SP 5 5
+match_objects_in_environments -  Find an object in the given environments that match the given words.
+.EP
+
+.SH Syntax
+.SI 5
+class obj_match match_objects_in_environments(string input,
+mixed env_list,
+int type,
+object player)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^input%^RESET%^ - the input string to match
+%^BOLD%^env_list%^RESET%^ - the environments to get the objects from
+%^BOLD%^singular%^RESET%^ - force a singular match
+%^BOLD%^player%^RESET%^ - the person doing the lookup
+.EI
+
+.SH Returns
+.SI 5
+an array of the format ({ flag, class obj_match info })
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/obj_parser.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Find an object in the given environments that match the given words.
+This will only return a correct match if the entire string
+matches.  If it gets a partial match then nothing will be
+returned.  The return array is of the format:
+.EP
+.SP 5 5
+({ flag, class obj_match info })
+.EP
+.SP 5 5
+The flag can be one of: OBJ_PARSER_SUCCESS Successfuly matched the objects. the objects part of the class will contain the matched objects. OBJ_PARSER_NO_MATCH No successful match. The text bit of the omatch class will contain the text that didn't match OBJ_PARSER_AMBIGUOUS An ambigous match is returned, this means 'frog' was referenced when there was more than one frog. The objects part of the class has all the objects there were matched OBJ_PARSER_BAD_FRACTION The specified fracition was bad, the text bit of the class contains the bad fraction. OBJ_PARSER_FRACTION Means that a fraction was attempted to be applied to multiple objects. OBJ_PARSER_TOO_DARK Unable to match the specified object because it is too dark. 
+.EP
+

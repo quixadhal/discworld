@@ -1,0 +1,990 @@
+<html><head><title>File nmoney_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/nmoney_handler.c</h2>
+This handles all the methods for determining values of coins and
+the current valid set of coins.   It also handles change calculation.
+This was written originaly by Pinkfish, reworked significantly by
+Deutha to add in the multiple currency areas.<p><b>See also:</b><br><a href="std.living.money.c.html">/std/living/money.c</a><p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_details"><b>add_details</b></a>(string, string, string, string, string, mixed, string)<dd>
+This method adds the details for the given coin type into the current
+list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_symbol"><b>add_symbol</b></a>(string, string)<dd>
+This method adds in a symboliser for a specified money area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_type"><b>add_type</b></a>(string, string, int)<dd>
+This adds a type of money to the money handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_change"><b>calc_change</b></a>(int, mixed *)<dd>
+This method calculates the change of a certain value from a
+given money array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_money_array"><b>create_money_array</b></a>(int, string)<dd>
+This method creates a money array from a certain value in a particular
+money area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#filter_legal_money_array"><b>filter_legal_money_array</b></a>(mixed *, string)<dd>
+This method is identical to filter_legal_tender, except that it takes
+a money array rather than a money object
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#filter_legal_tender"><b>filter_legal_tender</b></a>(object, string)<dd>
+This method figures out the legal and illegal tender money from
+the specified money object in the specified money area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_money_array_payment"><b>make_money_array_payment</b></a>(string, int, mixed *, string, int)<dd>
+This method makes a payment from a money array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_new_amount"><b>make_new_amount</b></a>(int, string)<dd>
+This method creates a money object of a certain value in a certain
+money area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_payment"><b>make_payment</b></a>(string, int, object, string)<dd>
+This method makes a payment of a particular amount in a particular
+money area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#merge_money_arrays"><b>merge_money_arrays</b></a>(mixed *, mixed *)<dd>
+This method merges two money arrays together and returns the
+merged array
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#money_array_from_string"><b>money_array_from_string</b></a>(string, string)<dd>
+This method attempts to find a money value from a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#money_string"><b>money_string</b></a>(mixed)<dd>
+This method converts a money array into a string so it can be displayed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#money_value_string"><b>money_value_string</b></a>(int, string)<dd>
+This method returns a string which is based on the value of
+the money in a certain money area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#parse_money"><b>parse_money</b></a>(string, object, string)<dd>
+This method determines all the money from the player object and moves
+it into a container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#pay_amount_from"><b>pay_amount_from</b></a>(int, object, string)<dd>
+This method makes a payment from a specified money object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_adjectives_for"><b>query_adjectives_for</b></a>(string)<dd>
+This method returns all the current adjectives for the given type
+of money.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_aliases_for"><b>query_aliases_for</b></a>(string)<dd>
+This method returns all the current aliases for the given type
+of money.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_aliases_of"><b>query_aliases_of</b></a>(string)<dd>
+This converts a currency type's alias (i.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_places"><b>query_all_places</b></a>()<dd>
+This method returns the current set of areas in which types can
+be found.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_values"><b>query_all_values</b></a>()<dd>
+This method returns the mapping containing all the values of the
+currently valid money types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_details"><b>query_details</b></a>()<dd>
+This method returns all the details for the current set of
+coins.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_details_for"><b>query_details_for</b></a>(string)<dd>
+This method returns the details for a specified type of money.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_main_plural_for"><b>query_main_plural_for</b></a>(string)<dd>
+This method returns the main short plural description of the money type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_mapped_values_in"><b>query_mapped_values_in</b></a>(string)<dd>
+This method returns the values in the specified area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_origin_of"><b>query_origin_of</b></a>(string)<dd>
+This takes a coin type and returns the place it is associated with.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_person_payments"><b>query_person_payments</b></a>(int, string, object, object)<dd>
+This method makes a payment from one person to another.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_plural_for"><b>query_plural_for</b></a>(string)<dd>
+This method returns the short plural description of the money type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_short_for"><b>query_short_for</b></a>(string)<dd>
+This method returns the short description of the money type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_smallest_value_in"><b>query_smallest_value_in</b></a>(string)<dd>
+This returns the smallest value in the specified area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_symbol_for"><b>query_symbol_for</b></a>(string)<dd>
+This method returns the symboliser for the specified money area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_symbols"><b>query_symbols</b></a>()<dd>
+This method returns all the symbols for the current money areas in the
+handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_total_value"><b>query_total_value</b></a>(mixed, string)<dd>
+This method determines the total value of a specified money array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_valid_types"><b>query_valid_types</b></a>()<dd>
+This returns a list of valid coin types
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value"><b>query_value</b></a>(string, string)<dd>
+This method returns the value of a specified type of money in a certain
+money area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_value_of"><b>query_value_of</b></a>(string)<dd>
+This returns the value of a currency type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_values"><b>query_values</b></a>()<dd>
+This method returns the values in the default area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_values_in"><b>query_values_in</b></a>(string)<dd>
+This method returns the values in the specified area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_details"><b>remove_details</b></a>(string)<dd>
+This method removes the specified detail.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_symbol"><b>remove_symbol</b></a>(string)<dd>
+This method removes the symboliser for the particular money area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_type"><b>remove_type</b></a>(string, string)<dd>
+This method removes the type of money from the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_me"><b>save_me</b></a>()<dd>
+This method saves the current state of the money object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_adjectives_for"><b>set_adjectives_for</b></a>(string, string *)<dd>
+This method sets the adjectives for the specified money type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_aliases_for"><b>set_aliases_for</b></a>(string, string *)<dd>
+This method sets the aliases for the specified money type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_plural_for"><b>set_plural_for</b></a>(string, string)<dd>
+This method sets the plural for the specified money type.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#smallest_in"><b>smallest_in</b></a>(string)<dd>
+This returns the smallest unit of currency in this place.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#smallest_value_in"><b>smallest_value_in</b></a>(string)<dd>
+This returns the smallest value of currency in this place.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#value_from_string"><b>value_from_string</b></a>(string, string)<dd>
+This method attempts to find a money value from a string.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_details">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_details</b></a><pre>
+void add_details(string word,
+string hd_sht,
+string tl_sht,
+string hd_lng,
+string tl_lng,
+mixed composition,
+string plural)
+</pre><dd>
+This method adds the details for the given coin type into the current
+list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the coin type the details are for
+<dd>hd_sht - the heads side short
+<dd>tl_sht - the tail side short
+<dd>hd_lng - the head side long
+<dd>tl_lnd - the tail side long
+<dd>composition - the composition of the money
+<dd>plural - the plural value of the object, if 0 then use default plural
+<dt><b>See also:</b>
+<dd><a href="#query_details_for">query_details_for()</a> and <a href="#remove_details">remove_details()
+</a></dl>
+
+<dt><a name="add_symbol">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_symbol</b></a><pre>
+void add_symbol(string word,
+string symboliser)
+</pre><dd>
+This method adds in a symboliser for a specified money area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the money area to add the symbol for
+<dd>symboliser - the path to the symboliser object
+<dt><b>See also:</b>
+<dd><a href="#query_symbols">query_symbols()</a>, <a href="#query_symbol_for">query_symbol_for()</a> and <a href="#remove_symbol">remove_symbol()
+</a><dt><b>Example:</b>
+<dd><pre>add_symbol("Ankh-Morpork", "/d/am/money");</pre><dd><pre>
+// This is an example of a symboliser object
+string symbolise_value( int value ) {
+   int dollars, pence;
+
+   dollars = value / 400;
+   pence = ( value % 400 ) / 4;
+   if ( !pence ) {
+      return "A$"+ dollars;
+   }
+   if ( !dollars ) {
+      return pence +"p";
+   }
+   if ( pence < 10 ) {
+      return "A$"+ dollars +".0"+ pence;
+   }
+   return "A$"+ dollars +"."+ pence;
+} /* symbolise_value() */</pre></dl>
+
+<dt><a name="add_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_type</b></a><pre>
+void add_type(string where,
+string type,
+int value)
+</pre><dd>
+This adds a type of money to the money handler.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>where - the area in which to add the type of money
+<dd>type - the name of the money to add
+<dd>value - the value of the money
+<dt><b>See also:</b>
+<dd><a href="#query_values_in">query_values_in()</a> and <a href="#remove_type">remove_type()
+</a></dl>
+
+<dt><a name="calc_change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_change</b></a><pre>
+mixed * calc_change(int value,
+mixed * mon_array)
+</pre><dd>
+This method calculates the change of a certain value from a
+given money array.   This makes sure that the change does not include
+money that does not actually exist.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - the value of the change to calculate
+<dd>mon_array - the money array to determine the change from
+<dt><b>Returns:</b>
+<dd>the money array containing the change to use
+<dt><b>See also:</b>
+<dd><a href="#make_payment">make_payment()</a> and <a href="#pay_amount_from">pay_amount_from()
+</a></dl>
+
+<dt><a name="create_money_array">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_money_array</b></a><pre>
+varargs mixed * create_money_array(int value,
+string where)
+</pre><dd>
+This method creates a money array from a certain value in a particular
+money area. A money array consists of ({ type, number }) pairs in an
+array.   ie: ({ "brass", 12, "copper", 24 }).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - the value to get the money array for
+<dd>where - the money area to get the value in
+<dt><b>Returns:</b>
+<dd>a money array for the value in the area
+<dt><b>See also:</b>
+<dd><a href="#money_value_string">money_value_string()
+</a><dt><b>Example:</b>
+<dd><pre>
+place = query_property("place");
+if (!place) {
+     place = "default";
+}
+mon_array = create_money_array( 1000, place);</pre></dl>
+
+<dt><a name="filter_legal_money_array">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>filter_legal_money_array</b></a><pre>
+varargs object * filter_legal_money_array(mixed * m_array,
+string where)
+</pre><dd>
+This method is identical to filter_legal_tender, except that it takes
+a money array rather than a money object<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>m_array - the money array to get the legal tender from
+<dd>where - the money area the tender is for
+<dt><b>Returns:</b>
+<dd>an two element array of objects ({ legal, illegal })
+<dt><b>See also:</b>
+<dd><a href="#parse_money">parse_money()</a> and <a href="#filter_legal_tender">filter_legal_tender()
+</a></dl>
+
+<dt><a name="filter_legal_tender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>filter_legal_tender</b></a><pre>
+varargs object * filter_legal_tender(object money,
+string where)
+</pre><dd>
+This method figures out the legal and illegal tender money from
+the specified money object in the specified money area.   This method
+returns a two element array which consists of the legal and illegal
+tender for the given money area.   ({ legal, illegal }).  WARNING:
+This method destructs the money object passed to it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>money - the money object to get the legal tender from
+<dd>where - the money area the tender is for
+<dt><b>Returns:</b>
+<dd>an two element array of objects ({ legal, illegal })
+<dt><b>See also:</b>
+<dd><a href="#parse_money">parse_money()
+</a></dl>
+
+<dt><a name="make_money_array_payment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_money_array_payment</b></a><pre>
+mixed * make_money_array_payment(string type,
+int value,
+mixed * mon_array,
+string where,
+int use_default)
+</pre><dd>
+This method makes a payment from a money array.  It returns the
+depleted money array, the amount taken out and the change
+needed.  If the type is not set, then the best fit for the value
+is found from the array.
+<p>
+The return array is formated as:<br>
+({ depleted_money_array, change, taken_from })<br>
+The change is an integer value.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of money to take out (ie: "Lancre Crown")
+<dd>value - the amount of the type to take out
+<dd>mon_array - the money array to use
+<dd>where - the money area
+<dd>use_default - allow the use of the default money type
+<dt><b>Returns:</b>
+<dd>the return array as formated above
+
+<dt><b>Example:</b>
+<dd><pre>ret = make_money_array_payment("Lancre Crown", 2, mon_array, "Lancre", 0);</pre></dl>
+
+<dt><a name="make_new_amount">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_new_amount</b></a><pre>
+varargs object make_new_amount(int value,
+string where)
+</pre><dd>
+This method creates a money object of a certain value in a certain
+money area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - the value to create the new money object with
+<dd>where - the area to create the new money object in
+<dt><b>Returns:</b>
+<dd>the new money object
+
+</dl>
+
+<dt><a name="make_payment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_payment</b></a><pre>
+varargs mixed * make_payment(string type,
+int value,
+object thing,
+string where)
+</pre><dd>
+This method makes a payment of a particular amount in a particular
+money area.   Please note that player or living objects can double
+as money objects in this circumstance.  The first element of the
+payment array is the values which should be used to take off
+the player, the second element is the change needed to be payed
+back.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of money to pay in (ie: "Lancre Crown")
+<dd>value - the number of the type to pay
+<dd>thing - the thing which is doing the payment (money object)
+<dd>where - the money area the payment will occur in
+<dt><b>Returns:</b>
+<dd>the payment array
+<dt><b>See also:</b>
+<dd><a href="#pay_amount_from">pay_amount_from()</a> and <a href="#calc_change">calc_change()
+</a></dl>
+
+<dt><a name="merge_money_arrays">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>merge_money_arrays</b></a><pre>
+mixed * merge_money_arrays(mixed * m_array1,
+mixed * m_array2)
+</pre><dd>
+This method merges two money arrays together and returns the
+merged array<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>m_array1 - the first money array
+<dd>m_array2 - the second money_array
+<dt><b>Returns:</b>
+<dd>a money array of m_array1 and m_array2 joined
+
+</dl>
+
+<dt><a name="money_array_from_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>money_array_from_string</b></a><pre>
+mixed * money_array_from_string(string str,
+string where)
+</pre><dd>
+This method attempts to find a money value from a string.  It will
+attempt to do fuzzy matching of the type.  This means it will match on
+partial matches, this could lead to somewhat weird behaviour...  So it
+goes...  It will return a money array, rather than a value<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the string to find the value of
+<dt><b>Returns:</b>
+<dd>a money array of the types matched
+<dt><b>See also:</b>
+<dd><a href="#money_value_string">money_value_string()
+</a></dl>
+
+<dt><a name="money_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>money_string</b></a><pre>
+string money_string(mixed mon_array)
+</pre><dd>
+This method converts a money array into a string so it can be displayed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mon_array - the money array to convert into a string
+<dt><b>See also:</b>
+<dd><a href="#money_value_string">money_value_string()
+</a></dl>
+
+<dt><a name="money_value_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>money_value_string</b></a><pre>
+varargs string money_value_string(int value,
+string where)
+</pre><dd>
+This method returns a string which is based on the value of
+the money in a certain money area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - the value to get the string for
+<dd>where - the place to get the string for
+<dt><b>Returns:</b>
+<dd>a string of the money value in the certain money area
+<dt><b>See also:</b>
+<dd><a href="#create_money_array">create_money_array()</a>, <a href="#money_string">money_string()</a> and <a href="#value_from_string">value_from_string()
+</a></dl>
+
+<dt><a name="parse_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>parse_money</b></a><pre>
+varargs mixed parse_money(string words,
+object player,
+string place)
+</pre><dd>
+This method determines all the money from the player object and moves
+it into a container.  It then figured out the legal tender for
+specified money area and tells the player if the given money is
+legal tender for the current area.  It will automatically return the
+illegal tender and send a message to the player about it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>words - the string to match the money on
+<dd>player - the player who is attempting the transaction
+<dd>place - the money area the transaction is taking place
+<dt><b>Returns:</b>
+<dd>a money object consisting of the legal tender
+<dt><b>See also:</b>
+<dd><a href="#filter_legal_tender">filter_legal_tender()
+</a></dl>
+
+<dt><a name="pay_amount_from">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>pay_amount_from</b></a><pre>
+varargs object pay_amount_from(int value,
+object money,
+string where)
+</pre><dd>
+This method makes a payment from a specified money object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - the amount to pay
+<dd>money - the money object to pay from
+<dd>where - the money area the payment occurs in
+<dt><b>Returns:</b>
+<dd>the change object
+<dt><b>See also:</b>
+<dd><a href="#make_payment">make_payment()</a> and <a href="#calc_change">calc_change()
+</a></dl>
+
+<dt><a name="query_adjectives_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_adjectives_for</b></a><pre>
+string * query_adjectives_for(string type)
+</pre><dd>
+This method returns all the current adjectives for the given type
+of money.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of money to get the aliases for
+<dt><b>Returns:</b>
+<dd>the adjectives for the money type
+<dt><b>See also:</b>
+<dd><a href="#set_adjectives_for">set_adjectives_for()
+</a></dl>
+
+<dt><a name="query_aliases_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_aliases_for</b></a><pre>
+string * query_aliases_for(string type)
+</pre><dd>
+This method returns all the current aliases for the given type
+of money.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of money to get the aliases for
+<dt><b>Returns:</b>
+<dd>the aliases for the money type
+<dt><b>See also:</b>
+<dd><a href="#set_aliases_for">set_aliases_for()
+</a></dl>
+
+<dt><a name="query_aliases_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_aliases_of</b></a><pre>
+string * query_aliases_of(string word)
+</pre><dd>
+This converts a currency type's alias (i.e. "royal" ) and returns
+its 'real' names (i.e. "Ankh-Morpork royal"<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the alias to find the real name of
+<dt><b>Returns:</b>
+<dd>an array of real names, or 0 if it's not a real alias
+
+</dl>
+
+<dt><a name="query_all_places">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_places</b></a><pre>
+string * query_all_places()
+</pre><dd>
+This method returns the current set of areas in which types can
+be found.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the set of places
+
+</dl>
+
+<dt><a name="query_all_values">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_values</b></a><pre>
+mapping query_all_values()
+</pre><dd>
+This method returns the mapping containing all the values of the
+currently valid money types.   The mapping has keys of the domain
+of the money and has a value of an array.   The array contains
+alternating name, value pairs.
+<pre>
+([ "default": ({ "brass", 1, "copper", 10, "silver", 100,
+                                            "gold", 2000, "platinum", 6000 }) ])
+</pre><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mapping of values
+<dt><b>See also:</b>
+<dd><a href="#query_values">query_values()</a> and <a href="#query_values_in">query_values_in()
+</a></dl>
+
+<dt><a name="query_details">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_details</b></a><pre>
+mapping query_details()
+</pre><dd>
+This method returns all the details for the current set of
+coins.   The details are information which is shown when the coin
+is looked at.   Stuff about heads and tails and things.
+<pre>
+  ([
+     "brass": ({ "heads", "tails", "a head", "a tail", "brass", 0 }),
+     "copper": ({ "heads", "tails", "a head", "a tail", "copper", 0 }),
+     "silver": ({ "heads", "tails", "a head", "a tail", "silver", 0 }),
+     "gold": ({ "heads", "tails", "a head", "a tail", "gold", 0 }),
+     "platinum": ({ "heads", "tails", "a head", "a tail", "platinum", 0 }) ])
+</pre>
+The places correspond to:
+<pre>
+({ forward short, reverse short,
+     forward long, reverse long, composition, plural })
+</pre><p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the details array
+
+</dl>
+
+<dt><a name="query_details_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_details_for</b></a><pre>
+mixed * query_details_for(string word)
+</pre><dd>
+This method returns the details for a specified type of money.
+It will return an array of the form:
+<pre>
+({ "heads", "tails", "a head", "a tail", "brass", 0 })
+</pre>
+The places correspond to:
+<pre>
+({ forward short, reverse short,
+     forward long, reverse long, composition, plural })
+</pre><p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the money type to get the type for
+<dt><b>See also:</b>
+<dd><a href="#add_details">add_details()
+</a></dl>
+
+<dt><a name="query_main_plural_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_main_plural_for</b></a><pre>
+string query_main_plural_for(string type)
+</pre><dd>
+This method returns the main short plural description of the money type.
+This returns the expanded plural version like 'Ankh-Morpork pennies'.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the money type to get the short plural description for
+<dt><b>Returns:</b>
+<dd>the short plural description for the money object
+<dt><b>See also:</b>
+<dd><a href="#set_plural_for">set_plural_for()</a>, <a href="#query_plural_for">query_plural_for()</a> and <a href="#query_short_for">query_short_for()
+</a></dl>
+
+<dt><a name="query_mapped_values_in">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_mapped_values_in</b></a><pre>
+mapping query_mapped_values_in(string where)
+</pre><dd>
+This method returns the values in the specified area.
+It contains name, value pairs and is for the "default"
+area.  It is returned as a mapping for easier sorting
+& manipulation.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>where - the area in which to return the values for
+<dt><b>See also:</b>
+<dd><a href="#query_all_values">query_all_values()</a>, <a href="#query_values">query_values()</a>, <a href="#add_type">add_type()</a> and <a href="#query_values_in">query_values_in()
+</a></dl>
+
+<dt><a name="query_origin_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_origin_of</b></a><pre>
+string query_origin_of(string type)
+</pre><dd>
+This takes a coin type and returns the place it is associated with.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the coin type i.e. "Ankh-Morpork dollar"
+<dt><b>Returns:</b>
+<dd>the place i.e. "Ankh-Morpork"
+
+</dl>
+
+<dt><a name="query_person_payments">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_person_payments</b></a><pre>
+mixed * query_person_payments(int value,
+string place,
+object payer,
+object payee)
+</pre><dd>
+This method makes a payment from one person to another.
+This method figures out what money should be given to the player
+and what should be taken from the other to make a payment of the
+correct value in the correct place.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - the value to pay
+<dd>place - the place to make the payment in
+<dd>payer - the person the money is payed from
+<dd>payee - the person the money is payed to
+<dt><b>Returns:</b>
+<dd>two element array, or 0 if it cannot be done
+
+</dl>
+
+<dt><a name="query_plural_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_plural_for</b></a><pre>
+string query_plural_for(string type)
+</pre><dd>
+This method returns the short plural description of the money type.
+This returns just the one word, like 'coins' or 'talons'.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the money type to get the short plural description for
+<dt><b>Returns:</b>
+<dd>the short plural description for the money object
+<dt><b>See also:</b>
+<dd><a href="#set_plural_for">set_plural_for()</a> and <a href="#query_main_plural_for">query_main_plural_for()
+</a></dl>
+
+<dt><a name="query_short_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_short_for</b></a><pre>
+string query_short_for(string type)
+</pre><dd>
+This method returns the short description of the money type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the money type to get the short description for
+<dt><b>Returns:</b>
+<dd>the short description for the money object
+<dt><b>See also:</b>
+<dd><a href="#query_main_plural_for">query_main_plural_for()
+</a></dl>
+
+<dt><a name="query_smallest_value_in">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_smallest_value_in</b></a><pre>
+int query_smallest_value_in(string where)
+</pre><dd>
+This returns the smallest value in the specified area.  Used to
+make sure we are not charging too little or too much when doing
+comparisons.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>where - the area to check
+
+<dt><b>Returns:</b>
+<dd>the smallest value in the specified area
+</dl>
+
+<dt><a name="query_symbol_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_symbol_for</b></a><pre>
+string query_symbol_for(string word)
+</pre><dd>
+This method returns the symboliser for the specified money area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the area in which the money is occuring
+<dt><b>Returns:</b>
+<dd>the syboliser for the money area
+<dt><b>See also:</b>
+<dd><a href="#query_symbols">query_symbols()</a>, <a href="#add_symbol">add_symbol()</a> and <a href="#remove_symbol">remove_symbol()
+</a></dl>
+
+<dt><a name="query_symbols">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_symbols</b></a><pre>
+mapping query_symbols()
+</pre><dd>
+This method returns all the symbols for the current money areas in the
+handler.   The return value is mapping with the key being the
+money area and the value being the symboliser for the money.
+The symboliser is called with a value to get the money to
+print itself out nicely.   This is used when the quantity of
+actual coins is not known and only the value of them is
+known.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all of the symbols
+<dt><b>See also:</b>
+<dd><a href="#query_symbol_for">query_symbol_for()</a>, <a href="#add_symbol">add_symbol()</a> and <a href="#remove_symbol">remove_symbol()
+</a></dl>
+
+<dt><a name="query_total_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_total_value</b></a><pre>
+varargs int query_total_value(mixed mon_array,
+string where)
+</pre><dd>
+This method determines the total value of a specified money array.
+A money array consists of pairs of values ({ type, number })<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mon_array - the array to find the value of
+<dd>where - the money area to get the value in
+<dt><b>Returns:</b>
+<dd>the total value as an integer
+<dt><b>See also:</b>
+<dd><a href="#query_value">query_value()
+</a></dl>
+
+<dt><a name="query_valid_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_valid_types</b></a><pre>
+string * query_valid_types()
+</pre><dd>
+This returns a list of valid coin types<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of valid coin types
+
+</dl>
+
+<dt><a name="query_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value</b></a><pre>
+varargs int query_value(string type,
+string where)
+</pre><dd>
+This method returns the value of a specified type of money in a certain
+money area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of money to get the value for
+<dd>where - the money area the money is in
+<dt><b>Returns:</b>
+<dd>the integer value of the money
+<dt><b>See also:</b>
+<dd><a href="#query_total_value">query_total_value()
+</a></dl>
+
+<dt><a name="query_value_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_value_of</b></a><pre>
+int query_value_of(string type)
+</pre><dd>
+This returns the value of a currency type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - currency type
+<dt><b>Returns:</b>
+<dd>an int of the currency type's value
+
+</dl>
+
+<dt><a name="query_values">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_values</b></a><pre>
+mixed * query_values()
+</pre><dd>
+This method returns the values in the default area.
+This method returns the array as given in the value above.
+It contains name, value pairs and is for the "default"
+area.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of values
+<dt><b>See also:</b>
+<dd><a href="#query_all_values">query_all_values()</a> and <a href="#query_values_in">query_values_in()
+</a></dl>
+
+<dt><a name="query_values_in">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_values_in</b></a><pre>
+mixed * query_values_in(string where)
+</pre><dd>
+This method returns the values in the specified area.
+It contains name, value pairs and is for the "default"
+area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>where - the area in which to return the values for
+<dt><b>Returns:</b>
+<dd>the array of values
+<dt><b>See also:</b>
+<dd><a href="#query_all_values">query_all_values()</a>, <a href="#query_values">query_values()</a>, <a href="#add_type">add_type()</a> and <a href="#query_mapped_values_in">query_mapped_values_in()
+</a></dl>
+
+<dt><a name="remove_details">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_details</b></a><pre>
+void remove_details(string word)
+</pre><dd>
+This method removes the specified detail. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the type of money to remove the details for
+<dt><b>See also:</b>
+<dd><a href="#add_detail">add_detail()</a> and <a href="#query_details_for">query_details_for()
+</a></dl>
+
+<dt><a name="remove_symbol">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_symbol</b></a><pre>
+void remove_symbol(string word)
+</pre><dd>
+This method removes the symboliser for the particular money area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the money area to remove the symbol for
+
+<dt><b>See also:</b>
+<dd><a href="#query_symbols">query_symbols()</a>, <a href="#query_symbol_for">query_symbol_for()</a> and <a href="#add_symbol">add_symbol()</a></dl>
+
+<dt><a name="remove_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_type</b></a><pre>
+void remove_type(string where,
+string type)
+</pre><dd>
+This method removes the type of money from the handler.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>where - the area to remove it from
+<dd>type - the type to remove
+<dt><b>See also:</b>
+<dd><a href="#add_type">add_type()
+</a></dl>
+
+<dt><a name="save_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_me</b></a><pre>
+void save_me()
+</pre><dd>
+This method saves the current state of the money object.
+<p>
+
+<dt><a name="set_adjectives_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_adjectives_for</b></a><pre>
+void set_adjectives_for(string type,
+string * words)
+</pre><dd>
+This method sets the adjectives for the specified money type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of money to set the adjectives for
+<dd>words - the adjectives for the money
+<dd>type - the type of money to set the adjectives for
+<dd>words - the adjectives for the money
+
+<dt><b>See also:</b>
+<dd><a href="#query_adjectives_for">query_adjectives_for()</a></dl>
+
+<dt><a name="set_aliases_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_aliases_for</b></a><pre>
+void set_aliases_for(string type,
+string * words)
+</pre><dd>
+This method sets the aliases for the specified money type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of money to set the aliases for
+<dd>words - the aliases for the money
+<dd>type - the type of money to set the aliases for
+<dd>words - the aliases for the money
+
+<dt><b>See also:</b>
+<dd><a href="#query_aliases_for">query_aliases_for()</a></dl>
+
+<dt><a name="set_plural_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_plural_for</b></a><pre>
+void set_plural_for(string type,
+string plural)
+</pre><dd>
+This method sets the plural for the specified money type.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the money to set the plural for
+<dd>plural - the new plural for the money
+<dt><b>See also:</b>
+<dd><a href="#query_plural_for">query_plural_for()</a> and <a href="#query_main_plural_for">query_main_plural_for()
+</a></dl>
+
+<dt><a name="smallest_in">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>smallest_in</b></a><pre>
+string smallest_in(string place)
+</pre><dd>
+This returns the smallest unit of currency in this place.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>place - The place to query.
+<dt><b>Returns:</b>
+<dd>A string of the smallest unit of currency
+<dt><b>See also:</b>
+<dd><a href="#smallest_value_in">smallest_value_in()
+</a></dl>
+
+<dt><a name="smallest_value_in">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>smallest_value_in</b></a><pre>
+int smallest_value_in(string place)
+</pre><dd>
+This returns the smallest value of currency in this place.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>place - The place to query.
+<dt><b>Returns:</b>
+<dd>the value of the smallest unit of currency
+<dt><b>See also:</b>
+<dd><a href="#smallest_in">smallest_in()
+</a></dl>
+
+<dt><a name="value_from_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>value_from_string</b></a><pre>
+int value_from_string(string str,
+string where)
+</pre><dd>
+This method attempts to find a money value from a string.  It will
+attempt to do fuzzy matching of the type.  This means it will match on
+partial matches, this could lead to somewhat weird behaviour...  So it
+goes...<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the string to find the value of
+<dt><b>See also:</b>
+<dd><a href="#money_value_string">money_value_string()</a><dt><b>Example:</b>
+<dd><pre>// This will tell us the integer money value of the string.
+write(MONEY_HAND->value_from_string("1 dollar and 12 pence",
+                                    "Ankh-Morpork"));
+</pre></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 22:08:51 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

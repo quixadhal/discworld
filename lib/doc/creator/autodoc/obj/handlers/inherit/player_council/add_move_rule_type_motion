@@ -1,0 +1,42 @@
+.DT
+add_move_rule_type_motion
+Disk World creator help
+add_move_rule_type_motion
+
+.SH Name
+.SP 5 5
+add_move_rule_type_motion -  This method puts up a request to move a rule from one type to another.
+.EP
+
+.SH Syntax
+.SI 5
+int add_move_rule_type_motion(string area,
+int rule_no,
+int type,
+string creator)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area to do the move in
+%^BOLD%^rule_no%^RESET%^ - the rule number to move
+%^BOLD%^type%^RESET%^ - the type to move the rule to
+%^BOLD%^creator%^RESET%^ - the creator of this request
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/player_council.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method puts up a request to move a rule from one type to another.
+.EP
+

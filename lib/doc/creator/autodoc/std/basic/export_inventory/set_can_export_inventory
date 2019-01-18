@@ -1,0 +1,35 @@
+.DT
+set_can_export_inventory
+Disk World creator help
+set_can_export_inventory
+
+.SH Name
+.SP 5 5
+set_can_export_inventory -  This method allows the objects inside it (which are registered) to export their invetories as well.
+.EP
+
+.SH Syntax
+.SI 5
+void set_can_export_inventory()
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/export_inventory.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method allows the objects inside it (which are registered) to
+export their invetories as well.  You do not want to be able to do
+this with player or living objects (for instance).
+The default value for this is reset()
+.EP
+
+.SH See also
+.SP 5 5
+add_inventory_container(), query_can_export_inventory(), reset_can_export_inventory()
+
+.EP
+

@@ -1,0 +1,46 @@
+.DT
+query_discount_schedule
+Disk World creator help
+query_discount_schedule
+
+.SH Name
+.SP 5 5
+query_discount_schedule -  This method returns the discount schedule.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * query_discount_schedule()
+.EI
+
+.SH Returns
+.SI 5
+the discount schedule.EI
+
+.SH Defined in
+.SI 5
+/std/shops/print_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the discount schedule.  There is a default discount
+schedule setup for printing shops.  The discount schedule tells how much
+of a discount you get for certain numbers of a run.  It returns
+an array of the form:
+
+.EP
+.SP 5 5
+({ ({ numn1, dis1 }), ({ num2, dis2}), ... })
+.EP
+.SP 5 5
+Where each number is the discount amount for printing less than that number of items. The array must be sorted from the lowest number to the highest number.
+.EP
+
+.SH See also
+.SP 5 5
+set_discount_schedule()
+
+.EP
+

@@ -1,6 +1,6 @@
 .DT
 state_changer.c
-Dead DW2 autodoc help
+Disk World autodoc help
 state_changer.c
 
 .SH Description
@@ -26,7 +26,7 @@ This class inherits the following classes /obj/vessel.
 
 .SH Includes
 .SP 5 5
-This class includes the following files /include/effect.h and /include/tasks.h.
+This class includes the following files /include/tasks.h and /include/effect.h.
 .EP
 
 .SH Public Functions

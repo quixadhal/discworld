@@ -1,0 +1,39 @@
+.DT
+query_ground_room
+Disk World creator help
+query_ground_room
+
+.SH Name
+.SP 5 5
+query_ground_room -  This method returns the location of the ground room.
+.EP
+
+.SH Syntax
+.SI 5
+string query_ground_room(int x,
+int y)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x%^RESET%^ - the x location
+%^BOLD%^y%^RESET%^ - the y location
+.EI
+
+.SH Returns
+.SI 5
+the string name of the ground room
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the location of the ground room.  It is basically
+just the co-ordates connected onto the terrain_handler definition.
+.EP
+

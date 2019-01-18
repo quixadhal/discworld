@@ -1,0 +1,43 @@
+.DT
+npc_shout_event
+Disk World creator help
+npc_shout_event
+
+.SH Name
+.SP 5 5
+npc_shout_event -  This method is called by the shout command to filter the shouts onto the npcs that are listening.
+.EP
+
+.SH Syntax
+.SI 5
+void npc_shout_event(object shouter,
+string start,
+string message,
+string lang,
+int * coord,
+int range)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^shouter%^RESET%^ - the person who shouted
+%^BOLD%^start%^RESET%^ - the start of the message
+%^BOLD%^message%^RESET%^ - the message shouted
+%^BOLD%^lang%^RESET%^ - the language the message is in
+%^BOLD%^coord%^RESET%^ - the co-ordinate it was shouted from
+%^BOLD%^range%^RESET%^ - the range of the shout
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/broadcaster.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called by the shout command to filter the shouts onto
+the npcs that are listening.
+.EP
+

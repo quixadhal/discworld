@@ -1,0 +1,103 @@
+<html><head><title>File fairy_godmothers.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/fairy_godmothers.c</h2>
+Keep track of all the fairy godmothers.  Make sure they don't do any
+thing naughty.  This also controls the costs for the godmother
+service.<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.config.h.html">/include/config.h</a>, <a href="include.playerinfo.h.html">/include/playerinfo.h</a>, <a href="include.panic.h.html">/include/panic.h</a> and <a href="include.cwc.h.html">/include/cwc.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_hurry_up"><b>do_hurry_up</b></a>()<dd>
+Give the players a nudge if they are taking to long.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_move"><b>do_move</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_panic_callout"><b>do_panic_callout</b></a>(object, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_startup"><b>do_startup</b></a>(object)<dd>
+This method handles a player panicing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finish_panic"><b>finish_panic</b></a>(object, int)<dd>
+Called by the godmother when the person has completed their
+paniced transaction.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#free_godmothers"><b>free_godmothers</b></a>()<dd>
+Check to see if there are any free godmothers.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_godmothers"><b>query_godmothers</b></a>()<dd>
+Return an array of all the godmothers.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_hurry_up">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_hurry_up</b></a><pre>
+void do_hurry_up()
+</pre><dd>
+Give the players a nudge if they are taking to long.
+<p>
+
+<dt><a name="do_move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_move</b></a><pre>
+void do_move(object fairy)
+</pre>
+<dt><a name="do_panic_callout">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_panic_callout</b></a><pre>
+void do_panic_callout(object godmother,
+object ob)
+</pre>
+<dt><a name="do_startup">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_startup</b></a><pre>
+int do_startup(object panicer)
+</pre><dd>
+This method handles a player panicing.
+<p>
+This is the fairy godmother controller for panicing.
+<p>
+When someone panics it calls on this object to help fix them
+up.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>panicer - the person panicing
+<dt><b>Returns:</b>
+<dd>0 if they were unmable to panic, 1 if they were
+
+</dl>
+
+<dt><a name="finish_panic">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finish_panic</b></a><pre>
+void finish_panic(object person,
+int ok)
+</pre><dd>
+Called by the godmother when the person has completed their
+paniced transaction.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person who paniced
+<dd>ok - did they complete it ok?
+
+</dl>
+
+<dt><a name="free_godmothers">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>free_godmothers</b></a><pre>
+int free_godmothers()
+</pre><dd>
+Check to see if there are any free godmothers.  Are you being
+served?<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if there is a free one, 0 if there is not
+
+</dl>
+
+<dt><a name="query_godmothers">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_godmothers</b></a><pre>
+object * query_godmothers()
+</pre><dd>
+Return an array of all the godmothers.  This is the current set of
+used godmothers.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of objects of godmothers
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 18:10:43 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

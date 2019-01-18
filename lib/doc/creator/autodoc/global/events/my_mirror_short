@@ -1,0 +1,32 @@
+.DT
+my_mirror_short
+Disk World creator help
+my_mirror_short
+
+.SH Name
+.SP 5 5
+my_mirror_short -  This is a special function for use with the reform message, it allows the string to be echoed into the list instead of using the object's value itself.
+.EP
+
+.SH Syntax
+.SI 5
+string my_mirror_short(object thing,
+string arg)
+.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is a special function for use with the reform message, it allows
+the string to be echoed into the list instead of using the object's
+value itself.  This is done specifically to handle objects with
+variable shorts, so we get the short description correct at the
+moment it is queried.
+
+.EP
+

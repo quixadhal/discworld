@@ -1,0 +1,210 @@
+<html><head><title>File al_receipt.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/misc/al_receipt.c</h2>
+Sets the name of the object.  This will be used so the item recipt
+can be identified.<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.virtual.h.html">/include/virtual.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#being_sold"><b>being_sold</b></a>()<dd>
+When the item is sold, kill ourselves.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move"><b>move</b></a>(mixed, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_missing_item_receipt"><b>query_missing_item_receipt</b></a>()<dd>
+This will return 1 if the item is a missing item receipt.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_obname"><b>query_obname</b></a>()<dd>
+This method returns the name of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_obpath"><b>query_obpath</b></a>()<dd>
+This method returns the path of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_static_save"><b>query_static_save</b></a>()<dd>
+This method returns the save information for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_timestamp"><b>query_timestamp</b></a>()<dd>
+This method returns the timestamp of the reciept.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_virt_obname"><b>query_virt_obname</b></a>()<dd>
+This method returns the virtual object path name of the item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_object"><b>set_object</b></a>(string)<dd>
+Sets the path to the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_obname"><b>set_obname</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_obpath"><b>set_obpath</b></a>(string)<dd>
+This method is identical to set_object()
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_static_save"><b>set_static_save</b></a>(mixed)<dd>
+This method sets the save information for the file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_virtname"><b>set_virtname</b></a>(string)<dd>
+This method is identical to set_virtobname()
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_virtobname"><b>set_virtobname</b></a>(string)<dd>
+This method sets the virtual object name of the item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_receipt"><b>setup_receipt</b></a>(object)<dd>
+This method sets up the receipt for the specified object.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="being_sold">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>being_sold</b></a><pre>
+void being_sold()
+</pre><dd>
+When the item is sold, kill ourselves.
+<p>
+
+<dt><a name="move">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move</b></a><pre>
+varargs int move(mixed dest,
+string messin,
+string messout)
+</pre>
+<dt><a name="query_missing_item_receipt">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_missing_item_receipt</b></a><pre>
+int query_missing_item_receipt()
+</pre><dd>
+This will return 1 if the item is a missing item receipt.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if the item is a missing item receipt
+
+</dl>
+
+<dt><a name="query_obname">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_obname</b></a><pre>
+string query_obname()
+</pre><dd>
+This method returns the name of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the object
+
+</dl>
+
+<dt><a name="query_obpath">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_obpath</b></a><pre>
+string query_obpath()
+</pre><dd>
+This method returns the path of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the path of the object
+
+</dl>
+
+<dt><a name="query_static_save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_static_save</b></a><pre>
+mixed query_static_save()
+</pre><dd>
+This method returns the save information for the object.  THis is not
+just the static save information, it is an array of two elements.  The
+first is the static save information and the second is the dynamic
+save information.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the save information
+
+</dl>
+
+<dt><a name="query_timestamp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_timestamp</b></a><pre>
+int query_timestamp()
+</pre><dd>
+This method returns the timestamp of the reciept.  This is the time the
+receipt was created.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the timestamp
+
+</dl>
+
+<dt><a name="query_virt_obname">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_virt_obname</b></a><pre>
+string query_virt_obname()
+</pre><dd>
+This method returns the virtual object path name of the item.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the virtual object name
+
+</dl>
+
+<dt><a name="set_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_object</b></a><pre>
+void set_object(string s)
+</pre><dd>
+Sets the path to the object.  The path of the object for the recipt to
+work with.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the object path
+
+</dl>
+
+<dt><a name="set_obname">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_obname</b></a><pre>
+void set_obname(string s)
+</pre>
+<dt><a name="set_obpath">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_obpath</b></a><pre>
+void set_obpath(string s)
+</pre><dd>
+This method is identical to set_object()<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the object path
+
+</dl>
+
+<dt><a name="set_static_save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_static_save</b></a><pre>
+void set_static_save(mixed m)
+</pre><dd>
+This method sets the save information for the file.  It actually sets
+both the static and dynamic information.  This assumes it is passed
+an array of two elements, the first is the static save information and
+the second is the dynamic save information.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>m - the data as defined above
+
+</dl>
+
+<dt><a name="set_virtname">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_virtname</b></a><pre>
+void set_virtname(string s)
+</pre><dd>
+This method is identical to set_virtobname()<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the virtual object name
+
+</dl>
+
+<dt><a name="set_virtobname">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_virtobname</b></a><pre>
+void set_virtobname(string s)
+</pre><dd>
+This method sets the virtual object name of the item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the virtual object name
+
+</dl>
+
+<dt><a name="setup_receipt">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_receipt</b></a><pre>
+void setup_receipt(object ob)
+</pre><dd>
+This method sets up the receipt for the specified object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to setup the reciept for
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 05:52:21 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

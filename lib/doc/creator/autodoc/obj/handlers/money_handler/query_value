@@ -1,0 +1,44 @@
+.DT
+query_value
+Disk World creator help
+query_value
+
+.SH Name
+.SP 5 5
+query_value -  This method returns the value of a specified type of money in a certain money area.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int query_value(string type,
+string where)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the type of money to get the value for
+%^BOLD%^where%^RESET%^ - the money area the money is in
+.EI
+
+.SH Returns
+.SI 5
+the integer value of the money.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the value of a specified type of money in a certain
+money area.
+.EP
+
+.SH See also
+.SP 5 5
+query_total_value()
+
+.EP
+

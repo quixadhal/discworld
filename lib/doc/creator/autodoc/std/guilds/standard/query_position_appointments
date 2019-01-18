@@ -1,0 +1,46 @@
+.DT
+query_position_appointments
+Disk World creator help
+query_position_appointments
+
+.SH Name
+.SP 5 5
+query_position_appointments -  Dummy function for guilds without positions This method returns the appointments for this position in this  subguild.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_position_appointments(string sub_guild,
+string position)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^sub_guild%^RESET%^ - the sub guild
+%^BOLD%^position%^RESET%^ - position to return
+.EI
+
+.SH Returns
+.SI 5
+0 if the position don't exist, an array of appointments
+if is does, with 0's for unfilled positions.EI
+
+.SH Defined in
+.SI 5
+/std/guilds/standard.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Dummy function for guilds without positions
+This method returns the appointments for this position in this 
+subguild.
+.EP
+
+.SH See also
+.SP 5 5
+add_position()
+
+.EP
+

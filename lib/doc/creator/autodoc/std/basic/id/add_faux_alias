@@ -1,0 +1,45 @@
+.DT
+add_faux_alias
+Disk World creator help
+add_faux_alias
+
+.SH Name
+.SP 5 5
+add_faux_alias -  This method adds a faux alias to the object.
+.EP
+
+.SH Syntax
+.SI 5
+void add_faux_alias(mixed str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the alias(s) to add
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/id.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a faux alias to the object.   Faux aliases are
+ignored by objects that ignore identifiers.
+
+
+The function takes an array or a string as an argument. If an array is passed in each element of the array is added to the faux alias array, if it is a string then the string element is added to the array. Elements that are already real aliases of the object are ignored. Duplication in this list is allowed; a separate list without duplicates is maintained to improve performance.
+.EP
+
+.SH Example 1
+.SI 5
+
+.EI
+
+.SH See also
+.SP 5 5
+query_faux_alias(), query_unique_faux_alias(), add_alias(), add_faux_adjective(), remove_faux_alias(), ignore_identifiers(), parse_command_id_list()
+.EP
+

@@ -1,0 +1,55 @@
+.DT
+create_money_array
+Disk World creator help
+create_money_array
+
+.SH Name
+.SP 5 5
+create_money_array -  This method creates a money array from a certain value in a particular money area.
+.EP
+
+.SH Syntax
+.SI 5
+varargs mixed * create_money_array(int value,
+string where)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^value%^RESET%^ - the value to get the money array for
+%^BOLD%^where%^RESET%^ - the money area to get the value in
+.EI
+
+.SH Returns
+.SI 5
+a money array for the value in the area.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method creates a money array from a certain value in a particular
+money area. A money array consists of ({ type, number }) pairs in an
+array.   ie: ({ "brass", 12, "copper", 24 }).
+.EP
+
+.SH Example 1
+.SI 5
+
+place = query_property("place");
+if (!place) {
+     place = "default";
+}
+mon_array = create_money_array( 1000, place);
+.EI
+
+.SH See also
+.SP 5 5
+money_value_string()
+
+.EP
+

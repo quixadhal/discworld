@@ -1,0 +1,42 @@
+.DT
+add_transaction
+Disk World creator help
+add_transaction
+
+.SH Name
+.SP 5 5
+add_transaction -  This method adds in transaction into the transaction list.
+.EP
+
+.SH Syntax
+.SI 5
+void add_transaction(string person,
+object * objects,
+int type,
+int amount,
+string name_cat,
+mixed extra)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^person%^RESET%^ - the person doing the thing
+%^BOLD%^objects%^RESET%^ - the string name of the objects
+%^BOLD%^type%^RESET%^ - the type of the transaction
+%^BOLD%^amount%^RESET%^ - the cost of the transaction
+%^BOLD%^name_cat%^RESET%^ - the name/category of the item
+%^BOLD%^extra%^RESET%^ - anything extra about the transaction
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/player_craft_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds in transaction into the transaction list.
+.EP
+

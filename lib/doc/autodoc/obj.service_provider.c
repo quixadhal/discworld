@@ -1,6 +1,6 @@
 .DT
 service_provider.c
-DW_wibble autodoc help
+Disk World autodoc help
 service_provider.c
 
 .SH Description
@@ -27,7 +27,7 @@ This class inherits the following classes /obj/monster.
 
 .SH Includes
 .SP 5 5
-This class includes the following files /include/armoury.h, /include/shops/bank.h, /include/money.h and /include/move_failures.h.
+This class includes the following files /include/move_failures.h, /include/shops/bank.h, /include/armoury.h and /include/money.h.
 .EP
 
 .SH Public Functions

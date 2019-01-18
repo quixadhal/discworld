@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["do_force_on_me":({({"nomask","int",}),({({"string",}),"str",}),(["main":({"This is the method called to do the actual force.",}),"see":({"do_force()",}),"param":({"str the string to force us to do",}),]),}),"force_commands":({({"void",}),({}),(["main":({"These are the commands which will allow people to force others.",}),"see":({"no_force()","do_force()",}),]),}),])
+protected_functions (["no_force":({({"int",}),({({"string",}),"str",}),(["main":({"This method is used to set the ability to let yourself be forced on andoff.",}),"see":({"force_commands()",}),"param":({"str the string which is on, off or 0",}),]),}),"do_force":({({"int",}),({({"object","*",}),"obs",({"string",}),"str",}),(["main":({"This is the function which forces another player to do something.",}),"see":({"do_force_on_me()","force_commands()",}),]),}),])
+inherits ([])
+main_docs (["main":({"This file contains the code to handle forcing.  The method used will be to ask the object todo the command.  While this is similar to the original method of doing thisit will be used to be more in the style of asking things to do things,rather than the making things do things without asking them first.",}),"author":({"Furball",}),])
+define_docs (["ILLEGAL_FORCE":([]),"FORCE_COST":([]),])
+includes (["/include/player.h":1522061544,"/include/playtesters.h":1522061544,])
+class_docs ([])
+file_name "/std/living/force.c"
+last_changed 1522061544

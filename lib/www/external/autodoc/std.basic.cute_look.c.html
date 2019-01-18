@@ -1,0 +1,91 @@
+<html><head><title>File cute_look.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/cute_look.c</h2>
+
+This object handles all the inventory listing for rooms, when long() is 
+called.
+It should convert like this: ({ /w/terano/womble#1234, /std/object#1324, 
+/global/creator#2523 }) into "Lady Midnite is standing here.\nA key and a 
+womble are floating happily.\n"
+<p>Written by Lynscar<hr><h2>Includes</h2>
+This class includes the following files <a href="include.position.h.html">/include/position.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#ignore_livings_in_inventory"><b>ignore_livings_in_inventory</b></a>()<dd>
+Returns the ignore_living flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#list_contents"><b>list_contents</b></a>(string)<dd>
+This method prints out the contents of the object matching.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_contents"><b>query_contents</b></a>(string, object *, int)<dd>
+This method returns a string contents of description of the container.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_ignore_livings_in_inventory"><b>set_ignore_livings_in_inventory</b></a>(int)<dd>
+Sets the ignore_living flag.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="ignore_livings_in_inventory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>ignore_livings_in_inventory</b></a><pre>
+int ignore_livings_in_inventory()
+</pre><dd>
+Returns the ignore_living flag.  If livings are ignored, they are 
+displayed the same way as non-livings, ie: by short alone.  If they are 
+not ignored, livings are displayed on a separate line and show their
+positions. NB: passing a value to the 'ignore_livings' parameter of 
+query_contents overrides the ignore_living flag.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if livings are ignored, 0 if not.
+<dt><b>See also:</b>
+<dd>set_ignore_livings_in_inventory.c and query_contents
+.c</dl>
+
+<dt><a name="list_contents">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>list_contents</b></a><pre>
+void list_contents(string words)
+</pre><dd>
+This method prints out the contents of the object matching.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the string to match
+
+</dl>
+
+<dt><a name="query_contents">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_contents</b></a><pre>
+varargs string query_contents(string start,
+object * things,
+int ignore_living)
+</pre><dd>
+This method returns a string contents of description of the container.
+NB: this_player() is _not_ included in the array if (s)he is present.
+The ignore_living flag tells us if we should process living
+objects as different or not.  If we do not process them as
+different (as you do in room descriptions), then this flag should
+be 0.  This is so that living objects can be kept an an
+inventory of a player without stuff it up.  ie: Pets.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>start - the start message before the contents
+<dd>things - the things to give the message for
+<dd>ignore_living - treat livings differently
+<dt><b>Returns:</b>
+<dd>a string contents description
+
+</dl>
+
+<dt><a name="set_ignore_livings_in_inventory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_ignore_livings_in_inventory</b></a><pre>
+void set_ignore_livings_in_inventory(int ignore)
+</pre><dd>
+Sets the ignore_living flag.  Default is 1.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>1 - to ignore livings, 0 not to
+<dt><b>See also:</b>
+<dd>query_contents.c and ignore_livings_in_inventory
+.c</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 19:55:48 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

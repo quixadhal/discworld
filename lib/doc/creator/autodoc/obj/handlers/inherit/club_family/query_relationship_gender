@@ -1,0 +1,41 @@
+.DT
+query_relationship_gender
+Disk World creator help
+query_relationship_gender
+
+.SH Name
+.SP 5 5
+query_relationship_gender -  This method returns the genderised version of the relationship.
+.EP
+
+.SH Syntax
+.SI 5
+string query_relationship_gender(string relationship,
+int female,
+string region)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - relationship the relation to get the gender of
+%^BOLD%^female%^RESET%^ - 0 for male, 1 for female
+%^BOLD%^region%^RESET%^ - the region the relation is in
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_family.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the genderised version of the relationship.
+.EP
+
+.SH See also
+.SP 5 5
+query_all_relationships(), query_ungendered_relationship(), add_gender_relationships(), query_all_relationships()
+
+.EP
+

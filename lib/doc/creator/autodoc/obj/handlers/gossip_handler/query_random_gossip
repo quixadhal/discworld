@@ -1,0 +1,34 @@
+.DT
+query_random_gossip
+Disk World creator help
+query_random_gossip
+
+.SH Name
+.SP 5 5
+query_random_gossip -  Returns a random piece of gossip.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_random_gossip()
+.EI
+
+.SH Returns
+.SI 5
+a two element array containing the gossip
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/gossip_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Returns a random piece of gossip.  Finds a random bit of juicy
+gossip and returns it.  The first element of the returned
+array is the person who said the gossip and the second bit is
+what they said.
+.EP
+

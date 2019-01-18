@@ -1,0 +1,173 @@
+<html><head><title>File trap.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/trap.c</h2>
+This is a basic trap system for adding traps to container type objects (or
+anything that uses /std/basic/close_lock.
+
+To setup the trap use setup_trap(). Functions are available to find out
+information about a trap on an object.
+
+If you wish to create a more advanced trap you can use the set_lock_trap and
+set_open_trap functions in /std/basic/close_lock.
+<p><b>See also:</b><br><a href="std.basic.close_lock.c.html">/std/basic/close_lock.c</a> and setup_trap
+.c<p>Written by ceres<hr><h2>Includes</h2>
+This class includes the following files <a href="include.tasks.h.html">/include/tasks.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_trap_armed"><b>query_trap_armed</b></a>()<dd>
+Get whether the trap is armed or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_trap_data"><b>query_trap_data</b></a>()<dd>
+Get data on the basic lock trap.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_trap_description"><b>query_trap_description</b></a>()<dd>
+Get the trap description text.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_trap_difficulty"><b>query_trap_difficulty</b></a>()<dd>
+Find out the difficulty of this trap.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_trap_effect"><b>query_trap_effect</b></a>()<dd>
+Get the trap effects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_trap_message"><b>query_trap_message</b></a>()<dd>
+Get the trap trigger messages
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_trap_trigger"><b>query_trap_trigger</b></a>()<dd>
+Get the trigger condition for this trap.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_trap_armed"><b>set_trap_armed</b></a>(int)<dd>
+Set the trap as armed or disarmed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_trap"><b>setup_trap</b></a>(int, string, string, mixed, mixed)<dd>
+This sets up a basic trap on a lock.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_trap_armed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_trap_armed</b></a><pre>
+int query_trap_armed()
+</pre><dd>
+Get whether the trap is armed or not.
+<p>
+
+<dt><a name="query_trap_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_trap_data</b></a><pre>
+mixed * query_trap_data()
+</pre><dd>
+Get data on the basic lock trap. Data is returned as a mixed array of
+stuff. This is really only used for the autoload. :)
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>mixed array of trap data.
+
+</dl>
+
+<dt><a name="query_trap_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_trap_description</b></a><pre>
+string query_trap_description()
+</pre><dd>
+Get the trap description text.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>string description of the trap.
+
+</dl>
+
+<dt><a name="query_trap_difficulty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_trap_difficulty</b></a><pre>
+int query_trap_difficulty()
+</pre><dd>
+Find out the difficulty of this trap.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>int difficulty
+
+</dl>
+
+<dt><a name="query_trap_effect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_trap_effect</b></a><pre>
+mixed query_trap_effect()
+</pre><dd>
+Get the trap effects.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>mixed either an int (for the damage) or a mixed variable for
+  the effect to add to the triggerer.
+
+</dl>
+
+<dt><a name="query_trap_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_trap_message</b></a><pre>
+mixed query_trap_message()
+</pre><dd>
+Get the trap trigger messages
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>mixed a string or array of messages
+
+</dl>
+
+<dt><a name="query_trap_trigger">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_trap_trigger</b></a><pre>
+string query_trap_trigger()
+</pre><dd>
+Get the trigger condition for this trap.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>string the trigger condition.
+
+</dl>
+
+<dt><a name="set_trap_armed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_trap_armed</b></a><pre>
+void set_trap_armed(int i)
+</pre><dd>
+Set the trap as armed or disarmed.
+<p>
+
+<dt><a name="setup_trap">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_trap</b></a><pre>
+void setup_trap(int difficulty,
+string trigger,
+string description,
+mixed message,
+mixed effect)
+</pre><dd>
+This sets up a basic trap on a lock.  The trap will be triggered when
+someone locks/unlocks/picks the lock (depending on trigger). If
+triggered the message will be displayed and the effect will be added
+to the player.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>difficulty - skill bonus needed to avoid triggering the trap
+<dd>trigger - "unlock", "pick, "open",  for which activities should
+trigger the trap.
+<dd>description - a description of the trap for someone who looks at
+  it.
+<dd>message - The message to be displayed to the player. If it's an array
+the first index will be printed to the player the second
+to the room.
+<dd>effect - the effect to be added to the trigerer. If the effect is an
+int the players hps will be reduced by that amount. If it is
+a string that effect will be added to the player, if it's an
+array the first index will be treated as the effect the rest
+as parameters to the effect.
+
+<dt><b>Example:</b>
+<dd><pre>setup_trap(300, "pick",
+           "Hidden inside the lock is a small ampule which, if touched by "
+           "an unwary tool would trigger a puff of poisonous gas.",
+           ({"A small cloud of gas puffs out of the safe.\n",
+               "A small cloud of gas puffs out of the safe.\n"}),
+           ({"/std/effects/poisons/poison_gas", 600}));
+</pre></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 22:58:10 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

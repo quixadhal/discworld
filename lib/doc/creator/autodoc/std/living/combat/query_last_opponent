@@ -1,0 +1,35 @@
+.DT
+query_last_opponent
+Disk World creator help
+query_last_opponent
+
+.SH Name
+.SP 5 5
+query_last_opponent -  This method returns the last known opponent we attacked or defended against.
+.EP
+
+.SH Syntax
+.SI 5
+object query_last_opponent()
+.EI
+
+.SH Returns
+.SI 5
+object the opponent.
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the last known opponent we attacked or defended
+against.  It is kept as up to date as the system can manage and so will
+include anyone who is currently attacking us or who we are currently
+attacking.
+
+.EP
+

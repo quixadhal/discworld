@@ -1,0 +1,45 @@
+<html><head><title>File newbie_junk.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/newbie_junk.c</h2>
+Handles the new player stuff and the login gifts.
+<p><b>See also:</b><br><a href="global.player.c.html">/global/player.c</a><p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.priest.h.html">/include/priest.h</a>, <a href="include.config.h.html">/include/config.h</a> and <a href="include.armoury.h.html">/include/armoury.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#give_junk"><b>give_junk</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#logged_on_times"><b>logged_on_times</b></a>(int)<dd>
+Gives out the login gifts and anything else that should be done on
+a certain login number.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_player"><b>start_player</b></a>(object)<dd>
+This method is called when a player first starts on the mud.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="give_junk">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>give_junk</b></a><pre>
+void give_junk(object pl)
+</pre>
+<dt><a name="logged_on_times">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>logged_on_times</b></a><pre>
+void logged_on_times(int num)
+</pre><dd>
+Gives out the login gifts and anything else that should be done on
+a certain login number.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the number of logins
+
+</dl>
+
+<dt><a name="start_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_player</b></a><pre>
+void start_player(object pl)
+</pre><dd>
+This method is called when a player first starts on the mud.  It gives
+out all of the newbiew equipment and stuff.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 02:00:28 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

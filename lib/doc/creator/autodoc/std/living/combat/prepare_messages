@@ -1,0 +1,42 @@
+.DT
+prepare_messages
+Disk World creator help
+prepare_messages
+
+.SH Name
+.SP 5 5
+prepare_messages -  Prepare the result messages.
+.EP
+
+.SH Syntax
+.SI 5
+class attack prepare_messages(class attack att)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^class%^RESET%^ - attack
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Prepare the result messages.
+
+This method prepares the attack and defense messages setting up the 5
+element arrays of att_mess & def_mess. The elements are as follows:
+0 - the attacker, 1 - the opponent, 2 - everyone else, 3 - the defender
+4 - the person hit
+
+PRE: The attack has been done and the amount of damage done and stopped
+has been calculated.
+POST: The 5 element att_mess & def_mess arrays are populated.
+
+.EP
+

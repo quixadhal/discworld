@@ -1,0 +1,74 @@
+.DT
+dates.h
+Disk World autodoc help
+dates.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^APRIL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^AUGUST%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^DECEMBER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EMBER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^FEBRUARY%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^GRUNE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^HOGSWATCH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ICK%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^JUNE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MARCH%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^MAY%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^OFFLE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SEKTOBER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SEKTOBERFOOL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SMALLGODS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SOULCAKE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SPUNE%^RESET%^
+.EI
+

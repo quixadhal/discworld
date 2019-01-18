@@ -3,8 +3,8 @@
 This file contains all the information relevant to creating an
 npc (or monster).<p>Written by Pinkfish
 <hr><h2>Inherits</h2>
-This class inherits the following classes <a href="global.guild-race.c.html">/global/guild-race.c</a>, <a href="global.events.c.html">/global/events.c</a>, <a href="std.living.mon_actions.c.html">/std/living/mon_actions.c</a>, <a href="std.living.response_mon.c.html">/std/living/response_mon.c</a> and <a href="std.living.living.c.html">/std/living/living.c</a><hr><h2>Includes</h2>
-This class includes the following files <a href="include.route.h.html">/include/route.h</a>, <a href="include.playtesters.h.html">/include/playtesters.h</a>, <a href="include.skills.h.html">/include/skills.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.top_ten_tables.h.html">/include/top_ten_tables.h</a>, <a href="include.map.h.html">/include/map.h</a>, <a href="include.combat.h.html">/include/combat.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.wander.h.html">/include/wander.h</a>, <a href="include.monster.h.html">/include/monster.h</a>, <a href="include.living.h.html">/include/living.h</a> and <a href="include.config.h.html">/include/config.h</a><hr><h2>Method index</h2>
+This class inherits the following classes <a href="std.living.living.c.html">/std/living/living.c</a>, <a href="global.guild-race.c.html">/global/guild-race.c</a>, <a href="std.living.mon_actions.c.html">/std/living/mon_actions.c</a>, <a href="std.living.response_mon.c.html">/std/living/response_mon.c</a> and <a href="global.events.c.html">/global/events.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.combat.h.html">/include/combat.h</a>, <a href="include.map.h.html">/include/map.h</a>, <a href="include.wander.h.html">/include/wander.h</a>, <a href="include.top_ten_tables.h.html">/include/top_ten_tables.h</a>, <a href="include.config.h.html">/include/config.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.monster.h.html">/include/monster.h</a>, <a href="include.route.h.html">/include/route.h</a>, <a href="include.skills.h.html">/include/skills.h</a>, <a href="include.living.h.html">/include/living.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
 <dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#add_achat_string"><b>add_achat_string</b></a>(mixed, mixed)<dd>
 This method adds a single chat string into the current list of
@@ -88,12 +88,6 @@ This method does a combat action.
 <a href="#drunk_check"><b>drunk_check</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#event_fight_in_progress"><b>event_fight_in_progress</b></a>(object, object)<dd>
 This event is called when a fight is in progress.
-<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
-<a href="#event_npc_ritual_casting"><b>event_npc_ritual_casting</b></a>(object, object, object *, class spell_argument)<dd>
-This is the event called when a ritual is being cast.
-<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
-<a href="#event_npc_spell_casting"><b>event_npc_spell_casting</b></a>(object, object, object *, class spell_argument)<dd>
-This is the event called when a spell is being cast.
 <dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#expand_mon_string"><b>expand_mon_string</b></a>(mixed)<dd>
 This method executes the string passed in.
@@ -346,7 +340,7 @@ These are functions that everyone can access.<p><dl>
 .<dt><a name="add_achat_string">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_achat_string</b></a><pre>
 void add_achat_string(mixed weight,
-                      mixed chat)
+mixed chat)
 </pre><dd>
 This method adds a single chat string into the current list of
 attack message chat strings.  See load_chat() for a longer description of
@@ -362,7 +356,7 @@ the chat string.<p>
 <dt><a name="add_chat_string">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_chat_string</b></a><pre>
 void add_chat_string(mixed weight,
-                     mixed chat)
+mixed chat)
 </pre><dd>
 This method adds a single chat string into the current list of
 chat strings.  See load_chat() for a longer description of
@@ -378,8 +372,8 @@ the chat string.<p>
 <dt><a name="add_combat_action">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_combat_action</b></a><pre>
 void add_combat_action(int chance,
-                       string name,
-                       mixed action)
+string name,
+mixed action)
 </pre><dd>
 This method adds a combat action to the npc.  This is an action which
 has a chance of occuring during combat.  The name is an identifier
@@ -453,9 +447,9 @@ will be added as a move zone.<p>
 <dt><a name="add_spell_action">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_spell_action</b></a><pre>
 void add_spell_action(string spell_object,
-                      int chance,
-                      string name,
-                      mixed action)
+int chance,
+string name,
+mixed action)
 </pre><dd>
 This method adds an action to the npc that will happen if a specified
 spell is cast.  This is an action which
@@ -484,8 +478,8 @@ the npc which the effect is being called from.<p>
 <dt><a name="attack_permission">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>attack_permission</b></a><pre>
 int attack_permission(object ob1,
-                      object ob2,
-                      string stringy)
+object ob2,
+string stringy)
 </pre><dd>
 
 attack_permission function, added for use by the allow_attack simul.<p>
@@ -506,8 +500,8 @@ as make them immune to theft and magic (as an example)
 <dt><a name="basic_setup">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>basic_setup</b></a><pre>
 void basic_setup(string race,
-                 string guild,
-                 int level)
+string guild,
+int level)
 </pre><dd>
 This method sets up the basic abilities and race of the critter.  It
 is equivalent to calling set_race(), set_guild(), and then set_level()
@@ -546,7 +540,7 @@ int cleaning_room()
 <dt><a name="combat_actions_call_back">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>combat_actions_call_back</b></a><pre>
 void combat_actions_call_back(object player,
-                              object target)
+object target)
 </pre><dd>
 This is the call back from the combat effect to do something
 wonderful and wild.<p>
@@ -574,7 +568,7 @@ input needs no further parsing (ie the command is handled)
 <dt><a name="delay_command">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delay_command</b></a><pre>
 int delay_command(string words,
-                  int interval)
+int interval)
 </pre><dd>
 This method allows you to control the npc and get it to do
 actions where they are queued as for players.   The command
@@ -613,8 +607,8 @@ new commands are added there will be no effect.<p>
 <dt><a name="do_combat_action">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_combat_action</b></a><pre>
 void do_combat_action(object player,
-                      object target,
-                      mixed action)
+object target,
+mixed action)
 </pre><dd>
 This method does a combat action.<p>
 <dd><dl>
@@ -698,9 +692,9 @@ is following.<p>
 <dt><a name="do_spell_action">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_spell_action</b></a><pre>
 void do_spell_action(object caster,
-                     object * targets,
-                     mixed action,
-                     mixed args)
+object * targets,
+mixed action,
+mixed args)
 </pre><dd>
 This method does a combat action.<p>
 <dd><dl>
@@ -719,7 +713,7 @@ int drunk_check(string str)
 <dt><a name="event_fight_in_progress">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_fight_in_progress</b></a><pre>
 void event_fight_in_progress(object me,
-                             object him)
+object him)
 </pre><dd>
 This event is called when a fight is in progress.  It will
 be used for things like joining into currently running
@@ -728,40 +722,6 @@ fights and initiating combat with spell casters.<p>
 <dt><b>Parameters:</b>
 <dd>me - the person initiating the attack
 <dd>him - the person being attacked
-
-</dl>
-
-<dt><a name="event_npc_ritual_casting">
-<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_npc_ritual_casting</b></a><pre>
-void event_npc_ritual_casting(object ritual,
-                              object caster,
-                              object * targets,
-                              class spell_argument args)
-</pre><dd>
-This is the event called when a ritual is being cast.<p>
-<dd><dl>
-<dt><b>Parameters:</b>
-<dd>spell_ob - the ritual
-<dd>caster - the caster of the ritual
-<dd>targets - the targets of the ritual
-<dd>args - the ritual arguements
-
-</dl>
-
-<dt><a name="event_npc_spell_casting">
-<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_npc_spell_casting</b></a><pre>
-void event_npc_spell_casting(object spell,
-                             object caster,
-                             object * targets,
-                             class spell_argument args)
-</pre><dd>
-This is the event called when a spell is being cast.<p>
-<dd><dl>
-<dt><b>Parameters:</b>
-<dd>spell_ob - the spell object
-<dd>caster - the caster of the spell
-<dd>targets - the targets of the spell
-<dd>args - the spell arguements
 
 </dl>
 
@@ -799,7 +759,7 @@ this_object()->bing("fred", "chicken");
 <dt><a name="expand_string">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>expand_string</b></a><pre>
 string expand_string(string in_str,
-                     object on)
+object on)
 </pre><dd>
 This method is used to expand the message strings used in the
 npc messages.  It is used for chat strings and such things like
@@ -868,8 +828,8 @@ array.<p>
 <dt><a name="give_money">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>give_money</b></a><pre>
 int give_money(int base,
-               int rand,
-               string type)
+int rand,
+string type)
 </pre><dd>
 This method is used to give some startup money to the npc.<p>
 <dd><dl>
@@ -890,7 +850,7 @@ ob->give_money(10, 10, "royal");</pre></dl>
 <dt><a name="init_command">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_command</b></a><pre>
 varargs void init_command(string str,
-                          int tim)
+int tim)
 </pre><dd>
 This method allows you submit delayed commands to the npc
 via a call_out.<p>
@@ -902,7 +862,7 @@ via a call_out.<p>
 <dt><a name="init_dynamic_arg">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_dynamic_arg</b></a><pre>
 void init_dynamic_arg(mapping args,
-                      object ob)
+object ob)
 </pre>
 <dt><a name="init_equip">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_equip</b></a><pre>
@@ -922,7 +882,7 @@ void init_static_arg(mapping args)
 <dt><a name="load_a_chat">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_a_chat</b></a><pre>
 void load_a_chat(int chance,
-                 mixed * c_s)
+mixed * c_s)
 </pre><dd>
 This method loads up the set of chat strings to use while in combat.<p>
 <dd><dl>
@@ -936,7 +896,7 @@ This method loads up the set of chat strings to use while in combat.<p>
 <dt><a name="load_chat">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_chat</b></a><pre>
 void load_chat(int chance,
-               mixed * c_s)
+mixed * c_s)
 </pre><dd>
 This method loads up the chat strings for the npc.  This will be
 an array containing pairs of elements, the first pair is the
@@ -988,7 +948,7 @@ load_chat(100,
 <dt><a name="move_me_to">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move_me_to</b></a><pre>
 varargs void move_me_to(string dest,
-                        int delay)
+int delay)
 </pre><dd>
 This method will move the npc to the specified destination.  The
 npc will walk from where they currently are to the destination using
@@ -1409,7 +1369,7 @@ int query_virtual_move()
 <dt><a name="queue_command">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>queue_command</b></a><pre>
 varargs int queue_command(string words,
-                          int interval)
+int interval)
 </pre><dd>
 This method allows you to control the npc and get it to do
 actions where they are queued as for players.  If there are no
@@ -1436,7 +1396,7 @@ and 13 seconds (10+3) after that it gets an apple.
 <dt><a name="rand_num">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rand_num</b></a><pre>
 int rand_num(int no,
-             int type)
+int type)
 </pre><dd>
 This method generates a random number.  It used to setup the random
 stats.<p>
@@ -1769,7 +1729,7 @@ the results will be unexpected.<p>
 <dt><a name="set_move_after">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_move_after</b></a><pre>
 void set_move_after(int after,
-                    int rand)
+int rand)
 </pre><dd>
 This method sets the speed at which the npc will randomly
 wander around.  The npc will wander at the speed:<pre>
@@ -1838,7 +1798,7 @@ by /std/race.c when set_level() is called.<p>
 <dt><a name="set_random_stats">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_random_stats</b></a><pre>
 void set_random_stats(int no,
-                      int type)
+int type)
 </pre><dd>
 This method sets the stats for the npc to some exciting random
 values.<p>
@@ -1853,9 +1813,9 @@ values.<p>
 <dt><a name="set_throw_out">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_throw_out</b></a><pre>
 void set_throw_out(int hps,
-                   int chance,
-                   string their_mess,
-                   string everyone_mess)
+int chance,
+string their_mess,
+string everyone_mess)
 </pre><dd>
 This method is used to determine when to throw people out of a
 room.  This is what detritus uses to throw people out of the
@@ -1907,7 +1867,7 @@ at all.<p>
 <dt><a name="setup_nationality">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_nationality</b></a><pre>
 void setup_nationality(string nationality,
-                       string region)
+string region)
 </pre><dd>
 This method sets up a nationality and sets up a region in the
 nationality for the npc.<p>
@@ -1941,8 +1901,8 @@ These are functions that only objects inheriting the class can access.<p>
 <dt><a name="got_the_route">
 <img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>got_the_route</b></a><pre>
 void got_the_route(string * route,
-                   int delay,
-                   string dest)
+int delay,
+string dest)
 </pre><dd>
 This method is called by the move_me_to function after the
 route handler has successfuly discovered the route to follow.<p>
@@ -1957,5 +1917,5 @@ route handler has successfuly discovered the route to follow.<p>
 
 
 <hr>
-<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 14 Oct 2003 18:00:43 GMT<br>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sun, 01 Apr 2018 20:17:18 GMT<br>
 <hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

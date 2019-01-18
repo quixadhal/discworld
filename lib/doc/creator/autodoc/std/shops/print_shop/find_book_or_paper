@@ -1,0 +1,43 @@
+.DT
+find_book_or_paper
+Disk World creator help
+find_book_or_paper
+
+.SH Name
+.SP 5 5
+find_book_or_paper -  This method finds a single book or piece of paper to work on.
+.EP
+
+.SH Syntax
+.SI 5
+object find_book_or_paper(object * obs)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^obs%^RESET%^ - the objects to check for a book or paper
+.EI
+
+.SH Returns
+.SI 5
+the book or paper found.EI
+
+.SH Defined in
+.SI 5
+/std/shops/print_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method finds a single book or piece of paper to work on.  It will
+return 0 if multiple objects are found, or none are found.  It will
+set the error message appropriately.
+.EP
+
+.SH See also
+.SP 5 5
+check_magic_writing()
+
+.EP
+

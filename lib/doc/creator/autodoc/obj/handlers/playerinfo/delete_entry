@@ -1,0 +1,42 @@
+.DT
+delete_entry
+Disk World creator help
+delete_entry
+
+.SH Name
+.SP 5 5
+delete_entry -  Delete an entry from the playerinfo database.
+.EP
+
+.SH Syntax
+.SI 5
+int delete_entry(object creator,
+string player,
+string event,
+int n)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^source%^RESET%^ - the creator or another object trying to add the event
+%^BOLD%^player%^RESET%^ - the name of the player
+%^BOLD%^event%^RESET%^ - the name of the event of the entry being deleted
+%^BOLD%^n%^RESET%^ - the index of the entry being deleted
+.EI
+
+.SH Returns
+.SI 5
+nonzero if the entry was successfully deleted
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playerinfo.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Delete an entry from the playerinfo database.
+.EP
+

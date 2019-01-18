@@ -1,0 +1,43 @@
+.DT
+load_auto_load_to_array
+Disk World creator help
+load_auto_load_to_array
+
+.SH Name
+.SP 5 5
+load_auto_load_to_array -  This method creates all the objects and sets them up now.
+.EP
+
+.SH Syntax
+.SI 5
+object * load_auto_load_to_array(mixed * auto_string,
+object tell_pl)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^auto_string%^RESET%^ - the values specifing the objects to auto load
+%^BOLD%^dest%^RESET%^ - the destination to put the objects in
+%^BOLD%^tell%^RESET%^ - who to tell about errors
+%^BOLD%^finished%^RESET%^ - the function to call when the auto loading has completed
+.EI
+
+.SH Defined in
+.SI 5
+/global/auto_load.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method creates all the objects and sets them up now.  This will
+not move any of the objects anywhere...  Relying on the calling
+code to handle this.
+.EP
+
+.SH See also
+.SP 5 5
+create_auto_load(), load_auto_load()
+
+.EP
+

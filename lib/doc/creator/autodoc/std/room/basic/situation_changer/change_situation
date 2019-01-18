@@ -1,0 +1,68 @@
+.DT
+change_situation
+Disk World creator help
+change_situation
+
+.SH Name
+.SP 5 5
+change_situation -  Starts one or more situations that will end after a specified duration.
+.EP
+
+.SH Syntax
+.SI 5
+varargs mixed change_situation(mixed label,
+mixed duration,
+mixed words,
+mixed handle)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^label%^RESET%^ - (mixed) label of the situation to start 
+ up.  If you pass an array such as ({ "frog1", "frog2" }) for the 
+label then that set of situations are started one at
+a time and the total duration is split evenly between them.
+Label is usually an integer or a string or an array of
+integers and/or strings.
+If the string is a list of labels
+separated by , then multiple situations
+are started using those labels.
+%^BOLD%^duration%^RESET%^ - (int) total time (seconds) the overall situation 
+should last.  You can put an array of durations -- one for each
+situation if the label lists more than one situation and then
+the overall time is the sum of the numbers.
+-1 means indefinite so having any situations after
+something with -1 duration is pointless.
+%^BOLD%^handle%^RESET%^ - is an internal thing that should only be called with 0
+unless you really know what you are doing.
+%^BOLD%^words%^RESET%^ - is a list of replacements for #n in the text OR
+       a random number seed, it is
+       passed to choose_words.
+       eg. ({ "#1", "frog", "#2", "honey" }) or 22
+.EI
+
+.SH Returns
+.SI 5
+call_out that is propogating the changes
+This is useful if you want to be able to kill the whole
+set without disturbing other situations..EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/situation_changer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Starts one or more situations that will end after a
+specified duration.  You can use an array and make
+further situations commence when others end.
+.EP
+
+.SH See also
+.SP 5 5
+start_situation, end_situation, add_situation, choose_words
+
+.EP
+

@@ -1,7 +1,7 @@
 <html><head><title>File fence.c
 </title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Inherits</h2>
 This class inherits the following classes <a href="obj.monster.c.html">/obj/monster.c</a><hr><h2>Includes</h2>
-This class includes the following files <a href="include.money.h.html">/include/money.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.shops.bank.h.html">/include/shops/bank.h</a><hr><h2>Class Index</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Class Index</h2>
 <dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#class_hist_offer"><b>hist_offer</b></a>
 <dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
@@ -51,16 +51,16 @@ string cost_str(int amt)
 <dt><a name="cost_string">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cost_string</b></a><pre>
 string cost_string(object thing,
-                   string place,
-                   object buyer)
+string place,
+object buyer)
 </pre>
 <dt><a name="do_fence">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_fence</b></a><pre>
 int do_fence(object * in_dir,
-             string direct,
-             string indirect,
-             mixed args,
-             string format)
+string direct,
+string indirect,
+mixed args,
+string format)
 </pre>
 <dt><a name="do_no">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_no</b></a><pre>
@@ -73,8 +73,8 @@ void do_yes(object person)
 <dt><a name="event_exit">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_exit</b></a><pre>
 void event_exit(object ob,
-                string message,
-                object to)
+string message,
+object to)
 </pre>
 <dt><a name="give_back">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>give_back</b></a><pre>
@@ -83,7 +83,7 @@ void give_back()
 <dt><a name="judge_value">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>judge_value</b></a><pre>
 int judge_value(object ob,
-                string type)
+string type)
 </pre>
 <dt><a name="query_cont">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cont</b></a><pre>
@@ -92,7 +92,7 @@ object query_cont()
 <dt><a name="query_cost">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cost</b></a><pre>
 int query_cost(object thing,
-               object buyer)
+object buyer)
 </pre>
 <dt><a name="query_current_offer">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_offer</b></a><pre>
@@ -113,7 +113,7 @@ void set_fence_type(string str)
 <dt><a name="whisper">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>whisper</b></a><pre>
 void whisper(object ob,
-             string message)
+string message)
 </pre>
 </dl>
 <hr><h2>Classes</h2>
@@ -122,23 +122,23 @@ These are nice data types for dealing with...  Data!<p>
 <dt><a name="class_hist_offer">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>hist_offer</b></a><pre>
 class hist_offer {
-                   object ob;
-                   int old_offer;
-                   int value;
+object ob;
+int old_offer;
+int value;
 }
 
 </pre>
 <dt><a name="class_offer">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>offer</b></a><pre>
 class offer {
-              object who;
-              int amount;
-              int offer_time;
-              object * objects;
+object who;
+int amount;
+int offer_time;
+object * objects;
 }
 
 </pre>
 </dl>
 <hr>
-<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 14 Oct 2003 16:36:07 GMT<br>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sun, 01 Apr 2018 18:47:56 GMT<br>
 <hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,46 @@
+.DT
+adjust_money
+Disk World creator help
+adjust_money
+
+.SH Name
+.SP 5 5
+adjust_money -  This method adjusts the amount of money the player has.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void adjust_money(mixed amount,
+string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^amount%^RESET%^ - the amount to adjust the money by
+%^BOLD%^type%^RESET%^ - the type of coin to adjust
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/money.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adjusts the amount of money the player has.
+It redirects the call off the the money object and calls the
+adjust_money() function on it.  The amount can be a money
+array, in which case it will adjust the size by the members
+of the money array.
+
+
+If the money object doesn't exist yet, this function might create a new money object. The exception is that if the amount argument is 0, nothing happens.
+.EP
+
+.SH See also
+.SP 5 5
+/obj/money->adjust_money()
+.EP
+

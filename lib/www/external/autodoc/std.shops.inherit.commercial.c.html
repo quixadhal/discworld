@@ -1,0 +1,727 @@
+<html><head><title>File commercial.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/inherit/commercial.c</h2>
+This is the file that is the basic inheritable for commercial
+properties.  The only different between commercial properties and
+player housing properties is that commerical ones can deal with
+signs and commercial furniture.<p>Written by Pinkfish<p>Started Fri Apr 21 13:37:44 PDT 2000
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.shops.inherit.person_expressions.c.html">/std/shops/inherit/person_expressions.c</a>, <a href="std.shops.inherit.expression_util.c.html">/std/shops/inherit/expression_util.c</a> and /std/room/player_housing.c<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.mail.h.html">/include/mail.h</a>, <a href="include.expressions.h.html">/include/expressions.h</a>, <a href="include.money.h.html">/include/money.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_float_withdrawls"><b>float_withdrawls</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_royalty_data"><b>royalty_data</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_weekly_status"><b>weekly_status</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_commercial_thing"><b>add_commercial_thing</b></a>(object)<dd>
+This method adds a commercial thing into the list of current
+commercial things.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_royalty"><b>adjust_royalty</b></a>(string, int)<dd>
+This method adds money into the specified person's royalty
+float.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_add_royalties"><b>do_add_royalties</b></a>(string)<dd>
+Adds money into the float for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_black_list_add"><b>do_black_list_add</b></a>(string)<dd>
+This method adds the person to the black list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_black_list_add_ignore"><b>do_black_list_add_ignore</b></a>()<dd>
+This method adds their ignore list to the black list
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_black_list_remove"><b>do_black_list_remove</b></a>(string)<dd>
+This method removes the person from the black list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_collect"><b>do_collect</b></a>()<dd>
+This method shows the current royalties you can pick up.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_collect_partial_royalties"><b>do_collect_partial_royalties</b></a>(string)<dd>
+This method collects royalities up to a certain amount.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_deposit"><b>do_deposit</b></a>(object *)<dd>
+This method deposits money into the float
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_measure"><b>do_measure</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_name_property"><b>do_name_property</b></a>(string)<dd>
+This method gives the property a name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_pay_entry"><b>do_pay_entry</b></a>()<dd>
+This method lets the person pay for entry into the premesis.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_purchase"><b>do_purchase</b></a>()<dd>
+This methof calls ups the estate person to purchase stuff off.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_remove_sign"><b>do_remove_sign</b></a>()<dd>
+This method removes the sign from the property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_royalties"><b>do_royalties</b></a>()<dd>
+This method shows any royalties that you might be able to collect.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_royalty_list"><b>do_royalty_list</b></a>()<dd>
+This method shows any royalties that you might be able to collect.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_set_sign"><b>do_set_sign</b></a>(object *)<dd>
+This method sets the sign you wish to use for your property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_use_expression"><b>do_use_expression</b></a>(string)<dd>
+This method sets up the expression to use when calculating the
+ability to use the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_use_expression_type"><b>do_use_expression_type</b></a>(string, string)<dd>
+This method sets up the expression to use when calculating the
+ability to use the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_commercial_items"><b>find_commercial_items</b></a>(string)<dd>
+This function will try and track down a specific type of commercial
+object in the current location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_next_commercial_id"><b>find_next_commercial_id</b></a>()<dd>
+This method finds a unique commercial id in the room to use as new
+save file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_open_for"><b>is_open_for</b></a>(string, string)<dd>
+This method is called to try and see if the property is open for
+the specific type of thingy attempted.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#long"><b>long</b></a>(string, int)<dd>
+This gets round the problems with setting the property name before
+we have a save file.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#mail_weekly_status"><b>mail_weekly_status</b></a>()<dd>
+This method will mail out the weekly status for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_commercial_property"><b>query_commercial_property</b></a>()<dd>
+This method returns true for any commercial property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_commercial_things"><b>query_commercial_things</b></a>()<dd>
+This method returns the current list of commercial things in
+the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_commercial_type"><b>query_commercial_type</b></a>()<dd>
+This method returns the commercial type of the property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_float"><b>query_float</b></a>()<dd>
+This method returns the float of the property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language"><b>query_language</b></a>()<dd>
+This method returns the language items in the shop should use if they
+need to use a language.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_main_room"><b>query_main_room</b></a>()<dd>
+This method checks returns the main room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_owners_money"><b>query_owners_money</b></a>()<dd>
+This method figures out how much float the owner has in the current
+property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_parcel_post"><b>query_parcel_post</b></a>()<dd>
+This method tells us the current parcel post used for rejecting items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_property_name"><b>query_property_name</b></a>()<dd>
+This method returns the name of the property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_property_size"><b>query_property_size</b></a>()<dd>
+This method returns the size of the property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_royalty"><b>query_royalty</b></a>(string)<dd>
+This method returns the amount of money in the specified person's
+royalty float.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_dir"><b>query_save_dir</b></a>()<dd>
+This method returns the save directory for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sign_object"><b>query_sign_object</b></a>()<dd>
+This method returns the current sign object for the property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_weekly_status_string"><b>query_weekly_status_string</b></a>()<dd>
+This method returns the string that will be sent to the owners at the
+end of the week.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#register_use_types"><b>register_use_types</b></a>(string *)<dd>
+This registers a set of use types so they can be seen and controlled.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_commercial_thing"><b>remove_commercial_thing</b></a>(object)<dd>
+This method removes a commercil thing from the list of current
+commercial things.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_weekly_status"><b>reset_weekly_status</b></a>()<dd>
+This method resets the weekly status when the stats are mailed out.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_commercial_type"><b>set_commercial_type</b></a>(string)<dd>
+This method sets the commercial type of the property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_language"><b>set_language</b></a>(string)<dd>
+This sets the language items in the shop should be displayed in,
+if a language is required.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_parcel_post"><b>set_parcel_post</b></a>(string)<dd>
+This method sets the parcel post to use for rejecting items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_property_name"><b>set_property_name</b></a>(string)<dd>
+This method sets the name of the property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_property_size"><b>set_property_size</b></a>(int)<dd>
+This method sets the size of the property.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_dir"><b>set_save_dir</b></a>(string)<dd>
+This method sets the save directory for the the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sign_object"><b>set_sign_object</b></a>(object)<dd>
+This method sets the current sign object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#short"><b>short</b></a>()<dd>
+This gets round the problems with setting the property name before
+we have a save file.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_commercial_thing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_commercial_thing</b></a><pre>
+void add_commercial_thing(object ob)
+</pre><dd>
+This method adds a commercial thing into the list of current
+commercial things.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing to add
+
+</dl>
+
+<dt><a name="adjust_royalty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_royalty</b></a><pre>
+void adjust_royalty(string person,
+int amount)
+</pre><dd>
+This method adds money into the specified person's royalty
+float.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to add the royalty to
+<dd>amount - the amount to add
+
+</dl>
+
+<dt><a name="do_add_royalties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_add_royalties</b></a><pre>
+int do_add_royalties(string amount)
+</pre><dd>
+Adds money into the float for the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>amount - the amount to add to the float
+
+</dl>
+
+<dt><a name="do_black_list_add">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_black_list_add</b></a><pre>
+int do_black_list_add(string name)
+</pre><dd>
+This method adds the person to the black list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to add to the black list
+
+</dl>
+
+<dt><a name="do_black_list_add_ignore">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_black_list_add_ignore</b></a><pre>
+int do_black_list_add_ignore()
+</pre><dd>
+This method adds their ignore list to the black list
+<p>
+
+<dt><a name="do_black_list_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_black_list_remove</b></a><pre>
+int do_black_list_remove(string name)
+</pre><dd>
+This method removes the person from the black list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to remove from the black list
+
+</dl>
+
+<dt><a name="do_collect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_collect</b></a><pre>
+int do_collect()
+</pre><dd>
+This method shows the current royalties you can pick up.
+<p>
+
+<dt><a name="do_collect_partial_royalties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_collect_partial_royalties</b></a><pre>
+int do_collect_partial_royalties(string amount)
+</pre><dd>
+This method collects royalities up to a certain amount.  This is
+only usable by the owner of the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>amount - the amount to collect
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_deposit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_deposit</b></a><pre>
+int do_deposit(object * obs)
+</pre><dd>
+This method deposits money into the float<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects which could be money
+
+</dl>
+
+<dt><a name="do_measure">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_measure</b></a><pre>
+int do_measure()
+</pre>
+<dt><a name="do_name_property">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_name_property</b></a><pre>
+int do_name_property(string name)
+</pre><dd>
+This method gives the property a name.
+<p>
+
+<dt><a name="do_pay_entry">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_pay_entry</b></a><pre>
+int do_pay_entry()
+</pre><dd>
+This method lets the person pay for entry into the premesis.
+<p>
+
+<dt><a name="do_purchase">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_purchase</b></a><pre>
+int do_purchase()
+</pre><dd>
+This methof calls ups the estate person to purchase stuff off.
+<p>
+
+<dt><a name="do_remove_sign">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_remove_sign</b></a><pre>
+int do_remove_sign()
+</pre><dd>
+This method removes the sign from the property.
+<p>
+
+<dt><a name="do_royalties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_royalties</b></a><pre>
+int do_royalties()
+</pre><dd>
+This method shows any royalties that you might be able to collect.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on succes, 0 on failure
+
+</dl>
+
+<dt><a name="do_royalty_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_royalty_list</b></a><pre>
+int do_royalty_list()
+</pre><dd>
+This method shows any royalties that you might be able to collect.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on succes, 0 on failure
+
+</dl>
+
+<dt><a name="do_set_sign">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_set_sign</b></a><pre>
+int do_set_sign(object * obs)
+</pre><dd>
+This method sets the sign you wish to use for your property.
+The sign will be displayed outside the property for passer bys.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the sign
+
+</dl>
+
+<dt><a name="do_use_expression">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_use_expression</b></a><pre>
+int do_use_expression(string str)
+</pre><dd>
+This method sets up the expression to use when calculating the
+ability to use the shop.
+<p>
+
+<dt><a name="do_use_expression_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_use_expression_type</b></a><pre>
+int do_use_expression_type(string type,
+string str)
+</pre><dd>
+This method sets up the expression to use when calculating the
+ability to use the shop.
+<p>
+
+<dt><a name="find_commercial_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_commercial_items</b></a><pre>
+object * find_commercial_items(string type)
+</pre><dd>
+This function will try and track down a specific type of commercial
+object in the current location.  It will look into 'partitioned'
+rooms for the item as well.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type to look for
+<dt><b>Returns:</b>
+<dd>the object found
+
+</dl>
+
+<dt><a name="find_next_commercial_id">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_next_commercial_id</b></a><pre>
+int find_next_commercial_id()
+</pre><dd>
+This method finds a unique commercial id in the room to use as new
+save file.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a unique commercial id for the room
+
+</dl>
+
+<dt><a name="is_open_for">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_open_for</b></a><pre>
+int is_open_for(string type,
+string person)
+</pre><dd>
+This method is called to try and see if the property is open for
+the specific type of thingy attempted.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of thing
+
+</dl>
+
+<dt><a name="long">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>long</b></a><pre>
+string long(string word,
+int dark)
+</pre><dd>
+This gets round the problems with setting the property name before
+we have a save file.
+<p>
+
+<dt><a name="query_commercial_property">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_commercial_property</b></a><pre>
+int query_commercial_property()
+</pre><dd>
+This method returns true for any commercial property.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for commercial property
+
+</dl>
+
+<dt><a name="query_commercial_things">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_commercial_things</b></a><pre>
+object * query_commercial_things()
+</pre><dd>
+This method returns the current list of commercial things in
+the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of commercial things
+
+</dl>
+
+<dt><a name="query_commercial_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_commercial_type</b></a><pre>
+string query_commercial_type()
+</pre><dd>
+This method returns the commercial type of the property.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the commercial type of the property
+
+</dl>
+
+<dt><a name="query_float">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_float</b></a><pre>
+int query_float()
+</pre><dd>
+This method returns the float of the property.  The float is the
+owner's current royalty balance.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the float of the property
+
+</dl>
+
+<dt><a name="query_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language</b></a><pre>
+string query_language()
+</pre><dd>
+This method returns the language items in the shop should use if they
+need to use a language.
+<p>
+
+<dt><a name="query_main_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_main_room</b></a><pre>
+object query_main_room()
+</pre><dd>
+This method checks returns the main room.  THis is used when the
+property can have multiple sub-rooms.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the main room
+
+</dl>
+
+<dt><a name="query_owners_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_owners_money</b></a><pre>
+int query_owners_money()
+</pre><dd>
+This method figures out how much float the owner has in the current
+property.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current float
+
+</dl>
+
+<dt><a name="query_parcel_post">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_parcel_post</b></a><pre>
+string query_parcel_post()
+</pre><dd>
+This method tells us the current parcel post used for rejecting items.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current parcel post
+
+</dl>
+
+<dt><a name="query_property_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_property_name</b></a><pre>
+string query_property_name()
+</pre><dd>
+This method returns the name of the property.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the property
+
+</dl>
+
+<dt><a name="query_property_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_property_size</b></a><pre>
+int query_property_size()
+</pre><dd>
+This method returns the size of the property.  The property size ranges
+from 0 (no size) to 100 (big shop).<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the property size
+
+</dl>
+
+<dt><a name="query_royalty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_royalty</b></a><pre>
+int query_royalty(string person)
+</pre><dd>
+This method returns the amount of money in the specified person's
+royalty float.
+<p>
+
+<dt><a name="query_save_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_dir</b></a><pre>
+string query_save_dir()
+</pre><dd>
+This method returns the save directory for the room.  This should be
+used as a reference point for other save stuff.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the save directory
+
+</dl>
+
+<dt><a name="query_sign_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sign_object</b></a><pre>
+object query_sign_object()
+</pre><dd>
+This method returns the current sign object for the property.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current sign object
+
+</dl>
+
+<dt><a name="query_weekly_status_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_weekly_status_string</b></a><pre>
+string query_weekly_status_string()
+</pre><dd>
+This method returns the string that will be sent to the owners at the
+end of the week.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the weekly status
+
+</dl>
+
+<dt><a name="register_use_types">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>register_use_types</b></a><pre>
+void register_use_types(string * types)
+</pre><dd>
+This registers a set of use types so they can be seen and controlled.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>types - the list of types to register
+
+</dl>
+
+<dt><a name="remove_commercial_thing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_commercial_thing</b></a><pre>
+void remove_commercial_thing(object thing)
+</pre><dd>
+This method removes a commercil thing from the list of current
+commercial things.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing to remove
+
+</dl>
+
+<dt><a name="reset_weekly_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_weekly_status</b></a><pre>
+void reset_weekly_status()
+</pre><dd>
+This method resets the weekly status when the stats are mailed out.
+It will also reset all the commercial objects.
+<p>
+
+<dt><a name="set_commercial_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_commercial_type</b></a><pre>
+void set_commercial_type(string name)
+</pre><dd>
+This method sets the commercial type of the property.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the commecial type
+
+</dl>
+
+<dt><a name="set_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_language</b></a><pre>
+void set_language(string language)
+</pre><dd>
+This sets the language items in the shop should be displayed in,
+if a language is required.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>language - the language to use
+
+</dl>
+
+<dt><a name="set_parcel_post">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_parcel_post</b></a><pre>
+void set_parcel_post(string parcel)
+</pre><dd>
+This method sets the parcel post to use for rejecting items.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>parcel - the parcel post office
+
+</dl>
+
+<dt><a name="set_property_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_property_name</b></a><pre>
+void set_property_name(string name)
+</pre><dd>
+This method sets the name of the property.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the property
+
+</dl>
+
+<dt><a name="set_property_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_property_size</b></a><pre>
+void set_property_size(int size)
+</pre><dd>
+This method sets the size of the property.  The property size ranges
+from 0 (no size) to 100 (big shop).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>size - the new size of the property
+
+</dl>
+
+<dt><a name="set_save_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_dir</b></a><pre>
+void set_save_dir(string dir)
+</pre><dd>
+This method sets the save directory for the the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - the directory to save stuff in
+
+</dl>
+
+<dt><a name="set_sign_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sign_object</b></a><pre>
+void set_sign_object(object ob)
+</pre><dd>
+This method sets the current sign object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sign - the new sign object
+
+</dl>
+
+<dt><a name="short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>short</b></a><pre>
+string short()
+</pre><dd>
+This gets round the problems with setting the property name before
+we have a save file.
+<p>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="mail_weekly_status">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>mail_weekly_status</b></a><pre>
+void mail_weekly_status()
+</pre><dd>
+This method will mail out the weekly status for the shop.
+<p>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_float_withdrawls">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>float_withdrawls</b></a><pre>
+class float_withdrawls {
+string person;
+int amount;
+int withdrawl_time;
+}
+
+</pre>
+<dt><a name="class_royalty_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>royalty_data</b></a><pre>
+class royalty_data {
+int value;
+int last_withdrawl;
+}
+
+</pre>
+<dt><a name="class_weekly_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>weekly_status</b></a><pre>
+class weekly_status {
+int total_incoming;
+int total_outgoing;
+class float_withdrawls * withdrawls;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 02:56:51 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

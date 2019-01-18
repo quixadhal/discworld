@@ -1,0 +1,38 @@
+.DT
+enter_exit_mess
+Disk World creator help
+enter_exit_mess
+
+.SH Name
+.SP 5 5
+enter_exit_mess -  This method is called when an object leaves or arrives in the room.
+.EP
+
+.SH Syntax
+.SI 5
+void enter_exit_mess(string mess,
+object thing,
+int going)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^mess%^RESET%^ - the message to print
+%^BOLD%^thing%^RESET%^ - the thing which is leaving/arriving
+%^BOLD%^going%^RESET%^ - if it is going
+
+.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when an object leaves or arrives in
+the room.  It prints out
+the message, well adds it to the queue of printable messages.
+.EP
+

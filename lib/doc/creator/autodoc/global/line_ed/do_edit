@@ -1,0 +1,46 @@
+.DT
+do_edit
+Disk World creator help
+do_edit
+
+.SH Name
+.SP 5 5
+do_edit -  Edit a string.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int do_edit(string str,
+mixed end_f,
+object end_o,
+string fname,
+mixed extra)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the string to edit
+%^BOLD%^end_f%^RESET%^ - the function to call
+%^BOLD%^end_o%^RESET%^ - the object to call it on (defaul: previous_object())
+%^BOLD%^fname%^RESET%^ - a specific filename to edit
+%^BOLD%^extra%^RESET%^ - an array of any parameters you need to carry into the end function
+.EI
+
+.SH Returns
+.SI 5
+0 on failure.
+.EI
+
+.SH Defined in
+.SI 5
+/global/line_ed.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Edit a string.  This will edit the string or file name and then
+call the end function and end object at the end.  It will pas in
+the string if the edit is successful, or 0 if it is not.
+.EP
+

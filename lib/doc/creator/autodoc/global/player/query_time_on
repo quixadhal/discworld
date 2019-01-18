@@ -1,0 +1,34 @@
+.DT
+query_time_on
+Disk World creator help
+query_time_on
+
+.SH Name
+.SP 5 5
+query_time_on -  The amount of time on line.
+.EP
+
+.SH Syntax
+.SI 5
+nomask int query_time_on()
+.EI
+
+.SH Returns
+.SI 5
+the total log on time in seconds (the return value is *negative*)
+.EI
+
+.SH Defined in
+.SI 5
+/global/player.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The amount of time on line.  This is the total amount of time online
+in seconds from when they first started playing.  The return from
+this method is *negative*, you will need to make it positive to use it
+most likely.
+.EP
+

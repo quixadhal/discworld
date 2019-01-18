@@ -1,0 +1,49 @@
+.DT
+add_discussion_item
+Disk World creator help
+add_discussion_item
+
+.SH Name
+.SP 5 5
+add_discussion_item -  This method will add a discussion item to the table to be voted on.
+.EP
+
+.SH Syntax
+.SI 5
+int add_discussion_item(string club,
+int type,
+string added_by,
+string name,
+string info,
+string * choices,
+int time_to_finish,
+mixed extra_data)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club%^RESET%^ - the club the item is being added to
+%^BOLD%^type%^RESET%^ - the type of the discussion item to be added
+%^BOLD%^added_by%^RESET%^ - who added the discussion item
+%^BOLD%^name%^RESET%^ - the name of the discussion item
+%^BOLD%^choices%^RESET%^ - the choices for the discussion item
+%^BOLD%^time_to_finish%^RESET%^ - the amount of time the election has to run
+%^BOLD%^extra_data%^RESET%^ - any optional data associated with the discussion idea
+.EI
+
+.SH Returns
+.SI 5
+1 if successfully added, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_discuss.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will add a discussion item to the table to be voted on.
+.EP
+

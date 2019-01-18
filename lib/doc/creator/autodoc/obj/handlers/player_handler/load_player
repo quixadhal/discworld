@@ -1,0 +1,37 @@
+.DT
+load_player
+Disk World creator help
+load_player
+
+.SH Name
+.SP 5 5
+load_player -  This method will load in the player file.
+.EP
+
+.SH Syntax
+.SI 5
+int load_player(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name to try and read in
+.EI
+
+.SH Returns
+.SI 5
+1 if the player file exists, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/player_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will load in the player file.  It will return 0 if the player
+file either does not exist or the input string is incorrect.
+.EP
+

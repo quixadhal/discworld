@@ -1,0 +1,42 @@
+.DT
+weather_notify
+Disk World creator help
+weather_notify
+
+.SH Name
+.SP 5 5
+weather_notify -  Add a room to the list of rooms to notify about weather.
+.EP
+
+.SH Syntax
+.SI 5
+int weather_notify(object which_room,
+int notifications)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^which_room%^RESET%^ - the room to be notified
+%^BOLD%^notifications%^RESET%^ - a bitmap of notifications
+.EI
+
+.SH Returns
+.SI 5
+success or failure (1 or 0)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/weather.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Add a room to the list of rooms to notify about weather.  Notifications
+are an ORed (|) combination of the #defines in /include/climate.h
+IE: To inform about temperature and rain changes, call
+weather_notify( room, (NOTIFY_TEMPERATURE | NOTIFY_RAIN) );
+
+.EP
+

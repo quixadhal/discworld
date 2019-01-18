@@ -1,0 +1,39 @@
+.DT
+query_cur_term
+Disk World creator help
+query_cur_term
+
+.SH Name
+.SP 5 5
+query_cur_term -  This method returns the current terminal type that is being used.
+.EP
+
+.SH Syntax
+.SI 5
+string query_cur_term()
+.EI
+
+.SH Returns
+.SI 5
+the current terminal type.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current terminal type that is being used.  This
+will be 0 if the terminal name is set to network and no response has
+been gained from the remote site yet.  Otherwise it should be the
+same value as the terminal name.
+.EP
+
+.SH See also
+.SP 5 5
+query_term_name(), set_term_type()
+
+.EP
+

@@ -1,0 +1,46 @@
+.DT
+player_options_control
+Disk World creator help
+player_options_control
+
+.SH Name
+.SP 5 5
+player_options_control -  The options control class.
+.EP
+
+.SH Definition
+.SI 5
+class player_options_control {
+int follow_friends;
+int follow_groups;
+int follow_everyone;
+int lead_behind;
+int mxp_disable;
+mapping extra;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^follow_friends%^RESET%^ - allow the person to follow friends
+%^BOLD%^follow_groups%^RESET%^ - allow the person to follow groups
+%^BOLD%^follow_everyone%^RESET%^ - allow the person to auto follow everyone
+%^BOLD%^lead_behind%^RESET%^ - leads from behind
+%^BOLD%^mxp_toggle%^RESET%^ - the mxp toggle
+%^BOLD%^extra%^RESET%^ - any extra options
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/player.h
+.EI
+
+.SH Description
+.SP 5 5
+
+The options control class.  Deals with all the properties of following
+someone.
+.EP
+

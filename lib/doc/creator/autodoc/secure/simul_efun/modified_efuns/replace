@@ -1,0 +1,54 @@
+.DT
+replace
+Disk World creator help
+replace
+
+.SH Name
+.SP 5 5
+replace -  Replaces all occurances of a set of strings in the input string.
+.EP
+
+.SH Syntax
+.SI 5
+varargs string replace(string str,
+mixed bing,
+string rep)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the string to do the replacement in
+%^BOLD%^bing%^RESET%^ - the search or array argument
+%^BOLD%^rep%^RESET%^ - the replacement string, or null
+
+.EI
+
+.SH Returns
+.SI 5
+the string with all the replacements done
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/modified_efuns.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Replaces all occurances of a set of strings in the input string.  Replaces
+an individual or an array of strings with new values.  If the second
+argument is an array of strings, then the 1st, 3rd, 5th...  elements will
+be the strings to search for and the 2nd, 4th, 6th etc will be the strings
+to replace with.  If three arguments are specified then the second is the string
+to search for, the third the one to replace.
+
+
+Eg:
+.EP
+.SP 5 5
+str = replace(str, ({ "search", "replace", "orange", "apple" });
+
+That will replace all occurances of "search" with "replace" and "orange" with "apple". 
+.EP
+

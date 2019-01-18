@@ -1,0 +1,36 @@
+.DT
+set_not_replaceable
+Disk World creator help
+set_not_replaceable
+
+.SH Name
+.SP 5 5
+set_not_replaceable -  This method sets a property to make the program replaceable.
+.EP
+
+.SH Syntax
+.SI 5
+void set_not_replaceable(int replace)
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets a property to make the program replaceable.  A program
+will only be replaced if there is only a setup() function in the room.
+A reset() or a create() will stop the room from being replace and in
+fact any other function existing in there will stop it from being
+replaced as well.
+.EP
+
+.SH See also
+.SP 5 5
+query_not_replaceable()
+
+.EP
+

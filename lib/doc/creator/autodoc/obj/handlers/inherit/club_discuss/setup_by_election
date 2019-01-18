@@ -1,0 +1,41 @@
+.DT
+setup_by_election
+Disk World creator help
+setup_by_election
+
+.SH Name
+.SP 5 5
+setup_by_election -  This method setups up a by-election for the specified position in the club.
+.EP
+
+.SH Syntax
+.SI 5
+int setup_by_election(string club,
+string position,
+string info)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club%^RESET%^ - the club to make a byelection in
+%^BOLD%^position%^RESET%^ - the position the byelection is for
+%^BOLD%^info%^RESET%^ - the information about the vote
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_discuss.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method setups up a by-election for the specified position in the
+club.
+.EP
+

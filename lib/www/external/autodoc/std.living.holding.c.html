@@ -1,0 +1,155 @@
+<html><head><title>File holding.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/living/holding.c</h2>
+New holding code!
+Because the old stuff wasn't OO enough for me.<p>Written by Pinkfish<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_free_limbs"><b>query_free_limbs</b></a>()<dd>
+This method returns the number of free limbs on the living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_holding"><b>query_holding</b></a>()<dd>
+This method returns the current holding array of the living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_holding_limbs"><b>query_holding_limbs</b></a>(object)<dd>
+This method returns the list of limbs the object is being held in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_limbs"><b>query_limbs</b></a>()<dd>
+This method returns the an array of the names of the limbs 
+on the living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_using_array"><b>query_using_array</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_weapons"><b>query_weapons</b></a>()<dd>
+This method returns the currently held weapons on the living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_hold"><b>set_hold</b></a>(object, int, int)<dd>
+This method sets the object as held.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_unhold"><b>set_unhold</b></a>(object)<dd>
+This method sets the object as unheld.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_free_limbs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_free_limbs</b></a><pre>
+int query_free_limbs()
+</pre><dd>
+This method returns the number of free limbs on the living object.
+A free limb!  Yes, have a couple of free legs, beat the rush!
+Buy now!<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the number of free limbs
+<dt><b>See also:</b>
+<dd><a href="#query_holding">query_holding()</a> and <a href="#query_limbs">query_limbs()
+</a></dl>
+
+<dt><a name="query_holding">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_holding</b></a><pre>
+object * query_holding()
+</pre><dd>
+This method returns the current holding array of the living object.
+This has one element in the array for each object and a 0 is in the
+array if that limb is not holding anything.  The positions correspond
+to the positions returned by the query_limbs() function.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of held objects
+<dt><b>See also:</b>
+<dd><a href="#query_holding">query_holding()</a>, <a href="#query_free_limbs">query_free_limbs()</a> and <a href="#query_weapons">query_weapons()
+</a></dl>
+
+<dt><a name="query_holding_limbs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_holding_limbs</b></a><pre>
+string * query_holding_limbs(object ob)
+</pre><dd>
+This method returns the list of limbs the object is being held in.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to check the limbs for
+<dt><b>Returns:</b>
+<dd>the limbs it is held in
+
+</dl>
+
+<dt><a name="query_limbs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_limbs</b></a><pre>
+string * query_limbs()
+</pre><dd>
+This method returns the an array of the names of the limbs 
+on the living object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of limbs
+
+</dl>
+
+<dt><a name="query_using_array">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_using_array</b></a><pre>
+string * query_using_array()
+</pre>
+<dt><a name="query_weapons">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_weapons</b></a><pre>
+object * query_weapons()
+</pre><dd>
+This method returns the currently held weapons on the living object.
+This is an array of held items which are weapons and can be used
+in combat.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of held weapons
+<dt><b>See also:</b>
+<dd><a href="#query_holding">query_holding()
+</a></dl>
+
+<dt><a name="set_hold">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_hold</b></a><pre>
+int * set_hold(object ob,
+int pos,
+int limbs)
+</pre><dd>
+This method sets the object as held.  It will attempt to hold it starting
+at the given position in the limbs array.
+<p>
+The return array contains the index of the limbs from which the
+item was added, if the array is 0 size then no items were
+added.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to hold
+<dd>pos - the position in the limb array to start holding at
+<dd>limbs - the number of limbs to be used (1 or 2 usually). leave as
+zero for default.
+<dt><b>Returns:</b>
+<dd>a array of limb numbers
+<dt><b>See also:</b>
+<dd><a href="#set_unhold">set_unhold()</a> and <a href="#query_limbs">query_limbs()
+
+Editors Note: I have changed set_hold so that it no longer 
+automatically unholds objects. I am moving that functionality to the
+hold command. If you want your objects to be in a specific limb,
+you have to free it up yourself using set_unhold.
+If you don't care which limbs, you just have to free up enough limbs
+to hold it.
+</a></dl>
+
+<dt><a name="set_unhold">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_unhold</b></a><pre>
+int * set_unhold(object ob)
+</pre><dd>
+This method sets the object as unheld.  It will attempt to remove
+the object from a held limb.
+<p>
+The return array contains the index of the limbs from which the
+item was removed, if the array is 0 size then no items were
+removed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to unhold
+<dt><b>Returns:</b>
+<dd>a array of limb numbers
+<dt><b>See also:</b>
+<dd><a href="#set_hold">set_hold()</a> and <a href="#query_limbs">query_limbs()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 20:41:41 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,33 @@
+.DT
+set_blocking
+Disk World creator help
+set_blocking
+
+.SH Name
+.SP 5 5
+set_blocking -  This method sets the blocking status of the feature.
+.EP
+
+.SH Syntax
+.SI 5
+int set_blocking(int blocking)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^blocking%^RESET%^ - the blocking flag
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/feature_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the blocking status of the feature.  This will only work
+with local features and not distant features.
+.EP
+

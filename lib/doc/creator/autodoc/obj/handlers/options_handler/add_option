@@ -1,0 +1,50 @@
+.DT
+add_option
+Disk World creator help
+add_option
+
+.SH Name
+.SP 5 5
+add_option -  This method adds in an option for the player to be able to set.
+.EP
+
+.SH Syntax
+.SI 5
+int add_option(string name,
+mixed type,
+int cre_only,
+function set_function,
+function query_function,
+string help)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^path%^RESET%^ - the path to the option eg: ({ "output", "look" })
+%^BOLD%^type%^RESET%^ - the type of the option eg: OPTIONS_TYPE_BRIEF
+%^BOLD%^set_function%^RESET%^ - the function to call to set the option
+%^BOLD%^query_function%^RESET%^ - the function to call to query the option
+.EI
+
+.SH Returns
+.SI 5
+1 if successful, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/options_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds in an option for the player to be able to set.
+The set function will be called with two parameters, the value to
+set it to and the variable being set.  The set function must return
+1 if the value was successfuly set.
+
+
+int set_function(variable, value);
+.EP
+

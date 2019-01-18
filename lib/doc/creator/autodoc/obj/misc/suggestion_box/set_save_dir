@@ -1,0 +1,41 @@
+.DT
+set_save_dir
+Disk World creator help
+set_save_dir
+
+.SH Name
+.SP 5 5
+set_save_dir -  This function gives the suggestion box a directory to write its  suggestions to.
+.EP
+
+.SH Syntax
+.SI 5
+void set_save_dir(string dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^string%^RESET%^ - dir The path of the directory to write suggestions to 
+it had better not end in / or you will be sorry.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/misc/suggestion_box.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function gives the suggestion box a directory to write its 
+suggestions to. Either a save file *or* a save directory is required.
+or your suggestions will not save.  If both are set then the save file
+will be used.
+.EP
+
+.SH See also
+.SP 5 5
+set_save_file()
+
+.EP
+

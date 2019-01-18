@@ -1,0 +1,41 @@
+.DT
+add_random_chat
+Disk World creator help
+add_random_chat
+
+.SH Name
+.SP 5 5
+add_random_chat -  This method is to add to the list of random chats that can be added to specific room types.
+.EP
+
+.SH Syntax
+.SI 5
+void add_random_chat(string types,
+string * chats)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^types%^RESET%^ - the string of ASCII character type(s) that this desc could apply to
+%^BOLD%^chats%^RESET%^ - an array of chats to add. Usual add_chat format.
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is to add to the list of random chats that can be added to
+specific room types. A specific random sequence is used so that the randoms
+won't vary over time.
+.EP
+
+.SH See also
+.SP 5 5
+set_random_desc_limit, set_random_chat_limit, add_random_chat
+
+.EP
+

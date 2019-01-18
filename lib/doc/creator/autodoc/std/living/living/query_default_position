@@ -1,0 +1,43 @@
+.DT
+query_default_position
+Disk World creator help
+query_default_position
+
+.SH Name
+.SP 5 5
+query_default_position -  This method sets the default position of the object.
+.EP
+
+.SH Syntax
+.SI 5
+string query_default_position()
+.EI
+
+.SH Returns
+.SI 5
+the default position.EI
+
+.SH Defined in
+.SI 5
+/std/living/living.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the default position of the object.  This is used to
+allow things to default to some other exciting off beat and froopy
+default position.  The value returned by this is the command code
+used to put the object back into the default position or an
+array which contains three or one elements, the first is the string
+to use as the position, the second and third (if they exist) are
+the string to tell the person when changing and the string to tell
+everyone else when changing position.
+.EP
+
+.SH See also
+.SP 5 5
+set_default_position(), return_to_default_position(), set_always_use_default_position()
+
+.EP
+

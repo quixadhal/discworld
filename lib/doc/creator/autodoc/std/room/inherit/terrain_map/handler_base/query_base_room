@@ -1,0 +1,41 @@
+.DT
+query_base_room
+Disk World creator help
+query_base_room
+
+.SH Name
+.SP 5 5
+query_base_room -  This returns the destination room in the given directoin, initially it tries for a normal exit type.
+.EP
+
+.SH Syntax
+.SI 5
+string query_base_room(int x,
+int y,
+int z,
+int map_room)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x%^RESET%^ - the x co-ordinate
+%^BOLD%^y%^RESET%^ - the y co-ordinate
+%^BOLD%^z%^RESET%^ - the z co-ordinate
+%^BOLD%^base%^RESET%^ - the base path of the parent terrain handler
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This returns the destination room in the given directoin, initially
+it tries for a normal exit type.  If that fails, it tries for a climbing
+exit type.  A climbing exit type is one that moves up or down from the
+current z height.
+.EP
+

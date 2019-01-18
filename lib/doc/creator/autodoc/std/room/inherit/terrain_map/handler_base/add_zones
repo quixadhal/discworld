@@ -1,0 +1,40 @@
+.DT
+add_zones
+Disk World creator help
+add_zones
+
+.SH Name
+.SP 5 5
+add_zones -  This method is used to map ASCII characters used in the zone map onto one or more actual room zones.
+.EP
+
+.SH Syntax
+.SI 5
+void add_zones(string type,
+string * zone_names)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the ASCII character used in the zone map
+%^BOLD%^zones%^RESET%^ - a zone name or an array of zone names
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to map ASCII characters used in the zone map onto
+one or more actual room zones.
+.EP
+
+.SH Example 1
+.SI 5
+  add_zones("*", ({ "zone2", "zone1" }));
+
+.EI
+

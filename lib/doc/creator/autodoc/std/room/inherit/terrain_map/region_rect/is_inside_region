@@ -1,0 +1,43 @@
+.DT
+is_inside_region
+Disk World creator help
+is_inside_region
+
+.SH Name
+.SP 5 5
+is_inside_region -  Find out if this rectangle is inside the region, given the specified range at which it can be seen.
+.EP
+
+.SH Syntax
+.SI 5
+int is_inside_region(int x1,
+int y1,
+int x2,
+int y2,
+int range)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x1%^RESET%^ - the top x
+%^BOLD%^y1%^RESET%^ - the top y
+%^BOLD%^x2%^RESET%^ - the bottom x
+%^BOLD%^y2%^RESET%^ - the bottom y
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/region_rect.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Find out if this rectangle is inside the region, given the specified range
+at which it can be seen.  This will work by adding the ranges onto the
+lines and checking for distance from the points of the polygon to the line
+bordering the region and also checking for intersection with the bordering
+line.  It also checks to see if all of the points are inside the region.
+.EP
+

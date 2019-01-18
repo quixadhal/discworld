@@ -1,0 +1,37 @@
+.DT
+query_aliases_of
+Disk World creator help
+query_aliases_of
+
+.SH Name
+.SP 5 5
+query_aliases_of -  This converts a currency type's alias (i.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_aliases_of(string word)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the alias to find the real name of
+.EI
+
+.SH Returns
+.SI 5
+an array of real names, or 0 if it's not a real alias
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This converts a currency type's alias (i.e. "royal" ) and returns
+its 'real' names (i.e. "Ankh-Morpork royal"
+.EP
+

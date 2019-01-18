@@ -1,0 +1,62 @@
+<html><head><title>File bits_controller.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/bits_controller.c</h2>
+Decays all the decable objects in the game.<p><b>See also:</b><br><a href="obj.food.c.html">/obj/food.c</a>, <a href="std.bit.c.html">/std/bit.c</a> and /obj/corpse.c
+<p>Written by Ember<h3>Change history</h3>
+<dl><dt>17 Dec 1997 -- Sin<dd>   I added a reset_eval_cost() call into the do_update() routine
+   so that it wouldn't quit when there were a whole bunch of
+   bits to decay.
+<dt>6 Jan 1998 -- Sin<dd>   I modified the do_update() routine so it'll register a callback
+   even if one of the bits fails to decay.  That should help prevent
+   the callout from disappearing.  If it does disappear, I added
+   a kickstart function.</dl>
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.bits_controller.h.html">/include/bits_controller.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_bit"><b>add_bit</b></a>(object)<dd>
+Adds in a decable object into ther decaying array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#kickstart"><b>kickstart</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bits"><b>query_bits</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_num_bits"><b>query_num_bits</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_bit"><b>remove_bit</b></a>(object)<dd>
+Removes the decable object from the decaying array.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_bit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_bit</b></a><pre>
+void add_bit(object ob)
+</pre><dd>
+Adds in a decable object into ther decaying array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the bit to decay
+
+</dl>
+
+<dt><a name="kickstart">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>kickstart</b></a><pre>
+void kickstart()
+</pre>
+<dt><a name="query_bits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bits</b></a><pre>
+object * query_bits()
+</pre>
+<dt><a name="query_num_bits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_num_bits</b></a><pre>
+int query_num_bits()
+</pre>
+<dt><a name="remove_bit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_bit</b></a><pre>
+void remove_bit(object ob)
+</pre><dd>
+Removes the decable object from the decaying array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the bit to remove
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 15:42:37 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

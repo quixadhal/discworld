@@ -1,0 +1,92 @@
+<html><head><title>File room_save.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/room_save.c</h2>
+A saving room inheritable.  This handles rooms which save their inventory,
+or more specifically part of their inventory.
+
+Which objects should be saved or not saved can be controlled by overriding
+test_save.
+
+Containers in this room that need to cause it to save its inventory should
+generate a save event.
+<p><b>See also:</b><br>test_save.c and event_save
+.c<p>Written by ceres
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="global.auto_load.c.html">/global/auto_load.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player.h.html">/include/player.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#debug_log"><b>debug_log</b></a>(string, mixed args)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#door_action"><b>door_action</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_save"><b>event_save</b></a>(object)<dd>
+Objects that need to make this room save such as containers in the room
+should generate a save event to make the room save its inventory.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_file"><b>query_save_file</b></a>()<dd>
+This method returns the current save file for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_file"><b>set_save_file</b></a>(string)<dd>
+Set the filename that this object should use to save its inventory to.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_save"><b>test_save</b></a>(object)<dd>
+This method determines if a given object should be saved or not.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="debug_log">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>debug_log</b></a><pre>
+void debug_log(string fmt,
+mixed args ...)
+</pre>
+<dt><a name="door_action">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>door_action</b></a><pre>
+void door_action()
+</pre>
+<dt><a name="event_save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_save</b></a><pre>
+void event_save(object thing)
+</pre><dd>
+Objects that need to make this room save such as containers in the room
+should generate a save event to make the room save its inventory.
+eg. event(environment(this_object()), "save");
+<p>
+
+<dt><a name="query_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_file</b></a><pre>
+string query_save_file()
+</pre><dd>
+This method returns the current save file for the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current save file
+
+</dl>
+
+<dt><a name="set_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_file</b></a><pre>
+void set_save_file(string file)
+</pre><dd>
+Set the filename that this object should use to save its inventory to.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>file - The file.
+
+</dl>
+
+<dt><a name="test_save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_save</b></a><pre>
+int test_save(object ob)
+</pre><dd>
+This method determines if a given object should be saved or not.  When
+inheriting this room you should define your own test_save function and use
+it to decide which parts of the inventory are saved and which are not.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - The object to be tested.
+<dt><b>Returns:</b>
+<dd>1 for yes 0 for no.
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 06:38:45 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

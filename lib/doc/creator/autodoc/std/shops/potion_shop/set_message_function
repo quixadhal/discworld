@@ -1,0 +1,46 @@
+.DT
+set_message_function
+Disk World creator help
+set_message_function
+
+.SH Name
+.SP 5 5
+set_message_function -  This method sets the message function for the shop.
+.EP
+
+.SH Syntax
+.SI 5
+void set_message_function(function wossname)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^wossname%^RESET%^ - A pointer to the function
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/potion_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the message function for the shop.
+The message function can be useful to handle messages to
+the player via the shopkeeper. The function should be of
+type string -> void.  If message_function is not set, we
+default to a rather nice function.  If message_function
+is explicitly set to 0, no message will be given apart from
+the standard messages from craft_shop.  It is called from
+is_potion_or_salve() and can also be used in do_buy() etc.
+.EP
+
+.SH Example 1
+.SI 5
+set_message_function( (: nudity_say :) ),
+where nudity_say looks like void nudity_say( string message ).
+When using
+
+.EI
+

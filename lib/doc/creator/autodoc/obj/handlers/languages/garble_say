@@ -1,0 +1,50 @@
+.DT
+garble_say
+Disk World creator help
+garble_say
+
+.SH Name
+.SP 5 5
+garble_say -  This garbles a say.
+.EP
+
+.SH Syntax
+.SI 5
+mixed garble_say(string lang,
+string start,
+string mess,
+object player,
+object from,
+string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^lang%^RESET%^ - the language spoken in
+%^BOLD%^start%^RESET%^ - the start bit
+%^BOLD%^mess%^RESET%^ - the message itself
+%^BOLD%^player%^RESET%^ - the player hearing
+%^BOLD%^from%^RESET%^ - the player speaking
+%^BOLD%^type%^RESET%^ - 'say', 'tell', 'shout' etc
+.EI
+
+.SH Returns
+.SI 5
+an array <code>({ start, mess })</code>
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/languages.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This garbles a say.  Called from the events class to garble the text
+that players see.  This looks up the garble object and calls the
+correct function on it.  The returned array contains the
+garbled start and message.
+
+.EP
+

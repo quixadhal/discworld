@@ -1,0 +1,41 @@
+.DT
+calc_feature_desc
+Disk World creator help
+calc_feature_desc
+
+.SH Name
+.SP 5 5
+calc_feature_desc -  This function needs to be overridden to display the actual message to the feature.
+.EP
+
+.SH Syntax
+.SI 5
+string calc_feature_desc(mapping direc,
+int night,
+int visibility)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^direc%^RESET%^ - the directions and distances
+%^BOLD%^night%^RESET%^ - the night feature
+.EI
+
+.SH Returns
+.SI 5
+the feature descriptions
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/feature_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function needs to be overridden to display the actual
+message to the feature.  The direc argument is a mapping of the
+form, key = direction, value = distance.
+.EP
+

@@ -1,0 +1,60 @@
+.DT
+nomic_motion
+Disk World creator help
+nomic_motion
+
+.SH Name
+.SP 5 5
+nomic_motion -  This method sets up a new nomic rule for someone to vote on.
+.EP
+
+.SH Definition
+.SI 5
+class nomic_motion {
+int identifier;
+int motion_type;
+class nomic_rule rule;
+int new_rule_type;
+class nomic_comment * comments;
+int yes_votes;
+int no_votes;
+int abstain_votes;
+string * voted;
+int state;
+int date_added;
+int date_event;
+string added_by;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^identifier%^RESET%^ - the id of the rule
+%^BOLD%^motion_type%^RESET%^ - the type of the new rule
+%^BOLD%^rule%^RESET%^ - the new rule (or amended rule)
+%^BOLD%^new_rule_type%^RESET%^ - if the rule typ eis to change types, this is the new
+type
+%^BOLD%^comments%^RESET%^ - any comments associated with the rule
+%^BOLD%^yes_votes%^RESET%^ - the current set of yes votes
+%^BOLD%^no_votes%^RESET%^ - the current set of no votes
+%^BOLD%^abstain_votes%^RESET%^ - the current set of abstain votes
+%^BOLD%^voted%^RESET%^ - the current bunch of people that have voted
+%^BOLD%^state%^RESET%^ - the state of the current rule
+%^BOLD%^date_added%^RESET%^ - the date this new rule discussion was added
+%^BOLD%^date_event%^RESET%^ - the date of the last state change event
+%^BOLD%^added_by%^RESET%^ - the person who added the rule change
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/nomic_system.h
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets up a new nomic rule for someone to vote on.
+.EP
+

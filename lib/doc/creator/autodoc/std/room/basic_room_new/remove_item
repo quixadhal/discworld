@@ -1,0 +1,58 @@
+.DT
+remove_item
+Disk World creator help
+remove_item
+
+.SH Name
+.SP 5 5
+remove_item -  This method will attempt to remove the item defined by the given string.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_item(string word)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the name of the item to remove
+.EI
+
+.SH Returns
+.SI 5
+1 if successful, 0 on a failure.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room_new.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will attempt to remove the item defined by the given string.
+This will remove everything associated with that item, verbs, patterns,
+everything.
+.EP
+
+.SH Example 1
+.SI 5
+add_item("frog", "Cute, green and sitting on a lilly pad.  Yes!\n");
+...
+remove_item("frog");
+.EI
+
+.SH Example 2
+.SI 5
+add_item(({ "big bad chicken", "clucker" }),
+         "The big bad chicken sits and stares at you.\n");
+...
+remove_item("big bad chicken");
+.EI
+
+.SH See also
+.SP 5 5
+add_item(), query_item()
+
+.EP
+

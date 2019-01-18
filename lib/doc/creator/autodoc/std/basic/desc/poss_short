@@ -1,0 +1,63 @@
+.DT
+poss_short
+Disk World creator help
+poss_short
+
+.SH Name
+.SP 5 5
+poss_short -  This method returns the "possessed" short.
+.EP
+
+.SH Syntax
+.SI 5
+varargs string poss_short(int flag)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^flag%^RESET%^ - If this flag is set, do not bring the player out of hiding.
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/desc.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the "possessed" short.  This function returns a
+string that the message system replaces, when messages are printed, by a
+string dependent on the possessor of the object and its short as
+given by pretty_short. If the object has no environment or is not in a
+living object or corpse, that string is the determinate. If the
+environment of the object is the viewer of the message, that string
+is "your". If the determinate is defined and is not "a " or "an ",
+or, if it is not defined or is "a " or "an " but it is the only thing in its
+environment with its plural, that string is the possessive of the owner, if
+the owner has already been mentioned in constructing a sentence, or the
+owner's the_short plus "'s "; otherwise, the string is "one
+of the " plus the possessive bit as described in the previous part of
+this sentence. Got all that? Good :) The string should not be stored,
+since the object to which it refers may not later exist; it can be
+processed with convert_message. Poss_short is mostly used for referring
+to an object when a person has just used it to do something.
+
+
+The return of this function needs more processing before the player sees it. In general you will not need to worry about this.
+.EP
+
+.SH Example 1
+.SI 5
+"one of Wombat's knives".
+"one of his wands".
+"her Wyrm Sword".
+"Frenkel twists one of his rings."
+
+.EI
+
+.SH See also
+.SP 5 5
+set_short(), short(), a_short(), the_short(), one_short(), /global/events->convert_message()
+.EP
+

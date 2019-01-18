@@ -1,0 +1,292 @@
+<html><head><title>File taskmaster.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/taskmaster.c</h2>
+This handler gives access to the functions needed for the taskmaster
+system.
+
+Rewritten by Shrike to include degrees of success.
+<p><b>See also:</b><br>help::tasks
+.c<p>Written by Deutha<hr><h2>Includes</h2>
+This class includes the following files <a href="include.tasks.h.html">/include/tasks.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#attempt_task"><b>attempt_task</b></a>(int, int, int, mixed, int)<dd>
+Do not use this function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#attempt_task_e"><b>attempt_task_e</b></a>(int, int, int, int, int)<dd>
+Do not use this function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compare_skills"><b>compare_skills</b></a>(object, string, object, string, int, int, int, int)<dd>
+This function will compare the skills of two objects and return which one
+won and if the winner got a TM.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_critical"><b>is_critical</b></a>(int)<dd>
+Figure out whether a given margin of success/failure will result
+in a critical or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#perform_task"><b>perform_task</b></a>(object, string, int, int, int)<dd>
+This function will perform a task.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_control"><b>set_control</b></a>(mixed *)<dd>
+This function should only be used in the very rare situations
+where the last skill checked with query_skill_bonus() wasn't the
+one relevant for the task attempt.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="attempt_task">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>attempt_task</b></a><pre>
+varargs mixed attempt_task(int difficulty,
+int bonus,
+int upper,
+mixed extra,
+int degree)
+</pre><dd>
+Do not use this function. Use perform_task instead.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#perform_task">perform_task()
+</a></dl>
+
+<dt><a name="attempt_task_e">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>attempt_task_e</b></a><pre>
+varargs mixed attempt_task_e(int difficulty,
+int bonus,
+int upper,
+int half,
+int degree)
+</pre><dd>
+Do not use this function. Use perform_task instead.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#perform_task">perform_task()
+</a></dl>
+
+<dt><a name="compare_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compare_skills</b></a><pre>
+varargs mixed compare_skills(object offob,
+string offskill,
+object defob,
+string defskill,
+int modifier,
+int off_tm_type,
+int def_tm_type,
+int degree)
+</pre><dd>
+This function will compare the skills of two objects and return which one
+won and if the winner got a TM.
+With equal skills the chances are 50/50 as to who will win. As the balance
+shifts so do the chances. Additionally a modifier can be applied to
+account for conditions favouring one or the other. This should be
+considered a percentage eg. -50 will add 50% to the defenders chances of
+winning.
+If
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>offob - The attacking object
+<dd>offskill - The name of the skill the attacker is using
+<dd>deffob - The defending object
+<dd>deffskill - The name of the skill the defender is using
+<dd>modifier - The percentage modifier
+<dd>off_tm_type - This should be one of the standard definitions in
+/include/tasks.h and is for the attacker
+<dd>def_tm_type - This should be one of the standard definitions in
+/include/tasks.h and is for the defender
+<dd>degree - Enable the degree-of-success code.  If this is used, the
+ return value becomes a class instead of an int.
+
+<dt><b>See also:</b>
+<dd><a href="#perform_task">perform_task()</a> and tasker_result
+
+.c<dt><b>Example:</b>
+<dd><pre>This is an example of the simpler, binary success/failure behaviour.
+
+switch(TASKER->compare_skills(attacker, "fighting.combat.melee.sharp",
+                              defender, "fighting.combat.parry.unarmed",
+                              25, TM_COMMAND, TM_FREE) {
+case OFFAWARD:
+  tell_object(attacker, "%^YELLOW%^You manage to grasp one of the "
+                        "principles of slicing people up more firmly."
+                        "%^RESET%^\n");
+case OFFWIN:
+  say(defender->one_short() + " loses an arm!\n");
+  break;
+case DEFAWARD:
+  tell_object(defender, "%^YELLOW%^You feel better able to keep your arms "
+                        "attached when parrying unarmed.%^RESET%^\n");
+case DEFWIN:
+  say(defender->one_short() + " keeps " + defender->query_possesive() +
+      " arm attached.\n");
+  break;
+}
+</pre><dd><pre>
+This is an example of the finer grained degree-of-success behaviour.
+
+class tasker_result tr;
+
+tr = (class tasker_result)TASKER->compare_skills(
+  attacker, "fighting.combat.melee.sharp",
+  defender, "fighting.combat.parry.unarmed",
+  25, TM_COMMAND, TM_FREE, 1 );
+
+switch( tr->result ) {
+case OFFAWARD:
+  tell_object(attacker, "%^YELLOW%^You manage to grasp one of the "
+                        "principles of slicing people up more firmly."
+                        "%^RESET%^\n");
+case OFFWIN:
+  switch( tr->degree ) {
+  case TASKER_MARGINAL:
+    say( "You just barely scrape your opponent's hand.\n" );
+    break;
+  case TASKER_NORMAL:
+    say( "You slice into your opponent's arm.\n" );
+    break;
+  case TASKER_EXCEPTIONAL:
+    say( "You slice deeply into your opponent's muscle and sinew, and "
+      "he screams in pain!\n" );
+    break;
+  case TASKER_CRITICAL:
+    say( "You slice your opponent's arm clean off.  Blood spurts "
+      "everywhere like a cherry slurpee machine gone insane!\n" );
+    break;
+  }
+  break;
+case DEFAWARD:
+  tell_object(defender, "%^YELLOW%^You feel better able to keep your arms "
+                        "attached when parrying unarmed.%^RESET%^\n");
+case DEFWIN:
+  switch( tr->degree ) {
+     ...
+     similar code in here...
+     ...
+  }
+  break;
+}
+</pre></dl>
+
+<dt><a name="is_critical">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_critical</b></a><pre>
+int is_critical(int margin)
+</pre><dd>
+Figure out whether a given margin of success/failure will result
+in a critical or not.  Takes an integer between -100 and 100,
+representing the margin by which a skillcheck succeeded, and does
+some logarithmic-type equations to figure out whether it should
+result in a critical or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>margin - the margin of success.
+<dt><b>Returns:</b>
+<dd>1 if the result is a critical, 0 otherwise.
+
+</dl>
+
+<dt><a name="perform_task">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>perform_task</b></a><pre>
+varargs mixed perform_task(object person,
+string skill,
+int difficulty,
+int tm_type,
+int degree)
+</pre><dd>
+This function will perform a task.  It handles all the stuff about
+looking up the skill, and giving the tm advance, but doesn't give
+any messages to the player, you'll have to do that.
+If you set the 'degree' parameter to 1, it will return a 3-element
+class instead of the standard binary success/failure result.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the one attempting the task (could be any living thing)
+<dd>skill - the skill tested against
+<dd>difficulty - the lowest bonus where the attempt can succeed
+<dd>tm_type - This should use one of the standard definitions in 
+/include/tasks.h. They are:
+       TM_FIXED - for use where the difficulty is a fixed value
+       TM_FREE  - for use when the tm attempt doesn't cost anything.
+       TM_CONTINUOUS - for use in continuous actions eg. combat or sneak
+       TM_COMMAND - for use with guild commands
+       TM_RITUAL - when the action is a ritual
+       TM_SPELL - when the action is a spell
+       TM_NONE - when you want there to be no chance of a tm
+<dd>degree - Whether or not to use the degree of success code
+
+<dt><b>Returns:</b>
+<dd>BARF if something screwed up, AWARD if the task succeeded, and
+should give an advance, SUCCEED if it succeeded, FAIL if it failed. If
+the degree of success code is used, it will pass out a 3-element class.
+
+<dt><b>See also:</b>
+<dd><a href="#compare_skills">compare_skills()</a> and tasker_result
+
+.c<dt><b>Example:</b>
+<dd><pre>This is an example of the simpler, binary success/failure behaviour.
+
+switch(TASKER->perform_task( person, "covert.manipulation.stealing",
+                             300, TM_COMMAND ) ) {
+ case AWARD :
+   tell_object( person, "%^YELLOW%^You manage to grasp the principles "
+               "of stealing more firmly.%^RESET%^\n" );
+   // Note, no break;
+ case SUCCEED :
+   // Whatever happens when it succeeds
+   break;
+ default :
+   // Whatever happens when it fails
+}
+</pre><dd><pre>
+This is an example of the finer grained degree-of-success behaviour.
+
+class tasker_result tr;
+
+tr = (class tasker_result)TASKER->perform_task( person,
+  "other.direction", 300, TM_FREE, 1 );
+switch( tr->result ) {
+case AWARD:
+  tell_object(attacker, "%^YELLOW%^You feel very aligned!%^RESET%^\n" );
+case SUCCEED:
+   switch( tr->degree ) {
+   case TASKER_MARGINAL:
+      say( "You think he went thataway. Maybe.\n" );
+      break;
+   case TASKER_NORMAL:
+      say( "You're pretty sure he went that way.\n" );
+      break;
+   case TASKER_EXCEPTIONAL:
+      say( "He definitely went thataway!\n" );
+      break;
+   case TASKER_CRITICAL:
+      say( "Your surity that he went thataway is so powerful that even "
+        "if he didn't go thataway, he'll be in that direction.\n" );
+      break;
+  }
+  break;
+case FAIL:
+  switch( tr->degree ) {
+     ...
+     Boy, it's a good thing I've already explained this, or I'd be
+     pretty hard-pressed to think of an example of a critical failure
+     for other.direction.  You get the idea.
+     ...
+  }
+  break;
+}
+</pre></dl>
+
+<dt><a name="set_control">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_control</b></a><pre>
+void set_control(mixed * args)
+</pre><dd>
+This function should only be used in the very rare situations
+where the last skill checked with query_skill_bonus() wasn't the
+one relevant for the task attempt.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - an array consisting of ({ object player, string skill })
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 01:52:47 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,46 @@
+.DT
+add_controlled_ownership
+Disk World creator help
+add_controlled_ownership
+
+.SH Name
+.SP 5 5
+add_controlled_ownership -  This method adds an item to have ownership.
+.EP
+
+.SH Syntax
+.SI 5
+int add_controlled_ownership(string name,
+int type,
+int default_type,
+mixed default_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the option that needs ownership control
+%^BOLD%^type%^RESET%^ - the type of controlled ownership
+%^BOLD%^default_type%^RESET%^ - the default ownership of the item
+%^BOLD%^default_name%^RESET%^ - the default name of the owner
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/controller/club_room_controller.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an item to have ownership.  If a function pointer
+is set as the default name, then the method will be evaluated each
+time the club changes.  The first arguement will be the name of the
+owned item being changed and the second argument will be the new
+club name.
+.EP
+

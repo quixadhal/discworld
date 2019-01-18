@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["set_laundry_exit":({({"void",}),({({"string",}),"direc",({"mixed",}),"dest",({"string",}),"type",}),(["main":({"Used to set the exit from the laundry entrance room into the laundry itself.The parameters are just like those of add_exit.",}),"see":({"add_exit",}),"param":({"direction The direction of the exit.","dest The destination object. Usually the filename of the destination.","type An exit type as in add_exit.",}),"return":({"void",}),]),}),"check_customer":({({"int",}),({({"string",}),"verb",({"object",}),"thing",({"string",}),"special",}),([]),}),"set_visit_cost":({({"void",}),({({"int",}),"i",}),(["main":({"This is used to set the cost of a visit to the laundry (in monetary units)",}),"param":({"cost The cost of a vist",}),]),}),"set_laundryowner":({({"void",}),({({"object",}),"ob",}),(["main":({"This is the object that is the owner of the laundry. This should be anNPC.",}),"param":({"laundryowner The owner NPC object.",}),]),}),"set_location":({({"void",}),({({"string",}),"str",}),(["main":({"This function is used to set the location used for calculation of whichcurrency the laundry owner will accept.",}),"param":({"location The name of the location.",}),]),}),])
+protected_functions ([])
+inherits (["/std/room":({}),])
+main_docs (["main":({" Inherit  : CWC Laundry Entry Inherit  Author   : Siel Date     : January 2001",}),])
+define_docs (["TIME_LIMIT":([]),"LO":([]),])
+includes (["/include/shops/bank.h":1522061544,"/include/vault.h":1522061544,"/include/money.h":1522061544,])
+class_docs ([])
+file_name "/std/shops/laundry_entry_inherit.c"
+last_changed 1522061544

@@ -1,0 +1,247 @@
+<html><head><title>File guild-race.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/guild-race.c</h2>
+This file contains all the information relating to guilds and races
+that is  stored on the player.
+<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.command.h.html">/include/command.h</a>, <a href="include.player.h.html">/include/player.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_known_command"><b>add_known_command</b></a>(string)<dd>
+This method adds a command to the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#help_command"><b>help_command</b></a>(string)<dd>
+This method handles help calls associated with commands on the
+player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_gtitle"><b>query_gtitle</b></a>()<dd>
+This method returns the title associated with this player for their
+guild.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_guild_data"><b>query_guild_data</b></a>()<dd>
+This method returns the current guild data for the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_guild_ob"><b>query_guild_ob</b></a>()<dd>
+This method returns the current guild object associated with the
+player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_known_command"><b>query_known_command</b></a>(string)<dd>
+This method checks to see if the command is known by the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_known_commands"><b>query_known_commands</b></a>()<dd>
+This method returns the array of commands the player knows.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_race"><b>query_race</b></a>()<dd>
+This method returns the name of the race associated with the
+player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_race_ob"><b>query_race_ob</b></a>()<dd>
+This method returns ther current race object associated with the
+player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#race_guild_commands"><b>race_guild_commands</b></a>()<dd>
+This method adds all the guild and race commands to the player
+when they start up.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_known_command"><b>remove_known_command</b></a>(string)<dd>
+This method removes a command from the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_guild_data"><b>set_guild_data</b></a>(mixed *)<dd>
+This method sets the data associated with the guild for the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_guild_ob"><b>set_guild_ob</b></a>(string)<dd>
+This method sets the current guild associated with the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_race_ob"><b>set_race_ob</b></a>(string)<dd>
+This method sets the players current race.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_known_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_known_command</b></a><pre>
+int add_known_command(string str)
+</pre><dd>
+This method adds a command to the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the command to add
+<dt><b>Returns:</b>
+<dd>1 if was successfuly added, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#query_known_commands">query_known_commands()</a>, <a href="#query_known_command">query_known_command()</a> and <a href="#remove_known_command">remove_known_command()
+</a></dl>
+
+<dt><a name="help_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>help_command</b></a><pre>
+string help_command(string str)
+</pre><dd>
+This method handles help calls associated with commands on the
+player.  This will either return a string or a function pointer.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the command to get help on
+<dt><b>Returns:</b>
+<dd>the help for the command
+<dt><b>See also:</b>
+<dd><a href="#add_known_command">add_known_command()
+</a></dl>
+
+<dt><a name="query_gtitle">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_gtitle</b></a><pre>
+string query_gtitle()
+</pre><dd>
+This method returns the title associated with this player for their
+guild.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the guilds title
+
+</dl>
+
+<dt><a name="query_guild_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_guild_data</b></a><pre>
+mixed * query_guild_data()
+</pre><dd>
+This method returns the current guild data for the player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current guild data
+
+<dt><b>See also:</b>
+<dd><a href="#set_guild_data">set_guild_data()</a></dl>
+
+<dt><a name="query_guild_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_guild_ob</b></a><pre>
+string query_guild_ob()
+</pre><dd>
+This method returns the current guild object associated with the
+player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current guild object
+<dt><b>See also:</b>
+<dd><a href="#set_guild_ob">set_guild_ob()
+</a></dl>
+
+<dt><a name="query_known_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_known_command</b></a><pre>
+int query_known_command(string word)
+</pre><dd>
+This method checks to see if the command is known by the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the command to check
+<dt><b>Returns:</b>
+<dd>1 if known, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#add_known_command">add_known_command()</a>, <a href="#query_known_commands">query_known_commands()</a> and <a href="#remove_known_command">remove_known_command()
+</a></dl>
+
+<dt><a name="query_known_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_known_commands</b></a><pre>
+string * query_known_commands()
+</pre><dd>
+This method returns the array of commands the player knows.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of commands the player knows
+<dt><b>See also:</b>
+<dd><a href="#add_known_command">add_known_command()</a>, <a href="#query_known_command">query_known_command()</a> and <a href="#remove_known_command">remove_known_command()
+</a></dl>
+
+<dt><a name="query_race">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_race</b></a><pre>
+string query_race()
+</pre><dd>
+This method returns the name of the race associated with the
+player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the race name
+<dt><b>See also:</b>
+<dd><a href="#query_race_ob">query_race_ob()</a> and <a href="#set_race_ob">set_race_ob()
+</a></dl>
+
+<dt><a name="query_race_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_race_ob</b></a><pre>
+string query_race_ob()
+</pre><dd>
+This method returns ther current race object associated with the
+player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the race object
+<dt><b>See also:</b>
+<dd><a href="#set_race_ob">set_race_ob()
+</a></dl>
+
+<dt><a name="race_guild_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>race_guild_commands</b></a><pre>
+void race_guild_commands()
+</pre><dd>
+This method adds all the guild and race commands to the player
+when they start up.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#add_known_command">add_known_command()
+</a></dl>
+
+<dt><a name="remove_known_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_known_command</b></a><pre>
+int remove_known_command(string str)
+</pre><dd>
+This method removes a command from the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the command to remove
+<dt><b>Returns:</b>
+<dd>1 if it was successful, 0 if it was unsuccessful
+<dt><b>See also:</b>
+<dd><a href="#add_known_command">add_known_command()</a>, <a href="#query_known_command">query_known_command()</a> and <a href="#query_known_commands">query_known_commands()
+</a></dl>
+
+<dt><a name="set_guild_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_guild_data</b></a><pre>
+void set_guild_data(mixed * dat)
+</pre><dd>
+This method sets the data associated with the guild for the player.
+This is used for stuff like the orders for wizards and the type of
+specialisation for theives.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dat - the data to associate with the guild
+<dt><b>See also:</b>
+<dd><a href="#query_guild_data">query_guild_data()
+</a></dl>
+
+<dt><a name="set_guild_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_guild_ob</b></a><pre>
+void set_guild_ob(string str)
+</pre><dd>
+This method sets the current guild associated with the player.
+Be very careful when setting this variable, if you get it wrong
+bunches of things on the mud will mysteriously break.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new guild object
+<dt><b>See also:</b>
+<dd><a href="#query_guild_ob">query_guild_ob()
+</a></dl>
+
+<dt><a name="set_race_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_race_ob</b></a><pre>
+void set_race_ob(string str)
+</pre><dd>
+This method sets the players current race.  This should never be
+used, all players should be humans.
+the set functions should not be called indisciminately...
+Be careful when using them, so that you don't screw up a character ok?<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the players new race
+<dt><b>See also:</b>
+<dd><a href="#query_race_ob">query_race_ob()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 00:51:06 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,161 @@
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_nomic_amendment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>nomic_amendment</b></a><pre>
+class nomic_amendment {
+string amender;
+string text;
+int date_amended;
+}
+
+</pre><dd>
+This is the class to handle amendments to the rule<p>
+<dl>
+<dt><b>Members:</b>
+<dd>amender - the person doing the amendments
+<dd>text - the text of the amendment
+<dd>date_amended - when it was amended
+
+</dl>
+
+<dt><a name="class_nomic_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>nomic_area</b></a><pre>
+class nomic_area {
+int * new_type_num;
+class nomic_rule * rules;
+}
+
+</pre><dd>
+The information needed for each nomic area.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>new_type_num - the next numbers to use in each type area
+<dd>rules - the rules for the area
+
+</dl>
+
+<dt><a name="class_nomic_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>nomic_case</b></a><pre>
+class nomic_case {
+int id;
+string opener;
+string short;
+string * people;
+int * notes;
+class nomic_case_event * events;
+int time_opened;
+}
+
+</pre><dd>
+This is the class for the thing.<p>
+
+<dt><a name="class_nomic_case_event">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>nomic_case_event</b></a><pre>
+class nomic_case_event {
+int type;
+string mess;
+string person;
+int event_time;
+mixed data;
+}
+
+</pre><dd>
+This is an event associated with the case.<p>
+
+<dt><a name="class_nomic_case_note">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>nomic_case_note</b></a><pre>
+class nomic_case_note {
+int id;
+string person;
+string text;
+int time_created;
+}
+
+</pre><dd>
+This is a note associated with the case.<p>
+
+<dt><a name="class_nomic_comment">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>nomic_comment</b></a><pre>
+class nomic_comment {
+string text;
+string commenter;
+int date_commented;
+}
+
+</pre><dd>
+Comment on this new rule thingy by magistrates.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>text - the text of the comment
+<dd>commenter - the person commenting
+<dd>date_commented - the date the comment was made
+
+</dl>
+
+<dt><a name="class_nomic_motion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>nomic_motion</b></a><pre>
+class nomic_motion {
+int identifier;
+int motion_type;
+class nomic_rule rule;
+int new_rule_type;
+class nomic_comment * comments;
+int yes_votes;
+int no_votes;
+int abstain_votes;
+string * voted;
+int state;
+int date_added;
+int date_event;
+string added_by;
+}
+
+</pre><dd>
+This method sets up a new nomic rule for someone to vote on.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>identifier - the id of the rule
+<dd>motion_type - the type of the new rule
+<dd>rule - the new rule (or amended rule)
+<dd>new_rule_type - if the rule typ eis to change types, this is the new
+type
+<dd>comments - any comments associated with the rule
+<dd>yes_votes - the current set of yes votes
+<dd>no_votes - the current set of no votes
+<dd>abstain_votes - the current set of abstain votes
+<dd>voted - the current bunch of people that have voted
+<dd>state - the state of the current rule
+<dd>date_added - the date this new rule discussion was added
+<dd>date_event - the date of the last state change event
+<dd>added_by - the person who added the rule change
+
+</dl>
+
+<dt><a name="class_nomic_rule">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>nomic_rule</b></a><pre>
+class nomic_rule {
+int id;
+int type;
+int date_created;
+string creator;
+string text;
+class nomic_amendment * amendments;
+}
+
+</pre><dd>
+The information on nomic rules.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>id - the id of the rule (unique)
+<dd>date_create - when the rule was created
+<dd>creator - who created the rule
+<dd>text - the text of the rule
+<dd>amendments - the amendments to the rule
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sat, 31 Mar 2018 01:42:42 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

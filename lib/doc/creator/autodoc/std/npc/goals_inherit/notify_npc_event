@@ -1,0 +1,37 @@
+.DT
+notify_npc_event
+Disk World creator help
+notify_npc_event
+
+.SH Name
+.SP 5 5
+notify_npc_event -  This method is called when an event needs to be notified about.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void notify_npc_event(string event,
+mixed * information ...)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^event%^RESET%^ - the event to tell us about
+%^BOLD%^information%^RESET%^ - the information associated with the event
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/npc/goals_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when an event needs to be notified about.
+The event handling routines should try to be short.  They should
+just modify the priority of something, or add a new goal to the
+current list.
+.EP
+

@@ -1,0 +1,39 @@
+.DT
+check_allowed
+Disk World creator help
+check_allowed
+
+.SH Name
+.SP 5 5
+check_allowed -  Called by the player object to see if a logon inform should be given about duplicate players from the same IP address.
+.EP
+
+.SH Syntax
+.SI 5
+string * check_allowed(mixed user,
+mixed * others)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^user%^RESET%^ - the player being checked
+%^BOLD%^others%^RESET%^ - the others logged on from the same IP
+.EI
+
+.SH Returns
+.SI 5
+array of not allowed dups
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/multiplayer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Called by the player object to see if a logon inform should be given
+about duplicate players from the same IP address.
+.EP
+

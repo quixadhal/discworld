@@ -1,0 +1,36 @@
+.DT
+query_inherits
+Disk World creator help
+query_inherits
+
+.SH Name
+.SP 5 5
+query_inherits -  Returns the inherits mapping of the system.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_inherits()
+.EI
+
+.SH Returns
+.SI 5
+a mapping of things inherited by this file
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/autodoc/autodoc_file.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Returns the inherits mapping of the system.  This returns a mapping of the
+form ([ inherit_name : ({ flags }) ]).  Where the name of the inherit is
+something like "/std/object" and the flags are things you can apply to
+an inherit, like "protected" or "private".  If there are no flags then
+the flags will be an empty array.
+
+.EP
+

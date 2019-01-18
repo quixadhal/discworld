@@ -1,0 +1,44 @@
+.DT
+compile_pattern
+Disk World creator help
+compile_pattern
+
+.SH Name
+.SP 5 5
+compile_pattern -  Compiles the pattern.
+.EP
+
+.SH Syntax
+.SI 5
+nomask mixed * compile_pattern(string str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the pattern to compile
+.EI
+
+.SH Returns
+.SI 5
+the compiled pattern.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/pattern_compiler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Compiles the pattern.   Does no cache checking.  This returns
+only the compiled pattern, it also creates the short pattern as a
+side effect.  The short pattern can be queried by using
+query_short_pattern()
+.EP
+
+.SH See also
+.SP 5 5
+/include/user_parser.h, query_short_pattern(), /global/new_parse.c
+
+.EP
+

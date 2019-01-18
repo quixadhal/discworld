@@ -1,0 +1,39 @@
+.DT
+parse_headers
+Disk World creator help
+parse_headers
+
+.SH Name
+.SP 5 5
+parse_headers -  This method parses an RFC 822 compliant message and extracts all the headers into a class mime_header.
+.EP
+
+.SH Syntax
+.SI 5
+class mime_header parse_headers(string message)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^message%^RESET%^ - the message to be parsed
+.EI
+
+.SH Returns
+.SI 5
+a class mime_header with the headers from the message
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/mime.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method parses an RFC 822 compliant message and extracts all
+the headers into a class mime_header. This class contains a mapping
+with the header field names as keys, so you can easily select
+the headers you need.
+.EP
+

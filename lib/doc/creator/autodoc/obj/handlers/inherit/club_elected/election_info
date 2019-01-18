@@ -1,0 +1,57 @@
+.DT
+election_info
+Disk World creator help
+election_info
+
+.SH Name
+.SP 5 5
+election_info -  This is for an elected club, elected clubs ellect their officals and stuff.
+.EP
+
+.SH Definition
+.SI 5
+class election_info {
+string treasurer;
+string president;
+string vice_president;
+string secretary;
+mapping account_info;
+mapping positions;
+int last_election;
+int election_period;
+mapping options;
+class discussion_idea * discussion;
+class club_archive * archives;
+string announcement;
+int announce_time;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^treasurer%^RESET%^ - the name of the treasurer of the club's position
+%^BOLD%^president%^RESET%^ - the name of the president of the club's position
+%^BOLD%^vice_president%^RESET%^ - the name of the vice president of the club's position
+%^BOLD%^secretary%^RESET%^ - the name of the secretary of the club's position
+%^BOLD%^account_info%^RESET%^ - information about the accounts
+%^BOLD%^positions%^RESET%^ - the special extra positions available in the club
+%^BOLD%^last_election%^RESET%^ - when the last election was held
+%^BOLD%^discussion%^RESET%^ - the current items up for discussion
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is for an elected club, elected clubs ellect their officals and
+stuff.  The treasurer etc are actually the indexes to be used into the
+positions mapping to determine the actual member which holds the
+position.
+.EP
+

@@ -1,0 +1,45 @@
+.DT
+move_me_please
+Disk World creator help
+move_me_please
+
+.SH Name
+.SP 5 5
+move_me_please -  Called from the npc to start them mmoving.
+.EP
+
+.SH Syntax
+.SI 5
+int move_me_please(int delay,
+string dest)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^delay%^RESET%^ - the delay between each move
+%^BOLD%^dest%^RESET%^ - the destination room for the npc
+.EI
+
+.SH Returns
+.SI 5
+0 if it failed and 1 on success
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/wander_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Called from the npc to start them mmoving.  This should not need to
+be called inside your code.  It is called from the function
+move_me_to in the npc code.
+.EP
+
+.SH See also
+.SP 5 5
+/obj/monster->move_me_to()
+.EP
+

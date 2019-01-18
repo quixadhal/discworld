@@ -1,0 +1,42 @@
+.DT
+random
+Disk World creator help
+random
+
+.SH Name
+.SP 5 5
+random -  Generate a random number.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int random(int max,
+mixed lseed)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^max%^RESET%^ - the maximum value for the number.
+%^BOLD%^lseed%^RESET%^ - the seed to use, either an int or a one-element array
+of int.
+.EI
+
+.SH Returns
+.SI 5
+a number from 0..max-1 (inclusive)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/random_num.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Generate a random number.  If lseed is an int, it is used as the seed.
+If lseed is a one-element array of ints, lseed[0] is used as the seed
+and the new seed is passed back.  Otherwise, the previously set seed
+is used.
+.EP
+

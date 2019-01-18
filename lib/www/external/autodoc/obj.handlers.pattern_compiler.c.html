@@ -1,0 +1,75 @@
+<html><head><title>File pattern_compiler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/pattern_compiler.c</h2>
+Compiles up the patterns for use by the add_command system.<p><b>See also:</b><br><a href="global.new_parse.c.html#add_command">/global/new_parse->add_command()</a><p>Written by Pinkfish<hr><h2>Includes</h2>
+This class includes the following files <a href="include.user_parser.h.html">/include/user_parser.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clean_cache"><b>clean_cache</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_pattern"><b>compile_pattern</b></a>(string)<dd>
+Compiles the pattern.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pattern"><b>query_pattern</b></a>(string)<dd>
+Returns the compiled pattern to the caller.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_short_pattern"><b>query_short_pattern</b></a>(string)<dd>
+Returns the short pattern for the given pattern string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stats"><b>stats</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="clean_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clean_cache</b></a><pre>
+void clean_cache()
+</pre>
+<dt><a name="compile_pattern">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_pattern</b></a><pre>
+nomask mixed * compile_pattern(string str)
+</pre><dd>
+Compiles the pattern.   Does no cache checking.  This returns
+only the compiled pattern, it also creates the short pattern as a
+side effect.  The short pattern can be queried by using
+query_short_pattern()<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the pattern to compile
+<dt><b>Returns:</b>
+<dd>the compiled pattern
+<dt><b>See also:</b>
+<dd><a href="include.user_parser.h.html">/include/user_parser.h</a>, <a href="#query_short_pattern">query_short_pattern()</a> and /global/new_parse.c
+</dl>
+
+<dt><a name="query_pattern">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pattern</b></a><pre>
+nomask mixed * query_pattern(string pattern)
+</pre><dd>
+Returns the compiled pattern to the caller.   This checks to see if they
+pattern is in its internal cache and if it is, it uses that.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pattern - the pattern to compiler
+<dt><b>Returns:</b>
+<dd>the compiler pattern
+<dt><b>See also:</b>
+<dd>/include/user_parser.h
+</dl>
+
+<dt><a name="query_short_pattern">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_short_pattern</b></a><pre>
+string query_short_pattern(string str)
+</pre><dd>
+Returns the short pattern for the given pattern string.   The short pattern
+is the message which is shown to the players.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the pattern to get the short for
+<dt><b>Returns:</b>
+<dd>the short pattern
+
+</dl>
+
+<dt><a name="stats">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stats</b></a><pre>
+mixed * stats()
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 22:50:13 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

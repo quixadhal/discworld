@@ -1,0 +1,46 @@
+.DT
+get_exit_mess
+Disk World creator help
+get_exit_mess
+
+.SH Name
+.SP 5 5
+get_exit_mess -  This function returns the appropriate exit message for the specified object in the specified direction.
+.EP
+
+.SH Syntax
+.SI 5
+string get_exit_mess(object ob,
+string direc)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object for which the exit message should be found
+%^BOLD%^direc%^RESET%^ - the direction in which the object is exiting
+.EI
+
+.SH Returns
+.SI 5
+the exit message for this object.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function returns the appropriate exit message for the specified object
+in the specified direction.  If a value has been set by add_exit_mess then
+it is returned.  It is used automagically by the swim_exit function, but can
+be overridden if you feel like it.
+.EP
+
+.SH See also
+.SP 5 5
+add_exit_mess, add_enter_mess, get_enter_mess
+
+.EP
+

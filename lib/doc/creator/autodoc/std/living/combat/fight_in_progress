@@ -1,0 +1,33 @@
+.DT
+fight_in_progress
+Disk World creator help
+fight_in_progress
+
+.SH Name
+.SP 5 5
+fight_in_progress -  This method is called when there is a fight in progress.
+.EP
+
+.SH Syntax
+.SI 5
+void fight_in_progress(object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - the person fighting
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when there is a fight in progress.  It will
+propogate the event onto all the objects in the room.
+.EP
+

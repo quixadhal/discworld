@@ -1,0 +1,36 @@
+.DT
+check_domain
+Disk World creator help
+check_domain
+
+.SH Name
+.SP 5 5
+check_domain -  Called every time the npc moves.
+.EP
+
+.SH Syntax
+.SI 5
+void check_domain()
+.EI
+
+.SH Defined in
+.SI 5
+/std/npc/surface_decorator.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Called every time the npc moves.  This function checks that the file name 
+of its new environment contains at least one of the allowed domains.  If
+it does, it will store the current room as being its last good location.  
+Otherwise, it will move it to its last good location.
+
+.EP
+
+.SH See also
+.SP 5 5
+go_back
+
+.EP
+

@@ -1,0 +1,55 @@
+<html><head><title>File envelope.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/misc/envelope.c</h2>
+Paper envelopes that can be written on, closed, sealed and unsealed.  Use
+a call to "make_envelope()" to set the size and description of the
+envelope.<p>Written by Lemming<p>Started 7/1/2000
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.baggage.c.html">/obj/baggage.c</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_envelope"><b>make_envelope</b></a>(string, int)<dd>
+This is the method used to define the envelope.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_envelope_status"><b>query_envelope_status</b></a>()<dd>
+This is the method used to query what status the envelope is in.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="make_envelope">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_envelope</b></a><pre>
+void make_envelope(string description,
+int size)
+</pre><dd>
+This is the method used to define the envelope.  It works just like the
+"make_bottle()" call on "/obj/bottle.c", and must be done whenever one is
+created.  The description should be short and should not include the size
+of the envelope - this will be inferred from the size specified.  A size
+of 3 or less will be "small", 4 to 5 will be "medium", 6 to 8 is "large"
+and anything over that will be a "large packet".  The default and minimum
+size is 2.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>description - a brief description of the envelope
+<dd>size - the maximum weight of the envelope plus contents
+<dt><b>See also:</b>
+<dd><a href="#query_envelope_status">query_envelope_status()
+</a><dt><b>Example:</b>
+<dd><pre>// Make "a small pink envelope".
+make_envelope( "pink", 3 );</pre><dd><pre>
+// Make "a large frog flavoured packet"
+make_envelope( "frog flavoured", 10 );</pre></dl>
+
+<dt><a name="query_envelope_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_envelope_status</b></a><pre>
+int query_envelope_status()
+</pre><dd>
+This is the method used to query what status the envelope is in.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for unsealed, 2 for sealed, 3 for sealed and then torn open
+<dt><b>See also:</b>
+<dd><a href="#make_envelope">make_envelope()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 12:06:20 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

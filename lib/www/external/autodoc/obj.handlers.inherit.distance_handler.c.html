@@ -1,0 +1,49 @@
+<html><head><title>File distance_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/inherit/distance_handler.c</h2>
+This file handles the distance checking stuff for figuring out how
+far apart two rooms or co-ordinates are.<p>Written by Rodion<p>Started Wed Jul 25 15:22:24 PDT 2001
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_distance_from_coords"><b>query_distance_from_coords</b></a>(int *, int *)<dd>
+This method figures out the distance between two co-ordinates.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_distance_from_rooms"><b>query_distance_from_rooms</b></a>(mixed, mixed)<dd>
+This method figures out the distance between two rooms and returns the
+result.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_distance_from_coords">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_distance_from_coords</b></a><pre>
+int query_distance_from_coords(int * co_ord_one,
+int * co_ord_two)
+</pre><dd>
+This method figures out the distance between two co-ordinates.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>co_ord_one - the first co-ordinate
+<dd>co_ord_two - the second co-ordinate
+<dt><b>Returns:</b>
+<dd>the distance
+
+</dl>
+
+<dt><a name="query_distance_from_rooms">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_distance_from_rooms</b></a><pre>
+int query_distance_from_rooms(mixed one,
+mixed two)
+</pre><dd>
+This method figures out the distance between two rooms and returns the
+result.  The result will be in co-ordinate units.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>one - the first room
+<dd>two - the second room
+<dt><b>Returns:</b>
+<dd>the distance between them
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 04:39:33 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

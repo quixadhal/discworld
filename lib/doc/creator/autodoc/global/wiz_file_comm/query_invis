@@ -1,0 +1,33 @@
+.DT
+query_invis
+Disk World creator help
+query_invis
+
+.SH Name
+.SP 5 5
+query_invis -  This method returns the current invisibility level of the object.
+.EP
+
+.SH Syntax
+.SI 5
+nomask int query_invis()
+.EI
+
+.SH Returns
+.SI 5
+the current invisibility level
+.EI
+
+.SH Defined in
+.SI 5
+/global/wiz_file_comm.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current invisibility level of the object.
+This will return 0 if the object is not invisible, 1 for creator
+invisible, 2 for director invisible and 3 for trustee invisible.
+.EP
+

@@ -1,0 +1,1261 @@
+<html><head><title>File combat.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/living/combat.c</h2>
+This file contains all the methods and fun things actually run combat.<p>Written by Ceres
+
+
+TODO: Add offensive & defensive criticals -- broken limbs etc.
+
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.weapon_logic.c.html">/std/weapon_logic.c</a> and <a href="std.living.corpse.c.html">/std/living/corpse.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.combat.h.html">/include/combat.h</a>, <a href="include.attack_messages.h.html">/include/attack_messages.h</a>, <a href="include.weapon.h.html">/include/weapon.h</a>, <a href="include.tasks.h.html">/include/tasks.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.living.h.html">/include/living.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#accepted_surrender"><b>accepted_surrender</b></a>(object)<dd>
+This method is called if surrender was accepted for the particular
+person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_defender"><b>add_defender</b></a>(object)<dd>
+This method will add a defender to the current list of defenders
+for this living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_protector"><b>add_protector</b></a>(object)<dd>
+This method will add a protector to the current list of protectors
+for this living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_action_defecit"><b>adjust_action_defecit</b></a>(int)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_actions"><b>adjust_actions</b></a>(class attack)<dd>
+Adjust the time left, combat actions and gp used by this attack.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#after_attack"><b>after_attack</b></a>(class attack)<dd>
+This function is called after it's all over and done (just before the
+costs are charged).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#attack_by"><b>attack_by</b></a>(object)<dd>
+This method is called when the living object is attacked by some opponent.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#attack_ob"><b>attack_ob</b></a>(object)<dd>
+This method is called to make us attack someone else.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_armour_protection"><b>calc_armour_protection</b></a>(class attack)<dd>
+Calculate how much of the damage is saved by the armour.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_attack_modifier"><b>calc_attack_modifier</b></a>(class attack)<dd>
+This method calculates the modifier to the attack.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_damage"><b>calc_damage</b></a>(class attack)<dd>
+After a successful attack (or possibly a parried one) calculate the
+amount of damage done to the opponent.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_defense_modifier"><b>calc_defense_modifier</b></a>(class attack)<dd>
+This method calculates the modifier to the defense.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#call_special"><b>call_special</b></a>(int, class attack)<dd>
+Go through the list of the attacker & opponents specials and
+call any that have registered for this stage.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#choose_attack"><b>choose_attack</b></a>(class attack)<dd>
+Determine which attack they'll use.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#choose_defender"><b>choose_defender</b></a>(class attack)<dd>
+This method is used to choose who will defend this attack.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#choose_defense"><b>choose_defense</b></a>(class attack)<dd>
+Will the defender defend or not?
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#choose_opponent"><b>choose_opponent</b></a>(class attack)<dd>
+Choose an opponent and attack them.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#damage_weapon"><b>damage_weapon</b></a>(class attack)<dd>
+Do damage to the attacking & defending weapons.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_attack"><b>do_attack</b></a>()<dd>
+This performs the actual attack itself.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_surrender"><b>do_surrender</b></a>(object)<dd>
+This method will be called when we surrender.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#dont_attack_me"><b>dont_attack_me</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#end_combat"><b>end_combat</b></a>()<dd>
+This method is called when combat ends.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_surrender"><b>event_surrender</b></a>(object, object *)<dd>
+This method tells us what the npc shouuld do in the case that it
+might possibly surrender.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#fight_in_progress"><b>fight_in_progress</b></a>(object)<dd>
+This method is called when there is a fight in progress.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_fighting"><b>is_fighting</b></a>(object, int)<dd>
+This method determines whether or not the object is fighting another
+object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#monitor_points"><b>monitor_points</b></a>()<dd>
+Display the hitpoint monitor.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#offered_surrender"><b>offered_surrender</b></a>(object)<dd>
+This method is called when someone offers to surrender to the living
+object.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#perform_movement"><b>perform_movement</b></a>(class attack)<dd>
+This function is called as part of the post attack processing and performs
+the checks to see if someone can move closer or further away from their
+opponent.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#prepare_messages"><b>prepare_messages</b></a>(class attack)<dd>
+Prepare the result messages.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_action_defecit"><b>query_action_defecit</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_attackable"><b>query_attackable</b></a>()<dd>
+Is this object attackable or not?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_attacker_list"><b>query_attacker_list</b></a>()<dd>
+This method returns the current list of people in the attacker list
+on the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_can_attack"><b>query_can_attack</b></a>()<dd>
+Decide if we will attack this round or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_can_defend"><b>query_can_defend</b></a>()<dd>
+Decide if we are able to defend ourselves this time or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_combat"><b>query_combat</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_combat_attack"><b>query_combat_attack</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_combat_attitude"><b>query_combat_attitude</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_combat_distance"><b>query_combat_distance</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_combat_focus"><b>query_combat_focus</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_combat_mercy"><b>query_combat_mercy</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_combat_parry"><b>query_combat_parry</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_combat_response"><b>query_combat_response</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_concentrating"><b>query_concentrating</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_defend"><b>query_defend</b></a>()<dd>
+Is this object prepared to try to defend someone else at this time?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_defenders"><b>query_defenders</b></a>()<dd>
+This method returns the current array of defenders on the living
+object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_distance"><b>query_distance</b></a>(object)<dd>
+Query the distance from this object to the given opponent.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_fighting"><b>query_fighting</b></a>()<dd>
+Is the player currently fighting anyone.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_action"><b>query_last_action</b></a>()<dd>
+This method returns the last (combat) action performed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_opponent"><b>query_last_opponent</b></a>()<dd>
+This method returns the last known opponent we attacked or defended
+against.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_result"><b>query_last_result</b></a>()<dd>
+This method returns the result of the last combat round.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_last_weapon"><b>query_last_weapon</b></a>()<dd>
+This method returns the last weapon we used for an attack or defense.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_protect"><b>query_protect</b></a>()<dd>
+Is this object prepared to try to protect someone else at this time?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_protectors"><b>query_protectors</b></a>()<dd>
+This method returns the current array of protectors on the living
+object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_specials"><b>query_specials</b></a>()<dd>
+List the specials currently registered for this npc/player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_surrender"><b>query_surrender</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_surrenderers"><b>query_surrenderers</b></a>()<dd>
+This method returns the current list of people surrendering to us.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_tactics"><b>query_tactics</b></a>()<dd>
+This method returns the current tactics set using the tactics class.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_unarmed_parry"><b>query_unarmed_parry</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#recalc_hunting_list"><b>recalc_hunting_list</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#refused_surrender"><b>refused_surrender</b></a>(object)<dd>
+This method is called if surrender was refused for the particular
+person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#register_special"><b>register_special</b></a>(int, int, mixed, mixed)<dd>
+Register a combat special.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_attacker_list"><b>remove_attacker_list</b></a>(object)<dd>
+This method removes someone from an attacker/hunting list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_defender"><b>remove_defender</b></a>(object)<dd>
+This method will remove a defender to the current list of defenders
+for this living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_protector"><b>remove_protector</b></a>(object)<dd>
+This method will remove a protector to the current list of protectors
+for this living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_special"><b>remove_special</b></a>(int)<dd>
+Remove a combat special.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_surrenderer"><b>remove_surrenderer</b></a>(object)<dd>
+This method removes a person surrendering from our current list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_defenders"><b>reset_defenders</b></a>()<dd>
+This method resets the defender array back to being nothing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_protectors"><b>reset_protectors</b></a>()<dd>
+This method resets the protector array back to being nothing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_combat_attack"><b>set_combat_attack</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_combat_attitude"><b>set_combat_attitude</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_combat_distance"><b>set_combat_distance</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_combat_focus"><b>set_combat_focus</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_combat_mercy"><b>set_combat_mercy</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_combat_parry"><b>set_combat_parry</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_combat_response"><b>set_combat_response</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_concentrating"><b>set_concentrating</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_distance"><b>set_distance</b></a>(object, int)<dd>
+Set the distance from this object to the given opponent.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_special_data"><b>set_special_data</b></a>(int, mixed)<dd>
+Update the user data for a specific special.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_specials"><b>set_specials</b></a>(class combat_special *)<dd>
+Directly set the special list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_tactics"><b>set_tactics</b></a>(class tactics)<dd>
+This sets the current attitude to use in combat.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_unarmed_parry"><b>set_unarmed_parry</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_combat"><b>start_combat</b></a>(object)<dd>
+This method is called when combat starts.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stop_all_fight"><b>stop_all_fight</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stop_fight"><b>stop_fight</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stop_hunting"><b>stop_hunting</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stopped_fighting"><b>stopped_fighting</b></a>(object)<dd>
+This method is called when the fight has stopped.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#write_messages"><b>write_messages</b></a>(class attack)<dd>
+Write out the attack/defense messages.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="accepted_surrender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>accepted_surrender</b></a><pre>
+void accepted_surrender(object attacker)
+</pre><dd>
+This method is called if surrender was accepted for the particular
+person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>attacker - the person who is surrendering
+<dt><b>See also:</b>
+<dd><a href="#refused_surrender">refused_surrender()
+</a></dl>
+
+<dt><a name="add_defender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_defender</b></a><pre>
+int add_defender(object thing)
+</pre><dd>
+This method will add a defender to the current list of defenders
+for this living object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the defender to add
+<dt><b>See also:</b>
+<dd><a href="#remove_defender">remove_defender()</a> and <a href="#query_defenders">query_defenders()
+</a></dl>
+
+<dt><a name="add_protector">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_protector</b></a><pre>
+int add_protector(object thing)
+</pre><dd>
+This method will add a protector to the current list of protectors
+for this living object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the protector to add
+<dt><b>See also:</b>
+<dd><a href="#remove_protector">remove_protector()</a> and <a href="#query_protectors">query_protectors()
+</a></dl>
+
+<dt><a name="adjust_action_defecit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_action_defecit</b></a><pre>
+void adjust_action_defecit(int amount)
+</pre>
+<dt><a name="attack_by">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>attack_by</b></a><pre>
+int attack_by(object opponent)
+</pre><dd>
+This method is called when the living object is attacked by some opponent.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>opponent - the opponent we are attacked by
+<dt><b>Returns:</b>
+<dd>0 if we cannot attack them, 1 if we can
+<dt><b>See also:</b>
+<dd><a href="#query_attacker_list">query_attacker_list()</a> and <a href="#attack_ob">attack_ob()
+</a></dl>
+
+<dt><a name="attack_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>attack_ob</b></a><pre>
+int attack_ob(object opponent)
+</pre><dd>
+This method is called to make us attack someone else.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>opponent - the person to attack
+<dt><b>Returns:</b>
+<dd>0 if we cannot attack them, 1 if we can
+<dt><b>See also:</b>
+<dd><a href="#query_attacker_list">query_attacker_list()</a> and <a href="#attack_by">attack_by()
+</a></dl>
+
+<dt><a name="calc_armour_protection">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_armour_protection</b></a><pre>
+class attack calc_armour_protection(class attack att)
+</pre><dd>
+Calculate how much of the damage is saved by the armour.
+
+PRE: all information has been filled in except the amount of damage
+stopped by armour, and which piece of armour did the stopping.
+POST: The damage stopped and which armour did it is filled in.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+<dt><b>Returns:</b>
+<dd>class attack
+
+</dl>
+
+<dt><a name="calc_defense_modifier">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_defense_modifier</b></a><pre>
+class attack calc_defense_modifier(class attack att)
+</pre><dd>
+This method calculates the modifier to the defense.
+
+It will take into account all the basic stuff that makes the defense
+harder or easier.
+
+PRE: All attack and response data has been filled in.
+POST: The defensive modifier must be set.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+<dt><b>Returns:</b>
+<dd>class attack
+
+</dl>
+
+<dt><a name="choose_defender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>choose_defender</b></a><pre>
+class attack choose_defender(class attack att)
+</pre><dd>
+This method is used to choose who will defend this attack. Typically this
+will be the person who was attacked, however it could be someone else in
+some circumstances.
+
+PRE: attacker, attack and defender information has been set.
+POST: defender and person_hit must be set.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+<dt><b>Returns:</b>
+<dd>class attack
+
+</dl>
+
+<dt><a name="choose_defense">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>choose_defense</b></a><pre>
+class attack choose_defense(class attack att)
+</pre><dd>
+Will the defender defend or not? If so, with what skill and weapon and at
+what action cost?
+
+PRE: all attack data and opponent and defender data have been set.
+POST: defense type, skill and weapon must be set. If defense_action
+is "none" the defender will have a big negative modifier.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+<dt><b>Returns:</b>
+<dd>class attack
+
+</dl>
+
+<dt><a name="do_attack">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_attack</b></a><pre>
+void do_attack()
+</pre><dd>
+This performs the actual attack itself.
+All attack data, everything we know about the attacker and the defender
+is stored in the attack class which is passed into and back by every
+function at every step of the attack.
+<p>
+
+<dt><a name="do_surrender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_surrender</b></a><pre>
+object do_surrender(object thing)
+</pre><dd>
+This method will be called when we surrender.  This does mean that
+the opponent must have accepted our surrender plea.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing which made us surrender
+
+<dt><b>Returns:</b>
+<dd>always returns 0
+</dl>
+
+<dt><a name="dont_attack_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>dont_attack_me</b></a><pre>
+int dont_attack_me()
+</pre>
+<dt><a name="end_combat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>end_combat</b></a><pre>
+void end_combat()
+</pre><dd>
+This method is called when combat ends.  You can overload this function
+to make your NPC do things at the end of combat.
+You do not need to call ::end_combat() since this is just a stub function.
+<p>
+
+<dt><a name="event_surrender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_surrender</b></a><pre>
+void event_surrender(object victim,
+object * attackers)
+</pre><dd>
+This method tells us what the npc shouuld do in the case that it
+might possibly surrender.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>victim - the person surrendering
+<dd>attacker - the person beating up the surrenderer
+
+</dl>
+
+<dt><a name="fight_in_progress">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>fight_in_progress</b></a><pre>
+void fight_in_progress(object thing)
+</pre><dd>
+This method is called when there is a fight in progress.  It will
+propogate the event onto all the objects in the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the person fighting
+
+</dl>
+
+<dt><a name="is_fighting">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_fighting</b></a><pre>
+varargs int is_fighting(object ob,
+int actively)
+</pre><dd>
+This method determines whether or not the object is fighting another
+object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object being tested
+<dd>actively - is the opponent being actively fought at this time?
+<dt><b>Returns:</b>
+<dd>1 if it is in combat, 0 if it is not.
+
+</dl>
+
+<dt><a name="monitor_points">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>monitor_points</b></a><pre>
+void monitor_points()
+</pre><dd>
+Display the hitpoint monitor.
+<p>
+
+<dt><a name="offered_surrender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>offered_surrender</b></a><pre>
+void offered_surrender(object victim)
+</pre><dd>
+This method is called when someone offers to surrender to the living
+object.  It will check the current tactics for surrender and then
+handle the response appropriately.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>victim - the person surrendering
+
+</dl>
+
+<dt><a name="query_action_defecit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_action_defecit</b></a><pre>
+int query_action_defecit()
+</pre>
+<dt><a name="query_attackable">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_attackable</b></a><pre>
+int query_attackable()
+</pre><dd>
+Is this object attackable or not?
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 or 0 for true or false.
+
+</dl>
+
+<dt><a name="query_attacker_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_attacker_list</b></a><pre>
+object * query_attacker_list()
+</pre><dd>
+This method returns the current list of people in the attacker list
+on the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current attacker array
+
+</dl>
+
+<dt><a name="query_can_attack">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_can_attack</b></a><pre>
+int query_can_attack()
+</pre><dd>
+Decide if we will attack this round or not.  This function can be
+overloaded if necessary. It also checks for the property "cannot attack"
+on this object. If the property is set the object cannot attack.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if we want to, 0 if we don't.
+
+</dl>
+
+<dt><a name="query_can_defend">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_can_defend</b></a><pre>
+int query_can_defend()
+</pre><dd>
+Decide if we are able to defend ourselves this time or not.
+This function can be overloaded if necessary. It also checks for the
+property "cannot defend"
+on this object. If the property is set the object cannot defend.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if we want to, 0 if we don't.
+
+</dl>
+
+<dt><a name="query_combat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_combat</b></a><pre>
+class combat_information query_combat()
+</pre>
+<dt><a name="query_combat_attack">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_combat_attack</b></a><pre>
+string query_combat_attack()
+</pre>
+<dt><a name="query_combat_attitude">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_combat_attitude</b></a><pre>
+string query_combat_attitude()
+</pre>
+<dt><a name="query_combat_distance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_combat_distance</b></a><pre>
+string query_combat_distance()
+</pre>
+<dt><a name="query_combat_focus">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_combat_focus</b></a><pre>
+string query_combat_focus()
+</pre>
+<dt><a name="query_combat_mercy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_combat_mercy</b></a><pre>
+string query_combat_mercy()
+</pre>
+<dt><a name="query_combat_parry">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_combat_parry</b></a><pre>
+string query_combat_parry()
+</pre>
+<dt><a name="query_combat_response">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_combat_response</b></a><pre>
+string query_combat_response()
+</pre>
+<dt><a name="query_concentrating">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_concentrating</b></a><pre>
+object query_concentrating()
+</pre>
+<dt><a name="query_defend">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_defend</b></a><pre>
+int query_defend()
+</pre><dd>
+Is this object prepared to try to defend someone else at this time?
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 or 0 for true or false.
+
+</dl>
+
+<dt><a name="query_defenders">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_defenders</b></a><pre>
+object * query_defenders()
+</pre><dd>
+This method returns the current array of defenders on the living
+object.  This is the people who are protecting us, so if we are hit
+make them attack the hitter.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current defenders array
+<dt><b>See also:</b>
+<dd><a href="#add_protector">add_protector()</a> and <a href="#remove_protector">remove_protector()
+</a></dl>
+
+<dt><a name="query_distance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_distance</b></a><pre>
+int query_distance(object opponent)
+</pre><dd>
+Query the distance from this object to the given opponent.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>opponent - the object to check
+
+</dl>
+
+<dt><a name="query_fighting">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_fighting</b></a><pre>
+int query_fighting()
+</pre><dd>
+Is the player currently fighting anyone.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for yes, 0 for no.
+
+</dl>
+
+<dt><a name="query_last_action">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_action</b></a><pre>
+string query_last_action()
+</pre><dd>
+This method returns the last (combat) action performed.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>string the action.
+
+</dl>
+
+<dt><a name="query_last_opponent">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_opponent</b></a><pre>
+object query_last_opponent()
+</pre><dd>
+This method returns the last known opponent we attacked or defended
+against.  It is kept as up to date as the system can manage and so will
+include anyone who is currently attacking us or who we are currently
+attacking.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>object the opponent.
+
+</dl>
+
+<dt><a name="query_last_result">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_result</b></a><pre>
+int query_last_result()
+</pre><dd>
+This method returns the result of the last combat round.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>int the result.
+
+</dl>
+
+<dt><a name="query_last_weapon">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_last_weapon</b></a><pre>
+object query_last_weapon()
+</pre><dd>
+This method returns the last weapon we used for an attack or defense.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>object the weapon.
+
+</dl>
+
+<dt><a name="query_protect">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_protect</b></a><pre>
+int query_protect()
+</pre><dd>
+Is this object prepared to try to protect someone else at this time?<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 or 0 for true or false.
+
+</dl>
+
+<dt><a name="query_protectors">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_protectors</b></a><pre>
+object * query_protectors()
+</pre><dd>
+This method returns the current array of protectors on the living
+object.  This is the people who are protecting us, so if we are hit
+make them attack the hitter.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current protectors array
+<dt><b>See also:</b>
+<dd><a href="#add_protector">add_protector()</a> and <a href="#remove_protector">remove_protector()
+</a></dl>
+
+<dt><a name="query_specials">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_specials</b></a><pre>
+class combat_special * query_specials()
+</pre><dd>
+List the specials currently registered for this npc/player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of comba_special classes.
+
+</dl>
+
+<dt><a name="query_surrender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_surrender</b></a><pre>
+class surrender_information query_surrender()
+</pre>
+<dt><a name="query_surrenderers">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_surrenderers</b></a><pre>
+object * query_surrenderers()
+</pre><dd>
+This method returns the current list of people surrendering to us.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of people surrendering
+<dt><b>See also:</b>
+<dd><a href="#remove_surrenderer">remove_surrenderer()
+</a></dl>
+
+<dt><a name="query_tactics">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_tactics</b></a><pre>
+class tactics query_tactics()
+</pre><dd>
+This method returns the current tactics set using the tactics class.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_tactics">set_tactics()</a></dl>
+
+<dt><a name="query_unarmed_parry">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_unarmed_parry</b></a><pre>
+int query_unarmed_parry()
+</pre>
+<dt><a name="recalc_hunting_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>recalc_hunting_list</b></a><pre>
+void recalc_hunting_list()
+</pre>
+<dt><a name="refused_surrender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>refused_surrender</b></a><pre>
+void refused_surrender(object attacker)
+</pre><dd>
+This method is called if surrender was refused for the particular
+person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>attacker - the person who is surrendering
+<dt><b>See also:</b>
+<dd><a href="#accepted_surrender">accepted_surrender()
+</a></dl>
+
+<dt><a name="register_special">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>register_special</b></a><pre>
+int register_special(int type,
+int events,
+mixed callback,
+mixed data)
+</pre><dd>
+Register a combat special.
+
+The combat system maintains a list of combat specials. These specials can
+be used to override or alter any facet of a combat attack (or defense).
+<p>
+A special must register what type of special it is:<br>
+T_OFFENSIVE - an offensive special<br>
+T_DEFENSIVE - a defensive special<br>
+T_CONTINUOUS - can be used with one of the above to indicate that the
+               special is continuous and not a one-time event.<br>
+<p>
+It also indicates which stages of combat it wants to be notified of:<br>
+E_OPPONENT_SELECTION - selection of an opponent<br>
+E_DEFENDER_SELECTION - selection of the defender<br>
+E_ATTACK_SELECTION - selecting which attack the attacker will perform<br>
+E_DEFENSE_SELECTION - selection of the method of defense<br>
+E_ATTACK_MODIFIER - calculating the modifier for attack (how easy/hard it
+is)<br>
+E_DEFENSE_MODIFIER - doing the same for the defense<br>
+E_DAMAGE_CALCULATION - calculating how much damage the attack can do<br>
+E_ARMOUR_CALCULATION - calculating how much damage the armour will stop<br>
+E_WEAPON_DAMAGE - performing damage to the weapons involved<br>
+E_WRITE_MESSAGES - writing out the success/failure messages<br>
+E_AFTER_ATTACK - any post-attack cleanup.<br>
+<p>
+The special provides the combat system with a callback function to be
+called and any additional data the special wants tracked by the combat
+system.
+<p>
+Then, when combat reaches one of the stages requested it calls the callback
+function. This function is passed the stage we're at, all the data for this
+attack and also the extra data the special requested.
+<p>
+The callback can then modify any aspect of the attack data (it could change
+the attack skill, the defensive weapon, the defense modifier, anything at
+all) and then return back into combat.
+<p>
+The return tells the combat system what to do next. The options are:<br>
+R_CONTINUE - continue as though the special hadn't done anything.<br>
+R_DONE - treat this step as completed.<br>
+R_ABORT - abort the attack<br>
+R_REMOVE_ME - do one of the above and then remove the special.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - Is this an offensive or defensive special.
+<dd>events - A bitmap of the events this special is interested in.
+<dd>the - function to be called. A mixed array containing an object & a
+function string.
+<dt><b>Returns:</b>
+<dd>the id of the special.
+
+<dt><b>Example:</b>
+<dd><pre>
+This example registers a special that causes the player to be unable to
+defend themselves for three rounds.
+
+id = player->register_special(T_DEFENSIVE | T_CONTINUOUS,
+                              E_DEFENSE_SELECTION | E_DAMAGE_CALCULATION,
+                              ({ base_name(this_object()), "callback" }),
+                              ({ player, 0}));
+
+mixed *callback(int stage, class attack att, mixed data) {
+  // If it's not our player defending we won't do anything.
+  if(att->defender != data[1])
+    return ({ R_CONTINUE, att, data });
+
+   switch(stage) {
+   case E_DEFENSE_SELECTION: // We won't let them defend themselves!
+     att->defense_action = "none";
+     return ({ R_DONE, att, data });
+   case E_DAMAGE_CALCULATION:
+     // If they managed to defend themself, turn it into a failure.
+     if(att->result == DEFWIN || att->result == DEFAWARD)
+       att->result = OFFWIN;
+
+     // By using R_CONTINUE they take 500 hits _plus_ the normal damage.
+     att->damage = 500;
+
+     // The R_REMOVE_ME causes our special to disappear once we've hurt
+     // them three times.
+     if(data[1] > 3)
+       return ({ R_CONTINUE & R_REMOVE_ME, att, data });
+
+     data[1]++;
+     return ({ R_CONTINUE, att, data });
+   }
+}
+</pre></dl>
+
+<dt><a name="remove_attacker_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_attacker_list</b></a><pre>
+void remove_attacker_list(object ob)
+</pre><dd>
+This method removes someone from an attacker/hunting list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to be removed.
+
+</dl>
+
+<dt><a name="remove_defender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_defender</b></a><pre>
+int remove_defender(object defender)
+</pre><dd>
+This method will remove a defender to the current list of defenders
+for this living object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the defender to remove
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure.
+
+<dt><b>See also:</b>
+<dd><a href="#add_defender">add_defender()</a> and <a href="#query_defenders">query_defenders()
+</a></dl>
+
+<dt><a name="remove_protector">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_protector</b></a><pre>
+int remove_protector(object protector)
+</pre><dd>
+This method will remove a protector to the current list of protectors
+for this living object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the protector to remove
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure.
+
+<dt><b>See also:</b>
+<dd><a href="#add_protector">add_protector()</a> and <a href="#query_protectors">query_protectors()
+</a></dl>
+
+<dt><a name="remove_special">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_special</b></a><pre>
+int remove_special(int id)
+</pre><dd>
+Remove a combat special.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - The id of the special
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure
+
+</dl>
+
+<dt><a name="remove_surrenderer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_surrenderer</b></a><pre>
+void remove_surrenderer(object victim)
+</pre><dd>
+This method removes a person surrendering from our current list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>victim - the person to remove
+<dt><b>See also:</b>
+<dd><a href="#query_surrenderers">query_surrenderers()
+</a></dl>
+
+<dt><a name="reset_defenders">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_defenders</b></a><pre>
+void reset_defenders()
+</pre><dd>
+This method resets the defender array back to being nothing.
+<p>
+
+<dt><a name="reset_protectors">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_protectors</b></a><pre>
+void reset_protectors()
+</pre><dd>
+This method resets the protector array back to being nothing.
+<p>
+
+<dt><a name="set_combat_attack">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_combat_attack</b></a><pre>
+void set_combat_attack(string attack)
+</pre>
+<dt><a name="set_combat_attitude">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_combat_attitude</b></a><pre>
+void set_combat_attitude(string attitude)
+</pre>
+<dt><a name="set_combat_distance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_combat_distance</b></a><pre>
+void set_combat_distance(string distance)
+</pre>
+<dt><a name="set_combat_focus">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_combat_focus</b></a><pre>
+void set_combat_focus(string focus)
+</pre>
+<dt><a name="set_combat_mercy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_combat_mercy</b></a><pre>
+void set_combat_mercy(string mercy)
+</pre>
+<dt><a name="set_combat_parry">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_combat_parry</b></a><pre>
+void set_combat_parry(string parry)
+</pre>
+<dt><a name="set_combat_response">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_combat_response</b></a><pre>
+void set_combat_response(string response)
+</pre>
+<dt><a name="set_concentrating">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_concentrating</b></a><pre>
+int set_concentrating(object thing)
+</pre>
+<dt><a name="set_distance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_distance</b></a><pre>
+int set_distance(object opponent,
+int distance)
+</pre><dd>
+Set the distance from this object to the given opponent.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>opponent - the object to set the distance to.
+<dd>distance - the new distance.
+
+</dl>
+
+<dt><a name="set_special_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_special_data</b></a><pre>
+int set_special_data(int id,
+mixed data)
+</pre><dd>
+Update the user data for a specific special.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - The id of the special
+<dd>data - The data to be set
+<dt><b>Returns:</b>
+<dd>True or false for success or failure
+
+</dl>
+
+<dt><a name="set_specials">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_specials</b></a><pre>
+void set_specials(class combat_special * specials)
+</pre><dd>
+Directly set the special list. Use with care!<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - combat_special *
+
+</dl>
+
+<dt><a name="set_tactics">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_tactics</b></a><pre>
+void set_tactics(class tactics new_tactics)
+</pre><dd>
+This sets the current attitude to use in combat.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>attitude - the new combat attitude
+<dt><b>See also:</b>
+<dd><a href="#query_tactics">query_tactics()
+</a></dl>
+
+<dt><a name="set_unarmed_parry">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_unarmed_parry</b></a><pre>
+void set_unarmed_parry(int parry)
+</pre>
+<dt><a name="start_combat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_combat</b></a><pre>
+void start_combat(object opponent)
+</pre><dd>
+This method is called when combat starts.  You can overload this function
+to make your NPC do things at the start of combat.
+You do not need to call ::start_combat() since this is just a stub function.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>opponent - The first opponent to be attacked.
+
+</dl>
+
+<dt><a name="stop_all_fight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stop_all_fight</b></a><pre>
+void stop_all_fight()
+</pre>
+<dt><a name="stop_fight">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stop_fight</b></a><pre>
+void stop_fight(object opponent)
+</pre>
+<dt><a name="stop_hunting">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stop_hunting</b></a><pre>
+void stop_hunting(object opponent)
+</pre>
+<dt><a name="stopped_fighting">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stopped_fighting</b></a><pre>
+void stopped_fighting(object thing)
+</pre><dd>
+This method is called when the fight has stopped.  It propogates the
+stopped fighting event onto all the objects in the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing which stopped fighting?
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="adjust_actions">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>adjust_actions</b></a><pre>
+void adjust_actions(class attack att)
+</pre><dd>
+Adjust the time left, combat actions and gp used by this attack.
+This calls adjust_action_defecit in both the attacker and defender
+as appropriate.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+
+</dl>
+
+<dt><a name="after_attack">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>after_attack</b></a><pre>
+class attack after_attack(class attack att)
+</pre><dd>
+This function is called after it's all over and done (just before the
+costs are charged). It can be used to do any special outcomes that
+we may decide on.
+Note that if you override this function in a special be absolutely certain
+you know what you're doing if you return R_ABORT or R_DONE. Use of either
+of these two could cause really nasty side-effects.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+<dt><b>Returns:</b>
+<dd>class attack
+
+</dl>
+
+<dt><a name="calc_attack_modifier">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>calc_attack_modifier</b></a><pre>
+class attack calc_attack_modifier(class attack att)
+</pre><dd>
+This method calculates the modifier to the attack.
+
+It will take into account all the basic stuff that makes the attack
+harder or easier.
+
+PRE: All attack and response data has been filled in.
+POST: The offensive modifier must be set.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+<dt><b>Returns:</b>
+<dd>class attack
+
+</dl>
+
+<dt><a name="calc_damage">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>calc_damage</b></a><pre>
+class attack calc_damage(class attack att)
+</pre><dd>
+After a successful attack (or possibly a parried one) calculate the
+amount of damage done to the opponent.
+
+This method must fill in the amount of damage to be done and may adjust
+the time taken too.
+
+PRE: the outcome of an attack must have been determined.
+POST: damage must be filled in.
+<p>
+
+<dt><a name="call_special">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>call_special</b></a><pre>
+mixed * call_special(int stage,
+class attack att)
+</pre><dd>
+Go through the list of the attacker & opponents specials and
+call any that have registered for this stage.
+<p>
+
+<dt><a name="choose_attack">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>choose_attack</b></a><pre>
+class attack choose_attack(class attack att)
+</pre><dd>
+Determine which attack they'll use.
+
+This picks a weapon, gets the attack data and the weapon skill and
+determines how much the attack will cost.
+
+PRE: attacker info, opponent and defender info have been set.
+POST: attack weapon, attack skill, attack data, and attack_cost must
+be set.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+<dt><b>Returns:</b>
+<dd>class attack
+
+</dl>
+
+<dt><a name="choose_opponent">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>choose_opponent</b></a><pre>
+class attack choose_opponent(class attack att)
+</pre><dd>
+Choose an opponent and attack them.
+
+This method must fill in the opponent variable. If no opponent is chosen
+the attack will be aborted.
+
+PRE: Attacker information has been filled in.
+POST: opponent must be chosen or the attack will be aborted.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+<dt><b>Returns:</b>
+<dd>class attack
+
+</dl>
+
+<dt><a name="damage_weapon">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>damage_weapon</b></a><pre>
+class attack damage_weapon(class attack att)
+</pre><dd>
+Do damage to the attacking & defending weapons.
+
+PRE: all information has been filled in
+POST: the weapons involved have taken appropriate damage.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+<dt><b>Returns:</b>
+<dd>class attack
+
+</dl>
+
+<dt><a name="perform_movement">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>perform_movement</b></a><pre>
+class attack perform_movement(class attack att)
+</pre><dd>
+This function is called as part of the post attack processing and performs
+the checks to see if someone can move closer or further away from their
+opponent.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+<dt><b>Returns:</b>
+<dd>class attack
+<dt><b>See also:</b>
+<dd><a href="#after_attack">after_attack()
+</a></dl>
+
+<dt><a name="prepare_messages">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>prepare_messages</b></a><pre>
+class attack prepare_messages(class attack att)
+</pre><dd>
+Prepare the result messages.
+
+This method prepares the attack and defense messages setting up the 5
+element arrays of att_mess & def_mess. The elements are as follows:
+0 - the attacker, 1 - the opponent, 2 - everyone else, 3 - the defender
+4 - the person hit
+
+PRE: The attack has been done and the amount of damage done and stopped
+has been calculated.
+POST: The 5 element att_mess & def_mess arrays are populated.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+
+</dl>
+
+<dt><a name="write_messages">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>write_messages</b></a><pre>
+class attack write_messages(class attack att)
+</pre><dd>
+Write out the attack/defense messages.
+
+PRE: all information has been filled in
+POST: the appropriate messages have been written out.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>class - attack
+<dt><b>Returns:</b>
+<dd>class attack
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 19:58:43 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

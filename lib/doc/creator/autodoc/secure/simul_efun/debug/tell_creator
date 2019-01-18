@@ -1,0 +1,47 @@
+.DT
+tell_creator
+Disk World creator help
+tell_creator
+
+.SH Name
+.SP 5 5
+tell_creator -  This method writes a message to a creator, it's mainly meant  for debug messages where sending a message to a specific  creator is smarter than sending it to players, who will only get confused.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void tell_creator(mixed cres,
+string fmt,
+mixed args ...)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^cre%^RESET%^ - the name or object to send the message to
+%^BOLD%^fmt%^RESET%^ - the format string
+%^BOLD%^args%^RESET%^ - the arguments to the sprintf
+
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/debug.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method writes a message to a creator, it's mainly meant 
+for debug messages where sending a message to a specific 
+creator is smarter than sending it to players, who will only get confused.
+
+Typically you should use debug_printf() instead of this.
+
+.EP
+
+.SH See also
+.SP 5 5
+debug_printf
+
+.EP
+

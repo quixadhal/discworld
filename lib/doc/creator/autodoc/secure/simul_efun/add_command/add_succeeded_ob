@@ -1,0 +1,40 @@
+.DT
+add_succeeded_ob
+Disk World creator help
+add_succeeded_ob
+
+.SH Name
+.SP 5 5
+add_succeeded_ob -  An interface to add_succeeded.
+.EP
+
+.SH Syntax
+.SI 5
+void add_succeeded_ob(object ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object to add as succeeded
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/add_command.c
+.EI
+
+.SH Description
+.SP 5 5
+
+An interface to add_succeeded.  This is added to make life easier,m
+you do not need to call this_player()->add_succeeded() if you are
+writing add_command code in a non-living object.
+
+.EP
+
+.SH See also
+.SP 5 5
+/global/new_parse->add_succeeded()
+
+.EP
+

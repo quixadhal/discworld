@@ -1,0 +1,93 @@
+<html><head><title>File query_number_and_ctime_elapsed.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /secure/simul_efun/query_number_and_ctime_elapsed.c</h2>
+Cotains some simul_efuns.<p>Written by Pinkfish
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#ctime_elapsed"><b>ctime_elapsed</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#number_as_string"><b>number_as_string</b></a>(int)<dd>
+This method turns a number less than 100 into a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_num"><b>query_num</b></a>(int, int)<dd>
+This method turns a number into a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_times"><b>query_times</b></a>(int)<dd>
+Convert a number into a number of times.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#word_ordinal"><b>word_ordinal</b></a>(int)<dd>
+This method returns the ordinal of a number as a string (ie, "first",
+"thirtieth", etc.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="ctime_elapsed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>ctime_elapsed</b></a><pre>
+varargs string ctime_elapsed(int time_elapsed,
+int mode)
+</pre>
+<dt><a name="number_as_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>number_as_string</b></a><pre>
+string number_as_string(int n)
+</pre><dd>
+This method turns a number less than 100 into a string.  This function should
+not be used.  It will only work for numbers less than 100.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>n - the number to turn into a string
+<dt><b>Returns:</b>
+<dd>the number as a nice string
+<dt><b>See also:</b>
+<dd><a href="#query_num">query_num()
+</a></dl>
+
+<dt><a name="query_num">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_num</b></a><pre>
+string query_num(int n,
+int limit)
+</pre><dd>
+This method turns a number into a string.  It returns a string of the
+form "one hundred and twenty four".  This function should be used and
+not number_as_string below.
+The limit argument is used to set the cut off point at which it will
+print "many".
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the number to return as a string
+<dd>limit - the largest number to process
+<dt><b>Returns:</b>
+<dd>the number as a nice string
+
+</dl>
+
+<dt><a name="query_times">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_times</b></a><pre>
+string query_times(int num)
+</pre><dd>
+Convert a number into a number of times. eg. 1 = once, 2 = twice, 3 = three
+times etc. etc.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the - number in question
+<dt><b>Returns:</b>
+<dd>a string equivalent.
+
+</dl>
+
+<dt><a name="word_ordinal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>word_ordinal</b></a><pre>
+string word_ordinal(int num)
+</pre><dd>
+This method returns the ordinal of a number as a string (ie, "first",
+"thirtieth", etc.)<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>n - the number for which you want the ordinal
+<dt><b>See also:</b>
+<dd><a href="#query_num">query_num(), ordinal()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 15:17:10 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

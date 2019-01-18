@@ -1,0 +1,46 @@
+.DT
+add_key_permission
+Disk World creator help
+add_key_permission
+
+.SH Name
+.SP 5 5
+add_key_permission -  This method adds in a specific permission type into the current permission set for this key.
+.EP
+
+.SH Syntax
+.SI 5
+int add_key_permission(string group,
+string key,
+string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^group%^RESET%^ - the key group to add the permision to
+%^BOLD%^key%^RESET%^ - the key to add the permission for
+%^BOLD%^type%^RESET%^ - the permission type to add in
+.EI
+
+.SH Returns
+.SI 5
+0 if it is already added, 1 if not.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/key_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds in a specific permission type into the current
+permission set for this key.
+.EP
+
+.SH See also
+.SP 5 5
+remove_key_permission(), query_key_permission(), set_key_permissions(), query_all_key_permissions(), query_all_keys()
+
+.EP
+

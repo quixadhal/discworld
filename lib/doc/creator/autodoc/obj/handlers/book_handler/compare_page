@@ -1,0 +1,41 @@
+.DT
+compare_page
+Disk World creator help
+compare_page
+
+.SH Name
+.SP 5 5
+compare_page -  Compares the open pages of two books to see if the text is the same.
+.EP
+
+.SH Syntax
+.SI 5
+int compare_page(string page1,
+string page2)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^page1%^RESET%^ - the first book
+%^BOLD%^page2%^RESET%^ - the second book
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/book_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Compares the open pages of two books to see if the text is the
+same.  It ignores language and style of writing.  This would also
+work on two pieces of paper.
+.EP
+
+.SH See also
+.SP 5 5
+check_book_same(), add_book()
+
+.EP
+

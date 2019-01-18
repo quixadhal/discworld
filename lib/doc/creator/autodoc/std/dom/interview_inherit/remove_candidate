@@ -1,0 +1,37 @@
+.DT
+remove_candidate
+Disk World creator help
+remove_candidate
+
+.SH Name
+.SP 5 5
+remove_candidate -  Delete a player from the list.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_candidate(string candidate)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^candidate%^RESET%^ - the name of the player to remove.
+.EI
+
+.SH Returns
+.SI 5
+0 on failure, 1 on success
+.EI
+
+.SH Defined in
+.SI 5
+/std/dom/interview_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Delete a player from the list.  Will search through all three lists for
+an occurance of the name before deleting it where found.
+.EP
+

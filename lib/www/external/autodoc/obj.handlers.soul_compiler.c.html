@@ -1,0 +1,46 @@
+<html><head><title>File soul_compiler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/soul_compiler.c</h2>
+This compiles the soul files into a non human readable format.   The
+format is far more useful to the soul though :)
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.user_parser.h.html">/include/user_parser.h</a> and <a href="include.soul.h.html">/include/soul.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_directory"><b>compile_directory</b></a>(string)<dd>
+Compiles up a directory full of files.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#compile_file"><b>compile_file</b></a>(string)<dd>
+Compiles up the file into the useful soul format.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="compile_directory">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_directory</b></a><pre>
+void compile_directory(string fname)
+</pre><dd>
+Compiles up a directory full of files.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the directory name to compile
+
+<dt><b>See also:</b>
+<dd><a href="#compile_file">compile_file() </a></dl>
+
+<dt><a name="compile_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>compile_file</b></a><pre>
+void compile_file(string fname)
+</pre><dd>
+Compiles up the file into the useful soul format.   It also tells
+the soul about it.
+<p>
+See the soul data files in /save/new_soul for details of the format
+for the soul files.   The file has to come from the soul save
+directory or the call will not work.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the name of the file to compile
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 01:31:59 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

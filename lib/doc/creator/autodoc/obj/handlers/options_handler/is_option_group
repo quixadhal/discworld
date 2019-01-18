@@ -1,0 +1,39 @@
+.DT
+is_option_group
+Disk World creator help
+is_option_group
+
+.SH Name
+.SP 5 5
+is_option_group -  This method checks to see if the specified option group path exists.
+.EP
+
+.SH Syntax
+.SI 5
+int is_option_group(object player,
+string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player%^RESET%^ - the player this is relative to
+%^BOLD%^name%^RESET%^ - the option path to check
+.EI
+
+.SH Returns
+.SI 5
+1 if it is an option group, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/options_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the specified option group path exists.  This
+will only return true if it is an option group, not an actual option.
+.EP
+

@@ -1,0 +1,40 @@
+.DT
+short_to_name
+Disk World creator help
+short_to_name
+
+.SH Name
+.SP 5 5
+short_to_name -  This function concatenates the short of a group to a valid name that can then be used with create_group().
+.EP
+
+.SH Syntax
+.SI 5
+string short_to_name(string short)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^short%^RESET%^ - the short of the group
+.EI
+
+.SH Returns
+.SI 5
+the name of the group, or "" if invalid
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/group_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function concatenates the short of a group to a valid name
+that can then be used with create_group().  The function will
+also return invalid if a channel with such a name exists in the
+broadcaster.
+
+.EP
+

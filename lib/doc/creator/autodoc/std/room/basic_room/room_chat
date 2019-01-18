@@ -1,0 +1,66 @@
+.DT
+room_chat
+Disk World creator help
+room_chat
+
+.SH Name
+.SP 5 5
+room_chat -  This method sets up the room chats.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void room_chat(mixed * args,
+object chatobj)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^args%^RESET%^ - the room chat arguments
+%^BOLD%^chatobj%^RESET%^ - chatter object in case the default offends you.
+               This argument may be omitted in which case you get 
+               /std/room/basic/chatter.c
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets up the room chats.
+Room chats are strings which are printed at (semi) random intervals
+in rooms.  They are used to add atmosphere to a room. A chat will
+be picked at random from the array of chats with a frequency
+controlled by the times min and max. ie. one will be picked every n
+seconds where is varies between min and max seconds. Please don't
+make the values for min and max too small or the messages just
+become annoying!
+
+
+The argument to the room_chat method is an array of the format:
+.EP
+.SP 5 5
+({ int min, int max, ({ string *chats }) }). In place of a chat string you may use "#function_name" where function_name is a function that exists on the room object. 
+
+Repeated calls to this function overwrite the chats for the default chatter. 
+
+If this function is used in combination with the day/night chats then this sets the default chat items for the chatter. The frequency of chats will be taken from the day/night chats, but the messages from here will be merged into the day/night chats.
+.EP
+
+.SH Example 1
+.SI 5
+room_chat(({ 120, 240, ({ "A string frog wanders past.",
+                          "#make_soggy_bread",
+                          "A trully revolting smell drifts insidiously "
+                               "from the bakery." }) }) );
+.EI
+
+.SH See also
+.SP 5 5
+stop_room_chat(), add_room_chats(), remove_room_chats(), set_chat_min_max()
+
+.EP
+

@@ -1,0 +1,45 @@
+.DT
+pk_assist
+Disk World creator help
+pk_assist
+
+.SH Name
+.SP 5 5
+pk_assist -  This method checks to see if both of the objects are able to assist each other.
+.EP
+
+.SH Syntax
+.SI 5
+int pk_assist(mixed assister,
+mixed assistee,
+int off_line)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^assister%^RESET%^ - thing doing the assisting
+%^BOLD%^assistee%^RESET%^ - thing being assisted
+.EI
+
+.SH Returns
+.SI 5
+1 if they cannot attack each other
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/pk_check.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if both of the objects are able to assist each
+other. This will return 1 if they cannot complete the action and 0
+They are not able to assist each other if one of them is not PK and
+the other is and the PK is in combat with other players.
+
+
+If an object is passed into this method, it is first checked with the method query_owner_pk_check(), if this returns a non-zero value it is used as the person who owns the object. This allows objects to be pk checked when they are not players.
+.EP
+

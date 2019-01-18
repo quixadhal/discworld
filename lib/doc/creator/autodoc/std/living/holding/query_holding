@@ -1,0 +1,39 @@
+.DT
+query_holding
+Disk World creator help
+query_holding
+
+.SH Name
+.SP 5 5
+query_holding -  This method returns the current holding array of the living object.
+.EP
+
+.SH Syntax
+.SI 5
+object * query_holding()
+.EI
+
+.SH Returns
+.SI 5
+an array of held objects.EI
+
+.SH Defined in
+.SI 5
+/std/living/holding.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current holding array of the living object.
+This has one element in the array for each object and a 0 is in the
+array if that limb is not holding anything.  The positions correspond
+to the positions returned by the query_limbs() function.
+.EP
+
+.SH See also
+.SP 5 5
+query_holding(), query_free_limbs(), query_weapons()
+
+.EP
+

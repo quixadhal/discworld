@@ -1,0 +1,45 @@
+.DT
+do_transfer
+Disk World creator help
+do_transfer
+
+.SH Name
+.SP 5 5
+do_transfer -  This method is used when someone wishes to withdraw some money from the club account.
+.EP
+
+.SH Syntax
+.SI 5
+int do_transfer(string money,
+string name,
+string from_account,
+string to_account,
+string reason)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^money%^RESET%^ - the amount of money to withdraw
+%^BOLD%^club%^RESET%^ - the club to withdraw the money from
+%^BOLD%^from_account%^RESET%^ - the account to withdraw money from
+%^BOLD%^to_account%^RESET%^ - the account to deposit the money to
+%^BOLD%^reason%^RESET%^ - the reason to withdraw money from the account
+.EI
+
+.SH Returns
+.SI 5
+1 if suecceded, 0 if failed.
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/club_control_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used when someone wishes to withdraw some money from the
+club account.
+.EP
+

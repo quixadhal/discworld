@@ -1,0 +1,244 @@
+<html><head><title>File cmr_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/cmr_handler.c</h2>
+This handler deals with identifying materials and colours. Your skill and
+experience are used to determine if you can successfully identify a
+particular material or colour.
+<p>Written by Deutha
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.cmr.h.html">/include/cmr.h</a>, <a href="include.colour.h.html">/include/colour.h</a> and <a href="include.library.h.html">/include/library.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_colour"><b>add_colour</b></a>(string, int, int, int, int)<dd>
+This function is used to add a known colour to the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_material"><b>add_material</b></a>(string, int, int, int, int)<dd>
+Add a new material to the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_colour"><b>delete_colour</b></a>(string)<dd>
+Remove a colour from the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_material"><b>delete_material</b></a>(string)<dd>
+Remove a material from the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#identify_colour"><b>identify_colour</b></a>(string, object)<dd>
+Used to determine if a player can identify a particular colour.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#identify_material"><b>identify_material</b></a>(string, object, int)<dd>
+Used to determine if a player can identify a particular material.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_colour_details"><b>query_colour_details</b></a>(string)<dd>
+Returns the array of information stored about a particular colour.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_colour_names"><b>query_colour_names</b></a>()<dd>
+List all the known colours in the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_material_adjective"><b>query_material_adjective</b></a>(string)<dd>
+Not sure about this.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_material_ansi_colour"><b>query_material_ansi_colour</b></a>(string)<dd>
+Returns the ansi colour associated with the material eg.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_material_details"><b>query_material_details</b></a>(string)<dd>
+Return the details of a material set with add_material
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_material_names"><b>query_material_names</b></a>()<dd>
+List all the known materials by name.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_colour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_colour</b></a><pre>
+string add_colour(string word,
+int fine,
+int crude,
+int qp_thresh,
+int sp_thresh)
+</pre><dd>
+This function is used to add a known colour to the handler.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The name of the colour
+<dd>fine - Not sure
+<dd>crude - Not sure
+<dd>qp_thresh - Quest points required to help identify this colour
+<dd>sp_thresh - Social points required to help identify this colour
+
+</dl>
+
+<dt><a name="add_material">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_material</b></a><pre>
+string add_material(string word,
+int colour,
+int type,
+int skill_reqd,
+int skill_thresh)
+</pre><dd>
+Add a new material to the handler.
+The colour of the material is an index into the COLOUR array defined in
+colour.h. The type of material is an index into the MATERIALS array defined
+in cmr.h. skill_reqd is an index into the SKILLS array defined in cmr.h but
+can also take the special value of 99 to indicate that the material can only
+be identified if someone has told the person what the material is or 0 to
+indicate that everyone knows what the material is.
+If the skill_reqd is a skill the skill_thresh is the bonus needed in that
+skill to identify the material.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The name of the material
+<dd>colour - The index into the colour array for the colour of the
+                material. (see colour.h)
+<dd>type - Type of material
+<dd>skill_reqd - Index into the array of skills (see cmr_handler.h)
+<dd>skill_thresh - The bonus required in the appropriate skill.
+
+</dl>
+
+<dt><a name="delete_colour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_colour</b></a><pre>
+int delete_colour(string word)
+</pre><dd>
+Remove a colour from the handler.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The colour to remove.
+
+</dl>
+
+<dt><a name="delete_material">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_material</b></a><pre>
+int delete_material(string word)
+</pre><dd>
+Remove a material from the handler.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The name of the material to remove.
+
+</dl>
+
+<dt><a name="identify_colour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>identify_colour</b></a><pre>
+string identify_colour(string word,
+object player)
+</pre><dd>
+Used to determine if a player can identify a particular colour. The
+function returns the colours name or a string giving a rough description
+if they're unable to identify it.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The colour they're trying to identify.
+<dd>player - The player trying to identify the colour.
+<dt><b>Returns:</b>
+<dd>Description.
+
+</dl>
+
+<dt><a name="identify_material">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>identify_material</b></a><pre>
+string identify_material(string word,
+object player,
+int article)
+</pre><dd>
+Used to determine if a player can identify a particular material.
+The function returns the materials name or a string giving a rough
+description if they're unable to identify it.
+
+Some materials can be identified by being high enough at a particular skill
+(defined in cmr.h) while others are only learned by being taught and others
+are known to everyone.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The name of the material
+<dd>player - The player trying to identify it.
+<dd>article - Definite or indefinite article.
+<dt><b>Returns:</b>
+<dd>Description.
+
+<dt><b>See also:</b>
+<dd>cmr_library.c and cmr
+.c</dl>
+
+<dt><a name="query_colour_details">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_colour_details</b></a><pre>
+int * query_colour_details(string word)
+</pre><dd>
+Returns the array of information stored about a particular colour. The
+array is setup using add_colour.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The colour in question
+<dt><b>See also:</b>
+<dd>add_colour
+.c</dl>
+
+<dt><a name="query_colour_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_colour_names</b></a><pre>
+string * query_colour_names()
+</pre><dd>
+List all the known colours in the handler.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>An array of strings of colour names.
+
+</dl>
+
+<dt><a name="query_material_adjective">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_material_adjective</b></a><pre>
+string query_material_adjective(string word)
+</pre><dd>
+Not sure about this. Seems to return a colour and adjective for a material.
+eg. slate returns 'grey mineral'.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>The - name of the material.
+<dt><b>Returns:</b>
+<dd>A description.
+
+</dl>
+
+<dt><a name="query_material_ansi_colour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_material_ansi_colour</b></a><pre>
+string query_material_ansi_colour(string word)
+</pre><dd>
+Returns the ansi colour associated with the material eg. yellow for gold,
+red for a red mineral pebble etc.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the material's name.
+<dt><b>Returns:</b>
+<dd>ansi colour sequence for that colour.
+
+</dl>
+
+<dt><a name="query_material_details">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_material_details</b></a><pre>
+int * query_material_details(string word)
+</pre><dd>
+Return the details of a material set with add_material
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - The material in question
+<dt><b>Returns:</b>
+<dd>An integer array of material details.
+
+</dl>
+
+<dt><a name="query_material_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_material_names</b></a><pre>
+string * query_material_names()
+</pre><dd>
+List all the known materials by name.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 16:54:07 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

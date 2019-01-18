@@ -1,0 +1,39 @@
+.DT
+set_key
+Disk World creator help
+set_key
+
+.SH Name
+.SP 5 5
+set_key -  This sets the property of the key that will unlock the object.
+.EP
+
+.SH Syntax
+.SI 5
+void set_key(mixed val)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^val%^RESET%^ - The property the key must have to unlock the object.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/close_lock.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets the property of the key that will unlock the object. This can
+be a string, or a function pointer which will evaluate to a string.
+
+.EP
+
+.SH See also
+.SP 5 5
+set_locked()
+.EP
+

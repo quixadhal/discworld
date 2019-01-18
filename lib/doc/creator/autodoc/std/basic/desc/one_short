@@ -1,0 +1,60 @@
+.DT
+one_short
+Disk World creator help
+one_short
+
+.SH Name
+.SP 5 5
+one_short -  This method returns an "out-of-a-group" short.
+.EP
+
+.SH Syntax
+.SI 5
+varargs string one_short(int flag)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^flag%^RESET%^ - If this flag is set, do not bring the player out of hiding.
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/desc.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns an "out-of-a-group" short.
+This function returns a string that the message system replaces, when
+messages are printed, by a string dependent on the determinate of
+the object and its short as given by pretty_short. If the viewer
+is not in the same environment as the object or if the determinate is
+defined and is not "a " or "an ", that string is the determinate. If
+there is more than one object with the same plural as that object in its
+environment, then that string is "one of the "; otherwise the
+string is "the ". The output from from one_short should not be
+stored, since the object to which it refers may not later exist; it can be
+processed with convert_message. One_short is mostly used for
+referring to a living object when it performs an action independent
+of any previous actions. 
+
+
+The return of this function needs more processing before the player sees it. In general you will not need to worry about this.
+.EP
+
+.SH Example 1
+.SI 5
+"one of the poor beggars"
+"the Weasel"
+"Detritus"
+"One of the sailors falls over"
+
+.EI
+
+.SH See also
+.SP 5 5
+set_short(), short(), a_short(), the_short(), poss_short(), /global/events->convert_message()
+.EP
+

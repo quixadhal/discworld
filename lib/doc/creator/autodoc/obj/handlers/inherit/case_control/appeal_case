@@ -1,0 +1,43 @@
+.DT
+appeal_case
+Disk World creator help
+appeal_case
+
+.SH Name
+.SP 5 5
+appeal_case -  This method sets the case as reopened for an appeal.
+.EP
+
+.SH Syntax
+.SI 5
+int appeal_case(string area,
+int id,
+string appealer,
+string reason)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area the case is in
+%^BOLD%^id%^RESET%^ - the of the case to appeal
+%^BOLD%^appealer%^RESET%^ - the person who does the appeal
+%^BOLD%^reason%^RESET%^ - the reason for the appeal
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/case_control.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the case as reopened for an appeal.  After an appeal
+the case will be closed again.
+.EP
+

@@ -1,0 +1,47 @@
+.DT
+add_item_to_auction
+Disk World creator help
+add_item_to_auction
+
+.SH Name
+.SP 5 5
+add_item_to_auction -  This method puts an item up for auction.
+.EP
+
+.SH Syntax
+.SI 5
+int add_item_to_auction(object * obs,
+string name,
+int reserve,
+string seller,
+int length,
+string end_function,
+mixed extra)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^obs%^RESET%^ - the objects to sell
+%^BOLD%^name%^RESET%^ - the name of the item
+%^BOLD%^reserve%^RESET%^ - the reserve price of the item
+%^BOLD%^seller%^RESET%^ - the seller of the item
+%^BOLD%^length%^RESET%^ - the length of the auction
+%^BOLD%^end_function%^RESET%^ - the function to call when the item is sold
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/auction_house.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method puts an item up for auction.
+.EP
+

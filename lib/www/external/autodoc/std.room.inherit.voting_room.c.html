@@ -1,0 +1,629 @@
+<html><head><title>File voting_room.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/voting_room.c</h2>
+Generalised voting room intended to be inherited into rooms in the mud that
+will setup the parameters and settings for votes.
+<p>
+The room does not inherantly support player initiated votes, however it is
+a fairly simple matter to add this to your own room and have your room add
+votes when players initiate them.
+<p>Written by Ceres
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.board.h.html">/include/board.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_election"><b>election</b></a>
+<dd>
+ This class stores the essential information about an election during the
+ setup phase.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_vote"><b>vote</b></a>
+<dd>
+ This class stores the essential information about a vote.
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_our_election"><b>add_our_election</b></a>(string, class election)<dd>
+This method adds in a election.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_our_vote"><b>add_our_vote</b></a>(int, class vote)<dd>
+This method adds in a vote.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_vote"><b>add_vote</b></a>(string, string, string *, int)<dd>
+This function is called to add a vote to the system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cast_vote"><b>cast_vote</b></a>(string, int)<dd>
+This function is called when a player votes.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_election"><b>delete_election</b></a>(string)<dd>
+This is an administrative function to allow the removal/cancellation
+of an election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_vote"><b>delete_vote</b></a>(int)<dd>
+This is an administrative function to allow the removal/cancellation
+of a vote.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_create_vote"><b>do_create_vote</b></a>(string)<dd>
+This is an option function which can be defined in upper level inherits.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#end_vote"><b>end_vote</b></a>(int)<dd>
+This function is called to terminate a vote.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#init_add_vote"><b>init_add_vote</b></a>()<dd>
+This is the init() which should be called as well as the default
+init() if you wish to have player added votes.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#initiate_election"><b>initiate_election</b></a>(string)<dd>
+This function is used to initiate an election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#list_elections"><b>list_elections</b></a>()<dd>
+This function is called when a player types 'elections'.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#list_votes"><b>list_votes</b></a>()<dd>
+This function is called when a player types 'list'.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_announcement"><b>make_announcement</b></a>(string, string, string, string)<dd>
+This function is provided for convenience to make it easy for your vote
+end function to post to a board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_election_in_progress"><b>query_election_in_progress</b></a>(string)<dd>
+This method determines if there is already an election of the
+specified type in progress.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_open_voting"><b>query_open_voting</b></a>(int)<dd>
+This function queries if the votes should be open or not.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_our_elections"><b>query_our_elections</b></a>()<dd>
+This method is used to return the current elections.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_our_votes"><b>query_our_votes</b></a>()<dd>
+This method is used to return the current votes.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_file"><b>query_save_file</b></a>()<dd>
+This method returns the save file currently used for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_vote_duration"><b>query_vote_duration</b></a>()<dd>
+This function is used to returns the normal vote and election duration.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_room"><b>save_room</b></a>()<dd>
+Private function to save the rooms data file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#second_candidate"><b>second_candidate</b></a>(string, string)<dd>
+This function is used by players to second candidates for election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_completion_action"><b>set_completion_action</b></a>(mixed)<dd>
+This function defines a function to be called when the vote is complete.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_election_announcement"><b>set_election_announcement</b></a>(string, string, string, string, string)<dd>
+This function defines the board, person and subject for announcements
+of elections.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_elections"><b>set_no_elections</b></a>(int)<dd>
+This method sets the room to not allow elections and disable all the
+election commands.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_open_voting"><b>set_open_voting</b></a>(int)<dd>
+This function setups if the votes should be open or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_proxy"><b>set_proxy</b></a>(string)<dd>
+This method sets up a proxy for the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_file"><b>set_save_file</b></a>(string)<dd>
+This method is called by the inheriting object to determine which save file
+to use for votes.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_second_conditions"><b>set_second_conditions</b></a>(mixed)<dd>
+This function defines a function to be called to determine if a player
+is eligible to second a canditate for election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_stand_conditions"><b>set_stand_conditions</b></a>(mixed)<dd>
+This function defines a function to be called to determine if a player
+is eligible to stand for election to a position.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_vote_conditions"><b>set_vote_conditions</b></a>(mixed)<dd>
+This function defines a function to be called to determine if a player
+is eligible to vote.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_vote_duration"><b>set_vote_duration</b></a>(int)<dd>
+This function is used to set the normal vote and election duration.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_after_load"><b>setup_after_load</b></a>()<dd>
+This setups all the stuff that  needs to be setup after the room has
+been loaded.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stand_for_election"><b>stand_for_election</b></a>(string)<dd>
+This function is used by players to stand for election.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_election_vote"><b>start_election_vote</b></a>(string)<dd>
+Once the candidacy phase is over this function starts the election vote
+itself by taking all eligible candidates, setting them as choices in the
+election and then posting an announcemment.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_vote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_vote</b></a><pre>
+void add_vote(string type,
+string description,
+string * choices,
+int ending)
+</pre><dd>
+This function is called to add a vote to the system.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - Freeform string giving the type of vote. This is typically used
+by your completion function so that it can perform different actions for
+different types of votes.
+
+<dd>description - The description of the vote as shown to the player.
+
+<dd>choices - An array of vote options eg. ({"Yes", "No" })
+
+<dd>ending - An integer time of when the vote should be terminated.
+
+<dt><b>See also:</b>
+<dd><a href="#set_completion_action">set_completion_action()
+</a></dl>
+
+<dt><a name="cast_vote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cast_vote</b></a><pre>
+int cast_vote(string which_str,
+int vote_id)
+</pre><dd>
+This function is called when a player votes. The syntax is
+"vote <choice> on <vote>".
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_vote_conditions">set_vote_conditions()
+</a></dl>
+
+<dt><a name="delete_election">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_election</b></a><pre>
+int delete_election(string election)
+</pre><dd>
+This is an administrative function to allow the removal/cancellation
+of an election.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>election - The name of the election to be cancelled
+<dt><b>Returns:</b>
+<dd>Returns 1 for success, 0 for failure.
+
+</dl>
+
+<dt><a name="delete_vote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_vote</b></a><pre>
+int delete_vote(int vote_id)
+</pre><dd>
+This is an administrative function to allow the removal/cancellation
+of a vote.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>vote_id - The id number of the vote to be cancelled.
+<dt><b>Returns:</b>
+<dd>Returns 1 for success, 0 for failure.
+
+</dl>
+
+<dt><a name="do_create_vote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_create_vote</b></a><pre>
+int do_create_vote(string choices)
+</pre><dd>
+This is an option function which can be defined in upper level inherits.
+It allows the players to create their own votes with their own choices.
+<p>
+
+<dt><a name="end_vote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>end_vote</b></a><pre>
+void end_vote(int which)
+</pre><dd>
+This function is called to terminate a vote. It calls your completion
+action.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_completion_action">set_completion_action()
+</a></dl>
+
+<dt><a name="init_add_vote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>init_add_vote</b></a><pre>
+void init_add_vote()
+</pre><dd>
+This is the init() which should be called as well as the default
+init() if you wish to have player added votes.
+<p>
+
+<dt><a name="initiate_election">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>initiate_election</b></a><pre>
+void initiate_election(string position)
+</pre><dd>
+This function is used to initiate an election.
+It sets up the election class and adds it to the mapping.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>position - The name of the position the election is for.
+
+</dl>
+
+<dt><a name="list_elections">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>list_elections</b></a><pre>
+int list_elections()
+</pre><dd>
+This function is called when a player types 'elections'. It lists the
+elections currently accepting candidates.
+<p>
+
+<dt><a name="list_votes">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>list_votes</b></a><pre>
+int list_votes()
+</pre><dd>
+This function is called when a player types 'list'. It lists the currently
+open votes.
+<p>
+
+<dt><a name="make_announcement">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_announcement</b></a><pre>
+void make_announcement(string board,
+string name,
+string subject,
+string message)
+</pre><dd>
+This function is provided for convenience to make it easy for your vote
+end function to post to a board.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - The name of the board to post to.
+<dd>name - The name of the person to post as.
+<dd>subject - The subject line to use.
+<dd>message - The message to post.
+
+</dl>
+
+<dt><a name="query_election_in_progress">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_election_in_progress</b></a><pre>
+int query_election_in_progress(string position)
+</pre><dd>
+This method determines if there is already an election of the
+specified type in progress.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>position - the name of the election in progress
+<dt><b>Returns:</b>
+<dd>1 if there is an election in progress
+
+</dl>
+
+<dt><a name="query_open_voting">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_open_voting</b></a><pre>
+int query_open_voting(int open)
+</pre><dd>
+This function queries if the votes should be open or not.  If a vote is
+open then you know who voted for each thing.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for an open system 0 for closed
+
+</dl>
+
+<dt><a name="query_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_file</b></a><pre>
+string query_save_file()
+</pre><dd>
+This method returns the save file currently used for the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current save file
+
+</dl>
+
+<dt><a name="query_vote_duration">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_vote_duration</b></a><pre>
+int query_vote_duration()
+</pre><dd>
+This function is used to returns the normal vote and election duration.
+If it is not set and no duration is
+given in add_vote then the default value of DEFAULT_VOTE_DURATION is used.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>duraction - The number of seconds the vote should be open.
+
+<dt><b>See also:</b>
+<dd><a href="#add_vote">add_vote()
+</a></dl>
+
+<dt><a name="second_candidate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>second_candidate</b></a><pre>
+int second_candidate(string who,
+string position)
+</pre><dd>
+This function is used by players to second candidates for election. If a
+candidates isn't seconded he/she won't be in the election. The syntax is:
+"second <player> for <position>".
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_second_conditions">set_second_conditions()
+</a></dl>
+
+<dt><a name="set_completion_action">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_completion_action</b></a><pre>
+void set_completion_action(mixed cond)
+</pre><dd>
+This function defines a function to be called when the vote is complete.
+Typically your function will post the vote results somewhere or somesuch.
+The parameters passedinto the function are:<br>
+( string type, string description, string* choices, mapping votes, string* voted) <br>
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cond - This will usually be a mixed array of an object and a function.
+It could also be a function pointer.
+
+</dl>
+
+<dt><a name="set_election_announcement">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_election_announcement</b></a><pre>
+void set_election_announcement(string board,
+string person,
+string subject,
+string prefix,
+string suffix)
+</pre><dd>
+This function defines the board, person and subject for announcements
+of elections.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>board - This is the board to post to.
+<dd>person - This is who to post as.
+<dd>subject - This is the subject line to use.
+<dd>prefix - The text to preceed the message.  The default is
+              "All eligible persons are requested to vote for the position "
+              "of "
+<dd>suffix - The text to follow the message.
+
+</dl>
+
+<dt><a name="set_no_elections">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_elections</b></a><pre>
+void set_no_elections(int no_elections)
+</pre><dd>
+This method sets the room to not allow elections and disable all the
+election commands.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>no_elections - the flag
+
+</dl>
+
+<dt><a name="set_open_voting">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_open_voting</b></a><pre>
+void set_open_voting(int open)
+</pre><dd>
+This function setups if the votes should be open or not.  If a vote is
+open then you know who voted for each thing.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>open - 1 for an open system 0 for closed
+
+</dl>
+
+<dt><a name="set_proxy">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_proxy</b></a><pre>
+void set_proxy(string proxy)
+</pre><dd>
+This method sets up a proxy for the room.  A proxy is somewhere else
+to get all the voting information from.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>proxy - the proxy tpo setup
+
+</dl>
+
+<dt><a name="set_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_file</b></a><pre>
+void set_save_file(string file)
+</pre><dd>
+This method is called by the inheriting object to determine which save file
+to use for votes.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - The name of the file you want the voting info saved to
+(without the .o)
+
+</dl>
+
+<dt><a name="set_second_conditions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_second_conditions</b></a><pre>
+void set_second_conditions(mixed cond)
+</pre><dd>
+This function defines a function to be called to determine if a player
+is eligible to second a canditate for election.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cond - This will usually be a mixed array of an object and a function.
+It could also be a function pointer.
+
+Your function should return 1 if the player is eligible to second or 0 if
+they are not.
+
+</dl>
+
+<dt><a name="set_stand_conditions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_stand_conditions</b></a><pre>
+void set_stand_conditions(mixed cond)
+</pre><dd>
+This function defines a function to be called to determine if a player
+is eligible to stand for election to a position.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cond - This will usually be a mixed array of an object and a function.
+It could also be a function pointer.
+
+Your function should return 1 if the player is eligible to stand or 0 if
+they are not.
+
+</dl>
+
+<dt><a name="set_vote_conditions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_vote_conditions</b></a><pre>
+void set_vote_conditions(mixed cond)
+</pre><dd>
+This function defines a function to be called to determine if a player
+is eligible to vote.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cond - This will usually be a mixed array of an object and a function.
+It could also be a function pointer.
+
+Your function should return 1 if the player is eligible to vote or 0 if
+they are not.
+
+</dl>
+
+<dt><a name="set_vote_duration">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_vote_duration</b></a><pre>
+void set_vote_duration(int duration)
+</pre><dd>
+This function is used to set the normal vote and election duration. It can
+be overridden when calling add_vote. If it is not set and no duration is
+given in add_vote then the default value of DEFAULT_VOTE_DURATION is used.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>duraction - The number of seconds the vote should be open.
+
+<dt><b>See also:</b>
+<dd><a href="#add_vote">add_vote()
+</a></dl>
+
+<dt><a name="setup_after_load">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_after_load</b></a><pre>
+void setup_after_load()
+</pre><dd>
+This setups all the stuff that  needs to be setup after the room has
+been loaded.  Makes all the callouts for the right amount of time
+and so on.
+<p>
+
+<dt><a name="stand_for_election">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stand_for_election</b></a><pre>
+int stand_for_election(string position)
+</pre><dd>
+This function is used by players to stand for election. The syntax is:
+"stand for <position>".
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_stand_conditions">set_stand_conditions()
+</a></dl>
+
+<dt><a name="start_election_vote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_election_vote</b></a><pre>
+void start_election_vote(string post)
+</pre><dd>
+Once the candidacy phase is over this function starts the election vote
+itself by taking all eligible candidates, setting them as choices in the
+election and then posting an announcemment.
+<p>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="add_our_election">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_our_election</b></a><pre>
+void add_our_election(string name,
+class election data)
+</pre><dd>
+This method adds in a election.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the election to add
+<dd>data - the election data
+
+</dl>
+
+<dt><a name="add_our_vote">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_our_vote</b></a><pre>
+void add_our_vote(int id,
+class vote data)
+</pre><dd>
+This method adds in a vote.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id of the vote
+<dd>data - the vote data
+
+</dl>
+
+<dt><a name="query_our_elections">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>query_our_elections</b></a><pre>
+mapping query_our_elections()
+</pre><dd>
+This method is used to return the current elections.  This can be
+overridden in hgiher inherits to control things better.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the elections
+
+</dl>
+
+<dt><a name="query_our_votes">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>query_our_votes</b></a><pre>
+mapping query_our_votes()
+</pre><dd>
+This method is used to return the current votes.  This can be overridden
+in higher functions to get the votes from somewhere else if nessessary.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the votes
+
+</dl>
+
+<dt><a name="save_room">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>save_room</b></a><pre>
+void save_room()
+</pre><dd>
+Private function to save the rooms data file.
+<p>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_election">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>election</b></a><pre>
+class election {
+mixed * candidates;
+int closes;
+}
+
+</pre><dd>
+ This class stores the essential information about an election during the
+ setup phase. It is only used internally to the voting room.
+<p>
+
+<dt><a name="class_vote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>vote</b></a><pre>
+class vote {
+string type;
+string desc;
+string * choices;
+mixed * votes;
+int ending;
+string * voted;
+}
+
+</pre><dd>
+ This class stores the essential information about a vote. It is only used
+ internally to the voting room.<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 06:59:01 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

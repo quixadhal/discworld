@@ -1,0 +1,446 @@
+<html><head><title>File standard.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/guilds/standard.c</h2>
+This is where you would set up any shadows you want on the player
+object, or just do what you will..<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.config.h.html">/include/config.h</a>, <a href="include.tune.h.html">/include/tune.h</a>, <a href="include.skills.h.html">/include/skills.h</a> and <a href="include.guilds.h.html">/include/guilds.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_command"><b>add_command</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_position"><b>add_position</b></a>(string, string, int, string *, mixed *)<dd>
+Dummy function for guilds without positions
+This method adds a new position for the subguild.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_spell"><b>add_spell</b></a>(string, mixed, string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_primaries"><b>adjust_primaries</b></a>(object, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#appoint_position"><b>appoint_position</b></a>(string, string, string)<dd>
+Dummy function for guilds without positions
+This method appoints the player to a position.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cast_spell"><b>cast_spell</b></a>(string, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#dismiss_position"><b>dismiss_position</b></a>(string, string, string)<dd>
+Dummy function for guilds without positions
+This method dismisses the player from a position.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_command"><b>do_command</b></a>(string, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#leave_guild"><b>leave_guild</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#player_heart_beat"><b>player_heart_beat</b></a>(string, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#player_quit"><b>player_quit</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#player_save"><b>player_save</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_commands"><b>query_commands</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_gp_skill"><b>query_gp_skill</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_guild_ability"><b>query_guild_ability</b></a>(mixed, string)<dd>
+Dummy function for guilds without positions
+Test if a player/npc has a specific ability.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_level"><b>query_level</b></a>(object)<dd>
+This method figures out the level of the npc or player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_position"><b>query_position</b></a>(string, string)<dd>
+Dummy function for guilds without positions
+This method returns the position held by the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_position_abilities"><b>query_position_abilities</b></a>(string, string)<dd>
+Dummy function for guilds without positions
+This method returns the abilities for a position.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_position_appointments"><b>query_position_appointments</b></a>(string, string)<dd>
+Dummy function for guilds without positions
+This method returns the appointments for this position in this 
+subguild.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_position_description"><b>query_position_description</b></a>(string, string)<dd>
+Dummy function for guilds without positions
+This method returns the description array for this position.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_positions"><b>query_positions</b></a>(string, string)<dd>
+Dummy function for guilds without positions
+This method returns all positions for this guild.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill_cost"><b>query_skill_cost</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill_max_level"><b>query_skill_max_level</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skills"><b>query_skills</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_spells"><b>query_spells</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_start_pos"><b>query_start_pos</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_title"><b>query_title</b></a>(object)<dd>
+This method returns the title of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_command"><b>remove_command</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_position"><b>remove_position</b></a>(string, string)<dd>
+Dummy function for guilds without positions
+This method removes a position for this subguild.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_spell"><b>remove_spell</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_positions"><b>reset_positions</b></a>(string)<dd>
+Dummy function for guilds without positions
+This method removes all appointments for a guild.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_gp"><b>set_gp</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_gp_skill"><b>set_gp_skill</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_level"><b>set_level</b></a>(object, int, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_new_level"><b>set_new_level</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_skills"><b>set_skills</b></a>(string *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_start_pos"><b>set_start_pos</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#skills_advanced"><b>skills_advanced</b></a>(object, string, int)<dd>
+This method is called whenever a player advances a skill.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_player"><b>start_player</b></a>(object)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_command</b></a><pre>
+int add_command(string name,
+int add_if_player)
+</pre>
+<dt><a name="add_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_position</b></a><pre>
+int add_position(string sub_guild,
+string position,
+int max,
+string * abilities,
+mixed * description)
+</pre><dd>
+Dummy function for guilds without positions
+This method adds a new position for the subguild.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sub_guild - the sub guild
+<dd>position - position to add
+<dd>max - the maximum number of people appointed to this position
+<dd>abilities - the abilities associated with this position
+<dd>description - the descriptions associated with this position
+({ title|({male_title,female_title}), ... })
+<dt><b>Returns:</b>
+<dd>DEITY_POSITION_OK if successful, DEITY_POSITION_FAIL if the
+position already exists
+<dt><b>See also:</b>
+<dd><a href="#remove_position">remove_position()</a>, <a href="#query_position">query_position()</a> and <a href="#query_positions">query_positions()
+</a></dl>
+
+<dt><a name="add_spell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_spell</b></a><pre>
+int add_spell(string name,
+mixed ob,
+string func_name,
+int add_if_player)
+</pre>
+<dt><a name="adjust_primaries">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_primaries</b></a><pre>
+string adjust_primaries(object thing,
+int level)
+</pre>
+<dt><a name="appoint_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>appoint_position</b></a><pre>
+int appoint_position(string sub_guild,
+string position,
+string player_name)
+</pre><dd>
+Dummy function for guilds without positions
+This method appoints the player to a position.   If sub_guild is 0,
+the guild object is supposed to figure out the subguild from the 
+player_name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sub_guild - the sub guild
+<dd>position - the position
+<dd>player_name - the player
+<dt><b>Returns:</b>
+<dd>POSITION_FAIL if it failed, POSITION_OK if it succeeded.
+
+</dl>
+
+<dt><a name="cast_spell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cast_spell</b></a><pre>
+int cast_spell(string name,
+mixed bing)
+</pre>
+<dt><a name="dismiss_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>dismiss_position</b></a><pre>
+int dismiss_position(string sub_guild,
+string position,
+string player_name)
+</pre><dd>
+Dummy function for guilds without positions
+This method dismisses the player from a position.   If sub_guild is 0,
+the guild object is supposed to figure out the subguild from the 
+player_name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sub_guild - the sub guild
+<dd>position - the position
+<dd>player_name - the player
+<dt><b>Returns:</b>
+<dd>POSITION_FAIL if it failed, POSITION_OK if it succeeded.
+
+</dl>
+
+<dt><a name="do_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_command</b></a><pre>
+int do_command(string name,
+mixed param)
+</pre>
+<dt><a name="leave_guild">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>leave_guild</b></a><pre>
+void leave_guild()
+</pre>
+<dt><a name="player_heart_beat">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>player_heart_beat</b></a><pre>
+void player_heart_beat(string guild,
+object thing)
+</pre>
+<dt><a name="player_quit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>player_quit</b></a><pre>
+void player_quit()
+</pre>
+<dt><a name="player_save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>player_save</b></a><pre>
+void player_save()
+</pre>
+<dt><a name="query_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_commands</b></a><pre>
+string * query_commands()
+</pre>
+<dt><a name="query_gp_skill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_gp_skill</b></a><pre>
+string query_gp_skill()
+</pre>
+<dt><a name="query_guild_ability">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_guild_ability</b></a><pre>
+int query_guild_ability(mixed thing,
+string ability)
+</pre><dd>
+Dummy function for guilds without positions
+Test if a player/npc has a specific ability.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - either a string, being the name of a player, or an object
+being the actual player/npc to check for a guild ability.
+<dd>ability - the ability to check for.
+<dt><b>Returns:</b>
+<dd>1 if thing has that ability, 0 if not.
+
+</dl>
+
+<dt><a name="query_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_level</b></a><pre>
+int query_level(object thing)
+</pre><dd>
+This method figures out the level of the npc or player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing to find the level of
+<dt><b>Returns:</b>
+<dd>the level of the thing
+
+</dl>
+
+<dt><a name="query_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_position</b></a><pre>
+string query_position(string sub_guild,
+string player_name)
+</pre><dd>
+Dummy function for guilds without positions
+This method returns the position held by the player. If sub_guild is
+0, the guild object is supposed to figure out what sub_guild (if any)
+is relevant.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sub_guild - the sub guild
+<dd>player_name - the player
+<dt><b>Returns:</b>
+<dd>the position the player is appointed to in sub_guild.
+
+</dl>
+
+<dt><a name="query_position_abilities">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_position_abilities</b></a><pre>
+string * query_position_abilities(string sub_guild,
+string position)
+</pre><dd>
+Dummy function for guilds without positions
+This method returns the abilities for a position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sub_guild - the sub guild
+<dd>position - position to return
+<dt><b>Returns:</b>
+<dd>0 if the position don't exist, an array of abilities
+if is does
+<dt><b>See also:</b>
+<dd><a href="#add_position">add_position()
+</a></dl>
+
+<dt><a name="query_position_appointments">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_position_appointments</b></a><pre>
+string * query_position_appointments(string sub_guild,
+string position)
+</pre><dd>
+Dummy function for guilds without positions
+This method returns the appointments for this position in this 
+subguild.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sub_guild - the sub guild
+<dd>position - position to return
+<dt><b>Returns:</b>
+<dd>0 if the position don't exist, an array of appointments
+if is does, with 0's for unfilled positions
+<dt><b>See also:</b>
+<dd><a href="#add_position">add_position()
+</a></dl>
+
+<dt><a name="query_position_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_position_description</b></a><pre>
+mixed * query_position_description(string sub_guild,
+string position)
+</pre><dd>
+Dummy function for guilds without positions
+This method returns the description array for this position.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sub_guild - the sub guild
+<dd>position - position to return
+<dt><b>Returns:</b>
+<dd>0 if the position don't exist, an array of descriptions if 
+it does, currently defined to hold the title
+({ title|({male_title,female_title}), ... })
+<dt><b>See also:</b>
+<dd><a href="#add_position">add_position()
+</a></dl>
+
+<dt><a name="query_positions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_positions</b></a><pre>
+mapping query_positions(string sub_guild,
+string position)
+</pre><dd>
+Dummy function for guilds without positions
+This method returns all positions for this guild.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sub_guild - the sub guild
+<dt><b>Returns:</b>
+<dd>0 if the position don't exist, an array of appointments
+if is does, with 0's for unfilled positions
+<dt><b>See also:</b>
+<dd><a href="#add_position">add_position()
+</a></dl>
+
+<dt><a name="query_skill_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill_cost</b></a><pre>
+int query_skill_cost(string skill)
+</pre>
+<dt><a name="query_skill_max_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill_max_level</b></a><pre>
+int query_skill_max_level(string skill)
+</pre>
+<dt><a name="query_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skills</b></a><pre>
+string * query_skills()
+</pre>
+<dt><a name="query_spells">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_spells</b></a><pre>
+mixed * query_spells()
+</pre>
+<dt><a name="query_start_pos">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_start_pos</b></a><pre>
+string query_start_pos(object thing)
+</pre>
+<dt><a name="query_title">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_title</b></a><pre>
+string query_title(object player)
+</pre><dd>
+This method returns the title of the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player to find the title of
+<dt><b>Returns:</b>
+<dd>the title name
+
+</dl>
+
+<dt><a name="remove_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_command</b></a><pre>
+int remove_command(string name)
+</pre>
+<dt><a name="remove_position">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_position</b></a><pre>
+int remove_position(string sub_guild,
+string position)
+</pre><dd>
+Dummy function for guilds without positions
+This method removes a position for this subguild.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sub_guild - the sub guild
+<dd>position - position to remove
+<dt><b>Returns:</b>
+<dd>POSITION_OK if successful, POSITION_FAIL if the
+position didn't exist
+<dt><b>See also:</b>
+<dd><a href="#add_position">add_position()</a>, <a href="#query_position">query_position()</a> and <a href="#query_positions">query_positions()
+</a></dl>
+
+<dt><a name="remove_spell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_spell</b></a><pre>
+int remove_spell(string name)
+</pre>
+<dt><a name="reset_positions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_positions</b></a><pre>
+void reset_positions(string sub_guild)
+</pre><dd>
+Dummy function for guilds without positions
+This method removes all appointments for a guild.   <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>sub_guild - the sub guild
+<dt><b>See also:</b>
+<dd><a href="#add_position">add_position()
+</a></dl>
+
+<dt><a name="set_gp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_gp</b></a><pre>
+void set_gp(object thing)
+</pre>
+<dt><a name="set_gp_skill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_gp_skill</b></a><pre>
+void set_gp_skill(string word)
+</pre>
+<dt><a name="set_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_level</b></a><pre>
+void set_level(object thing,
+int level,
+string guild)
+</pre>
+<dt><a name="set_new_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_new_level</b></a><pre>
+void set_new_level(mixed * args)
+</pre>
+<dt><a name="set_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_skills</b></a><pre>
+void set_skills(string * words)
+</pre>
+<dt><a name="set_start_pos">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_start_pos</b></a><pre>
+void set_start_pos(string word)
+</pre>
+<dt><a name="skills_advanced">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>skills_advanced</b></a><pre>
+void skills_advanced(object thing,
+string skill,
+int level)
+</pre><dd>
+This method is called whenever a player advances a skill.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the player advacing the skill
+<dd>skill - the name of the skill
+<dd>level - the level it is advanced to
+
+</dl>
+
+<dt><a name="start_player">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_player</b></a><pre>
+void start_player(object pl)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 21:29:48 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

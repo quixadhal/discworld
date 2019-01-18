@@ -1,0 +1,39 @@
+.DT
+query_pages
+Disk World creator help
+query_pages
+
+.SH Name
+.SP 5 5
+query_pages -  This method returns the array of useful pages in a book.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_pages(object book)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^book%^RESET%^ - the book to get the pages from
+.EI
+
+.SH Returns
+.SI 5
+the array of pages
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/book_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the array of useful pages in a book.  It removes
+torn out pages and pages which are added by specific things in the
+game, like the print shop adding a fly leaf.  It just returns the text
+for the pages, since this is what we are interested in.
+.EP
+

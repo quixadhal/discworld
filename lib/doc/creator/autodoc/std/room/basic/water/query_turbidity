@@ -1,0 +1,38 @@
+.DT
+query_turbidity
+Disk World creator help
+query_turbidity
+
+.SH Name
+.SP 5 5
+query_turbidity -  This function returns the current turbidity of the water, which is an integer variable between 1 and 100.
+.EP
+
+.SH Syntax
+.SI 5
+int query_turbidity()
+.EI
+
+.SH Returns
+.SI 5
+the current turbidity of the water.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function returns the current turbidity of the water, which is an
+integer variable between 1 and 100.  It will be equal to 100 minus the
+current clarity of the water.
+.EP
+
+.SH See also
+.SP 5 5
+set_turbidity, query_clarity
+
+.EP
+

@@ -1,0 +1,48 @@
+.DT
+load_auto_load_alt
+Disk World creator help
+load_auto_load_alt
+
+.SH Name
+.SP 5 5
+load_auto_load_alt -  The new method of handling auto loading of objects.
+.EP
+
+.SH Syntax
+.SI 5
+void load_auto_load_alt(mixed * auto_string,
+object dest,
+object tell_pl,
+function finished)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^auto_string%^RESET%^ - the values specifing the objects to auto load
+%^BOLD%^dest%^RESET%^ - the destination to put the objects in
+%^BOLD%^tell%^RESET%^ - who to tell about errors
+%^BOLD%^finished%^RESET%^ - the function to call when the auto loading has completed
+.EI
+
+.SH Defined in
+.SI 5
+/global/auto_load.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The new method of handling auto loading of objects.  This determines
+if the object failed to load and gives the player a recipt if it does
+not.
+
+
+The finished variable should %^BOLD%^only%^RESET%^be set in outer level calls to this. If you set it inside containers when they call this it will cause errors. This will only be called from within the player object itself.
+.EP
+
+.SH See also
+.SP 5 5
+create_auto_load(), load_auto_load()
+
+.EP
+

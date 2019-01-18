@@ -1,0 +1,42 @@
+.DT
+remove_invite
+Disk World creator help
+remove_invite
+
+.SH Name
+.SP 5 5
+remove_invite -  This function allows you to remove an invite of a person from a group.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_invite(string name,
+object person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the group
+%^BOLD%^person%^RESET%^ - the person you want to remove
+
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 if group doesn't exist or person hasn't been
+   invited
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/group_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function allows you to remove an invite of a person from
+a group.
+
+.EP
+

@@ -1,0 +1,97 @@
+.DT
+set_max_cond
+Disk World creator help
+set_max_cond
+
+.SH Name
+.SP 5 5
+set_max_cond -  This sets up how much damage an object can take before it  breaks.
+.EP
+
+.SH Syntax
+.SI 5
+void set_max_cond(int i)
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/condition.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets up how much damage an object can take before it 
+breaks.  This should not be used in the actual object files
+unless under special circumstances.  In weapon files, use 
+new_weapon().  In armour files use setup_armour().  In 
+clothing files, use setup_clothing().  Use ::Setup:: in 
+clo, arm, and wep files.
+
+
+The values may seem strange, as cloth can take more damage per unit weight than steel. This is because steel weighs so much, and cloth weighs so little. 
+.EP
+.SP 5 5
+
+.EP
+.SP 5 5
+o==================o=====================o
+.EP
+.SP 5 5
+| Material | Maximum Condition |
+.EP
+.SP 5 5
+| | per unit weight |
+.EP
+.SP 5 5
+o==================o=====================o
+.EP
+.SP 5 5
+| Cloth | 90 |
+.EP
+.SP 5 5
+| Hide | 80 |
+.EP
+.SP 5 5
+| Leather | 70 |
+.EP
+.SP 5 5
+| Wood | 60 |
+.EP
+.SP 5 5
+| Bone | 45 |
+.EP
+.SP 5 5
+o==================o=====================o
+.EP
+.SP 5 5
+| Copper | 30 |
+.EP
+.SP 5 5
+| Stone | 40 |
+.EP
+.SP 5 5
+| Bronze | 40 |
+.EP
+.SP 5 5
+| Iron | 50 |
+.EP
+.SP 5 5
+| Steel | 60 |
+.EP
+.SP 5 5
+| Klatchian Steel | 70 |
+.EP
+.SP 5 5
+| Octiron | 80 |
+.EP
+.SP 5 5
+o==================o=====================o 
+.EP
+
+.SH See also
+.SP 5 5
+new_weapon, setup_armour, setup_clothing, set_weight, set_damage_chance
+
+.EP
+

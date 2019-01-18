@@ -1,0 +1,41 @@
+.DT
+set_pick_skill
+Disk World creator help
+set_pick_skill
+
+.SH Name
+.SP 5 5
+set_pick_skill -  This sets the skill that will be used when attempting to pick the lock.
+.EP
+
+.SH Syntax
+.SI 5
+void set_pick_skill(string str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - The skill to use when picking the lock.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/close_lock.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets the skill that will be used when attempting to
+pick the lock.  By default it is set to "covert.lockpick.safes"
+so it need only be changed if you want to check a different
+skill.
+
+.EP
+
+.SH See also
+.SP 5 5
+query_pick_skill(), set_difficulty()
+.EP
+

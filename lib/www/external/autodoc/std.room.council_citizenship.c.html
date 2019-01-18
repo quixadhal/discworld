@@ -1,0 +1,265 @@
+<html><head><title>File council_citizenship.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/council_citizenship.c</h2>
+This is the place you go to try and become a citizen of the council
+area.<p>Written by Pinkfish<p>Started Wed Sep 27 18:19:22 PDT 2000
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a>, <a href="std.room.inherit.honours.c.html">/std/room/inherit/honours.c</a>, <a href="std.room.inherit.council_base.c.html">/std/room/inherit/council_base.c</a> and <a href="std.basic.expressions.c.html">/std/basic/expressions.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.nomic_system.h.html">/include/nomic_system.h</a>, <a href="include.mail.h.html">/include/mail.h</a> and <a href="include.expressions.h.html">/include/expressions.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_approval_list"><b>approval_list</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_approved_person"><b>approved_person</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_blacklist"><b>blacklist</b></a>
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_denied"><b>denied</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_add_blacklist"><b>do_add_blacklist</b></a>(string, string)<dd>
+This method adds a person to the blacklist.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_apply"><b>do_apply</b></a>()<dd>
+This is the method used for someone to apply for citizenship.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_approve"><b>do_approve</b></a>(string)<dd>
+This method makes the citizen approved by a happy little magistrate.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_deny"><b>do_deny</b></a>(string, string)<dd>
+This allows you to put in a reason for denying someone for citizenship.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list"><b>do_list</b></a>()<dd>
+This method lists all the current applicants.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_blacklist"><b>do_list_blacklist</b></a>(int)<dd>
+This method lists the current blacklist.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_denied"><b>do_list_denied</b></a>()<dd>
+This method lists the current set of denied people.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_expression"><b>do_list_expression</b></a>()<dd>
+This method lists the expression used for showing if someone is
+allowed to be a citizen or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_remove_blacklist"><b>do_remove_blacklist</b></a>(string)<dd>
+This method removes a person from the blacklist.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_set_expression"><b>do_set_expression</b></a>(string, int)<dd>
+This method sets up the expression to use to check to make sure people
+are allowed to apply for citizenship.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_sponsor"><b>do_sponsor</b></a>(string)<dd>
+This allows someone to sponsor someone for citizenship.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_me"><b>load_me</b></a>()<dd>
+This loads all the exciting data for the citizenship room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#post_weekly_results"><b>post_weekly_results</b></a>()<dd>
+This method posts the weekly results about the citizenship approvals
+to the council board.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_file"><b>query_save_file</b></a>()<dd>
+This method returns the current save file name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_me"><b>save_me</b></a>()<dd>
+This method saves everything!
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_file"><b>set_save_file</b></a>(string)<dd>
+This method sets the save file.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_add_blacklist">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_add_blacklist</b></a><pre>
+int do_add_blacklist(string person,
+string reason)
+</pre><dd>
+This method adds a person to the blacklist.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to add
+<dd>reason - the reason for them to be blacklisted
+
+</dl>
+
+<dt><a name="do_apply">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_apply</b></a><pre>
+int do_apply()
+</pre><dd>
+This is the method used for someone to apply for citizenship.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_approve">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_approve</b></a><pre>
+int do_approve(string person)
+</pre><dd>
+This method makes the citizen approved by a happy little magistrate.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to approve
+
+</dl>
+
+<dt><a name="do_deny">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_deny</b></a><pre>
+int do_deny(string person,
+string reason)
+</pre><dd>
+This allows you to put in a reason for denying someone for citizenship.
+<p>
+
+<dt><a name="do_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list</b></a><pre>
+int do_list()
+</pre><dd>
+This method lists all the current applicants.
+<p>
+
+<dt><a name="do_list_blacklist">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_blacklist</b></a><pre>
+int do_list_blacklist(int verbose)
+</pre><dd>
+This method lists the current blacklist.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verbose - list in verbose mode or not
+
+</dl>
+
+<dt><a name="do_list_denied">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_denied</b></a><pre>
+int do_list_denied()
+</pre><dd>
+This method lists the current set of denied people.
+<p>
+
+<dt><a name="do_list_expression">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_expression</b></a><pre>
+int do_list_expression()
+</pre><dd>
+This method lists the expression used for showing if someone is
+allowed to be a citizen or not.
+<p>
+
+<dt><a name="do_remove_blacklist">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_remove_blacklist</b></a><pre>
+int do_remove_blacklist(string person)
+</pre><dd>
+This method removes a person from the blacklist.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to remove
+
+</dl>
+
+<dt><a name="do_set_expression">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_set_expression</b></a><pre>
+int do_set_expression(string expression,
+int sponsor_expr)
+</pre><dd>
+This method sets up the expression to use to check to make sure people
+are allowed to apply for citizenship.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>expression - the expression to set the check to
+<dd>sponsor_expr - sets the sponsor or the citizen expression
+
+</dl>
+
+<dt><a name="do_sponsor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_sponsor</b></a><pre>
+int do_sponsor(string person)
+</pre><dd>
+This allows someone to sponsor someone for citizenship.
+<p>
+
+<dt><a name="load_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_me</b></a><pre>
+void load_me()
+</pre><dd>
+This loads all the exciting data for the citizenship room.
+<p>
+
+<dt><a name="post_weekly_results">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>post_weekly_results</b></a><pre>
+void post_weekly_results()
+</pre><dd>
+This method posts the weekly results about the citizenship approvals
+to the council board.
+<p>
+
+<dt><a name="query_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_file</b></a><pre>
+string query_save_file()
+</pre><dd>
+This method returns the current save file name.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current save file name
+
+</dl>
+
+<dt><a name="save_me">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_me</b></a><pre>
+void save_me()
+</pre><dd>
+This method saves everything!
+<p>
+
+<dt><a name="set_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_file</b></a><pre>
+void set_save_file(string fname)
+</pre><dd>
+This method sets the save file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the name of the save file
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_approval_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>approval_list</b></a><pre>
+class approval_list {
+string * sponsors;
+mapping against;
+int time_added;
+}
+
+</pre>
+<dt><a name="class_approved_person">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>approved_person</b></a><pre>
+class approved_person {
+class approval_list info;
+int time_approved;
+string approver;
+int denied;
+}
+
+</pre>
+<dt><a name="class_blacklist">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>blacklist</b></a><pre>
+class blacklist {
+string blacklister;
+string reason;
+}
+
+</pre>
+<dt><a name="class_denied">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>denied</b></a><pre>
+class denied {
+string denier;
+string deny_reason;
+int time_denied;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 16:53:05 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

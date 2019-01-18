@@ -1,0 +1,45 @@
+.DT
+pay_amount_from
+Disk World creator help
+pay_amount_from
+
+.SH Name
+.SP 5 5
+pay_amount_from -  This method makes a payment from a specified money object.
+.EP
+
+.SH Syntax
+.SI 5
+varargs object pay_amount_from(int value,
+object money,
+string where)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^value%^RESET%^ - the amount to pay
+%^BOLD%^money%^RESET%^ - the money object to pay from
+%^BOLD%^where%^RESET%^ - the money area the payment occurs in
+.EI
+
+.SH Returns
+.SI 5
+the change object.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/nmoney_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method makes a payment from a specified money object.
+.EP
+
+.SH See also
+.SP 5 5
+make_payment(), calc_change()
+
+.EP
+

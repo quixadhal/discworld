@@ -1,0 +1,39 @@
+.DT
+query_help_on
+Disk World creator help
+query_help_on
+
+.SH Name
+.SP 5 5
+query_help_on -  This method returns the file name of the help for the specified function in the specified file.
+.EP
+
+.SH Syntax
+.SI 5
+string query_help_on(string file,
+string func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^file%^RESET%^ - the file name to find the help in
+%^BOLD%^func%^RESET%^ - the function to look for help on in the file
+.EI
+
+.SH Returns
+.SI 5
+the full path to the help file, 0 if it does not exist
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/autodoc/autodoc_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the file name of the help for the specified
+function in the specified file.
+.EP
+

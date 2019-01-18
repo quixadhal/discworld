@@ -1,0 +1,277 @@
+<html><head><title>File multiroom_situation_changer.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/basic/multiroom_situation_changer.c</h2>
+situation changer object associated with multiple room objects.
+It keeps a list of rooms and checks them all in turn. It 
+behaves similarly to the room_handler.  It's main purpose is
+to avoid duplicating a large chat database for many rooms
+that all use it. 
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.situations.h.html">/include/situations.h</a> and <a href="include.am_time.h.html">/include/am_time.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_situation"><b>add_situation</b></a>(int, function *, string, string, string, string *, mixed *)<dd>
+Adds a situation for the rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#automate_situations"><b>automate_situations</b></a>(mixed *, int, int, mixed *, object)<dd>
+Awakes starting and ending of situations.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_situations"><b>check_situations</b></a>(object)<dd>
+Tests for enabling situation managing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#end_situation"><b>end_situation</b></a>(int, object)<dd>
+Ends a situation previously added and started on the room
+that is managed by this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#extra_look"><b>extra_look</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#manage_rooms_situations"><b>manage_rooms_situations</b></a>()<dd>
+Starts and ends situations according to the information
+in the sittiming mapping for each room in the rooms array.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#manage_situations"><b>manage_situations</b></a>(object)<dd>
+Starts and ends situations according to the information
+in the sittiming mapping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_situations"><b>query_current_situations</b></a>(object)<dd>
+returns situations currently turned on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rooms"><b>query_rooms</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_status"><b>query_status</b></a>()<dd>
+returns status of situation manager.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#shutdown_situations"><b>shutdown_situations</b></a>(object)<dd>
+Shuts down all current and pending situations.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#start_situation"><b>start_situation</b></a>(int, int, object)<dd>
+Starts a situation previously added for the room
+that is managed by this object.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_situation</b></a><pre>
+void add_situation(int num,
+function * func,
+string startmess,
+string endmess,
+string extralookstring,
+string * chats,
+mixed * add_items)
+</pre><dd>
+Adds a situation for the rooms.  These situations can be
+invoked manually with start_situation or automatically via
+automate_situations.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - number labelling the situation
+<dd>func - function to be called at start of situation 
+            that might be used to load NPC's.  If it is
+            a set of two function pointers ({ f1, f2 })
+            the second function is called when the
+            situation is ended.  The start function is 
+            passed the num label of the room and a
+            do_start_mess flag.  If the flag is one
+            the situation is starting rather than
+            being reloaded.  The end function is only
+            passed the num label.
+<dd>startmess - message told to the room at start of situation
+<dd>endmess - message told to the room at end of situation
+<dd>extralooksting - extra look string appended to rooms long 
+description during the situation
+<dd>chats - an array of chat strings to be active 
+during the situation 
+<dd>add_items - a mixed array of ({ item, item description }) 
+pairs to be active during the situation
+<dt><b>See also:</b>
+<dd>start_situation.c, automate_situations.c, add_item.c, room_chat.c and add_extra_look.c<dt><b>Example:</b>
+<dd><pre> add_situation( 0, 0, "Water seeps out of the ground to form puddles.", 
+    "",  "There are large puddles on the ground here.",
+    ({"A hidden frog croaks quietly.",
+      "There is a blooping sound." }),
+    ({ ({"puddle", "The puddles are dark and murky.  " 
+                   "They will probably dry up given time." }) }) );
+</pre></dl>
+
+<dt><a name="automate_situations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>automate_situations</b></a><pre>
+void automate_situations(mixed * chatargs,
+int xval,
+int yval,
+mixed * edata,
+object room)
+</pre><dd>
+Awakes starting and ending of situations.
+These situations can be invoked manually with start_situation.
+The awaked starting and ending is unaffected by the room 
+unloading.  When the room reloads the situation will be 
+restarted unless its duration is up.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>chatargs - same as arguments to room chat:
+   ({ min, max, ({ chat1, chat2, ... }) })
+   if you want no non-situational chats just put ({ min, max, ({ }) })
+   min, max are always needed being the minimum/maximum time
+   between all chats.  chat1 is a string containing a chat.
+<dd>xval - First random seed number (eg. x coordinate)
+<dd>yval - Second random seed number (eg. y coordinate)
+<dd>sittiming - A mixed array containing the information 
+   about when the situations added by add_situation are 
+   automatically started and ended:
+
+   ({ info1, info2, info3, ... })
+
+ Each info is a mixed array as follows:
+
+   ({ number, duration, when, chance })
+              -- or --
+   ({ ({ num0, num1, num2, ..., numN }) , when, duration, percent })
+
+number     (int) label of the situation to start 
+           up if number is an array then a set of
+           situations are started one at a time.
+           The total duration is divided evenly 
+           between the situations labelled by the 
+           numbers in the array which are started 
+           and ended in the order given.  The 
+           entire set always gets used.
+
+duration   (int) time (minutes) situation should last for
+
+when       (int) a nighttime/daytime mask
+           This determines when during the day in
+           Ankh-Morpork time the situation may occur.  
+           The masks are defined in evolvingtime.h
+           It can be a function pointer in which case it is 
+           expected to return a mask value.
+
+chance     (int) 1/1000 chance per period of duration minutes 
+           of getting into the situation
+<dt><b>See also:</b>
+<dd>add_situation.c, start_situation.c, end_situation.c and evolvingroom.h<dt><b>Example:</b>
+<dd><pre> automate_situations( room, ({ 50,70, ({""}) }), 
+    170,  220,
+    ({ ({           0, 5, WHEN_ANY_TIME, 200 }),
+       ({ ({ 1,2,3 }), 6, (WHEN_NIGHT|WHEN_EVENING), 500 }) }) );
+</pre></dl>
+
+<dt><a name="check_situations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_situations</b></a><pre>
+void check_situations(object room)
+</pre><dd>
+Tests for enabling situation managing.
+If situation managing is already active or turned off
+it does nothing.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room
+<dt><b>See also:</b>
+<dd>automate_situations
+.c</dl>
+
+<dt><a name="end_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>end_situation</b></a><pre>
+void end_situation(int num,
+object room)
+</pre><dd>
+Ends a situation previously added and started on the room
+that is managed by this object.
+These situations can be invoked manually with start_situation 
+or automatically via automate_situations. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - number labelling the situation
+<dd>room - room to end situation on
+<dt><b>See also:</b>
+<dd>add_situation.c, start_situation.c and automate_situations
+.c</dl>
+
+<dt><a name="extra_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>extra_look</b></a><pre>
+string extra_look(object room)
+</pre>
+<dt><a name="manage_rooms_situations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>manage_rooms_situations</b></a><pre>
+void manage_rooms_situations()
+</pre><dd>
+Starts and ends situations according to the information
+in the sittiming mapping for each room in the rooms array.  
+It is called continuously 
+automatically while there are interactives in the room.
+<p>
+
+<dt><a name="manage_situations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>manage_situations</b></a><pre>
+void manage_situations(object room)
+</pre><dd>
+Starts and ends situations according to the information
+in the sittiming mapping.  It is called continuously 
+automatically while there are interactives in the room.
+<p>
+
+<dt><a name="query_current_situations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_situations</b></a><pre>
+int * query_current_situations(object room)
+</pre><dd>
+returns situations currently turned on.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>int array of situation labels
+
+</dl>
+
+<dt><a name="query_rooms">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rooms</b></a><pre>
+object * query_rooms()
+</pre>
+<dt><a name="query_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_status</b></a><pre>
+int query_status()
+</pre><dd>
+returns status of situation manager.  
+If it is sleeping it will turn on again if a
+player enters the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>status 0 off 1 on 2 sleeping
+
+</dl>
+
+<dt><a name="shutdown_situations">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shutdown_situations</b></a><pre>
+void shutdown_situations(object room)
+</pre><dd>
+Shuts down all current and pending situations.  It also turns off the
+awaked situation manager so no more are added.  It does not
+destruct this object so all the add_situations are still loaded
+and make be recommenced with automate_situations.  dest_me is
+the appropriate call to permanently remove all situations.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - room to shutdown situations on
+<dt><b>See also:</b>
+<dd>automate_situations
+.c</dl>
+
+<dt><a name="start_situation">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>start_situation</b></a><pre>
+void start_situation(int num,
+int do_start_mess,
+object room)
+</pre><dd>
+Starts a situation previously added for the room
+that is managed by this object.
+These situations can be invoked manually with 
+start_situation or automatically via
+automate_situations. <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - number labelling the situation
+<dd>do_start_mess - 0 to supress the start_mess string
+       This is to fake it that a situation has been 
+       going for a while when really you just loaded it.
+<dd>room - room to add situation to
+<dt><b>See also:</b>
+<dd>add_situation.c, end_situation.c and automate_situations
+.c</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 08:36:45 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

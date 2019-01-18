@@ -1,0 +1,43 @@
+.DT
+query_clusters
+Disk World creator help
+query_clusters
+
+.SH Name
+.SP 5 5
+query_clusters -  This method returns the current clusters for the specified dir.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_clusters(string dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - the directory to return the clusters for
+.EI
+
+.SH Returns
+.SI 5
+the clusters mapping.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current clusters for the specified dir.
+The returned mapping has keys of the room and the values are
+the cluster number.
+.EP
+
+.SH See also
+.SP 5 5
+change_clusters()
+
+.EP
+

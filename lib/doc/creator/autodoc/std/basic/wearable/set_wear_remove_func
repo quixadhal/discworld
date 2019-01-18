@@ -1,0 +1,66 @@
+.DT
+set_wear_remove_func
+Disk World creator help
+set_wear_remove_func
+
+.SH Name
+.SP 5 5
+set_wear_remove_func -  This method sets the current function associated with wearing and removing the item.
+.EP
+
+.SH Syntax
+.SI 5
+void set_wear_remove_func(mixed file,
+string func)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^file%^RESET%^ - the file to call the function on
+%^BOLD%^func%^RESET%^ - the function to call
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/wearable.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the current function associated with wearing and
+removing the item.  The value of this function should be choosen
+carefully, using an object reference for the name will work but
+it will not then be able to restored from the save file.  The same
+goes for using function pointers.  It is better to use a real
+file name and a string function name.
+
+
+The function will be called with two arguments, the first argument will be 0 if the object is being removed or the object which it is being worn by if it is non-zero. The second argument will always be the person who was wearing the item, or is about to wear the item.
+.EP
+
+.SH Example 1
+.SI 5
+inherit "/std/basic/wearable";
+
+void setup() {
+   ...
+   set_wear_remove_func(base_name(this_object()), "do_fluff");
+   ...
+} /* setup() */
+
+void do_fluff(object ob, object player) {
+   if (!ob) {
+      write(capitalize(the_short()) + " is being removed.\n");
+   } else {
+      write(capitalize(the_short()) + " is being worn.\n");
+   }
+} /* do_fluff() */
+.EI
+
+.SH See also
+.SP 5 5
+query_wear_remove_func()
+
+.EP
+

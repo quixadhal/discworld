@@ -1,0 +1,35 @@
+.DT
+read_mail
+Disk World creator help
+read_mail
+
+.SH Name
+.SP 5 5
+read_mail -  This method is the main entry point to the mailer.
+.EP
+
+.SH Syntax
+.SI 5
+void read_mail(string str,
+string sub)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/mailer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is the main entry point to the mailer.  It is
+what is called to start up the system when a mailer is used.
+.EP
+
+.SH Example 1
+.SI 5
+mailer = clone_object(MAIL_HANDLER);
+mailer->read_mail();
+
+.EI
+

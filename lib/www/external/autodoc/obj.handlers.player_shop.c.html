@@ -1,0 +1,123 @@
+<html><head><title>File player_shop.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/player_shop.c</h2>
+This is the handler for player-run shops.
+
+<p><b>Description</b></p>
+</p>
+<p>This handler ensures that the very short name (and therefore save file
+directories) are unique for each shop.  Anybody may add a new shop but
+only a Lord may remove or update an existing shop's details.
+</p>
+</p><p>Written by Ringo<p>Started 28th January 2001
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.mail.h.html">/include/mail.h</a> and <a href="include.player_shop.h.html">/include/player_shop.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_shop"><b>add_shop</b></a>(string, string)<dd>
+Add a shop to the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#auto_mail"><b>auto_mail</b></a>(string, string, string, string, string)<dd>
+Send mail
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shop"><b>query_shop</b></a>(string)<dd>
+Query a shop's path.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shops"><b>query_shops</b></a>()<dd>
+Query the list of shops.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_shop"><b>remove_shop</b></a>(string)<dd>
+Remove a shop from the handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_shop"><b>update_shop</b></a>(string, string)<dd>
+Update a shop's path.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_shop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_shop</b></a><pre>
+int add_shop(string short_name,
+string office_path)
+</pre><dd>
+Add a shop to the handler.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>short_name - The shop name passed to set_very_short()
+<dd>office_path - The path to the shop's office.
+<dt><b>Returns:</b>
+<dd>1 on success, 0 if this shop already exists or no such path.
+<dt><b>See also:</b>
+<dd>/std/shops/player_shop/office.c
+</dl>
+
+<dt><a name="auto_mail">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>auto_mail</b></a><pre>
+void auto_mail(string to,
+string from,
+string sub,
+string cc,
+string body)
+</pre><dd>
+Send mail
+<p>
+
+<dt><a name="query_shop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shop</b></a><pre>
+string query_shop(string short_name)
+</pre><dd>
+Query a shop's path.
+Used by the office to check this is a valid shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>short_name - The shop name passed to set_very_short()
+<dt><b>Returns:</b>
+<dd>The path to the office, or a blank string if no such shop.
+<dt><b>See also:</b>
+<dd>/std/shops/player_shop/office.c
+</dl>
+
+<dt><a name="query_shops">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shops</b></a><pre>
+mapping query_shops()
+</pre><dd>
+Query the list of shops.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The shops mapping.
+
+</dl>
+
+<dt><a name="remove_shop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_shop</b></a><pre>
+int remove_shop(string short_name)
+</pre><dd>
+Remove a shop from the handler.
+Lords only.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>short_name - The shop name passed to set_very_short()
+<dt><b>Returns:</b>
+<dd>1 on success, 0 if this shop doesn't exist.
+<dt><b>See also:</b>
+<dd>/std/shops/player_shop/office.c
+</dl>
+
+<dt><a name="update_shop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_shop</b></a><pre>
+int update_shop(string short_name,
+string office_path)
+</pre><dd>
+Update a shop's path.
+Lords only.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>short_name - The shop name passed to set_very_short()
+<dd>office_path - The path to the shop's office.
+<dt><b>Returns:</b>
+<dd>1 on success, 0 if this shop doesn't exists or no such path.
+<dt><b>See also:</b>
+<dd>/std/shops/player_shop/office.c
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 23:26:47 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

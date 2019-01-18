@@ -1,0 +1,165 @@
+<html><head><title>File outside.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/outside.c</h2>
+This sets the weather handler that the room will use.<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.weather.h.html">/include/weather.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cloud_look"><b>cloud_look</b></a>()<dd>
+Returns the cloud look for the cloud item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_climate"><b>query_climate</b></a>()<dd>
+This method returns the climate type for this room
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_day_light"><b>query_day_light</b></a>()<dd>
+This method returns the current level of day light in the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_fast_clean_up"><b>query_fast_clean_up</b></a>()<dd>
+This function allows you to check whether or not fast clean-up
+is currently allowed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_light_change"><b>query_light_change</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_visibility"><b>query_visibility</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_weather_handler"><b>query_weather_handler</b></a>()<dd>
+This returns the path to the weather handler currently being used.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#rain_look"><b>rain_look</b></a>()<dd>
+Returns the rain look for the rain item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_climate"><b>set_climate</b></a>(string)<dd>
+This method sets the climate for this room from the standard
+climate types.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_fast_clean_up"><b>set_fast_clean_up</b></a>(int)<dd>
+This function allows you to disable the fast clean-up of outside
+rooms.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_light_change"><b>set_light_change</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_weather_handler"><b>set_weather_handler</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#sleet_look"><b>sleet_look</b></a>()<dd>
+Returns the sleet look for the sleet item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#snow_look"><b>snow_look</b></a>()<dd>
+Returns the snow look for the snow item.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="cloud_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>cloud_look</b></a><pre>
+string cloud_look()
+</pre><dd>
+Returns the cloud look for the cloud item.
+<p>
+
+<dt><a name="query_climate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_climate</b></a><pre>
+string query_climate()
+</pre><dd>
+This method returns the climate type for this room<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>climate string
+<dt><b>See also:</b>
+<dd>/obj/handlers/weather
+.c</dl>
+
+<dt><a name="query_day_light">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_day_light</b></a><pre>
+int query_day_light()
+</pre><dd>
+This method returns the current level of day light in the room.  The
+day light is the light level the room is set to if there was full sun
+and no darkness at all.  Mostly a percentage of this is calculated
+in the query_light() method.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current daylight level
+
+</dl>
+
+<dt><a name="query_fast_clean_up">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_fast_clean_up</b></a><pre>
+int query_fast_clean_up()
+</pre><dd>
+This function allows you to check whether or not fast clean-up
+is currently allowed.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>0 if it is disabled, 1 if it is allowed
+
+</dl>
+
+<dt><a name="query_light_change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_light_change</b></a><pre>
+string query_light_change()
+</pre>
+<dt><a name="query_visibility">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_visibility</b></a><pre>
+int query_visibility()
+</pre>
+<dt><a name="query_weather_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_weather_handler</b></a><pre>
+string query_weather_handler()
+</pre><dd>
+This returns the path to the weather handler currently being used.
+<p>
+
+<dt><a name="rain_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>rain_look</b></a><pre>
+string rain_look()
+</pre><dd>
+Returns the rain look for the rain item.
+<p>
+
+<dt><a name="set_climate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_climate</b></a><pre>
+int set_climate(string climate)
+</pre><dd>
+This method sets the climate for this room from the standard
+climate types.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>a - climate type string
+<dt><b>See also:</b>
+<dd>/obj/handlers/weather
+.c</dl>
+
+<dt><a name="set_fast_clean_up">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_fast_clean_up</b></a><pre>
+void set_fast_clean_up(int number)
+</pre><dd>
+This function allows you to disable the fast clean-up of outside
+rooms.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - 1 to allow fast clean-up, 0 to disable it
+
+<dt><b>See also:</b>
+<dd>clean_up_room.c</dl>
+
+<dt><a name="set_light_change">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_light_change</b></a><pre>
+void set_light_change(string s)
+</pre>
+<dt><a name="set_weather_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_weather_handler</b></a><pre>
+void set_weather_handler(string handler)
+</pre>
+<dt><a name="sleet_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>sleet_look</b></a><pre>
+string sleet_look()
+</pre><dd>
+Returns the sleet look for the sleet item.
+<p>
+
+<dt><a name="snow_look">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>snow_look</b></a><pre>
+string snow_look()
+</pre><dd>
+Returns the snow look for the snow item.
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 18:22:17 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

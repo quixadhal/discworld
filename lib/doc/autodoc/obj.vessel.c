@@ -1,6 +1,6 @@
 .DT
 vessel.c
-Dead DW2 autodoc help
+Disk World autodoc help
 vessel.c
 
 .SH Description

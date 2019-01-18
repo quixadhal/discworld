@@ -1,0 +1,63 @@
+.DT
+setup_trap
+Disk World creator help
+setup_trap
+
+.SH Name
+.SP 5 5
+setup_trap -  This sets up a basic trap on a lock.
+.EP
+
+.SH Syntax
+.SI 5
+void setup_trap(int difficulty,
+string trigger,
+string description,
+mixed message,
+mixed effect)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^difficulty%^RESET%^ - skill bonus needed to avoid triggering the trap
+%^BOLD%^trigger%^RESET%^ - "unlock", "pick, "open",  for which activities should
+trigger the trap.
+%^BOLD%^description%^RESET%^ - a description of the trap for someone who looks at
+  it.
+%^BOLD%^message%^RESET%^ - The message to be displayed to the player. If it's an array
+the first index will be printed to the player the second
+to the room.
+%^BOLD%^effect%^RESET%^ - the effect to be added to the trigerer. If the effect is an
+int the players hps will be reduced by that amount. If it is
+a string that effect will be added to the player, if it's an
+array the first index will be treated as the effect the rest
+as parameters to the effect.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/trap.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This sets up a basic trap on a lock.  The trap will be triggered when
+someone locks/unlocks/picks the lock (depending on trigger). If
+triggered the message will be displayed and the effect will be added
+to the player.
+
+.EP
+
+.SH Example 1
+.SI 5
+setup_trap(300, "pick",
+           "Hidden inside the lock is a small ampule which, if touched by "
+           "an unwary tool would trigger a puff of poisonous gas.",
+           ({"A small cloud of gas puffs out of the safe.\n",
+               "A small cloud of gas puffs out of the safe.\n"}),
+           ({"/std/effects/poisons/poison_gas", 600}));
+
+.EI
+

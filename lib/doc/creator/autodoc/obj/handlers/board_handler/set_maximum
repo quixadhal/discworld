@@ -1,0 +1,39 @@
+.DT
+set_maximum
+Disk World creator help
+set_maximum
+
+.SH Name
+.SP 5 5
+set_maximum -  Set the maximum number of message before they start being auto deleted when someone posts to the board.
+.EP
+
+.SH Syntax
+.SI 5
+int set_maximum(string board,
+int max)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^board%^RESET%^ - the board to set the maximum for
+%^BOLD%^max%^RESET%^ - the maximum number of messages
+.EI
+
+.SH Returns
+.SI 5
+0 if it failed and 1 on success
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/board_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Set the maximum number of message before they start being auto deleted
+when someone posts to the board.
+.EP
+

@@ -1,0 +1,30 @@
+.DT
+setup_room
+Disk World creator help
+setup_room
+
+.SH Name
+.SP 5 5
+setup_room -  The main nasty func for setting up a room.
+.EP
+
+.SH Syntax
+.SI 5
+void setup_room(object room,
+string base_path)
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The main nasty func for setting up a room. It adds all the necessary exits,
+and adds to the room's extra_look & add_items for anything outside the room
+which should be visible. It's fairly nasty. But hey - it works.
+
+.EP
+

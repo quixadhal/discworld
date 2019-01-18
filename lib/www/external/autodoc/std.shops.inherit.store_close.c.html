@@ -1,0 +1,82 @@
+<html><head><title>File store_close.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/inherit/store_close.c</h2>
+The inherit file for store closings. This should be inherited along with 
+ /std/shop or /std/item-shop. Or any other room of your choice, really.
+ @author Rodion
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.climate.h.html">/include/climate.h</a> and <a href="include.weather.h.html">/include/weather.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#close_up"><b>close_up</b></a>()<dd>
+This method closes the shop!
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#open_up"><b>open_up</b></a>()<dd>
+This method opens the store, summoning the shopkeeper from the void and
+unlocking and opening the various exits.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_night_close"><b>set_night_close</b></a>(int, string, string *, string)<dd>
+This function sets up the closing code for stores.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="close_up">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>close_up</b></a><pre>
+void close_up()
+</pre><dd>
+This method closes the shop! It sends the shopkeeper home, changes the 
+incoming exits to be closed and locked, and moves all players in the store 
+out.
+<p>
+
+<dt><a name="open_up">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>open_up</b></a><pre>
+void open_up()
+</pre><dd>
+This method opens the store, summoning the shopkeeper from the void and
+unlocking and opening the various exits.
+<p>
+
+<dt><a name="set_night_close">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_night_close</b></a><pre>
+void set_night_close(int night,
+string shopkeeper,
+string * outside,
+string burglar_func)
+</pre><dd>
+This function sets up the closing code for stores.  This allows you to 
+ close and lock up the place, update external rooms, send the shopkeepers 
+ home, and catch burglars who try to sneak in.
+ <p>
+ If the "night" flag is 1, the store will close at night. If it's 0, the 
+store will close during the day.
+<p>
+The shopkeeper name should be the string filename of the shopkeeper. 
+This can be set to "none" for no shopkeeper (regular 
+event_person_say stuff will be used to simulate it.)
+<p>
+*outside is an array of exit, room path pairs that connect to the shop.  
+That is, if you moved east to get into the shop, the exit string will be 
+"east", "/path/of/room/we/got/here/from".  THIS IS REQUIRED, so that 
+players will be moved to the right place.
+<p>
+The burglar_func parameter is the name of a function that will be called 
+when someone 
+enters the shop after it is closed.  It will be called with the argument 
+object ob, where ob is the person who entered.  For no burglar handling, 
+this argument can be 0.
+ <p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>night - Whether the store closes during the night or day.
+<dd>shopkeeper - The file name of the shopkeeper for the store.
+<dd>outside - The exit, room pairs corresponding to outside rooms.
+<dd>burglar_func - The function called when store is burgled.
+<dt><b>Example:</b>
+<dd><pre>
+   set_night_close(1, "/d/sur/chars/bob", ({"east", PATH+"flibble_room"}), "catch_thief");
+   ...
+   set_night_close(0, "none", ({"up", "/d/ram/Snorkle/wibble_room"}));
+</pre></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 04:38:55 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

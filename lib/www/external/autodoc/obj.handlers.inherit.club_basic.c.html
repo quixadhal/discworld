@@ -1,0 +1,920 @@
+<html><head><title>File club_basic.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/inherit/club_basic.c</h2>
+This is the handler for all things clubby, a club being a group of
+players.  Each club must have a unique name.  It also handles elections
+for various club positions.<p>Written by Pinkfish<p>Started Sun Sep 27 03:35:42 EDT 1998
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.broadcaster.h.html">/include/broadcaster.h</a> and <a href="include.clubs.h.html">/include/clubs.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_club_info"><b>club_info</b></a>
+<dd>
+The basic club information class.
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_member"><b>add_member</b></a>(string, string)<dd>
+This method adds a member to the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_money"><b>add_money</b></a>(string, int, int, string, string)<dd>
+This method will pay a certain amount of money to club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_observer"><b>add_observer</b></a>(string)<dd>
+Adds an objec to the list to be informed of changes about the
+clubs.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_recruiter"><b>add_recruiter</b></a>(string, string)<dd>
+This method adds a recruiter to the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#change_club_type"><b>change_club_type</b></a>(string, int)<dd>
+This method changes the type of the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_account"><b>create_account</b></a>(string, string)<dd>
+This method creates an account in the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_club"><b>create_club</b></a>(string, string, int, string)<dd>
+This method creates a club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_extra_data"><b>create_extra_data</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#disband_club"><b>disband_club</b></a>(string)<dd>
+This method disbands the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_account_of"><b>is_account_of</b></a>(string, string)<dd>
+This method checks to see if the account exists for the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_club"><b>is_club</b></a>(string)<dd>
+This method checks to see if the specified club exists.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_creator_club"><b>is_creator_club</b></a>(string)<dd>
+This method determines if the club is a creator club or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_elected_club"><b>is_elected_club</b></a>(string)<dd>
+This method checks to see if the specified club exists and is an
+elected club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_family"><b>is_family</b></a>(string)<dd>
+This method checks to see if the club type is actually a family.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_founder_of"><b>is_founder_of</b></a>(string, string)<dd>
+This method will determine if the specified person is the founder of
+the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_member_of"><b>is_member_of</b></a>(string, string)<dd>
+This method will determine if the specified person is a member of the
+club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_observer"><b>is_observer</b></a>(string)<dd>
+This method checks to see if the specified thingy is an observer.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_personal_club"><b>is_personal_club</b></a>(string)<dd>
+This method checks to see if the specified club exists and is an
+personal club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_recruiter_of"><b>is_recruiter_of</b></a>(string, string)<dd>
+This method will determine if the specified person is a recruiter of the
+club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_main"><b>load_main</b></a>()<dd>
+This method loads the data from the disk.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#normalise_name"><b>normalise_name</b></a>(string)<dd>
+This method normalises the name for lookups so that we don't
+get names too confused.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_account_names"><b>query_account_names</b></a>(string)<dd>
+This method returns the names of all the accounts in the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_balance"><b>query_balance</b></a>(string, string)<dd>
+This method returns the balance of the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_club_cost_per_period"><b>query_club_cost_per_period</b></a>(string)<dd>
+This method determines how much the club will cost to run each
+pay period.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_club_description"><b>query_club_description</b></a>(string)<dd>
+This method returns the description of the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_club_info"><b>query_club_info</b></a>(string)<dd>
+This method either loads the data into the cache or it
+reads it from the cache.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_club_name"><b>query_club_name</b></a>(string)<dd>
+This method returns the capitalised and un messed name of the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_club_region"><b>query_club_region</b></a>(string)<dd>
+This method returns the region of the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_club_secret"><b>query_club_secret</b></a>(string)<dd>
+This method checks to see if the club is secret or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_club_type"><b>query_club_type</b></a>(string)<dd>
+This method returns the club type of the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_clubs"><b>query_clubs</b></a>()<dd>
+This method returns the names of all the clubs currently in the list
+of clubs.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_founder"><b>query_founder</b></a>(string)<dd>
+This method returns the founder of the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_insignia_path"><b>query_insignia_path</b></a>(string)<dd>
+This method returns the insignia object associated with the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_members"><b>query_members</b></a>(string)<dd>
+This method returns the members of the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_observers"><b>query_observers</b></a>()<dd>
+This method returns the current list of observers.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_recruiters"><b>query_recruiters</b></a>(string)<dd>
+This method returns the recruiters of the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_time_fees_due"><b>query_time_fees_due</b></a>(string)<dd>
+This method returns the time at which the club dues are again due.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_member"><b>remove_member</b></a>(string, string)<dd>
+This method removes a member from the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_money"><b>remove_money</b></a>(string, int, int, string, string)<dd>
+This method removes money from the account.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_observer"><b>remove_observer</b></a>(string)<dd>
+This method removes an observer.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_recruiter"><b>remove_recruiter</b></a>(string, string)<dd>
+This method removes a recruiter from the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_club_secret"><b>reset_club_secret</b></a>(string)<dd>
+This method makes a clubs membership open.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_cache"><b>save_cache</b></a>()<dd>
+This method checks the cache and then saves anything changed to the
+disk.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_club"><b>save_club</b></a>(string)<dd>
+This method saves the data to the disk.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_main"><b>save_main</b></a>()<dd>
+This method loads the data from the disk.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#send_broadcast_message"><b>send_broadcast_message</b></a>(string, string)<dd>
+This method sends a broadcast to the clubs talker channel.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#send_observer_event"><b>send_observer_event</b></a>(string, string * args)<dd>
+This method calls a function on all the observers to tell them
+when an event has taken place.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_club_changed"><b>set_club_changed</b></a>(string)<dd>
+This method marks the club as being changed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_club_description"><b>set_club_description</b></a>(string, string)<dd>
+This method sets the description of the club.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_club_secret"><b>set_club_secret</b></a>(string)<dd>
+This method makes a clubs membership secret.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#touch_club"><b>touch_club</b></a>(string)<dd>
+This method touches the club and resets the timeout date.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_member">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_member</b></a><pre>
+int add_member(string name,
+string member)
+</pre><dd>
+This method adds a member to the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to add the recruiter to
+<dd>member - the member of the club to add
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#add_recruiter">add_recruiter()</a>, <a href="#query_recruiters">query_recruiters()</a>, <a href="#query_members">query_members()</a> and <a href="#remove_member">remove_member()
+</a></dl>
+
+<dt><a name="add_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_money</b></a><pre>
+int add_money(string name,
+int amount,
+int type,
+string person,
+string account)
+</pre><dd>
+This method will pay a certain amount of money to club.  This will be
+how long the club is payed until.  The club will cost a certain
+amount for each member as well as a base cost.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club
+<dd>amount - the amount to change the balance by
+<dd>type - the tyope of the transaction
+<dd>person - the person removeing the money
+<dd>account - the account the money is coming from
+<dt><b>Returns:</b>
+<dd>the amount of money not able to be placed in the account
+<dt><b>See also:</b>
+<dd><a href="#remove_money">remove_money()</a>, <a href="#query_balance">query_balance()</a> and <a href="#query_transactions">query_transactions()
+</a></dl>
+
+<dt><a name="add_observer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_observer</b></a><pre>
+int add_observer(string obs)
+</pre><dd>
+Adds an objec to the list to be informed of changes about the
+clubs.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the name of the object to inform of changes
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="add_recruiter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_recruiter</b></a><pre>
+int add_recruiter(string name,
+string recruiter)
+</pre><dd>
+This method adds a recruiter to the club.  A recruiter can only be added if
+they are already a member.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the club name to add the recruiter to
+<dd>recruiter - the recruiter of the club to add
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#remove_recruiter">remove_recruiter()</a>, <a href="#query_recruiters">query_recruiters()</a> and <a href="#add_member">add_member()
+</a></dl>
+
+<dt><a name="change_club_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>change_club_type</b></a><pre>
+int change_club_type(string name,
+int type)
+</pre><dd>
+This method changes the type of the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to change
+<dd>type - the new type of the club
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#create_club">create_club()</a>, <a href="#disband_club">disband_club()</a> and <a href="#query_club_type">query_club_type()
+</a></dl>
+
+<dt><a name="create_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_account</b></a><pre>
+int create_account(string name,
+string account)
+</pre><dd>
+This method creates an account in the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club
+<dd>account - the name of the account
+
+</dl>
+
+<dt><a name="create_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>create_club</b></a><pre>
+int create_club(string name,
+string founder,
+int type,
+string region)
+</pre><dd>
+This method creates a club.  The founder and the recruiter set is
+initialy set to the founder.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club
+<dd>founder - the founder of the club
+<dd>region - the region of the club
+<dt><b>Returns:</b>
+<dd>1 was able to create the club, 0 if unable to create the club
+<dt><b>See also:</b>
+<dd><a href="#disband_club">disband_club()</a> and <a href="#change_club_type">change_club_type()
+</a></dl>
+
+<dt><a name="disband_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>disband_club</b></a><pre>
+int disband_club(string name)
+</pre><dd>
+This method disbands the club.  The club will be totaly zapped and
+everything about it efficently munched.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to disband
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#create_club">create_club()</a> and <a href="#check_extra_infromation">check_extra_infromation()
+</a></dl>
+
+<dt><a name="is_account_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_account_of</b></a><pre>
+int is_account_of(string club_name,
+string account)
+</pre><dd>
+This method checks to see if the account exists for the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the name
+<dd>account - the name of the account to checlk
+<dt><b>Returns:</b>
+<dd>1 if it exists, 0 if it does not
+
+</dl>
+
+<dt><a name="is_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_club</b></a><pre>
+int is_club(string name)
+</pre><dd>
+This method checks to see if the specified club exists.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check for existance
+<dt><b>Returns:</b>
+<dd>1 if it is a club, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#query_club_name">query_club_name()
+</a></dl>
+
+<dt><a name="is_creator_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_creator_club</b></a><pre>
+int is_creator_club(string club_name)
+</pre><dd>
+This method determines if the club is a creator club or not.  A
+club is considered a creator club if the founder is a creator.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dt><b>Returns:</b>
+<dd>1 if is a creator club, 0 if not
+
+</dl>
+
+<dt><a name="is_elected_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_elected_club</b></a><pre>
+int is_elected_club(string name)
+</pre><dd>
+This method checks to see if the specified club exists and is an
+elected club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check to see for an elected type
+<dt><b>Returns:</b>
+<dd>1 if the club is an elected type
+
+</dl>
+
+<dt><a name="is_family">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_family</b></a><pre>
+int is_family(string name)
+</pre><dd>
+This method checks to see if the club type is actually a family.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the family to check
+<dt><b>Returns:</b>
+<dd>1 if the club is a family
+
+</dl>
+
+<dt><a name="is_founder_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_founder_of</b></a><pre>
+int is_founder_of(string name,
+string founder)
+</pre><dd>
+This method will determine if the specified person is the founder of
+the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check the founder of
+<dd>founder - the person to check for being the founder
+<dt><b>Returns:</b>
+<dd>1 if they are in the position, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#create_club">create_club()
+</a></dl>
+
+<dt><a name="is_member_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_member_of</b></a><pre>
+int is_member_of(string name,
+string member)
+</pre><dd>
+This method will determine if the specified person is a member of the
+club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to find the member of
+<dd>member - the member to check for the existance of
+<dt><b>Returns:</b>
+<dd>1 if they are a member, 0 if they are not
+
+</dl>
+
+<dt><a name="is_observer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_observer</b></a><pre>
+int is_observer(string obs)
+</pre><dd>
+This method checks to see if the specified thingy is an observer.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the observer to check
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="is_personal_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_personal_club</b></a><pre>
+int is_personal_club(string name)
+</pre><dd>
+This method checks to see if the specified club exists and is an
+personal club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check to see for an personal type
+<dt><b>Returns:</b>
+<dd>1 if the club is an personal type
+
+</dl>
+
+<dt><a name="is_recruiter_of">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_recruiter_of</b></a><pre>
+int is_recruiter_of(string name,
+string recruiter)
+</pre><dd>
+This method will determine if the specified person is a recruiter of the
+club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to find the recruiter of
+<dd>recruiter - the person is check for the recruiter
+<dt><b>Returns:</b>
+<dd>1 if they are a recruiter, 0 if they are not
+<dt><b>See also:</b>
+<dd><a href="#add_recruiter">add_recruiter()</a> and <a href="#remove_recruiter">remove_recruiter()
+</a></dl>
+
+<dt><a name="normalise_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>normalise_name</b></a><pre>
+string normalise_name(string name)
+</pre><dd>
+This method normalises the name for lookups so that we don't
+get names too confused.  Thanks to Terano for this idea.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name to normalise
+<dt><b>Returns:</b>
+<dd>the normalised name
+
+</dl>
+
+<dt><a name="query_account_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_account_names</b></a><pre>
+string * query_account_names(string name)
+</pre><dd>
+This method returns the names of all the accounts in the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dt><b>Returns:</b>
+<dd>the names of all the accounts
+
+</dl>
+
+<dt><a name="query_balance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_balance</b></a><pre>
+int query_balance(string name,
+string account)
+</pre><dd>
+This method returns the balance of the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club
+<dd>account - the name of the account
+<dt><b>Returns:</b>
+<dd>the current balance of the club
+<dt><b>See also:</b>
+<dd><a href="#pay_money">pay_money()</a> and <a href="#remove_money">remove_money()
+</a></dl>
+
+<dt><a name="query_club_cost_per_period">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_club_cost_per_period</b></a><pre>
+int query_club_cost_per_period(string club_name)
+</pre><dd>
+This method determines how much the club will cost to run each
+pay period.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to get the fees for
+<dt><b>Returns:</b>
+<dd>the amount the club will cost in the next pay period
+<dt><b>See also:</b>
+<dd><a href="#query_time_fees_due">query_time_fees_due()
+</a></dl>
+
+<dt><a name="query_club_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_club_description</b></a><pre>
+string query_club_description(string club_name)
+</pre><dd>
+This method returns the description of the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to get the description of
+<dt><b>Returns:</b>
+<dd>the club description, 0 if the club is not found
+<dt><b>See also:</b>
+<dd><a href="#query_club_name">query_club_name()</a>, <a href="#create_club">create_club()</a> and <a href="#set_club_description">set_club_description()
+</a></dl>
+
+<dt><a name="query_club_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_club_name</b></a><pre>
+string query_club_name(string club_name)
+</pre><dd>
+This method returns the capitalised and un messed name of the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club
+<dt><b>Returns:</b>
+<dd>the un messed name of the club
+<dt><b>See also:</b>
+<dd><a href="#is_club">is_club()
+</a></dl>
+
+<dt><a name="query_club_region">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_club_region</b></a><pre>
+string query_club_region(string name)
+</pre><dd>
+This method returns the region of the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check
+<dt><b>Returns:</b>
+<dd>the club name
+
+</dl>
+
+<dt><a name="query_club_secret">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_club_secret</b></a><pre>
+int query_club_secret(string name)
+</pre><dd>
+This method checks to see if the club is secret or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check for secrecy
+<dt><b>Returns:</b>
+<dd>1 if the club is secret, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#set_club_secret">set_club_secret()
+</a></dl>
+
+<dt><a name="query_club_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_club_type</b></a><pre>
+int query_club_type(string name)
+</pre><dd>
+This method returns the club type of the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to get the type of
+<dt><b>Returns:</b>
+<dd>the type of the club
+<dt><b>See also:</b>
+<dd><a href="#change_club_type">change_club_type()</a> and <a href="#create_club">create_club()
+</a></dl>
+
+<dt><a name="query_clubs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_clubs</b></a><pre>
+string * query_clubs()
+</pre><dd>
+This method returns the names of all the clubs currently in the list
+of clubs.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of current clubs
+<dt><b>See also:</b>
+<dd><a href="#create_club">create_club()</a> and <a href="#disband_club">disband_club()
+</a></dl>
+
+<dt><a name="query_founder">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_founder</b></a><pre>
+string query_founder(string name)
+</pre><dd>
+This method returns the founder of the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the club name to get the founder of
+<dt><b>Returns:</b>
+<dd>the founder of the club
+<dt><b>See also:</b>
+<dd><a href="#create_club">create_club()
+</a></dl>
+
+<dt><a name="query_insignia_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_insignia_path</b></a><pre>
+string query_insignia_path(string name)
+</pre><dd>
+This method returns the insignia object associated with the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club for the insignia object
+<dt><b>Returns:</b>
+<dd>the path of the club insignia object
+<dt><b>See also:</b>
+<dd><a href="#create_club">create_club()
+</a></dl>
+
+<dt><a name="query_members">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_members</b></a><pre>
+string * query_members(string name)
+</pre><dd>
+This method returns the members of the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the members of the club
+<dt><b>Returns:</b>
+<dd>the members of the club
+<dt><b>See also:</b>
+<dd><a href="#add_member">add_member()</a> and <a href="#remove_member">remove_member()
+</a></dl>
+
+<dt><a name="query_observers">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_observers</b></a><pre>
+string * query_observers()
+</pre><dd>
+This method returns the current list of observers.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current list of observers
+
+</dl>
+
+<dt><a name="query_recruiters">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_recruiters</b></a><pre>
+string * query_recruiters(string name)
+</pre><dd>
+This method returns the recruiters of the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the club name to get the recruiters of
+<dt><b>Returns:</b>
+<dd>the recruiters of the club
+<dt><b>See also:</b>
+<dd><a href="#add_recruiter">add_recruiter()</a> and <a href="#remove_recruiter">remove_recruiter()
+</a></dl>
+
+<dt><a name="query_time_fees_due">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_time_fees_due</b></a><pre>
+int query_time_fees_due(string club_name)
+</pre><dd>
+This method returns the time at which the club dues are again due.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to get the date for
+<dt><b>See also:</b>
+<dd><a href="#check_clubs">check_clubs()</a> and <a href="#query_club_cost_per_period">query_club_cost_per_period()
+</a></dl>
+
+<dt><a name="remove_member">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_member</b></a><pre>
+int remove_member(string name,
+string member)
+</pre><dd>
+This method removes a member from the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to remove a member from
+<dd>member - the members name to remove
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#query_members">query_members()</a>, <a href="#add_member">add_member()</a> and <a href="#remove_member">remove_member()
+</a></dl>
+
+<dt><a name="remove_money">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_money</b></a><pre>
+int remove_money(string name,
+int amount,
+int type,
+string person,
+string account)
+</pre><dd>
+This method removes money from the account.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club
+<dd>amount - the amount to change the balance by
+<dd>type - the tyope of the transaction
+<dd>person - the person removeing the money
+<dd>account - the account the money is coming from
+<dt><b>Returns:</b>
+<dd>1 if the removal is a success
+<dt><b>See also:</b>
+<dd><a href="#pay_money">pay_money()</a>, <a href="#query_balance">query_balance()</a> and <a href="#query_transactions">query_transactions()
+</a></dl>
+
+<dt><a name="remove_observer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_observer</b></a><pre>
+int remove_observer(string obs)
+</pre><dd>
+This method removes an observer.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the obeserver to remove
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="remove_recruiter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_recruiter</b></a><pre>
+int remove_recruiter(string name,
+string recruiter)
+</pre><dd>
+This method removes a recruiter from the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to remove the member from
+<dd>recruiter - the recruiter to remove
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#add_recruiter">add_recruiter()</a>, <a href="#query_recruiters">query_recruiters()</a> and <a href="#add_member">add_member()
+</a></dl>
+
+<dt><a name="reset_club_secret">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_club_secret</b></a><pre>
+int reset_club_secret(string name)
+</pre><dd>
+This method makes a clubs membership open.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to make open
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#query_club_secret">query_club_secret()</a> and <a href="#set_club_secret">set_club_secret()
+</a></dl>
+
+<dt><a name="set_club_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_club_description</b></a><pre>
+int set_club_description(string club_name,
+string description)
+</pre><dd>
+This method sets the description of the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to set the description of
+<dd>description - the new description of the club
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#query_club_description">query_club_description()</a> and <a href="#create_club">create_club()
+</a></dl>
+
+<dt><a name="set_club_secret">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_club_secret</b></a><pre>
+int set_club_secret(string name)
+</pre><dd>
+This method makes a clubs membership secret.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to make secret
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#query_club_secret">query_club_secret()</a> and <a href="#reset_club_secret">reset_club_secret()
+</a></dl>
+
+<dt><a name="touch_club">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>touch_club</b></a><pre>
+void touch_club(string name)
+</pre><dd>
+This method touches the club and resets the timeout date.  This should
+be done now and then by the club to make sure it does not timeout.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to reset the timeout for
+<dt><b>See also:</b>
+<dd><a href="#check_clubs">check_clubs()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="create_extra_data">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>create_extra_data</b></a><pre>
+void create_extra_data(string name)
+</pre>
+<dt><a name="load_main">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>load_main</b></a><pre>
+void load_main()
+</pre><dd>
+This method loads the data from the disk.
+<p>
+
+<dt><a name="query_club_info">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>query_club_info</b></a><pre>
+class club_info query_club_info(string name)
+</pre><dd>
+This method either loads the data into the cache or it
+reads it from the cache.
+<p>
+
+<dt><a name="save_cache">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>save_cache</b></a><pre>
+void save_cache()
+</pre><dd>
+This method checks the cache and then saves anything changed to the
+disk...
+<p>
+
+<dt><a name="save_club">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>save_club</b></a><pre>
+void save_club(string name)
+</pre><dd>
+This method saves the data to the disk.
+<p>
+
+<dt><a name="save_main">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>save_main</b></a><pre>
+void save_main()
+</pre><dd>
+This method loads the data from the disk.
+<p>
+
+<dt><a name="send_broadcast_message">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>send_broadcast_message</b></a><pre>
+void send_broadcast_message(string club,
+string message)
+</pre><dd>
+This method sends a broadcast to the clubs talker channel.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club - the name of the club to send the message to
+<dd>mess - the message to send
+
+</dl>
+
+<dt><a name="send_observer_event">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>send_observer_event</b></a><pre>
+void send_observer_event(string event_name,
+string * args ...)
+</pre><dd>
+This method calls a function on all the observers to tell them
+when an event has taken place.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>event_name - the name of the event
+<dd>args - the arguments to the event
+
+</dl>
+
+<dt><a name="set_club_changed">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>set_club_changed</b></a><pre>
+void set_club_changed(string name)
+</pre><dd>
+This method marks the club as being changed.
+<p>
+
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_club_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>club_info</b></a><pre>
+class club_info {
+string actual_name;
+string founder;
+string * recruiters;
+string * members;
+int type;
+mapping accounts;
+int last_paid;
+int last_touched;
+mixed extra_data;
+string description;
+string region;
+}
+
+</pre><dd>
+The basic club information class.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>actual_name - the actual name of the club
+<dd>founder - the founder of the club
+<dd>recruiters - the people who can recruit for the club
+<dd>members - the members of the club
+<dd>type - the type of the club
+<dd>accounts - the accounts in the club
+<dd>last_paid - when the balance was last paid
+<dd>last_touched - when the club was last touched
+<dd>extra_data - specific data for each type of club
+<dd>region - the region the club is in
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 03:54:21 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

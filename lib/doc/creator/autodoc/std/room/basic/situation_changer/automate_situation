@@ -1,0 +1,97 @@
+.DT
+automate_situation
+Disk World creator help
+automate_situation
+
+.SH Name
+.SP 5 5
+automate_situation -  Automate starting and ending of a situations.
+.EP
+
+.SH Syntax
+.SI 5
+void automate_situation(mixed label,
+mixed duration,
+mixed when,
+mixed chance,
+mixed category)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^label%^RESET%^ - (mixed) label of the situation to start 
+ up.  If you pass an array such as ({ "frog1", "frog2" }) for the 
+label then that set of situations are started one at
+a time and the total duration is split evenly between them.
+Label is usually an integer or a string or an array of
+integers and/or strings.
+If the string is a list of labels
+separated by , then multiple situations
+are started using those labels.
+%^BOLD%^duration%^RESET%^ - (int) total time (seconds) the overall situation 
+should last.  If an array is specified for duration each
+situation gets it's own little one.  If -1 is specified as
+a duration for one part that situation is background complimentary
+situation to the rest that is on when the rest are off.
+%^BOLD%^when%^RESET%^ - (int) a time of the day mask.  This limits when
+the situation is allowed to occur.  The mask is composed of
+the allowed hours in AM time ( 24 hours clock, (1<<hour) and 
+combined with | (OR) ).   You can just use these
+predefined masks and ingore how it works:
+ WHEN_WEE_HOURS, WHEN_EARLY_MORNING, WHEN_LATE_MORNING, WHEN_AFTERNOON
+ WHEN_EVENING, WHEN_LATENIGHT, WHEN_MIDDAY, WHEN_MORNING, 
+ WHEN_EARLY_MORNING, WHEN_LATE_MORNING, WHEN_NIGHT, WHEN_DAY
+ WHEN_ANY_TIME    
+The masks are defined in /include/situations.h.
+%^BOLD%^chance%^RESET%^ -  (int) chance in 1000 of starting the situation
+ This is tested every duration seconds.
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/situation_changer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Automate starting and ending of a situations.
+These situations can be invoked manually with start_situation.
+The automated starting and ending is unaffected by the room 
+unloading.  When the room reloads the situation will be 
+restarted unless its duration is up.
+You must include the file situations.h for the definitions
+of the when masks.
+.EP
+
+.SH Example 1
+.SI 5
+#include <situations.h>
+
+ automate_situation( "frog", 300, WHEN_ANY_TIME, 200 );
+
+This will automatically start the situation labelled "frog" 
+at a random time that is any time of the day with a 200/1000
+chance of it starting per 300 seconds.  It will last for
+300 seconds (5 minutes).  
+.EI
+
+.SH Example 2
+.SI 5
+ automate_situation( ({"frog1","frog2"}), 240, WHEN_EVENING|WHEN_NIGHT,
+, 300 );
+
+This will automatically start a situation that is a combination 
+of "frog1" followed by "frog2" at a random time but only in the
+evening or at night.  There will be a 300/1000 chance of it 
+starting per 240 seconds.  Both the "frog1" and "frog2" 
+situations will get half the total time (as there are two),  
+120 seconds each, for a total duration of 240 seconds (4 minutes).
+
+.EI
+
+.SH See also
+.SP 5 5
+add_situation, start_situation, end_situation, evolvingroom.h
+.EP
+

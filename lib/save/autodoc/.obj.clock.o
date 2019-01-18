@@ -1,10 +1,10 @@
 #/obj/handlers/autodoc/autodoc_file.c
-public_functions (["chime":({({"void",}),({({"string",}),"chime_message",({"int",}),"type",}),(["see":({"set_chimes",}),"param":({"chime_message the message set with set_chimes.",}),"main":({"Function to chime. Overload this if you wish to have your own chimecode.",}),]),}),"extra_look":({({"string",}),({({"object",}),"thing",}),([]),}),"set_show_date":({({"void",}),({}),(["main":({"Sets this clock to show the date as well as the tme.",}),]),}),"set_chimes":({({"void",}),({({"int",}),"num",({"string",}),"mess",}),(["param":({"num 1 = every hour, 2 = every half hour, 3 = every quarter hour.","mess The message to be displayed when the clock chimes.",}),"main":({"setup chimes for this clock.",}),]),}),])
+public_functions (["set_show_date":({({"void",}),({}),(["main":({"Sets this clock to show the date as well as the tme.",}),]),}),"set_chimes":({({"void",}),({({"int",}),"num",({"string",}),"mess",}),(["main":({"setup chimes for this clock.",}),"param":({"num 1 = every hour, 2 = every half hour, 3 = every quarter hour.","mess The message to be displayed when the clock chimes.",}),]),}),"extra_look":({({"string",}),({({"object",}),"thing",}),([]),}),"chime":({({"void",}),({({"string",}),"chime_message",({"int",}),"type",}),(["main":({"Function to chime. Overload this if you wish to have your own chimecode.",}),"see":({"set_chimes",}),"param":({"chime_message the message set with set_chimes.",}),]),}),])
 protected_functions ([])
 inherits (["std/object":({}),])
-main_docs (["see":({"/obj/watch",}),"author":({"Ceres",}),"main":({"An inheritable clock object. This is used for proper clocks, if you need tocreate a watch use the watch object instead.",}),])
-define_docs (["CREATOR":([]),"HOURS":([]),"CHIME_HANDLER":([]),])
-includes (["/include/am_time.h":1059516192,])
+main_docs (["main":({"An inheritable clock object. This is used for proper clocks, if you need tocreate a watch use the watch object instead.",}),"author":({"Ceres",}),"see":({"/obj/watch",}),])
+define_docs (["HOURS":([]),"CHIME_HANDLER":([]),"CREATOR":([]),])
+includes (["/include/am_time.h":1522061544,])
 class_docs ([])
 file_name "/obj/clock.c"
-last_changed 1059516271
+last_changed 1522061544

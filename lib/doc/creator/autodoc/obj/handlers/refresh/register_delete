@@ -1,0 +1,33 @@
+.DT
+register_delete
+Disk World creator help
+register_delete
+
+.SH Name
+.SP 5 5
+register_delete -  This function does almost exactly what register_refresh() does, but it is used for registering delete handlers.
+.EP
+
+.SH Syntax
+.SI 5
+string register_delete(mixed ob,
+string func)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/refresh.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function does almost exactly what register_refresh() does,
+but it is used for registering delete handlers.
+
+Delete callbacks are called with two parameters as well, but
+the first parameter is a string containing the player's name,
+while the second parameter is the integer PLAYER_DELETED.
+
+.EP
+

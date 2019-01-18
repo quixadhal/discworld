@@ -1,0 +1,369 @@
+<html><head><title>File item_shop.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/inherit/item_shop.c</h2>
+Item shop inherit. <p><b>See also:</b><br>/std/shops/inherit/clone_on_demand
+.c<p>Written by Pinkfish<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.shops.inherit.clone_on_demand.c.html">/std/shops/inherit/clone_on_demand.c</a>, <a href="std.shops.inherit.shop_event.c.html">/std/shops/inherit/shop_event.c</a> and <a href="std.shops.inherit.open_shop.c.html">/std/shops/inherit/open_shop.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.item_shop.h.html">/include/shops/item_shop.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_banking"><b>do_banking</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_browse_function"><b>query_browse_function</b></a>()<dd>
+This method returns the functionto be used when browseing something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_buy_function"><b>query_buy_function</b></a>()<dd>
+This method returns the functionto be used when buying something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_cost"><b>query_cost</b></a>(object)<dd>
+This method returns the cost of the item shop object being talked about.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_list_function"><b>query_list_function</b></a>()<dd>
+This method returns the functionto be used when listing something.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_max_float"><b>query_max_float</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_no_steal"><b>query_no_steal</b></a>()<dd>
+Queries to see if the room is unstealable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_safe"><b>query_safe</b></a>()<dd>
+query_safe - This method returns the object currently being used
+as a safe in the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shop"><b>query_shop</b></a>()<dd>
+This method tells us if the shop is really a shop or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shop_lift_items"><b>query_shop_lift_items</b></a>(string, object)<dd>
+This method returns the items which can potentially be shop lifted
+with the passed in string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shoplift_response_handler"><b>query_shoplift_response_handler</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_sort_function"><b>query_sort_function</b></a>()<dd>
+This method returns the function used to sort the inventory of the 
+shop when it is printed out.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_steal_difficulty"><b>query_steal_difficulty</b></a>(int)<dd>
+This method returns the steal difficulty of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_browse_function"><b>set_browse_function</b></a>(function)<dd>
+This method sets the function to use when browseing something from
+the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_buy_function"><b>set_buy_function</b></a>(function)<dd>
+This method sets the function to use when buying something from
+the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_list_function"><b>set_list_function</b></a>(function)<dd>
+This method sets the function to use when listing something from
+the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_max_float"><b>set_max_float</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_steal"><b>set_no_steal</b></a>(int)<dd>
+Sets this room as being unstealable.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_open_condition"><b>set_open_condition</b></a>(function)<dd>
+This method makes it compatible with the way that the open stuff works in
+the normal shops.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_open_func"><b>set_open_func</b></a>(function)<dd>
+This method sets the function to evaluate to detmine if the shop 
+is open or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_safe"><b>set_safe</b></a>(object)<dd>
+This allows the creators to set their own safe.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_shoplift_response_handler"><b>set_shoplift_response_handler</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_sort_function"><b>set_sort_function</b></a>(function)<dd>
+This method sets a function to be used to sort the inventory when it
+is printed out.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_steal_difficulty"><b>set_steal_difficulty</b></a>(int)<dd>
+Sets the steal difficulty of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_safe"><b>setup_safe</b></a>()<dd>
+This method creates the safe in the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#shoplift_success"><b>shoplift_success</b></a>(object)<dd>
+This method turns the objects into real objects (if that is
+nessessary, it is not with a normal shop).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#switch_extra_properties"><b>switch_extra_properties</b></a>()</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_banking">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_banking</b></a><pre>
+void do_banking()
+</pre>
+<dt><a name="query_browse_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_browse_function</b></a><pre>
+function query_browse_function()
+</pre><dd>
+This method returns the functionto be used when browseing something.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the function to be used when browseing something
+<dt><b>See also:</b>
+<dd><a href="#query_list_function">query_list_function()</a>, <a href="#query_browse_function">query_browse_function()</a> and <a href="#set_buy_function">set_buy_function()
+</a></dl>
+
+<dt><a name="query_buy_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_buy_function</b></a><pre>
+function query_buy_function()
+</pre><dd>
+This method returns the functionto be used when buying something.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the function to be used when buying something
+<dt><b>See also:</b>
+<dd><a href="#query_list_function">query_list_function()</a>, <a href="#query_browse_function">query_browse_function()</a> and <a href="#set_buy_function">set_buy_function()
+</a></dl>
+
+<dt><a name="query_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_cost</b></a><pre>
+int query_cost(object thing)
+</pre><dd>
+This method returns the cost of the item shop object being talked about.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>thing - the thing to get the cost of
+<dt><b>Returns:</b>
+<dd>the cost of the thing
+
+</dl>
+
+<dt><a name="query_list_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_list_function</b></a><pre>
+function query_list_function()
+</pre><dd>
+This method returns the functionto be used when listing something.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the function to be used when listing something
+<dt><b>See also:</b>
+<dd><a href="#query_buy_function">query_buy_function()</a>, <a href="#query_browse_function">query_browse_function()</a> and <a href="#set_list_function">set_list_function()
+</a></dl>
+
+<dt><a name="query_max_float">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_max_float</b></a><pre>
+int query_max_float()
+</pre>
+<dt><a name="query_no_steal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_no_steal</b></a><pre>
+int query_no_steal()
+</pre><dd>
+Queries to see if the room is unstealable.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for making the room unstealable
+<dt><b>See also:</b>
+<dd><a href="#set_no_steal">set_no_steal()
+</a></dl>
+
+<dt><a name="query_safe">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_safe</b></a><pre>
+object query_safe()
+</pre><dd>
+query_safe - This method returns the object currently being used
+as a safe in the shop. 
+<p>
+
+<dt><a name="query_shop">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shop</b></a><pre>
+int query_shop()
+</pre><dd>
+This method tells us if the shop is really a shop or not.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 always
+
+</dl>
+
+<dt><a name="query_shop_lift_items">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shop_lift_items</b></a><pre>
+object * query_shop_lift_items(string str,
+object player)
+</pre><dd>
+This method returns the items which can potentially be shop lifted
+with the passed in string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the name for the object to attempt to shop lift
+<dt><b>Returns:</b>
+<dd>the array of matching objects
+<dt><b>See also:</b>
+<dd><a href="#query_steal_difficulty">query_steal_difficulty()</a> and <a href="#query_shoplift_response_handler">query_shoplift_response_handler()
+</a></dl>
+
+<dt><a name="query_shoplift_response_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shoplift_response_handler</b></a><pre>
+string query_shoplift_response_handler()
+</pre>
+<dt><a name="query_sort_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_sort_function</b></a><pre>
+function query_sort_function()
+</pre><dd>
+This method returns the function used to sort the inventory of the 
+shop when it is printed out.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the function to use to sort the inventory
+<dt><b>See also:</b>
+<dd><a href="#set_sort_function">set_sort_function()
+</a></dl>
+
+<dt><a name="query_steal_difficulty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_steal_difficulty</b></a><pre>
+int query_steal_difficulty(int i)
+</pre><dd>
+This method returns the steal difficulty of the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the steal difficulty of the room
+
+</dl>
+
+<dt><a name="set_browse_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_browse_function</b></a><pre>
+void set_browse_function(function func)
+</pre><dd>
+This method sets the function to use when browseing something from
+the shop.  The function will be called with two arguements, the
+first is the player, the second is the array of objects being
+browsed.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to set
+<dt><b>See also:</b>
+<dd><a href="#set_list_function">set_list_function()</a>, <a href="#set_buy_function">set_buy_function()</a>, <a href="#set_browse_function">set_browse_function()</a> and <a href="#query_browse_function">query_browse_function()
+</a></dl>
+
+<dt><a name="set_buy_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_buy_function</b></a><pre>
+void set_buy_function(function func)
+</pre><dd>
+This method sets the function to use when buying something from
+the shop.  The function will be called with two arguements, the
+first is the player, the second is the array of objects being
+bought.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to set
+<dt><b>See also:</b>
+<dd><a href="#set_list_function">set_list_function()</a>, <a href="#set_buy_function">set_buy_function()</a>, <a href="#set_browse_function">set_browse_function()</a> and <a href="#query_buy_function">query_buy_function()
+</a></dl>
+
+<dt><a name="set_list_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_list_function</b></a><pre>
+void set_list_function(function func)
+</pre><dd>
+This method sets the function to use when listing something from
+the shop.  The function will be called with two arguements, the
+first is the player, the second is the array of objects being
+bought.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to set
+<dt><b>See also:</b>
+<dd><a href="#set_list_function">set_list_function()</a>, <a href="#set_buy_function">set_buy_function()</a>, <a href="#set_browse_function">set_browse_function()</a> and <a href="#query_list_function">query_list_function()
+</a></dl>
+
+<dt><a name="set_max_float">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_max_float</b></a><pre>
+void set_max_float(int f)
+</pre>
+<dt><a name="set_no_steal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_steal</b></a><pre>
+void set_no_steal(int i)
+</pre><dd>
+Sets this room as being unstealable.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - 1 if the room is unable to be stolen from
+<dt><b>See also:</b>
+<dd><a href="#query_no_steal">query_no_steal()
+</a></dl>
+
+<dt><a name="set_open_condition">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_open_condition</b></a><pre>
+void set_open_condition(function func)
+</pre><dd>
+This method makes it compatible with the way that the open stuff works in
+the normal shops.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to evaluate for openness
+<dt><b>See also:</b>
+<dd><a href="#set_open_func">set_open_func()</a> and <a href="#query_open_func">query_open_func()
+</a></dl>
+
+<dt><a name="set_open_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_open_func</b></a><pre>
+void set_open_func(function func)
+</pre><dd>
+This method sets the function to evaluate to detmine if the shop 
+is open or not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to evaluate for openness
+<dt><b>See also:</b>
+<dd><a href="#query_open_func">query_open_func()</a> and <a href="#set_open_condition">set_open_condition()
+</a></dl>
+
+<dt><a name="set_safe">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_safe</b></a><pre>
+void set_safe(object safe)
+</pre><dd>
+This allows the creators to set their own safe. 
+<p>
+
+<dt><a name="set_shoplift_response_handler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_shoplift_response_handler</b></a><pre>
+void set_shoplift_response_handler(string word)
+</pre>
+<dt><a name="set_sort_function">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_sort_function</b></a><pre>
+void set_sort_function(function func)
+</pre><dd>
+This method sets a function to be used to sort the inventory when it
+is printed out.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to use to sort the inventory
+<dt><b>See also:</b>
+<dd><a href="#query_sort_function">query_sort_function()
+</a></dl>
+
+<dt><a name="set_steal_difficulty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_steal_difficulty</b></a><pre>
+void set_steal_difficulty(int i)
+</pre><dd>
+Sets the steal difficulty of the room.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the steal difficulty of the room
+
+</dl>
+
+<dt><a name="setup_safe">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_safe</b></a><pre>
+void setup_safe()
+</pre><dd>
+This method creates the safe in the room.  The safe is then used for
+various thief related activities.
+<p>
+
+<dt><a name="shoplift_success">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>shoplift_success</b></a><pre>
+object shoplift_success(object ob)
+</pre><dd>
+This method turns the objects into real objects (if that is
+nessessary, it is not with a normal shop).<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to turn into a normal object
+
+</dl>
+
+<dt><a name="switch_extra_properties">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>switch_extra_properties</b></a><pre>
+mixed * switch_extra_properties()
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 03:30:07 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

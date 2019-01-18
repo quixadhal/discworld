@@ -1,0 +1,38 @@
+.DT
+delete_it
+Disk World creator help
+delete_it
+
+.SH Name
+.SP 5 5
+delete_it -  This method will attempt to the delete the specified messages from the folder.
+.EP
+
+.SH Syntax
+.SI 5
+void delete_it(string pname,
+string fname,
+int * deleted)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^pname%^RESET%^ - the players name
+%^BOLD%^fname%^RESET%^ - the folder name
+%^BOLD%^deleted%^RESET%^ - the array of message numbers to delete from the folder
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/folder_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will attempt to the delete the specified messages from
+the folder.  The array deleted must be an array of integers where each
+number is a message number to be deleted.
+.EP
+

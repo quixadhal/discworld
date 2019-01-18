@@ -1,0 +1,47 @@
+.DT
+category_function
+Disk World creator help
+category_function
+
+.SH Name
+.SP 5 5
+category_function -  This is the function used as a call back from the controller to deal with category based stuff.
+.EP
+
+.SH Syntax
+.SI 5
+int category_function(string name,
+int state,
+string * voted,
+int yes,
+int no,
+int abstain)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the category being processed
+%^BOLD%^state%^RESET%^ - the state the category is currently in
+%^BOLD%^voted%^RESET%^ - the number of people who voted
+%^BOLD%^yes%^RESET%^ - the number who voted yes
+%^BOLD%^no%^RESET%^ - the number who voted no
+%^BOLD%^abstain%^RESET%^ - the number who abstained
+.EI
+
+.SH Returns
+.SI 5
+0 on error, timeout of the next stage
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/craft_shop_category_modify.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the function used as a call back from the controller to deal with
+category based stuff.
+.EP
+

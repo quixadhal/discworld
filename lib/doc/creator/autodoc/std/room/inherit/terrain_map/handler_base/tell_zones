@@ -1,0 +1,42 @@
+.DT
+tell_zones
+Disk World creator help
+tell_zones
+
+.SH Name
+.SP 5 5
+tell_zones -  This method displays a message in all the currently loaded rooms within the specified zone(s).
+.EP
+
+.SH Syntax
+.SI 5
+varargs void tell_zones(mixed zones,
+string message,
+mixed mess_class)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^zones%^RESET%^ - a zone name as a string, or an array of zone names
+%^BOLD%^message%^RESET%^ - the message to be displayed
+%^BOLD%^mess_class%^RESET%^ - the message type. Normally this need not be specified
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method displays a message in all the currently loaded rooms
+within the specified zone(s).
+.EP
+
+.SH See also
+.SP 5 5
+query_rooms_in_zone, tell_feature
+
+.EP
+

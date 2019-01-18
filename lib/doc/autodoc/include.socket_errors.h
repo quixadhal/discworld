@@ -1,0 +1,142 @@
+.DT
+socket_errors.h
+Disk World autodoc help
+socket_errors.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^EEACCEPT	-19	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEADDRINUSE	%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEALREADY	-22	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEBADADDR	-21	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEBADDATA%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEBADF		%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEBIND		-10	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EECALLBACK	-29	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EECONNECT	-24	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EECONNREFUSED	-23	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEFDRANGE	%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEGETSOCKNAME	-11	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEINTR		-18	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEISBOUND	%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEISCONN	-14	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEISLISTEN	-20	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EELISTEN	-15	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEMODENOTSUPP	-12	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EENOADDR	-13	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EENONBLOCK	%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EENOSOCKS	%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EENOTCONN	-25	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EENOTLISTN	-16	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EESECURITY	%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EESEND		-28	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EESENDTO	-27	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EESETSOCKOPT	%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EESOCKET	%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EESOCKNOTRLSD%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EESOCKRLSD	-30	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EESUCCESS	%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EETYPENOTSUPP	-26	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^EEWOULDBLOCK	-17	/*%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ERROR_STRINGS	%^RESET%^
+.EI
+

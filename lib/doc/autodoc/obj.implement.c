@@ -1,6 +1,6 @@
 .DT
 implement.c
-DW_wibble autodoc help
+Disk World autodoc help
 implement.c
 
 .SH Description
@@ -27,7 +27,7 @@ This class inherits the following classes /std/basic/holdable and /std/object.
 
 .SH Includes
 .SP 5 5
-This class includes the following files /include/money.h, /include/virtual.h, /include/move_failures.h and /include/shops/bank.h.
+This class includes the following files /include/virtual.h, /include/move_failures.h, /include/shops/bank.h and /include/money.h.
 .EP
 
 .SH Public Functions

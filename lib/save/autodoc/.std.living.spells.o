@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["query_spell":({({"mixed",}),({({"string",}),"word",}),(["main":({"This method finds the data for the spell of the specific name",}),"param":({"word the name of the spell to find data on",}),"return":({"the data for the spell",}),]),}),"remove_spell":({({"int",}),({({"string",}),"name",}),(["main":({"This method removes the spell of the given name.",}),"param":({"name the name of the spell to remove",}),"return":({"1 on succes, 0 on failure",}),]),}),"add_spell":({({"int",}),({({"string",}),"name",({"mixed",}),"ob",({"mixed",}),"func",}),(["main":({"This method adds a spell into the current spell list.",}),"param":({"name the name of the spell to add","ob the object the spell is on","func the function to call for the spell",}),"return":({"1 on success, 0 on failure",}),]),}),"query_spells_nocase":({({"mapping",}),({}),(["main":({"This method returns the list of spells without any case issues.",}),"return":({"the list of spells without any case",}),]),}),"query_spells":({({"mapping",}),({}),(["main":({"This method returns the current bunch of spells for the object.",}),"return":({"the spells",}),]),}),"help_spell":({({"string",}),({({"string",}),"str",}),([]),}),])
+protected_functions (["reset_spells":({({"void",}),({}),(["main":({"This method resets all the spell data.",}),]),}),])
+inherits ([])
+main_docs (["main":({"This method returns the string help for the spell.  It is used by thehelp command to find the help for the spell.",}),"param":({"str the spell to find help on",}),"return":({"the help string of the spell",}),])
+define_docs ([])
+includes (["/include/spells.h":1522061544,])
+class_docs (["spell_process":({0,({({"spells",({"mapping",}),}),({"process",({"mapping",}),}),}),([]),}),])
+file_name "/std/living/spells.c"
+last_changed 1522061544

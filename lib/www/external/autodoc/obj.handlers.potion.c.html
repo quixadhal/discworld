@@ -1,0 +1,124 @@
+<html><head><title>File potion.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/potion.c</h2>
+ This class is the potion information handler.
+<p>
+ This will handle all the information related to potions: the skill
+ required, the failure result, etc. (more to be added as necessary).
+ Each potion will be an object in itself (generally a virtual object).
+ There will be an index file which gives the pathname of the object
+ for each potion "title".  This will be loaded into a mapping on
+ creation of the handler.  The actual potion objects will be created
+ as they are referenced (assuming they're in the index) and stored
+ as the value of another mapping.<p>Written by Jeremy<p>Started ??/??/95
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clone_reagent"><b>clone_reagent</b></a>(string)<dd>
+This method creates a reagent object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_chant"><b>query_chant</b></a>(string)<dd>
+This method returns the chant of the potion name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_min_level"><b>query_min_level</b></a>(string)<dd>
+This method returns the minimum level of the potion name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_paths"><b>query_paths</b></a>()<dd>
+This method returns the paths that are searched for potion
+objects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_potion"><b>query_potion</b></a>(string)<dd>
+This method clones up a potion object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_potions"><b>query_potions</b></a>()<dd>
+This method returns the potion mapping.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="clone_reagent">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clone_reagent</b></a><pre>
+mixed clone_reagent(string s)
+</pre><dd>
+This method creates a reagent object.  It creates the potion object and
+then creates the reagent on it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>potion - the potion to create
+<dt><b>Returns:</b>
+<dd>the regent object
+
+</dl>
+
+<dt><a name="query_chant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_chant</b></a><pre>
+string query_chant(string s)
+</pre><dd>
+This method returns the chant of the potion name.  The
+expand_nickname function will be done on the input name before
+looking it up.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the name to lookup
+<dt><b>Returns:</b>
+<dd>the chant
+<dt><b>See also:</b>
+<dd><a href="#query_min_level">query_min_level()
+</a></dl>
+
+<dt><a name="query_min_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_min_level</b></a><pre>
+int query_min_level(string s)
+</pre><dd>
+This method returns the minimum level of the potion name.  The
+expand_nickname function will be done on the input name before
+looking it up.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the name to lookup
+<dt><b>Returns:</b>
+<dd>the minimum level
+<dt><b>See also:</b>
+<dd><a href="#query_chant">query_chant()
+</a></dl>
+
+<dt><a name="query_paths">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_paths</b></a><pre>
+mapping query_paths()
+</pre><dd>
+This method returns the paths that are searched for potion
+objects.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mapping of paths
+
+</dl>
+
+<dt><a name="query_potion">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_potion</b></a><pre>
+object query_potion(string s)
+</pre><dd>
+This method clones up a potion object.  It does not setup the reagent
+in the potion.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>s - the potion to create
+
+<dt><b>Returns:</b>
+<dd>the potion object
+<dt><b>See also:</b>
+<dd><a href="#clone_reagent">clone_reagent()</a></dl>
+
+<dt><a name="query_potions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_potions</b></a><pre>
+mapping query_potions()
+</pre><dd>
+This method returns the potion mapping.  This the list of known
+potions.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the potion mapping
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 23:45:37 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

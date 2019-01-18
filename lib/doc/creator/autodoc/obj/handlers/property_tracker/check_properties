@@ -1,0 +1,47 @@
+.DT
+check_properties
+Disk World creator help
+check_properties
+
+.SH Name
+.SP 5 5
+check_properties -  This method is called by the login handler every time someone logs onto the MUD.
+.EP
+
+.SH Syntax
+.SI 5
+void check_properties(mixed person,
+string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^person%^RESET%^ - the person who is logging on
+%^BOLD%^type%^RESET%^ - the type of login event. Only LOGIN events are used
+by this object. 
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/property_tracker.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called by the login handler every time someone logs onto
+the MUD. It checks through any properties that they have, and removes
+them if they are marked as invalid.
+
+
+If a property function was set, then this function is called now when the property is removed. It is passed three parameters, string property, object player, and mixed property_data. 
+
+
+.EP
+
+.SH See also
+.SP 5 5
+/include/login.h, /obj/handlers/login_handler.c
+
+.EP
+

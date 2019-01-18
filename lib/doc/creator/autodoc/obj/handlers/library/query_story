@@ -1,0 +1,43 @@
+.DT
+query_story
+Disk World creator help
+query_story
+
+.SH Name
+.SP 5 5
+query_story -  This method returns the story associated with the player.
+.EP
+
+.SH Syntax
+.SI 5
+string query_story(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the player name
+.EI
+
+.SH Returns
+.SI 5
+the story of the player.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/library.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the story associated with the player.   This is
+created from all the information about the quests they have done
+joined together into a neato story.
+.EP
+
+.SH See also
+.SP 5 5
+/obj/handlers/quest_handler->query_quest_story()
+
+.EP
+

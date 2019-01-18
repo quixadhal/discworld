@@ -1,0 +1,33 @@
+.DT
+parse_node
+Disk World creator help
+parse_node
+
+.SH Name
+.SP 5 5
+parse_node -  The class used to hold information about both expression nodes and evaluated data.
+.EP
+
+.SH Definition
+.SI 5
+class parse_node {
+int type;
+mixed value;
+mixed * tree;
+}
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/expressions.h
+.EI
+
+.SH Description
+.SP 5 5
+
+The class used to hold information about both expression nodes and
+evaluated data.  The type is one of the types above and the value is
+dependant on the type.
+.EP
+

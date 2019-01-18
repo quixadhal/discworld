@@ -1,0 +1,37 @@
+.DT
+do_confirm_sale
+Disk World creator help
+do_confirm_sale
+
+.SH Name
+.SP 5 5
+do_confirm_sale -  This method will ask the person to confirm the sale.
+.EP
+
+.SH Syntax
+.SI 5
+void do_confirm_sale(int value,
+string name,
+object * sellables)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^value%^RESET%^ - the value of the thing being sold
+%^BOLD%^name%^RESET%^ - the name the thing is sold for
+%^BOLD%^sellables%^RESET%^ - the things to sell
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/craft_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will ask the person to confirm the sale.  It will check
+the extra_sell_check function and then call the extra sale thing.
+.EP
+

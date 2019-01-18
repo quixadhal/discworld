@@ -1,0 +1,41 @@
+.DT
+leaving
+Disk World creator help
+leaving
+
+.SH Name
+.SP 5 5
+leaving -  When a player leaves the game automatically remove them from their team.
+.EP
+
+.SH Syntax
+.SI 5
+void leaving(string p_name,
+string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^p_name%^RESET%^ - the player name who is leaving
+%^BOLD%^type%^RESET%^ - the type of action being preformed
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/team.c
+.EI
+
+.SH Description
+.SP 5 5
+
+When a player leaves the game automatically remove them from their team.
+this function is called automatically by the login handler for every
+player who leaves the game
+.EP
+
+.SH See also
+.SP 5 5
+/obj/handlers/login_handler
+
+.EP
+

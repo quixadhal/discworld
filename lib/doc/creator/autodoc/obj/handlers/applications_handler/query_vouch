@@ -1,0 +1,35 @@
+.DT
+query_vouch
+Disk World creator help
+query_vouch
+
+.SH Name
+.SP 5 5
+query_vouch -   Query the vouch for a particular player in a particular category.
+.EP
+
+.SH Syntax
+.SI 5
+string query_vouch(string t,
+string p,
+string n)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/applications_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+ Query the vouch for a particular player in a particular category.
+
+ @param t The type of application.
+ @param p The name of the player.
+ @param n The name of the voucher.
+ @return the text of the vouch or 0 if none exists.
+
+
+.EP
+

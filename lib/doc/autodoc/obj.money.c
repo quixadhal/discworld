@@ -1,6 +1,6 @@
 .DT
 money.c
-DW_wibble autodoc help
+Disk World autodoc help
 money.c
 
 .SH Inherits
@@ -10,7 +10,7 @@ This class inherits the following classes /std/object.
 
 .SH Includes
 .SP 5 5
-This class includes the following files /include/money.h, /include/move_failures.h, /include/obj_parser.h and /include/shops/bank.h.
+This class includes the following files /include/obj_parser.h, /include/move_failures.h, /include/shops/bank.h and /include/money.h.
 .EP
 
 .SH Public Functions

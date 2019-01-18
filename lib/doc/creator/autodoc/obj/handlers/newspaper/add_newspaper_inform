@@ -1,0 +1,36 @@
+.DT
+add_newspaper_inform
+Disk World creator help
+add_newspaper_inform
+
+.SH Name
+.SP 5 5
+add_newspaper_inform -  This method adds an object to be informed of a paper being published.
+.EP
+
+.SH Syntax
+.SI 5
+void add_newspaper_inform(string paper,
+string ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^paper%^RESET%^ - the paper to be informed about
+%^BOLD%^ob%^RESET%^ - the object to be informed
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/newspaper.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an object to be informed of a paper being published.
+When the paper is published, the function event_publish_paper,
+is called on all the objects in this list.
+.EP
+

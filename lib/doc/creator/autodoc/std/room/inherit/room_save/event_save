@@ -1,0 +1,29 @@
+.DT
+event_save
+Disk World creator help
+event_save
+
+.SH Name
+.SP 5 5
+event_save -  Objects that need to make this room save such as containers in the room should generate a save event to make the room save its inventory.
+.EP
+
+.SH Syntax
+.SI 5
+void event_save(object thing)
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/room_save.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Objects that need to make this room save such as containers in the room
+should generate a save event to make the room save its inventory.
+eg. event(environment(this_object()), "save");
+
+.EP
+

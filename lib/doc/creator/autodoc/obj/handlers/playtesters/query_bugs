@@ -1,0 +1,34 @@
+.DT
+query_bugs
+Disk World creator help
+query_bugs
+
+.SH Name
+.SP 5 5
+query_bugs -  This will return bug information for a given playtester.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_bugs(string name)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playtesters.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This will return bug information for a given playtester.  The mapping
+returned will map months to arrays of ints.  The format of these arrays is:
+({ bugs, online_that_month, age_at_end_of_month }).
+.EP
+
+.SH See also
+.SP 5 5
+query_months()
+
+.EP
+

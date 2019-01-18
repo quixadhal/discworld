@@ -1,0 +1,182 @@
+<html><head><title>File fine.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/punishments/fine.c</h2>
+This is the method for fining someone in am.  This handles keeping
+track fo the fines and the setup of fines.  This punihshment needs to
+be inherited to work correctly.<p>Written by Pinkfish<p>Started Thu Sep 21 14:35:32 PDT 2000
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.inherit.punishment_inherit.c.html">/std/room/inherit/punishment_inherit.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.nomic_system.h.html">/include/nomic_system.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_fine_type"><b>fine_type</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#pay_fine"><b>pay_fine</b></a>(string, int)<dd>
+This method pays a fine.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_fine"><b>query_current_fine</b></a>(string)<dd>
+This method figures out the current fine for the person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_money_area"><b>query_money_area</b></a>()<dd>
+This method returns the money area of the fine.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_people_with_fines"><b>query_people_with_fines</b></a>()<dd>
+This method returns the list of players that have outstanding fines
+in the fine handler.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_file"><b>query_save_file</b></a>()<dd>
+This method returns the save file of the fines.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_total_fine"><b>query_total_fine</b></a>(string)<dd>
+This method figures out the current total fine for the person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_total_payments"><b>query_total_payments</b></a>(string)<dd>
+This method figures out the current total fine for the person.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_old_fines"><b>remove_old_fines</b></a>()<dd>
+This method nips through the list of fines and removes any fines that
+are either for people that do not exist any more, or totals that are
+old.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_money_area"><b>set_money_area</b></a>(string)<dd>
+This method sets the money area of the fine.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_file"><b>set_save_file</b></a>(string)<dd>
+This method sets the save file of the fines.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="pay_fine">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>pay_fine</b></a><pre>
+int pay_fine(string person,
+int amount)
+</pre><dd>
+This method pays a fine.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person doing the payment
+<dd>amount - the amount being paid
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="query_current_fine">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_fine</b></a><pre>
+int query_current_fine(string person)
+</pre><dd>
+This method figures out the current fine for the person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to get the fine for
+<dt><b>Returns:</b>
+<dd>the currently outstanding fines
+
+</dl>
+
+<dt><a name="query_money_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_money_area</b></a><pre>
+string query_money_area()
+</pre><dd>
+This method returns the money area of the fine.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the money area
+
+</dl>
+
+<dt><a name="query_people_with_fines">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_people_with_fines</b></a><pre>
+string * query_people_with_fines()
+</pre><dd>
+This method returns the list of players that have outstanding fines
+in the fine handler.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the list of players
+
+</dl>
+
+<dt><a name="query_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_file</b></a><pre>
+string query_save_file()
+</pre><dd>
+This method returns the save file of the fines.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the save file name
+
+</dl>
+
+<dt><a name="query_total_fine">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_total_fine</b></a><pre>
+int query_total_fine(string person)
+</pre><dd>
+This method figures out the current total fine for the person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to get the fine for
+<dt><b>Returns:</b>
+<dd>the currently outstanding fines
+
+</dl>
+
+<dt><a name="query_total_payments">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_total_payments</b></a><pre>
+int query_total_payments(string person)
+</pre><dd>
+This method figures out the current total fine for the person.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to get the fine for
+<dt><b>Returns:</b>
+<dd>the currently outstanding fines
+
+</dl>
+
+<dt><a name="remove_old_fines">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_old_fines</b></a><pre>
+void remove_old_fines()
+</pre><dd>
+This method nips through the list of fines and removes any fines that
+are either for people that do not exist any more, or totals that are
+old.
+<p>
+
+<dt><a name="set_money_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_money_area</b></a><pre>
+void set_money_area(string area)
+</pre><dd>
+This method sets the money area of the fine.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the money area
+
+</dl>
+
+<dt><a name="set_save_file">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_file</b></a><pre>
+void set_save_file(string fname)
+</pre><dd>
+This method sets the save file of the fines.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>fname - the save file name
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_fine_type">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>fine_type</b></a><pre>
+class fine_type {
+int paid;
+int fines;
+int last_touched;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 10:01:09 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

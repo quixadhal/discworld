@@ -1,0 +1,54 @@
+.DT
+query_details_for
+Disk World creator help
+query_details_for
+
+.SH Name
+.SP 5 5
+query_details_for -  This method returns the details for a specified type of money.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * query_details_for(string word)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - the money type to get the type for
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the details for a specified type of money.
+It will return an array of the form:
+
+.EP
+.SP 5 5
+({ "heads", "tails", "a head", "a tail", "brass", 0 })
+.EP
+.SP 5 5
+The places correspond to: 
+.EP
+.SP 5 5
+({ forward short, reverse short,
+.EP
+.SP 5 5
+     forward long, reverse long, composition, plural })
+.EP
+.SP 5 5
+
+.EP
+
+.SH See also
+.SP 5 5
+add_details()
+
+.EP
+

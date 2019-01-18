@@ -1,0 +1,46 @@
+.DT
+add_translation_cost
+Disk World creator help
+add_translation_cost
+
+.SH Name
+.SP 5 5
+add_translation_cost -  This method will add the cost to translate from one language to another.
+.EP
+
+.SH Syntax
+.SI 5
+void add_translation_cost(string lang,
+int cost)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^lang%^RESET%^ - the language to set the translation cost of
+%^BOLD%^cost%^RESET%^ - the cost is in percentage, 200 means twice the price
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/print_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will add the cost to translate from one language to
+another.  The default is translating to the common language and
+this cost will be used in both directions.  ie: the cost of translating
+from djelian to common is the same as translating from common to
+djelian.  If translating between two languages that are not the
+default language, say the default is common and we want to translate
+from djelian to wombat, then the cost from djelian->common and then
+common->wombat will be used.
+.EP
+
+.SH See also
+.SP 5 5
+set_default_language(), remove_translation_cost(), query_all_translation_costs()
+
+.EP
+

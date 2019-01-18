@@ -1,0 +1,45 @@
+.DT
+inform_of_buy
+Disk World creator help
+inform_of_buy
+
+.SH Name
+.SP 5 5
+inform_of_buy -  This method is called when something is bought and tells us how much has been spent.
+.EP
+
+.SH Syntax
+.SI 5
+void inform_of_buy(int value,
+object * obs,
+object player,
+string * sellers,
+string * names,
+string * cats,
+int * values)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^value%^RESET%^ - of the the items sold
+%^BOLD%^obs%^RESET%^ - the objects bought
+%^BOLD%^player%^RESET%^ - who bought them
+%^BOLD%^sellers%^RESET%^ - the people whose items were bought
+%^BOLD%^names%^RESET%^ - the names of the items bought
+%^BOLD%^cats%^RESET%^ - the categories of the items bought
+%^BOLD%^values%^RESET%^ - the values of each item
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/craft_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when something is bought and tells us how much
+has been spent.
+.EP
+

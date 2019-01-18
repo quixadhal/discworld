@@ -1,0 +1,553 @@
+<html><head><title>File close_lock.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/close_lock.c</h2>
+This class keeps track of whether things are open or closed,
+locked or unlocked.  Trap functions that are triggered when
+an object is opened or unlocked are also handled.  When
+you need an object that is locked you should remember to
+use set_key() and set_difficulty().  When cloning an object
+and moving other objects inside it you should remember to
+make sure the object is open before moving things into it,
+and then close it if neccessary.
+<p>Written by Gototh
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.tasks.h.html">/include/tasks.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a> and <a href="include.clothing.h.html">/include/clothing.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_close_lock_commands"><b>add_close_lock_commands</b></a>(object)<dd>
+This method adds the lock commands to the specified player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#pick_unlock"><b>pick_unlock</b></a>(object)<dd>
+This is called when someone successfully unlocks the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_autolock"><b>query_autolock</b></a>()<dd>
+This tells us whether an object will lock automatically when closed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_closed"><b>query_closed</b></a>()<dd>
+This function tells you whether an object is open or closed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_closed_locked_status"><b>query_closed_locked_status</b></a>()<dd>
+This method returns the closed and locked status.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_difficulty"><b>query_difficulty</b></a>()<dd>
+This returns the difficulty picking the lock on the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_key"><b>query_key</b></a>()<dd>
+This returns the property of the key that will unlock the
+object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_lock_trap_func"><b>query_lock_trap_func</b></a>()<dd>
+This returns the name of the function to be called when
+some attempts to unlock the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_lock_trap_ob"><b>query_lock_trap_ob</b></a>()<dd>
+This returns the object on which the trap function is stored.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_locked"><b>query_locked</b></a>()<dd>
+This tells us whether an object is locked.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_open"><b>query_open</b></a>()<dd>
+This function tells you whether an object is open or closed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_open_trap_func"><b>query_open_trap_func</b></a>()<dd>
+This returns the name of the function to be called when
+someone tries to open the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_open_trap_ob"><b>query_open_trap_ob</b></a>()<dd>
+This returns the object on which the trap function is stored.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pick_skill"><b>query_pick_skill</b></a>()<dd>
+This returns the name of the skill which is used when
+determining if the object can be unlocked.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stuck"><b>query_stuck</b></a>()<dd>
+This tells you whether an object is stuck or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_transparent"><b>query_transparent</b></a>()<dd>
+This method returns the current transparent
+value of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_unlocked"><b>query_unlocked</b></a>()<dd>
+This tells us whether an object is unlocked.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#reset_transparent"><b>reset_transparent</b></a>()<dd>
+This method removes the current objects transparent
+status.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_autolock"><b>set_autolock</b></a>(int)<dd>
+This sets the object so that it will lock automatically when closed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_closed"><b>set_closed</b></a>()<dd>
+This sets the object as being closed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_difficulty"><b>set_difficulty</b></a>(int)<dd>
+This sets how difficult the lock on an object is to pick.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_key"><b>set_key</b></a>(mixed)<dd>
+This sets the property of the key that will unlock the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_lock_trap"><b>set_lock_trap</b></a>(object, string)<dd>
+This sets the function to be called when someone attempts to
+unlock the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_locked"><b>set_locked</b></a>()<dd>
+This sets the object as being locked.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_open"><b>set_open</b></a>()<dd>
+This sets the object as being open.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_open_trap"><b>set_open_trap</b></a>(object, string)<dd>
+This sets the function to be called when someone attempts to
+open the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_pick_skill"><b>set_pick_skill</b></a>(string)<dd>
+This sets the skill that will be used when attempting to
+pick the lock.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_stuck"><b>set_stuck</b></a>(int)<dd>
+This can set an object as being stuck, or make it unstuck.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_transparent"><b>set_transparent</b></a>()<dd>
+This sets the object as being transparent.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_unlocked"><b>set_unlocked</b></a>()<dd>
+This sets the object as being unlocked.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_close_lock_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_close_lock_commands</b></a><pre>
+void add_close_lock_commands(object player)
+</pre><dd>
+This method adds the lock commands to the specified player.
+It's been abstracted out of init() to make it easier for some
+odd situations (like the t-shop).
+<p>
+
+<dt><a name="pick_unlock">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>pick_unlock</b></a><pre>
+int pick_unlock(object player)
+</pre><dd>
+This is called when someone successfully unlocks the object.
+If there is a trap, and the trap function returns true, the
+object will not be opened.  If the trap function returns
+false, the object will still be opened even if the trap is
+sprung.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - The player who is unlocking the object.
+
+<dt><b>Returns:</b>
+<dd>Returns 1 if the object was unlocked, and 0 otherwise.
+
+</dl>
+
+<dt><a name="query_autolock">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_autolock</b></a><pre>
+int query_autolock()
+</pre><dd>
+This tells us whether an object will lock automatically when closed.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for true 0 for false;
+
+<dt><b>See also:</b>
+<dd><a href="#set_autolock">set_autolock()</a></dl>
+
+<dt><a name="query_closed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_closed</b></a><pre>
+int query_closed()
+</pre><dd>
+This function tells you whether an object is open or closed.
+It returns 1 if the object is closed, and 0 if the object is open.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if closed, 0 if open.
+<dt><b>See also:</b>
+<dd><a href="#set_open">set_open()</a> and <a href="#set_closed">set_closed()
+</a></dl>
+
+<dt><a name="query_closed_locked_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_closed_locked_status</b></a><pre>
+int query_closed_locked_status()
+</pre><dd>
+This method returns the closed and locked status.  The status is
+0 if open and unlocked, 1 if locked, 2 if closed and 3 if closed
+and locked.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>closed and locked status
+
+</dl>
+
+<dt><a name="query_difficulty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_difficulty</b></a><pre>
+int query_difficulty()
+</pre><dd>
+This returns the difficulty picking the lock on the object.
+By default it is set to 200 unless it has been changed with
+set_difficulty().
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_difficulty">set_difficulty()
+</a></dl>
+
+<dt><a name="query_key">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_key</b></a><pre>
+string query_key()
+</pre><dd>
+This returns the property of the key that will unlock the
+object.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_key">set_key()
+</a></dl>
+
+<dt><a name="query_lock_trap_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_lock_trap_func</b></a><pre>
+string query_lock_trap_func()
+</pre><dd>
+This returns the name of the function to be called when
+some attempts to unlock the object.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The function to be called when someone attempts
+to unlock the object.
+<dt><b>See also:</b>
+<dd><a href="#set_open_trap">set_open_trap()</a> and <a href="#query_open_trap_ob">query_open_trap_ob()
+</a></dl>
+
+<dt><a name="query_lock_trap_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_lock_trap_ob</b></a><pre>
+object query_lock_trap_ob()
+</pre><dd>
+This returns the object on which the trap function is stored.
+The trap function is called when someone tries to unlock the
+the object.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The function to be called when the object is opened.
+<dt><b>See also:</b>
+<dd><a href="#set_open_trap">set_open_trap()</a> and <a href="#query_open_trap_func">query_open_trap_func()
+</a></dl>
+
+<dt><a name="query_locked">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_locked</b></a><pre>
+int query_locked()
+</pre><dd>
+This tells us whether an object is locked.  It returns 1 if
+the object is locked and 0 is the object is unlocked.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if locked and 0 if unlocked.
+
+<dt><b>See also:</b>
+<dd><a href="#set_locked">set_locked()</a> and <a href="#set_unlocked">set_unlocked()</a></dl>
+
+<dt><a name="query_open">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_open</b></a><pre>
+int query_open()
+</pre><dd>
+This function tells you whether an object is open or closed.
+It returns 1 if the object is open and 0 if the object is closed.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if open, 0 if closed.
+<dt><b>See also:</b>
+<dd><a href="#set_open">set_open()</a> and <a href="#set_closed">set_closed()
+</a></dl>
+
+<dt><a name="query_open_trap_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_open_trap_func</b></a><pre>
+string query_open_trap_func()
+</pre><dd>
+This returns the name of the function to be called when
+someone tries to open the object.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The function to be called when the object is opened.
+<dt><b>See also:</b>
+<dd><a href="#set_open_trap">set_open_trap()</a> and <a href="#query_open_trap_ob">query_open_trap_ob()
+</a></dl>
+
+<dt><a name="query_open_trap_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_open_trap_ob</b></a><pre>
+object query_open_trap_ob()
+</pre><dd>
+This returns the object on which the trap function is stored.
+The trap function is called when someone tries to open the
+the object.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>The function to be called when the object is opened.
+<dt><b>See also:</b>
+<dd><a href="#set_open_trap">set_open_trap()</a> and <a href="#query_open_trap_func">query_open_trap_func()
+</a></dl>
+
+<dt><a name="query_pick_skill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pick_skill</b></a><pre>
+string query_pick_skill()
+</pre><dd>
+This returns the name of the skill which is used when
+determining if the object can be unlocked.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_pick_skill">set_pick_skill()
+</a></dl>
+
+<dt><a name="query_stuck">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stuck</b></a><pre>
+int query_stuck()
+</pre><dd>
+This tells you whether an object is stuck or not.  It will
+return 1 if the object is stuck, and 0 if the object is not
+stuck.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if the object is stuck, and 0 if it is not.
+
+<dt><b>See also:</b>
+<dd><a href="#set_stuck">set_stuck()</a></dl>
+
+<dt><a name="query_transparent">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_transparent</b></a><pre>
+int query_transparent()
+</pre><dd>
+This method returns the current transparent
+value of the object.
+A transparent object is one in which you can see the
+inventory even if it is closed.  This is also
+used for light propogration.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if the object is transparent
+
+<dt><b>See also:</b>
+<dd><a href="#reset_transparent">reset_transparent()</a> and <a href="#query_transparent">query_transparent()</a></dl>
+
+<dt><a name="query_unlocked">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_unlocked</b></a><pre>
+int query_unlocked()
+</pre><dd>
+This tells us whether an object is unlocked.  It returns 1 if
+the object is unlocked and 0 is the object is locked.
+<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>Return 1 if unlocked and 0 if locked.
+
+<dt><b>See also:</b>
+<dd><a href="#set_locked">set_locked()</a> and <a href="#set_unlocked">set_unlocked()</a></dl>
+
+<dt><a name="reset_transparent">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>reset_transparent</b></a><pre>
+void reset_transparent()
+</pre><dd>
+This method removes the current objects transparent
+status.
+A transparent object is one in which you can see the
+inventory even if it is closed.  This is also
+used for light propogration.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_transparent">set_transparent()</a> and <a href="#query_transparent">query_transparent()
+</a></dl>
+
+<dt><a name="set_autolock">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_autolock</b></a><pre>
+void set_autolock(int number)
+</pre><dd>
+This sets the object so that it will lock automatically when closed.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - 1 for autolock, 0 for no autolock.
+
+</dl>
+
+<dt><a name="set_closed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_closed</b></a><pre>
+void set_closed()
+</pre><dd>
+This sets the object as being closed.  If you are moving
+objects into the object, make sure that you do not set
+the object as closed and then try to move the objects in.
+Move the objects in and then close the object.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_open">set_open()</a> and <a href="#query_closed">query_closed()
+</a></dl>
+
+<dt><a name="set_difficulty">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_difficulty</b></a><pre>
+void set_difficulty(int i)
+</pre><dd>
+This sets how difficult the lock on an object is to pick.
+By default it is set to 200.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - The difficulty of the lock to pick.
+
+<dt><b>See also:</b>
+<dd><a href="#query_difficulty">query_difficulty()</a></dl>
+
+<dt><a name="set_key">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_key</b></a><pre>
+void set_key(mixed val)
+</pre><dd>
+This sets the property of the key that will unlock the object. This can
+be a string, or a function pointer which will evaluate to a string.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>val - The property the key must have to unlock the object.
+
+<dt><b>See also:</b>
+<dd><a href="#set_locked">set_locked()</a></dl>
+
+<dt><a name="set_lock_trap">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_lock_trap</b></a><pre>
+void set_lock_trap(object ob,
+string func)
+</pre><dd>
+This sets the function to be called when someone attempts to
+unlock the object.  The function does not have to be in the
+object's file, and can be specified using the 'ob' paramater.
+In most cases the function will be stored in the same file,
+so use this_object() in these cases.
+
+The function will be called with a single string parameter of "lock",
+"unlock" or "pick"
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - The object in which the function is stored.
+<dd>func - The function to be called.
+<dt><b>See also:</b>
+<dd><a href="#query_lock_trap_func">query_lock_trap_func()</a> and <a href="#query_lock_trap_ob">query_lock_trap_ob()
+</a></dl>
+
+<dt><a name="set_locked">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_locked</b></a><pre>
+void set_locked()
+</pre><dd>
+This sets the object as being locked.  Remember to set the
+object as being closed before using this.  In most cases you
+should probably use set_key() to set the key which opens the
+lock and use set_difficulty() to set the skill level required
+to pick the lock.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_open">set_open()</a>, <a href="#set_closed">set_closed()</a>, <a href="#set_key">set_key()</a> and <a href="#set_difficulty">set_difficulty()
+</a></dl>
+
+<dt><a name="set_open">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_open</b></a><pre>
+void set_open()
+</pre><dd>
+This sets the object as being open.  Note that to find out
+if an object is open we use query_closed() which will return
+0 if the object is open.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_closed">set_closed()</a> and <a href="#query_closed">query_closed()
+</a></dl>
+
+<dt><a name="set_open_trap">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_open_trap</b></a><pre>
+void set_open_trap(object ob,
+string func)
+</pre><dd>
+This sets the function to be called when someone attempts to
+open the object.  The function does not have to be in the
+object's file, and can be specified using the 'ob' paramater.
+In most cases the function will be stored in the same file,
+so use this_object() in these cases.
+
+The function will be called with a single string parameter of "open" or
+"close"
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - The object in which the function is stored.
+<dd>func - The function to be called.
+<dt><b>See also:</b>
+<dd><a href="#query_open_trap_func">query_open_trap_func()</a> and <a href="#query_open_trap_ob">query_open_trap_ob()
+</a></dl>
+
+<dt><a name="set_pick_skill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_pick_skill</b></a><pre>
+void set_pick_skill(string str)
+</pre><dd>
+This sets the skill that will be used when attempting to
+pick the lock.  By default it is set to "covert.lockpick.safes"
+so it need only be changed if you want to check a different
+skill.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - The skill to use when picking the lock.
+
+<dt><b>See also:</b>
+<dd><a href="#query_pick_skill">query_pick_skill()</a> and <a href="#set_difficulty">set_difficulty()</a></dl>
+
+<dt><a name="set_stuck">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_stuck</b></a><pre>
+void set_stuck(int i)
+</pre><dd>
+This can set an object as being stuck, or make it unstuck.
+Stuck objects cannot be opened, closed, locked or unlocked.
+Using set_stuck(1) will make the object stuck, and set_stuck(0)
+will unstick it.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - Use 1 to make the object stuck, and 0 to unstick it.
+
+<dt><b>See also:</b>
+<dd><a href="#query_stuck">query_stuck()</a></dl>
+
+<dt><a name="set_transparent">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_transparent</b></a><pre>
+void set_transparent()
+</pre><dd>
+This sets the object as being transparent.
+A transparent object is one in which you can see the
+inventory even if it is closed.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#reset_transparent">reset_transparent()</a> and <a href="#query_transparent">query_transparent()
+</a></dl>
+
+<dt><a name="set_unlocked">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_unlocked</b></a><pre>
+void set_unlocked()
+</pre><dd>
+This sets the object as being unlocked.
+<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_locked">set_locked()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 19:08:20 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

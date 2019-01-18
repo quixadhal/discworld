@@ -1,11 +1,11 @@
 .DT
 scabbard.c
-DW_wibble autodoc help
+Disk World autodoc help
 scabbard.c
 
 .SH Inherits
 .SP 5 5
-This class inherits the following classes /std/container and /std/basic/wearable.
+This class inherits the following classes /std/basic/wearable and /std/container.
 .EP
 
 .SH Includes

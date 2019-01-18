@@ -1,0 +1,36 @@
+.DT
+new_data
+Disk World creator help
+new_data
+
+.SH Name
+.SP 5 5
+new_data -  Called by virtual objects as they are being cloned, if their timestamp is older than their file.
+.EP
+
+.SH Syntax
+.SI 5
+mapping new_data(string path)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^path%^RESET%^ - the path of the virtual object
+.EI
+
+.SH Returns
+.SI 5
+the object's static auto load info if any, otherwise 0
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/virtuals.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Called by virtual objects as they are being cloned, if their timestamp is older than their file.
+.EP
+

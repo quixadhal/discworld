@@ -1,0 +1,34 @@
+.DT
+query_deleter_ok
+Disk World creator help
+query_deleter_ok
+
+.SH Name
+.SP 5 5
+query_deleter_ok -  Check if the request to delete an event came from the valid source.
+.EP
+
+.SH Syntax
+.SI 5
+int query_deleter_ok(string event,
+object deleter)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^event%^RESET%^ - the name of the event
+%^BOLD%^remover%^RESET%^ - the object that tries to remove the event
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playerinfo.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Check if the request to delete an event came from the valid source.
+.EP
+

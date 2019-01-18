@@ -1,0 +1,37 @@
+.DT
+query_housing_area_place
+Disk World creator help
+query_housing_area_place
+
+.SH Name
+.SP 5 5
+query_housing_area_place -  This method returns the current mappings between the housing area and the money area ("Ankh-Morpork", "Counterweight Continent", etc) to use.
+.EP
+
+.SH Syntax
+.SI 5
+string query_housing_area_place(string area)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area to check
+.EI
+
+.SH Returns
+.SI 5
+the money area used, DEFAULT_PLACE if none set
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/housing.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current mappings between the housing area and the
+money area ("Ankh-Morpork", "Counterweight Continent", etc) to use.
+.EP
+

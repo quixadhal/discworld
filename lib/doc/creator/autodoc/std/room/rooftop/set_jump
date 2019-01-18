@@ -1,0 +1,50 @@
+.DT
+set_jump
+Disk World creator help
+set_jump
+
+.SH Name
+.SP 5 5
+set_jump -  Setup a jumping exit.
+.EP
+
+.SH Syntax
+.SI 5
+int set_jump(mixed dir,
+string dest,
+string fall_dest,
+int distance)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - direction names
+%^BOLD%^dest%^RESET%^ - the destination
+%^BOLD%^fall_dest%^RESET%^ - the destination if they fall
+%^BOLD%^distance%^RESET%^ - the distance of the jump
+.EI
+
+.SH Returns
+.SI 5
+-1 if any of the keys in dir already exists, 0 if dir is
+malformed (string and string * are the only acceptable types), or
+1 on success.
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/rooftop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Setup a jumping exit. The player will be able to "jump <dir>" and a skill test will be performed and they'll succeed or fail. Streets in AM are usually 5-20 wide. if you want to do something other than the standard fall function, you'll need to mask do_fall() in the child room. 
+.EP
+
+.SH Example 1
+.SI 5
+set_jump( ({ "north", "n" }), RUN + "run12", FILIGREE + "filigree10", 6 );
+
+.EI
+

@@ -1,0 +1,40 @@
+.DT
+query_dest_coordinate_string
+Disk World creator help
+query_dest_coordinate_string
+
+.SH Name
+.SP 5 5
+query_dest_coordinate_string -  This function allows you to change the destination location of the room if nessessary.
+.EP
+
+.SH Syntax
+.SI 5
+string query_dest_coordinate_string(int x,
+int y,
+int z,
+string direc,
+string key)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x%^RESET%^ - the x coordinate
+%^BOLD%^y%^RESET%^ - the y coordinate
+%^BOLD%^z%^RESET%^ - the z coordinate
+%^BOLD%^direct%^RESET%^ - the direction used to enter this location
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/terrain_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function allows you to change the destination location of the room
+if nessessary.  This is useful for bridges and other things which need to
+move people up or down one z-coordinate when they cross the line.
+.EP
+

@@ -1,0 +1,68 @@
+<html><head><title>File council_archive.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/council_archive.c</h2>
+This room is for looking at old closed cases.<p>Written by Pinkfish<p>Started Tue Jun  3 10:22:28 PDT 2003
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a> and <a href="std.room.inherit.council_base.c.html">/std/room/inherit/council_base.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.nomic_system.h.html">/include/nomic_system.h</a> and <a href="include.mail.h.html">/include/mail.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_all_cases"><b>do_list_all_cases</b></a>()<dd>
+This method lists all the currently open cases.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_case"><b>do_list_case</b></a>(int)<dd>
+This method lists the specified open case.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_citizens"><b>do_list_citizens</b></a>()<dd>
+This method lists the currently online citizens in a nice list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_case_short"><b>query_case_short</b></a>(class nomic_case)<dd>
+The short description of the case.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_list_all_cases">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_all_cases</b></a><pre>
+int do_list_all_cases()
+</pre><dd>
+This method lists all the currently open cases.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for success, 0 if failed
+
+</dl>
+
+<dt><a name="do_list_case">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_case</b></a><pre>
+int do_list_case(int case_id)
+</pre><dd>
+This method lists the specified open case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>case_id - the case to list
+<dt><b>Returns:</b>
+<dd>1 for success, 0 if failed
+
+</dl>
+
+<dt><a name="do_list_citizens">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_citizens</b></a><pre>
+int do_list_citizens()
+</pre><dd>
+This method lists the currently online citizens in a nice list.
+<p>
+
+<dt><a name="query_case_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_case_short</b></a><pre>
+string query_case_short(class nomic_case the_case)
+</pre><dd>
+The short description of the case.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the_case - the case to get a short desc
+<dt><b>Returns:</b>
+<dd>the short description of the case
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 16:30:47 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

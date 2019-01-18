@@ -1,0 +1,38 @@
+.DT
+query_term_name
+Disk World creator help
+query_term_name
+
+.SH Name
+.SP 5 5
+query_term_name -  This method returns the current terminal name.
+.EP
+
+.SH Syntax
+.SI 5
+string query_term_name()
+.EI
+
+.SH Returns
+.SI 5
+the current terminal name.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current terminal name.  If this is set to
+network then the network will be queried for the terminal type
+(using telnet suboption negotiation).
+.EP
+
+.SH See also
+.SP 5 5
+query_cur_term(), set_term_type()
+
+.EP
+

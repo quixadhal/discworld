@@ -86,6 +86,7 @@ nosave mapping channel_colors = ([
         "wileymud"          : "%^YELLOW%^",
 
         "url"               : "%^BOLD%^WHITE%^",
+        "bot"               : "%^BOLD%^WHITE%^",
         "fluffos"           : "%^YELLOW%^",
 
         "default"           : "%^BOLD%^BLUE%^",
@@ -571,6 +572,7 @@ void eventReceiveChannelMessage(mixed *packet) {
     int fd;
     string *bits;
     string channel_name;
+    mixed undef;
 
     if (file_name(previous_object()) != INTERMUD_D) {
         return;
@@ -611,7 +613,7 @@ void eventReceiveChannelMessage(mixed *packet) {
               packet[8], channel_name);
 
     // Scan the message to see if there's a URL in it.
-    if( channel_name != "url" ) {
+    if( channel_name != "url" && channel_name != "bot" ) {
         //url_regexp = "(https?\\:\\/\\/[\\w.-]+(?:\\.[\\w\\.-]+)+(?:\\:[\\d]+)?[\\w\\-\\.\\~\\:\\/\\?\\#[\\]\\@\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\=\\%]+)";
         url_regexp = "(https?://[^ ]+?)(?:[ ]|$)";
         foreach( line in explode(packet[8], "\n") ) {
@@ -651,10 +653,77 @@ void eventReceiveChannelMessage(mixed *packet) {
                     eventSendChannel("URLbot", "url", sprintf("%s {%s@%s linked this for the %s time, from %s}",
                                 urls[checksum]["result"],
                                 packet[3], packet[2], ordinal(urls[checksum]["counter"]),
-                                getColorDate("", "", urls[checksum]["time"])));
+                                getColorDate(undef, undef, urls[checksum]["time"], 1)));
                 }
 
             }
+        }
+    } else if( channel_name == "bot" ) {
+        if(strsrch(packet[8], "/status") == 0) {
+            int count;
+            string *the_keys;
+            string oldest_entry;
+            string newest_entry;
+            string old_time = "the beginning";
+            string new_time = "just a bit ago";
+            string new_guy = "Some Jerk";
+
+            count = sizeof(urls);
+            if( count > 0 ) {
+                the_keys = sort_array( keys(urls), (: urls[$1]["time"] <= urls[$2]["time"] ? -1 : 1 :));
+                oldest_entry = the_keys[0];
+                newest_entry = the_keys[<1];
+                old_time = getColorTimestamp(undef, undef, urls[oldest_entry]["time"], 1);
+                new_time = getColorTimestamp(undef, undef, urls[newest_entry]["time"], 1);
+                new_guy = implode( ({ urls[newest_entry]["user"], urls[newest_entry]["mud"] }), "@");
+            }
+
+            eventSendChannel("URLbot", "bot", sprintf("I've processed %s unique url%s since %s.",
+                        count == 0 ? "%^RED%^%^BOLD%^no" : 
+                        count == 1 ? "%^YELLOW%^one" : "%^GREEN%^" + query_num(count),
+                        (count == 1 ? "" : "s") + "%^RESET%^",
+                        old_time
+                        ));
+            if( count > 0 ) {
+                eventSendChannel("URLbot", "bot", sprintf("The most recent unique URL was from %s at %s.",
+                            getSpeakerColor(new_guy) + new_guy + "%^RESET%^",
+                            new_time
+                            ));
+            }
+        } else if(strsrch(packet[8], "/last") == 0) {
+            int count;
+            string *the_keys;
+            string now_date;
+
+            count = sizeof(urls);
+
+            if( count > 0 ) {
+                now_date = getColorDate(undef, undef, undef, 1);
+                the_keys = sort_array( keys(urls), (: urls[$1]["time"] <= urls[$2]["time"] ? -1 : 1 :));
+                eventSendChannel("URLbot", "bot", "---- Recent urls ----");
+                foreach( string checksum in the_keys[<10 .. <1] ) {
+                    string the_time;
+                    string the_date;
+                    string the_line;
+
+                    the_date = getColorDate(undef, undef, urls[checksum]["time"], 1);
+                    the_time = getColorDayTime("     ", undef, urls[checksum]["time"], 1);
+                    the_line = sprintf("%s %s",
+                            the_date == now_date ? the_time : the_date,
+                            urls[checksum]["result"]
+                            );
+                    eventSendChannel("URLbot", "bot", the_line);
+                }
+                eventSendChannel("URLbot", "bot", "---------------------");
+            } else {
+                eventSendChannel("URLbot", "bot", "Sorry, I have %^RED%^no%^RESET%^ urls on file.");
+            }
+        } else if(strsrch(packet[8], "/help") == 0) {
+                eventSendChannel("URLbot", "bot", "---- HELP me if you can, I'm feeling down... ----");
+                eventSendChannel("URLbot", "bot", "%^GREEN%^%^BOLD%^/help   %^RESET%^%^GREEN%^- This amazingly helpful message.%^RESET%^");
+                eventSendChannel("URLbot", "bot", "%^GREEN%^%^BOLD%^/status %^RESET%^%^GREEN%^- What I've been up to.%^RESET%^");
+                eventSendChannel("URLbot", "bot", "%^GREEN%^%^BOLD%^/last   %^RESET%^%^GREEN%^- The last few things I've seen.%^RESET%^");
+                eventSendChannel("URLbot", "bot", "-------------------------------------------------");
         }
     }
 

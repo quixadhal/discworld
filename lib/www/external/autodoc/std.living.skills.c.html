@@ -1,0 +1,320 @@
+<html><head><title>File skills.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/living/skills.c</h2>
+This skills modules for living creates.  This deals will all the
+skill interactions needed for the living objects.
+<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.tasks.h.html">/include/tasks.h</a>, <a href="include.tune.h.html">/include/tune.h</a> and <a href="include.skills.h.html">/include/skills.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_skill_level"><b>add_skill_level</b></a>(string, int, mixed)<dd>
+This method adds a skill level to the specified skill to the
+system.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_teach_offer"><b>add_teach_offer</b></a>(object, string, int, int, int)<dd>
+This method adds a teaching offer to the living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#calc_bonus"><b>calc_bonus</b></a>(int, string, int)<dd>
+This method calculates the bonus for the skill.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#flatten_it"><b>flatten_it</b></a>(string)<dd>
+This is used to convert a previously not only_leaf tree into an only_leaf
+tree.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#not_there"><b>not_there</b></a>(string)<dd>
+This method checks to see if the skill exists in the skill array or
+not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bonus_cache"><b>query_bonus_cache</b></a>()<dd>
+This method returns the current bonus cache for the living thing.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_complete_skill_branch"><b>query_complete_skill_branch</b></a>(string)<dd>
+This method fills out a complete skill branch, complete with ALL child skills.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill"><b>query_skill</b></a>(string)<dd>
+This returns jus the skill level.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill_bonus"><b>query_skill_bonus</b></a>(string, int)<dd>
+This method returns the skill bonus for the specified skill.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skill_successful"><b>query_skill_successful</b></a>(string, int)<dd>
+This method does a skill successful check.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_skills"><b>query_skills</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_stat_cache"><b>query_stat_cache</b></a>()<dd>
+This method returns the cached values for the stats.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_teach_offer"><b>query_teach_offer</b></a>()<dd>
+This method returns the current list of teach offerings on the
+living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_skills"><b>set_skills</b></a>(mapping)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stat_modify"><b>stat_modify</b></a>(int, string, int)<dd>
+This method returns the skill as it should be modified by the
+stats associated with it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stop_teaching_skills"><b>stop_teaching_skills</b></a>(int, mixed)<dd>
+The method to call when we stop teaching skills.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#tm_check_ok"><b>tm_check_ok</b></a>(string, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#totaly_zap_bonus_cache"><b>totaly_zap_bonus_cache</b></a>()<dd>
+This method zaps the bonus cache.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#totaly_zap_stat_cache"><b>totaly_zap_stat_cache</b></a>()<dd>
+This method zaps the stat cache.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#zap_stat_cache"><b>zap_stat_cache</b></a>()<dd>
+This method zaps the stat cache when a certain stat changes.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_skill_level">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_skill_level</b></a><pre>
+varargs int add_skill_level(string skill,
+int lvl,
+mixed exp)
+</pre><dd>
+This method adds a skill level to the specified skill to the
+system.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>skill - the skill to add a level to
+<dd>lvl - the number of levels to add
+<dd>exp - the amount of exp spent on the skill
+<dt><b>Returns:</b>
+<dd>1 if the skill level was changed
+<dt><b>See also:</b>
+<dd><a href="#query_skill">query_skill()</a> and <a href="#query_skill_bonus">query_skill_bonus()
+</a></dl>
+
+<dt><a name="add_teach_offer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_teach_offer</b></a><pre>
+void add_teach_offer(object ob,
+string skill,
+int num,
+int lvl,
+int xp)
+</pre><dd>
+This method adds a teaching offer to the living object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object teaching us
+<dd>skill - the skill they are teaching
+<dd>num - the number of levels they are teaching
+<dd>lvl - the level they are teaching us from
+<dd>xp - the cost of the level increase in xp
+
+</dl>
+
+<dt><a name="calc_bonus">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>calc_bonus</b></a><pre>
+varargs int calc_bonus(int lvl,
+string skill,
+int use_base_stats)
+</pre><dd>
+This method calculates the bonus for the skill.  It takes the raw
+level and turns that into a bonus and then adds on the stats
+modifications.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lvl - the level to turn into bonus
+<dd>skill - the skill to modify the bonus of
+<dd>use_base_stats - use the real unmodified stats
+<dt><b>Returns:</b>
+<dd>the bonus associated with the skill
+
+</dl>
+
+<dt><a name="not_there">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>not_there</b></a><pre>
+int not_there(string skill)
+</pre><dd>
+This method checks to see if the skill exists in the skill array or
+not.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>skill - the skill to check for non-existance
+<dt><b>Returns:</b>
+<dd>0 if it does not exist, 1 if it does
+
+</dl>
+
+<dt><a name="query_bonus_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bonus_cache</b></a><pre>
+mapping query_bonus_cache()
+</pre><dd>
+This method returns the current bonus cache for the living thing.
+The bonus cache is where the calculated bonuses for the skills are
+kept.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the bonus cache mapping
+
+</dl>
+
+<dt><a name="query_complete_skill_branch">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_complete_skill_branch</b></a><pre>
+mapping query_complete_skill_branch(string branch)
+</pre><dd>
+This method fills out a complete skill branch, complete with ALL child skills.
+It saves using many call_others to check skills.<p>
+
+<dt><a name="query_skill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill</b></a><pre>
+int query_skill(string skill)
+</pre><dd>
+This returns jus the skill level.  Used a lot to determine if you
+can use/teach/whatever a skill.
+This also uses a cache.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>skill - the skill to return the level of
+<dt><b>Returns:</b>
+<dd>the skill level
+
+</dl>
+
+<dt><a name="query_skill_bonus">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill_bonus</b></a><pre>
+varargs int query_skill_bonus(string skill,
+int use_base_stats)
+</pre><dd>
+This method returns the skill bonus for the specified skill.
+It returns the skill + all its bonsues for stats/whatever.
+It first checks to see if the skill is in it's cache.   THe
+real stat values are ones not modified by bonuses or temporary
+values.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>skill - the skill to get the bonus for
+<dd>use_base_stats - tells the system not to use the real stat values
+<dt><b>Returns:</b>
+<dd>the skill bonus
+
+</dl>
+
+<dt><a name="query_skill_successful">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skill_successful</b></a><pre>
+int query_skill_successful(string str,
+int mod)
+</pre><dd>
+This method does a skill successful check.  Does this check:<br>
+(bonus + mos) >= random(200)<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the skill to check
+<dd>mod - the modification value
+<dt><b>Returns:</b>
+<dd>1 if the skill check is successful
+
+</dl>
+
+<dt><a name="query_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_skills</b></a><pre>
+mapping query_skills()
+</pre>
+<dt><a name="query_stat_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_stat_cache</b></a><pre>
+mapping query_stat_cache()
+</pre><dd>
+This method returns the cached values for the stats.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the caches stat values
+
+</dl>
+
+<dt><a name="query_teach_offer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_teach_offer</b></a><pre>
+mapping query_teach_offer()
+</pre><dd>
+This method returns the current list of teach offerings on the
+living object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the mapping containing the teach offerings
+
+</dl>
+
+<dt><a name="set_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_skills</b></a><pre>
+void set_skills(mapping map)
+</pre>
+<dt><a name="stat_modify">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stat_modify</b></a><pre>
+varargs int stat_modify(int lvl,
+string skill,
+int use_base_stats)
+</pre><dd>
+This method returns the skill as it should be modified by the
+stats associated with it.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lvl - the level to modify
+<dd>skill - the skill the modify the bonus of
+<dd>use_base_stats - use the real unmodified stat values
+<dt><b>Returns:</b>
+<dd>the stat modification
+
+<dt><b>See also:</b>
+<dd><a href="#query_skill_bonus">query_skill_bonus()</a></dl>
+
+<dt><a name="stop_teaching_skills">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stop_teaching_skills</b></a><pre>
+void stop_teaching_skills(int left,
+mixed bing)
+</pre><dd>
+The method to call when we stop teaching skills.  THis will stop the
+stuff being taught if the stop is successful, and only teach partial
+amounts if we are not finished yet.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>left - the amount of time left
+<dd>bing - the data associated with the command
+
+</dl>
+
+<dt><a name="tm_check_ok">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>tm_check_ok</b></a><pre>
+int tm_check_ok(string skill,
+object exp)
+</pre>
+<dt><a name="totaly_zap_bonus_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>totaly_zap_bonus_cache</b></a><pre>
+void totaly_zap_bonus_cache()
+</pre><dd>
+This method zaps the bonus cache.
+<p>
+
+<dt><a name="zap_stat_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>zap_stat_cache</b></a><pre>
+void zap_stat_cache()
+</pre><dd>
+This method zaps the stat cache when a certain stat changes.
+It calls the function stats_to_zap() on the living object to
+figure out which stats have changed.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="std.living.stats.c.html#stats_to_zap">/std/living/stats->stats_to_zap()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="flatten_it">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>flatten_it</b></a><pre>
+void flatten_it(string skill)
+</pre><dd>
+This is used to convert a previously not only_leaf tree into an only_leaf
+tree.
+<p>
+
+<dt><a name="totaly_zap_stat_cache">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>totaly_zap_stat_cache</b></a><pre>
+void totaly_zap_stat_cache()
+</pre><dd>
+This method zaps the stat cache.
+<p>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 21:53:23 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

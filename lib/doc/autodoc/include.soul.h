@@ -1,0 +1,94 @@
+.DT
+soul.h
+Disk World autodoc help
+soul.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^ARG_SIZE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ARGS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ARGUMENT_FIRST%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ARGUMENT_SECOND%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ARGUMENTS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^FORCE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^NO_ARGUMENT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^NO_ARGUMENTS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ONLY_ARGUMENT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^ONLY_TARGET%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PATTERNS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^POSITION%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^POSITION_SINGLE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^REST%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SELF%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SINGLE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SMALL_ARG_SIZE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SOUL_COMPILER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SOUL_DIR%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^SOUL_OBJECT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TARG%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TARGET%^RESET%^
+.EI
+

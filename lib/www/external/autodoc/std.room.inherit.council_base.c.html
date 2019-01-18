@@ -1,0 +1,58 @@
+<html><head><title>File council_base.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/inherit/council_base.c</h2>
+This inherit has all the basic things that all the council rooms
+of various sorts share.<p>Written by Pinkfish<p>Started Wed Oct 25 21:44:37 PDT 2000
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.nomic_system.h.html">/include/nomic_system.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_council_area"><b>query_council_area</b></a>()<dd>
+This method returns the current area this council chambers deals with.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#send_council_inform"><b>send_council_inform</b></a>(int, string)<dd>
+This method broadcasts a message to the citizens or magistrates of
+the area.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_council_area"><b>set_council_area</b></a>(string)<dd>
+This method sets the current area the council chambers deal with.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_council_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_council_area</b></a><pre>
+string query_council_area()
+</pre><dd>
+This method returns the current area this council chambers deals with.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the area the council chambers deal with
+
+</dl>
+
+<dt><a name="send_council_inform">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>send_council_inform</b></a><pre>
+void send_council_inform(int magistrate_only,
+string message)
+</pre><dd>
+This method broadcasts a message to the citizens or magistrates of
+the area.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>magistrate_only - 1 if only for magistrates, 0 for citizens
+<dd>message - the message to send
+
+</dl>
+
+<dt><a name="set_council_area">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_council_area</b></a><pre>
+void set_council_area(string area)
+</pre><dd>
+This method sets the current area the council chambers deal with.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>area - the new council area
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 05:27:13 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

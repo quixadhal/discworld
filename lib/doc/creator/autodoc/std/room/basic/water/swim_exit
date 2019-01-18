@@ -1,0 +1,53 @@
+.DT
+swim_exit
+Disk World creator help
+swim_exit
+
+.SH Name
+.SP 5 5
+swim_exit -  This is an exit function set for any exits in a water room.
+.EP
+
+.SH Syntax
+.SI 5
+int swim_exit(string dir,
+object ob,
+string mess)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - the direction in which the object is leaving
+%^BOLD%^ob%^RESET%^ - the object that is trying to leave
+%^BOLD%^mess%^RESET%^ - a weird extra string that isn't relevant here
+.EI
+
+.SH Returns
+.SI 5
+whether or not the object can move through the exit.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is an exit function set for any exits in a water room.  It finds the
+difficulty of swimming through the exit, on the basis of the current through
+that exit, the buoyancy of the object and the extra difficulty that it has
+in swimming.  The swimming/immersion effect calculates the latter two with
+calc_buoyancy and swim_difficulty respectively.  The object is subjected to
+a skillcheck in other.movement.swimming to see if it can move through the
+exit.
+There is a guildpoint cost equal to 1/20th of the difficulty of the
+skillcheck.
+.EP
+
+.SH See also
+.SP 5 5
+modify_exit, exit_function, calc_buoyancy, swim_difficulty, query_water_traction_bonus, perform_task
+
+.EP
+

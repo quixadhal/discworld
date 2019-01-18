@@ -1,0 +1,75 @@
+.DT
+make_glass
+Disk World creator help
+make_glass
+
+.SH Name
+.SP 5 5
+make_glass -  This function is used to transform the glass into a new type of glass, changing the  short descriptions and adding aliases and adjectives.
+.EP
+
+.SH Syntax
+.SI 5
+void make_glass(string drink,
+string glass_description,
+string glass_size,
+int amount,
+int has_contents)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^drink%^RESET%^ - The name of the drink to be created
+%^BOLD%^glass_description%^RESET%^ - The description given when there is something in the glass.
+%^BOLD%^glass_size%^RESET%^ - The size of the glass, (in words), for example "large glass",
+%^BOLD%^amount%^RESET%^ - The amount of liquid the glass should hold.
+%^BOLD%^has_contents%^RESET%^ - Fill the glass up with 'drink'.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/misc/glass.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function is used to transform the glass into a new type of glass, changing the 
+short descriptions and adding aliases and adjectives.
+
+If the 'contents' parameter is 1, then the glass is automatically filled
+up with a drink made from /obj/reagents/generic_liquid.ob
+
+.EP
+
+.SH Example 1
+.SI 5
+// Create a large glass of tomato juice
+
+glass = clone_object("/obj/glass");
+glass->make_glass("tomato juice", "Red, thick, delicious.\n",
+     "large glass", 4000, 1);
+glass->move(this_object());
+
+.EI
+
+.SH Example 2
+.SI 5
+inherit "/obj/glass";
+
+void setup() {
+// Do your own configuration of the glass, then call make_glass
+
+    ...
+    make_glass("chocolate milkshake", "Yumm...", "shot glass", 100, 0);
+    ...
+// Place your own contents in, do other funky stuff.
+}
+
+.EI
+
+.SH See also
+.SP 5 5
+/obj/bottle
+.EP
+

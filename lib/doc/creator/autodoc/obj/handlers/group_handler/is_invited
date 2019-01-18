@@ -1,0 +1,41 @@
+.DT
+is_invited
+Disk World creator help
+is_invited
+
+.SH Name
+.SP 5 5
+is_invited -  This function allows you to check whether an invitation for a person is pending in a specific group.
+.EP
+
+.SH Syntax
+.SI 5
+int is_invited(string name,
+object person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the group
+%^BOLD%^person%^RESET%^ - the person to be checked
+
+.EI
+
+.SH Returns
+.SI 5
+1 if such an invitation exists, 0 if not
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/group_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function allows you to check whether an invitation for a
+person is pending in a specific group.
+
+.EP
+

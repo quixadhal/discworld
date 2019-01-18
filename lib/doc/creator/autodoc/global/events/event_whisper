@@ -1,0 +1,42 @@
+.DT
+event_whisper
+Disk World creator help
+event_whisper
+
+.SH Name
+.SP 5 5
+event_whisper -  This method is called when the whisper even is generated.
+.EP
+
+.SH Syntax
+.SI 5
+void event_whisper(object ob,
+string start,
+string mess,
+object * obs,
+string lang,
+object me)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object whispering
+%^BOLD%^start%^RESET%^ - the start of the whisper message
+%^BOLD%^mess%^RESET%^ - the message to print
+%^BOLD%^obs%^RESET%^ - the objects to tell the message to
+%^BOLD%^lang%^RESET%^ - the lanaguage the whisper is in
+%^BOLD%^me%^RESET%^ - the object doing the whispering
+
+.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when the whisper even is generated.
+.EP
+

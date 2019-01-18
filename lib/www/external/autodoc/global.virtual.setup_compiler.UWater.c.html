@@ -1,0 +1,83 @@
+<html><head><title>File UWater.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Inherits</h2>
+This class inherits the following classes /std/uwater.c<hr><h2>Includes</h2>
+This class includes the following files /global/virtual/setup_compiler/Room.inc<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_clone_on_reset"><b>add_clone_on_reset</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_death_func"><b>add_death_func</b></a>(mixed, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_dest_func"><b>add_dest_func</b></a>(mixed, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_enter_func"><b>add_enter_func</b></a>(mixed, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_exit_func"><b>add_exit_func</b></a>(mixed, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_reset_func"><b>add_reset_func</b></a>(mixed, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#AddFuncsToMixed"><b>AddFuncsToMixed</b></a>(mixed *, object, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_death"><b>event_death</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_enter"><b>event_enter</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_exit"><b>event_exit</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#FindObject"><b>FindObject</b></a>(mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#QueryResetObjects"><b>QueryResetObjects</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#RunFuncsOnObjects"><b>RunFuncsOnObjects</b></a>(mixed *, object)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_clone_on_reset">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_clone_on_reset</b></a><pre>
+void add_clone_on_reset(string fname)
+</pre>
+<dt><a name="add_death_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_death_func</b></a><pre>
+void add_death_func(mixed ob,
+string func)
+</pre>
+<dt><a name="add_dest_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_dest_func</b></a><pre>
+void add_dest_func(mixed ob,
+string func)
+</pre>
+<dt><a name="add_enter_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_enter_func</b></a><pre>
+void add_enter_func(mixed ob,
+string func)
+</pre>
+<dt><a name="add_exit_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_exit_func</b></a><pre>
+void add_exit_func(mixed ob,
+string func)
+</pre>
+<dt><a name="add_reset_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_reset_func</b></a><pre>
+void add_reset_func(mixed ob,
+string func)
+</pre>
+<dt><a name="AddFuncsToMixed">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>AddFuncsToMixed</b></a><pre>
+int AddFuncsToMixed(mixed * array,
+object obj,
+mixed func)
+</pre>
+<dt><a name="event_death">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_death</b></a><pre>
+int event_death(object ob)
+</pre>
+<dt><a name="event_enter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_enter</b></a><pre>
+int event_enter(object ob)
+</pre>
+<dt><a name="event_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_exit</b></a><pre>
+void event_exit(object ob)
+</pre>
+<dt><a name="FindObject">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>FindObject</b></a><pre>
+object FindObject(mixed obj)
+</pre>
+<dt><a name="QueryResetObjects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>QueryResetObjects</b></a><pre>
+int QueryResetObjects()
+</pre>
+<dt><a name="RunFuncsOnObjects">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>RunFuncsOnObjects</b></a><pre>
+int RunFuncsOnObjects(mixed * array,
+object arg)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 05:36:26 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

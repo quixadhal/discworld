@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["query_feature_desc_from":({({"mapping",}),({({"int",}),"x",({"int",}),"y",({"int",}),"z",}),(["main":({"This is the function that finds the distance and direction to thecurrent region.",}),"param":({"x the x-coordinate","y the y-coordinate","z the z-coordinate",}),"return":({"({ direction, distance })",}),]),}),"is_inside_region":({({"int",}),({({"int",}),"x1",({"int",}),"y1",({"int",}),"x2",({"int",}),"y2",({"int",}),"range",}),(["main":({"Find out if this rectangle is inside the region, given the specified rangeat which it can be seen.  This will work by adding the ranges onto thelines and checking for distance from the points of the polygon to the linebordering the region and also checking for intersection with the borderingline.  It also checks to see if all of the points are inside the region.",}),"param":({"x1 the top x","y1 the top y","x2 the bottom x","y2 the bottom y",}),]),}),"add_feature_position":({({"void",}),({({"int",}),"x",({"int",}),"y",({"int",}),"width",({"int",}),"height",}),(["main":({"This method sets the position of the feature.",}),"param":({"x the x coordinate of the feature","y the y coordinate of the feature","width the width of the feature","height the height of the feature",}),]),}),])
+protected_functions ([])
+inherits (["/std/room/inherit/terrain_map/geometry":({}),])
+main_docs (["main":({"This is region handler for a rectangular region.  This can also workfor circular regions by making a 0 width/height feature.",}),"started":({"Mon Apr  1 12:15:24 PST 2002",}),"author":({"Pinkfish",}),])
+define_docs ([])
+includes ([])
+class_docs (["feature_pos":({0,({({"xstart",({"int",}),}),({"ystart",({"int",}),}),({"width",({"int",}),}),({"height",({"int",}),}),}),([]),}),])
+file_name "/std/room/inherit/terrain_map/region_rect.c"
+last_changed 1522061544

@@ -51,7 +51,7 @@ and set_piece_substance().
   - Food can be 'pickled' to prevent decay using do_cure().
 <hr><h2>Inherits</h2>
 This class inherits the following classes <a href="std.basic.virtual_update.c.html">/std/basic/virtual_update.c</a> and <a href="obj.cont_medium.c.html">/obj/cont_medium.c</a><hr><h2>Includes</h2>
-This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.bits_controller.h.html">/include/bits_controller.h</a>, <a href="include.drinks.h.html">/include/drinks.h</a>, <a href="include.playtesters.h.html">/include/playtesters.h</a> and <a href="include.weapon.h.html">/include/weapon.h</a><hr><h2>Method index</h2>
+This class includes the following files <a href="include.weapon.h.html">/include/weapon.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.bits_controller.h.html">/include/bits_controller.h</a>, <a href="include.drinks.h.html">/include/drinks.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
 <dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
 <a href="#add_eat_effect"><b>add_eat_effect</b></a>(mixed, int)<dd>
 This adds an eat effect to the food.
@@ -254,7 +254,7 @@ These are functions that everyone can access.<p><dl>
 .<dt><a name="add_eat_effect">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_eat_effect</b></a><pre>
 int add_eat_effect(mixed word,
-                   int number)
+int number)
 </pre><dd>
 This adds an eat effect to the food.  This will be added to
 the player or NPC when the food is eaten.
@@ -287,7 +287,7 @@ the existing number.
 <dt><a name="add_external_effect">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_external_effect</b></a><pre>
 int add_external_effect(string word,
-                        int number)
+int number)
 </pre><dd>
 This adds an external effect to the food.  This will be added to
 the player or NPC when the liquid is splashed, applied, or rubbed on them.
@@ -343,8 +343,8 @@ to determine whather an object can be cut up with the weapon.
 <dt><a name="consume">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>consume</b></a><pre>
 varargs void consume(object consumer,
-                     int amount,
-                     string type)
+int amount,
+string type)
 </pre><dd>
 This consumes some of the food.
 <p>
@@ -471,7 +471,7 @@ int do_splash(object * things)
 <dt><a name="query_applicable">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_applicable</b></a><pre>
 int query_applicable(object applier,
-                     object appliee)
+object appliee)
 </pre><dd>
 This queries applicability of the food. (rubbing on someone)
 Note that the food can only be applied when
@@ -766,7 +766,7 @@ in the short description for decaying objects.<p>
 <dt><a name="query_splashable">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_splashable</b></a><pre>
 int query_splashable(object splasher,
-                     object splashee)
+object splashee)
 </pre><dd>
 This queries splashability of the food.
 Note that the food can only be splashed when liquid and when
@@ -1149,7 +1149,7 @@ how many bites of the food can be taken.
 <dt><a name="setup_eat">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_eat</b></a><pre>
 void setup_eat(string ob,
-               string func)
+string func)
 </pre><dd>
 This sets up the eat object and function.  This is used when
 the food is eaten.  The eat function is called on the eat
@@ -1166,8 +1166,8 @@ object.  If successful the eat message is added to the player.
 <dt><a name="setup_eat_piece_messages">
 <img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_eat_piece_messages</b></a><pre>
 void setup_eat_piece_messages(mixed piece,
-                              mixed amt,
-                              mixed last)
+mixed amt,
+mixed last)
 </pre><dd>
 This sets up the eat messages for pieces and stuff.  The amount message
 will replace the $amt$ string in the message with the amount_string().  <p>
@@ -1213,5 +1213,5 @@ Note that the food can only be splashed when liquid in any case.<p>
 
 </dl>
 <hr>
-<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 14 Oct 2003 16:44:13 GMT<br>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Sun, 01 Apr 2018 18:56:02 GMT<br>
 <hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

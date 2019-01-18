@@ -1,0 +1,37 @@
+<html><head><title>File close_lock_container.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/close_lock_container.c</h2>
+This file should be used in containers that wish to notify the
+above container that they are able to be registered or not.
+The function we_moved(object from, object to) should be called
+to allow the object to add and remove itself from the correct
+places.
+<p>
+We only worry about the open/close state, if something is open and
+locked we don't care.  (I guess stuff can be locked open
+anyway).<p><b>See also:</b><br><a href="#we_moved">we_moved()
+</a><p>Written by Pinkfish<p>Started Thu Mar  5 16:20:10 CST 1998<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.basic.close_lock.c.html">/std/basic/close_lock.c</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#we_moved"><b>we_moved</b></a>(object, object)<dd>
+This method should be called when an object is moved.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="we_moved">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>we_moved</b></a><pre>
+void we_moved(object from,
+object to)
+</pre><dd>
+This method should be called when an object is moved.  This will
+remove itself from the leaving container and add itself to the
+new one.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>from - the object we came from
+<dd>to - the object we are going to
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 19:13:06 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

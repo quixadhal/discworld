@@ -1,0 +1,91 @@
+<html><head><title>File add_command.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /secure/simul_efun/add_command.c</h2>
+Cotains some simul_efuns.<p>Written by Pinkfish
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_command"><b>add_command</b></a>(string, string, function)<dd>
+A simul_efun for add_command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_failed_mess"><b>add_failed_mess</b></a>(mixed, object *)<dd>
+An interface to add_failed_mess.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_succeeded_mess"><b>add_succeeded_mess</b></a>(mixed, object *)<dd>
+An interface to add_succeeded_mess.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_succeeded_ob"><b>add_succeeded_ob</b></a>(object)<dd>
+An interface to add_succeeded.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_command</b></a><pre>
+varargs void add_command(string verb,
+string pattern,
+function func)
+</pre><dd>
+A simul_efun for add_command.  This allows you to call add_command without
+having to go this_player()->add_command.  This will only work on non-living
+objects.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verb - the verb to add
+<dd>pattern - the pattern associated with the verb
+<dd>func - the funvction to call on success
+
+<dt><b>See also:</b>
+<dd><a href="global.new_parse.c.html#add_command">/global/new_parse->add_command()</a> and help add_command_conversion
+.c</dl>
+
+<dt><a name="add_failed_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_failed_mess</b></a><pre>
+void add_failed_mess(mixed mess,
+object * indir)
+</pre><dd>
+An interface to add_failed_mess.  This is added to make life easier,m
+you do not need to call this_player()->add_failed_mess() if you are
+writing add_command code in a non-living object.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the message to print
+<dd>indir - the indirect objects the message is for
+
+<dt><b>See also:</b>
+<dd><a href="global.new_parse.c.html#add_failed_mess">/global/new_parse->add_failed_mess()
+</a></dl>
+
+<dt><a name="add_succeeded_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_succeeded_mess</b></a><pre>
+void add_succeeded_mess(mixed mess,
+object * indir)
+</pre><dd>
+An interface to add_succeeded_mess.  This is added to make life easier,m
+you do not need to call this_player()->add_succeeded_mess() if you are
+writing add_command code in a non-living object.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>mess - the message to print
+<dd>indir - the indirect objects the message is for
+
+</dl>
+
+<dt><a name="add_succeeded_ob">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_succeeded_ob</b></a><pre>
+void add_succeeded_ob(object ob)
+</pre><dd>
+An interface to add_succeeded.  This is added to make life easier,m
+you do not need to call this_player()->add_succeeded() if you are
+writing add_command code in a non-living object.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to add as succeeded
+<dt><b>See also:</b>
+<dd><a href="global.new_parse.c.html#add_succeeded">/global/new_parse->add_succeeded()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 12:22:06 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

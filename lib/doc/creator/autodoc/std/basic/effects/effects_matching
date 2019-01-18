@@ -1,0 +1,45 @@
+.DT
+effects_matching
+Disk World creator help
+effects_matching
+
+.SH Name
+.SP 5 5
+effects_matching -  This method returns an array of effects matching the classification.
+.EP
+
+.SH Syntax
+.SI 5
+int * effects_matching(string eff)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^eff%^RESET%^ - the classification to match
+.EI
+
+.SH Returns
+.SI 5
+the array of enums corresponding to the effects.EI
+
+.SH Defined in
+.SI 5
+/std/basic/effects.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns an array of effects matching the
+classification.  The start part of the classification is
+used to match, so passing "npc." into this function will
+match all the effects which modify how an
+npc functions.
+.EP
+
+.SH See also
+.SP 5 5
+add_effect()
+
+.EP
+

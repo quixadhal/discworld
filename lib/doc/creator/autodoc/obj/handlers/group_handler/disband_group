@@ -1,0 +1,42 @@
+.DT
+disband_group
+Disk World creator help
+disband_group
+
+.SH Name
+.SP 5 5
+disband_group -  This function does a clean removal of a group from the handler.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void disband_group(string name,
+mixed message)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the group to be disbanded
+%^BOLD%^message%^RESET%^ - message to be broadcasted, if any
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/group_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function does a clean removal of a group from the handler.
+If a message is specified, it is broadcasted to the group
+before all members are removed.
+
+.EP
+
+.SH See also
+.SP 5 5
+remove_group()
+
+.EP
+

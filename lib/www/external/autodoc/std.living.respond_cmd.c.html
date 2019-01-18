@@ -1,0 +1,87 @@
+<html><head><title>File respond_cmd.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/living/respond_cmd.c</h2>
+This inheritable will handle all the generic stuff for commands that
+need a response.  Like 'teach' and 'offer'.<p>Written by Pinkfish<p>Started Mon Aug 17 04:13:10 EDT 1998
+<hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_respond_data"><b>respond_data</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_respond_command"><b>add_respond_command</b></a>(string, object, mixed)<dd>
+This method adds a responable command set of values to the
+living object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_respond_commands"><b>clear_respond_commands</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_respond_command"><b>query_respond_command</b></a>(string, object)<dd>
+This method returns the data associated with specified type
+and object for a respondable command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_respond_command"><b>remove_respond_command</b></a>(string, object)<dd>
+This method removes the response for this command.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_respond_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_respond_command</b></a><pre>
+void add_respond_command(string type,
+object ob,
+mixed data)
+</pre><dd>
+This method adds a responable command set of values to the
+living object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of thing to set as a response
+<dd>ob - the object which is giving us the thing
+<dd>data - the data associated with the command
+
+</dl>
+
+<dt><a name="clear_respond_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_respond_commands</b></a><pre>
+void clear_respond_commands()
+</pre>
+<dt><a name="query_respond_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_respond_command</b></a><pre>
+mixed query_respond_command(string type,
+object ob)
+</pre><dd>
+This method returns the data associated with specified type
+and object for a respondable command.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of the respondable
+<dd>ob - the object we are checking against
+<dt><b>Returns:</b>
+<dd>the data associated with the response, 0 if not found
+
+</dl>
+
+<dt><a name="remove_respond_command">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_respond_command</b></a><pre>
+void remove_respond_command(string type,
+object ob)
+</pre><dd>
+This method removes the response for this command.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - the type of the responable
+<dd>ob - the object that we are removing a responable for
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_respond_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>respond_data</b></a><pre>
+class respond_data {
+object ob;
+mixed data;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 21:37:33 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

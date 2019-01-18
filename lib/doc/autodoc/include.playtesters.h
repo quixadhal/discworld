@@ -1,0 +1,91 @@
+.DT
+playtesters.h
+Disk World autodoc help
+playtesters.h
+
+.SH Description
+.SP 5 5
+
+ Playtester header file
+ @author Drakkos
+ @started 23/07/2002
+
+
+.EP
+.SP 10 5
+
+.EP
+
+.SH Defines
+.SI 3
+* %^BOLD%^PLAYTESTER_ARENA%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTER_ARMOURY%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTER_CHARS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTER_COURSE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTER_DOCS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTER_HAND%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTER_HANDLERS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTER_HELP%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTER_INHERITS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTER_INTERVIEW%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTER_ITEMS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTER_PALACE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTER_SECURE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PLAYTESTERS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PT_APPLICATION_HANDLER%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PT_LOGS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PT_OBSTACLE_COURSE%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^PT_SAVE%^RESET%^
+.EI
+

@@ -1,0 +1,46 @@
+.DT
+query_day
+Disk World creator help
+query_day
+
+.SH Name
+.SP 5 5
+query_day -  This method returns whether or not it is daytime.
+.EP
+
+.SH Syntax
+.SI 5
+int query_day()
+.EI
+
+.SH Returns
+.SI 5
+1 for day, 0 for night.
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns whether or not it is daytime.  The value is
+automatically updated whenever anyone enters the room and so is more
+efficient than checking with the weather handler.
+
+.EP
+
+.SH Example 1
+.SI 5
+void init() {
+  ::init();
+  if(is_day()) {
+    setup_daytime_stuff();
+  } else {
+    setup_nighttime_stuff();
+  }
+}
+.EI
+

@@ -1,0 +1,350 @@
+<html><head><title>File services.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Includes</h2>
+This class includes the following files /net/intermud3/services/error.c, /net/intermud3/services/auth.c, /net/intermud3/services/locate.c, <a href="include.socket_errors.h.html">/include/socket_errors.h</a>, /net/intermud3/services/tell.c, /net/intermud3/services/emoteto.c, <a href="include.creator.h.html">/include/creator.h</a>, /net/intermud3/services/finger.c, <a href="include.localtime.h.html">/include/localtime.h</a>, /net/intermud3/services/who.c, /net/intermud3/services/channel.c, <a href="include.network.h.html">/include/network.h</a> and <a href="include.term.h.html">/include/term.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#AddChannel"><b>AddChannel</b></a>(string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#addUrl"><b>addUrl</b></a>(string, int, string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clean_emote_string"><b>clean_emote_string</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#close_call_back"><b>close_call_back</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#deleteUrl"><b>deleteUrl</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventAdministerChannel"><b>eventAdministerChannel</b></a>(string, string *, string *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveAuthReply"><b>eventReceiveAuthReply</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveAuthRequest"><b>eventReceiveAuthRequest</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveChannelEmote"><b>eventReceiveChannelEmote</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveChannelMessage"><b>eventReceiveChannelMessage</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveChannelUserRequest"><b>eventReceiveChannelUserRequest</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveChannelWhoReply"><b>eventReceiveChannelWhoReply</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveChannelWhoRequest"><b>eventReceiveChannelWhoRequest</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveEmote"><b>eventReceiveEmote</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveError"><b>eventReceiveError</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveFingerReply"><b>eventReceiveFingerReply</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveFingerRequest"><b>eventReceiveFingerRequest</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveLocateReply"><b>eventReceiveLocateReply</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveLocateRequest"><b>eventReceiveLocateRequest</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveTell"><b>eventReceiveTell</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveWhoReply"><b>eventReceiveWhoReply</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventReceiveWhoRequest"><b>eventReceiveWhoRequest</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventRegisterChannels"><b>eventRegisterChannels</b></a>(mapping)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventSendAuthRequest"><b>eventSendAuthRequest</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventSendChannel"><b>eventSendChannel</b></a>(string, string, string, int, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventSendChannelWhoRequest"><b>eventSendChannelWhoRequest</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventSendEmote"><b>eventSendEmote</b></a>(string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventSendFingerRequest"><b>eventSendFingerRequest</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventSendLocateRequest"><b>eventSendLocateRequest</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventSendTell"><b>eventSendTell</b></a>(string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventSendWhoRequest"><b>eventSendWhoRequest</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventShutdown"><b>eventShutdown</b></a>(int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventTimeout"><b>eventTimeout</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#filter_listeners"><b>filter_listeners</b></a>(object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#getChannelColor"><b>getChannelColor</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#getColorChannelName"><b>getColorChannelName</b></a>(string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#getColorDate"><b>getColorDate</b></a>(string, string, int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#getColorDayTime"><b>getColorDayTime</b></a>(string, string, int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#getColorSpeakerName"><b>getColorSpeakerName</b></a>(string, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#getColorTimestamp"><b>getColorTimestamp</b></a>(string, string, int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#getDate"><b>getDate</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#getDayTime"><b>getDayTime</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#GetKey"><b>GetKey</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#GetKeys"><b>GetKeys</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#GetLocalChannel"><b>GetLocalChannel</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#getRawTimeBits"><b>getRawTimeBits</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#GetServices"><b>GetServices</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#getSpeakerColor"><b>getSpeakerColor</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#getUrlData"><b>getUrlData</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#mapSpeakerColors"><b>mapSpeakerColors</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#old_eventReceiveChannelMessage"><b>old_eventReceiveChannelMessage</b></a>(mixed *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#oldGetLocalChannel"><b>oldGetLocalChannel</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_status"><b>query_status</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#read_call_back"><b>read_call_back</b></a>(int, mixed)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#RemoveChannel"><b>RemoveChannel</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#renameChatter"><b>renameChatter</b></a>(string, string, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setSpeakerColor"><b>setSpeakerColor</b></a>(string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#showSpeakerColors"><b>showSpeakerColors</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#timestamp"><b>timestamp</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#write_call_back"><b>write_call_back</b></a>(int)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="AddChannel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>AddChannel</b></a><pre>
+int AddChannel(string channel,
+int privee)
+</pre>
+<dt><a name="addUrl">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>addUrl</b></a><pre>
+varargs int addUrl(string match,
+int the_time,
+string channel,
+string user,
+string mud)
+</pre>
+<dt><a name="clean_emote_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clean_emote_string</b></a><pre>
+string clean_emote_string(string txt)
+</pre>
+<dt><a name="close_call_back">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>close_call_back</b></a><pre>
+void close_call_back(int fd)
+</pre>
+<dt><a name="deleteUrl">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>deleteUrl</b></a><pre>
+int deleteUrl(string url)
+</pre>
+<dt><a name="eventAdministerChannel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventAdministerChannel</b></a><pre>
+int eventAdministerChannel(string channel,
+string * additions,
+string * subs)
+</pre>
+<dt><a name="eventReceiveAuthReply">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveAuthReply</b></a><pre>
+void eventReceiveAuthReply(mixed * packet)
+</pre>
+<dt><a name="eventReceiveAuthRequest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveAuthRequest</b></a><pre>
+void eventReceiveAuthRequest(mixed * packet)
+</pre>
+<dt><a name="eventReceiveChannelEmote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveChannelEmote</b></a><pre>
+void eventReceiveChannelEmote(mixed * packet)
+</pre>
+<dt><a name="eventReceiveChannelMessage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveChannelMessage</b></a><pre>
+void eventReceiveChannelMessage(mixed * packet)
+</pre>
+<dt><a name="eventReceiveChannelUserRequest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveChannelUserRequest</b></a><pre>
+void eventReceiveChannelUserRequest(mixed * packet)
+</pre>
+<dt><a name="eventReceiveChannelWhoReply">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveChannelWhoReply</b></a><pre>
+void eventReceiveChannelWhoReply(mixed * packet)
+</pre>
+<dt><a name="eventReceiveChannelWhoRequest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveChannelWhoRequest</b></a><pre>
+void eventReceiveChannelWhoRequest(mixed * packet)
+</pre>
+<dt><a name="eventReceiveEmote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveEmote</b></a><pre>
+void eventReceiveEmote(mixed * packet)
+</pre>
+<dt><a name="eventReceiveError">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveError</b></a><pre>
+void eventReceiveError(mixed * packet)
+</pre>
+<dt><a name="eventReceiveFingerReply">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveFingerReply</b></a><pre>
+void eventReceiveFingerReply(mixed * packet)
+</pre>
+<dt><a name="eventReceiveFingerRequest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveFingerRequest</b></a><pre>
+void eventReceiveFingerRequest(mixed * packet)
+</pre>
+<dt><a name="eventReceiveLocateReply">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveLocateReply</b></a><pre>
+void eventReceiveLocateReply(mixed * packet)
+</pre>
+<dt><a name="eventReceiveLocateRequest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveLocateRequest</b></a><pre>
+void eventReceiveLocateRequest(mixed * packet)
+</pre>
+<dt><a name="eventReceiveTell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveTell</b></a><pre>
+void eventReceiveTell(mixed * packet)
+</pre>
+<dt><a name="eventReceiveWhoReply">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveWhoReply</b></a><pre>
+void eventReceiveWhoReply(mixed * packet)
+</pre>
+<dt><a name="eventReceiveWhoRequest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventReceiveWhoRequest</b></a><pre>
+void eventReceiveWhoRequest(mixed * packet)
+</pre>
+<dt><a name="eventRegisterChannels">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventRegisterChannels</b></a><pre>
+void eventRegisterChannels(mapping list)
+</pre>
+<dt><a name="eventSendAuthRequest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventSendAuthRequest</b></a><pre>
+void eventSendAuthRequest(string other)
+</pre>
+<dt><a name="eventSendChannel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventSendChannel</b></a><pre>
+varargs void eventSendChannel(string who,
+string ch,
+string msg,
+int emote,
+string target,
+string targmsg)
+</pre>
+<dt><a name="eventSendChannelWhoRequest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventSendChannelWhoRequest</b></a><pre>
+void eventSendChannelWhoRequest(string channel,
+string mud)
+</pre>
+<dt><a name="eventSendEmote">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventSendEmote</b></a><pre>
+void eventSendEmote(string who,
+string where,
+string msg)
+</pre>
+<dt><a name="eventSendFingerRequest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventSendFingerRequest</b></a><pre>
+void eventSendFingerRequest(string who,
+string where)
+</pre>
+<dt><a name="eventSendLocateRequest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventSendLocateRequest</b></a><pre>
+void eventSendLocateRequest(string who)
+</pre>
+<dt><a name="eventSendTell">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventSendTell</b></a><pre>
+void eventSendTell(string who,
+string where,
+string msg)
+</pre>
+<dt><a name="eventSendWhoRequest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventSendWhoRequest</b></a><pre>
+void eventSendWhoRequest(string mud,
+string who)
+</pre>
+<dt><a name="eventShutdown">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventShutdown</b></a><pre>
+void eventShutdown(int secs)
+</pre>
+<dt><a name="eventTimeout">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventTimeout</b></a><pre>
+void eventTimeout(string mudname)
+</pre>
+<dt><a name="filter_listeners">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>filter_listeners</b></a><pre>
+int filter_listeners(object ob,
+string chan)
+</pre>
+<dt><a name="getChannelColor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>getChannelColor</b></a><pre>
+string getChannelColor(string ch)
+</pre>
+<dt><a name="getColorChannelName">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>getColorChannelName</b></a><pre>
+varargs string getColorChannelName(string ch,
+string prefix,
+string suffix)
+</pre>
+<dt><a name="getColorDate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>getColorDate</b></a><pre>
+varargs string getColorDate(string prefix,
+string suffix,
+int the_time,
+int use_local)
+</pre>
+<dt><a name="getColorDayTime">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>getColorDayTime</b></a><pre>
+varargs string getColorDayTime(string prefix,
+string suffix,
+int the_time,
+int use_local)
+</pre>
+<dt><a name="getColorSpeakerName">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>getColorSpeakerName</b></a><pre>
+varargs string getColorSpeakerName(string speaker,
+string prefix,
+string suffix)
+</pre>
+<dt><a name="getColorTimestamp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>getColorTimestamp</b></a><pre>
+varargs string getColorTimestamp(string prefix,
+string suffix,
+int the_time,
+int use_local)
+</pre>
+<dt><a name="getDate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>getDate</b></a><pre>
+varargs string getDate(int the_time,
+int use_local)
+</pre>
+<dt><a name="getDayTime">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>getDayTime</b></a><pre>
+varargs string getDayTime(int the_time,
+int use_local)
+</pre>
+<dt><a name="GetKey">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>GetKey</b></a><pre>
+int GetKey(string mudname)
+</pre>
+<dt><a name="GetKeys">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>GetKeys</b></a><pre>
+mapping GetKeys()
+</pre>
+<dt><a name="GetLocalChannel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>GetLocalChannel</b></a><pre>
+string GetLocalChannel(string channel)
+</pre>
+<dt><a name="getRawTimeBits">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>getRawTimeBits</b></a><pre>
+varargs mixed * getRawTimeBits(int the_time,
+int use_local)
+</pre>
+<dt><a name="GetServices">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>GetServices</b></a><pre>
+mapping GetServices()
+</pre>
+<dt><a name="getSpeakerColor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>getSpeakerColor</b></a><pre>
+string getSpeakerColor(string who)
+</pre>
+<dt><a name="getUrlData">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>getUrlData</b></a><pre>
+mapping getUrlData()
+</pre>
+<dt><a name="mapSpeakerColors">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>mapSpeakerColors</b></a><pre>
+mapping mapSpeakerColors()
+</pre>
+<dt><a name="old_eventReceiveChannelMessage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>old_eventReceiveChannelMessage</b></a><pre>
+void old_eventReceiveChannelMessage(mixed * packet)
+</pre>
+<dt><a name="oldGetLocalChannel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>oldGetLocalChannel</b></a><pre>
+string oldGetLocalChannel(string channel)
+</pre>
+<dt><a name="query_status">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_status</b></a><pre>
+string query_status(object ob)
+</pre>
+<dt><a name="read_call_back">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>read_call_back</b></a><pre>
+void read_call_back(int fd,
+mixed mess)
+</pre>
+<dt><a name="RemoveChannel">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>RemoveChannel</b></a><pre>
+int RemoveChannel(string channel)
+</pre>
+<dt><a name="renameChatter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>renameChatter</b></a><pre>
+int renameChatter(string who,
+string to,
+int keep_source_color)
+</pre>
+<dt><a name="setSpeakerColor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setSpeakerColor</b></a><pre>
+int setSpeakerColor(string who,
+string color)
+</pre>
+<dt><a name="showSpeakerColors">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>showSpeakerColors</b></a><pre>
+varargs string showSpeakerColors(string who)
+</pre>
+<dt><a name="timestamp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>timestamp</b></a><pre>
+varargs string timestamp(int the_time,
+int use_local)
+</pre>
+<dt><a name="write_call_back">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>write_call_back</b></a><pre>
+void write_call_back(int fd)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Nov 2018 17:03:51 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

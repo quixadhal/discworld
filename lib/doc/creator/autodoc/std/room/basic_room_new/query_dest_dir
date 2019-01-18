@@ -1,0 +1,47 @@
+.DT
+query_dest_dir
+Disk World creator help
+query_dest_dir
+
+.SH Name
+.SP 5 5
+query_dest_dir -  Returns an array containing just the destinations and directions used to get there.
+.EP
+
+.SH Syntax
+.SI 5
+varargs string * query_dest_dir(object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - used to get the relative directions according to thing
+.EI
+
+.SH Returns
+.SI 5
+the array of direction, destination pairs
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room_new.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Returns an array containing just the destinations and directions used to
+get there. This is useful for monster or whatever that you want to scan a
+room for exits to leave out of. The array is of the format. ({ direction1,
+destination1, direction2, destination2, ... })
+
+
+The thing passed in is used as the basis for the relative directions if it is an object. If it is not an object then this is ignored altogether.
+.EP
+
+.SH See also
+.SP 5 5
+query_dest_other(), add_exit()
+.EP
+

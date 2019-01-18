@@ -1,0 +1,46 @@
+.DT
+adjust_cond
+Disk World creator help
+adjust_cond
+
+.SH Name
+.SP 5 5
+adjust_cond -  This method adjust the current condition by the given amount.
+.EP
+
+.SH Syntax
+.SI 5
+int adjust_cond(int i)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^i%^RESET%^ - the amount to adjust the condition by
+.EI
+
+.SH Returns
+.SI 5
+the new condition.EI
+
+.SH Defined in
+.SI 5
+/std/basic/condition.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adjust the current condition by the given amount.  If
+resultant condition is less than the lowest condition, then the lowest
+condition is set to this value.  If it is greater than the maximum
+condition.  Then the condition is set to the maximum condition.  If the
+condition is less than or equal to 0, then the object is attempted to
+be broken.
+.EP
+
+.SH See also
+.SP 5 5
+set_cond()
+
+.EP
+

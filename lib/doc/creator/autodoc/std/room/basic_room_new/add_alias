@@ -1,0 +1,57 @@
+.DT
+add_alias
+Disk World creator help
+add_alias
+
+.SH Name
+.SP 5 5
+add_alias -  This method adds an exit alias to the room.
+.EP
+
+.SH Syntax
+.SI 5
+void add_alias(mixed names,
+string word)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^names%^RESET%^ - the exit names to alias
+%^BOLD%^word%^RESET%^ - the name to alias them too
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room_new.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an exit alias to the room.
+Aliases are convenient extra forms that can be attached to certain
+exits. In the above functions, the variable names is either a string
+or an array of strings and is, respectively, the alias or aliases
+for the direction passed in word. Since, sometimes, the same alias
+could be used for more than one exit, remove_alias() requires both
+alias(es) and direction in order to remove the correct alias(es). 
+.EP
+
+.SH Example 1
+.SI 5
+add_exit( "north", PATH +"dining_hall", "corridor" );
+add_alias( ({ "enter", "enter hall", "enter dining hall" }), "north" );
+.EI
+
+.SH Example 2
+.SI 5
+add_exit( "board carriage", PATH +"carriage", "door" );
+add_alias( "board", "board carriage" );
+
+.EI
+
+.SH See also
+.SP 5 5
+query_aliases(), remove_alias()
+.EP
+

@@ -1,0 +1,45 @@
+.DT
+query_changetimes
+Disk World creator help
+query_changetimes
+
+.SH Name
+.SP 5 5
+query_changetimes -  This method returns all the change times for the specified directory.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_changetimes(string dir)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - the directory to return the change times for
+.EI
+
+.SH Returns
+.SI 5
+the change times mapping.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns all the change times for the specified directory.
+The change times are the time at which the file was last changed.
+This method returns a mapping, the key of the mapping is the
+room and the index of the mapping is the time at which it changed
+(an integer).
+.EP
+
+.SH See also
+.SP 5 5
+change_changetimes()
+
+.EP
+

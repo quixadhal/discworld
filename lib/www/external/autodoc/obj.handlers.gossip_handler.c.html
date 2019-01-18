@@ -1,0 +1,123 @@
+<html><head><title>File gossip_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/gossip_handler.c</h2>
+Deals out random gossip to people who request it.
+<p>
+Add rumours!<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.gossip.h.html">/include/gossip.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_gossip"><b>add_gossip</b></a>(string, string)<dd>
+Add a juicy bit of gossip.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_rumour"><b>add_rumour</b></a>(string, string)<dd>
+Rumours are another method of dealing out gossip.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_filter"><b>query_filter</b></a>()<dd>
+The current words we are filtering.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_gossip"><b>query_gossip</b></a>()<dd>
+Tell us all the gossip.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_random_gossip"><b>query_random_gossip</b></a>()<dd>
+Returns a random piece of gossip.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rumours"><b>query_rumours</b></a>()<dd>
+All of the current rumours.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_gossip"><b>remove_gossip</b></a>(string, int)<dd>
+Sometimes you just gotta remove some gossip
+
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_gossip">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_gossip</b></a><pre>
+void add_gossip(string name,
+string mess)
+</pre><dd>
+Add a juicy bit of gossip.  This is called by ethe gossip
+effects on the npcs.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the person who said the gossip
+<dd>mess - what they said
+
+<dt><b>See also:</b>
+<dd>/std/effect/npc/gossip.c</dl>
+
+<dt><a name="add_rumour">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_rumour</b></a><pre>
+void add_rumour(string name,
+string mess)
+</pre><dd>
+Rumours are another method of dealing out gossip.
+Rumours are added by creators...<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the person saying the rumour
+<dd>mess - the rumour message
+
+</dl>
+
+<dt><a name="query_filter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_filter</b></a><pre>
+string * query_filter()
+</pre><dd>
+The current words we are filtering.  If any of these words are in the
+gossip, we filter it out and do not save it.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current filter array
+
+</dl>
+
+<dt><a name="query_gossip">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_gossip</b></a><pre>
+mixed * query_gossip()
+</pre><dd>
+Tell us all the gossip.  This returns the complete
+array of gossip which the npcs are drawing from.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of two element arrays
+<dt><b>See also:</b>
+<dd><a href="#query_random_gossip">query_random_gossip() 
+</a></dl>
+
+<dt><a name="query_random_gossip">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_random_gossip</b></a><pre>
+string * query_random_gossip()
+</pre><dd>
+Returns a random piece of gossip.  Finds a random bit of juicy
+gossip and returns it.  The first element of the returned
+array is the person who said the gossip and the second bit is
+what they said.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>a two element array containing the gossip
+
+</dl>
+
+<dt><a name="query_rumours">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rumours</b></a><pre>
+mixed * query_rumours()
+</pre><dd>
+All of the current rumours.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>an array of teo element arrays
+<dt><b>See also:</b>
+<dd><a href="#query_random_gossip">query_random_gossip()
+</a></dl>
+
+<dt><a name="remove_gossip">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_gossip</b></a><pre>
+varargs string remove_gossip(string match,
+int force)
+</pre><dd>
+Sometimes you just gotta remove some gossip
+<p>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 18:58:45 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

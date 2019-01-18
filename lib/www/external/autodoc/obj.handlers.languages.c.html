@@ -1,0 +1,297 @@
+<html><head><title>File languages.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/languages.c</h2>
+The language handler.  This will keep track of the info on languages
+Each language can be a written language a spoken language and have
+a garble object.
+<p>
+The function garble_say, garble_tell, garble_shout and
+garble_written should be defined on the garbling object.
+They should return the entire string to print.  So if the
+routine returns 0 nothing is printed.
+<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.language.h.html">/include/language.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_replacements"><b>do_replacements</b></a>(string)<dd>
+Remove "ne1" and suchlike
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#fix_shorthand"><b>fix_shorthand</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#garble_say"><b>garble_say</b></a>(string, string, string, object, object, string)<dd>
+This garbles a say.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#garble_text"><b>garble_text</b></a>(string, mixed, object, object)<dd>
+Garble written text.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_flags"><b>query_flags</b></a>(string)<dd>
+Return all the flags for the language.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_garble_object"><b>query_garble_object</b></a>(string)<dd>
+Figure out the garble object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language_always_spoken"><b>query_language_always_spoken</b></a>(string)<dd>
+Determine if the language is always able to be spoken.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language_distance"><b>query_language_distance</b></a>(string)<dd>
+Determine if the language is spoken.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language_magic"><b>query_language_magic</b></a>(string)<dd>
+Determine if it is a magical language.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language_size"><b>query_language_size</b></a>(string)<dd>
+The size of the language.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language_spoken"><b>query_language_spoken</b></a>(string)<dd>
+Determine if the language is spoken.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language_spoken_skill"><b>query_language_spoken_skill</b></a>(string)<dd>
+The skill for the spoken language.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language_written"><b>query_language_written</b></a>(string)<dd>
+Determine if the language is written.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_language_written_skill"><b>query_language_written_skill</b></a>(string)<dd>
+The skill for the written language.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_languages"><b>query_languages</b></a>()<dd>
+Names of all the languages.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_language"><b>test_language</b></a>(string)<dd>
+Determine if this is a language.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_replacements">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_replacements</b></a><pre>
+string do_replacements(string mess)
+</pre><dd>
+Remove "ne1" and suchlike
+<p>
+
+<dt><a name="fix_shorthand">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>fix_shorthand</b></a><pre>
+string fix_shorthand(string mess)
+</pre>
+<dt><a name="garble_say">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>garble_say</b></a><pre>
+mixed garble_say(string lang,
+string start,
+string mess,
+object player,
+object from,
+string type)
+</pre><dd>
+This garbles a say.  Called from the events class to garble the text
+that players see.  This looks up the garble object and calls the
+correct function on it.  The returned array contains the
+garbled start and message.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - the language spoken in
+<dd>start - the start bit
+<dd>mess - the message itself
+<dd>player - the player hearing
+<dd>from - the player speaking
+<dd>type - 'say', 'tell', 'shout' etc
+<dt><b>Returns:</b>
+<dd>an array <code>({ start, mess })</code>
+
+</dl>
+
+<dt><a name="garble_text">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>garble_text</b></a><pre>
+string garble_text(string lang,
+mixed text,
+object thing,
+object player)
+</pre><dd>
+Garble written text.  This is the same as garble_say, but it works on
+written text.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - the language written in
+<dd>text - the text which has been written
+<dd>thing - the thing which is written on
+<dd>player - the player doing the reading
+<dt><b>Returns:</b>
+<dd>the garbled text as a string
+
+</dl>
+
+<dt><a name="query_flags">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_flags</b></a><pre>
+int query_flags(string name)
+</pre><dd>
+Return all the flags for the language.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the language to get the flags of
+<dt><b>Returns:</b>
+<dd>all the flags
+<dt><b>See also:</b>
+<dd>/include/language.h
+</dl>
+
+<dt><a name="query_garble_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_garble_object</b></a><pre>
+string query_garble_object(string name)
+</pre><dd>
+Figure out the garble object.  This returns the garble object for the
+language.  The garble object is used to modify the text so that
+player does not see plain text if they do not know the language.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the language to get the garble object for
+<dt><b>Returns:</b>
+<dd>the garble object
+
+</dl>
+
+<dt><a name="query_language_always_spoken">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language_always_spoken</b></a><pre>
+int query_language_always_spoken(string str)
+</pre><dd>
+Determine if the language is always able to be spoken. 
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the language name to test
+<dt><b>Returns:</b>
+<dd>1 if the language is spoken, 0 if it is not
+
+</dl>
+
+<dt><a name="query_language_distance">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language_distance</b></a><pre>
+int query_language_distance(string str)
+</pre><dd>
+Determine if the language is spoken.
+Distance languages can be used with tell and shout.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the language name to test
+<dt><b>Returns:</b>
+<dd>1 if it is distance language, 0 if it is not
+
+</dl>
+
+<dt><a name="query_language_magic">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language_magic</b></a><pre>
+int query_language_magic(string str)
+</pre><dd>
+Determine if it is a magical language.
+A magical langage gets a function called on it's object whenever it
+is read even if the person knows the language.  It is also the language
+spells are written in.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the language to test
+<dt><b>Returns:</b>
+<dd>1 if it is magical, 0 if it is not
+
+</dl>
+
+<dt><a name="query_language_size">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language_size</b></a><pre>
+int query_language_size(string str)
+</pre><dd>
+The size of the language.  Some languages have bigger letters
+and stuff than others.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the language to get the size of
+<dt><b>Returns:</b>
+<dd>the size of each letter 
+
+</dl>
+
+<dt><a name="query_language_spoken">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language_spoken</b></a><pre>
+int query_language_spoken(string str)
+</pre><dd>
+Determine if the language is spoken. 
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the language name to test
+<dt><b>Returns:</b>
+<dd>1 if the language is spoken, 0 if it is not
+
+</dl>
+
+<dt><a name="query_language_spoken_skill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language_spoken_skill</b></a><pre>
+string query_language_spoken_skill(string lang)
+</pre><dd>
+The skill for the spoken language.  This gets the skill name in the skill
+tree for the spoken part of the language.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - the language to get the skill of
+<dt><b>Returns:</b>
+<dd>the skill name
+
+</dl>
+
+<dt><a name="query_language_written">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language_written</b></a><pre>
+int query_language_written(string str)
+</pre><dd>
+Determine if the language is written.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the language name to test
+<dt><b>Returns:</b>
+<dd>1 if the language is written, 0 if it is not
+
+</dl>
+
+<dt><a name="query_language_written_skill">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_language_written_skill</b></a><pre>
+string query_language_written_skill(string lang)
+</pre><dd>
+The skill for the written language.  This gets the skill name in the skill
+tree for the written part of the language.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - the language to get the skill of
+<dt><b>Returns:</b>
+<dd>the skill name
+
+</dl>
+
+<dt><a name="query_languages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_languages</b></a><pre>
+string * query_languages()
+</pre><dd>
+Names of all the languages.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the names of all the languages
+
+</dl>
+
+<dt><a name="test_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_language</b></a><pre>
+int test_language(string str)
+</pre><dd>
+Determine if this is a language.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the language to check
+
+<dt><b>Returns:</b>
+<dd>1 if it is a language, 0 if it s not
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 20:09:17 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,135 @@
+<html><head><title>File query_number.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /secure/simul_efun/query_number.c</h2>
+Cotains some simul_efuns to convert integers into textual numbers.<p>Written by Pinkfish
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#number_as_string"><b>number_as_string</b></a>(int)<dd>
+This method turns a number less than 100 into a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_japan_digit"><b>query_japan_digit</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_japan_hundreds"><b>query_japan_hundreds</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_japan_hundredthousands"><b>query_japan_hundredthousands</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_japan_num"><b>query_japan_num</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_japan_tenmillions"><b>query_japan_tenmillions</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_japan_tens"><b>query_japan_tens</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_japan_tenthousands"><b>query_japan_tenthousands</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_japan_thousands"><b>query_japan_thousands</b></a>(int, int)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_num"><b>query_num</b></a>(int, int)<dd>
+This method turns a number into a string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_times"><b>query_times</b></a>(int)<dd>
+Convert a number into a number of times.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#word_ordinal"><b>word_ordinal</b></a>(int)<dd>
+This method returns the ordinal of a number as a string (ie, "first",
+"thirtieth", etc.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="number_as_string">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>number_as_string</b></a><pre>
+string number_as_string(int n)
+</pre><dd>
+This method turns a number less than 100 into a string.  This function
+should not be used.  It will only work for numbers less than 100.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>n - the number to turn into a string
+<dt><b>Returns:</b>
+<dd>the number as a nice string
+<dt><b>See also:</b>
+<dd><a href="#query_num">query_num()
+</a></dl>
+
+<dt><a name="query_japan_digit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_japan_digit</b></a><pre>
+string query_japan_digit(int num,
+int kana)
+</pre>
+<dt><a name="query_japan_hundreds">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_japan_hundreds</b></a><pre>
+string query_japan_hundreds(int num,
+int kana)
+</pre>
+<dt><a name="query_japan_hundredthousands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_japan_hundredthousands</b></a><pre>
+string query_japan_hundredthousands(int num,
+int kana)
+</pre>
+<dt><a name="query_japan_num">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_japan_num</b></a><pre>
+string query_japan_num(int num,
+int kana)
+</pre>
+<dt><a name="query_japan_tenmillions">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_japan_tenmillions</b></a><pre>
+string query_japan_tenmillions(int num,
+int kana)
+</pre>
+<dt><a name="query_japan_tens">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_japan_tens</b></a><pre>
+string query_japan_tens(int num,
+int kana)
+</pre>
+<dt><a name="query_japan_tenthousands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_japan_tenthousands</b></a><pre>
+string query_japan_tenthousands(int num,
+int kana)
+</pre>
+<dt><a name="query_japan_thousands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_japan_thousands</b></a><pre>
+string query_japan_thousands(int num,
+int kana)
+</pre>
+<dt><a name="query_num">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_num</b></a><pre>
+string query_num(int n,
+int limit)
+</pre><dd>
+This method turns a number into a string.  It returns a string of the
+form "one hundred and twenty four".  This function should be used and
+not number_as_string below.
+The limit argument is used to set the cut off point at which it will
+print "many".
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the number to return as a string
+<dd>limit - the largest number to process
+<dt><b>Returns:</b>
+<dd>the number as a nice string
+
+</dl>
+
+<dt><a name="query_times">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_times</b></a><pre>
+string query_times(int num)
+</pre><dd>
+Convert a number into a number of times. eg. 1 = once, 2 = twice, 3 = three
+times etc. etc.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>the - number in question
+<dt><b>Returns:</b>
+<dd>a string equivalent.
+
+</dl>
+
+<dt><a name="word_ordinal">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>word_ordinal</b></a><pre>
+string word_ordinal(int num)
+</pre><dd>
+This method returns the ordinal of a number as a string (ie, "first",
+"thirtieth", etc.)<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>n - the number for which you want the ordinal
+<dt><b>See also:</b>
+<dd><a href="#query_num">query_num(), ordinal()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Nov 2018 11:24:49 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

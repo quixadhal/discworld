@@ -1,0 +1,41 @@
+.DT
+query_clothing_hiding
+Disk World creator help
+query_clothing_hiding
+
+.SH Name
+.SP 5 5
+query_clothing_hiding -  This method returns the types which hide this type of thingy.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_clothing_hiding(string type)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the type of clothing to check
+.EI
+
+.SH Returns
+.SI 5
+array of types which would hide this type, 0 if invalid type.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/clothing_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the types which hide this type of thingy.
+.EP
+
+.SH See also
+.SP 5 5
+query_clothing_cannot_remove(), query_clothing_depth()
+
+.EP
+

@@ -1,0 +1,43 @@
+.DT
+do_deposit
+Disk World creator help
+do_deposit
+
+.SH Name
+.SP 5 5
+do_deposit -  Do deposit function, mask to do interesting things
+.EP
+
+.SH Syntax
+.SI 5
+varargs int do_deposit(object * obs,
+string name,
+int show_sender)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^*obs%^RESET%^ - Objects to deposit (required)
+%^BOLD%^name%^RESET%^ - Name to go to (required)
+%^BOLD%^show_sender%^RESET%^ - non-zero to show name of sender in automail (optional)
+.EI
+
+.SH Returns
+.SI 5
+-5 if user is not allowed to recieve parcels, -4 if sender is not
+allowed to send parcels, -3 if sender and user are the same person,
+-2 if no such user, -1 if not enough money, 0 if missing arguments or
+failed for unknown reason and 1 if successful
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/parcel_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Do deposit function, mask to do interesting things
+.EP
+

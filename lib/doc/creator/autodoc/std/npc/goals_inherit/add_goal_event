@@ -1,0 +1,41 @@
+.DT
+add_goal_event
+Disk World creator help
+add_goal_event
+
+.SH Name
+.SP 5 5
+add_goal_event -  This method adds an event for a goal to react to.
+.EP
+
+.SH Syntax
+.SI 5
+void add_goal_event(string goal,
+string event)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^goal%^RESET%^ - the goal the event is for
+%^BOLD%^event%^RESET%^ - the event name to react to
+.EI
+
+.SH Defined in
+.SI 5
+/std/npc/goals_inherit.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds an event for a goal to react to.  This should only be
+done from inside the goal initialisation code, and other parts of the
+goal.  We will only add things for goals which we know about.
+.EP
+
+.SH See also
+.SP 5 5
+change_priority(), remove_goal_event()
+
+.EP
+

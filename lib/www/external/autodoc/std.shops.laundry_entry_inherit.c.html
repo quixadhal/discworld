@@ -1,0 +1,91 @@
+<html><head><title>File laundry_entry_inherit.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/laundry_entry_inherit.c</h2>
+ Inherit  : CWC Laundry Entry Inherit 
+ Author   : Siel
+ Date     : January 2001
+
+<hr><h2>Inherits</h2>
+This class inherits the following classes /std/room.c<hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.vault.h.html">/include/vault.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_customer"><b>check_customer</b></a>(string, object, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_laundry_exit"><b>set_laundry_exit</b></a>(string, mixed, string)<dd>
+Used to set the exit from the laundry entrance room into the laundry 
+itself.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_laundryowner"><b>set_laundryowner</b></a>(object)<dd>
+This is the object that is the owner of the laundry.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_location"><b>set_location</b></a>(string)<dd>
+This function is used to set the location used for calculation of which
+currency the laundry owner will accept.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_visit_cost"><b>set_visit_cost</b></a>(int)<dd>
+This is used to set the cost of a visit to the laundry (in monetary units)
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="check_customer">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_customer</b></a><pre>
+int check_customer(string verb,
+object thing,
+string special)
+</pre>
+<dt><a name="set_laundry_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_laundry_exit</b></a><pre>
+void set_laundry_exit(string direc,
+mixed dest,
+string type)
+</pre><dd>
+Used to set the exit from the laundry entrance room into the laundry 
+itself.
+The parameters are just like those of add_exit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>direction - The direction of the exit.
+<dd>dest - The destination object. Usually the filename of the destination.
+<dd>type - An exit type as in add_exit.
+<dt><b>Returns:</b>
+<dd>void
+<dt><b>See also:</b>
+<dd>add_exit
+.c</dl>
+
+<dt><a name="set_laundryowner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_laundryowner</b></a><pre>
+void set_laundryowner(object ob)
+</pre><dd>
+This is the object that is the owner of the laundry. This should be an
+NPC.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>laundryowner - The owner NPC object.
+
+</dl>
+
+<dt><a name="set_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_location</b></a><pre>
+void set_location(string str)
+</pre><dd>
+This function is used to set the location used for calculation of which
+currency the laundry owner will accept.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>location - The name of the location.
+
+</dl>
+
+<dt><a name="set_visit_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_visit_cost</b></a><pre>
+void set_visit_cost(int i)
+</pre><dd>
+This is used to set the cost of a visit to the laundry (in monetary units)<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cost - The cost of a vist
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 00:47:13 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

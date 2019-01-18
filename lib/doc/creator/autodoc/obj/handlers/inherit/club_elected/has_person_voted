@@ -1,0 +1,47 @@
+.DT
+has_person_voted
+Disk World creator help
+has_person_voted
+
+.SH Name
+.SP 5 5
+has_person_voted -  This method checks to see if the person has already voted in the election.
+.EP
+
+.SH Syntax
+.SI 5
+int has_person_voted(string club_name,
+string position,
+string person)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^position%^RESET%^ - the position they have voted in
+%^BOLD%^person%^RESET%^ - the person to check to see if they have voted
+.EI
+
+.SH Returns
+.SI 5
+1 if they have voted, 0 if not.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the person has already voted in the election.
+If the position is not being voted on then, then it will always assume
+they have voted for that position.
+.EP
+
+.SH See also
+.SP 5 5
+is_valid_position(), vote_for_person(), has_nominated_person()
+
+.EP
+

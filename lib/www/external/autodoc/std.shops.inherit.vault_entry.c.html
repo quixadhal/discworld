@@ -1,0 +1,123 @@
+<html><head><title>File vault_entry.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/inherit/vault_entry.c</h2>
+Standard vault inheritable object. There are two inheritables (this one and
+/std/vault.c) which are provided to make it easy to setup your own
+vaults.
+This object should be inherited by your vault entrance area. It is used to
+define most of the customisation for your vault.
+
+You must use set_vault_name and set_vault_entrance. You must also define
+a vault proprietor NPC and use set_proprietor() to let the system know
+which NPC it is. You should also check for this proprietors location and
+existance every reset. You may also want to provide some protection to
+prevent the NPC being killed too frequently.
+<p><b>See also:</b><br>/std/vault_entrance.c
+<p>Written by Ceres<hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.vault.h.html">/include/vault.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_idler"><b>check_idler</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_location"><b>set_location</b></a>(string)<dd>
+This function is used to set the location used for calculation of which
+currency the vault proprietor will accept.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_open_cost"><b>set_open_cost</b></a>(int)<dd>
+This is used to set the cost to open an account (in monetary units)
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_proprietor"><b>set_proprietor</b></a>(object)<dd>
+This is the object that is the proprietor of the vault.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_vault_exit"><b>set_vault_exit</b></a>(string, mixed, string)<dd>
+Used to set the exit from this vault entrance room into the vault itself.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_vault_name"><b>set_vault_name</b></a>(string)<dd>
+Used to set the name of the vault, as used for the save file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_visit_cost"><b>set_visit_cost</b></a>(int)<dd>
+This is used to set the cost of a visit to the vault (in monetary units)
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="check_idler">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_idler</b></a><pre>
+void check_idler(object who)
+</pre>
+<dt><a name="set_location">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_location</b></a><pre>
+void set_location(string str)
+</pre><dd>
+This function is used to set the location used for calculation of which
+currency the vault proprietor will accept.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>location - The name of the location.
+
+</dl>
+
+<dt><a name="set_open_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_open_cost</b></a><pre>
+void set_open_cost(int i)
+</pre><dd>
+This is used to set the cost to open an account (in monetary units)<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cost - The cost of a new account
+
+</dl>
+
+<dt><a name="set_proprietor">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_proprietor</b></a><pre>
+void set_proprietor(object ob)
+</pre><dd>
+This is the object that is the proprietor of the vault. This should be an
+NPC.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>proprietor - The proprietor NPC object.
+
+</dl>
+
+<dt><a name="set_vault_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_vault_exit</b></a><pre>
+void set_vault_exit(string direc,
+mixed dest,
+string type)
+</pre><dd>
+Used to set the exit from this vault entrance room into the vault itself.
+The parameters are just like those of add_exit.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>direction - The direction of the exit.
+<dd>dest - The destination object. Usually the filename of the destination.
+<dd>type - An exit type as in add_exit.
+<dt><b>Returns:</b>
+<dd>void
+<dt><b>See also:</b>
+<dd>add_exit
+.c</dl>
+
+<dt><a name="set_vault_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_vault_name</b></a><pre>
+void set_vault_name(string str)
+</pre><dd>
+Used to set the name of the vault, as used for the save file. This should
+be a unique name for this vault.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - The name of the vault.
+
+</dl>
+
+<dt><a name="set_visit_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_visit_cost</b></a><pre>
+void set_visit_cost(int i)
+</pre><dd>
+This is used to set the cost of a visit to the vault (in monetary units)<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cost - The cost of a vist
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 04:45:23 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

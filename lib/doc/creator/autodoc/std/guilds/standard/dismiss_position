@@ -1,0 +1,43 @@
+.DT
+dismiss_position
+Disk World creator help
+dismiss_position
+
+.SH Name
+.SP 5 5
+dismiss_position -  Dummy function for guilds without positions This method dismisses the player from a position.
+.EP
+
+.SH Syntax
+.SI 5
+int dismiss_position(string sub_guild,
+string position,
+string player_name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^sub_guild%^RESET%^ - the sub guild
+%^BOLD%^position%^RESET%^ - the position
+%^BOLD%^player_name%^RESET%^ - the player
+.EI
+
+.SH Returns
+.SI 5
+POSITION_FAIL if it failed, POSITION_OK if it succeeded.
+.EI
+
+.SH Defined in
+.SI 5
+/std/guilds/standard.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Dummy function for guilds without positions
+This method dismisses the player from a position.   If sub_guild is 0,
+the guild object is supposed to figure out the subguild from the 
+player_name.
+.EP
+

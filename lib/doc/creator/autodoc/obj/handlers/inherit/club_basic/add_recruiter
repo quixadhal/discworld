@@ -1,0 +1,44 @@
+.DT
+add_recruiter
+Disk World creator help
+add_recruiter
+
+.SH Name
+.SP 5 5
+add_recruiter -  This method adds a recruiter to the club.
+.EP
+
+.SH Syntax
+.SI 5
+int add_recruiter(string name,
+string recruiter)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the club name to add the recruiter to
+%^BOLD%^recruiter%^RESET%^ - the recruiter of the club to add
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_basic.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a recruiter to the club.  A recruiter can only be added if
+they are already a member.
+.EP
+
+.SH See also
+.SP 5 5
+remove_recruiter(), query_recruiters(), add_member()
+
+.EP
+

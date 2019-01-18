@@ -1,0 +1,43 @@
+.DT
+calc_attack_modifier
+Disk World creator help
+calc_attack_modifier
+
+.SH Name
+.SP 5 5
+calc_attack_modifier -  This method calculates the modifier to the attack.
+.EP
+
+.SH Syntax
+.SI 5
+class attack calc_attack_modifier(class attack att)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^class%^RESET%^ - attack
+.EI
+
+.SH Returns
+.SI 5
+class attack
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method calculates the modifier to the attack.
+
+It will take into account all the basic stuff that makes the attack
+harder or easier.
+
+PRE: All attack and response data has been filled in.
+POST: The offensive modifier must be set.
+
+.EP
+

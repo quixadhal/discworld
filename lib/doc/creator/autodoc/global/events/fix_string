@@ -1,0 +1,52 @@
+.DT
+fix_string
+Disk World creator help
+fix_string
+
+.SH Name
+.SP 5 5
+fix_string -  This method handles the conversersions for the colour mapping which is done on Discworld.
+.EP
+
+.SH Syntax
+.SI 5
+varargs string fix_string(string str,
+int width,
+int indent,
+int padding,
+mixed * args ...)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the string to do the conversion on
+%^BOLD%^width%^RESET%^ - the width of the string
+%^BOLD%^indent%^RESET%^ - the size of the indent
+%^BOLD%^args%^RESET%^ - any other arguments
+.EI
+
+.SH Returns
+.SI 5
+the fixed up string.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method handles the conversersions for the colour mapping which is
+done on Discworld.  This also does octarine message expansion, if the
+keyword %\^OCTARINE:message%\^ is embeded into a string then the
+inside section will be replaced with a blank string if the player
+cannot see octarine messages.
+.EP
+
+.SH See also
+.SP 5 5
+efun::terminal_colour()
+
+.EP
+

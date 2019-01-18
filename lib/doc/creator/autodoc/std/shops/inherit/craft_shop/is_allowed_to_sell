@@ -1,0 +1,38 @@
+.DT
+is_allowed_to_sell
+Disk World creator help
+is_allowed_to_sell
+
+.SH Name
+.SP 5 5
+is_allowed_to_sell -  This method checks to see if this item is allowed to be sold in this shop.
+.EP
+
+.SH Syntax
+.SI 5
+int is_allowed_to_sell(object * obs,
+string name,
+string * sellable_names)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^obs%^RESET%^ - the objects to check
+%^BOLD%^name%^RESET%^ - the name of the person doing the selling
+%^BOLD%^sellable_names%^RESET%^ - the names of the items to sell
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/craft_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if this item is allowed to be sold in this shop.
+It assumes it is called from a add_command() method and sets up fail
+messages accordingly.
+.EP
+

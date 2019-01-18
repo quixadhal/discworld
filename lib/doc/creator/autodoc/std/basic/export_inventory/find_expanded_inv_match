@@ -1,0 +1,42 @@
+.DT
+find_expanded_inv_match
+Disk World creator help
+find_expanded_inv_match
+
+.SH Name
+.SP 5 5
+find_expanded_inv_match -  This method is not designed to be called from outside the object itself.
+.EP
+
+.SH Syntax
+.SI 5
+object * find_expanded_inv_match(string words,
+object looker,
+object * things)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^words%^RESET%^ - the words which were matched with
+%^BOLD%^looker%^RESET%^ - the person doing the matching
+%^BOLD%^things%^RESET%^ - the current list of things matched.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/export_inventory.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is not designed to be called from outside
+the object itself.  It returns the list of objects able to
+be matched that are container in containers in the container.
+The third parameter is the set of objects the container
+must appear in to be used.  This has to be handled sperately
+so thet the plural matchin does not return the ones deep
+inside your containers.
+.EP
+

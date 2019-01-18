@@ -1,0 +1,61 @@
+.DT
+set_respond_to_with
+Disk World creator help
+set_respond_to_with
+
+.SH Name
+.SP 5 5
+set_respond_to_with -  This method sets the current responses for the npc.
+.EP
+
+.SH Syntax
+.SI 5
+void set_respond_to_with(mixed map)
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/response_mon.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the current responses for the npc.
+This will overwrite the current responses in the npc.
+Please use add_respond_to_with in your NPC's instead of this function
+call, as it requires prior knowledge as to the internal structure of
+the respond_to_with code that add_respond_to_with handles nicely.
+The array is of the formant:
+.EP
+.SP 5 5
+  ({
+.EP
+.SP 5 5
+     trigger1,
+.EP
+.SP 5 5
+     response1,
+.EP
+.SP 5 5
+     trigger2,
+.EP
+.SP 5 5
+     response2,
+.EP
+.SP 5 5
+     ...
+.EP
+.SP 5 5
+   })
+.EP
+.SP 5 5
+
+.EP
+
+.SH See also
+.SP 5 5
+add_respond_to_with(), query_respond_to_with()
+
+.EP
+

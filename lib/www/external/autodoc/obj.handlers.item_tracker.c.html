@@ -1,0 +1,156 @@
+<html><head><title>File item_tracker.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/item_tracker.c</h2>
+This handler keeps track of unique (hopefully) per player items in the game.<p>Written by Shaggy
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.object.c.html">/std/object.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.quest_handler.h.html">/include/quest_handler.h</a> and <a href="include.library.h.html">/include/library.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_item"><b>delete_item</b></a>(mixed, mixed)<dd>
+This method deletes the state/location information of a specific quest item
+owned by a player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_item_states"><b>query_all_item_states</b></a>(mixed)<dd>
+This method returns all the information about quest items
+owned by a player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_item_copies"><b>query_item_copies</b></a>(mixed, mixed)<dd>
+This method returns the total number of known copies of a specific quest item
+owned by a player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_item_state"><b>query_item_state</b></a>(mixed, mixed)<dd>
+This method returns the state/location of a specific quest item
+owned by a player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_all_item_states"><b>save_all_item_states</b></a>(mixed)<dd>
+This method saves the mapping of state/location 
+information for items owned by a player to disk.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_all_item_states_delete_cache"><b>save_all_item_states_delete_cache</b></a>(mixed)<dd>
+This method saves the mapping of state/location 
+information for items owned by a player to disk and deletes
+the entry in the cache.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_item_state"><b>set_item_state</b></a>(mixed, mixed, mixed)<dd>
+This method sets the state/location of a specific quest item
+owned by a player.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="delete_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_item</b></a><pre>
+int delete_item(mixed pl_name,
+mixed item)
+</pre><dd>
+This method deletes the state/location information of a specific quest item
+owned by a player.
+<p>
+If the item isn't actually owned by the player it returns 0<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pl_name -   player object or name
+<dd>item -      item object or identifier
+<dt><b>See also:</b>
+<dd><a href="#set_item_state">set_item_state()
+</a></dl>
+
+<dt><a name="query_all_item_states">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_item_states</b></a><pre>
+mixed query_all_item_states(mixed pl_name)
+</pre><dd>
+This method returns all the information about quest items
+owned by a player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pl_name -   player object or name
+<dt><b>See also:</b>
+<dd><a href="#set_item_state">set_item_state()</a> and <a href="#delete_item">delete_item()
+</a></dl>
+
+<dt><a name="query_item_copies">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_item_copies</b></a><pre>
+int query_item_copies(mixed pl_name,
+mixed item)
+</pre><dd>
+This method returns the total number of known copies of a specific quest item
+owned by a player.
+<p>
+If the item isn't actually owned by the player it doesn't matter.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pl_name -   player object or name
+<dd>item -      item object or identifier
+<dt><b>See also:</b>
+<dd><a href="#set_item_state">set_item_state()</a> and <a href="#delete_item">delete_item()
+</a></dl>
+
+<dt><a name="query_item_state">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_item_state</b></a><pre>
+mixed query_item_state(mixed pl_name,
+mixed item)
+</pre><dd>
+This method returns the state/location of a specific quest item
+owned by a player.
+<p>
+If the item isn't actually owned by the player it returns 0<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pl_name -   player object or name
+<dd>item -      item object or identifier
+<dt><b>See also:</b>
+<dd><a href="#set_item_state">set_item_state()</a> and <a href="#delete_item">delete_item()
+</a></dl>
+
+<dt><a name="save_all_item_states">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_all_item_states</b></a><pre>
+int save_all_item_states(mixed pl_name)
+</pre><dd>
+This method saves the mapping of state/location 
+information for items owned by a player to disk.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pl_name -   player object or name
+<dd>item -      item object or identifier
+<dt><b>Returns:</b>
+<dd>1 if successful
+<dt><b>See also:</b>
+<dd><a href="#set_item_state">set_item_state()</a>, <a href="#query_item_state">query_item_state()</a>, <a href="#delete_item">delete_item()</a> and <a href="#save_all_item_states_and_delete_from_cache">save_all_item_states_and_delete_from_cache()
+</a></dl>
+
+<dt><a name="save_all_item_states_delete_cache">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_all_item_states_delete_cache</b></a><pre>
+int save_all_item_states_delete_cache(mixed pl_name)
+</pre><dd>
+This method saves the mapping of state/location 
+information for items owned by a player to disk and deletes
+the entry in the cache.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pl_name -   player object or name
+<dd>item -      item object or identifier
+<dt><b>Returns:</b>
+<dd>1 if successful
+<dt><b>See also:</b>
+<dd><a href="#set_item_state">set_item_state()</a>, <a href="#query_item_state">query_item_state()</a>, <a href="#delete_item">delete_item()</a> and <a href="#save_all_item_states">save_all_item_states()
+</a></dl>
+
+<dt><a name="set_item_state">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_item_state</b></a><pre>
+int set_item_state(mixed pl_name,
+mixed item,
+mixed state)
+</pre><dd>
+This method sets the state/location of a specific quest item
+owned by a player.
+<p>
+If the item isn't actually owned by the player it returns 0<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pl_name -   player object or name
+<dd>item -      item object or identifier
+<dt><b>See also:</b>
+<dd><a href="#query_item_state">query_item_state()</a>, <a href="#delete_item">delete_item()</a> and <a href="#save_all_item_states">save_all_item_states()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 19:54:47 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

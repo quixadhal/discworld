@@ -1,0 +1,53 @@
+.DT
+identify_material
+Disk World creator help
+identify_material
+
+.SH Name
+.SP 5 5
+identify_material -  Used to determine if a player can identify a particular material.
+.EP
+
+.SH Syntax
+.SI 5
+string identify_material(string word,
+object player,
+int article)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^word%^RESET%^ - The name of the material
+%^BOLD%^player%^RESET%^ - The player trying to identify it.
+%^BOLD%^article%^RESET%^ - Definite or indefinite article.
+.EI
+
+.SH Returns
+.SI 5
+Description.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/cmr_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Used to determine if a player can identify a particular material.
+The function returns the materials name or a string giving a rough
+description if they're unable to identify it.
+
+Some materials can be identified by being high enough at a particular skill
+(defined in cmr.h) while others are only learned by being taught and others
+are known to everyone.
+
+.EP
+
+.SH See also
+.SP 5 5
+cmr_library, cmr
+
+.EP
+

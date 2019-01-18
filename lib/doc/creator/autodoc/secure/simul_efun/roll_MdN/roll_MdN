@@ -1,0 +1,49 @@
+.DT
+roll_MdN
+Disk World creator help
+roll_MdN
+
+.SH Name
+.SP 5 5
+roll_MdN -  This method rolls a bunch of dice to get a nice weighted medium.
+.EP
+
+.SH Syntax
+.SI 5
+int roll_MdN(int dice,
+int sides)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dice%^RESET%^ - the number of dice to roll
+%^BOLD%^sides%^RESET%^ - the number of sides each dice has
+.EI
+
+.SH Returns
+.SI 5
+the total of the rolls.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/roll_MdN.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method rolls a bunch of dice to get a nice weighted medium.
+.EP
+
+.SH Example 1
+.SI 5
+roll_MdN(3, 6);
+roll_MdN(1, 20);
+
+.EI
+
+.SH See also
+.SP 5 5
+efun::random(), shuffle()
+.EP
+

@@ -1,0 +1,45 @@
+.DT
+create_auto_load_file
+Disk World creator help
+create_auto_load_file
+
+.SH Name
+.SP 5 5
+create_auto_load_file -  This method creates a save file for the specified objects autoloading capability.
+.EP
+
+.SH Syntax
+.SI 5
+int create_auto_load_file(mixed ob,
+int fixed_num)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object to get an autoload number for
+%^BOLD%^fixed_num%^RESET%^ - the file number to write to
+.EI
+
+.SH Returns
+.SI 5
+the auto load number.EI
+
+.SH Defined in
+.SI 5
+/std/shops/inherit/player_craft_shop_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method creates a save file for the specified objects autoloading
+capability.  If the number to write to is non-null then it will
+write to that object.
+.EP
+
+.SH See also
+.SP 5 5
+save_it()
+
+.EP
+

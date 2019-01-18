@@ -1,0 +1,47 @@
+.DT
+set_term_type
+Disk World creator help
+set_term_type
+
+.SH Name
+.SP 5 5
+set_term_type -  This method sets the current terminal type for the player.
+.EP
+
+.SH Syntax
+.SI 5
+int set_term_type(string str)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^str%^RESET%^ - the new terminal type
+.EI
+
+.SH Returns
+.SI 5
+1 if the terminal was successful set, 0 if not.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method sets the current terminal type for the player.  If the type
+is network, then the network will be queried for the terminal type
+and that will be used.  This is the distiction between the current
+terminal type and the terminal name.  The name will be the value that
+is set by the player and the current type will be the information
+garnered from the network (if the name is network) or the same as the
+name.
+.EP
+
+.SH See also
+.SP 5 5
+set_term(), query_term_name(), query_cur_term()
+
+.EP
+

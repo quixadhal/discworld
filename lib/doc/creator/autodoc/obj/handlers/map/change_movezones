@@ -1,0 +1,42 @@
+.DT
+change_movezones
+Disk World creator help
+change_movezones
+
+.SH Name
+.SP 5 5
+change_movezones -  This method changes the value of the move zones for the specified room and directory.
+.EP
+
+.SH Syntax
+.SI 5
+void change_movezones(string dir,
+string room,
+string * zones)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^dir%^RESET%^ - the directory to change the values in
+%^BOLD%^room%^RESET%^ - the room the change the values in
+%^BOLD%^zones%^RESET%^ - the new set of move zones
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method changes the value of the move zones for the specified
+room and directory.
+.EP
+
+.SH See also
+.SP 5 5
+query_movezones()
+
+.EP
+

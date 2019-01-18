@@ -1,0 +1,35 @@
+.DT
+flush_queue
+Disk World creator help
+flush_queue
+
+.SH Name
+.SP 5 5
+flush_queue -  This method flushes all the queued commands.
+.EP
+
+.SH Syntax
+.SI 5
+void flush_queue()
+.EI
+
+.SH Defined in
+.SI 5
+/global/psoul.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method flushes all the queued commands.  It increments the time by the
+ROUND_TIME define and checks to see if any of the commands now need to be
+executed.  This should be called each heart beat..
+
+.EP
+
+.SH See also
+.SP 5 5
+/global/player->heart_beat()
+
+.EP
+

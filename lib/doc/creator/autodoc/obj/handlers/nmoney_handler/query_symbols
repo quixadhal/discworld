@@ -1,0 +1,42 @@
+.DT
+query_symbols
+Disk World creator help
+query_symbols
+
+.SH Name
+.SP 5 5
+query_symbols -  This method returns all the symbols for the current money areas in the handler.
+.EP
+
+.SH Syntax
+.SI 5
+mapping query_symbols()
+.EI
+
+.SH Returns
+.SI 5
+all of the symbols.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/nmoney_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns all the symbols for the current money areas in the
+handler.   The return value is mapping with the key being the
+money area and the value being the symboliser for the money.
+The symboliser is called with a value to get the money to
+print itself out nicely.   This is used when the quantity of
+actual coins is not known and only the value of them is
+known.
+.EP
+
+.SH See also
+.SP 5 5
+query_symbol_for(), add_symbol(), remove_symbol()
+
+.EP
+

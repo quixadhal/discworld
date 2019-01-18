@@ -1,0 +1,80 @@
+.DT
+add_feature
+Disk World creator help
+add_feature
+
+.SH Name
+.SP 5 5
+add_feature -  This method is called to add a new 'feature' to a terrain map.
+.EP
+
+.SH Syntax
+.SI 5
+void add_feature(string title,
+int x,
+int y,
+int width,
+int height,
+int range,
+string * descs,
+mixed items,
+mixed item_desc,
+string * night_descs,
+mixed night_items)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^title%^RESET%^ - the name of the feature
+%^BOLD%^x%^RESET%^ - the x coordinate of the room (internal coordinate system)
+%^BOLD%^y%^RESET%^ - the y coordinate of the room (internal coordinate system)
+%^BOLD%^width%^RESET%^ - the width of the feature
+%^BOLD%^height%^RESET%^ - the height of the feature
+%^BOLD%^range%^RESET%^ - the distance (number of rooms) it can be seen for
+%^BOLD%^descs%^RESET%^ - array of descriptions to be shown at different ranges.
+These are divided equally along the total range
+%^BOLD%^items%^RESET%^ - add_item name(s) (identical to the 'shorts' parameter in add_item)
+%^BOLD%^item_desc%^RESET%^ - a string, or array of strings giving the corresponding
+%^BOLD%^night_descs%^RESET%^ - the night description array
+%^BOLD%^night_items%^RESET%^ - the descriptions for the items at night
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called to add a new 'feature' to a terrain map.
+Features have no real existance, but add atmosphere to a whole area,
+by being visible across a large number of locations.
+You define location, size, item desc, and add an array of 'longs'
+sorted by distance, plus the usual item descriptions. Any occurrences
+of $D in the longs array will be replaced by the direction in which
+the feature lies.
+.EP
+
+.SH Example 1
+.SI 5
+  add_feature("northmountain", 3, 0, 5, 1, 7,
+           ({ "A huge snowy mountain towers over you to the $D.",
+              "A huge snowy mountain looms to the $D.",
+              "A fair way off to the $D, you can see a huge snowy mountain.",
+              "A long way $Dwards, you glimpse the snowy peak of a "
+              "mountain." }),
+              "mountain", "From here, it looks quite astoundingly huge.",
+           ({ "A huge black bulk obscures the sky to the $D.",
+              "A huge black bulk covers the horizon to the $D.",
+              "A black lump obscures the horizon to the $D",
+              "" }),
+              "The dark black silloette looks like a mountain.");
+.EI
+
+.SH See also
+.SP 5 5
+add_road_type, add_obstacle_type, set_feature_chats, modify_feature, add_item
+
+.EP
+

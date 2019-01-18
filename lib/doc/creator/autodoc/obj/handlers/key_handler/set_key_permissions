@@ -1,0 +1,42 @@
+.DT
+set_key_permissions
+Disk World creator help
+set_key_permissions
+
+.SH Name
+.SP 5 5
+set_key_permissions -  This method will set the key permissions for a certain sort of key.
+.EP
+
+.SH Syntax
+.SI 5
+void set_key_permissions(string group,
+string key,
+string * types)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^group%^RESET%^ - the key group to set the permissions for
+%^BOLD%^key%^RESET%^ - the key to set the permission for
+%^BOLD%^types%^RESET%^ - the new set of permission types
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/key_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will set the key permissions for a certain sort of
+key.  It will overwrite any current possible key permission sets.
+.EP
+
+.SH See also
+.SP 5 5
+remove_key_permission(), add_key_permission(), query_key_permission(), query_all_key_permissions(), query_all_keys()
+
+.EP
+

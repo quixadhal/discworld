@@ -1,0 +1,47 @@
+.DT
+command_control
+Disk World creator help
+command_control
+
+.SH Name
+.SP 5 5
+command_control -  The main soul handling bit.
+.EP
+
+.SH Syntax
+.SI 5
+int command_control(string verb,
+object * obs,
+ string,
+string in_dir_match,
+string * args,
+string pattern)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^verb%^RESET%^ - the verb matched
+%^BOLD%^obs%^RESET%^ - the objects to do the soul command on
+%^BOLD%^in_dir_match%^RESET%^ - the name which was matched for the peoples names
+%^BOLD%^args%^RESET%^ - the values of the string and stuff
+%^BOLD%^pattern%^RESET%^ - the pattern which was matched.
+.EI
+
+.SH Returns
+.SI 5
+1 if the command succeeded, 0 if it failed
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/new_soul.c
+.EI
+
+.SH Description
+.SP 5 5
+
+The main soul handling bit.  This is called by the add_command code
+when a soul command is matched.
+
+.EP
+

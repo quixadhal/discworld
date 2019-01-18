@@ -1,0 +1,43 @@
+.DT
+set_float_mess
+Disk World creator help
+set_float_mess
+
+.SH Name
+.SP 5 5
+set_float_mess -  This function sets the position that non-living items will have when they are floating in this room.
+.EP
+
+.SH Syntax
+.SI 5
+void set_float_mess(string mess)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^mess%^RESET%^ - the new position for floating items
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/water.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function sets the position that non-living items will have when they
+are floating in this room.  The default is "floating nearby".
+.EP
+
+.SH Example 1
+.SI 5
+  set_float_mess("floating above the seaweed");
+
+.EI
+
+.SH See also
+.SP 5 5
+query_float_mess
+.EP
+

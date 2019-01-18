@@ -1,0 +1,44 @@
+.DT
+do_print
+Disk World creator help
+do_print
+
+.SH Name
+.SP 5 5
+do_print -  This method will be called by the print add_command.
+.EP
+
+.SH Syntax
+.SI 5
+int do_print(object * obs,
+string language)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^obs%^RESET%^ - the objects which have been matched
+%^BOLD%^language%^RESET%^ - the language to print the book in
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/std/shops/print_shop.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will be called by the print add_command.  It will print out
+the pricing schedule and how long the item will take to make.
+.EP
+
+.SH See also
+.SP 5 5
+do_print_copies()
+
+.EP
+

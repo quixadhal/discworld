@@ -1,0 +1,42 @@
+.DT
+do_room
+Disk World creator help
+do_room
+
+.SH Name
+.SP 5 5
+do_room -  This method will decide if room should be checked, using the checks that can be done without loading the room, queue the check of this room.
+.EP
+
+.SH Syntax
+.SI 5
+void do_room(string room)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^room%^RESET%^ - the room to check
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method will decide if room should be checked, using the checks that
+can be done without loading the room, queue the check of this room.
+The callout is to alleviate a problem of too deep recursion errors
+eg. when the room to be checked it loaded because of a command like drag
+This functions should NOT be private, since it's the fundamental interface
+toorooms.
+.EP
+
+.SH See also
+.SP 5 5
+queue_room()
+
+.EP
+

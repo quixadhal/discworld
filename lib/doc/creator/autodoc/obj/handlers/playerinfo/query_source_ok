@@ -1,0 +1,38 @@
+.DT
+query_source_ok
+Disk World creator help
+query_source_ok
+
+.SH Name
+.SP 5 5
+query_source_ok -  Check if the event has come from the valid source.
+.EP
+
+.SH Syntax
+.SI 5
+int query_source_ok(string event,
+string source)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^event%^RESET%^ - the name of the event
+%^BOLD%^source%^RESET%^ - the object trying to add the event
+.EI
+
+.SH Returns
+.SI 5
+nonzero if the event can be added by the given source
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playerinfo.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Check if the event has come from the valid source.
+.EP
+

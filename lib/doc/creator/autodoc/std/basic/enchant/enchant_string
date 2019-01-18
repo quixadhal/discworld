@@ -1,0 +1,46 @@
+.DT
+enchant_string
+Disk World creator help
+enchant_string
+
+.SH Name
+.SP 5 5
+enchant_string -  This method returns the current enchantment string for the object.
+.EP
+
+.SH Syntax
+.SI 5
+string enchant_string()
+.EI
+
+.SH Returns
+.SI 5
+the enchantment string and talisman string.EI
+
+.SH Defined in
+.SI 5
+/std/basic/enchant.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current enchantment string for the object.  The 
+string is created from the percentage of the max enchantment that it is 
+enchanted to.  If the object is also a talisman, an identifying string is 
+appended to the enchantment message.
+
+
+These messages are only visible to creators and players who can see octarine. 
+
+If the property "octarine_mess" is set, then this will be printed instead of the automatically generated enchantment message. 
+
+If the property "talisman_mess" is set, then this will be printed instead of the automatically generated talisman message if appropriate.
+.EP
+
+.SH See also
+.SP 5 5
+set_enchant(), add_enchant(), query_max_enchant(), query_enchant()
+
+.EP
+

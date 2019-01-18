@@ -1,0 +1,31 @@
+.DT
+player_deleted
+Disk World creator help
+player_deleted
+
+.SH Name
+.SP 5 5
+player_deleted -  This, like player_refreshed(), goes through and calls all the registered deletion callbacks.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void player_deleted(string player)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/refresh.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This, like player_refreshed(), goes through and calls all the
+registered deletion callbacks.  In this case, however, the
+deletion callbacks get called with a _string_ rather than
+an object.  That string is the name of the player who is being
+deleted.
+
+.EP
+

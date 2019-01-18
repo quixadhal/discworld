@@ -1,0 +1,37 @@
+.DT
+query_recently_closed_cases
+Disk World creator help
+query_recently_closed_cases
+
+.SH Name
+.SP 5 5
+query_recently_closed_cases -  This method returns the set of recently closed cases.
+.EP
+
+.SH Syntax
+.SI 5
+int * query_recently_closed_cases(string area)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^area%^RESET%^ - the area to get the cases in
+.EI
+
+.SH Returns
+.SI 5
+the list of recently closed cases
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/case_control.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the set of recently closed cases.  These are
+cases that can be appealed.
+.EP
+

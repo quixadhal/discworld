@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions (["random_firework":({({"varargs","void",}),({({"object",}),"caster",({"string",}),"text",}),(["main":({"This method creates a random firework at the casters location from thecurrent list of fireworks.  If the text field is not filled in thenthe casters name is used.",}),"see":({"do_effect()",}),"param":({"caster the caster of the spell","text the text to print in the firework",}),]),}),"query_effects":({({"mixed","*",}),({}),(["main":({"This method returns the list of fireworks currently available.The list constists of an array of firework effects.  Each effectconsists of a list of strings.  The strings are printed one byone with a delay between each. <br>ie:<pre>({  ({     mess1,     mess2,     ...   }),  ({     /* Second effect */   })});</pre>",}),"return":({"the effects array",}),]),}),])
+protected_functions (["do_effects":({({"void",}),({}),(["main":({"This method broadcasts the actual firework messages.",}),"see":({"random_firework()",}),]),}),])
+inherits ([])
+main_docs (["main":({"This handler helps control the fireworks used in the wizards spells.",}),])
+define_docs (["SHIFT":([]),"TIME":([]),"MAX_RANGE":([]),"BROADCASTER":([]),])
+includes ([])
+class_docs (["firework_running":({0,({({"messages",({"string","*",}),}),({"index",({"int",}),}),({"caster",({"string",}),}),({"text",({"string",}),}),({"co_ord",({"int","*",}),}),}),([]),}),])
+file_name "/obj/handlers/firework.c"
+last_changed 1522061544

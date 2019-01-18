@@ -1,0 +1,44 @@
+.DT
+set_election_announcement
+Disk World creator help
+set_election_announcement
+
+.SH Name
+.SP 5 5
+set_election_announcement -  This function defines the board, person and subject for announcements of elections.
+.EP
+
+.SH Syntax
+.SI 5
+void set_election_announcement(string board,
+string person,
+string subject,
+string prefix,
+string suffix)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^board%^RESET%^ - This is the board to post to.
+%^BOLD%^person%^RESET%^ - This is who to post as.
+%^BOLD%^subject%^RESET%^ - This is the subject line to use.
+%^BOLD%^prefix%^RESET%^ - The text to preceed the message.  The default is
+              "All eligible persons are requested to vote for the position "
+              "of "
+%^BOLD%^suffix%^RESET%^ - The text to follow the message.
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/voting_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function defines the board, person and subject for announcements
+of elections.
+
+.EP
+

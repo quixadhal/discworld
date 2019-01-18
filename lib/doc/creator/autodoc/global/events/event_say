@@ -1,0 +1,37 @@
+.DT
+event_say
+Disk World creator help
+event_say
+
+.SH Name
+.SP 5 5
+event_say -  This method is called when the 'say' and 'tell_room' simul_efuns is used.
+.EP
+
+.SH Syntax
+.SI 5
+void event_say(object caller,
+string str,
+mixed avoid,
+string language)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^caller%^RESET%^ - the object doing the say
+%^BOLD%^str%^RESET%^ - the message to print
+%^BOLD%^avoid%^RESET%^ - the people to avoid in the say
+
+.EI
+
+.SH Defined in
+.SI 5
+/global/events.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is called when the 'say' and 'tell_room' simul_efuns is used.
+.EP
+

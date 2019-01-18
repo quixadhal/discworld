@@ -1,0 +1,37 @@
+.DT
+add_title_to_player
+Disk World creator help
+add_title_to_player
+
+.SH Name
+.SP 5 5
+add_title_to_player -  This method adds a person to the pending list for gaining a specific title.
+.EP
+
+.SH Syntax
+.SI 5
+void add_title_to_player(string person,
+string title)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^person%^RESET%^ - the person to give the title too
+%^BOLD%^title%^RESET%^ - the title to give them
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/title_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method adds a person to the pending list for gaining a specific
+title.  If the person is currently on then they will get the title
+immediately.  If they are not on then it will be added to them when they
+next log on.
+.EP
+

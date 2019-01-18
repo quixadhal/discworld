@@ -1,0 +1,10 @@
+#/obj/handlers/autodoc/autodoc_file.c
+public_functions ([])
+protected_functions (["find_start_pos":({({"string",}),({({"object",}),"player",({"object",}),"place",}),(["main":({"This method is called on the quit handler when a player quits.",}),"param":({"player the player","place the place they quit from",}),"return":({"the last position (if that needs to be saved).",}),]),}),"find_start_coord":({({"int","*",}),({({"object",}),"player",({"object",}),"place",}),(["main":({"This method is called on the quit handler when a player quits.",}),"param":({"player the player","place the place they quit from",}),"return":({"the last position (if that needs to be saved).",}),]),}),])
+inherits ([])
+main_docs (["main":({"This method handles problems where players log out in places which arevirtually controlled.  It does the effort to put them back in, but doesit in a way that is recursive.  So if they are on a horse in aterrain it will work properly.",}),"started":({"Wed Sep 22 18:24:40 PDT 1999",}),"author":({"Pinkfish",}),"example":({"inherit \"/std/basic/virtual_quit_control\";void player_quitting(object player, object place) {   string pos;   pos = check_start_pos(environment(place));   // Doesn't need to last long since we save immediately.   player->add_property(START_PLACE, pos, 10);   ::player_quitting(player, environment(place));} /* player_quitting() */// Move the player to the right spot when they login.void event_enter(object player) {   player->move(player->query_property(START_PLACE));} /* move_player_to_real_location() */",}),])
+define_docs ([])
+includes ([])
+class_docs ([])
+file_name "/std/basic/virtual_quit_control.c"
+last_changed 1522061544

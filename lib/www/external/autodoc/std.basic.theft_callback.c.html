@@ -1,0 +1,67 @@
+<html><head><title>File theft_callback.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/theft_callback.c</h2>
+Theft callback system!<p>Written by Terano<p>Started 5/04/2003
+<hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_theft_callback"><b>theft_callback</b></a>
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_theft_callback"><b>add_theft_callback</b></a>(string, string)<dd>
+Add a new theft callback!
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_theft"><b>event_theft</b></a>(object, object, object, object *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_theft_callbacks"><b>query_theft_callbacks</b></a>()<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_theft_callback"><b>remove_theft_callback</b></a>(int)<dd>
+Delete a theft callback!
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_theft_callback">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_theft_callback</b></a><pre>
+int add_theft_callback(string func_name,
+string path)
+</pre><dd>
+Add a new theft callback!<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>int -1 if failed, otherwise the ID of the callback.
+
+</dl>
+
+<dt><a name="event_theft">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_theft</b></a><pre>
+void event_theft(object command_ob,
+object thief,
+object victim,
+object * stolen)
+</pre>
+<dt><a name="query_theft_callbacks">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_theft_callbacks</b></a><pre>
+string query_theft_callbacks()
+</pre>
+<dt><a name="remove_theft_callback">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_theft_callback</b></a><pre>
+int remove_theft_callback(int id)
+</pre><dd>
+Delete a theft callback!<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>int -1 if failed, 1 otherwise
+
+</dl>
+
+</dl>
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_theft_callback">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>theft_callback</b></a><pre>
+class theft_callback {
+string func_name;
+string path;
+}
+
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 22:50:06 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

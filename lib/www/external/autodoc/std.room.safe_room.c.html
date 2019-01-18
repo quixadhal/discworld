@@ -1,0 +1,62 @@
+<html><head><title>File safe_room.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/safe_room.c</h2>
+This is the object that is the keeper of the safe room. This should "
+be an NPC.<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.armoury.h.html">/include/armoury.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_dream"><b>do_dream</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_rest"><b>do_rest</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_enter"><b>event_enter</b></a>(object, string, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_exit"><b>event_exit</b></a>(object, string, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#event_fight_in_progress"><b>event_fight_in_progress</b></a>(object, object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#make_calm"><b>make_calm</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_keeper"><b>set_keeper</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#stop_sneaking"><b>stop_sneaking</b></a>(object)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#trap_action"><b>trap_action</b></a>(string)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_dream">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_dream</b></a><pre>
+int do_dream(string str)
+</pre>
+<dt><a name="do_rest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_rest</b></a><pre>
+int do_rest(string str)
+</pre>
+<dt><a name="event_enter">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_enter</b></a><pre>
+void event_enter(object ob,
+string stringy,
+string stringy2)
+</pre>
+<dt><a name="event_exit">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_exit</b></a><pre>
+void event_exit(object ob,
+string message,
+object to)
+</pre>
+<dt><a name="event_fight_in_progress">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>event_fight_in_progress</b></a><pre>
+void event_fight_in_progress(object ob1,
+object ob2)
+</pre>
+<dt><a name="make_calm">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>make_calm</b></a><pre>
+void make_calm(object blue)
+</pre>
+<dt><a name="set_keeper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_keeper</b></a><pre>
+void set_keeper(object ob)
+</pre>
+<dt><a name="stop_sneaking">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>stop_sneaking</b></a><pre>
+void stop_sneaking(object sneaker)
+</pre>
+<dt><a name="trap_action">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>trap_action</b></a><pre>
+int trap_action(string str)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 19:04:21 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

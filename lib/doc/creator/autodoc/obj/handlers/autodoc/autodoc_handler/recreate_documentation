@@ -1,0 +1,35 @@
+.DT
+recreate_documentation
+Disk World creator help
+recreate_documentation
+
+.SH Name
+.SP 5 5
+recreate_documentation -  Recreate documentation for one fiel immediately.
+.EP
+
+.SH Syntax
+.SI 5
+int recreate_documentation(string fname)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^fname%^RESET%^ - the file name to update
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/autodoc/autodoc_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Recreate documentation for one fiel immediately.  This does not update
+the index, it merely creates the base files for this file.  It does it
+at a random delay of up to 30 seconds.
+
+.EP
+

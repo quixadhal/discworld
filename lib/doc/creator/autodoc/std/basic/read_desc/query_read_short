@@ -1,0 +1,36 @@
+.DT
+query_read_short
+Disk World creator help
+query_read_short
+
+.SH Name
+.SP 5 5
+query_read_short -  This method returns the short description to use with the reading.
+.EP
+
+.SH Syntax
+.SI 5
+string query_read_short(object player,
+int ignore_labels)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^player%^RESET%^ - the player reading the message
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/read_desc.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the short description to use with the reading.
+It will go: You read <read short>: 
+
+It will automaticly add a $name$ onto the end of the string for you. This will be replaced with the correct a/the short for the message which is printed.
+.EP
+

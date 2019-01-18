@@ -1,0 +1,333 @@
+<html><head><title>File rooftop.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/room/rooftop.c</h2>
+This is a standard rooftop inheritable. It allows you to setup a rooftop
+location including such things as slope, strength, jumping locations etc.
+<p><b>See also:</b><br>set_wall.c<p>Written by shrike
+<h3>Example</h3>
+<pre>inherit "/std/rooftop"
+
+void setup() {
+   set_fall_damage( "all", 500 );
+   set_slope( 60, "ledge", PATH + "womble01" );
+   set_weak_messages(
+     "The ledge crumbles under your weight.",
+     "$short$ falls from the crumbling ledge.",
+     "$short$ comes crashing to the ground.",
+     "The paving stones shift beneath your feet.",
+   );
+   set_weak_roof( 2000, PATH + "womble01" );
+   set_jump( ({ "north", "n" }), PATH + "ledge01", PATH + "womble01", 6 );
+}
+</pre>
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.outside.c.html">/std/room/outside.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.tasks.h.html">/include/tasks.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_fall_damage"><b>query_fall_damage</b></a>(string)<dd>
+Find out the damage for falling from this location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_corpse_slope_messages"><b>set_corpse_slope_messages</b></a>(string, string)<dd>
+Set the messages for when a corpse slides off a sloping roof.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_fall_damage"><b>set_fall_damage</b></a>(string, int)<dd>
+Set the amount of damage the player will take if they fall off this
+roof.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_ghost_fall_messages"><b>set_ghost_fall_messages</b></a>(string, string, string)<dd>
+Set the messages for when a ghost falls off a roof.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_item_slope_messages"><b>set_item_slope_messages</b></a>(string, string)<dd>
+Set the messages for when a non-corpse item slides off a sloping roof.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_jump"><b>set_jump</b></a>(mixed, string, string, int)<dd>
+Setup a jumping exit.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_jump_failure_messages"><b>set_jump_failure_messages</b></a>(string, string, string)<dd>
+Set the messages for when a player falls off by failing to jump across
+a gap.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_jump_success_messages"><b>set_jump_success_messages</b></a>(string, string, string)<dd>
+Set the messages for when a player successfully jumps a gap.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_jump_tm_messages"><b>set_jump_tm_messages</b></a>(string *)<dd>
+Set the messages for when a player gets a TM by jumping.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_slope"><b>set_slope</b></a>(int, string, string)<dd>
+Set the gradient of this location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_slope_messages"><b>set_slope_messages</b></a>(string, string, string)<dd>
+Set the messages for when a player slips off a sloping roof.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_step_messages"><b>set_step_messages</b></a>(string, string, string)<dd>
+Set the messages for when a player falls off by moving in the wrong
+direction.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_weak_messages"><b>set_weak_messages</b></a>(string, string, string, string)<dd>
+Set the messages for when a player falls through a weak roof.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_weak_roof"><b>set_weak_roof</b></a>(int, string)<dd>
+Set the maximum weight this location can support.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#test_remove"><b>test_remove</b></a>(object, int, mixed)</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="query_fall_damage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_fall_damage</b></a><pre>
+mixed query_fall_damage(string type)
+</pre><dd>
+Find out the damage for falling from this location.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - The type ( weak, slope, step, jump, or all )
+<dt><b>Returns:</b>
+<dd>An int, or an integer array of the damage(s)
+
+<dt><b>See also:</b>
+<dd>set_fall_damage
+.c</dl>
+
+<dt><a name="set_corpse_slope_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_corpse_slope_messages</b></a><pre>
+void set_corpse_slope_messages(string from,
+string to)
+</pre><dd>
+Set the messages for when a corpse slides off a sloping roof.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>from - the message shown in the room the corpse is leaving.
+<dd>to - the message shown in the room the corpse is entering.
+
+<dt><b>See also:</b>
+<dd>set_slope
+.c</dl>
+
+<dt><a name="set_fall_damage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_fall_damage</b></a><pre>
+void set_fall_damage(string type,
+int damage)
+</pre><dd>
+Set the amount of damage the player will take if they fall off this
+roof.  This amount is somewhat randomised.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>type - The type of fall (weak, slope, step or jump; all to set all damages the same)
+<dd>damage - The amount of damage.
+
+<dt><b>See also:</b>
+<dd>set_slope, set_jump, set_weak_roof
+.c</dl>
+
+<dt><a name="set_ghost_fall_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_ghost_fall_messages</b></a><pre>
+void set_ghost_fall_messages(string player,
+string from,
+string to)
+</pre><dd>
+Set the messages for when a ghost falls off a roof.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the message shown to the player.
+<dd>from - the message shown in the room the player is leaving.
+<dd>to - the message shown in the room the player is entering.
+
+<dt><b>See also:</b>
+<dd>set_slope
+.c</dl>
+
+<dt><a name="set_item_slope_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_item_slope_messages</b></a><pre>
+void set_item_slope_messages(string from,
+string to)
+</pre><dd>
+Set the messages for when a non-corpse item slides off a sloping roof.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>from - the message shown in the room the object is leaving.
+<dd>to - the message shown in the room the object is entering.
+
+<dt><b>See also:</b>
+<dd>set_slope
+.c</dl>
+
+<dt><a name="set_jump">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_jump</b></a><pre>
+int set_jump(mixed dir,
+string dest,
+string fall_dest,
+int distance)
+</pre><dd>
+Setup a jumping exit. The player will be able to "jump <dir>" and a skill
+test will be performed and they'll succeed or fail.
+
+Streets in AM are usually 5-20 wide.
+if you want to do something other than the standard fall function,
+you'll need to mask do_fall() in the child room.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>dir - direction names
+<dd>dest - the destination
+<dd>fall_dest - the destination if they fall
+<dd>distance - the distance of the jump
+<dt><b>Returns:</b>
+<dd>-1 if any of the keys in dir already exists, 0 if dir is
+malformed (string and string * are the only acceptable types), or
+1 on success.
+
+<dt><b>Example:</b>
+<dd><pre>set_jump( ({ "north", "n" }), RUN + "run12", FILIGREE + "filigree10", 6 );
+</pre></dl>
+
+<dt><a name="set_jump_failure_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_jump_failure_messages</b></a><pre>
+void set_jump_failure_messages(string player,
+string from,
+string to)
+</pre><dd>
+Set the messages for when a player falls off by failing to jump across
+a gap.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the message shown to the player.
+<dd>from - the message shown in the room the player is leaving.
+<dd>to - the message shown in the room the player is entering.
+
+<dt><b>See also:</b>
+<dd>set_jump
+.c</dl>
+
+<dt><a name="set_jump_success_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_jump_success_messages</b></a><pre>
+void set_jump_success_messages(string player,
+string from,
+string to)
+</pre><dd>
+Set the messages for when a player successfully jumps a gap.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the message shown to the player.
+<dd>from - the message shown in the room the player is leaving.
+<dd>to - the message shown in the room the player is entering.
+
+<dt><b>See also:</b>
+<dd>set_jump
+.c</dl>
+
+<dt><a name="set_jump_tm_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_jump_tm_messages</b></a><pre>
+void set_jump_tm_messages(string * messages)
+</pre><dd>
+Set the messages for when a player gets a TM by jumping. These messages
+will be selected at random, and then coloured appropriately.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>messages - the array of messages from which to choose.
+
+<dt><b>See also:</b>
+<dd>set_jump
+.c</dl>
+
+<dt><a name="set_slope">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_slope</b></a><pre>
+void set_slope(int angle,
+string loc,
+string dest)
+</pre><dd>
+Set the gradient of this location.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>angle - the angle (in degrees).
+<dd>loc - a short description of the area to show to players.
+<dd>dest - the fall destination.
+
+</dl>
+
+<dt><a name="set_slope_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_slope_messages</b></a><pre>
+void set_slope_messages(string player,
+string from,
+string to)
+</pre><dd>
+Set the messages for when a player slips off a sloping roof.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the message shown to the player.
+<dd>from - the message shown in the room the player is leaving.
+<dd>to - the message shown in the room the player is entering.
+
+<dt><b>See also:</b>
+<dd>set_slope
+.c</dl>
+
+<dt><a name="set_step_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_step_messages</b></a><pre>
+void set_step_messages(string player,
+string from,
+string to)
+</pre><dd>
+Set the messages for when a player falls off by moving in the wrong
+direction.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the message shown to the player.
+<dd>from - the message shown in the room the player is leaving.
+<dd>to - the message shown in the room the player is entering.
+
+<dt><b>See also:</b>
+<dd>set_jump
+.c</dl>
+
+<dt><a name="set_weak_messages">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_weak_messages</b></a><pre>
+void set_weak_messages(string player,
+string from,
+string to,
+string warn)
+</pre><dd>
+Set the messages for when a player falls through a weak roof.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the message shown to the player.
+<dd>from - the message shown in the room the player is leaving.
+<dd>to - the message shown in the room the player is entering.
+<dd>warn - the message shown to the room just before the roof collapses.
+
+<dt><b>See also:</b>
+<dd>set_weak_roof
+.c</dl>
+
+<dt><a name="set_weak_roof">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_weak_roof</b></a><pre>
+void set_weak_roof(int maxweight,
+string dest)
+</pre><dd>
+Set the maximum weight this location can support.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>maxweight - the maximum weight capacity of the roof.
+<dd>dest - the room you go to if the roof collapses.
+
+</dl>
+
+<dt><a name="test_remove">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>test_remove</b></a><pre>
+int test_remove(object ob,
+int flag,
+mixed dest)
+</pre>
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Mon, 26 Mar 2018 18:37:15 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

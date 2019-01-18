@@ -1,0 +1,46 @@
+.DT
+cannot_walk
+Disk World creator help
+cannot_walk
+
+.SH Name
+.SP 5 5
+cannot_walk -  This method returns 1 if the creature is trapped, ie cannot walk.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int cannot_walk(string verb,
+mixed * dest_other)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^verb%^RESET%^ - the exit direction that the player is trying to move.
+%^BOLD%^dest_other%^RESET%^ - the destination information for the exit.
+.EI
+
+.SH Returns
+.SI 5
+0 means creature is free to move, 1 that it is trapped.
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/living.no_eff_shad.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns 1 if the creature is trapped, ie cannot walk.
+By default, a creature is free to walk, hence the normal return
+value of 0.  If you shadow this method, including a message about
+why the player cannot move move is a good idea.
+.EP
+
+.SH See also
+.SP 5 5
+/std/room->query_dest_other()
+.EP
+

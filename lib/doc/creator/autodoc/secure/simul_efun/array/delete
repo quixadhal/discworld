@@ -1,0 +1,43 @@
+.DT
+delete
+Disk World creator help
+delete
+
+.SH Name
+.SP 5 5
+delete -  This method deletes and element from an array.
+.EP
+
+.SH Syntax
+.SI 5
+mixed delete(mixed arr,
+int start,
+int len)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^arr%^RESET%^ - the array to delete an element from
+%^BOLD%^start%^RESET%^ - the start position to delete from
+%^BOLD%^len%^RESET%^ - the number of elements to delete
+.EI
+
+.SH Returns
+.SI 5
+the new array
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/array.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method deletes and element from an array.  This is an old method and
+should not be used any more.  The method can be replaced with the
+code  "arr[0..start-1] + arr[start+len..]".
+
+.EP
+

@@ -1,0 +1,169 @@
+<html><head><title>File command.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/command.c</h2>
+Handles commands from directories for living objects.
+   /global/command.c
+   from the Nightmare IVr1 Object Library
+   handles commands of living objects
+   created by Descartes of Borg 950323
+   Hacked for Discworld by Turrican 4-11-95
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.command.h.html">/include/command.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#AddSearchPath"><b>AddSearchPath</b></a>(mixed)<dd>
+Add a directory(s) into the search path for commands.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cmdAll"><b>cmdAll</b></a>(string)<dd>
+Try and execute the command.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#cmdPatterns"><b>cmdPatterns</b></a>(string)<dd>
+This method tries to lookup the patterns for the given verb.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#command_commands"><b>command_commands</b></a>()<dd>
+Add in the command catch all action.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#eventForce"><b>eventForce</b></a>(string)<dd>
+A force event.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#GetClient"><b>GetClient</b></a>()<dd>
+This tells us if we are a client.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#GetForced"><b>GetForced</b></a>()<dd>
+This method returns if we are being forced or not
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#GetSearchPath"><b>GetSearchPath</b></a>()<dd>
+This method returns the current search path
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_cmd"><b>query_current_cmd</b></a>()<dd>What are the args to the current verb?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_current_verb"><b>query_current_verb</b></a>()<dd>What is the current verb?
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#RemoveSearchPath"><b>RemoveSearchPath</b></a>(mixed)<dd>
+Remove a directory(s) from the search path.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="AddSearchPath">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>AddSearchPath</b></a><pre>
+string * AddSearchPath(mixed val)
+</pre><dd>
+Add a directory(s) into the search path for commands.  If the input is
+an array then the members of that are added to the search path.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>val - the path to array
+<dt><b>Returns:</b>
+<dd>the new search path
+
+</dl>
+
+<dt><a name="eventForce">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>eventForce</b></a><pre>
+int eventForce(string cmd)
+</pre><dd>
+A force event.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>cmd - the command to force
+<dt><b>Returns:</b>
+<dd>0 on failure and 1 on success
+
+</dl>
+
+<dt><a name="GetClient">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>GetClient</b></a><pre>
+string GetClient()
+</pre><dd>
+This tells us if we are a client.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>always returns 0
+
+</dl>
+
+<dt><a name="GetForced">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>GetForced</b></a><pre>
+int GetForced()
+</pre><dd>
+This method returns if we are being forced or not<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if we are being forced
+
+</dl>
+
+<dt><a name="GetSearchPath">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>GetSearchPath</b></a><pre>
+string * GetSearchPath()
+</pre><dd>
+This method returns the current search path<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current search path
+
+</dl>
+
+<dt><a name="query_current_cmd">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_cmd</b></a><pre>
+string query_current_cmd()
+</pre><dd>What are the args to the current verb? <p>
+
+<dt><a name="query_current_verb">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_current_verb</b></a><pre>
+string query_current_verb()
+</pre><dd>What is the current verb? <p>
+
+<dt><a name="RemoveSearchPath">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>RemoveSearchPath</b></a><pre>
+string * RemoveSearchPath(mixed val)
+</pre><dd>
+Remove a directory(s) from the search path.  If the input is
+an array then the members of that are added to the search path.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>val - the directory(s) to remove
+<dt><b>Returns:</b>
+<dd>the new search path
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="cmdAll">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>cmdAll</b></a><pre>
+int cmdAll(string args)
+</pre><dd>
+Try and execute the command.  It calls the fuinction command_shadowed
+with the verb and args as parameters if the command is found to exist.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - the args to use for the verb
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="cmdPatterns">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>cmdPatterns</b></a><pre>
+mixed * cmdPatterns(string verb)
+</pre><dd>
+This method tries to lookup the patterns for the given verb.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>verb - the verb to get the patterns for
+<dt><b>Returns:</b>
+<dd>the array of patterns
+<dt><b>See also:</b>
+<dd><a href="obj.handlers.pattern_compiler.c.html">/obj/handlers/pattern_compiler.c</a> and <a href="gloal.new_parse.c.html#add_command">/gloal/new_parse->add_command()
+</a></dl>
+
+<dt><a name="command_commands">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>command_commands</b></a><pre>
+void command_commands()
+</pre><dd>
+Add in the command catch all action.
+<p>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 00:00:36 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

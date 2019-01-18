@@ -1,0 +1,49 @@
+.DT
+parse_money
+Disk World creator help
+parse_money
+
+.SH Name
+.SP 5 5
+parse_money -  This method determines all the money from the player object and moves it into a container.
+.EP
+
+.SH Syntax
+.SI 5
+varargs mixed parse_money(string words,
+object player,
+string place)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^words%^RESET%^ - the string to match the money on
+%^BOLD%^player%^RESET%^ - the player who is attempting the transaction
+%^BOLD%^place%^RESET%^ - the money area the transaction is taking place
+.EI
+
+.SH Returns
+.SI 5
+a money object consisting of the legal tender.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/money_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method determines all the money from the player object and moves
+it into a container.  It then figures out the legal tender for
+specified money area and tells the player if the given money is
+legal tender for the current area.  It will automatically return the
+illegal tender and send a message to the player about it.
+.EP
+
+.SH See also
+.SP 5 5
+filter_legal_tender()
+
+.EP
+

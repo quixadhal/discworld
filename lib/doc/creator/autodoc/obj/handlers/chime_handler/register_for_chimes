@@ -1,0 +1,51 @@
+.DT
+register_for_chimes
+Disk World creator help
+register_for_chimes
+
+.SH Name
+.SP 5 5
+register_for_chimes -  Register a clock to do chimes.
+.EP
+
+.SH Syntax
+.SI 5
+int register_for_chimes(object ob,
+int num,
+string mess)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the object being registered
+%^BOLD%^num%^RESET%^ - when to chime
+%^BOLD%^mess%^RESET%^ - the message to chime with
+
+.EI
+
+.SH Returns
+.SI 5
+1 for success, 0 for failure.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/chime_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Register a clock to do chimes. The num parameter specifes when to
+chime.  If it is 1 then the clock chimes every hour, if it is
+2 the clock chimes ever half hour, if it is 4 the
+clock chimes every quarter hour.  Anything else and
+the clock never chimes.  NB: if you set it to chime the quarter hours
+it will only chime the quarter hours, it will not chime the hours
+or the half hours.  You need to call this function three times to
+get your clock to chime the hour, half and quarter hours.
+
+
+The function "chime" will be called on the clock when the chime occurs. The message will be passed in as the first argument, the second will be the type of chime (CHIME_HOUR, CHIME_HALF_HOUR, CHIME_QUARTER_HOUR). 
+.EP
+

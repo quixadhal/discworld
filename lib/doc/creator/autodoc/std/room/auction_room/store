@@ -1,0 +1,36 @@
+.DT
+store
+Disk World creator help
+store
+
+.SH Name
+.SP 5 5
+store -  In this new version, we aren't keeping the objects loaded, because the auto_load code seems flaky outside of  /global/player.
+.EP
+
+.SH Definition
+.SI 5
+class store {
+int case_code;
+string colour;
+string inv_string;
+class item * inventory;
+}
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/auction_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+In this new version, we aren't keeping the objects loaded,
+because the auto_load code seems flaky outside of 
+/global/player.c
+Instead keep a whole bunch of info about it on file.
+
+.EP
+

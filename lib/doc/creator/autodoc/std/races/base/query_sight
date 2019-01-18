@@ -1,0 +1,55 @@
+.DT
+query_sight
+Disk World creator help
+query_sight
+
+.SH Name
+.SP 5 5
+query_sight -  Thie method returns the values of the race which determine visibility.
+.EP
+
+.SH Syntax
+.SI 5
+int * query_sight()
+.EI
+
+.SH Returns
+.SI 5
+the sight array as detailed above.EI
+
+.SH Defined in
+.SI 5
+/std/races/base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Thie method returns the values of the race which determine visibility.
+It returns an array of the format:
+.EP
+.SP 5 5
+({
+.EP
+.SP 5 5
+   dark
+.EP
+.SP 5 5
+   pitch dark,
+.EP
+.SP 5 5
+   bright light,
+.EP
+.SP 5 5
+   bright
+.EP
+.SP 5 5
+})
+.EP
+
+.SH See also
+.SP 5 5
+set_sight(), query_dark()
+
+.EP
+

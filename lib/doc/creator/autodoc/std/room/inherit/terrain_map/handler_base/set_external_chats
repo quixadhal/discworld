@@ -1,0 +1,46 @@
+.DT
+set_external_chats
+Disk World creator help
+set_external_chats
+
+.SH Name
+.SP 5 5
+set_external_chats -  This method is used to setup 'external' chats for a road or obstacle, which will be added to the room chats of adjacent locations.
+.EP
+
+.SH Syntax
+.SI 5
+void set_external_chats(string type,
+mixed chats)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the ASCII type used on the map to denote the room
+%^BOLD%^base_path%^RESET%^ - the full pathname of the source file for the room
+   set_external_chats("=",
+                ({ "The stream bubbles merrily on its way.",
+                   "You hear a faint splashing sound from the stream." }));
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used to setup 'external' chats for a road or obstacle,
+which will be added to the room chats of adjacent locations. You
+should supply the ASCII character corresponding to the road/obstacle
+type, and an array of chat strings (in the same format as supplied to
+room_chat)
+.EP
+
+.SH See also
+.SP 5 5
+add_road_type, add_obstacle_type, set_feature_chats, room_chat
+
+.EP
+

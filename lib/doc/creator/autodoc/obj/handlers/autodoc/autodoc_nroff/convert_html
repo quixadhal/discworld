@@ -1,0 +1,43 @@
+.DT
+convert_html
+Disk World creator help
+convert_html
+
+.SH Name
+.SP 5 5
+convert_html -  Converts the html tags into nroff format.
+.EP
+
+.SH Syntax
+.SI 5
+string convert_html(string text,
+int depth,
+int preformat,
+int edge_width)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^text%^RESET%^ - the text to convert
+%^BOLD%^depth%^RESET%^ - the current depth we are at
+%^BOLD%^preformat%^RESET%^ - is this text preformated?
+%^BOLD%^edge_width%^RESET%^ - the width to use as a buffer on the edge
+.EI
+
+.SH Returns
+.SI 5
+a nroff format file string
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/autodoc/autodoc_nroff.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Converts the html tags into nroff format...
+
+.EP
+

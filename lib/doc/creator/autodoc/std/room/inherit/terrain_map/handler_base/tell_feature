@@ -1,0 +1,45 @@
+.DT
+tell_feature
+Disk World creator help
+tell_feature
+
+.SH Name
+.SP 5 5
+tell_feature -  This message displays messages in all rooms within range of a feature.
+.EP
+
+.SH Syntax
+.SI 5
+varargs void tell_feature(string title,
+mixed message)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^title%^RESET%^ - the name of the feature, as used in add_feature
+%^BOLD%^message%^RESET%^ - the message to be displayed
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This message displays messages in all rooms within range of a feature.
+The message can be either a string, which goes to all the rooms, or an
+array of strings, in which case they get spread across the distances (in
+which case you should supply the same number of array elements as in the
+descriptions in the original add_feature. Any occurences of $D in the
+message(s) will be replaced in each room with the direction that the
+feature lies in.
+.EP
+
+.SH See also
+.SP 5 5
+tell_rooms_in_zone, add_feature, modify_feature, set_feature_chats
+
+.EP
+

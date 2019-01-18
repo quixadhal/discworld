@@ -1,0 +1,94 @@
+.DT
+tokenise.h
+Disk World autodoc help
+tokenise.h
+
+.SH Defines
+.SI 3
+* %^BOLD%^TOK_ASSIGN%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_CALL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_CBRAC%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_COLON%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_COMMA%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_DIV%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_DOT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_DOTDOT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_EARRAY%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_EMAPPING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_EQUAL%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_GREATOR%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_GREATOREQ%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_LESS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_LESSEQ%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_MINUS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_MULT%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_OBRAC%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_PLUS%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_SARRAY%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_SMAPPING%^RESET%^
+.EI
+
+.SI 3
+* %^BOLD%^TOK_TAB%^RESET%^
+.EI
+

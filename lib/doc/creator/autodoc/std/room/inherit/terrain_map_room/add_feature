@@ -1,0 +1,40 @@
+.DT
+add_feature
+Disk World creator help
+add_feature
+
+.SH Name
+.SP 5 5
+add_feature -  Add a new visible feature to the room, so it knows to query the handler for descriptions and so on.
+.EP
+
+.SH Syntax
+.SI 5
+void add_feature(string title,
+string direc,
+int range,
+mixed items)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^title%^RESET%^ - the title of the feature
+%^BOLD%^direc%^RESET%^ - the direction of the feature
+%^BOLD%^range%^RESET%^ - the range to the feature
+%^BOLD%^items%^RESET%^ - any add_items associated with the feature
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Add a new visible feature to the room, so it knows to query the handler
+for descriptions and so on. The zone info is needed as an easy way for
+the handler to get access to which rooms see which features. 
+.EP
+

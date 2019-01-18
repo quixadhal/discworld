@@ -1,0 +1,72 @@
+.DT
+make_sql_request
+Disk World creator help
+make_sql_request
+
+.SH Name
+.SP 5 5
+make_sql_request -  This is the method you call to make an sql request.
+.EP
+
+.SH Syntax
+.SI 5
+void make_sql_request(string db,
+string user,
+string pass,
+string request,
+function finish)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^db%^RESET%^ - the database to connect to
+%^BOLD%^user%^RESET%^ - the user to use
+%^BOLD%^pass%^RESET%^ - the password to use
+%^BOLD%^request%^RESET%^ - the request to make
+%^BOLD%^finish%^RESET%^ - the call back function
+
+.EI
+
+.SH Defined in
+.SI 5
+/net/daemon/mysql.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This is the method you call to make an sql request.  You pass in the
+database, user and password you wish to use to connect to the
+sql sever.  You also pass in the request you wish to make and the call
+back function to call.
+
+
+The call back function will be passed two arguements, they are a 'type' and a 'data' arguement. The type will always be an integer and it registers the success or failure of the database query. The data will either be a string (in the case of an error) or it will be teh returned data (in the case of request). The returned data will be an array of mappings, the mappings contain keys of the field type and the data value being the returned data. 
+
+The format of the function call is:
+.EP
+.SP 5 5
+void return_function(int status, mapping data)
+.EP
+
+.SH Example 1
+.SI 5
+void finish_request(int type, mixed* data, object person) {
+   string ret;
+   mapping row;
+
+   if (type == DB_SUCCESS) {
+      ret = "";
+      foreach (row in data) {
+         ret += sprintf("%-15s %s\n", row["Fixer"], "" + row["bing"]);
+      }
+   } else {
+      ret = "Some sort of horrible error!\n";
+   }
+   person->more_string(ret, "details");
+}
+
+DB_HANDLER->make_sql_request("errors", CONFIG_DB_USER, "", request,
+                            (: finish_request($1, $2, $(this_player())) :));
+.EI
+

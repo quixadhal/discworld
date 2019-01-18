@@ -1,0 +1,48 @@
+.DT
+move_thing
+Disk World creator help
+move_thing
+
+.SH Name
+.SP 5 5
+move_thing -  THis is the code that actually moves the thing around the place.
+.EP
+
+.SH Syntax
+.SI 5
+int move_thing(object thing,
+string dir,
+string dest,
+mixed exit,
+mixed enter,
+string move)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - what is being moved
+%^BOLD%^dir%^RESET%^ - the direction we are going
+%^BOLD%^dest%^RESET%^ - the destionation room
+%^BOLD%^exit%^RESET%^ - the exit name
+%^BOLD%^enter%^RESET%^ - the enter name
+%^BOLD%^move%^RESET%^ - the string to tell the object when it moves
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/room_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+THis is the code that actually moves the thing around the place.
+It handles all the weirdness involved with dragging things and other
+such stuff.
+.EP
+

@@ -1,0 +1,36 @@
+.DT
+compile_file
+Disk World creator help
+compile_file
+
+.SH Name
+.SP 5 5
+compile_file -  Compiles up the file into the useful soul format.
+.EP
+
+.SH Syntax
+.SI 5
+void compile_file(string fname)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^fname%^RESET%^ - the name of the file to compile
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/soul_compiler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Compiles up the file into the useful soul format.   It also tells
+the soul about it.
+
+
+See the soul data files in /save/new_soul for details of the format for the soul files. The file has to come from the soul save directory or the call will not work.
+.EP
+

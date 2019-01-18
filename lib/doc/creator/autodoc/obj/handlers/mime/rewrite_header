@@ -1,0 +1,56 @@
+.DT
+rewrite_header
+Disk World creator help
+rewrite_header
+
+.SH Name
+.SP 5 5
+rewrite_header -  This method rewrites all the fields from an RFC 822 compliant message to make the message suited for Internet transport.
+.EP
+
+.SH Syntax
+.SI 5
+string rewrite_header(string message)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^message%^RESET%^ - the message to rewrite
+.EI
+
+.SH Returns
+.SI 5
+the possibly modified message, suited for Internet transport.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/mime.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method rewrites all the fields from an RFC 822 compliant message
+to make the message suited for Internet transport. It uses the
+rewrite_field() method to achieve this. The affected header fields
+are:
+
+.EP
+.SO 6 2 -10
+
+	*	To: 
+	*	From: 
+	*	Cc: 
+	*	Bcc: 
+	*	Reply-To: 
+.EO
+.SP 5 5
+
+.EP
+
+.SH See also
+.SP 5 5
+rewrite_field()
+
+.EP
+

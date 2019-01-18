@@ -1,0 +1,704 @@
+<html><head><title>File print_shop.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/print_shop.c</h2>
+A printing workshop so that players can create their own books runs.
+<P>
+This can be divided up into two rooms, an office (where you pay for
+the printing to be done) and a collection room (where you do the collection).
+To enable this behaviour the collection room needs to know about the
+office.  The office stores all the information, so you call
+set_office_room(room_path); on the collection room and
+set_no_collection() on the office.
+<p><b>See also:</b><br><a href="#set_office_room">set_office_room()</a> and <a href="#set_no_collection">set_no_collection();
+</a><p>Written by Pinkfish<p>Started Thu Jan 29 17:55:47 CST 1998<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.room.basic_room.c.html">/std/room/basic_room.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.language.h.html">/include/language.h</a>, <a href="include.book_handler.h.html">/include/book_handler.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_auto_load_info"><b>add_auto_load_info</b></a>(string, string)<dd>
+This method saves the autoload information out to a file and returns
+the number associated with the file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_print_run"><b>add_print_run</b></a>(string, object, int, string)<dd>
+This adds an object into the current set to be collected.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_translation_cost"><b>add_translation_cost</b></a>(string, int)<dd>
+This method will add the cost to translate from one language to
+another.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_for_magic_writing"><b>check_for_magic_writing</b></a>(object)<dd>
+Checks to see if the object has any magic writing on it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_for_untranslatable_language"><b>check_for_untranslatable_language</b></a>(object)<dd>
+Checks to see if the book contains a language we cannot translate.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#copyright_holder"><b>copyright_holder</b></a>(object)<dd>
+This method returns the current copyright holder of the object.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_claim"><b>do_claim</b></a>(object *)<dd>
+This method sets up the copyright for the objects.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_collect"><b>do_collect</b></a>()<dd>
+This is when the player comes back to collect the book they have
+printed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_print"><b>do_print</b></a>(object *, string)<dd>
+This method will be called by the print add_command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_print_copies"><b>do_print_copies</b></a>(object *, int, string)<dd>
+This method will be called when the player tries to print a certain
+number of copies of a book.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_print_run"><b>do_print_run</b></a>(object, int, int, string)<dd>
+This method does the actual print run.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_book_or_paper"><b>find_book_or_paper</b></a>(object *)<dd>
+This method finds a single book or piece of paper to work on.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_copyright"><b>is_copyright</b></a>(object)<dd>
+This method checks to make sure that the player is the correct holder
+of the copyright and that the book is still copyright.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#load_it"><b>load_it</b></a>()<dd>
+Loads the saved information off the disc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#price_object"><b>price_object</b></a>(object, int, string)<dd>
+Figure out how much this object will cost to make.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#print_pricing"><b>print_pricing</b></a>(object, string)<dd>
+This method will print out the pricing schedule for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_translantion_costs"><b>query_all_translantion_costs</b></a>()<dd>
+This method will return a mapping of all the translation costs.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_default_language"><b>query_default_language</b></a>()<dd>
+This method will return the current default language for the
+print shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_discount_schedule"><b>query_discount_schedule</b></a>()<dd>
+This method returns the discount schedule.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_dynamic_auto_load_info"><b>query_dynamic_auto_load_info</b></a>(int)<dd>
+This method returns dynamic the autoload information associated with the
+file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_letter_cost"><b>query_letter_cost</b></a>()<dd>
+This queries the cost per letter.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_no_collection"><b>query_no_collection</b></a>()<dd>
+This returns the no collection flag used by the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_office_room"><b>query_office_room</b></a>()<dd>
+Returns the current office room associated with this room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_open_func"><b>query_open_func</b></a>()<dd>
+This method returns the current function which is used to check for
+the openness of the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_print_run"><b>query_print_run</b></a>(string)<dd>
+This method returns the array of documents awaiting collection.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_print_shop_name"><b>query_print_shop_name</b></a>()<dd>
+This method will return the current name of the print shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_save_dir"><b>query_save_dir</b></a>()<dd>
+Returns the save file name
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_static_auto_load_info"><b>query_static_auto_load_info</b></a>(int)<dd>
+This method returns static the autoload information associated with the
+file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_print_run"><b>remove_print_run</b></a>(string, mixed *)<dd>
+This method will remove a players print run.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_translation_cost"><b>remove_translation_cost</b></a>(string)<dd>
+This method will remove the translation cost for a specific language.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#save_it"><b>save_it</b></a>()<dd>
+Saves the information to the disc.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_default_language"><b>set_default_language</b></a>(string)<dd>
+This method sets the default language to use in the print shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_discount_schedule"><b>set_discount_schedule</b></a>(mixed *)<dd>
+Sets the discount schedule for this object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_letter_cost"><b>set_letter_cost</b></a>(int)<dd>
+This queries the cost per letter.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_no_collection"><b>set_no_collection</b></a>(int)<dd>
+This sets the no collection flag.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_office_room"><b>set_office_room</b></a>(string)<dd>
+Sets the office room to which this collection room is associated.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_open_func"><b>set_open_func</b></a>(function)<dd>
+This method sets the function to evaluate to check to see if the shop
+is open or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_print_shop_name"><b>set_print_shop_name</b></a>(string)<dd>
+This method sets the name of the print shop which will be used on
+books when they are printed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_save_dir"><b>set_save_dir</b></a>(string)<dd>
+Sets the save file name.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_print_run">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_print_run</b></a><pre>
+void add_print_run(string name,
+object ob,
+int number,
+string language)
+</pre><dd>
+This adds an object into the current set to be collected.  This handles
+figuring out the nice number to use for the static and dynamic save
+numbers.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the person adding the run
+<dd>ob - the object being added
+<dd>cost - the cost of the object
+<dd>number - the number to be printer
+<dt><b>See also:</b>
+<dd><a href="#do_collect">do_collect()</a> and <a href="#query_print_run">query_print_run()
+</a></dl>
+
+<dt><a name="add_translation_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_translation_cost</b></a><pre>
+void add_translation_cost(string lang,
+int cost)
+</pre><dd>
+This method will add the cost to translate from one language to
+another.  The default is translating to the common language and
+this cost will be used in both directions.  ie: the cost of translating
+from djelian to common is the same as translating from common to
+djelian.  If translating between two languages that are not the
+default language, say the default is common and we want to translate
+from djelian to wombat, then the cost from djelian->common and then
+common->wombat will be used.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - the language to set the translation cost of
+<dd>cost - the cost is in percentage, 200 means twice the price
+<dt><b>See also:</b>
+<dd><a href="#set_default_language">set_default_language()</a>, <a href="#remove_translation_cost">remove_translation_cost()</a> and <a href="#query_all_translation_costs">query_all_translation_costs()
+</a></dl>
+
+<dt><a name="check_for_magic_writing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_for_magic_writing</b></a><pre>
+int check_for_magic_writing(object ob)
+</pre><dd>
+Checks to see if the object has any magic writing on it.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if there is magic writing, 0 if not.
+<dt><b>See also:</b>
+<dd><a href="#find_book_or_paper">find_book_or_paper()</a> and <a href="obj.handlers.language.c.html#query_language_magic">/obj/handlers/language->query_language_magic()
+</a></dl>
+
+<dt><a name="check_for_untranslatable_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_for_untranslatable_language</b></a><pre>
+int check_for_untranslatable_language(object ob)
+</pre><dd>
+Checks to see if the book contains a language we cannot translate.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the book to check for languages
+<dt><b>Returns:</b>
+<dd>1 if there is a language we cannot deal with
+<dt><b>See also:</b>
+<dd><a href="#check_magic_writing">check_magic_writing()</a>, <a href="#find_book_or_paper">find_book_or_paper()</a>, <a href="#set_default_language">set_default_language()</a> and <a href="#add_translation_cost">add_translation_cost()
+</a></dl>
+
+<dt><a name="do_print">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_print</b></a><pre>
+int do_print(object * obs,
+string language)
+</pre><dd>
+This method will be called by the print add_command.  It will print out
+the pricing schedule and how long the item will take to make.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects which have been matched
+<dd>language - the language to print the book in
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#do_print_copies">do_print_copies()
+</a></dl>
+
+<dt><a name="do_print_copies">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_print_copies</b></a><pre>
+int do_print_copies(object * obs,
+int number,
+string language)
+</pre><dd>
+This method will be called when the player tries to print a certain
+number of copies of a book.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects which have been matched
+<dd>number - the number of prints to do
+<dd>language - the language to print the book in
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+<dt><b>See also:</b>
+<dd><a href="#do_print">do_print()
+</a></dl>
+
+<dt><a name="do_print_run">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_print_run</b></a><pre>
+void do_print_run(object ob,
+int number,
+int cost,
+string language)
+</pre><dd>
+This method does the actual print run.  It creates all the objects
+and makes the player pay for them all.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to print
+<dd>number - the number to print
+<dd>cost - the cost of the object
+<dd>the - language to translate things to
+<dt><b>See also:</b>
+<dd><a href="#do_print_copies">do_print_copies()
+</a></dl>
+
+<dt><a name="find_book_or_paper">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_book_or_paper</b></a><pre>
+object find_book_or_paper(object * obs)
+</pre><dd>
+This method finds a single book or piece of paper to work on.  It will
+return 0 if multiple objects are found, or none are found.  It will
+set the error message appropriately.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects to check for a book or paper
+<dt><b>Returns:</b>
+<dd>the book or paper found
+<dt><b>See also:</b>
+<dd><a href="#check_magic_writing">check_magic_writing()
+</a></dl>
+
+<dt><a name="load_it">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>load_it</b></a><pre>
+void load_it()
+</pre><dd>
+Loads the saved information off the disc.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_save_dir">set_save_dir()</a> and <a href="#save_it">save_it()
+</a></dl>
+
+<dt><a name="price_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>price_object</b></a><pre>
+int price_object(object ob,
+int num,
+string to_language)
+</pre><dd>
+Figure out how much this object will cost to make.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to price
+<dd>num - the number of them to print
+<dt><b>Returns:</b>
+<dd>the cost of the item
+
+</dl>
+
+<dt><a name="print_pricing">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>print_pricing</b></a><pre>
+void print_pricing(object ob,
+string language)
+</pre><dd>
+This method will print out the pricing schedule for the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to get a pricing schedule of.
+
+</dl>
+
+<dt><a name="query_all_translantion_costs">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_translantion_costs</b></a><pre>
+mapping query_all_translantion_costs()
+</pre><dd>
+This method will return a mapping of all the translation costs.
+The keys are the languages and the values are the costs in terms
+of percentages.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current translation cost mapping
+<dt><b>See also:</b>
+<dd><a href="#add_translation_cost">add_translation_cost()</a> and <a href="#remove_translation_cost">remove_translation_cost()
+</a></dl>
+
+<dt><a name="query_default_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_default_language</b></a><pre>
+string query_default_language()
+</pre><dd>
+This method will return the current default language for the
+print shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current default language
+<dt><b>See also:</b>
+<dd><a href="#set_default_language">set_default_language()</a>, <a href="#add_translation_cost">add_translation_cost()</a> and <a href="#check_for_untranslatable_language">check_for_untranslatable_language()
+</a></dl>
+
+<dt><a name="query_discount_schedule">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_discount_schedule</b></a><pre>
+mixed * query_discount_schedule()
+</pre><dd>
+This method returns the discount schedule.  There is a default discount
+schedule setup for printing shops.  The discount schedule tells how much
+of a discount you get for certain numbers of a run.  It returns
+an array of the form:
+<pre>
+({ ({ numn1, dis1 }), ({ num2, dis2}), ... })
+</pre>
+Where each number is the discount amount for printing less than that
+number of items.  The array must be sorted from the lowest number to
+the highest number.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the discount schedule
+<dt><b>See also:</b>
+<dd><a href="#set_discount_schedule">set_discount_schedule()
+</a></dl>
+
+<dt><a name="query_dynamic_auto_load_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_dynamic_auto_load_info</b></a><pre>
+mapping query_dynamic_auto_load_info(int num)
+</pre><dd>
+This method returns dynamic the autoload information associated with the
+file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the number associated with the information
+<dt><b>Returns:</b>
+<dd>the dynamic auto load string, 0 if none
+
+</dl>
+
+<dt><a name="query_letter_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_letter_cost</b></a><pre>
+int query_letter_cost()
+</pre><dd>
+This queries the cost per letter.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the cost per letter
+<dt><b>See also:</b>
+<dd><a href="#set_letter_cost">set_letter_cost()</a> and <a href="#print_cost">print_cost()
+</a></dl>
+
+<dt><a name="query_no_collection">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_no_collection</b></a><pre>
+int query_no_collection()
+</pre><dd>
+This returns the no collection flag used by the room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the no collection flag
+<dt><b>See also:</b>
+<dd><a href="#set_no_collection">set_no_collection()</a> and <a href="#query_office_room">query_office_room()
+</a></dl>
+
+<dt><a name="query_office_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_office_room</b></a><pre>
+string query_office_room()
+</pre><dd>
+Returns the current office room associated with this room.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current office room
+<dt><b>See also:</b>
+<dd><a href="#set_office_room">set_office_room()</a> and <a href="#query_no_collection">query_no_collection()
+</a></dl>
+
+<dt><a name="query_open_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_open_func</b></a><pre>
+function query_open_func()
+</pre><dd>
+This method returns the current function which is used to check for
+the openness of the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current open function
+
+<dt><b>See also:</b>
+<dd><a href="#set_open_func">set_open_func()</a></dl>
+
+<dt><a name="query_print_run">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_print_run</b></a><pre>
+mixed * query_print_run(string name)
+</pre><dd>
+This method returns the array of documents awaiting collection.  If there
+are not documents this returns 0.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the player to query
+<dt><b>Returns:</b>
+<dd>an array containing the player information, or 0 if none
+<dt><b>See also:</b>
+<dd><a href="#add_print_run">add_print_run()</a> and /include/print_shop.h
+</dl>
+
+<dt><a name="query_print_shop_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_print_shop_name</b></a><pre>
+string query_print_shop_name()
+</pre><dd>
+This method will return the current name of the print shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the print shop
+
+</dl>
+
+<dt><a name="query_save_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_save_dir</b></a><pre>
+string query_save_dir()
+</pre><dd>
+Returns the save file name<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>save file name
+<dt><b>See also:</b>
+<dd><a href="#set_save_dir">set_save_dir()</a>, <a href="#load_it">load_it()</a> and <a href="#save_it">save_it()
+</a></dl>
+
+<dt><a name="query_static_auto_load_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_static_auto_load_info</b></a><pre>
+string query_static_auto_load_info(int num)
+</pre><dd>
+This method returns static the autoload information associated with the
+file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the number associated with the information
+<dt><b>Returns:</b>
+<dd>the static auto load string, 0 if none
+
+</dl>
+
+<dt><a name="remove_print_run">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_print_run</b></a><pre>
+void remove_print_run(string name,
+mixed * info)
+</pre><dd>
+This method will remove a players print run.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the player whose print run is to be removed.
+<dt><b>See also:</b>
+<dd><a href="#query_print_run">query_print_run()</a> and <a href="#add_print_run">add_print_run()
+</a></dl>
+
+<dt><a name="remove_translation_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_translation_cost</b></a><pre>
+void remove_translation_cost(string lang)
+</pre><dd>
+This method will remove the translation cost for a specific language.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - the language to remove the translation cost of
+<dt><b>See also:</b>
+<dd><a href="#set_default_language">set_default_language()</a>, <a href="#add_translation_cost">add_translation_cost()</a> and <a href="#query_all_translation_costs">query_all_translation_costs()
+</a></dl>
+
+<dt><a name="save_it">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>save_it</b></a><pre>
+void save_it()
+</pre><dd>
+Saves the information to the disc.<p>
+<dd><dl>
+<dt><b>See also:</b>
+<dd><a href="#set_save_dir">set_save_dir()</a> and <a href="#load_it">load_it()
+</a></dl>
+
+<dt><a name="set_default_language">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_default_language</b></a><pre>
+void set_default_language(string lang)
+</pre><dd>
+This method sets the default language to use in the print shop.
+Anything written in this language will cost nothing extra to
+duplicate.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - the new default language
+<dt><b>See also:</b>
+<dd><a href="#query_default_language">query_default_language()</a>, <a href="#add_translation_cost">add_translation_cost()</a> and <a href="#check_for_untranslatable_language">check_for_untranslatable_language()
+</a></dl>
+
+<dt><a name="set_discount_schedule">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_discount_schedule</b></a><pre>
+void set_discount_schedule(mixed * value)
+</pre><dd>
+Sets the discount schedule for this object.  See the query_discount_schedule
+help for the format of the array.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - the new discount schedule.
+<dt><b>See also:</b>
+<dd><a href="#query_discount_schedule">query_discount_schedule()
+</a></dl>
+
+<dt><a name="set_letter_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_letter_cost</b></a><pre>
+void set_letter_cost(int value)
+</pre><dd>
+This queries the cost per letter.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - the new cost per letter
+<dt><b>See also:</b>
+<dd><a href="#query_letter_cost">query_letter_cost()</a> and <a href="#print_cost">print_cost()
+</a></dl>
+
+<dt><a name="set_no_collection">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_no_collection</b></a><pre>
+void set_no_collection(int collect)
+</pre><dd>
+This sets the no collection flag.  It makes it so this room cannot be
+used for collections.  If this is set then there should be an associated
+collection room used to pick up the books from.  This room should
+use the set_office_room() function to set the office room to use
+for the collections.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>collect - the new value of no_collections flag
+<dt><b>See also:</b>
+<dd><a href="#query_no_collection">query_no_collection()</a> and <a href="#set_office_room">set_office_room()
+</a></dl>
+
+<dt><a name="set_office_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_office_room</b></a><pre>
+void set_office_room(string room)
+</pre><dd>
+Sets the office room to which this collection room is associated.  If
+this is set on a room, you cannot setup print jobs in the room and this
+room specified here is queried for the information about the jobs to
+collect.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the new office room
+<dt><b>See also:</b>
+<dd><a href="#query_office_room">query_office_room()</a> and <a href="#set_no_collection">set_no_collection()
+</a></dl>
+
+<dt><a name="set_open_func">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_open_func</b></a><pre>
+void set_open_func(function func)
+</pre><dd>
+This method sets the function to evaluate to check to see if the shop
+is open or not.  This should set any error messages which are needed.
+The objects are passed in as an argument in the do_print functions
+and nothing is passed in for the collection check.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the open function
+<dt><b>See also:</b>
+<dd><a href="#query_open_func">query_open_func()</a>, <a href="#do_print">do_print()</a>, <a href="#do_print_copies">do_print_copies()</a> and <a href="#do_collect">do_collect()
+</a></dl>
+
+<dt><a name="set_print_shop_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_print_shop_name</b></a><pre>
+void set_print_shop_name(string name)
+</pre><dd>
+This method sets the name of the print shop which will be used on
+books when they are printed.  This is only needed in the collection
+room, this is the name that is placed on the fly leaf.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the print shop
+
+</dl>
+
+<dt><a name="set_save_dir">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_save_dir</b></a><pre>
+void set_save_dir(string name)
+</pre><dd>
+Sets the save file name.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the save file
+<dt><b>See also:</b>
+<dd><a href="#query_save_dir">query_save_dir()</a>, <a href="#load_it">load_it()</a> and <a href="#save_it">save_it()
+</a></dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="add_auto_load_info">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_auto_load_info</b></a><pre>
+int add_auto_load_info(string static,
+string dynamic)
+</pre><dd>
+This method saves the autoload information out to a file and returns
+the number associated with the file.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>static_arg - the static auto load information
+<dd>dynamic_arg - the dynamic auto load information
+<dt><b>Returns:</b>
+<dd>the number associated with the save files
+
+</dl>
+
+<dt><a name="copyright_holder">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>copyright_holder</b></a><pre>
+string copyright_holder(object book)
+</pre><dd>
+This method returns the current copyright holder of the object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>book - the book to get the copyright of
+<dt><b>Returns:</b>
+<dd>the name of the copyright holder, 0 if none
+
+</dl>
+
+<dt><a name="do_claim">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_claim</b></a><pre>
+int do_claim(object * obs)
+</pre><dd>
+This method sets up the copyright for the objects.  This will check for
+existing copyright status and then check with the book handler to see
+if it still fits the criteria.  If it does not then it will add itself
+as a new book.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>obs - the objects to claim copyright on
+
+</dl>
+
+<dt><a name="do_collect">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>do_collect</b></a><pre>
+int do_collect()
+</pre><dd>
+This is when the player comes back to collect the book they have
+printed.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="is_copyright">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>is_copyright</b></a><pre>
+int is_copyright(object book)
+</pre><dd>
+This method checks to make sure that the player is the correct holder
+of the copyright and that the book is still copyright.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>book - the book to check
+<dt><b>Returns:</b>
+<dd>1 if it is copyright
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 01:24:05 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

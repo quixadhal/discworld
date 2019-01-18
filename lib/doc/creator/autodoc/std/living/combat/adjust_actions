@@ -1,0 +1,35 @@
+.DT
+adjust_actions
+Disk World creator help
+adjust_actions
+
+.SH Name
+.SP 5 5
+adjust_actions -  Adjust the time left, combat actions and gp used by this attack.
+.EP
+
+.SH Syntax
+.SI 5
+void adjust_actions(class attack att)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^class%^RESET%^ - attack
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/living/combat.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Adjust the time left, combat actions and gp used by this attack.
+This calls adjust_action_defecit in both the attacker and defender
+as appropriate.
+
+.EP
+

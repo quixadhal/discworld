@@ -1,0 +1,39 @@
+.DT
+test_save
+Disk World creator help
+test_save
+
+.SH Name
+.SP 5 5
+test_save -  This method determines if a given object should be saved or not.
+.EP
+
+.SH Syntax
+.SI 5
+int test_save(object ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - The object to be tested.
+.EI
+
+.SH Returns
+.SI 5
+1 for yes 0 for no.
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/room_save.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method determines if a given object should be saved or not.  When
+inheriting this room you should define your own test_save function and use
+it to decide which parts of the inventory are saved and which are not.
+
+.EP
+

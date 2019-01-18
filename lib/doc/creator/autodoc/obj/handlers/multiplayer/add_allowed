@@ -1,0 +1,38 @@
+.DT
+add_allowed
+Disk World creator help
+add_allowed
+
+.SH Name
+.SP 5 5
+add_allowed -  Adds a player to the allowed multi IP list.
+.EP
+
+.SH Syntax
+.SI 5
+int add_allowed(string user,
+string other)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^user%^RESET%^ - the name of the player
+%^BOLD%^other%^RESET%^ - the name of another user which is not an alt
+.EI
+
+.SH Returns
+.SI 5
+0 if they are not a user, 1 if they are
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/multiplayer.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Adds a player to the allowed multi IP list.
+.EP
+

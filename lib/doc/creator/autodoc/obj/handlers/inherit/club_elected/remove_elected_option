@@ -1,0 +1,45 @@
+.DT
+remove_elected_option
+Disk World creator help
+remove_elected_option
+
+.SH Name
+.SP 5 5
+remove_elected_option -  This method removes an option in the club.
+.EP
+
+.SH Syntax
+.SI 5
+int remove_elected_option(string club_name,
+string option)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club to remove the option in
+%^BOLD%^option%^RESET%^ - the name of the option to remove
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method removes an option in the club.  Options are use for things
+like setting if the club has a board associated with it, or other
+optional elements.
+.EP
+
+.SH See also
+.SP 5 5
+query_elected_option(), is_elected_option()
+
+.EP
+

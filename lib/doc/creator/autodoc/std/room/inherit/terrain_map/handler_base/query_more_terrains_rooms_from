@@ -1,0 +1,45 @@
+.DT
+query_more_terrains_rooms_from
+Disk World creator help
+query_more_terrains_rooms_from
+
+.SH Name
+.SP 5 5
+query_more_terrains_rooms_from -  This method is used by connecting terrains to find the next room in sequence.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * query_more_terrains_rooms_from(int x,
+int y,
+int z,
+string direc,
+int moves_left,
+int jump,
+string main_key,
+int road_jump)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^x%^RESET%^ - the real x coordinate
+%^BOLD%^y%^RESET%^ - the real y coordinate
+%^BOLD%^moves_left%^RESET%^ - the number of moves left to pop along
+%^BOLD%^jump%^RESET%^ - the jump length we are looking for
+%^BOLD%^main_key%^RESET%^ - the key, this is only used for non-road jumps
+%^BOLD%^road_jump%^RESET%^ - is this a road jump
+
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/inherit/terrain_map/handler_base.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method is used by connecting terrains to find the next room in
+sequence.
+.EP
+

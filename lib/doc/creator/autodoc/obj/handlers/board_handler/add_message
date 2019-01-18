@@ -1,0 +1,49 @@
+.DT
+add_message
+Disk World creator help
+add_message
+
+.SH Name
+.SP 5 5
+add_message -  Adds a new message onto the board.
+.EP
+
+.SH Syntax
+.SI 5
+int add_message(string board,
+string cap_name,
+string subject,
+string body,
+int reply_to,
+class reply_type bing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^board%^RESET%^ - the board to add the message to
+%^BOLD%^cap_name%^RESET%^ - the name ofthe person posting
+%^BOLD%^subject%^RESET%^ - the subject of the message
+%^BOLD%^body%^RESET%^ - the main section of the text
+%^BOLD%^reply_to%^RESET%^ - the note the message is replying to
+.EI
+
+.SH Returns
+.SI 5
+the note number, or 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/board_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Adds a new message onto the board.  This call can only be done from
+verified source, like the bulletin oard objects themselves.  The
+number used as a reply to should be the message number itself, not
+the logical index.  If the reply_to is 0 then it is not
+replying to anything at all.
+.EP
+

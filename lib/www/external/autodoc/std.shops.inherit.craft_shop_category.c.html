@@ -1,0 +1,231 @@
+<html><head><title>File craft_shop_category.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/inherit/craft_shop_category.c</h2>
+This room will handle craft shop like things, where you sell stuff to
+the store and it will sell it onto other players after taking
+a margin.  This can be used for potions, pottery, swords, anything!<p>Written by Pinkfish<p>Started Thu Feb  5 15:39:57 CST 1998
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="std.shops.inherit.craft_shop.c.html">/std/shops/inherit/craft_shop.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.shops.craft_shop.h.html">/include/shops/craft_shop.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_shop_category"><b>add_shop_category</b></a>(string)<dd>
+This method adds a category into the accept list immediately.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#choose_category"><b>choose_category</b></a>(string, function, int, string, object *, string *)<dd>
+This method chooses which category to set the item in.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_change_category"><b>do_change_category</b></a>(object *, string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_category"><b>do_list_category</b></a>(string)<dd>
+This method lists a specific category of items.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_default_category"><b>query_default_category</b></a>()<dd>
+This method returns the current default category for the shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_extra_sell_check"><b>query_extra_sell_check</b></a>()<dd>
+This method returns the extra sell check function.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_real_category_name"><b>query_real_category_name</b></a>(string)<dd>
+This correctly cases the name.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_shop_category"><b>remove_shop_category</b></a>(string)<dd>
+This method forcibly removes a category from the accepted list.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_category_description"><b>set_category_description</b></a>(string, string)<dd>
+This method sets the description of the category.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_category_information"><b>set_category_information</b></a>(string, string)<dd>
+This method sets the description of the category.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_default_category"><b>set_default_category</b></a>(string)<dd>
+This method sets the default category for the item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_extra_sell_check"><b>set_extra_sell_check</b></a>(function)<dd>
+This method sets the extra sell function for the shop.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_category"><b>setup_category</b></a>(function, int, string, object *)<dd>
+This method sets a category on the sellables.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#update_categories"><b>update_categories</b></a>()<dd>
+You should run this when you change the system to the category
+based system.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_shop_category">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_shop_category</b></a><pre>
+void add_shop_category(string category)
+</pre><dd>
+This method adds a category into the accept list immediately.  This should
+really only be used for initialy setting up the shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>category - the name of the category
+
+</dl>
+
+<dt><a name="do_change_category">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_change_category</b></a><pre>
+int do_change_category(object * obs,
+string new_category)
+</pre>
+<dt><a name="do_list_category">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_category</b></a><pre>
+int do_list_category(string category)
+</pre><dd>
+This method lists a specific category of items.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>category - the category to list
+
+</dl>
+
+<dt><a name="query_default_category">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_default_category</b></a><pre>
+string query_default_category()
+</pre><dd>
+This method returns the current default category for the shop.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the default category
+
+</dl>
+
+<dt><a name="query_extra_sell_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_extra_sell_check</b></a><pre>
+function query_extra_sell_check()
+</pre><dd>
+This method returns the extra sell check function.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the extra sell check function
+<dt><b>See also:</b>
+<dd><a href="#set_extra_sell_check">set_extra_sell_check()
+</a></dl>
+
+<dt><a name="query_real_category_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_real_category_name</b></a><pre>
+string query_real_category_name(string in_cat)
+</pre><dd>
+This correctly cases the name.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the correctly cases name, or 0 for failure
+
+</dl>
+
+<dt><a name="remove_shop_category">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_shop_category</b></a><pre>
+void remove_shop_category(string category)
+</pre><dd>
+This method forcibly removes a category from the accepted list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>category - the category to remove
+
+</dl>
+
+<dt><a name="set_category_description">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_category_description</b></a><pre>
+void set_category_description(string category,
+string description)
+</pre><dd>
+This method sets the description of the category.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>category - the name of the category
+<dd>description - the new description
+
+</dl>
+
+<dt><a name="set_category_information">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_category_information</b></a><pre>
+void set_category_information(string category,
+string information)
+</pre><dd>
+This method sets the description of the category.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>category - the name of the category
+<dd>info - the new information
+
+</dl>
+
+<dt><a name="set_default_category">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_default_category</b></a><pre>
+void set_default_category(string category)
+</pre><dd>
+This method sets the default category for the item.  This must be setup
+for something useful to happen.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>category - the default category
+
+</dl>
+
+<dt><a name="set_extra_sell_check">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_extra_sell_check</b></a><pre>
+void set_extra_sell_check(function func)
+</pre><dd>
+This method sets the extra sell function for the shop.  The extra sell
+function is called after the sell process is almost finished.  It can
+check for extra things needed in the sell process, like which page of
+the book to browse.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the extra sell function
+<dt><b>See also:</b>
+<dd><a href="#query_extra_sell_check">query_extra_sell_check()</a> and <a href="#complete_sell">complete_sell()
+</a></dl>
+
+<dt><a name="update_categories">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>update_categories</b></a><pre>
+void update_categories()
+</pre><dd>
+You should run this when you change the system to the category
+based system.  It will go through and set anything without
+a category to have a category.
+<p>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="choose_category">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>choose_category</b></a><pre>
+void choose_category(string category,
+function func,
+int value,
+string name,
+object * sellables,
+string * categories)
+</pre><dd>
+This method chooses which category to set the item in.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>category - the category to choose
+<dd>func - the function to call on exit
+<dd>value - the current value of the item
+<dd>name - the name of object
+<dd>sellables - the items for sale
+
+</dl>
+
+<dt><a name="setup_category">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>setup_category</b></a><pre>
+void setup_category(function func,
+int value,
+string name,
+object * sellables)
+</pre><dd>
+This method sets a category on the sellables.  It is called from
+within the craft shop code itself.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>func - the function to call on exit
+<dd>value - the current value of the item
+<dd>name - the name of object
+<dd>sellables - the items for sale
+
+</dl>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 03:07:37 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

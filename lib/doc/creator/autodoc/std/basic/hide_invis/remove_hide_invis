@@ -1,0 +1,41 @@
+.DT
+remove_hide_invis
+Disk World creator help
+remove_hide_invis
+
+.SH Name
+.SP 5 5
+remove_hide_invis -  This method removed the hiding of the specified type off the object.
+.EP
+
+.SH Syntax
+.SI 5
+varargs int remove_hide_invis(string type,
+int quiet)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^type%^RESET%^ - the type of hiding to remove
+%^BOLD%^quiet%^RESET%^ - flag to pass along to the callback function
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/hide_invis.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method removed the hiding of the specified type off the object.
+This method will call the function setup when the hiding was added
+when the hiding is removed. If you pass 1 as the second argument, it
+will send the 'quiet' flag to the callback function.
+.EP
+

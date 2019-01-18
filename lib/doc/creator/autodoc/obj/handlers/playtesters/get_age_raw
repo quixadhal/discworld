@@ -1,0 +1,39 @@
+.DT
+get_age_raw
+Disk World creator help
+get_age_raw
+
+.SH Name
+.SP 5 5
+get_age_raw -  This method finds the age of the playtester from the player handler.
+.EP
+
+.SH Syntax
+.SI 5
+int get_age_raw(string name)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the playtester to check
+.EI
+
+.SH Returns
+.SI 5
+an integer representing the age of the playtester in seconds.
+Always >= 0.
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/playtesters.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method finds the age of the playtester from the player handler.  NOTE:
+This causes the playerfile to be loaded if it hasn't been already - this
+will cause LOTS OF LAG if done on a lot of playerfiles.
+.EP
+

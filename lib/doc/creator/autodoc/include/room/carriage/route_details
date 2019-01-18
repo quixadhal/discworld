@@ -1,0 +1,39 @@
+.DT
+route_details
+Disk World creator help
+route_details
+
+.SH Name
+.SP 5 5
+route_details -  The specific details of the route.
+.EP
+
+.SH Definition
+.SI 5
+class route_details {
+string colour;
+int return_along;
+class stop_list_details * stops;
+}
+
+.EI
+
+.SH Members
+.SI 5
+%^BOLD%^colour%^RESET%^ - the colour of the carriage
+%^BOLD%^return_along%^RESET%^ - the carriage returns along the same route
+%^BOLD%^stops%^RESET%^ - the details of exactly where to stop and in what order
+
+.EI
+
+.SH Defined in
+.SI 5
+/include/room/carriage.h
+.EI
+
+.SH Description
+.SP 5 5
+
+The specific details of the route.
+.EP
+

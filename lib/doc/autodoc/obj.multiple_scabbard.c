@@ -1,6 +1,6 @@
 .DT
 multiple_scabbard.c
-DW_wibble autodoc help
+Disk World autodoc help
 multiple_scabbard.c
 
 .SH Inherits

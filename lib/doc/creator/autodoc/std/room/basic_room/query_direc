@@ -1,0 +1,72 @@
+.DT
+query_direc
+Disk World creator help
+query_direc
+
+.SH Name
+.SP 5 5
+query_direc -  This method just returns all the directions available to leave from the room.
+.EP
+
+.SH Syntax
+.SI 5
+varargs string * query_direc(object thing)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^thing%^RESET%^ - used to get the relative directions according to thing
+.EI
+
+.SH Returns
+.SI 5
+the array of directions
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method just returns all the directions available to leave from
+the room.
+
+
+The thing passed in is used as the basis for the relative directions if it is an object. If it is not an object then this is ignored altogether. 
+
+%^BOLD%^Strawberries%^RESET%^
+
+Starting from a above,
+.EP
+.SP 5 5
+Working slowly down under.
+.EP
+.SP 5 5
+Sliding up the sides
+.EP
+.SP 5 5
+Eating a meal, fresh cream and syrup.
+.EP
+.SP 5 5
+
+
+Round and round, and round again
+.EP
+.SP 5 5
+Grining micheviously
+.EP
+.SP 5 5
+One tongue at play
+.EP
+.SP 5 5
+Firm and hard, fresh strawberries today. 
+.EP
+
+.SH See also
+.SP 5 5
+query_dest_other(), add_exit()
+.EP
+

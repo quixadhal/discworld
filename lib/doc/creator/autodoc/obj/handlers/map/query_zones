@@ -1,0 +1,42 @@
+.DT
+query_zones
+Disk World creator help
+query_zones
+
+.SH Name
+.SP 5 5
+query_zones -  This method returns the move zones for the specified room.
+.EP
+
+.SH Syntax
+.SI 5
+string * query_zones(string room)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^room%^RESET%^ - the room to get the zones for
+.EI
+
+.SH Returns
+.SI 5
+the array of move zones for the room.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/map.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the move zones for the specified room.  It will
+load the room if it is not available in the map handlers cache.
+.EP
+
+.SH See also
+.SP 5 5
+query_short()
+
+.EP
+

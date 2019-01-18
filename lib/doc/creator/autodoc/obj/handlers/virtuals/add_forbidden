@@ -1,0 +1,36 @@
+.DT
+add_forbidden
+Disk World creator help
+add_forbidden
+
+.SH Name
+.SP 5 5
+add_forbidden -  Called to add a path to the list of forbidden paths.
+.EP
+
+.SH Syntax
+.SI 5
+int add_forbidden(string path)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^path%^RESET%^ - the path of the virtual object to forbid
+.EI
+
+.SH Returns
+.SI 5
+1 if the path is added, 0 if it is already in the list
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/virtuals.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Called to add a path to the list of forbidden paths.  A forbidden virtual object being loaded will transform into a receipt.
+.EP
+

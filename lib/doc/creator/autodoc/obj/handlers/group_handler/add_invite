@@ -1,0 +1,53 @@
+.DT
+add_invite
+Disk World creator help
+add_invite
+
+.SH Name
+.SP 5 5
+add_invite -  This function allows you to add a person to the invite array of a group.
+.EP
+
+.SH Syntax
+.SI 5
+int add_invite(string name,
+object person,
+int flag)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the group
+%^BOLD%^person%^RESET%^ - the person we're inviting
+%^BOLD%^flag%^RESET%^ - set to 1 if you don't want the auto-removal of the invite
+
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 if the group doesn't exist or the person is
+   already invited
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/group_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This function allows you to add a person to the invite array
+of a group.  Only invited people are allowed to join a group.
+If the call succeeds, an internal call_out is started which
+runs out after INVITE_TIMEOUT seconds and removes the person
+from the array.
+
+.EP
+
+.SH See also
+.SP 5 5
+/include/group_handler.h
+
+.EP
+

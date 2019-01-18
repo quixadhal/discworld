@@ -1,0 +1,163 @@
+<html><head><title>File mailer.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/mailer.c</h2>
+The mailer handler object.  This is used to send mail and do oyther
+stuff related to mail.
+ The new mailer object ! *shiver*
+ Thanks to Wodan and Pinkfish for ideas and help.
+ By Turrican@Discworld, May 1995.<p>Written by Turrican<p>Started May 1995
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.localtime.h.html">/include/localtime.h</a>, <a href="include.mail.h.html">/include/mail.h</a> and <a href="include.mime.h.html">/include/mime.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_mail_message"><b>do_mail_message</b></a>(string, string, string, string, string, , string, int)<dd>
+This method allows a message to be mailed.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finger_mail"><b>finger_mail</b></a>(string)<dd>
+This method returns the mail information which is placed into the
+the finger command.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#format_date"><b>format_date</b></a>(int)<dd>
+This formats the date as needed by the mailer object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#new_mail"><b>new_mail</b></a>(string)<dd>
+This method returns a string saying if the player has new mail or not.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_do_this_last"><b>query_do_this_last</b></a>()<dd>
+This method returns the call back fuinction to use when
+the mailer has finished.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_folders"><b>query_folders</b></a>(string)<dd>
+This method returns the list of folders associated with the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#read_mail"><b>read_mail</b></a>(string, string)<dd>
+This method is the main entry point to the mailer.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_do_this_last"><b>set_do_this_last</b></a>(mixed *)<dd>
+This method sets the call back fuinction to use when
+the mailer has finished.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_mail_message">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_mail_message</b></a><pre>
+varargs int do_mail_message(string t,
+string from,
+string sub,
+string ccs,
+string body,
+ int,
+string only_to,
+int flag)
+</pre><dd>
+This method allows a message to be mailed.  It checks the previous
+object to make sure it is one of the allowed set to
+do mailing.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>t - who it is to
+<dd>from - who it is from
+<dd>sub - the subject of the message
+<dd>ccs - the carbon copy recipients
+<dd>body - the body of the message
+<dd>only_to - only mail to the to address
+<dd>flag - prevent this_player() from getting the messages if flag != 0
+<dt><b>Example:</b>
+<dd><pre>MAIL_HANDLER->do_mail_message("pinkfish", "gumboot, killer tomato":,
+                              "About the tomatoes", "",
+                  "The grass ius greener yesterday,.\nYours\nGumboot.");
+</pre></dl>
+
+<dt><a name="finger_mail">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finger_mail</b></a><pre>
+string finger_mail(string pname)
+</pre><dd>
+This method returns the mail information which is placed into the
+the finger command.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the name of the player
+<dt><b>Returns:</b>
+<dd>the function mail string
+
+</dl>
+
+<dt><a name="format_date">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>format_date</b></a><pre>
+string format_date(int x)
+</pre><dd>
+This formats the date as needed by the mailer object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>x - the date to format
+<dt><b>Returns:</b>
+<dd>the new date
+
+</dl>
+
+<dt><a name="new_mail">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>new_mail</b></a><pre>
+string new_mail(string pname)
+</pre><dd>
+This method returns a string saying if the player has new mail or not.
+This is what is used when the player first logs on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the name of the player
+<dt><b>Returns:</b>
+<dd>the new mail string
+<dt><b>Example:</b>
+<dd><pre>str = MAIL_HANDLER->new_mail(this_player()->query_name());
+</pre></dl>
+
+<dt><a name="query_do_this_last">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_do_this_last</b></a><pre>
+mixed * query_do_this_last()
+</pre><dd>
+This method returns the call back fuinction to use when
+the mailer has finished. ({ ob, func })<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the call back function
+
+</dl>
+
+<dt><a name="query_folders">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_folders</b></a><pre>
+string * query_folders(string pname)
+</pre><dd>
+This method returns the list of folders associated with the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pname - the player name
+<dt><b>Returns:</b>
+<dd>an array containing the folder names
+
+</dl>
+
+<dt><a name="read_mail">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>read_mail</b></a><pre>
+void read_mail(string str,
+string sub)
+</pre><dd>
+This method is the main entry point to the mailer.  It is
+what is called to start up the system when a mailer is used.<p>
+<dd><dl>
+<dt><b>Example:</b>
+<dd><pre>mailer = clone_object(MAIL_HANDLER);
+mailer->read_mail();
+</pre></dl>
+
+<dt><a name="set_do_this_last">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_do_this_last</b></a><pre>
+void set_do_this_last(mixed * bing)
+</pre><dd>
+This method sets the call back fuinction to use when
+the mailer has finished. ({ ob, func })<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>bing - the call back function
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 20:52:41 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,286 @@
+<html><head><title>File bank_base.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/shops/inherit/bank_base.c</h2>
+This is the bank inheritable.  It handles all the bank transactions
+and other such exciting stuff.  This is a basic bank bit, does not control
+any extra tricky bits of bank work.<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_account"><b>adjust_account</b></a>(string, int)<dd>
+This method is changed the amouint in the specified account.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#adjust_total_difference"><b>adjust_total_difference</b></a>(int)<dd>
+This method changes the total difference by the specified amount.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#can_adjust_account"><b>can_adjust_account</b></a>(string, int)<dd>
+THis should be overridden in higher inherits to control account
+adjustments.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#find_main_bank"><b>find_main_bank</b></a>()<dd>
+This method finds the main bank and returns the object of it.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#get_account"><b>get_account</b></a>(string)<dd>
+This method gets the amount of money the person has in their
+account.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_account_cost"><b>query_account_cost</b></a>()<dd>
+This method returns the amount of money it costs to start an account
+at this bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank"><b>query_bank</b></a>()<dd>
+This method returns true for all banks.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_bank_name"><b>query_bank_name</b></a>()<dd>
+This is the name of the bank, used in creating bank branches.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_franchise"><b>query_franchise</b></a>()<dd>
+This method returns the franchise associated with this bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_main_branch_owner"><b>query_main_branch_owner</b></a>()<dd>
+This method returns the owner of the main bank branch.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_percentage"><b>query_percentage</b></a>()<dd>
+This method queries the percentage the bank charges on transactions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_total_difference"><b>query_total_difference</b></a>()<dd>
+This method returns the difference between the deposits and withdrawls.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_account"><b>set_account</b></a>(string, int)<dd>
+This method set the value of the account for the specified person
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_account_cost"><b>set_account_cost</b></a>(int)<dd>
+This method sets the amount of money that it costs to start an account
+at this bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_bank_name"><b>set_bank_name</b></a>(string)<dd>
+This method sets the name of the bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_franchise"><b>set_franchise</b></a>(string)<dd>
+This method sets the franchise associated with this bank.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_percentage"><b>set_percentage</b></a>(int)<dd>
+This method sets the percentage the bank charges on transactions.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_total_difference"><b>set_total_difference</b></a>(int)<dd>
+This method changes the total difference by the specified amount.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="adjust_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_account</b></a><pre>
+void adjust_account(string person,
+int amount)
+</pre><dd>
+This method is changed the amouint in the specified account.  This is
+just an informational thingy.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to update
+<dd>amount - the amount to update
+
+</dl>
+
+<dt><a name="adjust_total_difference">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>adjust_total_difference</b></a><pre>
+void adjust_total_difference(int amount)
+</pre><dd>
+This method changes the total difference by the specified amount.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>amount - the amount to change it by
+
+</dl>
+
+<dt><a name="can_adjust_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>can_adjust_account</b></a><pre>
+int can_adjust_account(string person,
+int amount)
+</pre><dd>
+THis should be overridden in higher inherits to control account
+adjustments.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person whose count is being adjusted
+<dd>amount - the amount it is adjusted by
+<dt><b>Returns:</b>
+<dd>1 if they can adjust it, 0 if not
+
+</dl>
+
+<dt><a name="find_main_bank">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>find_main_bank</b></a><pre>
+object find_main_bank()
+</pre><dd>
+This method finds the main bank and returns the object of it.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the main bank
+
+</dl>
+
+<dt><a name="get_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>get_account</b></a><pre>
+int get_account(string player)
+</pre><dd>
+This method gets the amount of money the person has in their
+account.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the person to get the account for
+<dt><b>Returns:</b>
+<dd>the account value
+
+</dl>
+
+<dt><a name="query_account_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_account_cost</b></a><pre>
+int query_account_cost()
+</pre><dd>
+This method returns the amount of money it costs to start an account
+at this bank.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the account cost
+
+</dl>
+
+<dt><a name="query_bank">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank</b></a><pre>
+int query_bank()
+</pre><dd>
+This method returns true for all banks.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 for a bank
+
+</dl>
+
+<dt><a name="query_bank_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_bank_name</b></a><pre>
+string query_bank_name()
+</pre><dd>
+This is the name of the bank, used in creating bank branches.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the bank
+
+</dl>
+
+<dt><a name="query_franchise">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_franchise</b></a><pre>
+string query_franchise()
+</pre><dd>
+This method returns the franchise associated with this bank.  For master
+banks this will always return 0.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the franchise
+
+</dl>
+
+<dt><a name="query_main_branch_owner">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_main_branch_owner</b></a><pre>
+string query_main_branch_owner()
+</pre><dd>
+This method returns the owner of the main bank branch.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the owner name
+
+</dl>
+
+<dt><a name="query_percentage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_percentage</b></a><pre>
+int query_percentage()
+</pre><dd>
+This method queries the percentage the bank charges on transactions.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the percentage the bank charges
+
+</dl>
+
+<dt><a name="query_total_difference">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_total_difference</b></a><pre>
+int query_total_difference()
+</pre><dd>
+This method returns the difference between the deposits and withdrawls.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the difference between deposits and withdrawls
+
+</dl>
+
+<dt><a name="set_account">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_account</b></a><pre>
+void set_account(string player,
+int amount)
+</pre><dd>
+This method set the value of the account for the specified person<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>person - the person to set the account for
+<dd>amount - the amount to set the account for
+
+</dl>
+
+<dt><a name="set_account_cost">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_account_cost</b></a><pre>
+void set_account_cost(int number)
+</pre><dd>
+This method sets the amount of money that it costs to start an account
+at this bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the cost of starting an account
+
+</dl>
+
+<dt><a name="set_bank_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_bank_name</b></a><pre>
+void set_bank_name(string word)
+</pre><dd>
+This method sets the name of the bank.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>word - the name of the bank
+
+</dl>
+
+<dt><a name="set_franchise">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_franchise</b></a><pre>
+void set_franchise(string franchise)
+</pre><dd>
+This method sets the franchise associated with this bank.  For master
+banks this will always return 0.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>franchise - the franchise address
+
+</dl>
+
+<dt><a name="set_percentage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_percentage</b></a><pre>
+void set_percentage(int number)
+</pre><dd>
+This method sets the percentage the bank charges on transactions.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>number - the percentage to charge
+
+</dl>
+
+<dt><a name="set_total_difference">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_total_difference</b></a><pre>
+void set_total_difference(int amount)
+</pre><dd>
+This method changes the total difference by the specified amount.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>amount - the amount to change it by
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 02:25:43 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

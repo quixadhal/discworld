@@ -1,0 +1,135 @@
+<html><head><title>File club_discuss.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /std/basic/club_discuss.c</h2>
+This file is for handling discussion items and clubs.<p><b>See also:</b><br>/obj/handlers/club_handler.c
+<p>Written by Pinkfish<p>Started April 21st 1999<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a> and <a href="include.clubs.h.html">/include/clubs.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_club_commands"><b>add_club_commands</b></a>(object)<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_elected_commands"><b>add_elected_commands</b></a>(object)<dd>
+This method adds the elected club specific commands to the
+player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#discussion_item"><b>discussion_item</b></a>(int, string)<dd>
+This method returns information on the specified discussion item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#discussion_item_list"><b>discussion_item_list</b></a>(string)<dd>
+This method will return the listing of discussion items as a nice
+string.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_archive"><b>do_archive</b></a>(int)<dd>
+This method prints out the specific archive in more detail.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_list_archives"><b>do_list_archives</b></a>()<dd>
+This method prints out the archives.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_nominate"><b>do_nominate</b></a>(int, string)<dd>
+A special entry point for nominating people to discussion items, this
+only works with the nomination discussion item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_withdraw"><b>do_withdraw</b></a>(int)<dd>
+A special entry point for withdrawing from a nominated discussion item, this
+only works with the nomination discussion item.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="discussion_item">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>discussion_item</b></a><pre>
+string discussion_item(int id,
+string player)
+</pre><dd>
+This method returns information on the specified discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id of the discussion item to get information on
+<dd>player - the player retreiving the information
+<dt><b>Returns:</b>
+<dd>a string which is the information on the discussion item
+
+</dl>
+
+<dt><a name="discussion_item_list">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>discussion_item_list</b></a><pre>
+string discussion_item_list(string player)
+</pre><dd>
+This method will return the listing of discussion items as a nice
+string.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player - the player who is doing the listing
+<dt><b>Returns:</b>
+<dd>the discussion items as a listing
+
+</dl>
+
+<dt><a name="do_archive">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_archive</b></a><pre>
+int do_archive(int num)
+</pre><dd>
+This method prints out the specific archive in more detail.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>num - the number of the archive to print out
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_list_archives">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_list_archives</b></a><pre>
+int do_list_archives()
+</pre><dd>
+This method prints out the archives.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 on success, 0 on failure
+
+</dl>
+
+<dt><a name="do_nominate">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_nominate</b></a><pre>
+int do_nominate(int id,
+string person)
+</pre><dd>
+A special entry point for nominating people to discussion items, this
+only works with the nomination discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id of the discussion item
+<dd>person - the person to nominate
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure
+
+</dl>
+
+<dt><a name="do_withdraw">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_withdraw</b></a><pre>
+int do_withdraw(int id)
+</pre><dd>
+A special entry point for withdrawing from a nominated discussion item, this
+only works with the nomination discussion item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>id - the id of the discussion item
+<dt><b>Returns:</b>
+<dd>1 for success, 0 for failure
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="add_club_commands">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_club_commands</b></a><pre>
+void add_club_commands(object per)
+</pre>
+<dt><a name="add_elected_commands">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>add_elected_commands</b></a><pre>
+void add_elected_commands(object per)
+</pre><dd>
+This method adds the elected club specific commands to the
+player.
+<p>
+
+
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 19:23:00 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

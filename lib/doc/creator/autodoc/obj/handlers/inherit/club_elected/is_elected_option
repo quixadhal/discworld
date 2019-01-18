@@ -1,0 +1,44 @@
+.DT
+is_elected_option
+Disk World creator help
+is_elected_option
+
+.SH Name
+.SP 5 5
+is_elected_option -  This method checks to see if the specified option exists in this club.
+.EP
+
+.SH Syntax
+.SI 5
+int is_elected_option(string club_name,
+string option)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^club_name%^RESET%^ - the name of the club
+%^BOLD%^option%^RESET%^ - the name of the option to test
+.EI
+
+.SH Returns
+.SI 5
+1 if the option exists, 0 if not.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/inherit/club_elected.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method checks to see if the specified option exists in this
+club.
+.EP
+
+.SH See also
+.SP 5 5
+set_elected_option(), query_elected_option()
+
+.EP
+

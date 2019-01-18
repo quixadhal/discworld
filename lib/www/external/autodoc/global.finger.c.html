@@ -1,0 +1,328 @@
+<html><head><title>File finger.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /global/finger.c</h2>
+This file contains all of the information related to a player,
+their password, real name, birthday, location etc.<p>Written by Pinkfish
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.player.h.html">/include/player.h</a>, <a href="include.mail.h.html">/include/mail.h</a>, <a href="include.clothing.h.html">/include/clothing.h</a> and <a href="include.playtesters.h.html">/include/playtesters.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finger_commands"><b>finger_commands</b></a>()<dd>
+The commands related to the fingering of a player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#finger_set"><b>finger_set</b></a>()<dd>
+This method returns whether the player has set their finger info.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_birthday"><b>query_birthday</b></a>()<dd>
+This method returns the players birthday.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_desc"><b>query_desc</b></a>()<dd>
+This method returns the current description of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_email"><b>query_email</b></a>()<dd>
+This method returns the current email address of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_homepage"><b>query_homepage</b></a>()<dd>
+This method queries the current homepage for the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_is_birthday_today"><b>query_is_birthday_today</b></a>()<dd>
+This method checks to see if it is currently the players birthday.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_main_zone_desc"><b>query_main_zone_desc</b></a>(object *)<dd>
+This method returns the main zone description to use in the
+long of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_real_name"><b>query_real_name</b></a>()<dd>
+This will return the real name of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rhosts"><b>query_rhosts</b></a>()<dd>
+Find out which IP addresses this user wants to be able to login from.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_where"><b>query_where</b></a>()<dd>
+This methoid returns the location of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_zone_desc"><b>query_zone_desc</b></a>(string)<dd>
+This method returns the zone description for the specified zone.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_zone_desc_names"><b>query_zone_desc_names</b></a>()<dd>
+This method returns all the zones there are currently descriptions for.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_birthday"><b>set_birthday</b></a>(string)<dd>
+This method sets the players current birthday.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_desc"><b>set_desc</b></a>(string)<dd>
+This method sets the description of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_email"><b>set_email</b></a>(string)<dd>
+This method sets the current email address of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_homepage"><b>set_homepage</b></a>(string)<dd>
+This method sets the players homepage.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_password"><b>set_password</b></a>(string)<dd>
+This method changes the password of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_real_name"><b>set_real_name</b></a>(string)<dd>
+This will set the real name of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_rhosts"><b>set_rhosts</b></a>(string *)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_where"><b>set_where</b></a>(string)<dd>
+This method sets the currnet location of the player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_zone_desc"><b>set_zone_desc</b></a>(string, string)<dd>
+This method sets the description for the specific area of the body.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="finger_commands">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finger_commands</b></a><pre>
+void finger_commands()
+</pre><dd>
+The commands related to the fingering of a player.
+Just the change password command at the moment.
+<p>
+
+<dt><a name="finger_set">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>finger_set</b></a><pre>
+int finger_set()
+</pre><dd>
+This method returns whether the player has set their finger info.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if they have their finger information set, 0 if not
+
+</dl>
+
+<dt><a name="query_birthday">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_birthday</b></a><pre>
+string query_birthday()
+</pre><dd>
+This method returns the players birthday.  The birthday will be
+of the form "4th of july".<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current birthday
+<dt><b>See also:</b>
+<dd><a href="#set_birthday">set_birthday()</a> and <a href="#query_is_birthday_today">query_is_birthday_today()
+</a></dl>
+
+<dt><a name="query_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_desc</b></a><pre>
+string query_desc()
+</pre><dd>
+This method returns the current description of the player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current description
+
+<dt><b>See also:</b>
+<dd><a href="#set_desc">set_desc()</a></dl>
+
+<dt><a name="query_email">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_email</b></a><pre>
+string query_email()
+</pre><dd>
+This method returns the current email address of the player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the current email address
+
+<dt><b>See also:</b>
+<dd><a href="#set_email">set_email()</a></dl>
+
+<dt><a name="query_homepage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_homepage</b></a><pre>
+string query_homepage()
+</pre><dd>
+This method queries the current homepage for the player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>their homepage url
+
+<dt><b>See also:</b>
+<dd><a href="#set_homepage">set_homepage()</a></dl>
+
+<dt><a name="query_is_birthday_today">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_is_birthday_today</b></a><pre>
+int query_is_birthday_today()
+</pre><dd>
+This method checks to see if it is currently the players birthday.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if it is their birthday, 0 if not
+<dt><b>See also:</b>
+<dd><a href="#set_birthday">set_birthday()</a> and <a href="#query_birthday">query_birthday()
+</a></dl>
+
+<dt><a name="query_main_zone_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_main_zone_desc</b></a><pre>
+string query_main_zone_desc(object * wearing)
+</pre><dd>
+This method returns the main zone description to use in the
+long of the player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the main zone description
+
+</dl>
+
+<dt><a name="query_real_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_real_name</b></a><pre>
+string query_real_name()
+</pre><dd>
+This will return the real name of the player.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the real name of the player
+<dt><b>See also:</b>
+<dd><a href="#set_real_name">set_real_name()
+</a></dl>
+
+<dt><a name="query_rhosts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rhosts</b></a><pre>
+string * query_rhosts()
+</pre><dd>
+Find out which IP addresses this user wants to be able to login from.
+<p>
+
+<dt><a name="query_where">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_where</b></a><pre>
+string query_where()
+</pre><dd>
+This methoid returns the location of the player.  The location
+is the location in their funger infor, so like "Perth, oz, whatever".<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>their currently set location
+<dt><b>See also:</b>
+<dd><a href="#set_where">set_where()
+</a></dl>
+
+<dt><a name="query_zone_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_zone_desc</b></a><pre>
+string query_zone_desc(string zone)
+</pre><dd>
+This method returns the zone description for the specified zone.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>zone - the zone to get the description for
+<dt><b>Returns:</b>
+<dd>the zone description
+
+</dl>
+
+<dt><a name="query_zone_desc_names">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_zone_desc_names</b></a><pre>
+string * query_zone_desc_names()
+</pre><dd>
+This method returns all the zones there are currently descriptions for.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the zones there are descriptions for
+
+</dl>
+
+<dt><a name="set_birthday">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_birthday</b></a><pre>
+void set_birthday(string i)
+</pre><dd>
+This method sets the players current birthday.  The birthday
+needs to be of the form:  "4th of July".<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>i - the new birthday to set
+<dt><b>See also:</b>
+<dd><a href="#query_birthday">query_birthday()</a> and <a href="#query_is_birthday_today">query_is_birthday_today()
+</a></dl>
+
+<dt><a name="set_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_desc</b></a><pre>
+void set_desc(string str)
+</pre><dd>
+This method sets the description of the player.  The
+description is the little bit of text seen in the long.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new description of the player
+<dt><b>See also:</b>
+<dd><a href="#query_desc">query_desc()
+</a></dl>
+
+<dt><a name="set_email">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_email</b></a><pre>
+nomask void set_email(string str)
+</pre><dd>
+This method sets the current email address of the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new email address
+
+<dt><b>See also:</b>
+<dd><a href="#query_email">query_email()</a></dl>
+
+<dt><a name="set_homepage">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_homepage</b></a><pre>
+nomask void set_homepage(string str)
+</pre><dd>
+This method sets the players homepage.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>their - homepage url
+
+<dt><b>See also:</b>
+<dd><a href="#query_homepage">query_homepage()</a></dl>
+
+<dt><a name="set_password">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_password</b></a><pre>
+void set_password(string pass)
+</pre><dd>
+This method changes the password of the player.  It can only
+be called by the login object at startup.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>pass - the new password
+
+</dl>
+
+<dt><a name="set_real_name">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_real_name</b></a><pre>
+void set_real_name(string str)
+</pre><dd>
+This will set the real name of the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new real name of the player
+
+<dt><b>See also:</b>
+<dd><a href="#query_name">query_name()</a></dl>
+
+<dt><a name="set_rhosts">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_rhosts</b></a><pre>
+void set_rhosts(string * ips)
+</pre>
+<dt><a name="set_where">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_where</b></a><pre>
+void set_where(string str)
+</pre><dd>
+This method sets the currnet location of the player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the new location
+
+<dt><b>See also:</b>
+<dd><a href="#query_location">query_location()</a></dl>
+
+<dt><a name="set_zone_desc">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_zone_desc</b></a><pre>
+void set_zone_desc(string zone,
+string desc)
+</pre><dd>
+This method sets the description for the specific area of the body.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>zone - the zone to set the description for
+<dd>desc - the description for that zone
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Thu, 29 Mar 2018 00:37:32 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

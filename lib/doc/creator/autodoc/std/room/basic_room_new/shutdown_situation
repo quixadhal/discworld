@@ -1,0 +1,44 @@
+.DT
+shutdown_situation
+Disk World creator help
+shutdown_situation
+
+.SH Name
+.SP 5 5
+shutdown_situation -  Shuts down a situation or set of situations initiated with change_situation based on the call_out handle returned by the call to change_situation.
+.EP
+
+.SH Syntax
+.SI 5
+void shutdown_situation(int call,
+mixed label)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^callout%^RESET%^ - call_out handle.  If 0 then the last
+known handle is used.
+%^BOLD%^label%^RESET%^ - label or array of labels of situations to clean 
+up with end_situation
+%^BOLD%^the_room%^RESET%^ - the room
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room_new.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Shuts down a situation or set of situations initiated with
+change_situation based on the call_out handle
+returned by the call to change_situation.
+.EP
+
+.SH See also
+.SP 5 5
+automate_situation, change_situation
+
+.EP
+

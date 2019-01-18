@@ -1,0 +1,36 @@
+.DT
+add_missing
+Disk World creator help
+add_missing
+
+.SH Name
+.SP 5 5
+add_missing -  Called by the handler to add a faulty path to the list
+.EP
+
+.SH Syntax
+.SI 5
+int add_missing(string path)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^path%^RESET%^ - the path of the virtual object
+.EI
+
+.SH Returns
+.SI 5
+1 if added, 0 if not (because it's already in the list or in a /w directory)
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/virtuals.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Called by the handler to add a faulty path to the list
+.EP
+

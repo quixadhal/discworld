@@ -1,0 +1,43 @@
+.DT
+add_banished_book
+Disk World creator help
+add_banished_book
+
+.SH Name
+.SP 5 5
+add_banished_book -  This method banishes a book number for a certain reason.
+.EP
+
+.SH Syntax
+.SI 5
+int add_banished_book(int book_num,
+string reason)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^book_num%^RESET%^ - the book number to banish
+%^BOLD%^reason%^RESET%^ - the reason it was banished
+.EI
+
+.SH Returns
+.SI 5
+1 on success and 0 on failure..EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/book_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method banishes a book number for a certain reason.
+.EP
+
+.SH See also
+.SP 5 5
+query_banished_book(), query_all_banished_books()
+
+.EP
+

@@ -1,0 +1,40 @@
+.DT
+print_object
+Disk World creator help
+print_object
+
+.SH Name
+.SP 5 5
+print_object -  This method returns the value of the variable in  useful format.
+.EP
+
+.SH Syntax
+.SI 5
+varargs string print_object(mixed ob,
+int off)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the variable to print out info for
+%^BOLD%^off%^RESET%^ - the current depth offset
+.EI
+
+.SH Returns
+.SI 5
+a nice string
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/print_object.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the value of the variable in 
+useful format.  This can mostly be emulated with the
+use of sprintf("%O", ob).
+.EP
+

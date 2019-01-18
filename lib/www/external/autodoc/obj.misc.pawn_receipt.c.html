@@ -1,0 +1,357 @@
+<html><head><title>File pawn_receipt.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.misc.paper.c.html">/obj/misc/paper.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.virtual.h.html">/include/virtual.h</a>, <a href="include.player.h.html">/include/player.h</a>, <a href="include.move_failures.h.html">/include/move_failures.h</a>, <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a>, <a href="include.armoury.h.html">/include/armoury.h</a>, <a href="include.playtesters.h.html">/include/playtesters.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_reclaim"><b>do_reclaim</b></a>()<dd>
+This handles all the reclaiming of objects that have been pawned.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#pluralize_sentence"><b>pluralize_sentence</b></a>(string, int)<dd>
+This takes a sentence and pluralises it appropriately.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_correct_short"><b>query_correct_short</b></a>(object)<dd>
+This returns a short which is accurate for both ordinary and
+collective objects.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_expiry_time"><b>query_expiry_time</b></a>()<dd>
+This returns the Unix time in seconds at which this receipt will expire.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_item_value"><b>query_item_value</b></a>()<dd>
+This returns the value of the item this receipt was based on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_object_plural"><b>query_object_plural</b></a>()<dd>
+This lets us check whether or not our object is a plural object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_obname"><b>query_obname</b></a>()<dd>
+This method returns the name of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_obpath"><b>query_obpath</b></a>()<dd>
+This method returns the path of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_obshort"><b>query_obshort</b></a>()<dd>
+This returns the short of the pawned object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_pawned_item_receipt"><b>query_pawned_item_receipt</b></a>()<dd>
+This allows us to check if the object is a pawned item receipt.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_read_mess"><b>query_read_mess</b></a>()<dd>
+This sets up a message for us to get when we read the receipt.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_shop_path"><b>query_shop_path</b></a>()<dd>
+This returns the path to the shop that this receipt was spawned by.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_static_save"><b>query_static_save</b></a>()<dd>
+This method returns the save information for the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_timestamp"><b>query_timestamp</b></a>()<dd>
+This method returns the timestamp of the reciept.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_virt_obname"><b>query_virt_obname</b></a>()<dd>
+This method returns the virtual object path name of the item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_expiry_time"><b>set_expiry_time</b></a>(int)<dd>
+This sets the time at which this receipt will die.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_item_value"><b>set_item_value</b></a>(int)<dd>
+This sets the value of the item this receipt is based on.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_object"><b>set_object</b></a>(string)<dd>
+Sets the path to the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_object_plural"><b>set_object_plural</b></a>(object)<dd>
+This sets whether or not our object is actually a collective,
+and so more than one object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_obname"><b>set_obname</b></a>(string)<dd>
+Sets the name of the object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_obshort"><b>set_obshort</b></a>(string)<dd>
+This sets the short of the pawned object.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_shop_path"><b>set_shop_path</b></a>(mixed)<dd>
+This allows us to set the path of the shop that spawned us, so that this
+receipt can only be redeemed at that shop.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_static_save"><b>set_static_save</b></a>(mixed)<dd>
+This method sets the save information for the file.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#set_virtobname"><b>set_virtobname</b></a>(string)<dd>
+This method sets the virtual object name of the item.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#setup_receipt"><b>setup_receipt</b></a>(object)<dd>
+This method sets up the receipt for the specified object.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="do_reclaim">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_reclaim</b></a><pre>
+int do_reclaim()
+</pre><dd>
+This handles all the reclaiming of objects that have been pawned.
+<p>
+
+<dt><a name="pluralize_sentence">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>pluralize_sentence</b></a><pre>
+string pluralize_sentence(string text,
+int plural)
+</pre><dd>
+This takes a sentence and pluralises it appropriately.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>plural - Whether or not the sentence should be in plural form.
+
+</dl>
+
+<dt><a name="query_correct_short">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_correct_short</b></a><pre>
+string query_correct_short(object ob)
+</pre><dd>
+This returns a short which is accurate for both ordinary and
+collective objects.
+<p>
+
+<dt><a name="query_expiry_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_expiry_time</b></a><pre>
+int query_expiry_time()
+</pre><dd>
+This returns the Unix time in seconds at which this receipt will expire.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>[int] The time of death in seconds.
+
+</dl>
+
+<dt><a name="query_item_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_item_value</b></a><pre>
+int query_item_value()
+</pre><dd>
+This returns the value of the item this receipt was based on.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>[int] the value of the original item.
+
+</dl>
+
+<dt><a name="query_object_plural">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_object_plural</b></a><pre>
+int query_object_plural()
+</pre><dd>
+This lets us check whether or not our object is a plural object.
+<p>
+
+<dt><a name="query_obname">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_obname</b></a><pre>
+string query_obname()
+</pre><dd>
+This method returns the name of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the name of the object
+
+</dl>
+
+<dt><a name="query_obpath">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_obpath</b></a><pre>
+string query_obpath()
+</pre><dd>
+This method returns the path of the object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the path of the object
+
+</dl>
+
+<dt><a name="query_obshort">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_obshort</b></a><pre>
+string query_obshort()
+</pre><dd>
+This returns the short of the pawned object.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>[string] The short of the pawned object.
+
+</dl>
+
+<dt><a name="query_pawned_item_receipt">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_pawned_item_receipt</b></a><pre>
+int query_pawned_item_receipt()
+</pre><dd>
+This allows us to check if the object is a pawned item receipt.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>1 if the object is a pawned item receipt.
+
+</dl>
+
+<dt><a name="query_read_mess">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_read_mess</b></a><pre>
+mixed * query_read_mess()
+</pre><dd>
+This sets up a message for us to get when we read the receipt.
+Because we're using a function pointer, add_read_mess doesn't work.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>lang - The language to produce the message in.
+
+</dl>
+
+<dt><a name="query_shop_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_shop_path</b></a><pre>
+string query_shop_path()
+</pre><dd>
+This returns the path to the shop that this receipt was spawned by.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>[string] the path to the cloning shop.
+
+</dl>
+
+<dt><a name="query_static_save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_static_save</b></a><pre>
+mixed query_static_save()
+</pre><dd>
+This method returns the save information for the object.  THis is not
+just the static save information, it is an array of two elements.  The
+first is the static save information and the second is the dynamic
+save information.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the save information
+
+</dl>
+
+<dt><a name="query_timestamp">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_timestamp</b></a><pre>
+int query_timestamp()
+</pre><dd>
+This method returns the timestamp of the reciept.  This is the time the
+receipt was created.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the timestamp
+
+</dl>
+
+<dt><a name="query_virt_obname">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_virt_obname</b></a><pre>
+string query_virt_obname()
+</pre><dd>
+This method returns the virtual object path name of the item.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the virtual object name
+
+</dl>
+
+<dt><a name="set_expiry_time">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_expiry_time</b></a><pre>
+void set_expiry_time(int time)
+</pre><dd>
+This sets the time at which this receipt will die.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>time - The time in seconds when this receipt will be killed.
+
+</dl>
+
+<dt><a name="set_item_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_item_value</b></a><pre>
+void set_item_value(int value)
+</pre><dd>
+This sets the value of the item this receipt is based on.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>value - The value of the original item.
+
+</dl>
+
+<dt><a name="set_object">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_object</b></a><pre>
+void set_object(string path)
+</pre><dd>
+Sets the path to the object.  The path of the object for the recipt to
+work with.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>path - the object path
+
+</dl>
+
+<dt><a name="set_object_plural">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_object_plural</b></a><pre>
+void set_object_plural(object ob)
+</pre><dd>
+This sets whether or not our object is actually a collective,
+and so more than one object.
+<p>
+
+<dt><a name="set_obname">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_obname</b></a><pre>
+void set_obname(string name)
+</pre><dd>
+Sets the name of the object.  This will be used so the item recipt
+can be identified.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the object name
+
+</dl>
+
+<dt><a name="set_obshort">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_obshort</b></a><pre>
+void set_obshort(string s)
+</pre><dd>
+This sets the short of the pawned object.
+<p>
+
+<dt><a name="set_shop_path">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_shop_path</b></a><pre>
+void set_shop_path(mixed shop)
+</pre><dd>
+This allows us to set the path of the shop that spawned us, so that this
+receipt can only be redeemed at that shop.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>shop - - either a shop object or a string path.
+
+</dl>
+
+<dt><a name="set_static_save">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_static_save</b></a><pre>
+void set_static_save(mixed args)
+</pre><dd>
+This method sets the save information for the file.  It actually sets
+both the static and dynamic information.  This assumes it is passed
+an array of two elements, the first is the static save information and
+the second is the dynamic save information.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>args - the data as defined above
+
+</dl>
+
+<dt><a name="set_virtobname">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>set_virtobname</b></a><pre>
+void set_virtobname(string name)
+</pre><dd>
+This method sets the virtual object name of the item.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the virtual object name
+
+</dl>
+
+<dt><a name="setup_receipt">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>setup_receipt</b></a><pre>
+void setup_receipt(object ob)
+</pre><dd>
+This method sets up the receipt for the specified object.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>ob - the object to setup the reciept for
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 15:19:26 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

@@ -1,0 +1,42 @@
+.DT
+delete_mailer
+Disk World creator help
+delete_mailer
+
+.SH Name
+.SP 5 5
+delete_mailer -  This method removes a mailer from the current list of mailers.
+.EP
+
+.SH Syntax
+.SI 5
+int delete_mailer(object ob)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^ob%^RESET%^ - the mailer object to remove
+.EI
+
+.SH Returns
+.SI 5
+0 if unable to remove.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/mail_track.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method removes a mailer from the current list of mailers.
+It removes the mailer based on the object itself
+.EP
+
+.SH See also
+.SP 5 5
+add_mailer(), find_mailer()
+
+.EP
+

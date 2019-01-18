@@ -1,0 +1,41 @@
+.DT
+update_parse_match_context
+Disk World creator help
+update_parse_match_context
+
+.SH Name
+.SP 5 5
+update_parse_match_context -  This method updates the context.
+.EP
+
+.SH Syntax
+.SI 5
+int update_parse_match_context(class obj_match_context context,
+int num,
+int singular)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^context%^RESET%^ - the context to update
+%^BOLD%^num%^RESET%^ - the number of objects
+%^BOLD%^singular%^RESET%^ - return from is_matching_object
+.EI
+
+.SH Returns
+.SI 5
+the number of matched objects
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/id_match.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method updates the context.  It returns the number of the objects
+we match, and you pass in the number of objects that we are.
+.EP
+

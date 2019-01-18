@@ -1,0 +1,41 @@
+.DT
+query_chat_history
+Disk World creator help
+query_chat_history
+
+.SH Name
+.SP 5 5
+query_chat_history -  Returns the current chat channel history.
+.EP
+
+.SH Syntax
+.SI 5
+mixed * query_chat_history(string channel)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^channel%^RESET%^ - the channel to get the history of
+
+.EI
+
+.SH Returns
+.SI 5
+an array of the chat channel history..EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/hist_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Returns the current chat channel history. The array contains arrays of
+three elemnts each.,   In each array the first element is the
+start, the second the mssage and thwe third the time.
+
+
+({ .. ({ start, mess, time }), ({ start, mess, time }), .. })
+.EP
+

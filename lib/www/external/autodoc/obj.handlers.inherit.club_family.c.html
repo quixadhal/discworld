@@ -1,0 +1,392 @@
+<html><head><title>File club_family.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/inherit/club_family.c</h2>
+This is the handler for all things clubby, a club being a group of
+players.  Each club must have a unique name.  It also handles elections
+for various club positions.<p>Written by Pinkfish<p>Started Sun Sep 27 03:35:42 EDT 1998
+<hr><h2>Inherits</h2>
+This class inherits the following classes <a href="obj.handlers.inherit.club_personal.c.html">/obj/handlers/inherit/club_personal.c</a><hr><h2>Includes</h2>
+This class includes the following files <a href="include.player_handler.h.html">/include/player_handler.h</a>, <a href="include.am_time.h.html">/include/am_time.h</a> and <a href="include.clubs.h.html">/include/clubs.h</a><hr><h2>Class Index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_family_info"><b>family_info</b></a>
+<dd>
+The stuff releated to families.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#class_relationship_type_data"><b>relationship_type_data</b></a>
+<dd>
+The information associated with relationship names.
+</dl><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_relationship"><b>add_relationship</b></a>(string, string, string, string, string)<dd>
+This method adds a relationship between two members of a family.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_valid_relationship"><b>add_valid_relationship</b></a>(string, string, int)<dd>
+This method adds a valid relationship to the current list.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_family_information"><b>check_family_information</b></a>(string, string, int)<dd>
+This method checks the extra information for the club.
+<dt><img src="images/magenta-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#create_extra_data"><b>create_extra_data</b></a>(string)<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_relationship"><b>is_relationship</b></a>(string, string, string, string)<dd>
+This method checks to see if the specified relationship exists.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_valid_interfamily_relationship"><b>is_valid_interfamily_relationship</b></a>(string)<dd>
+This method checks to see if the relation is a valid interfamily one.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_valid_join_family_relationship"><b>is_valid_join_family_relationship</b></a>(string)<dd>
+This method checks to see if the relation is a valid join family one.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#is_valid_relationship"><b>is_valid_relationship</b></a>(string)<dd>
+This method checks to make sure the specified relationship is valid.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#move_family_member"><b>move_family_member</b></a>(string, string, string)<dd>
+This method moves a person from one family to another family.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_relationships"><b>query_all_relationships</b></a>()<dd>
+This method returns all the possible relationships, including the
+gendered ones.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_all_valid_relationships"><b>query_all_valid_relationships</b></a>()<dd>
+This method returns all the valid relationships.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_club_cost_per_period"><b>query_club_cost_per_period</b></a>(string)<dd>
+This method determines how much the club will cost to run each
+pay period.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_opposite_relationship"><b>query_opposite_relationship</b></a>(string)<dd>
+This method returns the opposite relationship to the specified one.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_relationship_gender"><b>query_relationship_gender</b></a>(string, int, string)<dd>
+This method returns the genderised version of the relationship.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_relationships"><b>query_relationships</b></a>(string, string)<dd>
+This method returns the relationships the selected person has to
+the other people in the family.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_relationships_to"><b>query_relationships_to</b></a>(string, string, string)<dd>
+This method returns how the first player is related to the second player.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_ungendered_relationship"><b>query_ungendered_relationship</b></a>(string)<dd>
+This returns the real relationship type based on the possible
+genderised relationship.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_relationship"><b>remove_relationship</b></a>(string, string, string, string, string)<dd>
+This method removes a relationship from the club.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_relationship">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_relationship</b></a><pre>
+int add_relationship(string name,
+string person,
+string dest_name,
+string dest,
+string relationship)
+</pre><dd>
+This method adds a relationship between two members of a family.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the family
+<dd>person - the person the relationship is from
+<dd>dest - the person the relationship is to
+<dd>dest_name - the name of the family the other person is in
+<dd>relationship - the relationship they have to you
+<dt><b>Returns:</b>
+<dd>1 if succcessful, 0 if not
+
+</dl>
+
+<dt><a name="add_valid_relationship">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_valid_relationship</b></a><pre>
+void add_valid_relationship(string relation1,
+string relation2,
+int flags)
+</pre><dd>
+This method adds a valid relationship to the current list.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>relation1 - the first relationship
+<dd>relation2 - the second relationship
+<dt><b>See also:</b>
+<dd><a href="#query_opposite_relationship">query_opposite_relationship()</a>, <a href="#is_valid_interfamily_relationship">is_valid_interfamily_relationship()</a>, <a href="#is_valid_join_family_relationship">is_valid_join_family_relationship()</a> and <a href="#is_valid_relationship">is_valid_relationship()
+</a></dl>
+
+<dt><a name="is_relationship">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_relationship</b></a><pre>
+int is_relationship(string name,
+string person,
+string related,
+string relationship)
+</pre><dd>
+This method checks to see if the specified relationship exists.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the family the relationship is in
+<dd>person - the person the relationship is from
+<dd>related - to person they are related to
+<dd>relationship - the type of relationship they have
+<dt><b>Returns:</b>
+<dd>1 if the relationship exists, 0 if not
+
+</dl>
+
+<dt><a name="is_valid_interfamily_relationship">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_valid_interfamily_relationship</b></a><pre>
+int is_valid_interfamily_relationship(string str)
+</pre><dd>
+This method checks to see if the relation is a valid interfamily one.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the relationship to check
+<dt><b>Returns:</b>
+<dd>1 if the relation is a valid interfamily one
+<dt><b>See also:</b>
+<dd><a href="#is_valid_relationship">is_valid_relationship()</a> and <a href="#is_valid_join_family_relationship">is_valid_join_family_relationship()
+</a></dl>
+
+<dt><a name="is_valid_join_family_relationship">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_valid_join_family_relationship</b></a><pre>
+int is_valid_join_family_relationship(string str)
+</pre><dd>
+This method checks to see if the relation is a valid join family one.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>str - the relationship to check
+<dt><b>Returns:</b>
+<dd>1 if the relation is a valid join family one
+<dt><b>See also:</b>
+<dd><a href="#is_valid_relationship">is_valid_relationship()</a>, <a href="#is_valid_interfamily_relationship">is_valid_interfamily_relationship()</a>, <a href="#add_valid_relationship">add_valid_relationship()</a> and <a href="#query_opposite_relationship">query_opposite_relationship()
+</a></dl>
+
+<dt><a name="is_valid_relationship">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>is_valid_relationship</b></a><pre>
+int is_valid_relationship(string str)
+</pre><dd>
+This method checks to make sure the specified relationship is valid.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>relation - the relationship to check for validity
+<dt><b>Returns:</b>
+<dd>1 if the relationship is valid
+<dt><b>See also:</b>
+<dd><a href="#query_opposite_relationship">query_opposite_relationship()</a>, <a href="#is_valid_interfamily_relationship">is_valid_interfamily_relationship()</a>, <a href="#is_valid_join_family_relationship">is_valid_join_family_relationship()</a> and <a href="#add_valid_relationship">add_valid_relationship()
+</a></dl>
+
+<dt><a name="move_family_member">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>move_family_member</b></a><pre>
+int move_family_member(string curr_family,
+string person,
+string dest_family)
+</pre><dd>
+This method moves a person from one family to another family.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>curr_family - the current family
+<dd>person - the persons name
+<dd>dest_family - the destination family
+<dt><b>Returns:</b>
+<dd>1 if successful moved
+<dt><b>See also:</b>
+<dd><a href="#add_member">add_member()
+</a></dl>
+
+<dt><a name="query_all_relationships">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_relationships</b></a><pre>
+string * query_all_relationships()
+</pre><dd>
+This method returns all the possible relationships, including the
+gendered ones.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>the array of possible relationships
+<dt><b>See also:</b>
+<dd><a href="#query_ungendered_relationship">query_ungendered_relationship()</a> and <a href="#add_gender_relationship">add_gender_relationship()
+</a></dl>
+
+<dt><a name="query_all_valid_relationships">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_all_valid_relationships</b></a><pre>
+string * query_all_valid_relationships()
+</pre><dd>
+This method returns all the valid relationships.<p>
+<dd><dl>
+<dt><b>Returns:</b>
+<dd>all the current valid relationship types
+<dt><b>See also:</b>
+<dd><a href="#add_valid_relationship">add_valid_relationship()</a>, <a href="#is_valid_interfamily_relationship">is_valid_interfamily_relationship()</a>, <a href="#is_valid_join_family_relationship">is_valid_join_family_relationship()</a>, <a href="#is_valid_relationship">is_valid_relationship()</a> and <a href="#query_opposite_relationship">query_opposite_relationship()
+</a></dl>
+
+<dt><a name="query_club_cost_per_period">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_club_cost_per_period</b></a><pre>
+int query_club_cost_per_period(string club_name)
+</pre><dd>
+This method determines how much the club will cost to run each
+pay period.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>club_name - the name of the club to get the fees for
+<dt><b>Returns:</b>
+<dd>the amount the club will cost in the next pay period
+<dt><b>See also:</b>
+<dd><a href="#query_time_fees_due">query_time_fees_due()
+</a></dl>
+
+<dt><a name="query_opposite_relationship">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_opposite_relationship</b></a><pre>
+string query_opposite_relationship(string relation)
+</pre><dd>
+This method returns the opposite relationship to the specified one.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>relation - the relation to return the opposite of
+<dt><b>Returns:</b>
+<dd>the opposite of the relationship
+<dt><b>See also:</b>
+<dd><a href="#add_valid_relationship">add_valid_relationship()</a>, <a href="#is_valid_interfamily_relationship">is_valid_interfamily_relationship()</a>, <a href="#is_valid_join_family_relationship">is_valid_join_family_relationship()</a> and <a href="#is_valid_relationship">is_valid_relationship()
+</a></dl>
+
+<dt><a name="query_relationship_gender">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_relationship_gender</b></a><pre>
+string query_relationship_gender(string relationship,
+int female,
+string region)
+</pre><dd>
+This method returns the genderised version of the relationship.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - relationship the relation to get the gender of
+<dd>female - 0 for male, 1 for female
+<dd>region - the region the relation is in
+<dt><b>See also:</b>
+<dd><a href="#query_all_relationships">query_all_relationships()</a>, <a href="#query_ungendered_relationship">query_ungendered_relationship()</a>, <a href="#add_gender_relationships">add_gender_relationships()</a> and <a href="#query_all_relationships">query_all_relationships()
+</a></dl>
+
+<dt><a name="query_relationships">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_relationships</b></a><pre>
+class relationship_data * query_relationships(string name,
+string person)
+</pre><dd>
+This method returns the relationships the selected person has to
+the other people in the family.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the family
+<dd>person - the person who to query the relationships for
+<dt><b>Returns:</b>
+<dd>the list of all the relationships the person has
+
+</dl>
+
+<dt><a name="query_relationships_to">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_relationships_to</b></a><pre>
+string * query_relationships_to(string name,
+string person,
+string related)
+</pre><dd>
+This method returns how the first player is related to the second player.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the family the relationship is in
+<dd>person - the person the relationship is from
+<dd>related - to person they are related to
+<dt><b>Returns:</b>
+<dd>the array of relationships they have
+
+</dl>
+
+<dt><a name="query_ungendered_relationship">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_ungendered_relationship</b></a><pre>
+string query_ungendered_relationship(string relationship)
+</pre><dd>
+This returns the real relationship type based on the possible
+genderised relationship.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>relationship - the relationship to get the real relationship for
+<dt><b>Returns:</b>
+<dd>the degendered relationship name
+<dt><b>See also:</b>
+<dd><a href="#add_gender_relationship">add_gender_relationship()</a> and <a href="#query_all_relationship_types">query_all_relationship_types()
+</a></dl>
+
+<dt><a name="remove_relationship">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_relationship</b></a><pre>
+int remove_relationship(string name,
+string person,
+string dest_name,
+string dest,
+string relationship)
+</pre><dd>
+This method removes a relationship from the club.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the family
+<dd>person - the person the relationship is from
+<dd>dest - the person the relationship is to
+<dd>relationship - the relationship they have to you
+<dt><b>Returns:</b>
+<dd>1 if succcessful, 0 if not
+
+</dl>
+
+</dl>
+<hr><h2>Protected Functions</h2>
+These are functions that only objects inheriting the class can access.<p>
+<dt><a name="check_family_information">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>check_family_information</b></a><pre>
+void check_family_information(string name,
+string member,
+int startup)
+</pre><dd>
+This method checks the extra information for the club.  Please note
+this does *not* save the information.  You need to do this yourself.<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>name - the name of the club to check
+<dt><b>See also:</b>
+<dd><a href="#check_clubs">check_clubs()</a> and <a href="#remove_member">remove_member()
+</a></dl>
+
+<dt><a name="create_extra_data">
+<img src="images/magenta-ball.gif" width=12 height=12 alt=" * "><b>create_extra_data</b></a><pre>
+void create_extra_data(string name)
+</pre>
+
+<hr><h2>Classes</h2>
+These are nice data types for dealing with...  Data!<p>
+<dl>
+<dt><a name="class_family_info">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>family_info</b></a><pre>
+class family_info {
+mapping relationships;
+string * never_join;
+string tmp;
+int tmp2;
+}
+
+</pre><dd>
+The stuff releated to families.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>relationships - the relations in this family
+<dd>never_join - the list of people who can never join
+
+</dl>
+
+<dt><a name="class_relationship_type_data">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>relationship_type_data</b></a><pre>
+class relationship_type_data {
+string opposite;
+int flags;
+}
+
+</pre><dd>
+The information associated with relationship names.<p>
+<dl>
+<dt><b>Members:</b>
+<dd>opposite - the opposite relationship name
+<dd>flags - flags associated with the relationship's
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 04:14:27 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

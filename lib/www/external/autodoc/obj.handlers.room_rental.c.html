@@ -1,0 +1,244 @@
+<html><head><title>File room_rental.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/room_rental.c</h2>
+A Room Rental Handler
+<p>
+This keeps track of who rented what rooms where
+and for how much.
+<p>
+After including <room/room_rental.h> there are two options
+available for room inherits.  ROOM_RENTAL_INHERIT_BASIC_ROOM 
+includes the basic room inherit while ROOM_RENTAL_INHERIT_ROOM
+is for use in areas that have their own base room inherits.
+<p> 
+The most important function is the one that checks that someone
+is allowed to enter.
+<br>
+int check_entry( object player, object room )
+<br>
+it returns:
+RENTAL_SUCCESS if the player rents the room successfully
+RENTAL_NO_SUCH_ROOM if the room isn't on the books
+RENTAL_ALREADY_RENTED if the room is rented to someone else
+RENTAL_AVAILABLE if the player doesn't rent the room but it is available
+<p>Written by goldenthread<p>Started 3 Sep y2k1
+
+<hr><h2>Includes</h2>
+This class includes the following files <a href="include.shops.bank.h.html">/include/shops/bank.h</a>, <a href="include.room.room_rental.h.html">/include/room/room_rental.h</a> and <a href="include.money.h.html">/include/money.h</a><hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#add_room"><b>add_room</b></a>(string, int, object)<dd>
+Adds a room to the handler with a rental cost.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#check_tenant"><b>check_tenant</b></a>(object, object, object)<dd>
+Checks if a particular player is renting a particular room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#clear_rooms"><b>clear_rooms</b></a>(object)<dd>
+Clears the list of rooms available for rent.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#delete_room"><b>delete_room</b></a>(string, object)<dd>
+Deletes a room from the handler
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#do_rental"><b>do_rental</b></a>(object, string, object)<dd>
+Handles the actual renting of the room.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#evict_tenant"><b>evict_tenant</b></a>(object)<dd>
+Evicts the tenant ( and guests ).
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rental_value"><b>query_rental_value</b></a>(string)<dd>
+Returns the amount needed to pay for a rental
+
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_rooms_to_rent"><b>query_rooms_to_rent</b></a>(object)<dd>
+Returns a list of rooms available in a particular location.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#query_who_rents"><b>query_who_rents</b></a>(string, object)<dd>
+Returns the name of whoever is renting the room specified.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#remove_rental"><b>remove_rental</b></a>(object)<dd>
+Removes the rented status from a room.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="add_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>add_room</b></a><pre>
+int add_room(string room,
+int cost,
+object office)
+</pre><dd>
+Adds a room to the handler with a rental cost.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the path of the room to add to the handler
+<dd>cost - the rental cost per day of this room
+<dd>office - the current office
+
+<dt><b>See also:</b>
+<dd><a href="#delete_room">delete_room()
+</a><dt><b>Example:</b>
+<dd><pre>   add_room( "/w/goldenthread/workroom", 1000000 )
+</pre></dl>
+
+<dt><a name="check_tenant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>check_tenant</b></a><pre>
+int check_tenant(object player_ob,
+object room_ob,
+object office)
+</pre><dd>
+Checks if a particular player is renting a particular room.
+ returns:
+RENTAL_SUCCESS if the player rents the room successfully
+RENTAL_NO_SUCH_ROOM if the room isn't on the books
+RENTAL_ALREADY_RENTED if the room is rented to someone else
+RENTAL_AVAILABLE if the player doesn't rent the room but it is available
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player_ob - the player object who you think might be renting the room
+<dd>room_ob -   the room object that you think the player might be renting
+
+<dt><b>Returns:</b>
+<dd>value dependent on success of check.  See below for details
+
+</dl>
+
+<dt><a name="clear_rooms">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>clear_rooms</b></a><pre>
+int clear_rooms(object office)
+</pre><dd>
+Clears the list of rooms available for rent.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>office - the current office
+
+WARNING: This clears all rooms bookable from this office.
+
+</dl>
+
+<dt><a name="delete_room">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>delete_room</b></a><pre>
+int delete_room(string room,
+object office)
+</pre><dd>
+Deletes a room from the handler
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the path of the room that will be deleted from the handler
+<dd>office - the current office
+
+<dt><b>Returns:</b>
+<dd>0 on success, 1 on failure
+
+<dt><b>See also:</b>
+<dd><a href="#add_room">add_room()
+</a></dl>
+
+<dt><a name="do_rental">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>do_rental</b></a><pre>
+int do_rental(object player_ob,
+string room_short,
+object office)
+</pre><dd>
+Handles the actual renting of the room.  If the prospective
+tenant is already renting the room, it extends the rental.
+ returns:
+RENTAL_SUCCESSFUL if the rental is successful
+RENTAL_NO_SUCH_ROOM if the room isn't on the books
+RENTAL_ALREADY_RENTED if someone else is renting the room already
+RENTAL_NO_MONEY if the player hasn't enough money
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>player_ob - the player who is renting the room
+<dd>room_short - the short of the room that is to be rented
+<dd>office - the current office
+
+<dt><b>Returns:</b>
+<dd>value dependent on success of rental. See below for details
+
+<dt><b>See also:</b>
+<dd><a href="#remove_rental">remove_rental()
+</a></dl>
+
+<dt><a name="evict_tenant">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>evict_tenant</b></a><pre>
+void evict_tenant(object room_ob)
+</pre><dd>
+Evicts the tenant ( and guests ).
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room_ob - the room object
+
+</dl>
+
+<dt><a name="query_rental_value">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rental_value</b></a><pre>
+int query_rental_value(string room)
+</pre><dd>
+Returns the amount needed to pay for a rental
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the room being queried
+<dt><b>Returns:</b>
+<dd>rental amount
+
+</dl>
+
+<dt><a name="query_rooms_to_rent">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_rooms_to_rent</b></a><pre>
+string * query_rooms_to_rent(object office)
+</pre><dd>
+Returns a list of rooms available in a particular location.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>office - the office
+
+<dt><b>Returns:</b>
+<dd>a string ready for presentation to a player containing a
+list of all rooms available in that office.
+
+</dl>
+
+<dt><a name="query_who_rents">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>query_who_rents</b></a><pre>
+string query_who_rents(string room,
+object office)
+</pre><dd>
+Returns the name of whoever is renting the room specified.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room - the short of the room you want to check
+<dd>office - the current office
+
+<dt><b>Returns:</b>
+<dd>the short of the player who's renting the room
+
+</dl>
+
+<dt><a name="remove_rental">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>remove_rental</b></a><pre>
+int remove_rental(object room_ob)
+</pre><dd>
+Removes the rented status from a room.  Should be called when the
+time limit of the rental is over.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>room_ob - the room object that is currently rented
+
+<dt><b>Returns:</b>
+<dd>0 on success, 1 on failure
+
+<dt><b>See also:</b>
+<dd><a href="#do_rental">do_rental()
+</a></dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Wed, 28 Mar 2018 01:03:29 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

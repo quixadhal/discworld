@@ -1,0 +1,39 @@
+.DT
+shutdown_all_situations
+Disk World creator help
+shutdown_all_situations
+
+.SH Name
+.SP 5 5
+shutdown_all_situations -  Shuts down all current and pending situations.
+.EP
+
+.SH Syntax
+.SI 5
+void shutdown_all_situations()
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic_room_new.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Shuts down all current and pending situations.  It also turns off the
+automated situation manager so no more are added.  It does not
+destruct this object so all the add_situations are still loaded
+and make be recommenced with automate_situation.  dest_me is
+the appropriate call to permanently remove all situations.  The
+call is passed to the situation changer object.  If none exists
+then nothing happens.  The situation changer is created when
+an add_situation call is performed. 
+.EP
+
+.SH See also
+.SP 5 5
+add_situation, automate_situation, change_situation
+
+.EP
+

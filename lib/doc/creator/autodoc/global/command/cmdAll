@@ -1,0 +1,37 @@
+.DT
+cmdAll
+Disk World creator help
+cmdAll
+
+.SH Name
+.SP 5 5
+cmdAll -  Try and execute the command.
+.EP
+
+.SH Syntax
+.SI 5
+int cmdAll(string args)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^args%^RESET%^ - the args to use for the verb
+.EI
+
+.SH Returns
+.SI 5
+1 on success, 0 on failure
+.EI
+
+.SH Defined in
+.SI 5
+/global/command.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Try and execute the command.  It calls the fuinction command_shadowed
+with the verb and args as parameters if the command is found to exist.
+.EP
+

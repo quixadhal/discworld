@@ -1,0 +1,41 @@
+.DT
+setup_item
+Disk World creator help
+setup_item
+
+.SH Name
+.SP 5 5
+setup_item -  This method setups the item initially.
+.EP
+
+.SH Syntax
+.SI 5
+int setup_item(mixed nam,
+mixed long,
+int no_plural)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^nam%^RESET%^ - the name(s) to add the item for
+%^BOLD%^long%^RESET%^ - the long description of the item
+%^BOLD%^no_plural%^RESET%^ - do not add a plural flag
+.EI
+
+.SH Returns
+.SI 5
+the index associated with the item
+.EI
+
+.SH Defined in
+.SI 5
+/std/room/basic/item.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method setups the item initially.   This is called by the
+add_item method in the room itself.
+.EP
+

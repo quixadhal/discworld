@@ -1,0 +1,38 @@
+.DT
+query_file_name
+Disk World creator help
+query_file_name
+
+.SH Name
+.SP 5 5
+query_file_name -  Will attempt to find the name of the nroffed file.
+.EP
+
+.SH Syntax
+.SI 5
+string query_file_name(string fname)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^fname%^RESET%^ - the name of the file to check
+.EI
+
+.SH Returns
+.SI 5
+the source file name or 0
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/nroff.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Will attempt to find the name of the nroffed file.  Will attempt to
+find the name of the source file associated with the save file.
+
+.EP
+

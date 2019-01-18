@@ -1,0 +1,47 @@
+.DT
+add_artifact
+Disk World creator help
+add_artifact
+
+.SH Name
+.SP 5 5
+add_artifact -  Add a new artifact into the artificat mapping.
+.EP
+
+.SH Syntax
+.SI 5
+void add_artifact(string name,
+string file,
+int max,
+int min,
+int bonus,
+int value)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^name%^RESET%^ - the name of the artifact
+%^BOLD%^file%^RESET%^ - the file name of the artifact
+%^BOLD%^max%^RESET%^ - the maximum level
+%^BOLD%^min%^RESET%^ - the minimum level
+%^BOLD%^bonus%^RESET%^ - the bonus required to make
+%^BOLD%^value%^RESET%^ - the value of the artifact
+
+.EI
+
+.SH Defined in
+.SI 5
+/obj/handlers/artifact_handler.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Add a new artifact into the artificat mapping. 
+.EP
+
+.SH See also
+.SP 5 5
+query_artificats()
+.EP
+

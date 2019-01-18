@@ -1,0 +1,38 @@
+.DT
+query_adjectives
+Disk World creator help
+query_adjectives
+
+.SH Name
+.SP 5 5
+query_adjectives -  This method returns the current list of adjectives associated with this object.
+.EP
+
+.SH Syntax
+.SI 5
+varargs string * query_adjectives(int no_faux)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^no_faux%^RESET%^ - 1 to ignore faux adjectives
+.EI
+
+.SH Returns
+.SI 5
+the complete list of adjectives
+.EI
+
+.SH Defined in
+.SI 5
+/std/basic/id.c
+.EI
+
+.SH Description
+.SP 5 5
+
+This method returns the current list of adjectives associated with
+this object.  If faux ids are allowed, then faux adjectives are
+included if the optional parameter is not 1.
+.EP
+

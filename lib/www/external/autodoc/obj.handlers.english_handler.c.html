@@ -1,0 +1,79 @@
+<html><head><title>File english_handler.c
+</title></head><body bgcolor="#ffffff" TEXT="#000030" LINK="#4a529c" VLINK="#b57339">[ <a href="index.html">Package Index</a></code> | <a href="index_std.html">Mudlib Index</a></code> | <a href="index_eff.html">Effect Index</a></code> ]<br><h2>File /obj/handlers/english_handler.c</h2>
+
+English Handler<p>Written by Shaggy
+
+This handler is a collection of methods that attempt to evaluate how much
+like english a line of text is.  Some tests might be more expensive than
+others but the general idea is to be much cheaper than a dictionary lookup.
+
+The general principle it to return a value that is closer to 100 the better
+the english with 50 being borderline (ie. likely to be gibberish).
+The returned value is thus a bit like a percentage chance that it is
+english.
+<hr><h2>Method index</h2>
+<dl><dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#FreqTest"><b>FreqTest</b></a>(string)<dd>
+FreqTest is a routine that evaluates how like english a line of text is.
+<dt><img src="images/cyan-ball-small.gif" height=6 width=6 alt=" o ">
+<a href="#ProfaneTest"><b>ProfaneTest</b></a>(string)<dd>
+ProfaneTest is a routine that evaluates how likely the text is to
+be profane/swearing/obscenity and so on.
+</dl><hr><h2>Public Functions</h2>
+These are functions that everyone can access.<p><dl>
+.<dt><a name="FreqTest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>FreqTest</b></a><pre>
+int FreqTest(string line)
+</pre><dd>
+FreqTest is a routine that evaluates how like english a line of text is.  It
+compares the frequency of the letters, spaces and non-letters to the typical
+number in English (taken from the am board archive).  A typical sentence
+should give a percentage change of being english in the range 50-100.
+Short or unusual sentences can get borderline evaluations (<60) even if they
+are english.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>line - line of text to evaluate
+<dt><b>Returns:</b>
+<dd>percentage chance of being english 50-100 ok < 50 might be gibberish 
+
+<dt><b>Example:</b>
+<dd><pre>"/obj/handlers/english_handler"->FreqTest("Short english sentence")
+Returns: 75</pre><dd><pre>
+"/obj/handlers/english_handler"->FreqTest("Sqeal spezzial sentenz")
+Returns: 1</pre><dd><pre>
+"/obj/handlers/english_handler"->FreqTest("eeeeeeee dfs fsfdsfddf")
+Returns: 37</pre><dd><pre>
+"/obj/handlers/english_handler"->FreqTest("too short");  
+Returns: 59</pre><dd><pre>
+"/obj/handlers/english_handler"->FreqTest("Don't like l33t sp33k neither");  
+Returns: 36</pre><dd><pre>
+"/obj/handlers/english_handler"->FreqTest("a small excursion to the
+                                                    zoo should be permissible");
+Returns: 83 
+</pre></dl>
+
+<dt><a name="ProfaneTest">
+<img src="images/cyan-ball.gif" width=12 height=12 alt=" * "><b>ProfaneTest</b></a><pre>
+int ProfaneTest(string strin)
+</pre><dd>
+ProfaneTest is a routine that evaluates how likely the text is to
+be profane/swearing/obscenity and so on.  These are the sorts of
+things that would never be allowed as a player name.  Spaces, non
+letters and repeating letters are worked around by this test.
+<p>
+<dd><dl>
+<dt><b>Parameters:</b>
+<dd>line - line of text to evaluate
+<dt><b>Returns:</b>
+<dd>percentage chance of being offensive: chances over 100% can be returned
+        indicating greater likelihood of offense and/or more than one suspect word.
+        If you want it as lily white as possible you should insist on 0.
+
+</dl>
+
+</dl>
+<hr>
+<center><font size="-1"><a href="http://discworld.imaginary.com/login.html">Discworld MUD</a>'s distribution world wide web pages.<br>brought to you by<br><strong>Cut Me Own Throat Dibbler's <a href="http://discworld.imaginary.com/sausages.html">Sensational Sausages</a>;&nbsp;buy one while they are hot.</strong><br>File last modified: Tue, 27 Mar 2018 17:48:27 GMT<br>
+<hr>Lost?  Try Discworld's <a href="http://discworld.imaginary.com/">home page</a>.</center></body></html>

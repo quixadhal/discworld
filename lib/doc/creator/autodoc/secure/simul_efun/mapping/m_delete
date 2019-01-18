@@ -1,0 +1,41 @@
+.DT
+m_delete
+Disk World creator help
+m_delete
+
+.SH Name
+.SP 5 5
+m_delete -  Deletes an element from a mapping (obsolete).
+.EP
+
+.SH Syntax
+.SI 5
+mapping m_delete(mapping map,
+mixed key)
+.EI
+
+.SH Parameters
+.SI 5
+%^BOLD%^map%^RESET%^ - the mapping to remove an element from
+%^BOLD%^key%^RESET%^ - the element to remove
+
+.EI
+
+.SH Defined in
+.SI 5
+/secure/simul_efun/mapping.c
+.EI
+
+.SH Description
+.SP 5 5
+
+Deletes an element from a mapping (obsolete).  Use of this
+should be avoided.  It is far more expensive than the
+map_delete() efun.
+.EP
+
+.SH See also
+.SP 5 5
+efun::map_delete()
+.EP
+
