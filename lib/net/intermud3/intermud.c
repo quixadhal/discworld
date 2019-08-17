@@ -34,9 +34,9 @@ protected void create() {
   Fd = 0;
   Banned = ([]);
   //Nameservers = ({ ({ "*gjs", "198.144.203.194 9000" }) });   // Old, defunct I3 server (San Bruno, California (CA), United States (US), North America (NA))
-  Nameservers = ({ ({ "*dalet", "97.107.133.86 8787" }) });   // Newark, New Jersey (NJ), United States (US), North America (NA)
+  //Nameservers = ({ ({ "*dalet", "97.107.133.86 8787" }) });   // Newark, New Jersey (NJ), United States (US), North America (NA)
   //Nameservers = ({ ({ "*i4", "204.209.44.3 8080" }) });         // Edmonton, Alberta (AB), Canada (CA), North America (NA)
-  //Nameservers = ({ ({ "*Kelly", "150.101.219.57 8080" }) });  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
+  Nameservers = ({ ({ "*Kelly", "150.101.219.57 8080" }) });  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
   //Nameservers = ({ ({ "*wpr", "195.242.99.94 8080" }) });     // Netherlands (NL), Europe (EU)
   MudList = new(class list);
   ChannelList = new(class list);
@@ -66,7 +66,7 @@ protected void Setup() {
   if( !Nameservers || !sizeof(Nameservers) ) return;
   sscanf(Nameservers[0][1], "%s %d", ip, port);
   if( (Fd = eventCreateSocket(ip, port)) < 0 ) return;
- eventWrite(Fd, ({ "startup-req-3", 5, mud_name(), 0, Nameservers[0][0], 0,
+  eventWrite(Fd, ({ "startup-req-3", 5, mud_name(), 0, Nameservers[0][0], 0,
                       Password, MudList->ID, ChannelList->ID, PORT_MUD,
                       PORT_OOB, 0, MUDLIB_VERSION, 
                       mud_name(), __VERSION__, "LPMud",
@@ -92,6 +92,10 @@ protected void eventRead(int fd, mixed *packet) {
       Connected = 1;
       Password = packet[7];
       unguarded((: save_object, SAVE_INTERMUD, 2 :));
+      //SERVICES_D->kick_wileymud();
+      //event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established!", Nameservers[0][0]), "bot");
+      SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established!", Nameservers[0][0]));
+      reload_object(find_object(SERVICES_D));
     }
     else {
       Nameservers = packet[6];

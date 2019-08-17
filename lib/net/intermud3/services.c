@@ -26,11 +26,6 @@
 
 mapping GetServices();
 
-protected void create() {
-  seteuid(getuid());
-  unguarded((: restore_object, SAVE_INTERMUD :));
-}
-
 #include "/net/intermud3/services/auth.c"
 #include "/net/intermud3/services/channel.c"
 #include "/net/intermud3/services/emoteto.c"
@@ -39,6 +34,12 @@ protected void create() {
 #include "/net/intermud3/services/locate.c"
 #include "/net/intermud3/services/tell.c"
 #include "/net/intermud3/services/who.c"
+
+protected void create() {
+  seteuid(getuid());
+  unguarded((: restore_object, SAVE_INTERMUD :));
+  kick_wileymud();
+}
 
 mapping GetServices() {
     return ([

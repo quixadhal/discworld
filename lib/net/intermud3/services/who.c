@@ -7,13 +7,26 @@
 
 #define SERVICE_WHO
 
+int wileymud_is_alive;
+
 void eventReceiveWhoReply(mixed *packet) {
   string *list;
   mixed *who;
   object ob;
 
   if( file_name(previous_object()) != INTERMUD_D ) return;
-  if( !packet[5] || !(ob = find_player(packet[5])) ) return;
+  if( !packet[5] ) return;
+  if( packet[5] == "URLbot" ) {
+      // This means intermud is alive, so no need to nuke our parent.
+      wileymud_is_alive = 1;
+      event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^GREEN%%^OMG!%%^RESET%%^  %%^YELLOW%%^WileyMUD%%^RESET%%^ replied!"), "bot");
+      //eventSendChannel("URLbot", "bot", sprintf("%%^GREEN%%^OMG!%%^RESET%%^  %%^YELLOW%%^WileyMUD%%^RESET%%^ replied!"));
+      return;
+  } else {
+      //event(users(), "intermud_tell", "URLbot@Disk World", "We got a reply for \"" + packet[5] + "\".", "bot");
+  }
+
+  if( !(ob = find_player(packet[5])) ) return;
   list = ({ "Remote who information from " + packet[2] + ":" });
   foreach(who in packet[6]) 
     if (who[1] > 0)
@@ -59,3 +72,26 @@ void eventReceiveWhoRequest(mixed *packet) {
 void eventSendWhoRequest(string mud, string who) {
     INTERMUD_D->eventExternWrite(({ "who-req", 5, mud_name(), who, mud, 0 }));
 }
+
+void kick_wileymud();
+
+void reap_the_intermud() {
+    if( wileymud_is_alive == 1 ) {
+        kick_wileymud();
+    } else {
+        event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I think the intermud is DEAD... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^"), "bot");
+        //eventSendChannel("URLbot", "bot", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I think the intermud is DEAD... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^"));
+        reload_object(find_object(INTERMUD_D));
+    }
+
+}
+
+void kick_wileymud() {
+    wileymud_is_alive = 0;
+    remove_call_out( "reap_the_intermud" );
+    call_out( (: reap_the_intermud :), 30 * 60);
+    event(users(), "intermud_tell", "URLbot@Disk World", sprintf("Poking %%^YELLOW%%^WileyMUD%%^RESET%%^ with a stick..."), "bot");
+    //eventSendChannel("URLbot", "bot", sprintf("Poking %%^YELLOW%%^WileyMUD%%^RESET%%^ with a stick..."));
+    eventSendWhoRequest("WileyMUD", "URLbot");
+}
+
