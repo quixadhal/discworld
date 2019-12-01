@@ -34,9 +34,10 @@ protected void create() {
   Fd = 0;
   Banned = ([]);
   //Nameservers = ({ ({ "*gjs", "198.144.203.194 9000" }) });   // Old, defunct I3 server (San Bruno, California (CA), United States (US), North America (NA))
-  //Nameservers = ({ ({ "*dalet", "97.107.133.86 8787" }) });   // Newark, New Jersey (NJ), United States (US), North America (NA)
+  Nameservers = ({ ({ "*dalet", "97.107.133.86 8787" }) });   // Newark, New Jersey (NJ), United States (US), North America (NA)
   //Nameservers = ({ ({ "*i4", "204.209.44.3 8080" }) });         // Edmonton, Alberta (AB), Canada (CA), North America (NA)
-  Nameservers = ({ ({ "*Kelly", "150.101.219.57 8080" }) });  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
+  //Nameservers = ({ ({ "*Kelly-old", "150.101.219.57 8080" }) });  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
+  //Nameservers = ({ ({ "*Kelly", "45.64.56.66 8080" }) });  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
   //Nameservers = ({ ({ "*wpr", "195.242.99.94 8080" }) });     // Netherlands (NL), Europe (EU)
   MudList = new(class list);
   ChannelList = new(class list);

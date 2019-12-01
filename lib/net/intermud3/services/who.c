@@ -7,7 +7,9 @@
 
 #define SERVICE_WHO
 
-int wileymud_is_alive;
+int othermud_is_alive;
+#define OTHER_MUD "WileyMUD"
+//#define OTHER_MUD "Discworld"
 
 void eventReceiveWhoReply(mixed *packet) {
   string *list;
@@ -18,9 +20,10 @@ void eventReceiveWhoReply(mixed *packet) {
   if( !packet[5] ) return;
   if( packet[5] == "URLbot" ) {
       // This means intermud is alive, so no need to nuke our parent.
-      wileymud_is_alive = 1;
-      event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^GREEN%%^OMG!%%^RESET%%^  %%^YELLOW%%^WileyMUD%%^RESET%%^ replied!"), "bot");
-      //eventSendChannel("URLbot", "bot", sprintf("%%^GREEN%%^OMG!%%^RESET%%^  %%^YELLOW%%^WileyMUD%%^RESET%%^ replied!"));
+      if( !othermud_is_alive ) {
+          event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^GREEN%%^OMG!%%^RESET%%^  %%^YELLOW%%^%s%%^RESET%%^ replied!", OTHER_MUD), "bot");
+      }
+      othermud_is_alive = 1;
       return;
   } else {
       //event(users(), "intermud_tell", "URLbot@Disk World", "We got a reply for \"" + packet[5] + "\".", "bot");
@@ -73,25 +76,23 @@ void eventSendWhoRequest(string mud, string who) {
     INTERMUD_D->eventExternWrite(({ "who-req", 5, mud_name(), who, mud, 0 }));
 }
 
-void kick_wileymud();
+void kick_othermud();
 
 void reap_the_intermud() {
-    if( wileymud_is_alive == 1 ) {
-        kick_wileymud();
+    if( othermud_is_alive == 1 ) {
+        kick_othermud();
     } else {
         event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I think the intermud is DEAD... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^"), "bot");
-        //eventSendChannel("URLbot", "bot", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I think the intermud is DEAD... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^"));
         reload_object(find_object(INTERMUD_D));
     }
 
 }
 
-void kick_wileymud() {
-    wileymud_is_alive = 0;
+void kick_othermud() {
+    othermud_is_alive = 0;
     remove_call_out( "reap_the_intermud" );
     call_out( (: reap_the_intermud :), 30 * 60);
-    event(users(), "intermud_tell", "URLbot@Disk World", sprintf("Poking %%^YELLOW%%^WileyMUD%%^RESET%%^ with a stick..."), "bot");
-    //eventSendChannel("URLbot", "bot", sprintf("Poking %%^YELLOW%%^WileyMUD%%^RESET%%^ with a stick..."));
-    eventSendWhoRequest("WileyMUD", "URLbot");
+    event(users(), "intermud_tell", "URLbot@Disk World", sprintf("Poking %%^YELLOW%%^%s%%^RESET%%^ with a stick...", OTHER_MUD), "bot");
+    eventSendWhoRequest(OTHER_MUD, "URLbot");
 }
 

@@ -650,9 +650,13 @@ void eventReceiveChannelMessage(mixed *packet) {
                     }
                 } else {
                     // We've seen this URL before...
-                    eventSendChannel("URLbot", "url", sprintf("%s {%s@%s linked this for the %s time, from %s}",
+                    /*eventSendChannel("URLbot", "url", sprintf("%s {%s@%s linked this for the %s time, from %s}",
                                 urls[checksum]["result"],
                                 packet[3], packet[2], ordinal(urls[checksum]["counter"]),
+                                getColorDate(undef, undef, urls[checksum]["time"], 1)));*/
+                    eventSendChannel("URLbot", "url", sprintf("%s {%s time since %s}",
+                                urls[checksum]["result"],
+                                ordinal(urls[checksum]["counter"]),
                                 getColorDate(undef, undef, urls[checksum]["time"], 1)));
                 }
 

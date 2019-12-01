@@ -38,7 +38,7 @@ mapping GetServices();
 protected void create() {
   seteuid(getuid());
   unguarded((: restore_object, SAVE_INTERMUD :));
-  kick_wileymud();
+  kick_othermud();
 }
 
 mapping GetServices() {
