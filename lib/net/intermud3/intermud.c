@@ -53,7 +53,7 @@ protected void create() {
   ChannelList->List = ([]);
   if( file_size( SAVE_INTERMUD __SAVE_EXTENSION__ ) > 0 )
     unguarded((: restore_object, SAVE_INTERMUD, 1 :));
-  if(ChosenServer > sizeof(Nameservers))
+  if(ChosenServer >= sizeof(Nameservers))
       ChosenServer = 0;
   SetSocketType(MUD);
   SetDestructOnClose(1);
@@ -200,7 +200,7 @@ protected void eventSocketClose(int fd) {
       extra_wait = 0;
       Tries = 0;
       ChosenServer++;
-      if(ChosenServer > sizeof(Nameservers))
+      if(ChosenServer >= sizeof(Nameservers))
           ChosenServer = 0;
   }
   Connected = 0;
