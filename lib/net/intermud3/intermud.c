@@ -24,8 +24,33 @@ private int ChosenServer;
 private int Password;
 private class list MudList, ChannelList;
 private mapping Banned;
+private int Tries;
+nosave private mixed *ConstantNameservers;
 nosave private mixed *Nameservers;
-private nosave int Connected, Tries, Fd;
+private nosave int Connected, Fd;
+
+protected void do_disconnect() {
+      event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I'm not where I should be... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^"), "bot");
+      eventSocketClose(Fd);
+}
+
+protected int tryAgain() {
+    Tries++;
+    if( Tries > 3 ) {
+        Tries = 0;
+        ChosenServer++;
+        if( ChosenServer >= sizeof(Nameservers) )
+            ChosenServer = 0;
+    }
+    unguarded((: save_object, SAVE_INTERMUD, 2 :));
+
+    return Tries * 20;
+}
+
+protected void trySuccess() {
+    Tries = 0;
+    unguarded((: save_object, SAVE_INTERMUD, 2 :));
+}
 
 protected void create() {
   client::create();
@@ -35,16 +60,15 @@ protected void create() {
   Tries = 0;
   Fd = 0;
   Banned = ([]);
-  //Nameservers = ({ ({ "*gjs", "198.144.203.194 9000" }) });   // Old, defunct I3 server (San Bruno, California (CA), United States (US), North America (NA))
-  //Nameservers = ({ ({ "*dalet", "97.107.133.86 8787" }) });   // Newark, New Jersey (NJ), United States (US), North America (NA)
-  //Nameservers = ({ ({ "*i4", "204.209.44.3 8080" }) });         // Edmonton, Alberta (AB), Canada (CA), North America (NA)
-  //Nameservers = ({ ({ "*Kelly-old", "150.101.219.57 8080" }) });  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
-  //Nameservers = ({ ({ "*Kelly", "45.64.56.66 8080" }) });  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
-  //Nameservers = ({ ({ "*wpr", "195.242.99.94 8080" }) });     // Netherlands (NL), Europe (EU)
-  Nameservers = ({ 
-          ({ "*dalet", "97.107.133.86 8787" }), // Newark, New Jersey (NJ), United States (US), North America (NA)
-          ({ "*Kelly", "45.64.56.66 8080" }),   // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
-          });
+  ConstantNameservers = ({ 
+        ({ "*Kelly", "45.64.56.66 8080" }),         // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
+        ({ "*dalet", "97.107.133.86 8787" }),       // Newark, New Jersey (NJ), United States (US), North America (NA)
+        ({ "*i4", "204.209.44.3 8080" }),           // Edmonton, Alberta (AB), Canada (CA), North America (NA)
+        ({ "*wpr", "195.242.99.94 8080" }),         // Netherlands (NL), Europe (EU)
+        //({ "*gjs", "198.144.203.194 9000" }),       // Old, defunct I3 server (San Bruno, California (CA), United States (US), North America (NA))
+        //({ "*Kelly-old", "150.101.219.57 8080" }),  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
+  });
+
   MudList = new(class list);
   ChannelList = new(class list);
   MudList->ID = -1;
@@ -53,6 +77,10 @@ protected void create() {
   ChannelList->List = ([]);
   if( file_size( SAVE_INTERMUD __SAVE_EXTENSION__ ) > 0 )
     unguarded((: restore_object, SAVE_INTERMUD, 1 :));
+
+  // To force the list to remain constant
+  Nameservers = ConstantNameservers;
+
   if(ChosenServer >= sizeof(Nameservers))
       ChosenServer = 0;
   SetSocketType(MUD);
@@ -97,7 +125,7 @@ protected void eventRead(int fd, mixed *packet) {
     if( sizeof(packet) != 8 ) return; /* should send error */
     if( !sizeof(packet[6]) ) return;
     if( packet[6][0][0] == Nameservers[ChosenServer][0] ) {
-      Nameservers = packet[6];
+      //Nameservers = packet[6];
       Connected = 1;
       Password = packet[7];
       unguarded((: save_object, SAVE_INTERMUD, 2 :));
@@ -107,8 +135,9 @@ protected void eventRead(int fd, mixed *packet) {
       reload_object(find_object(SERVICES_D));
     }
     else {
-      Nameservers = packet[6];
-      Setup();
+      //Nameservers = packet[6];
+      do_disconnect();
+      //Setup();
     }
     return;
   case "mudlist":
@@ -192,11 +221,11 @@ protected void eventRead(int fd, mixed *packet) {
   }
 }
 
-protected void eventSocketClose(int fd) {
+protected void OLDeventSocketClose(int fd) {
   int extra_wait;
 
   extra_wait = (Tries++) * 20;
-  if( extra_wait > 600 ) {
+  if( extra_wait > 60 ) {
       extra_wait = 0;
       Tries = 0;
       ChosenServer++;
@@ -206,6 +235,16 @@ protected void eventSocketClose(int fd) {
   Connected = 0;
   Fd = 0;
   call_out( (: Setup :), 20 + extra_wait);
+}
+
+protected void eventSocketClose(int fd) {
+    int extra_wait;
+
+    Connected = 0;
+    Fd = 0;
+    extra_wait = tryAgain();
+
+    call_out( (: Setup :), 5 + extra_wait);
 }
 
 protected void eventConnectionFailure() {

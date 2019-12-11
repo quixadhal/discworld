@@ -22,6 +22,7 @@ void eventReceiveWhoReply(mixed *packet) {
       // This means intermud is alive, so no need to nuke our parent.
       if( !othermud_is_alive ) {
           event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^GREEN%%^OMG!%%^RESET%%^  %%^YELLOW%%^%s%%^RESET%%^ replied!", OTHER_MUD), "bot");
+          INTERMUD_D->trySuccess();
       }
       othermud_is_alive = 1;
       return;
@@ -83,9 +84,9 @@ void reap_the_intermud() {
         kick_othermud();
     } else {
         event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I think the intermud is DEAD... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^"), "bot");
+        //INTERMUD_D->do_disconnect();
         reload_object(find_object(INTERMUD_D));
     }
-
 }
 
 void kick_othermud() {
