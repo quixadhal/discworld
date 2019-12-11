@@ -20,6 +20,7 @@ inherit CLIENT;
 
 #include "intermud.h"
 
+private int ChosenServer;
 private int Password;
 private class list MudList, ChannelList;
 private mapping Banned;
@@ -28,17 +29,22 @@ private nosave int Connected, Tries, Fd;
 
 protected void create() {
   client::create();
+  ChosenServer = 0;
   Connected = 0;
   Password = 0;
   Tries = 0;
   Fd = 0;
   Banned = ([]);
   //Nameservers = ({ ({ "*gjs", "198.144.203.194 9000" }) });   // Old, defunct I3 server (San Bruno, California (CA), United States (US), North America (NA))
-  Nameservers = ({ ({ "*dalet", "97.107.133.86 8787" }) });   // Newark, New Jersey (NJ), United States (US), North America (NA)
+  //Nameservers = ({ ({ "*dalet", "97.107.133.86 8787" }) });   // Newark, New Jersey (NJ), United States (US), North America (NA)
   //Nameservers = ({ ({ "*i4", "204.209.44.3 8080" }) });         // Edmonton, Alberta (AB), Canada (CA), North America (NA)
   //Nameservers = ({ ({ "*Kelly-old", "150.101.219.57 8080" }) });  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
   //Nameservers = ({ ({ "*Kelly", "45.64.56.66 8080" }) });  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
   //Nameservers = ({ ({ "*wpr", "195.242.99.94 8080" }) });     // Netherlands (NL), Europe (EU)
+  Nameservers = ({ 
+          ({ "*dalet", "97.107.133.86 8787" }), // Newark, New Jersey (NJ), United States (US), North America (NA)
+          ({ "*Kelly", "45.64.56.66 8080" }),   // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
+          });
   MudList = new(class list);
   ChannelList = new(class list);
   MudList->ID = -1;
@@ -47,6 +53,8 @@ protected void create() {
   ChannelList->List = ([]);
   if( file_size( SAVE_INTERMUD __SAVE_EXTENSION__ ) > 0 )
     unguarded((: restore_object, SAVE_INTERMUD, 1 :));
+  if(ChosenServer > sizeof(Nameservers))
+      ChosenServer = 0;
   SetSocketType(MUD);
   SetDestructOnClose(1);
   call_out( (: Setup :), 2);
@@ -65,9 +73,9 @@ protected void Setup() {
   int port; 
 
   if( !Nameservers || !sizeof(Nameservers) ) return;
-  sscanf(Nameservers[0][1], "%s %d", ip, port);
+  sscanf(Nameservers[ChosenServer][1], "%s %d", ip, port);
   if( (Fd = eventCreateSocket(ip, port)) < 0 ) return;
-  eventWrite(Fd, ({ "startup-req-3", 5, mud_name(), 0, Nameservers[0][0], 0,
+  eventWrite(Fd, ({ "startup-req-3", 5, mud_name(), 0, Nameservers[ChosenServer][0], 0,
                       Password, MudList->ID, ChannelList->ID, PORT_MUD,
                       PORT_OOB, 0, MUDLIB_VERSION, 
                       mud_name(), __VERSION__, "LPMud",
@@ -88,14 +96,14 @@ protected void eventRead(int fd, mixed *packet) {
   case "startup-reply":
     if( sizeof(packet) != 8 ) return; /* should send error */
     if( !sizeof(packet[6]) ) return;
-    if( packet[6][0][0] == Nameservers[0][0] ) {
+    if( packet[6][0][0] == Nameservers[ChosenServer][0] ) {
       Nameservers = packet[6];
       Connected = 1;
       Password = packet[7];
       unguarded((: save_object, SAVE_INTERMUD, 2 :));
       //SERVICES_D->kick_wileymud();
-      //event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established!", Nameservers[0][0]), "bot");
-      SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established!", Nameservers[0][0]));
+      //event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established!", Nameservers[ChosenServer][0]), "bot");
+      SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established!", Nameservers[ChosenServer][0]));
       reload_object(find_object(SERVICES_D));
     }
     else {
@@ -108,7 +116,7 @@ protected void eventRead(int fd, mixed *packet) {
     // Due to changes in the way the mudlist is broken into multiple packets,
     // this check is no longer valid.
     //if( packet[6] == MudList->ID ) return; 
-    if( packet[2] != Nameservers[0][0] ) return;
+    if( packet[2] != Nameservers[ChosenServer][0] ) return;
     MudList->ID = packet[6];
     foreach(cle, val in packet[7]) {
       if( !val && MudList->List[cle] != 0 ) 
@@ -142,7 +150,7 @@ protected void eventRead(int fd, mixed *packet) {
     break;
   case "chanlist-reply":
     //    if( packet[6] == ChannelList->ID ) return; 
-    if( packet[2] != Nameservers[0][0] ) return;
+    if( packet[2] != Nameservers[ChosenServer][0] ) return;
     ChannelList->ID = packet[6];
     foreach(cle, val in packet[7]) { 
       if( !val && ChannelList->List != 0 ) 
@@ -188,7 +196,13 @@ protected void eventSocketClose(int fd) {
   int extra_wait;
 
   extra_wait = (Tries++) * 20;
-  if( extra_wait > 600 ) extra_wait = 600;
+  if( extra_wait > 600 ) {
+      extra_wait = 0;
+      Tries = 0;
+      ChosenServer++;
+      if(ChosenServer > sizeof(Nameservers))
+          ChosenServer = 0;
+  }
   Connected = 0;
   Fd = 0;
   call_out( (: Setup :), 20 + extra_wait);
@@ -233,6 +247,6 @@ string *GetMatch(string mud) {
   return map(filter(regexp(lc, "^"+mud, 1), (: intp :)), (: $(uc)[$1] :));
 }
 
-string GetNameserver() { return Nameservers[0][0]; }
+string GetNameserver() { return Nameservers[ChosenServer][0]; }
 
 #endif                          /* __PACKAGE_SOCKETS__ */
