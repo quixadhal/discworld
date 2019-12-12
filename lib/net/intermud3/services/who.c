@@ -83,9 +83,9 @@ void reap_the_intermud() {
     if( othermud_is_alive == 1 ) {
         kick_othermud();
     } else {
-        event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I think the intermud is DEAD... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^"), "bot");
-        //INTERMUD_D->do_disconnect();
-        reload_object(find_object(INTERMUD_D));
+        INTERMUD_D->do_disconnect();
+        //event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I think the intermud is DEAD... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^"), "bot");
+        //reload_object(find_object(INTERMUD_D));
     }
 }
 

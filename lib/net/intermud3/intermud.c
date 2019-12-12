@@ -29,8 +29,9 @@ nosave private mixed *ConstantNameservers;
 nosave private mixed *Nameservers;
 private nosave int Connected, Fd;
 
-protected void do_disconnect() {
-      event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I'm not where I should be... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^"), "bot");
+void do_disconnect() {
+      //event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I'm not where I should be... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^ Try %d", Tries), "bot");
+      SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I'm not where I should be... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^ Try %d", Tries));
       eventSocketClose(Fd);
 }
 
@@ -42,14 +43,14 @@ protected int tryAgain() {
         if( ChosenServer >= sizeof(Nameservers) )
             ChosenServer = 0;
     }
-    unguarded((: save_object, SAVE_INTERMUD, 2 :));
+    unguarded((: save_object, SAVE_INTERMUD, 1 :));
 
     return Tries * 20;
 }
 
 protected void trySuccess() {
     Tries = 0;
-    unguarded((: save_object, SAVE_INTERMUD, 2 :));
+    unguarded((: save_object, SAVE_INTERMUD, 1 :));
 }
 
 protected void create() {
@@ -131,7 +132,7 @@ protected void eventRead(int fd, mixed *packet) {
       unguarded((: save_object, SAVE_INTERMUD, 2 :));
       //SERVICES_D->kick_wileymud();
       //event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established!", Nameservers[ChosenServer][0]), "bot");
-      SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established!", Nameservers[ChosenServer][0]));
+      SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established! Try %d", Nameservers[ChosenServer][0], Tries));
       reload_object(find_object(SERVICES_D));
     }
     else {
