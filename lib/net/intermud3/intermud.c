@@ -32,6 +32,7 @@ private nosave int Connected, Fd;
 void do_disconnect() {
       //event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I'm not where I should be... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^ Try %d", Tries), "bot");
       SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I'm not where I should be... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^ Try %d", Tries));
+      //unguarded((: eventSocketClose(Fd) :));
       eventSocketClose(Fd);
 }
 
@@ -48,9 +49,21 @@ protected int tryAgain() {
     return Tries * 20;
 }
 
-protected void trySuccess() {
+void trySuccess() {
     Tries = 0;
     unguarded((: save_object, SAVE_INTERMUD, 1 :));
+}
+
+void nextServer() {
+    Tries = 0;
+    SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^RED%%^Switching away from %s%%^RESET%%^", Nameservers[ChosenServer][0]));
+    ChosenServer++;
+    if( ChosenServer >= sizeof(Nameservers) )
+        ChosenServer = 0;
+    unguarded((: save_object, SAVE_INTERMUD, 1 :));
+    SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^YELLOW%%^Switching to %s%%^RESET%%^", Nameservers[ChosenServer][0]));
+    //unguarded((: call_out( (: Setup :), 2) :));
+    call_out( (: Setup :), 2);
 }
 
 protected void create() {
@@ -64,7 +77,7 @@ protected void create() {
   ConstantNameservers = ({ 
         ({ "*Kelly", "45.64.56.66 8080" }),         // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
         ({ "*dalet", "97.107.133.86 8787" }),       // Newark, New Jersey (NJ), United States (US), North America (NA)
-        ({ "*i4", "204.209.44.3 8080" }),           // Edmonton, Alberta (AB), Canada (CA), North America (NA)
+        //({ "*i4", "204.209.44.3 8080" }),           // Edmonton, Alberta (AB), Canada (CA), North America (NA)
         ({ "*wpr", "195.242.99.94 8080" }),         // Netherlands (NL), Europe (EU)
         //({ "*gjs", "198.144.203.194 9000" }),       // Old, defunct I3 server (San Bruno, California (CA), United States (US), North America (NA))
         //({ "*Kelly-old", "150.101.219.57 8080" }),  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
@@ -134,10 +147,14 @@ protected void eventRead(int fd, mixed *packet) {
       //event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established!", Nameservers[ChosenServer][0]), "bot");
       SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established! Try %d", Nameservers[ChosenServer][0], Tries));
       reload_object(find_object(SERVICES_D));
-    }
-    else {
+    } else {
       //Nameservers = packet[6];
-      do_disconnect();
+      Connected = 1;
+      Password = packet[7];
+      unguarded((: save_object, SAVE_INTERMUD, 2 :));
+      SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^RED%%^Uh oh!%%^RESET%%^  I seem to be on %s, but should be on %s...%%^RESET%%^ Try %d", packet[6][0][0], Nameservers[ChosenServer][0], Tries));
+      reload_object(find_object(SERVICES_D));
+      //do_disconnect();
       //Setup();
     }
     return;
