@@ -30,8 +30,7 @@ nosave private mixed *Nameservers;
 private nosave int Connected, Fd;
 
 void do_disconnect() {
-      //event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I'm not where I should be... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^ Try %d", Tries), "bot");
-      SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^  I'm not where I should be... we're all %%^RED%%^DOOOOOMED!!!%%^RESET%%^ Try %d", Tries));
+      SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^RED%%^Oh SHIT!%%^RESET%%^ Try %d...", Tries));
       //unguarded((: eventSocketClose(Fd) :));
       eventSocketClose(Fd);
 }
@@ -77,8 +76,8 @@ protected void create() {
   ConstantNameservers = ({ 
         ({ "*Kelly", "45.64.56.66 8080" }),         // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
         ({ "*dalet", "97.107.133.86 8787" }),       // Newark, New Jersey (NJ), United States (US), North America (NA)
-        //({ "*i4", "204.209.44.3 8080" }),           // Edmonton, Alberta (AB), Canada (CA), North America (NA)
         ({ "*wpr", "195.242.99.94 8080" }),         // Netherlands (NL), Europe (EU)
+        ({ "*i4", "204.209.44.3 8080" }),           // Edmonton, Alberta (AB), Canada (CA), North America (NA)
         //({ "*gjs", "198.144.203.194 9000" }),       // Old, defunct I3 server (San Bruno, California (CA), United States (US), North America (NA))
         //({ "*Kelly-old", "150.101.219.57 8080" }),  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
   });
@@ -142,7 +141,7 @@ protected void eventRead(int fd, mixed *packet) {
       //Nameservers = packet[6];
       Connected = 1;
       Password = packet[7];
-      unguarded((: save_object, SAVE_INTERMUD, 2 :));
+      unguarded((: save_object, SAVE_INTERMUD, 1 :));
       //SERVICES_D->kick_wileymud();
       //event(users(), "intermud_tell", "URLbot@Disk World", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established!", Nameservers[ChosenServer][0]), "bot");
       SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^GREEN%%^I'm ALIVE!%%^RESET%%^  Connection to %%^YELLOW%%^%s%%^RESET%%^ established! Try %d", Nameservers[ChosenServer][0], Tries));
@@ -151,7 +150,7 @@ protected void eventRead(int fd, mixed *packet) {
       //Nameservers = packet[6];
       Connected = 1;
       Password = packet[7];
-      unguarded((: save_object, SAVE_INTERMUD, 2 :));
+      unguarded((: save_object, SAVE_INTERMUD, 1 :));
       SERVICES_D->eventSendChannel("URLbot", "bot", sprintf("%%^RED%%^Uh oh!%%^RESET%%^  I seem to be on %s, but should be on %s...%%^RESET%%^ Try %d", packet[6][0][0], Nameservers[ChosenServer][0], Tries));
       reload_object(find_object(SERVICES_D));
       //do_disconnect();
@@ -170,7 +169,7 @@ protected void eventRead(int fd, mixed *packet) {
         map_delete(MudList->List, cle);
       else if( val ) MudList->List[cle] = val;
     }
-    unguarded((: save_object, SAVE_INTERMUD, 2 :));
+    unguarded((: save_object, SAVE_INTERMUD, 1 :));
     return;
   case "auth-mud-req":
     SERVICES_D->eventReceiveAuthRequest(packet);
@@ -204,7 +203,7 @@ protected void eventRead(int fd, mixed *packet) {
         map_delete(ChannelList->List, cle);
       else if( val ) ChannelList->List[cle] = val;
     } 
-    unguarded((: save_object, SAVE_INTERMUD, 2 :));
+    unguarded((: save_object, SAVE_INTERMUD, 1 :));
     SERVICES_D->eventRegisterChannels(packet[7]);
     return;
   case "emoteto":

@@ -84,6 +84,7 @@ nosave mapping channel_colors = ([
         "imud_code"         : "%^ORANGE%^",
         "wiley"             : "%^YELLOW%^",
         "wileymud"          : "%^YELLOW%^",
+        "日本語"             : "%^YELLOW%^",
 
         "url"               : "%^BOLD%^WHITE%^",
         "bot"               : "%^BOLD%^WHITE%^",
@@ -622,6 +623,7 @@ void eventReceiveChannelMessage(mixed *packet) {
                 int count;
                 string checksum;
 
+                match = pcre_replace(match, "(\\&ab_channel\\=.*?)$", ({ "" }));
                 checksum = sprintf("%08x", crc32(match));
                 //event(users(), "intermud_tell", sprintf("%s@%s", packet[7], packet[2]),
                 //      sprintf("Found URL: %s", match), "DEBUG__" + GetLocalChannel((string)packet[6]));
