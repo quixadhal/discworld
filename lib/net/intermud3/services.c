@@ -38,6 +38,11 @@ mapping GetServices();
 protected void create() {
   seteuid(getuid());
   unguarded((: restore_object, SAVE_INTERMUD :));
+  AdTime = time() + (60 * 5); // 5 minutes from now.
+  // AdTime is in services/channel.c, and broadcasts I3 log messags to intergossip.
+  AdChannel = 0; // services/channel.c, target channels for ad.
+  ChannelSet = ({ "dchat", "intergossip", "intercre", "dwchat" });
+  //ChannelSetCount = 4;
   kick_othermud();
 }
 

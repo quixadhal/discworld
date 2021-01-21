@@ -75,9 +75,9 @@ protected void create() {
   Banned = ([]);
   ConstantNameservers = ({ 
         ({ "*Kelly", "45.64.56.66 8080" }),         // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
-        ({ "*dalet", "97.107.133.86 8787" }),       // Newark, New Jersey (NJ), United States (US), North America (NA)
-        ({ "*wpr", "195.242.99.94 8080" }),         // Netherlands (NL), Europe (EU)
-        ({ "*i4", "204.209.44.3 8080" }),           // Edmonton, Alberta (AB), Canada (CA), North America (NA)
+        //({ "*dalet", "97.107.133.86 8787" }),       // Newark, New Jersey (NJ), United States (US), North America (NA)
+        //({ "*wpr", "195.242.99.94 8080" }),         // Netherlands (NL), Europe (EU)
+        //({ "*i4", "204.209.44.3 8080" }),           // Edmonton, Alberta (AB), Canada (CA), North America (NA)
         //({ "*gjs", "198.144.203.194 9000" }),       // Old, defunct I3 server (San Bruno, California (CA), United States (US), North America (NA))
         //({ "*Kelly-old", "150.101.219.57 8080" }),  // Herne Hill, Victoria (VIC), Australia (AU), Oceania (OC)
   });
@@ -94,7 +94,8 @@ protected void create() {
   // To force the list to remain constant
   Nameservers = ConstantNameservers;
 
-  if(ChosenServer >= sizeof(Nameservers))
+  // I3 is too flaky for this...
+  //if(ChosenServer >= sizeof(Nameservers))
       ChosenServer = 0;
   SetSocketType(MUD);
   SetDestructOnClose(1);

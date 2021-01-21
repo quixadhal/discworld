@@ -564,6 +564,33 @@ nosave mapping globals = ([]), files = ([]), ret = ([]);
 #define RET ret[fd]
 #define CMDS cmds[this_player()]
 
+nosave private int AdTime;
+nosave private int AdChannel;
+nosave private string *ChannelSet;
+//nosave private int ChannelSetCount;
+
+void do_advert() {
+    string NextTime;
+    int CurrentChannel;
+
+    if( time() <= AdTime )
+        return;
+
+    CurrentChannel = AdChannel;
+    AdChannel++;
+    if( AdChannel >= sizeof(ChannelSet) )
+        AdChannel = 0;
+
+    AdTime = time() + (60 * (90 + random(180)));
+    NextTime = ctime_elapsed(AdTime - time());
+    eventSendChannel("URLbot", ChannelSet[CurrentChannel],
+            sprintf("I3 logs are at %s (next reminder in %s, on %s)",
+                "http://wileymud.themud.org/~wiley/logpages/",
+                NextTime, ChannelSet[AdChannel]
+                )
+            );
+}
+
 void eventReceiveChannelMessage(mixed *packet) {
     object *people, *things;
     string url_regexp;
@@ -614,7 +641,9 @@ void eventReceiveChannelMessage(mixed *packet) {
               packet[8], channel_name);
 
     // Scan the message to see if there's a URL in it.
-    if( channel_name != "url" && channel_name != "bot" ) {
+    if( channel_name != "url" && channel_name != "bot" && lower_case(packet[3]) != "urlbot" ) {
+        do_advert();
+
         //url_regexp = "(https?\\:\\/\\/[\\w.-]+(?:\\.[\\w\\.-]+)+(?:\\:[\\d]+)?[\\w\\-\\.\\~\\:\\/\\?\\#[\\]\\@\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\=\\%]+)";
         url_regexp = "(https?://[^ ]+?)(?:[ ]|$)";
         foreach( line in explode(packet[8], "\n") ) {
@@ -634,7 +663,9 @@ void eventReceiveChannelMessage(mixed *packet) {
                           sprintf("0 count URL: %s", match), "DEBUG__" + GetLocalChannel((string)packet[6]));
                     continue;   // Somehow, match isn't valid so just skip this one.
                 }
-                if(count == 1) {
+                // Don't care enough to debug if this is a local ore remote
+                // issue, so comment out the clauses and let it run every time.
+                //if(count == 1) {
                     // It's a new URL, save some info about it...
                     // The result string is empty until the callback can fill it in.
                     bits = ({ "wiley", match, channel_name, packet[3] });
@@ -650,17 +681,17 @@ void eventReceiveChannelMessage(mixed *packet) {
                         //      sprintf("Spawning untiny %s on descriptor %d", implode(bits, " "), fd),
                         //      "DEBUG__" + GetLocalChannel((string)packet[6]));
                     }
-                } else {
+                //} else {
                     // We've seen this URL before...
                     /*eventSendChannel("URLbot", "url", sprintf("%s {%s@%s linked this for the %s time, from %s}",
                                 urls[checksum]["result"],
                                 packet[3], packet[2], ordinal(urls[checksum]["counter"]),
                                 getColorDate(undef, undef, urls[checksum]["time"], 1)));*/
-                    eventSendChannel("URLbot", "url", sprintf("%s {%s time since %s}",
-                                urls[checksum]["result"],
-                                ordinal(urls[checksum]["counter"]),
-                                getColorDate(undef, undef, urls[checksum]["time"], 1)));
-                }
+                //    eventSendChannel("URLbot", "url", sprintf("%s {%s time since %s}",
+                //                urls[checksum]["result"],
+                //                ordinal(urls[checksum]["counter"]),
+                //                getColorDate(undef, undef, urls[checksum]["time"], 1)));
+                //}
 
             }
         }
